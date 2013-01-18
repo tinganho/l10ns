@@ -1,4 +1,5 @@
-var grunt = require('grunt');
+var grunt = require('grunt'),
+    fs    = require('fs');
 
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -22,10 +23,16 @@ var grunt = require('grunt');
 
 exports['translate'] = {
   setUp: function(done) {
+    'use strict';
+
     // setup here
     done();
   },
   'helper': function(test) {
+    'use strict';
+
+    fs.something();
+
     test.expect(1);
     // tests here
     test.equal(grunt.helper('translate'), 'translate!!!', 'should return the correct value.');

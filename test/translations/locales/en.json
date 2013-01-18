@@ -1,0 +1,10 @@
+{
+  "hello_world": {
+    "vars" : ["$property1", "$property2"],
+    "translations": [
+      ["if", "$property1", ">", "constant", "Hello ${property1}"],
+      ["elseif", "$property2", ">", "Hello ${property1}"],
+      ["else", "Hello ${property1}"]
+    ]
+  }
+}

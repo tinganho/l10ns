@@ -1,5 +1,7 @@
 module.exports = function(grunt) {
 
+  'use strict';
+
   // Project configuration.
   grunt.initConfig({
     test: {
@@ -27,14 +29,26 @@ module.exports = function(grunt) {
         node: true,
         es5: true
       },
-      globals: {}
+      globals: {
+        gt: true
+      }
+    },
+
+    translate: {
+      all: {
+        files: ['./test/example/**/*.js'],
+        output: './test/translations/output',
+        configDir: './test/translations'
+      }
     }
   });
-
   // Load local tasks.
   grunt.loadTasks('tasks');
 
   // Default task.
-  grunt.registerTask('default', 'lint test');
+  grunt.registerTask('default', 'lint translate test');
+
+  // Default task.
+  grunt.registerTask('jshint');
 
 };
