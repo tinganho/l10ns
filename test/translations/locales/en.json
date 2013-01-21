@@ -2,9 +2,22 @@
   "hello_world": {
     "vars" : ["$property1", "$property2"],
     "translations": [
-      ["if", "$property1", ">", "constant", "Hello ${property1}"],
-      ["elseif", "$property2", ">", "Hello ${property1}"],
-      ["else", "Hello ${property1}"]
+      ["if", "$property1", ">", "\"constant\"", "&&", "property2", "===", "property1", "\"Hello ${property1} ${property2}\""],
+      ["else if", "$property2", ">", "\"iuhgu\"", "\"Hello ${property2}\""],
+      ["else", "\"Hello ${property1}\""]
     ]
+  },
+
+  "you are so hansome": {
+    "vars": ["$name", "$property2"],
+    "translations": [
+      ["if", "$name", ">", "$property2", "\"You are so handsome\""]
+    ]
+  },
+
+  "you are not so hansome": {
+    "vars": ["$name", "$property2"],
+    "translations": "\"You are not so handsome\""
   }
+
 }
