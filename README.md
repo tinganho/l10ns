@@ -12,8 +12,7 @@ grunt.loadNpmTasks('grunt-translate');
 ```
 
 
-Goal
-====
+## Goal
 
 Translator should be able to translate both static and dynamic text without requiring to know a single thing about programming. The translation solution should be scalable to all languages. A developer should be able to access the translates through a grunt command. There should be grunt command for update hashes from source and compile translation.
 Problems
@@ -42,8 +41,7 @@ A developers workflow using Trinity:
 * (3) Translates on the default language
 * (4) Compiles all the translations till ready to use in `gt()`
 
-Storage files
-=================================
+## Storage files
 en.json:
 ```javascript
 {
