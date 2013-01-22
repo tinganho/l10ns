@@ -1,0 +1,14 @@
+{
+  "hello-world": {
+    "vars": [
+      "dog",
+      "langaguge"
+    ]
+  },
+  "hello_animals": {
+    "vars": [
+      "dog",
+      "langaguge"
+    ]
+  }
+}

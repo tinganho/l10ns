@@ -25,7 +25,7 @@ exports['grunt-translate'] = {
   setUp: function(done) {
     'use strict';
 
-    grunt.task.run('translate');
+    grunt.task.run('translate:compile');
 
     // setup here
     done();
@@ -50,11 +50,10 @@ exports['grunt-translate'] = {
     test.ok(typeof gt('grunt-translate can have an if and else if and alse statements', 1, 'Bert') === 'string', 'Hello Bert!', 'If and elseif and else is working');
 
     // Update from source
+    var json = grunt.file.readJSON('./test/translations/keys.json');
+    test.ok(typeof json['hello-world'].vars !== 'undefined', 'Reading from source is working');
 
 
-
-
-    test.equal('translate!!!', 'translate!!!', 'should return the correct value.');
     test.done();
   }
 };

@@ -38,11 +38,15 @@ module.exports = function(grunt) {
     },
 
     translate: {
-      all: {
-        files: ['./test/example/**/*.js'],
-        output: './test/translations/output',
+      options: {
         configDir: './test/translations',
-        requireJS: true
+        requireJS: true,
+      },
+      compile: {
+        output: './test/translations/output'
+      },
+      update: {
+        files: ['./test/example/**/*.js']
       }
     }
   });
@@ -51,5 +55,7 @@ module.exports = function(grunt) {
 
   // Default task.
   grunt.registerTask('default', 'lint translate test');
+
+  grunt.loadNpmTasks('grunt-bump');
 
 };

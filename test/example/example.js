@@ -2,7 +2,9 @@ function test() {
 
   'use strict';
 
-  gt('hello_world', { dog: 'labrador', langaguge: 'chinese' });
+  gt('hello-world', { dog: 'labrador', langaguge: 'chinese' });
+
+  gt('hello_animals', { dog: 'labrador', langaguge: 'chinese' });
 
 
 

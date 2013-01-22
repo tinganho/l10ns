@@ -22,11 +22,13 @@ module.exports = function(grunt) {
   var OPERATORS = ['<', '>', '===', '>==', '<==', '==', '>=', '<='];
   var options;
 
-
   grunt.registerMultiTask('translate', 'Your task description goes here.', function() {
 
+    // Extend
+    options = _.extend(this.data || {}, grunt.config.get('translate').options);
+
     // Set default options
-    options = _.defaults(this.data || {}, {
+    options = _.defaults( options, {
       configDir: './translation',
       output: './translation/output',
       requireJS: true,
@@ -35,6 +37,39 @@ module.exports = function(grunt) {
 
     // Set UTF-8
     grunt.file.defaultEncoding = 'utf8';
+
+    // Run appropiate sub task
+    grunt.helper(this.target);
+
+  });
+
+
+  grunt.registerHelper('update', function(){
+
+    var res = {};
+    var files = grunt.file.expand(options.files);
+    files.forEach(function(file){
+      var content = grunt.file.read(file);
+      var regex = new RegExp('\\s+' + options.translationFunctionName + '\\(\\s*[\'|"][\\w|\\-]+[\'|"](\\,\\s*\\{[\\w|\\s|\\:|\'|"|\\,]*\\})?\\)', 'g');
+      var translations = content.match(regex);
+      if(translations !== null) {
+        translations.forEach(function(translation){
+          var key = grunt.helper('getTranslationKey', translation);
+          var vars = grunt.helper('getVars', translation);
+
+          res[key] = {};
+          res[key].vars = vars;
+        });
+      }
+      var p = options.configDir + '/keys.json';
+      fs.unlinkSync(p);
+      fs.appendFileSync(p, JSON.stringify(res, null, 2));
+
+
+    });
+  });
+
+  grunt.registerHelper('compile', function(){
 
     // Get all localization files
     var files = grunt.file.expand(options.configDir + '/locales/**/*.json');
@@ -76,6 +111,45 @@ module.exports = function(grunt) {
 
     });
 
+  });
+
+  /**
+    Returns all the vars in a translation function
+    @param String fn Function string
+    @return Array of all vars
+   */
+  grunt.registerHelper('getVars', function(fn){
+    var json = fn.match(/\{[\w|\s|:|"|'|\-|\{|\}|\,]*\}/);
+    json = grunt.helper('reFormatJson', json[0]);
+    if(json !== null) {
+      var vars = JSON.parse(json);
+      return Object.keys(vars);
+    }
+    return [];
+  });
+
+
+  /**
+    Reformat json
+    @param String json
+    @return String Reformated json ready to use for JSON.parse
+   */
+  grunt.registerHelper('reFormatJson', function(json){
+    return json.replace(/\s*\w+\s*\:/g, function(m){
+      var key = m.match(/\w+/);
+      return '"' + key + '":';
+    }).replace(/'/g, function(){
+      return '"';
+    });
+  });
+
+  /**
+    Returns translation key from a translation function string
+    @param String fn A string of the function
+    @return String Translation key
+   */
+  grunt.registerHelper('getTranslationKey', function(fn){
+    return (fn.match(/['|"][\w|-]+['|"]/))[0].replace(/'/g, '');
   });
 
   /**
