@@ -35,5 +35,8 @@
   },
   "keywords": [
     "gruntplugin"
-  ]
+  ],
+  "dependencies": {
+    "grunt": "~0.3.17"
+  }
 }

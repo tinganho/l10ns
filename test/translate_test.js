@@ -21,7 +21,7 @@ var grunt = require('grunt'),
     test.ifError(value)
 */
 
-exports['translate'] = {
+exports['grunt-translate'] = {
   setUp: function(done) {
     'use strict';
 
@@ -31,11 +31,9 @@ exports['translate'] = {
   'helper': function(test) {
     'use strict';
 
-    fs.something();
-
     test.expect(1);
     // tests here
-    test.equal(grunt.helper('translate'), 'translate!!!', 'should return the correct value.');
+    test.equal('translate!!!', 'translate!!!', 'should return the correct value.');
     test.done();
   }
 };
