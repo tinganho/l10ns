@@ -1,5 +1,5 @@
-# grunt-trinity [![Build Status](https://travis-ci.org/tinganho/grunt-translate.png)](https://travis-ci.org/tinganho/grunt-translate)
-
+grunt-translate [![Build Status](https://travis-ci.org/tinganho/grunt-translate.png)](https://travis-ci.org/tinganho/grunt-translate)
+==============
 Translate dynamic text
 
 ## Getting Started
