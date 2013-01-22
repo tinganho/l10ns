@@ -15,20 +15,17 @@ grunt.loadNpmTasks('grunt-translate');
 ## Goal
 
 Translator should be able to translate both static and dynamic text without requiring to know a single thing about programming. The translation solution should be scalable to all languages. A developer should be able to access the translates through a grunt command. There should be grunt command for update hashes from source and compile translation.
-Problems
-========
+## Problems
 This can not be done today. The most popular translation standard is the gettext standard. It can deal with singular and plurals, but it gets more complicated on dynamic texts. It usually require a `printf` function, that inserts string into the translated text. `Printf` solution is not optimal since it is not part of Gettext. Also you can not update the hashes with the variables directly from source. With no variables available in the translation interface. It is quite hard to translate without contacting the developer.
 
-Solution For Translators
-=================================
+## Solution For Translators
 
 A translator translates in Trinity by:
 
 * (1) Search a hash string in a Translation Interface
 * (2) Translate it and hit save
 
-Solution For Developers
-=================================
+## Solution For Developers
 The translation function:
 ```javascript
 gt(TRANSLATION_HASH, JAVASCRIPT_OBJECT);
