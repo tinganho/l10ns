@@ -31,12 +31,16 @@
   "devDependencies": {
     "grunt": "~0.3.17",
     "grunt-bump": "0.0.1",
-    "grunt-contrib-jshint": "~0.1.0"
+    "grunt-contrib-jshint": "~0.1.0",
+    "chai": "~1.4.2",
+    "mocha": "~1.8.1"
   },
   "keywords": [
     "gruntplugin"
   ],
   "dependencies": {
-    "grunt": "~0.3.17"
+    "grunt": "~0.3.17",
+    "amdefine": "0.0.4",
+    "requirejs": "~2.1.2"
   }
 }

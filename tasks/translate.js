@@ -116,100 +116,110 @@ module.exports = function(grunt) {
     var n = 0;
 
     for( var key in translations ) {
+      if(translations.hasOwnProperty(key)) {
 
-      // Define function body
-      var fb = '';
+        // Define function body
+        var fb = '';
 
-      // Append a comma for previous hashes
-      if(n !== 0) {
-        t += ',' + grunt.utils.linefeed;
-      }
+        // Append a comma for previous hashes
+        if(n !== 0) {
+          t += ',' + grunt.utils.linefeed;
+        }
 
-      // Minimum requirements for a conditional statement
-      if(translations[key].translations[0][0] === 'if') {
+        // Minimum requirements for a conditional statement
+        if(translations[key].translations[0][0] === 'if') {
 
-        var trans = translations[key].translations;
-        trans.forEach(function(condition){
+          var trans = translations[key].translations;
+          trans.forEach(function(condition){
 
-          var conditionAdditionIndex = 4;
+            var conditionAdditionIndex = 4;
 
-          // Check if conditions are right will throw an error if not
-          if(condition[0] !== 'else') {
-            grunt.helper('isConditions', condition[1], condition[2], condition[3]);
-
-            // Reformat variables
-            condition[1] = grunt.helper('reformatOperandIfVariable', condition[1], translations[key].vars);
-            condition[3] = grunt.helper('reformatOperandIfVariable', condition[3], translations[key].vars);
-
-            fb += '      ' + condition[0] + '( ' + condition[1] + ' ' + condition[2] + ' ' + condition[3] + ' ';
-
-            while(condition[conditionAdditionIndex] === '&&' ||
-                  condition[conditionAdditionIndex] === '||') {
-
-              // Give some space
-              fb += condition[conditionAdditionIndex] + ' ';
-
-              // Check if conditions are right will throw an error if not
-              grunt.helper('isConditions', condition[conditionAdditionIndex + 1], condition[conditionAdditionIndex + 2], condition[conditionAdditionIndex + 3]);
+            // Check if conditions are right will throw an error if not
+            if(condition[0] !== 'else') {
+              grunt.helper('isConditions', condition[1], condition[2], condition[3]);
 
               // Reformat variables
-              condition[conditionAdditionIndex + 1] = grunt.helper('reformatOperandIfVariable', condition[conditionAdditionIndex + 1], translations[key].vars);
-              condition[conditionAdditionIndex + 3] = grunt.helper('reformatOperandIfVariable', condition[conditionAdditionIndex + 3], translations[key].vars);
+              condition[1] = grunt.helper('reformatOperandIfVariable', condition[1], translations[key].vars);
+              condition[3] = grunt.helper('reformatOperandIfVariable', condition[3], translations[key].vars);
 
-              // Add conditions
-              for(var i = 1; i <= 3; i++) {
-                fb += condition[conditionAdditionIndex + i] + ' ';
+              fb += '      ' + condition[0] + '( ' + condition[1] + ' ' + condition[2] + ' ' + condition[3] + ' ';
+
+              while(condition[conditionAdditionIndex] === '&&' ||
+                    condition[conditionAdditionIndex] === '||') {
+
+                // Give some space
+                fb += condition[conditionAdditionIndex] + ' ';
+
+                // Check if conditions are right will throw an error if not
+                grunt.helper('isConditions', condition[conditionAdditionIndex + 1], condition[conditionAdditionIndex + 2], condition[conditionAdditionIndex + 3]);
+
+                // Reformat variables
+                condition[conditionAdditionIndex + 1] = grunt.helper('reformatOperandIfVariable', condition[conditionAdditionIndex + 1], translations[key].vars);
+                condition[conditionAdditionIndex + 3] = grunt.helper('reformatOperandIfVariable', condition[conditionAdditionIndex + 3], translations[key].vars);
+
+                // Add conditions
+                for(var i = 1; i <= 3; i++) {
+                  fb += condition[conditionAdditionIndex + i] + ' ';
+                }
+                conditionAdditionIndex += 4;
               }
-              conditionAdditionIndex += 4;
+
+              // Check translated text
+              grunt.helper('isTranslationText', condition[conditionAdditionIndex]);
+
+
+              // Add
+              fb += ') {' + grunt.utils.linefeed;
+              fb += '        return ' + grunt.helper('reformatTranslatedText', condition[conditionAdditionIndex], translations[key].vars) + ';' + grunt.utils.linefeed; // Return the translated text
+              fb += '      }' + grunt.utils.linefeed;
+
+            } else {// If an else statement
+
+              // Check translated text
+              grunt.helper('isTranslationText', condition[1]);
+
+              fb += '      else {'+ grunt.utils.linefeed;
+              fb += '        return ' + grunt.helper('reformatTranslatedText', condition[1], translations[key].vars) + ';' + grunt.utils.linefeed;
+              fb += '      }';
+
             }
 
-            // Check translated text
-            grunt.helper('isTranslationText', condition[conditionAdditionIndex]);
+          });
 
+        } else {
 
-            // Add
-            fb += ') {' + grunt.utils.linefeed;
-            fb += '        return ' + grunt.helper('reformatTranslatedText', condition[conditionAdditionIndex], translations[key].vars) + ';' + grunt.utils.linefeed; // Return the translated text
-            fb += '      }' + grunt.utils.linefeed;
+          // Check translated text
+          grunt.helper('isTranslationText', translations[key].translations);
 
-          } else {// If an else statement
+          fb += '      return ' + grunt.helper('reformatTranslatedText', translations[key].translations, translations[key].vars) + ';';
+        }
 
-            // Check translated text
-            grunt.helper('isTranslationText', condition[1]);
-
-            fb += '      else {'+ grunt.utils.linefeed;
-            fb += '        return ' + grunt.helper('reformatTranslatedText', condition[1], translations[key].vars) + ';' + grunt.utils.linefeed;
-            fb += '      }';
-
-          }
-
+        // Make function
+        var params = translations[key].vars.map(function(item){
+          return item.replace('$', '');
         });
+        /*jshint evil:true */
+        t += '    "' + key + '": ' + (new Function(params, fb)).toString();
+        t = t.slice(0, -1) + '    }';
+        /*jshint evil:false */
 
-      } else {
+        // Update loop
+        n++;
 
-        // Check translated text
-        grunt.helper('isTranslationText', translations[key].translations);
 
-        fb += '      return ' + grunt.helper('reformatTranslatedText', translations[key].translations, translations[key].vars) + ';';
       }
-
-      // Make function
-      var params = translations[key].vars.map(function(item){
-        return item.replace('$', '');
-      });
-      t += '    "' + key + '": ' + (new Function(params, fb)).toString();
-      t = t.slice(0, -1) + '    }';
-
-
-      // Update loop
-      n++;
-
     }
 
     t += grunt.utils.linefeed + '  };' + grunt.utils.linefeed;
 
     // Return the t function
     t += '  return function(hashkey) {' + grunt.utils.linefeed;
+    t += '    delete arguments[0];' + grunt.utils.linefeed;
+    t += '    for(var i in arguments) {' + grunt.utils.linefeed;
+    t += '      if(arguments.hasOwnProperty(i)){' + grunt.utils.linefeed;
+    t += '        arguments[i - 1] = arguments[i];' + grunt.utils.linefeed;
+    t += '      }' + grunt.utils.linefeed;
+    t += '    }' + grunt.utils.linefeed;
     t += '    return t[hashkey].apply(undefined, arguments);' + grunt.utils.linefeed;
     t += '  };' + grunt.utils.linefeed;
 

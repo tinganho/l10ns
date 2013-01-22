@@ -25,6 +25,12 @@ define(function() {
     }
   };
   return function(hashkey) {
+    delete arguments[0];
+    for(var i in arguments) {
+      if(arguments.hasOwnProperty(i)){
+        arguments[i - 1] = arguments[i];
+      }
+    }
     return t[hashkey].apply(undefined, arguments);
   };
 });

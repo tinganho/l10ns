@@ -25,14 +25,35 @@ exports['grunt-translate'] = {
   setUp: function(done) {
     'use strict';
 
+    grunt.task.run('translate');
+
     // setup here
     done();
   },
   'helper': function(test) {
     'use strict';
 
-    test.expect(1);
-    // tests here
+    var requirejs = require('requirejs');
+
+    requirejs.config({
+      baseUrl: __dirname,
+      nodeRequire: require
+    });
+
+    var gt = requirejs('translations/output/en');
+
+    // Compiling function
+
+    // Testing of conditions
+    test.equal(gt('grunt-translate can take more then two conditions', 2, 'Bert'), 'Hello people!', 'It can take more than two conditions');
+    test.equal(gt('grunt-translate can take more then two conditions', 1, 'Bert'), 'Hello Bert!', 'If and else is working');
+    test.ok(typeof gt('grunt-translate can have an if and else if and alse statements', 1, 'Bert') === 'string', 'Hello Bert!', 'If and elseif and else is working');
+
+    // Update from source
+
+
+
+
     test.equal('translate!!!', 'translate!!!', 'should return the correct value.');
     test.done();
   }

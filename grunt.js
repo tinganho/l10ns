@@ -8,7 +8,7 @@ module.exports = function(grunt) {
       files: ['test/**/*.js']
     },
     lint: {
-      files: ['grunt.js', 'tasks/**/*.js', 'test/**/*.js']
+      files: ['grunt.js', 'tasks/**/*.js']
     },
     watch: {
       files: '<config:lint.files>',
@@ -18,6 +18,8 @@ module.exports = function(grunt) {
       options: {
         curly: true,
         eqeqeq: true,
+        loopfunc: true,
+        forin: true,
         immed: true,
         latedef: true,
         newcap: true,
@@ -27,7 +29,8 @@ module.exports = function(grunt) {
         boss: true,
         eqnull: true,
         node: true,
-        es5: true
+        es5: true,
+        supernew: true
       },
       globals: {
         gt: true
@@ -38,7 +41,8 @@ module.exports = function(grunt) {
       all: {
         files: ['./test/example/**/*.js'],
         output: './test/translations/output',
-        configDir: './test/translations'
+        configDir: './test/translations',
+        requireJS: true
       }
     }
   });
@@ -47,8 +51,5 @@ module.exports = function(grunt) {
 
   // Default task.
   grunt.registerTask('default', 'lint translate test');
-
-  // Default task.
-  grunt.registerTask('jshint');
 
 };

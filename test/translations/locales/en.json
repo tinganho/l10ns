@@ -1,5 +1,13 @@
 {
-  "hello_world": {
+  "grunt-translate can take more then two conditions": {
+    "vars" : ["$property1", "$property2"],
+    "translations": [
+      ["if", "$property1", ">", "1", "&&", "$property1", "===", "2", "\"Hello people!\""],
+      ["else", "\"Hello ${property2}!\""]
+    ]
+  },
+
+  "grunt-translate can have an if and else if and alse statements": {
     "vars" : ["$property1", "$property2"],
     "translations": [
       ["if", "$property1", ">", "\"constant\"", "&&", "property2", "===", "property1", "\"Hello ${property1} ${property2}\""],
@@ -7,6 +15,25 @@
       ["else", "\"Hello ${property1}\""]
     ]
   },
+
+  "grunt-translate can take more then ": {
+    "vars" : ["$property1", "$property2"],
+    "translations": [
+      ["if", "$property1", ">", "\"constant\"", "&&", "property2", "===", "property1", "\"Hello ${property1} ${property2}\""],
+      ["else if", "$property2", ">", "\"iuhgu\"", "\"Hello ${property2}\""],
+      ["else", "\"Hello ${property1}\""]
+    ]
+  },
+
+  "grunt-translate can take more then two ": {
+    "vars" : ["$property1", "$property2"],
+    "translations": [
+      ["if", "$property1", ">", "\"constant\"", "&&", "property2", "===", "property1", "\"Hello ${property1} ${property2}\""],
+      ["else if", "$property2", ">", "\"iuhgu\"", "\"Hello ${property2}\""],
+      ["else", "\"Hello ${property1}\""]
+    ]
+  },
+
 
   "you are so hansome": {
     "vars": ["$name", "$property2"],
