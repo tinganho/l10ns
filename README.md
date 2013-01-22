@@ -32,15 +32,15 @@ Solution For Developers
 =================================
 The translation function:
 ```javascript
-_(TRANSLATION_HASH, JAVASCRIPT_OBJECT);
+gt(TRANSLATION_HASH, JAVASCRIPT_OBJECT);
 ```
 
 A developers workflow using Trinity:
 
-* (1) Use function `_()` with a unique hash
+* (1) Use function `gt()` with a unique hash
 * (2) Update translation hashes from source
 * (3) Translates on the default language
-* (4) Compiles all the translations till ready to use in `_()`
+* (4) Compiles all the translations till ready to use in `gt()`
 
 Storage files
 =================================
