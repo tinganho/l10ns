@@ -48,10 +48,16 @@ exports['grunt-translate'] = {
     test.equal(gt('It can have an if and else if and else statements', {number: 3}), 'Number is exactly 3', 'It can have an if and else if and else statements');
     test.equal(gt('It can have only one string', { world: 'world'}), 'Hello world!','It can have only one string');
 
+    // Condition body
     test.equal(gt('It can take && in if statement', { firstname: 'Tingan', lastname: 'Ho'}), 'Hello Tingan Ho!', 'It can take && in if statement');
     test.equal(gt('It can take || in if statement', { firstname: 'Tingan', lastname: 'Ho'}), 'Hello Tingan Ho!', 'It can take || in if statement');
     test.equal(gt('It can take several && in if statement', { firstname: 'Tingan', lastname: 'Ho'}), 'Hello Tingan Ho!', 'It can take several && in if statement');
     test.equal(gt('It can take several || in if statement', { firstname: 'Tingan', lastname: 'Ho'}), 'Hello Tingan Ho!', 'It can take several && in if statement');
+
+    // Timestamp
+    var translations = JSON.parse(fs.readFileSync('test/translations/locales/en.json'));
+    test.ok(typeof translations['It can have an if and else statement'].timestamp === 'number', 'It has a timestamp');
+
 
     test.done();
   }

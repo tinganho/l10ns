@@ -70,6 +70,7 @@ module.exports = function(grunt) {
         });
       }
     });
+    var now = (new Date()).getTime();
     var locales = grunt.helper('getAllLocales');
     locales.forEach(function(locale){
       (function(res, locale){
@@ -80,6 +81,11 @@ module.exports = function(grunt) {
               newLocal[key].translations = allTranslations[locale][key].translations;
             } else {
               newLocal[key].translations = [];
+            }
+            if(key in allTranslations[locale] && 'timestamp' in allTranslations[locale][key]) {
+              newLocal[key].timestamp = allTranslations[locale][key].timestamp;
+            } else {
+              newLocal[key].timestamp = now;
             }
           } else {
             newLocal[key].translations = [];
@@ -348,7 +354,6 @@ module.exports = function(grunt) {
 
               // Check translated text
               grunt.helper('isTranslationText', condition[conditionAdditionIndex], key);
-
 
               // Add
               fb += ') {' + grunt.utils.linefeed;

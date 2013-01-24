@@ -15,7 +15,8 @@
         "else",
         "\"Number is smaller than 2\""
       ]
-    ]
+    ],
+    "timestamp": 1359025336849
   },
   "It can have an if and else if and else statements": {
     "vars": [
@@ -40,13 +41,15 @@
         "else",
         "\"Number is smaller than 2\""
       ]
-    ]
+    ],
+    "timestamp": 1359025336849
   },
   "It can have only one string": {
     "vars": [
       "world"
     ],
-    "translations": "\"Hello ${world}!\""
+    "translations": "\"Hello ${world}!\"",
+    "timestamp": 1359025336849
   },
   "It can take && in if statement": {
     "vars": [
@@ -69,7 +72,8 @@
         "else",
         "\"Firstname and last is not Tingan Ho\""
       ]
-    ]
+    ],
+    "timestamp": 1359025336849
   },
   "It can take || in if statement": {
     "vars": [
@@ -92,7 +96,8 @@
         "else",
         "\"Firstname and last is not Tingan Ho\""
       ]
-    ]
+    ],
+    "timestamp": 1359025336849
   },
   "It can take several && in if statement": {
     "vars": [
@@ -119,7 +124,8 @@
         "else",
         "\"Firstname and last is not Tingan Ho\""
       ]
-    ]
+    ],
+    "timestamp": 1359025336849
   },
   "It can take several || in if statement": {
     "vars": [
@@ -146,6 +152,7 @@
         "else",
         "\"Firstname and last is not Tingan Ho\""
       ]
-    ]
+    ],
+    "timestamp": 1359025336849
   }
 }
