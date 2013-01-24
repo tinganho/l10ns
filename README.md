@@ -31,7 +31,7 @@ The translation function:
 gt(TRANSLATION_HASH, JAVASCRIPT_OBJECT);
 ```
 
-A developers workflow using Trinity:
+A developers workflow using grunt-translate:
 
 * (1) Use function `gt()` with a unique hash
 * (2) Update translation hashes from source
