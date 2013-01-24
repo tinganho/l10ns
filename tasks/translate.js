@@ -102,7 +102,6 @@ module.exports = function(grunt) {
 
       if(path.extname(file) === '.json') {
         lang = path.basename(file, '.json');
-        console.log(locales);
         if(locales.indexOf(lang) === -1) {
           if(fs.existsSync(file)) {
             fs.unlinkSync(file);
