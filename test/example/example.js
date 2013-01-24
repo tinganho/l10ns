@@ -2,10 +2,26 @@ function test() {
 
   'use strict';
 
-  gt('hello-world', { dog: 'labrador', langaguge: 'chinese' });
+  gt('It can have an if and else statement', { number: 2 });
+  gt('It can have an if and else if and else statements', { number: 3 });
+  gt('It can have only one string', { world: 'world'});
 
-  gt('hello_animals', { dog: 'labrador', langaguge: 'chinese' });
-
+  gt('It can take && in if statement', {
+    firstname: 'Tingan',
+    lastname: 'Ho'
+  });
+  gt('It can take || in if statement', {
+    firstname: 'Tingan',
+    lastname: 'Ho'
+  });
+  gt('It can take several && in if statement', {
+    firstname: 'Tingan',
+    lastname: 'Ho'
+  });
+  gt('It can take several || in if statement', {
+    firstname: 'Tingan',
+    lastname: 'Ho'
+  });
 
 
 }

@@ -3,64 +3,71 @@ if( typeof define !== "function" ) {
 }
 define(function() {
   var t = {
-    "grunt-translate can take more then two conditions": function anonymous(property1,property2) {
-      if( property1 > 1 && property1 === 2 ) {
-        return "Hello people!";
+    "It can have an if and else statement": function anonymous(it) {
+      if( it.number > 1 ) {
+        return "Number is " + it.number + "";
       }
       else {
-        return "Hello " + property2 + "!";
+        return "Number is smaller than 2";
       }
     },
-    "grunt-translate can have an if and else if and alse statements": function anonymous(property1,property2) {
-      if( property1 > "constant" && property2 === property1 ) {
-        return "Hello " + property1 + " " + property2 + "";
+    "It can have an if and else if and else statements": function anonymous(it) {
+      if( it.number === 3 ) {
+        return "Number is exactly 3";
       }
-      else if( property2 > "iuhgu" ) {
-        return "Hello " + property2 + "";
+      else if( it.number > 1 ) {
+        return "Number is " + it.number + "";
       }
       else {
-        return "Hello " + property1 + "";
+        return "Number is smaller than 2";
       }
     },
-    "grunt-translate can take more then ": function anonymous(property1,property2) {
-      if( property1 > "constant" && property2 === property1 ) {
-        return "Hello " + property1 + " " + property2 + "";
-      }
-      else if( property2 > "iuhgu" ) {
-        return "Hello " + property2 + "";
+    "It can have only one string": function anonymous(it) {
+      return "Hello " + it.world + "!";
+    },
+    "It can take && in if statement": function anonymous(it) {
+      if( it.firstname === "Tingan" && it.lastname === "Ho" ) {
+        return "Hello " + it.firstname + " " + it.lastname + "!";
       }
       else {
-        return "Hello " + property1 + "";
+        return "Firstname and last is not Tingan Ho";
       }
     },
-    "grunt-translate can take more then two ": function anonymous(property1,property2) {
-      if( property1 > "constant" && property2 === property1 ) {
-        return "Hello " + property1 + " " + property2 + "";
-      }
-      else if( property2 > "iuhgu" ) {
-        return "Hello " + property2 + "";
+    "It can take || in if statement": function anonymous(it) {
+      if( it.firstname === "Tingan" || it.lastname === "Ho" ) {
+        return "Hello " + it.firstname + " " + it.lastname + "!";
       }
       else {
-        return "Hello " + property1 + "";
+        return "Firstname and last is not Tingan Ho";
       }
     },
-    "you are so hansome": function anonymous(name,property2) {
-      if( name > property2 ) {
-        return "You are so handsome";
+    "It can take several && in if statement": function anonymous(it) {
+      if( it.firstname === "Tingan" && it.lastname === "Ho" && it.lastname === "Ho" ) {
+        return "Hello " + it.firstname + " " + it.lastname + "!";
       }
-
+      else {
+        return "Firstname and last is not Tingan Ho";
+      }
     },
-    "you are not so hansome": function anonymous(name,property2) {
-      return "You are not so handsome";
+    "It can take several || in if statement": function anonymous(it) {
+      if( it.firstname === "Tingan" || it.lastname === "Ho" || it.lastname === "Ho" ) {
+        return "Hello " + it.firstname + " " + it.lastname + "!";
+      }
+      else {
+        return "Firstname and last is not Tingan Ho";
+      }
     }
   };
-  return function(hashkey) {
-    delete arguments[0];
-    for(var i in arguments) {
-      if(arguments.hasOwnProperty(i)){
-        arguments[i - 1] = arguments[i];
-      }
+  return function(translationKey) {
+    if(!(translationKey in t)) {
+      console.log("You have used an undefined translation key:" + translationKey);
+      return false;
     }
-    return t[hashkey].apply(undefined, arguments);
+    delete arguments[0];
+    if("1" in arguments) {
+      arguments[0] = arguments[1];
+    }
+    delete arguments[1];
+    return t[translationKey].apply(undefined, arguments);
   };
 });

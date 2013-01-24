@@ -1,23 +1,48 @@
 {
-  "hello_world": {
-    "vars" : ["$property1", "$property2"],
-    "translations": [
-      ["if", "$property1", ">", "\"constant\"", "&&", "property2", "===", "property1", "\"Hello ${property1} ${property2}\""],
-      ["else if", "$property2", ">", "\"iuhgu\"", "\"Hello ${property2}\""],
-      ["else", "\"Hello ${property1}\""]
-    ]
+  "It can have an if and else statement": {
+    "vars": [
+      "number"
+    ],
+    "translations": []
   },
-
-  "you are so hansome": {
-    "vars": ["$name", "$property2"],
-    "translations": [
-      ["if", "$name", ">", "$property2", "\"You are so handsome\""]
-    ]
+  "It can have an if and else if and else statements": {
+    "vars": [
+      "number"
+    ],
+    "translations": []
   },
-
-  "you are not so hansome": {
-    "vars": ["$name", "$property2"],
-    "translations": "\"You are not so handsome\""
+  "It can have only one string": {
+    "vars": [
+      "world"
+    ],
+    "translations": []
+  },
+  "It can take && in if statement": {
+    "vars": [
+      "firstname",
+      "lastname"
+    ],
+    "translations": []
+  },
+  "It can take || in if statement": {
+    "vars": [
+      "firstname",
+      "lastname"
+    ],
+    "translations": []
+  },
+  "It can take several && in if statement": {
+    "vars": [
+      "firstname",
+      "lastname"
+    ],
+    "translations": []
+  },
+  "It can take several || in if statement": {
+    "vars": [
+      "firstname",
+      "lastname"
+    ],
+    "translations": []
   }
-
 }

@@ -1,7 +1,7 @@
 {
   "name": "grunt-translate",
   "description": "Translate dynamic texts",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "homepage": "https://github.com/tinganho/grunt-translate",
   "author": {
     "name": "Tingan Ho",
@@ -41,6 +41,7 @@
   "dependencies": {
     "grunt": "~0.3.17",
     "amdefine": "0.0.4",
-    "requirejs": "~2.1.2"
+    "requirejs": "~2.1.2",
+    "prompt": "~0.2.9"
   }
 }

@@ -1,91 +1,57 @@
 0 info it worked if it ends with ok
-1 verbose cli [ 'node', '/usr/local/bin/npm', 'install', 'grunt-cli', '-g' ]
+1 verbose cli [ 'node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   'child_process',
+1 verbose cli   '--save' ]
 2 info using npm@1.1.65
 3 info using node@v0.8.14
-4 verbose read json /usr/local/lib/package.json
-5 verbose read json /usr/local/lib/package.json
-6 verbose cache add [ 'grunt-cli', null ]
-7 silly cache add name=undefined spec="grunt-cli" args=["grunt-cli",null]
-8 verbose parsed url { pathname: 'grunt-cli', path: 'grunt-cli', href: 'grunt-cli' }
-9 silly lockFile 671ef8ac-grunt-cli grunt-cli
-10 verbose lock grunt-cli /Users/tinganho/.npm/671ef8ac-grunt-cli.lock
-11 silly lockFile 671ef8ac-grunt-cli grunt-cli
-12 verbose addNamed [ 'grunt-cli', '' ]
-13 verbose addNamed [ null, '' ]
-14 silly lockFile d63f3d0b-grunt-cli grunt-cli@
-15 verbose lock grunt-cli@ /Users/tinganho/.npm/d63f3d0b-grunt-cli.lock
-16 silly addNameRange { name: 'grunt-cli', range: '', hasData: false }
-17 verbose url raw grunt-cli
-18 verbose url resolving [ 'https://registry.npmjs.org/', './grunt-cli' ]
-19 verbose url resolved https://registry.npmjs.org/grunt-cli
-20 info trying registry request attempt 1 at 19:42:40
-21 verbose etag "D25ZY17U5MSA0I3CUYE581FXG"
-22 http GET https://registry.npmjs.org/grunt-cli
-23 http 304 https://registry.npmjs.org/grunt-cli
-24 silly registry.get cb [ 304,
-24 silly registry.get   { server: 'CouchDB/1.2.1 (Erlang OTP/R15B)',
-24 silly registry.get     etag: '"D25ZY17U5MSA0I3CUYE581FXG"',
-24 silly registry.get     date: 'Fri, 18 Jan 2013 11:41:11 GMT',
-24 silly registry.get     'content-length': '0' } ]
-25 verbose etag grunt-cli from cache
-26 silly addNameRange number 2 { name: 'grunt-cli', range: '', hasData: true }
-27 silly addNameRange versions [ 'grunt-cli',
-27 silly addNameRange   [ '0.1.0', '0.1.1', '0.1.2', '0.1.3', '0.1.4', '0.1.5', '0.1.6' ] ]
-28 verbose addNamed [ 'grunt-cli', '0.1.6' ]
-29 verbose addNamed [ '0.1.6', '0.1.6' ]
-30 silly lockFile dc8a40ae-grunt-cli-0-1-6 grunt-cli@0.1.6
-31 verbose lock grunt-cli@0.1.6 /Users/tinganho/.npm/dc8a40ae-grunt-cli-0-1-6.lock
-32 verbose read json /Users/tinganho/.npm/grunt-cli/0.1.6/package/package.json
-33 silly lockFile dc8a40ae-grunt-cli-0-1-6 grunt-cli@0.1.6
-34 silly lockFile d63f3d0b-grunt-cli grunt-cli@
-35 silly resolved [ { name: 'grunt-cli',
-35 silly resolved     description: 'The grunt command line interface.',
-35 silly resolved     version: '0.1.6',
-35 silly resolved     author: { name: 'Grunt Team' },
-35 silly resolved     homepage: 'http://gruntjs.com/',
-35 silly resolved     repository: { type: 'git', url: 'git://github.com/gruntjs/grunt-cli.git' },
-35 silly resolved     bugs: { url: 'http://github.com/gruntjs/grunt-cli/issues' },
-35 silly resolved     licenses: [ [Object] ],
-35 silly resolved     bin: { grunt: 'bin/grunt' },
-35 silly resolved     engines: { node: '>= 0.8.0' },
-35 silly resolved     scripts: { test: './bin/grunt test' },
-35 silly resolved     preferGlobal: true,
-35 silly resolved     dependencies: { nopt: '~1.0.10', 'findup-sync': '~0.1.0' },
-35 silly resolved     devDependencies: { grunt: '~0.4.0rc4', 'grunt-contrib-jshint': '~0.1.0' },
-35 silly resolved     contributors: [ [Object], [Object], [Object] ],
-35 silly resolved     readme: '# grunt-cli [![Build Status](https://secure.travis-ci.org/gruntjs/grunt-cli.png?branch=master)](http://travis-ci.org/gruntjs/grunt-cli)\n> The grunt command line interface.\n\nInstall this globally and you\'ll have access to the `grunt` command anywhere on your system.\n\n```shell\nnpm install -g grunt-cli\n```\n\n**Note:** The job of the `grunt` command is to load and run the version of grunt you have installed locally to your project, irrespective of its version.  Starting with grunt v0.4, you should never install grunt itself globally.  For more information about why, [please read this](http://blog.nodejs.org/2011/03/23/npm-1-0-global-vs-local-installation).\n\nSee the grunt [Getting Started](http://gruntjs.com/getting-started) guide for more information.\n\n## Shell tab auto-completion\nTo enable bash tab auto-completion for grunt, add the following line to your `~/.bashrc` file. Currently, the only supported shell is bash.\n\n```bash\neval "$(grunt --completion=bash)"\n```\n',
-35 silly resolved     readmeFilename: 'README.md',
-35 silly resolved     _id: 'grunt-cli@0.1.6',
-35 silly resolved     _from: 'grunt-cli' } ]
-36 info install grunt-cli@0.1.6 into /usr/local/lib
-37 info installOne grunt-cli@0.1.6
-38 verbose from cache /Users/tinganho/.npm/grunt-cli/0.1.6/package/package.json
-39 info /usr/local/lib/node_modules/grunt-cli unbuild
-40 verbose read json /usr/local/lib/node_modules/grunt-cli/package.json
-41 info preuninstall grunt-cli@0.1.6
-42 info uninstall grunt-cli@0.1.6
-43 verbose true,/usr/local/lib/node_modules,/usr/local/lib/node_modules unbuild grunt-cli@0.1.6
-44 verbose /usr/local/bin,[object Object] binRoot
-45 info /usr/local/lib/node_modules/grunt-cli unbuild
-46 verbose read json /usr/local/lib/node_modules/grunt-cli/package.json
-47 info preuninstall grunt-cli@0.1.6
-48 info uninstall grunt-cli@0.1.6
-49 verbose true,/usr/local/lib/node_modules,/usr/local/lib/node_modules unbuild grunt-cli@0.1.6
-50 verbose /usr/local/bin,[object Object] binRoot
-51 error error rolling back Error: Refusing to delete: /usr/local/bin/grunt not in /usr/local/lib/node_modules/grunt-cli
-51 error error rolling back     at clobberFail (/usr/local/lib/node_modules/npm/lib/utils/gently-rm.js:41:12)
-51 error error rolling back     at next (/usr/local/lib/node_modules/npm/lib/utils/gently-rm.js:27:14)
-51 error error rolling back     at /usr/local/lib/node_modules/npm/lib/utils/gently-rm.js:36:12
-51 error error rolling back     at Object.oncomplete (fs.js:297:15)
-51 error error rolling back  grunt-cli@0.1.6 { [Error: Refusing to delete: /usr/local/bin/grunt not in /usr/local/lib/node_modules/grunt-cli] code: 'EEXIST', path: '/usr/local/bin/grunt' }
-52 error Refusing to delete: /usr/local/bin/grunt not in /usr/local/lib/node_modules/grunt-cli
-File exists: /usr/local/bin/grunt
-Move it away, and try again.
-53 error System Darwin 12.2.0
-54 error command "node" "/usr/local/bin/npm" "install" "grunt-cli" "-g"
-55 error cwd /Users/tinganho/Development/translate
-56 error node -v v0.8.14
-57 error npm -v 1.1.65
-58 error path /usr/local/bin/grunt
-59 error code EEXIST
-60 verbose exit [ 1, true ]
+4 verbose read json /Users/tingan87/Development/grunt-translate/package.json
+5 verbose read json /Users/tingan87/Development/grunt-translate/node_modules/amdefine/package.json
+6 verbose read json /Users/tingan87/Development/grunt-translate/node_modules/chai/package.json
+7 verbose read json /Users/tingan87/Development/grunt-translate/node_modules/grunt/package.json
+8 verbose read json /Users/tingan87/Development/grunt-translate/node_modules/grunt-bump/package.json
+9 verbose read json /Users/tingan87/Development/grunt-translate/node_modules/grunt-contrib-jshint/package.json
+10 verbose read json /Users/tingan87/Development/grunt-translate/node_modules/mocha/package.json
+11 verbose read json /Users/tingan87/Development/grunt-translate/node_modules/prompt/package.json
+12 verbose read json /Users/tingan87/Development/grunt-translate/node_modules/requirejs/package.json
+13 verbose from cache /Users/tingan87/Development/grunt-translate/package.json
+14 verbose readDependencies using package.json deps
+15 verbose cache add [ 'child_process', null ]
+16 silly cache add name=undefined spec="child_process" args=["child_process",null]
+17 verbose parsed url { pathname: 'child_process',
+17 verbose parsed url   path: 'child_process',
+17 verbose parsed url   href: 'child_process' }
+18 silly lockFile 4845fa97-child-process child_process
+19 verbose lock child_process /Users/tingan87/.npm/4845fa97-child-process.lock
+20 silly lockFile 4845fa97-child-process child_process
+21 verbose addNamed [ 'child_process', '' ]
+22 verbose addNamed [ null, '' ]
+23 silly lockFile 512a7ef6-child-process child_process@
+24 verbose lock child_process@ /Users/tingan87/.npm/512a7ef6-child-process.lock
+25 silly addNameRange { name: 'child_process', range: '', hasData: false }
+26 verbose url raw child_process
+27 verbose url resolving [ 'https://registry.npmjs.org/', './child_process' ]
+28 verbose url resolved https://registry.npmjs.org/child_process
+29 info trying registry request attempt 1 at 17:44:04
+30 http GET https://registry.npmjs.org/child_process
+31 http 404 https://registry.npmjs.org/child_process
+32 silly registry.get cb [ 404,
+32 silly registry.get   { server: 'CouchDB/1.2.1 (Erlang OTP/R15B)',
+32 silly registry.get     date: 'Wed, 23 Jan 2013 09:42:33 GMT',
+32 silly registry.get     'content-type': 'application/json',
+32 silly registry.get     'content-length': '52',
+32 silly registry.get     'cache-control': 'must-revalidate' } ]
+33 silly lockFile 512a7ef6-child-process child_process@
+34 error 404 'child_process' is not in the npm registry.
+34 error 404 You should bug the author to publish it
+34 error 404
+34 error 404 Note that you can also install from a
+34 error 404 tarball, folder, or http url, or git url.
+35 error System Darwin 12.2.0
+36 error command "node" "/usr/local/bin/npm" "install" "child_process" "--save"
+37 error cwd /Users/tingan87/Development/grunt-translate
+38 error node -v v0.8.14
+39 error npm -v 1.1.65
+40 error code E404
+41 verbose exit [ 1, true ]

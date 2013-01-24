@@ -1,50 +1,151 @@
 {
-  "grunt-translate can take more then two conditions": {
-    "vars" : ["$property1", "$property2"],
+  "It can have an if and else statement": {
+    "vars": [
+      "number"
+    ],
     "translations": [
-      ["if", "$property1", ">", "1", "&&", "$property1", "===", "2", "\"Hello people!\""],
-      ["else", "\"Hello ${property2}!\""]
+      [
+        "if",
+        "number",
+        ">",
+        "1",
+        "\"Number is ${number}\""
+      ],
+      [
+        "else",
+        "\"Number is smaller than 2\""
+      ]
     ]
   },
-
-  "grunt-translate can have an if and else if and alse statements": {
-    "vars" : ["$property1", "$property2"],
+  "It can have an if and else if and else statements": {
+    "vars": [
+      "number"
+    ],
     "translations": [
-      ["if", "$property1", ">", "\"constant\"", "&&", "property2", "===", "property1", "\"Hello ${property1} ${property2}\""],
-      ["else if", "$property2", ">", "\"iuhgu\"", "\"Hello ${property2}\""],
-      ["else", "\"Hello ${property1}\""]
+      [
+        "if",
+        "number",
+        "===",
+        "3",
+        "\"Number is exactly 3\""
+      ],
+      [
+        "else if",
+        "number",
+        ">",
+        "1",
+        "\"Number is ${number}\""
+      ],
+      [
+        "else",
+        "\"Number is smaller than 2\""
+      ]
     ]
   },
-
-  "grunt-translate can take more then ": {
-    "vars" : ["$property1", "$property2"],
+  "It can have only one string": {
+    "vars": [
+      "world"
+    ],
+    "translations": "\"Hello ${world}!\""
+  },
+  "It can take && in if statement": {
+    "vars": [
+      "firstname",
+      "lastname"
+    ],
     "translations": [
-      ["if", "$property1", ">", "\"constant\"", "&&", "property2", "===", "property1", "\"Hello ${property1} ${property2}\""],
-      ["else if", "$property2", ">", "\"iuhgu\"", "\"Hello ${property2}\""],
-      ["else", "\"Hello ${property1}\""]
+      [
+        "if",
+        "firstname",
+        "===",
+        "\"Tingan\"",
+        "&&",
+        "lastname",
+        "===",
+        "\"Ho\"",
+        "\"Hello ${firstname} ${lastname}!\""
+      ],
+      [
+        "else",
+        "\"Firstname and last is not Tingan Ho\""
+      ]
     ]
   },
-
-  "grunt-translate can take more then two ": {
-    "vars" : ["$property1", "$property2"],
+  "It can take || in if statement": {
+    "vars": [
+      "firstname",
+      "lastname"
+    ],
     "translations": [
-      ["if", "$property1", ">", "\"constant\"", "&&", "property2", "===", "property1", "\"Hello ${property1} ${property2}\""],
-      ["else if", "$property2", ">", "\"iuhgu\"", "\"Hello ${property2}\""],
-      ["else", "\"Hello ${property1}\""]
+      [
+        "if",
+        "firstname",
+        "===",
+        "\"Tingan\"",
+        "||",
+        "lastname",
+        "===",
+        "\"Ho\"",
+        "\"Hello ${firstname} ${lastname}!\""
+      ],
+      [
+        "else",
+        "\"Firstname and last is not Tingan Ho\""
+      ]
     ]
   },
-
-
-  "you are so hansome": {
-    "vars": ["$name", "$property2"],
+  "It can take several && in if statement": {
+    "vars": [
+      "firstname",
+      "lastname"
+    ],
     "translations": [
-      ["if", "$name", ">", "$property2", "\"You are so handsome\""]
+      [
+        "if",
+        "firstname",
+        "===",
+        "\"Tingan\"",
+        "&&",
+        "lastname",
+        "===",
+        "\"Ho\"",
+        "&&",
+        "lastname",
+        "===",
+        "\"Ho\"",
+        "\"Hello ${firstname} ${lastname}!\""
+      ],
+      [
+        "else",
+        "\"Firstname and last is not Tingan Ho\""
+      ]
     ]
   },
-
-  "you are not so hansome": {
-    "vars": ["$name", "$property2"],
-    "translations": "\"You are not so handsome\""
+  "It can take several || in if statement": {
+    "vars": [
+      "firstname",
+      "lastname"
+    ],
+    "translations": [
+      [
+        "if",
+        "firstname",
+        "===",
+        "\"Tingan\"",
+        "||",
+        "lastname",
+        "===",
+        "\"Ho\"",
+        "||",
+        "lastname",
+        "===",
+        "\"Ho\"",
+        "\"Hello ${firstname} ${lastname}!\""
+      ],
+      [
+        "else",
+        "\"Firstname and last is not Tingan Ho\""
+      ]
+    ]
   }
-
 }

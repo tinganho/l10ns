@@ -3,34 +3,38 @@ if( typeof define !== "function" ) {
 }
 define(function() {
   var t = {
-    "hello_world": function anonymous(property1,property2) {
-      if( property1 > "constant" && property2 === property1 ) {
-        return "Hello " + property1 + " " + property2 + "";
-      }
-      else if( property2 > "iuhgu" ) {
-        return "Hello " + property2 + "";
-      }
-      else {
-        return "Hello " + property1 + "";
-      }
+    "It can have an if and else statement": function anonymous(it) {
+      return "HASH_NOT_TRANSLATED: It can have an if and else statement";
     },
-    "you are so hansome": function anonymous(name,property2) {
-      if( name > property2 ) {
-        return "You are so handsome";
-      }
-
+    "It can have an if and else if and else statements": function anonymous(it) {
+      return "HASH_NOT_TRANSLATED: It can have an if and else if and else statements";
     },
-    "you are not so hansome": function anonymous(name,property2) {
-      return "You are not so handsome";
+    "It can have only one string": function anonymous(it) {
+      return "HASH_NOT_TRANSLATED: It can have only one string";
+    },
+    "It can take && in if statement": function anonymous(it) {
+      return "HASH_NOT_TRANSLATED: It can take && in if statement";
+    },
+    "It can take || in if statement": function anonymous(it) {
+      return "HASH_NOT_TRANSLATED: It can take || in if statement";
+    },
+    "It can take several && in if statement": function anonymous(it) {
+      return "HASH_NOT_TRANSLATED: It can take several && in if statement";
+    },
+    "It can take several || in if statement": function anonymous(it) {
+      return "HASH_NOT_TRANSLATED: It can take several || in if statement";
     }
   };
-  return function(hashkey) {
-    delete arguments[0];
-    for(var i in arguments) {
-      if(arguments.hasOwnProperty(i)){
-        arguments[i - 1] = arguments[i];
-      }
+  return function(translationKey) {
+    if(!(translationKey in t)) {
+      console.log("You have used an undefined translation key:" + translationKey);
+      return false;
     }
-    return t[hashkey].apply(undefined, arguments);
+    delete arguments[0];
+    if("1" in arguments) {
+      arguments[0] = arguments[1];
+    }
+    delete arguments[1];
+    return t[translationKey].apply(undefined, arguments);
   };
 });

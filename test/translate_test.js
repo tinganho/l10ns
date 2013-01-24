@@ -25,12 +25,10 @@ exports['grunt-translate'] = {
   setUp: function(done) {
     'use strict';
 
-    grunt.task.run('translate:compile');
-
     // setup here
     done();
   },
-  'helper': function(test) {
+  test1: function(test) {
     'use strict';
 
     var requirejs = require('requirejs');
@@ -44,15 +42,16 @@ exports['grunt-translate'] = {
 
     // Compiling function
 
-    // Testing of conditions
-    test.equal(gt('grunt-translate can take more then two conditions', 2, 'Bert'), 'Hello people!', 'It can take more than two conditions');
-    test.equal(gt('grunt-translate can take more then two conditions', 1, 'Bert'), 'Hello Bert!', 'If and else is working');
-    test.ok(typeof gt('grunt-translate can have an if and else if and alse statements', 1, 'Bert') === 'string', 'Hello Bert!', 'If and elseif and else is working');
+    // if, elseif, else And only string
+    test.equal(gt('It can have an if and else statement', {number: 3}), 'Number is 3', 'It can have an if and else statement');
+    test.equal(gt('It can have an if and else statement', {number: 1}), 'Number is smaller than 2', 'It can have an if and else statement');
+    test.equal(gt('It can have an if and else if and else statements', {number: 3}), 'Number is exactly 3', 'It can have an if and else if and else statements');
+    test.equal(gt('It can have only one string', { world: 'world'}), 'Hello world!','It can have only one string');
 
-    // Update from source
-    var json = grunt.file.readJSON('./test/translations/keys.json');
-    test.ok(typeof json['hello-world'].vars !== 'undefined', 'Reading from source is working');
-
+    test.equal(gt('It can take && in if statement', { firstname: 'Tingan', lastname: 'Ho'}), 'Hello Tingan Ho!', 'It can take && in if statement');
+    test.equal(gt('It can take || in if statement', { firstname: 'Tingan', lastname: 'Ho'}), 'Hello Tingan Ho!', 'It can take || in if statement');
+    test.equal(gt('It can take several && in if statement', { firstname: 'Tingan', lastname: 'Ho'}), 'Hello Tingan Ho!', 'It can take several && in if statement');
+    test.equal(gt('It can take several || in if statement', { firstname: 'Tingan', lastname: 'Ho'}), 'Hello Tingan Ho!', 'It can take several && in if statement');
 
     test.done();
   }

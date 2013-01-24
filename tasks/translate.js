@@ -14,9 +14,10 @@ module.exports = function(grunt) {
   // helper creation: https://github.com/gruntjs/grunt/blob/master/docs/toc.md
 
   // Requires
-  var fs    = require('fs'),
-      path  = require('path'),
-      _     = grunt.utils._;
+  var fs     = require('fs'),
+      path   = require('path'),
+      prompt = require('prompt'),
+      _      = grunt.utils._;
 
   // vars
   var OPERATORS = ['<', '>', '===', '>==', '<==', '==', '>=', '<='];
@@ -47,27 +48,47 @@ module.exports = function(grunt) {
   grunt.registerHelper('update', function(){
 
     var res = {};
+
+    // get all locales
+    var locales = grunt.helper('getAllLocales');
+
     var files = grunt.file.expand(options.files);
     files.forEach(function(file){
       var content = grunt.file.read(file);
-      var regex = new RegExp('\\s+' + options.translationFunctionName + '\\(\\s*[\'|"][\\w|\\-]+[\'|"](\\,\\s*\\{[\\w|\\s|\\:|\'|"|\\,]*\\})?\\)', 'g');
+      var regex = new RegExp('\\s+' + options.translationFunctionName + '\\(\\s*[\'|"][\\w|\\-|\\s|\\&]+[\'|"](\\,\\s*\\{[\\w|\\s|\\:|\'|"|\\,]*\\})?\\)', 'g');
       var translations = content.match(regex);
       if(translations !== null) {
         translations.forEach(function(translation){
           var key = grunt.helper('getTranslationKey', translation);
           var vars = grunt.helper('getVars', translation);
-
-          res[key] = {};
-          res[key].vars = vars;
+          if(!( key in res )) {
+            res[key] = {};
+            res[key].vars = vars;
+          } else {
+            grunt.registerHelper('hasErrorDuplicte', res, key, vars);
+          }
         });
       }
-      var p = options.configDir + '/keys.json';
-      fs.unlinkSync(p);
-      fs.appendFileSync(p, JSON.stringify(res, null, 2));
-
-
     });
+
+    for(var i in locales){
+      (function(i, res, locale){
+        var newLocal = res;
+        Object.keys(newLocal).forEach(function(key){
+          if(key in locale && 'translations' in locale[key]) {
+            newLocal[key].translations = locale[key].translations;
+          } else {
+            newLocal[key].translations = [];
+          }
+        });
+        var p = options.configDir + '/locales/' + i + '.json';
+        fs.unlinkSync(p);
+        fs.appendFileSync(p, JSON.stringify(newLocal, null, 2));
+      })(i, res, locales[i]);
+    }
   });
+
+
 
   grunt.registerHelper('compile', function(){
 
@@ -90,7 +111,7 @@ module.exports = function(grunt) {
       if(options.requireJS) {
         js += grunt.helper('appendRequirejsContent');
       } else {
-        js+= grunt.helper('appendModuleContent');
+        js += grunt.helper('appendModuleContent');
       }
 
       //Append translation content
@@ -111,6 +132,48 @@ module.exports = function(grunt) {
 
     });
 
+  });
+
+  /**
+    Check for error duplicate
+    @param Object res result that has already the key
+    @param String key
+    @param Array vars Translation vars
+    @throws Duplicate Translation Keys Error
+   */
+   grunt.registerHelper('hasErrorDuplicte', function(res, key, vars){
+
+    // Check for error duplicate
+    var errorDuplicate = false;
+    if(vars.length !== res[key].vars.length) {
+      errorDuplicate = true;
+    } else {
+      for(var i in vars) {
+        if(res[key].vars[i] !== vars[i]) {
+          errorDuplicate = true;
+          break;
+        }
+      }
+    }
+    if(errorDuplicate) {
+      throw {
+        name: 'Duplicate Translation Keys',
+        message: 'You have used gt(\'' + key + '\') and input two different vars: \n' + 'Variables: ' + res[key].vars.join(',') + '\n' + 'Is not equal: ' + vars.join(',')
+      };
+    }
+   });
+
+  /**
+    Get all locales
+    @return Object of all locales
+   */
+  grunt.registerHelper('getAllLocales', function(){
+    var files = grunt.file.expand(options.configDir + '/locales/*.json');
+    var locales = {};
+    files.forEach(function(locale){
+      locales[path.basename(locale, '.json')] = grunt.file.readJSON(locale);
+    });
+    return locales;
   });
 
   /**
@@ -145,11 +208,11 @@ module.exports = function(grunt) {
 
   /**
     Returns translation key from a translation function string
-    @param String fn A string of the function
+    @param String fn string of the function
     @return String Translation key
    */
   grunt.registerHelper('getTranslationKey', function(fn){
-    return (fn.match(/['|"][\w|-]+['|"]/))[0].replace(/'/g, '');
+    return (fn.match(/['|"][\w|\-|\s|\&]+['|"]/))[0].replace(/'/g, '');
   });
 
   /**
@@ -199,9 +262,11 @@ module.exports = function(grunt) {
         if(n !== 0) {
           t += ',' + grunt.utils.linefeed;
         }
+        if(translations[key].translations.length === 0){
 
-        // Minimum requirements for a conditional statement
-        if(translations[key].translations[0][0] === 'if') {
+          fb += '      return "HASH_NOT_TRANSLATED: ' + key + '";';
+
+        } else if(translations[key].translations[0][0] === 'if') {
 
           var trans = translations[key].translations;
           trans.forEach(function(condition){
@@ -239,7 +304,7 @@ module.exports = function(grunt) {
               }
 
               // Check translated text
-              grunt.helper('isTranslationText', condition[conditionAdditionIndex]);
+              grunt.helper('isTranslationText', condition[conditionAdditionIndex], key);
 
 
               // Add
@@ -250,7 +315,7 @@ module.exports = function(grunt) {
             } else {// If an else statement
 
               // Check translated text
-              grunt.helper('isTranslationText', condition[1]);
+              grunt.helper('isTranslationText', condition[1], key);
 
               fb += '      else {'+ grunt.utils.linefeed;
               fb += '        return ' + grunt.helper('reformatTranslatedText', condition[1], translations[key].vars) + ';' + grunt.utils.linefeed;
@@ -263,17 +328,13 @@ module.exports = function(grunt) {
         } else {
 
           // Check translated text
-          grunt.helper('isTranslationText', translations[key].translations);
+          grunt.helper('isTranslationText', translations[key].translations, key);
 
           fb += '      return ' + grunt.helper('reformatTranslatedText', translations[key].translations, translations[key].vars) + ';';
         }
 
-        // Make function
-        var params = translations[key].vars.map(function(item){
-          return item.replace('$', '');
-        });
         /*jshint evil:true */
-        t += '    "' + key + '": ' + (new Function(params, fb)).toString();
+        t += '    "' + key + '": ' + (new Function(['it'], fb)).toString();
         t = t.slice(0, -1) + '    }';
         /*jshint evil:false */
 
@@ -287,14 +348,17 @@ module.exports = function(grunt) {
     t += grunt.utils.linefeed + '  };' + grunt.utils.linefeed;
 
     // Return the t function
-    t += '  return function(hashkey) {' + grunt.utils.linefeed;
-    t += '    delete arguments[0];' + grunt.utils.linefeed;
-    t += '    for(var i in arguments) {' + grunt.utils.linefeed;
-    t += '      if(arguments.hasOwnProperty(i)){' + grunt.utils.linefeed;
-    t += '        arguments[i - 1] = arguments[i];' + grunt.utils.linefeed;
-    t += '      }' + grunt.utils.linefeed;
+    t += '  return function(translationKey) {' + grunt.utils.linefeed;
+    t += '    if(!(translationKey in t)) {' + grunt.utils.linefeed;
+    t += '      console.log("You have used an undefined translation key:" + translationKey);' + grunt.utils.linefeed;
+    t += '      return false;' + grunt.utils.linefeed;
     t += '    }' + grunt.utils.linefeed;
-    t += '    return t[hashkey].apply(undefined, arguments);' + grunt.utils.linefeed;
+    t += '    delete arguments[0];' + grunt.utils.linefeed;
+    t += '    if("1" in arguments) {' + grunt.utils.linefeed;
+    t += '      arguments[0] = arguments[1];' + grunt.utils.linefeed;
+    t += '    }' + grunt.utils.linefeed;
+    t += '    delete arguments[1];' + grunt.utils.linefeed;
+    t += '    return t[translationKey].apply(undefined, arguments);' + grunt.utils.linefeed;
     t += '  };' + grunt.utils.linefeed;
 
     // Return string
@@ -312,13 +376,13 @@ module.exports = function(grunt) {
     return text.replace(/\$\{\w+\}/g, function( m ){
 
       m = m.substring(2, m.length - 1);
-      if(vars.indexOf('$' + m) === -1) {
+      if(vars.indexOf(m) === -1) {
         throw {
-          name: 'Use of Undefined variable',
+          name: 'Use of undefined variable',
           message: '"' + m + '" is never defined'
         };
       }
-      return '\" + ' + m + ' + \"';
+      return '\" + it.' + m + ' + \"';
     });
 
   });
@@ -368,16 +432,17 @@ module.exports = function(grunt) {
     @param String text
     @return Boolean
    */
-  grunt.registerHelper('isTranslationText', function(text) {
-    function ttexterr(){
+  grunt.registerHelper('isTranslationText', function(text, key) {
+    if(typeof text === 'undefined') {
+      throw {
+        name: 'Undefined translation',
+        message: 'You have an undefined translation in:\n' + key
+      };
+    } else if(text.substr(0,1) !== '"' || text.substr(-1) !== '"') {
       throw {
         name: 'Translation Text Wrong Syntax',
         message: 'You have wrong syntaxt in: ' + text
       };
-    }
-
-    if(text.substr(0,1) !== '"' || text.substr(-1) !== '"') {
-      ttexterr();
     }
 
   });
@@ -390,16 +455,16 @@ module.exports = function(grunt) {
    */
   grunt.registerHelper('reformatOperandIfVariable', function(operand, vars) {
 
-    if(/\$\w+/.test(operand)) {
-      if(vars.indexOf(operand) !== -1) {
-        // Re-formats all params/vars
-        operand = operand.replace('$', '');
-      } else {
+    if(/^[a-zA-Z]\w+$/.test(operand)) {
+      // Re-formats all params/vars
+      operand = operand.replace('$', '');
+      if(vars.indexOf(operand) === -1) {
         throw {
           name: 'Use of Undefined Variable',
-          message: 'You have defined a variable in the translated text that is not used: ' + operand + ' should instead be one of ' + vars.join(', ')
+          message: 'You have defined a variable in the translated text that is not used: \n' + operand.replace('$', '') + ' should instead be one of ' + vars.join(', ')
         };
       }
+      operand = 'it.' + operand;
     }
     return operand;
   });

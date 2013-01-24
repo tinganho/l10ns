@@ -19,7 +19,7 @@ module.exports = function(grunt) {
         curly: true,
         eqeqeq: true,
         loopfunc: true,
-        forin: true,
+        forin: false,
         immed: true,
         latedef: true,
         newcap: true,
@@ -41,6 +41,7 @@ module.exports = function(grunt) {
       options: {
         configDir: './test/translations',
         requireJS: true,
+        defaultLanguage: 'en' // grunt-translate use it to update translation.
       },
       compile: {
         output: './test/translations/output'
@@ -54,7 +55,7 @@ module.exports = function(grunt) {
   grunt.loadTasks('tasks');
 
   // Default task.
-  grunt.registerTask('default', 'lint translate test');
+  grunt.registerTask('default', 'lint translate:update translate:compile test');
 
   grunt.loadNpmTasks('grunt-bump');
 
