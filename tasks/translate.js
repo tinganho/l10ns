@@ -50,7 +50,7 @@ module.exports = function(grunt) {
     var res = {};
 
     // get all locales
-    var locales = grunt.helper('getAllLocales');
+    var allTranslations = grunt.helper('getAllTranslations');
 
     var files = grunt.file.expand(options.files);
     files.forEach(function(file){
@@ -70,24 +70,56 @@ module.exports = function(grunt) {
         });
       }
     });
-
-    for(var i in locales){
-      (function(i, res, locale){
+    var locales = grunt.helper('getAllLocales');
+    locales.forEach(function(locale){
+      (function(res, locale){
         var newLocal = res;
         Object.keys(newLocal).forEach(function(key){
-          if(key in locale && 'translations' in locale[key]) {
-            newLocal[key].translations = locale[key].translations;
+          if(typeof allTranslations[locale] !== 'undefined') {
+            if(key in allTranslations[locale] && 'translations' in allTranslations[locale][key]) {
+              newLocal[key].translations = allTranslations[locale][key].translations;
+            } else {
+              newLocal[key].translations = [];
+            }
           } else {
             newLocal[key].translations = [];
           }
         });
-        var p = options.configDir + '/locales/' + i + '.json';
-        fs.unlinkSync(p);
+        var p = options.configDir + '/locales/' + locale + '.json';
+        if(fs.existsSync(p)) {
+          fs.unlinkSync(p);
+        }
         fs.appendFileSync(p, JSON.stringify(newLocal, null, 2));
-      })(i, res, locales[i]);
-    }
-  });
+      })(res, locale);
+    });
 
+
+    var languageStore = grunt.file.expand(options.configDir + '/locales/*.json');
+    languageStore = languageStore.concat(grunt.file.expand(options.configDir + '/output/*.js'));
+
+    languageStore.forEach(function(file){
+      var lang;
+
+      if(path.extname(file) === '.json') {
+        lang = path.basename(file, '.json');
+        console.log(locales);
+        if(locales.indexOf(lang) === -1) {
+          if(fs.existsSync(file)) {
+            fs.unlinkSync(file);
+          }
+        }
+      } else if(path.extname(file) === '.js') {
+        lang = path.basename(file, '.js');
+        if(locales.indexOf(lang) === -1) {
+          if(fs.existsSync(file)) {
+            fs.unlinkSync(file);
+          }
+        }
+      }
+
+    });
+
+  });
 
 
   grunt.registerHelper('compile', function(){
@@ -127,7 +159,10 @@ module.exports = function(grunt) {
       var filename = path.basename(file, '.json');
 
       var p = options.output + '/' + filename + '.js';
-      fs.unlinkSync(p);
+
+      if(fs.existsSync(p)) {
+        fs.unlinkSync(p);
+      }
       fs.appendFileSync(p, js);
 
     });
@@ -165,9 +200,18 @@ module.exports = function(grunt) {
 
   /**
     Get all locales
-    @return Object of all locales
+    return Array of all locales
    */
   grunt.registerHelper('getAllLocales', function(){
+    return Object.keys(grunt.file.readJSON(options.configDir + '/locales.json'));
+  });
+
+
+  /**
+    Get all locales
+    @return Object of all locales
+   */
+  grunt.registerHelper('getAllTranslations', function(){
     var files = grunt.file.expand(options.configDir + '/locales/*.json');
     var locales = {};
     files.forEach(function(locale){
@@ -444,7 +488,6 @@ module.exports = function(grunt) {
         message: 'You have wrong syntaxt in: ' + text
       };
     }
-
   });
 
   /**
