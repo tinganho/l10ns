@@ -3,7 +3,7 @@ grunt-translate [![Build Status](https://travis-ci.org/tinganho/grunt-translate.
 Translate dynamic text
 
 ## Getting Started
-Install this grunt plugin next to your project's [grunt.js gruntfile][getting_started] with: `npm install grunt-trinity`
+Install this grunt plugin next to your project's [grunt.js gruntfile][getting_started] with: `npm install grunt-translate`
 
 Then add this line to your project's `grunt.js` gruntfile:
 
@@ -20,7 +20,7 @@ This can not be done today. The most popular translation standard is the gettext
 
 ## Solution For Translators
 
-A translator translates in Trinity by:
+A translator translates in grunt-translate by:
 
 * (1) Search a hash string in a Translation Interface
 * (2) Translate it and hit save
