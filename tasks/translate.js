@@ -112,6 +112,7 @@ module.exports = function(grunt) {
             } else {
               deletedTranslations[key][locale] = [];
             }
+            deletedTranslations[key].timestamp = now;
           }
         }
       })(locale);
