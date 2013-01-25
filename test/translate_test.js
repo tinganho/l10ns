@@ -58,6 +58,8 @@ exports['grunt-translate'] = {
     var translations = JSON.parse(fs.readFileSync('test/translations/locales/en.json'));
     test.ok(typeof translations['It can have an if and else statement'].timestamp === 'number', 'It has a timestamp');
 
+    // Undelete translations
+
 
     test.done();
   }

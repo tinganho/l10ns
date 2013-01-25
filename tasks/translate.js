@@ -33,7 +33,8 @@ module.exports = function(grunt) {
       configDir: './translation',
       output: './translation/output',
       requireJS: true,
-      translationFunctionName: 'gt'
+      translationFunctionName: 'gt',
+      deleteLog: this.configDir + '/delete.log'
     });
 
     // Set UTF-8
@@ -50,7 +51,9 @@ module.exports = function(grunt) {
     var res = {};
 
     // get all locales
-    var allTranslations = grunt.helper('getAllTranslations');
+    var allTranslations = grunt.helper('getAllTranslations'),
+        deletedTranslations = {};
+
 
     var files = grunt.file.expand(options.files);
     files.forEach(function(file){
@@ -73,7 +76,7 @@ module.exports = function(grunt) {
     var now = (new Date()).getTime();
     var locales = grunt.helper('getAllLocales');
     locales.forEach(function(locale){
-      (function(res, locale){
+      (function(locale){
         var newLocal = res;
         Object.keys(newLocal).forEach(function(key){
           if(typeof allTranslations[locale] !== 'undefined') {
@@ -96,10 +99,27 @@ module.exports = function(grunt) {
           fs.unlinkSync(p);
         }
         fs.appendFileSync(p, JSON.stringify(newLocal, null, 2));
-      })(res, locale);
+
+        // Add deleted translation to delete log object
+        for(var key in allTranslations[locale]) {
+          if(!(key in newLocal)) {
+            deletedTranslations[key] = {};
+            if('translations' in allTranslations[locale][key]) {
+              deletedTranslations[key][locale] = allTranslations[locale][key].translations;
+            } else {
+              deletedTranslations[key][locale] = []
+            }
+          }
+        }
+      })(locale);
     });
 
+    // Add deleted translation to delete log
+    for( var key in deletedTranslations ) {
+      fs.appendFileSync(options.deleteLog, JSON.stringify(deletedTranslations[key], null, 2));
+    }
 
+    // Delete all the files that is not part of the locales.json
     var languageStore = grunt.file.expand(options.configDir + '/locales/*.json');
     languageStore = languageStore.concat(grunt.file.expand(options.configDir + '/output/*.js'));
 
@@ -181,7 +201,7 @@ module.exports = function(grunt) {
     @param Array vars Translation vars
     @throws Duplicate Translation Keys Error
    */
-   grunt.registerHelper('hasErrorDuplicte', function(res, key, vars){
+  grunt.registerHelper('hasErrorDuplicte', function(res, key, vars){
 
     // Check for error duplicate
     var errorDuplicate = false;
@@ -201,7 +221,7 @@ module.exports = function(grunt) {
         message: 'You have used gt(\'' + key + '\') and input two different vars: \n' + 'Variables: ' + res[key].vars.join(',') + '\n' + 'Is not equal: ' + vars.join(',')
       };
     }
-   });
+  });
 
   /**
     Get all locales
