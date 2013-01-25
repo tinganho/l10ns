@@ -29,12 +29,13 @@ module.exports = function(grunt) {
     options = _.extend(this.data || {}, grunt.config.get('translate').options);
 
     // Set default options
+    var translation = './translation';
     options = _.defaults( options, {
-      configDir: './translation',
+      configDir: translation,
       output: './translation/output',
       requireJS: true,
       translationFunctionName: 'gt',
-      deleteLog: this.configDir + '/delete.log'
+      deleteLog: options.configDir + '/delete.log'
     });
 
     // Set UTF-8
@@ -103,21 +104,36 @@ module.exports = function(grunt) {
         // Add deleted translation to delete log object
         for(var key in allTranslations[locale]) {
           if(!(key in newLocal)) {
-            deletedTranslations[key] = {};
+            if(!(key in deletedTranslations)){
+              deletedTranslations[key] = {};
+            }
             if('translations' in allTranslations[locale][key]) {
               deletedTranslations[key][locale] = allTranslations[locale][key].translations;
             } else {
-              deletedTranslations[key][locale] = []
+              deletedTranslations[key][locale] = [];
             }
           }
         }
       })(locale);
     });
 
+
     // Add deleted translation to delete log
-    for( var key in deletedTranslations ) {
-      fs.appendFileSync(options.deleteLog, JSON.stringify(deletedTranslations[key], null, 2));
+    var deleteLog;
+    if(fs.existsSync(options.deleteLog)) {
+      try {
+        deleteLog = grunt.file.readJSON(options.deleteLog);
+      } catch(e) {
+        deleteLog = {};
+      }
+    } else {
+      deleteLog = {};
     }
+    _.extend(deleteLog, deletedTranslations);
+    if(fs.existsSync(options.deleteLog)) {
+      fs.unlinkSync(options.deleteLog);
+    }
+    fs.appendFileSync(options.deleteLog, JSON.stringify(deleteLog, null, 2));
 
     // Delete all the files that is not part of the locales.json
     var languageStore = grunt.file.expand(options.configDir + '/locales/*.json');
@@ -252,12 +268,12 @@ module.exports = function(grunt) {
    */
   grunt.registerHelper('getVars', function(fn){
     var json = fn.match(/\{[\w|\s|:|"|'|\-|\{|\}|\,]*\}/);
-    json = grunt.helper('reFormatJson', json[0]);
-    if(json !== null) {
-      var vars = JSON.parse(json);
-      return Object.keys(vars);
+    if(json === null) {
+      return [];
     }
-    return [];
+    json = grunt.helper('reFormatJson', json[0]);
+    var vars = JSON.parse(json);
+    return Object.keys(vars);
   });
 
 

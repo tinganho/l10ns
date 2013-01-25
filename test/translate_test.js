@@ -59,8 +59,17 @@ exports['grunt-translate'] = {
     test.ok(typeof translations['It can have an if and else statement'].timestamp === 'number', 'It has a timestamp');
 
     // Undelete translations
+    // var p = 'test/example/deletedTranslationTest.js';
+    // if(fs.existsSync(p)) {
+    //   fs.unlinkSync(p);
+    // }
+    // fs.appendFileSync(p, 'function test() { gt(\'deleted-translation-test\'); };');
+
+
+
 
 
     test.done();
+
   }
 };
