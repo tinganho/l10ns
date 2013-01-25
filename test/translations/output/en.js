@@ -16,7 +16,7 @@ define(function() {
         return "Number is exactly 3";
       }
       else if( it.number > 1 ) {
-        return "Number is " + it.number + "";
+        return "Number is <p>" + it.number + "</p>";
       }
       else {
         return "Number is smaller than 2";
@@ -56,6 +56,9 @@ define(function() {
       else {
         return "Firstname and last is not Tingan Ho";
       }
+    },
+    "It can have html <p></p><h1></h1>": function anonymous(it) {
+      return "It can have html <p></p><h1></h1>";
     }
   };
   return function(translationKey) {

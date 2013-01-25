@@ -23,6 +23,9 @@ define(function() {
     },
     "It can take several || in if statement": function anonymous(it) {
       return "HASH_NOT_TRANSLATED: It can take several || in if statement";
+    },
+    "It can have html <p></p><h1></h1>": function anonymous(it) {
+      return "HASH_NOT_TRANSLATED: It can have html <p></p><h1></h1>";
     }
   };
   return function(translationKey) {

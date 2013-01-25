@@ -58,6 +58,9 @@ exports['grunt-translate'] = {
     var translations = JSON.parse(fs.readFileSync('test/translations/locales/en.json'));
     test.ok(typeof translations['It can have an if and else statement'].timestamp === 'number', 'It has a timestamp');
 
+    // Html
+    test.equal(gt('It can have html <p></p><h1></h1>'), 'It can have html <p></p><h1></h1>', 'It can have html tags');
+
     // Undelete translations
     // var p = 'test/example/deletedTranslationTest.js';
     // if(fs.existsSync(p)) {

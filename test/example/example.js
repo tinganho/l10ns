@@ -22,6 +22,7 @@ function test() {
     firstname: 'Tingan',
     lastname: 'Ho'
   });
+  gt('It can have html <p></p><h1></h1>');
 
 
 }

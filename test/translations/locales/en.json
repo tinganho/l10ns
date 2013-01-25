@@ -35,7 +35,7 @@
         "number",
         ">",
         "1",
-        "\"Number is ${number}\""
+        "\"Number is <p>${number}</p>\""
       ],
       [
         "else",
@@ -154,5 +154,10 @@
       ]
     ],
     "timestamp": 1359025336849
+  },
+  "It can have html <p></p><h1></h1>": {
+    "vars": [],
+    "translations": "\"It can have html <p></p><h1></h1>\"",
+    "timestamp": 1359132496757
   }
 }

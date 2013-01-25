@@ -59,7 +59,8 @@ module.exports = function(grunt) {
     var files = grunt.file.expand(options.files);
     files.forEach(function(file){
       var content = grunt.file.read(file);
-      var regex = new RegExp('\\s+' + options.translationFunctionName + '\\(\\s*[\'|"][\\w|\\-|\\s|\\&]+[\'|"](\\,\\s*\\{[\\w|\\s|\\:|\'|"|\\,]*\\})?\\)', 'g');
+      var regex = new RegExp('\\s+' + options.translationFunctionName + '\\(\\s*[\'|"][\\w|\\-|\\s|\\&|<|>|\\/]+[\'|"](\\,\\s*\\{[\\w|\\s|\\:|\'|"|\\,]*\\})?\\)', 'g');
+      console.log(regex);
       var translations = content.match(regex);
       if(translations !== null) {
         translations.forEach(function(translation){
@@ -268,7 +269,7 @@ module.exports = function(grunt) {
     @return Array of all vars
    */
   grunt.registerHelper('getVars', function(fn){
-    var json = fn.match(/\{[\w|\s|:|"|'|\-|\{|\}|\,]*\}/);
+    var json = fn.match(/\{[\w|\s|:|"|'|\-|\{|\}|\,|\/]*\}/);
     if(json === null) {
       return [];
     }
@@ -298,7 +299,7 @@ module.exports = function(grunt) {
     @return String Translation key
    */
   grunt.registerHelper('getTranslationKey', function(fn){
-    return (fn.match(/['|"][\w|\-|\s|\&]+['|"]/))[0].replace(/'/g, '');
+    return (fn.match(/['|"][\w|\-|\s|\&|<|>|\/]+['|"]/))[0].replace(/'/g, '');
   });
 
   /**
@@ -526,7 +527,7 @@ module.exports = function(grunt) {
     } else if(text.substr(0,1) !== '"' || text.substr(-1) !== '"') {
       throw {
         name: 'Translation Text Wrong Syntax',
-        message: 'You have wrong syntaxt in: ' + text
+        message: 'You have missed quotation in:\n' + text
       };
     }
   });

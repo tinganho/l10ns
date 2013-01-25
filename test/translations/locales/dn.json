@@ -51,5 +51,10 @@
     ],
     "translations": [],
     "timestamp": 1359025336852
+  },
+  "It can have html <p></p><h1></h1>": {
+    "vars": [],
+    "translations": [],
+    "timestamp": 1359132496757
   }
 }
