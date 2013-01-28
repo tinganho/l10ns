@@ -55,7 +55,7 @@ module.exports = function(grunt) {
         deletedTranslations = {};
 
 
-    var files = grunt.file.expand(options.files);
+    var files = grunt.file.expandFiles(options.files);
     files.forEach(function(file){
       var content = grunt.file.read(file);
       var regex = new RegExp('\\s+' + options.translationFunctionName + '\\(\\s*[\'|"][\\w|\\-|\\s|\\&|<|>|\\/]+[\'|"](\\,\\s*\\{[\\w|\\s|\\:|\'|"|\\,]*\\})?\\)', 'g');
@@ -136,8 +136,8 @@ module.exports = function(grunt) {
     fs.appendFileSync(options.deleteLog, JSON.stringify(deleteLog, null, 2));
 
     // Delete all the files that is not part of the locales.json
-    var languageStore = grunt.file.expand(options.configDir + '/locales/*.json');
-    languageStore = languageStore.concat(grunt.file.expand(options.configDir + '/output/*.js'));
+    var languageStore = grunt.file.expandFiles(options.configDir + '/locales/*.json');
+    languageStore = languageStore.concat(grunt.file.expandFiles(options.configDir + '/output/*.js'));
 
     languageStore.forEach(function(file){
       var lang;
@@ -166,7 +166,7 @@ module.exports = function(grunt) {
   grunt.registerHelper('compile', function(){
 
     // Get all localization files
-    var files = grunt.file.expand(options.configDir + '/locales/**/*.json');
+    var files = grunt.file.expandFiles(options.configDir + '/locales/**/*.json');
 
     // Check configuration are right
     if( !fs.existsSync(options.configDir + '/locales.json') ) {
@@ -253,7 +253,7 @@ module.exports = function(grunt) {
     @return Object of all locales
    */
   grunt.registerHelper('getAllTranslations', function(){
-    var files = grunt.file.expand(options.configDir + '/locales/*.json');
+    var files = grunt.file.expandFiles(options.configDir + '/locales/*.json');
     var locales = {};
     files.forEach(function(locale){
       locales[path.basename(locale, '.json')] = grunt.file.readJSON(locale);
