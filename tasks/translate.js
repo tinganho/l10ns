@@ -16,7 +16,6 @@ module.exports = function(grunt) {
   // Requires
   var fs     = require('fs'),
       path   = require('path'),
-      prompt = require('prompt'),
       _      = grunt.utils._;
 
   // vars
