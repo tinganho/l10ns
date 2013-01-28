@@ -59,7 +59,6 @@ module.exports = function(grunt) {
     files.forEach(function(file){
       var content = grunt.file.read(file);
       var regex = new RegExp('\\s+' + options.translationFunctionName + '\\(\\s*[\'|"][\\w|\\-|\\s|\\&|<|>|\\/]+[\'|"](\\,\\s*\\{[\\w|\\s|\\:|\'|"|\\,]*\\})?\\)', 'g');
-      console.log(regex);
       var translations = content.match(regex);
       if(translations !== null) {
         translations.forEach(function(translation){
