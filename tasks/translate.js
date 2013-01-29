@@ -94,11 +94,15 @@ module.exports = function(grunt) {
             newLocal[key].translations = [];
           }
         });
-        var p = options.configDir + '/locales/' + locale + '.json';
+        var localPath = options.configDir + '/locales/';
+        if(!fs.existsSync(localPath)) {
+          fs.mkdirSync(localPath);
+        }
+        var p = localPath + locale + '.json';
         if(fs.existsSync(p)) {
           fs.unlinkSync(p);
         }
-        fs.appendFileSync(p, JSON.stringify(newLocal, null, 2));
+        fs.writeFileSync(p, JSON.stringify(newLocal, null, 2));
 
         // Add deleted translation to delete log object
         for(var key in allTranslations[locale]) {
@@ -174,6 +178,11 @@ module.exports = function(grunt) {
         name:     'Configuration Directory Misconfiguration',
         message:  'Please see configurations to correct your failures'
       };
+    }
+
+    var output = options.configDir + '/output';
+    if( !fs.existsSync(output)) {
+      fs.mkdirSync(output);
     }
 
     // Define translation file content
