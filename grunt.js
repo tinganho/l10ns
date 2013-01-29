@@ -47,7 +47,7 @@ module.exports = function(grunt) {
         output: './test/translations/output'
       },
       update: {
-        files: ['./test/example/**/*.js']
+        src: ['./test/example/**/*.js']
       }
     }
   });

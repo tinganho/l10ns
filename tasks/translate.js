@@ -55,7 +55,7 @@ module.exports = function(grunt) {
         deletedTranslations = {};
 
 
-    var files = grunt.file.expandFiles(options.files);
+    var files = grunt.file.expand(options.src);
     files.forEach(function(file){
       var content = grunt.file.read(file);
       var regex = new RegExp('\\s+' + options.translationFunctionName + '\\(\\s*[\'|"][\\w|\\-|\\s|\\&|<|>|\\/]+[\'|"](\\,\\s*\\{[\\w|\\s|\\:|\'|"|\\,]*\\})?\\)', 'g');
