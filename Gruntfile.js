@@ -68,8 +68,8 @@ module.exports = function(grunt) {
             suffix: ')',
             root: __dirname + '/app/profiles'
         },
-        src: ['app/**/*.dot'],
-        dest: 'app/public/templates/tmpl.js'
+        src: ['tasks/**/*.dot'],
+        dest: 'tasks/translation_interface/build/tmpl.js'
       }
     },
 
