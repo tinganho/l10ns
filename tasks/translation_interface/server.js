@@ -20,7 +20,6 @@ GruntTranslate.server = function() {
 
     server.use( express.methodOverride() );
     server.use( server.router );
-    server.use( '/', express['static'](  __dirname ) );
 
   });
 

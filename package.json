@@ -34,8 +34,7 @@
     "requirejs": "~2.1.2",
     "express": "~3.1.0",
     "http": "0.0.0",
-    "optparse": "~1.0.4",
-    "grunt-dot-compiler": "~0.2.20"
+    "optparse": "~1.0.4"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.1.0",
@@ -43,7 +42,7 @@
     "mocha": "~1.8.1",
     "grunt-contrib-nodeunit": "~0.1.1",
     "grunt-contrib-compass": "~0.1.0",
-    "grunt-contrib-dot-compiler": "~0.2.13"
+    "grunt-contrib-dot-compiler": "~0.2.14"
   },
   "keywords": [
     "gruntplugin"
