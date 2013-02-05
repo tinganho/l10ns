@@ -220,4 +220,9 @@ module.exports = function(grunt) {
     });
 
   };
+
+  var server = require('./translation_interface/server');
+  GruntTranslate = _.extend(GruntTranslate, server);
+
+
 };

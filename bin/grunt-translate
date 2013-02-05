@@ -1,3 +1,22 @@
 #!/usr/bin/env node
 
+// Import the sys library
+var sys = require('sys');
+
+// Import the optparse library.
+var optparse = require('optparse');
+
+// Switches
+var switches = [
+    ['-h', '--help', 'Shows help sections']
+];
+
+var arguments = process.argv.splice(2);
+
+switch(arguments[0]) {
+  case 'server':
+  var server = require('../tasks/translation_interface/server');
+  server.server();
+
+}
 
