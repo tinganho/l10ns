@@ -1,4 +1,4 @@
-grunt-translate [![Build Status](https://travis-ci.org/tinganho/grunt-translate.png)](https://travis-ci.org/tinganho/grunt-translate)
+grunt-contrib-translate [![Build Status](https://travis-ci.org/tinganho/grunt-contrib-translate.png)](https://travis-ci.org/tinganho/grunt-contrib-translate)
 ==============
 Translate dynamic text
 
