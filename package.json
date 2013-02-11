@@ -21,7 +21,7 @@
     }
   ],
   "main": "grunt.js",
-  "bin": "bin/grunt-translate",
+  "bin": "bin/gt",
   "engines": {
     "node": "*"
   },
@@ -34,7 +34,9 @@
     "requirejs": "~2.1.2",
     "express": "~3.1.0",
     "http": "0.0.0",
-    "optparse": "~1.0.4"
+    "optparse": "~1.0.4",
+    "jsdom": "~0.3.4",
+    "backbone": "~0.9.10"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.1.0",
@@ -42,7 +44,8 @@
     "mocha": "~1.8.1",
     "grunt-contrib-nodeunit": "~0.1.1",
     "grunt-contrib-compass": "~0.1.0",
-    "grunt-contrib-dot-compiler": "~0.2.14"
+    "grunt-contrib-dot-compiler": "~0.2.14",
+    "grunt-contrib-watch": "~0.1.4"
   },
   "keywords": [
     "gruntplugin"

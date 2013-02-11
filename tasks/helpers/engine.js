@@ -1,5 +1,5 @@
 var grunt   = require('grunt'),
-    config  = require('./config')
+    config  = require('./config');
 
 
 var engine = {};

@@ -2,7 +2,15 @@
 var express   = require('express'),
     fs        = require('fs'),
     http      = require('http'),
-    path      = require('path');
+    path      = require('path'),
+    requirejs = require('requirejs');
+
+requirejs.config({
+
+  baseUrl: __dirname,
+  nodeRequire: require
+
+});
 
 var GruntTranslate = {};
 
@@ -20,9 +28,10 @@ GruntTranslate.server = function() {
 
     server.use( express.methodOverride() );
     server.use( server.router );
+    server.use( '/static', express.static(__dirname + '/build'));
+    server.use( '/tasks/translation_interface/images', express.static(__dirname + '/images'));
 
   });
-
 
   server.configure( 'development', function() {
     server.use( express.errorHandler() );
@@ -35,6 +44,6 @@ GruntTranslate.server = function() {
     console.log( 'Express server listening on port ' + server.get('port') );
   });
 
-}
+};
 
 module.exports = GruntTranslate;

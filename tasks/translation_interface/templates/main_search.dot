@@ -1,0 +1,4 @@
+<div id="search-wrapper">
+  <i class="eye-glass main-eye-glass fl-lt d-bl"></i>
+  <input class="search-input" value="Search"></input>
+</div>

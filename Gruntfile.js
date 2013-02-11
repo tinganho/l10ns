@@ -24,21 +24,29 @@ module.exports = function(grunt) {
         eqnull: true,
         node: true,
         es5: true,
-        supernew: true
+        supernew: true,
+        strict: false,
+        globals: {
+          gt: true
+        }
       },
-      globals: {
-        gt: true
-      },
-      files: ['grunt.js', 'tasks/**/*.js']
+
+      files: [
+        'grunt.js',
+        'tasks/**/*.js',
+        '!tasks/translation_interface/build/tmpl.js'
+      ]
     },
 
     compass: {
       dist: {
         options: {
-          sassDir: 'sass',
-          cssDir: 'css',
-          debug_info: true,
-          no_line_comments: true
+          require: ['susy', 'stylewithclass', 'sassy-buttons'],
+          sassDir: 'tasks/translation_interface/styles',
+          cssDir: 'tasks/translation_interface/build',
+          debugInfo: true,
+          noLineComments: true,
+          imagesDir: 'tasks/translation_interface/images'
         }
       }
     },
@@ -77,6 +85,16 @@ module.exports = function(grunt) {
       templates: {
         files: '**/*.dot',
         tasks: ['compile-templates']
+      },
+
+      jshint: {
+        files: ['**/*.js', 'Gruntfile.js', 'bin/**/*.js', 'tasks/**/*.js'],
+        tasks: ['jshint']
+      },
+
+      compass: {
+        files: ['tasks/**/*.scss'],
+        tasks: ['compass']
       }
     }
 
