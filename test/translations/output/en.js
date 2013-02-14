@@ -59,6 +59,9 @@ define(function() {
     },
     "It can have html <p></p><h1></h1>": function anonymous(it) {
       return "It can have html <p></p><h1></h1>";
+    },
+    "It can have dots..": function anonymous(it) {
+      return "Yes it can";
     }
   };
   return function(translationKey) {

@@ -61,12 +61,9 @@ exports['grunt-translate'] = {
     // Html
     test.equal(gt('It can have html <p></p><h1></h1>'), 'It can have html <p></p><h1></h1>', 'It can have html tags');
 
-    // Undelete translations
-    // var p = 'test/example/deletedTranslationTest.js';
-    // if(fs.existsSync(p)) {
-    //   fs.unlinkSync(p);
-    // }
-    // fs.appendFileSync(p, 'function test() { gt(\'deleted-translation-test\'); };');
+    // Updating
+    test.ok(gt('It can have dots..'), 'It can have dots..');
+
 
 
 

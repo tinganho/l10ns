@@ -64,7 +64,7 @@ config.getAllTranslations = function(options){
   @return String Translation key
  */
 config.getTranslationKey = function(fn){
-  return (fn.match(/['|"][\w|\-|\s|\&|<|>|\/]+['|"]/))[0].replace(/'/g, '');
+  return (fn.match(/['|"][\w|\-|\s|\&|<|>|\/|\.]+['|"]/))[0].replace(/'/g, '');
 };
 
 /**
@@ -73,7 +73,7 @@ config.getTranslationKey = function(fn){
   @return Array of all vars
  */
 config.getVars = function(fn){
-  var json = fn.match(/\{[\w|\s|:|"|'|\-|\{|\}|\,|\/]*\}/);
+  var json = fn.match(/\{[\w|\s|:|"|'|\-|\{|\}|\,|\/|\.]*\}/);
   if(json === null) {
     return [];
   }

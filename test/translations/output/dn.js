@@ -26,6 +26,9 @@ define(function() {
     },
     "It can have html <p></p><h1></h1>": function anonymous(it) {
       return "HASH_NOT_TRANSLATED: It can have html <p></p><h1></h1>";
+    },
+    "It can have dots..": function anonymous(it) {
+      return "HASH_NOT_TRANSLATED: It can have dots..";
     }
   };
   return function(translationKey) {

@@ -159,5 +159,10 @@
     "vars": [],
     "translations": "\"It can have html <p></p><h1></h1>\"",
     "timestamp": 1359132496757
+  },
+  "It can have dots..": {
+    "vars": [],
+    "translations": "\"Yes it can\"",
+    "timestamp": 1360830752389
   }
 }

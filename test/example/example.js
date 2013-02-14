@@ -23,5 +23,6 @@ function test() {
     lastname: 'Ho'
   });
   gt('It can have html <p></p><h1></h1>');
+  gt('It can have dots..');
 
 }
