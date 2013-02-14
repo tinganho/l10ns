@@ -20,6 +20,8 @@ module.exports = function(grunt) {
       engine = require('./helpers/engine'),
       config = require('./helpers/config');
 
+  grunt.util = grunt.util || grunt.utils;
+
   // vars
   var options;
 

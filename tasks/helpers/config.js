@@ -3,6 +3,8 @@ var grunt = require('grunt'),
     path = require('path'),
     OPERATORS = require('./operators');
 
+grunt.util = grunt.util || grunt.utils;
+
 var config = {};
 
 /**

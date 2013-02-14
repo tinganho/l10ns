@@ -1,6 +1,7 @@
 var grunt   = require('grunt'),
     config  = require('./config');
 
+grunt.util = grunt.util || grunt.utils;
 
 var engine = {};
 
