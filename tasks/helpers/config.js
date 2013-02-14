@@ -1,7 +1,7 @@
-var grunt = require('grunt'),
-    engine = require('./engine'),
-    path = require('path'),
-    OPERATORS = require('./operators');
+var grunt       = require('grunt'),
+    engine      = require('./engine'),
+    path        = require('path'),
+    OPERATORS   = require('./operators');
 
 grunt.util = grunt.util || grunt.utils;
 grunt.file.expand = grunt.file.expandFiles || grunt.file.expand;
