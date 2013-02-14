@@ -4,6 +4,7 @@ var grunt = require('grunt'),
     OPERATORS = require('./operators');
 
 grunt.util = grunt.util || grunt.utils;
+grunt.file.expand = grunt.file.expandFiles || grunt.file.expand;
 
 var config = {};
 

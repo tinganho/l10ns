@@ -2,6 +2,7 @@ var grunt   = require('grunt'),
     config  = require('./config');
 
 grunt.util = grunt.util || grunt.utils;
+grunt.file.expand = grunt.file.expandFiles || grunt.file.expand;
 
 var engine = {};
 
