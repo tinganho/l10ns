@@ -58,11 +58,34 @@ exports['grunt-translate'] = {
     var translations = JSON.parse(fs.readFileSync('test/translations/locales/en.json'));
     test.ok(typeof translations['It can have an if and else statement'].timestamp === 'number', 'It has a timestamp');
 
-    // Html
-    test.equal(gt('It can have html <p></p><h1></h1>'), 'It can have html <p></p><h1></h1>', 'It can have html tags');
+    // Special chars
+    test.ok(gt('It can have ..'), 'It can have ..');
+    test.ok(gt('It can have ,,'), 'It can have ,,');// Semi colon doesn't work
+    test.ok(gt('It can have __'), 'It can have __');
+    test.ok(gt('It can have ’’'), 'It can have ’’');
+    test.ok(gt('It can have &&'), 'It can have &&');
+    test.ok(gt('It can have %%'), 'It can have %%');
+    test.ok(gt('It can have $$'), 'It can have $$');
+    test.ok(gt('It can have €€'), 'It can have €€');
+    test.ok(gt('It can have ##'), 'It can have ##');
+    test.ok(gt('It can have ??'), 'It can have ??');
+    test.ok(gt('It can have !!'), 'It can have !!');
+    test.ok(gt('It can have <>'), 'It can have <>');
 
-    // Updating
-    test.ok(gt('It can have dots..'), 'It can have dots..');
+    test.ok(gt('It can have ^^'), 'It can have ^^');
+    test.ok(gt('It can have ´´'), 'It can have ´´');
+    test.ok(gt('It can have ``'), 'It can have ``');
+
+    // Math
+    test.ok(gt('It can have =='), 'It can have ==');
+    test.ok(gt('It can have ++'), 'It can have ++');
+    test.ok(gt('It can have --'), 'It can have --');
+    test.ok(gt('It can have **'), 'It can have **');
+    test.ok(gt('It can have //'), 'It can have //');
+
+    // Quotations
+    test.ok(gt('It can have \''), 'It can have \'');
+    test.ok(gt('It can have \"'), 'It can have \"');
 
 
 

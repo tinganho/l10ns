@@ -89,7 +89,7 @@ module.exports = function(grunt) {
 
       jshint: {
         files: ['**/*.js', 'Gruntfile.js', 'bin/**/*.js', 'tasks/**/*.js'],
-        tasks: ['jshint']
+        tasks: ['jshint', 'translate:update', 'translate:compile', 'nodeunit']
       },
 
       compass: {
@@ -109,7 +109,7 @@ module.exports = function(grunt) {
 
 
   // Default task.
-  grunt.registerTask('default', 'lint translate:update translate:compile test');
+  grunt.registerTask('default', 'jshint translate:update translate:compile test');
 
 
 

@@ -57,11 +57,71 @@ define(function() {
         return "Firstname and last is not Tingan Ho";
       }
     },
-    "It can have html <p></p><h1></h1>": function anonymous(it) {
-      return "It can have html <p></p><h1></h1>";
+    "It can have <>": function anonymous(it) {
+      return "HASH_NOT_TRANSLATED: It can have <>";
     },
-    "It can have dots..": function anonymous(it) {
-      return "Yes it can";
+    "It can have ..": function anonymous(it) {
+      return "HASH_NOT_TRANSLATED: It can have ..";
+    },
+    "It can have ,,": function anonymous(it) {
+      return "HASH_NOT_TRANSLATED: It can have ,,";
+    },
+    "It can have ’’": function anonymous(it) {
+      return "HASH_NOT_TRANSLATED: It can have ’’";
+    },
+    "It can have __": function anonymous(it) {
+      return "HASH_NOT_TRANSLATED: It can have __";
+    },
+    "It can have &&": function anonymous(it) {
+      return "HASH_NOT_TRANSLATED: It can have &&";
+    },
+    "It can have %%": function anonymous(it) {
+      return "HASH_NOT_TRANSLATED: It can have %%";
+    },
+    "It can have $$": function anonymous(it) {
+      return "HASH_NOT_TRANSLATED: It can have $$";
+    },
+    "It can have €€": function anonymous(it) {
+      return "HASH_NOT_TRANSLATED: It can have €€";
+    },
+    "It can have ##": function anonymous(it) {
+      return "HASH_NOT_TRANSLATED: It can have ##";
+    },
+    "It can have ??": function anonymous(it) {
+      return "HASH_NOT_TRANSLATED: It can have ??";
+    },
+    "It can have !!": function anonymous(it) {
+      return "HASH_NOT_TRANSLATED: It can have !!";
+    },
+    "It can have ^^": function anonymous(it) {
+      return "HASH_NOT_TRANSLATED: It can have ^^";
+    },
+    "It can have ´´": function anonymous(it) {
+      return "HASH_NOT_TRANSLATED: It can have ´´";
+    },
+    "It can have ``": function anonymous(it) {
+      return "HASH_NOT_TRANSLATED: It can have ``";
+    },
+    "It can have ==": function anonymous(it) {
+      return "HASH_NOT_TRANSLATED: It can have ==";
+    },
+    "It can have ++": function anonymous(it) {
+      return "HASH_NOT_TRANSLATED: It can have ++";
+    },
+    "It can have --": function anonymous(it) {
+      return "HASH_NOT_TRANSLATED: It can have --";
+    },
+    "It can have **": function anonymous(it) {
+      return "HASH_NOT_TRANSLATED: It can have **";
+    },
+    "It can have //": function anonymous(it) {
+      return "HASH_NOT_TRANSLATED: It can have //";
+    },
+    "It can have \'": function anonymous(it) {
+      return "HASH_NOT_TRANSLATED: It can have \'";
+    },
+    "It can have \"": function anonymous(it) {
+      return "HASH_NOT_TRANSLATED: It can have \"";
     }
   };
   return function(translationKey) {

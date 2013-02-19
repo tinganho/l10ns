@@ -62,11 +62,13 @@ module.exports = function(grunt) {
     var files = grunt.file.expand({ filter: 'isFile' },options.src);
     files.forEach(function(file){
       var content = grunt.file.read(file);
-      var regex = new RegExp('\\s+' + options.translationFunctionName + '\\(\\s*[\'|"][\\w|\\-|\\s|\\&|<|>|\\/|\\.]+[\'|"](\\,\\s*\\{[\\w|\\s|\\:|\'|"|\\,]*\\})?\\)', 'g');
+      var regex = /\s+gt\(\s*['|"][\w|\-|\s|\&|<|>|\/|\.|’|'|"|€|\$|%|#|\?|!|,|\_|\^|`|´|\+|=|\*|\\]+['|"](\,\s*\{[\w|\s|\:|'|"|\,]*\})?\)/g;
       var translations = content.match(regex);
+
       if(translations !== null) {
         translations.forEach(function(translation){
           var key = config.getTranslationKey(translation);
+
           var vars = config.getVars(translation);
           if(!( key in res )) {
             res[key] = {};

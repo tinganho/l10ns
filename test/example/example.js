@@ -22,7 +22,35 @@ function test() {
     firstname: 'Tingan',
     lastname: 'Ho'
   });
-  gt('It can have html <p></p><h1></h1>');
-  gt('It can have dots..');
+
+  // Special chars
+  gt('It can have <>');
+  gt('It can have ..');
+  gt('It can have ,,');
+  gt('It can have ’’');
+  gt('It can have __');
+  gt('It can have &&');
+  gt('It can have %%');
+  gt('It can have $$');
+  gt('It can have €€');
+  gt('It can have ##');
+  gt('It can have ??');
+  gt('It can have !!');
+
+  gt('It can have ^^');
+  gt('It can have ´´');
+  gt('It can have ``');
+
+  // Math
+  gt('It can have ==');
+  gt('It can have ++');
+  gt('It can have --');
+  gt('It can have **');
+  gt('It can have //');
+
+  // Quotation
+  gt('It can have \'');
+  gt('It can have \"');
+
 
 }

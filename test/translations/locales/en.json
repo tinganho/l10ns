@@ -155,14 +155,114 @@
     ],
     "timestamp": 1359025336849
   },
-  "It can have html <p></p><h1></h1>": {
+  "It can have <>": {
     "vars": [],
-    "translations": "\"It can have html <p></p><h1></h1>\"",
-    "timestamp": 1359132496757
+    "translations": [],
+    "timestamp": 1361260151027
   },
-  "It can have dots..": {
+  "It can have ..": {
     "vars": [],
-    "translations": "\"Yes it can\"",
-    "timestamp": 1360830752389
+    "translations": [],
+    "timestamp": 1361260813314
+  },
+  "It can have ,,": {
+    "vars": [],
+    "translations": [],
+    "timestamp": 1361260813314
+  },
+  "It can have ’’": {
+    "vars": [],
+    "translations": [],
+    "timestamp": 1361260813314
+  },
+  "It can have __": {
+    "vars": [],
+    "translations": [],
+    "timestamp": 1361260813314
+  },
+  "It can have &&": {
+    "vars": [],
+    "translations": [],
+    "timestamp": 1361260813314
+  },
+  "It can have %%": {
+    "vars": [],
+    "translations": [],
+    "timestamp": 1361260813314
+  },
+  "It can have $$": {
+    "vars": [],
+    "translations": [],
+    "timestamp": 1361260813314
+  },
+  "It can have €€": {
+    "vars": [],
+    "translations": [],
+    "timestamp": 1361260813314
+  },
+  "It can have ##": {
+    "vars": [],
+    "translations": [],
+    "timestamp": 1361260813314
+  },
+  "It can have ??": {
+    "vars": [],
+    "translations": [],
+    "timestamp": 1361260813314
+  },
+  "It can have !!": {
+    "vars": [],
+    "translations": [],
+    "timestamp": 1361260813314
+  },
+  "It can have ^^": {
+    "vars": [],
+    "translations": [],
+    "timestamp": 1361260813314
+  },
+  "It can have ´´": {
+    "vars": [],
+    "translations": [],
+    "timestamp": 1361260813314
+  },
+  "It can have ``": {
+    "vars": [],
+    "translations": [],
+    "timestamp": 1361260813314
+  },
+  "It can have ==": {
+    "vars": [],
+    "translations": [],
+    "timestamp": 1361260813314
+  },
+  "It can have ++": {
+    "vars": [],
+    "translations": [],
+    "timestamp": 1361260813314
+  },
+  "It can have --": {
+    "vars": [],
+    "translations": [],
+    "timestamp": 1361260813314
+  },
+  "It can have **": {
+    "vars": [],
+    "translations": [],
+    "timestamp": 1361260813314
+  },
+  "It can have //": {
+    "vars": [],
+    "translations": [],
+    "timestamp": 1361260813314
+  },
+  "It can have \\'": {
+    "vars": [],
+    "translations": [],
+    "timestamp": 1361261618370
+  },
+  "It can have \\\"": {
+    "vars": [],
+    "translations": [],
+    "timestamp": 1361260837077
   }
 }
