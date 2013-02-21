@@ -1,0 +1,48 @@
+#main-menu {
+  width: 100%;
+  background-color: rgb(211, 56, 56);
+  height: 63px;
+  @include single-box-shadow(rgba(0, 0, 0, 0.3), 0px, 2px, 5px, 0px);
+
+  #search-wrapper {
+    margin-top: 2px;
+
+
+    .eye-glass {
+      width: 30px;
+      height: 30px;
+      margin-top: 15px;
+      margin-right: 20px;
+    }
+
+    .search-input {
+      background-color: transparent;
+      border: none;
+      height: 54px;
+      outline: none;
+      font-size: 24px;
+      @include span-columns(9, 12);
+    }
+  }
+
+  .menu-items {
+    li {
+      padding: 0px 23px;
+      height: 100%;
+      font-size: 18px;
+      font-family: helvetica;
+      font-weight: thin;
+      line-height: 63px;
+      cursor: pointer;
+
+      &.active {
+        background-color: rgba(0, 0, 0, 0.2);
+      }
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.2);
+      }
+    }
+  }
+
+}

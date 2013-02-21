@@ -1,0 +1,5 @@
+<select class="language-select">
+  {{ for(var prop in it) { }}
+  <option value="{{=prop}}">{{=it[prop]}}</option>
+  {{ } }}
+</select>

@@ -1,0 +1,5 @@
+<ul class="m-translation-keys">
+  {{ for(var keys in it) { }}
+  <li><a>{{=keys}}</a></li>
+  {{ } }}
+</ul>
