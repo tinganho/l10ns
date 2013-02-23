@@ -26,7 +26,7 @@
     "node": "*"
   },
   "scripts": {
-    "test": "grunt nodeunit"
+    "test": "bin/test"
   },
   "dependencies": {
     "grunt": "~0.4",
@@ -43,7 +43,6 @@
     "grunt-contrib-jshint": "~0.1.0",
     "chai": "~1.4.2",
     "mocha": "~1.8.1",
-    "grunt-contrib-nodeunit": "~0.1.1",
     "grunt-contrib-compass": "~0.1.0",
     "grunt-contrib-dot-compiler": "~0.2.14",
     "grunt-contrib-watch": "~0.1.4"
