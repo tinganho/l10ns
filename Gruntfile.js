@@ -104,7 +104,6 @@ module.exports = function(grunt) {
   // Load local tasks.
   grunt.loadTasks('lib');
   grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-nodeunit');
   grunt.loadNpmTasks('grunt-contrib-compass');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-dot-compiler');

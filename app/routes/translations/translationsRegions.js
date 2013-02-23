@@ -6,16 +6,10 @@ var routes = function(server) {
 
   'use strict';
   var grunt = require('grunt');
-  var gruntPath = findup('Gruntfile.js');
-  var tmp = require(gruntPath);
-  tmp(grunt);
+  require(findup('Gruntfile.js'))(grunt);
   var config = grunt.config.get('translate');
 
   var tmpl = requirejs('./build/tmpl');
-
-  // // Titles
-  // document.getElementById('r-keys').getElementsByClassName('page-wrapper')[0].innerHTML = tmpl.page_title({ title: 'Keys'});
-  // document.getElementById('r-values').getElementsByClassName('page-wrapper')[0].innerHTML = tmpl.page_title({ title: 'Values'});
 
   // Insert translation keys
   var keys = grunt.file.readJSON(config.options.configDir + '/locales/' + config.options.defaultLanguage + '.json');
