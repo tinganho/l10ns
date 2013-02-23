@@ -2,8 +2,9 @@
 <html>
 <head>
   <title>Grunt Translate</title>
-  <link type="text/css" rel="stylesheet" href="static/style.css">
+  <link type="text/css" rel="stylesheet" href="public/styles/style.css">
 </head>
 <body>
+  {{=it.body}}
 </body>
 </html>

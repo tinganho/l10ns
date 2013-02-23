@@ -1,7 +1,7 @@
 #main-menu {
-  width: 100%;
   background-color: rgb(211, 56, 56);
-  height: 63px;
+            height: 63px;
+             width: 100%;
   @include single-box-shadow(rgba(0, 0, 0, 0.3), 0px, 2px, 5px, 0px);
 
   #search-wrapper {
@@ -9,31 +9,29 @@
 
 
     .eye-glass {
-      width: 30px;
-      height: 30px;
-      margin-top: 15px;
+            height: 30px;
+             width: 30px;
+        margin-top: 15px;
       margin-right: 20px;
     }
 
     .search-input {
       background-color: transparent;
-      border: none;
-      height: 54px;
-      outline: none;
-      font-size: 24px;
+                border: none;
+                height: 54px;
+             font-size: 24px;
+               outline: none;
       @include span-columns(9, 12);
     }
   }
 
   .menu-items {
     li {
-      padding: 0px 23px;
-      height: 100%;
-      font-size: 18px;
-      font-family: helvetica;
-      font-weight: thin;
+           cursor: pointer;
+             font: thin 18px helvetica;
+           height: 100%;
       line-height: 63px;
-      cursor: pointer;
+          padding: 0px 23px;
 
       &.active {
         background-color: rgba(0, 0, 0, 0.2);
@@ -44,5 +42,4 @@
       }
     }
   }
-
 }

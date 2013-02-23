@@ -1,0 +1,28 @@
+
+
+
+$default-font-family: helvetica, Arial;
+
+body {
+        background-color: rgb(235, 235, 235);
+                   color: rgb(243, 243, 243);
+             font-family: $default-font-family;
+  -webkit-font-smoothing: antialiased;
+}
+input {
+                   color: white;
+            padding-left: 4px;
+           padding-right: 4px;
+  -webkit-font-smoothing: antialiased;
+}
+h1 {
+  font-family: $default-font-family;
+    font-size: 2em;
+}
+h2 {
+  @extend h1;
+       font-size: 30px;
+     font-weight: 300;
+      margin-top: 30px;
+  text-transform: uppercase;
+}

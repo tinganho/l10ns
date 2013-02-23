@@ -52,12 +52,16 @@ $default-font-size: 16;
 /* Imports of vendors */
 @import "susy";
 @import "sassy-buttons";
+@import "breakpoint";
 @import "stylewithclass";
+@import "toolkit";
+
 
 /* Images */
 @import "main/*.png";
 @include all-main-sprites;
 
+// Susy settings
 $total-columns: 12; // 12 columns
 $column-width: 3.5em; // columns are 4em wide
 $gutter-width: 1em; // with 1em gutters
@@ -84,18 +88,18 @@ $grid-padding: 1em; // and 1em padding on the grid conta
 * { @include box-sizing( content-box ); }
 
 /* Base */
-@import "general/general";
-
-/* Regions */
-@import "general/regions";
+@import "../lib/scss/base";
 
 /* Components */
-@import "general/menu";
-@import "general/borders";
+@import "../lib/scss/menu";
+@import "../lib/scss/borders";
+
+/* Regions */
+@import "../routes/translations/translations_regions";
 
 /* Modules */
-@import "modules/translation_keys";
-@import "modules/translation_values";
+@import "../modules/translations/views/translation_keys";
+@import "../modules/translations/views/translation_values";
 
 
 /* Overrides */

@@ -1,6 +1,6 @@
 npm-debug.log
 node_modules/
 test/translations/delete.log
-.sass_cache/
+.sass-cache/
 
-tasks/translation_interface/build/
+app/public/styles/*
