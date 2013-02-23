@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+echo 'Running server tests...'
+./node_modules/mocha/bin/mocha

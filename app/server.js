@@ -28,8 +28,7 @@ GruntTranslate.server = function() {
 
     server.use( express.methodOverride() );
     server.use( server.router );
-    server.use( '/static', express.static(__dirname + '/build'));
-    server.use( '/tasks/translation_interface/images', express.static(__dirname + '/images'));
+    server.use( '/public', express.static(__dirname + '/public'));
 
   });
 
@@ -38,7 +37,7 @@ GruntTranslate.server = function() {
   });
 
 
-  require('./routes/translations')(server);
+  require('./routes/translations/translationsRegions')(server);
 
   http.createServer(server).listen( server.get( 'port' ), function() {
     console.log( 'Express server listening on port ' + server.get('port') );

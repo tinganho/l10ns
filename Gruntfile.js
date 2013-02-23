@@ -33,20 +33,22 @@ module.exports = function(grunt) {
 
       files: [
         'grunt.js',
-        'tasks/**/*.js',
-        '!tasks/translation_interface/build/tmpl.js'
+        'app/**/*.js',
+        'lib/**/*.js',
+        '!app/build/tmpl.js'
       ]
     },
 
     compass: {
       dist: {
         options: {
-          require: ['susy', 'stylewithclass', 'sassy-buttons'],
-          sassDir: 'tasks/translation_interface/styles',
-          cssDir: 'tasks/translation_interface/build',
+          config: 'app/config.rb',
+          require: ['susy', 'breakpoint', 'stylewithclass', 'sassy-buttons', 'toolkit'],
+          sassDir: 'app/build',
+          cssDir: 'app/public/styles',
           debugInfo: true,
           noLineComments: true,
-          imagesDir: 'tasks/translation_interface/images'
+          imagesDir: 'app/public/images'
         }
       }
     },
@@ -74,10 +76,10 @@ module.exports = function(grunt) {
             variable: 'tmpl',
             prefix: 'doT.template(',
             suffix: ')',
-            root: __dirname + '/app/profiles'
+            root: __dirname + '/app'
         },
-        src: ['tasks/**/*.dot'],
-        dest: 'tasks/translation_interface/build/tmpl.js'
+        src: ['app/**/*.dot'],
+        dest: 'app/build/tmpl.js'
       }
     },
 
@@ -93,14 +95,14 @@ module.exports = function(grunt) {
       },
 
       compass: {
-        files: ['tasks/**/*.scss'],
+        files: ['app/**/*.scss'],
         tasks: ['compass']
       }
     }
 
   });
   // Load local tasks.
-  grunt.loadTasks('tasks');
+  grunt.loadTasks('lib');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-nodeunit');
   grunt.loadNpmTasks('grunt-contrib-compass');
