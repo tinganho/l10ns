@@ -1,7 +1,7 @@
 RELEASE LOG
 ===========
 
-## 0.1.1
+## 0.1.1 (Work in progress)
 * Run update and compile from the `gt` command
 * Using the mocha as the testing framework
 
