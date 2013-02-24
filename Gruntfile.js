@@ -57,13 +57,14 @@ module.exports = function(grunt) {
       options: {
         configDir: './test/translations',
         requireJS: true,
-        defaultLanguage: 'en' // grunt-translate use it to update translation.
+        defaultLanguage: 'en', // grunt-translate use it to update translation.
+        output: './test/translations/output',
+        src: ['./test/example/**/*.js']
       },
       compile: {
-        output: './test/translations/output'
       },
       update: {
-        src: ['./test/example/**/*.js']
+
       },
       server: {
         port: 3000

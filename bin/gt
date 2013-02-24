@@ -1,7 +1,12 @@
 #!/usr/bin/env node
 
 // Import the sys library
-var sys = require('sys');
+var   sys = require('sys'),
+    grunt = require('grunt'),
+   findup = require('findup-sync'),
+   mapper = require('../lib/mapper');
+
+require(findup('Gruntfile.js'))(grunt);
 
 // Import the optparse library.
 var optparse = require('optparse');
@@ -19,8 +24,8 @@ switch(arguments[0]) {
     server.server();
   case 'update':
   case 'compile':
+    mapper[arguments[0]]();
   case 'log':
 }
-
 
 
