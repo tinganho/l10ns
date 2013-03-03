@@ -1,21 +1,23 @@
     var grunt = require('grunt'),
            fs = require('fs'),
+          sys = require('sys'),
     requirejs = require('requirejs'),
        findup = require('findup-sync'),
+        spawn = require('child_process').spawn,
+         exec = require('child_process').exec,
        expect = require('chai').expect;
 
 // RequireJS settings
 requirejs.config({
-      baseUrl: __dirname,
+  baseUrl: __dirname,
   nodeRequire: require
 });
-
-
 
 var gt = requirejs('translations/output/en');
 require(findup('Gruntfile.js'))(grunt);
 
-var config = grunt.config.get('translate');
+var config = grunt.config.get('translate'),
+    options = config.options;
 
 describe('Grunt Translate', function() {
   before(function(done){
@@ -136,5 +138,33 @@ describe('Grunt Translate', function() {
       });
     });
   });
+
+
+  describe('Log', function(){
+    var translations;
+    var keys = [];
+    var bootstrap = require('../lib/bootstrap');
+    before(function(done){
+      translations = grunt.file.readJSON(options.configDir + '/locales/' + options.defaultLanguage + '.json');
+      for(var key in translations) {
+        if(translations.hasOwnProperty(key)) {
+          keys.push(key);
+        }
+      }
+      keys.sort(function(a, b) {
+        return translations[b].timestamp - translations[a].timestamp;
+      });
+      done();
+    });
+    it('should return 20 latest translations', function(){
+      var result = bootstrap.log(true);
+      var n = 0;
+      for(var key in result) {
+        expect(key).to.equal(keys[n]);
+        n++;
+      }
+
+    });
+  })
 });
 
