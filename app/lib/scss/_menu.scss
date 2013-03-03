@@ -1,7 +1,7 @@
 #main-menu {
   background-color: rgb(211, 56, 56);
-            height: 63px;
-             width: 100%;
+  height: 63px;
+  width: 100%;
   @include single-box-shadow(rgba(0, 0, 0, 0.3), 0px, 2px, 5px, 0px);
 
   #search-wrapper {
@@ -9,29 +9,29 @@
 
 
     .eye-glass {
-            height: 30px;
-             width: 30px;
-        margin-top: 15px;
+      height: 30px;
+      width: 30px;
+      margin-top: 15px;
       margin-right: 20px;
     }
 
     .search-input {
       background-color: transparent;
-                border: none;
-                height: 54px;
-             font-size: 24px;
-               outline: none;
+      border: none;
+      height: 54px;
+      font-size: 24px;
+      outline: none;
       @include span-columns(9, 12);
     }
   }
 
   .menu-items {
     li {
-           cursor: pointer;
-             font: thin 18px helvetica;
-           height: 100%;
+      cursor: pointer;
+      font: thin 18px helvetica;
+      height: 100%;
       line-height: 63px;
-          padding: 0px 23px;
+      padding: 0px 23px;
 
       &.active {
         background-color: rgba(0, 0, 0, 0.2);

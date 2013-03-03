@@ -4,7 +4,7 @@
 var   sys = require('sys'),
     grunt = require('grunt'),
    findup = require('findup-sync'),
-   mapper = require('../lib/mapper');
+bootstrap = require('../lib/bootstrap');
 
 require(findup('Gruntfile.js'))(grunt);
 
@@ -24,7 +24,7 @@ switch(arguments[0]) {
     server.server();
   case 'update':
   case 'compile':
-    mapper[arguments[0]]();
+    bootstrap[arguments[0]]();
   case 'log':
 }
 
