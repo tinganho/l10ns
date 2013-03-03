@@ -27,6 +27,7 @@ function test() {
   gt('It can have <>');
   gt('It can have ..');
   gt('It can have ,,');
+  gt('It can have ;;');
   gt('It can have ’’');
   gt('It can have __');
   gt('It can have &&');

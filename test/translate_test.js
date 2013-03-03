@@ -67,6 +67,9 @@ describe('Grunt Translate', function() {
       it(pre + ',,', function() {
         expect(gt('It can have ,,')).to.be.ok;
       });
+      it(pre + ';;', function() {
+        expect(gt('It can have ;;')).to.be.ok;
+      });
       it(pre + '__', function() {
         expect(gt('It can have __')).to.be.ok;
       });
