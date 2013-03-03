@@ -53,7 +53,6 @@ $default-font-size: 16;
 @import "susy";
 @import "sassy-buttons";
 @import "breakpoint";
-@import "stylewithclass";
 @import "toolkit";
 
 
@@ -67,11 +66,11 @@ $column-width: 3.5em; // columns are 4em wide
 $gutter-width: 1em; // with 1em gutters
 $grid-padding: 1em; // and 1em padding on the grid conta
 
-#page {
+.page {
   @include container;
   height: 100%;
 }
-#main-menu ul {
+.main-menu ul {
   @include container;
   height: 63px;
 }
