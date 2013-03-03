@@ -1,4 +1,4 @@
 <ul class="menu-items">
-  <li class="fl-lt active"><a>Translations</a></li>
-  <li class="fl-lt"><a>Statistics</a></li>
+  <li class="active"><a>Translations</a></li>
+  <li><a>Statistics</a></li>
 </ul>

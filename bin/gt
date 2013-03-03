@@ -4,7 +4,8 @@
 var   sys = require('sys'),
     grunt = require('grunt'),
    findup = require('findup-sync'),
-bootstrap = require('../lib/bootstrap');
+bootstrap = require('../lib/bootstrap'),
+     open = require('open');
 
 require(findup('Gruntfile.js'))(grunt);
 
@@ -22,10 +23,15 @@ switch(arguments[0]) {
   case 'interface':
     var server = require('../app/server');
     server.server();
+    // open('http://localhost:3000/translations');
+    break;
   case 'update':
   case 'compile':
   case 'log':
-    bootstrap[arguments[0]]();
+    bootstrap[arguments[0]]()
+    break;
+  default:
+
     break;
 }
 

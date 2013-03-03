@@ -4,9 +4,6 @@ module.exports = function(grunt) {
 
   // Project configuration.
   grunt.initConfig({
-    nodeunit: {
-      files: ['test/**/*.js']
-    },
 
     jshint: {
       options: {
@@ -84,6 +81,12 @@ module.exports = function(grunt) {
       }
     },
 
+    open : {
+      translation : {
+        path: 'http://localhost:3000/translations'
+      }
+    },
+
     watch: {
       templates: {
         files: '**/*.dot',
@@ -91,8 +94,14 @@ module.exports = function(grunt) {
       },
 
       jshint: {
-        files: ['**/*.js', 'Gruntfile.js', 'bin/**/*.js', 'tasks/**/*.js'],
-        tasks: ['jshint', 'translate:update', 'translate:compile', 'nodeunit']
+        files: [
+          '**/*.js',
+          'Gruntfile.js',
+          'bin/**/*.js',
+          'tasks/**/*.js',
+          '!app/build/tmpl.js'
+        ],
+        tasks: ['jshint', 'translate:update', 'translate:compile']
       },
 
       compass: {
@@ -104,11 +113,13 @@ module.exports = function(grunt) {
   });
   // Load local tasks.
   grunt.loadTasks('lib');
+
+  // Load npm tasks
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-compass');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-dot-compiler');
-
+  grunt.loadNpmTasks('grunt-open');
 
   // Default task.
   grunt.registerTask('default', 'jshint translate:update translate:compile test');
