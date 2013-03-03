@@ -24,8 +24,8 @@ switch(arguments[0]) {
     server.server();
   case 'update':
   case 'compile':
-    bootstrap[arguments[0]]();
   case 'log':
+    bootstrap[arguments[0]]();
+    break;
 }
-
 

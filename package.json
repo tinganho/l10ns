@@ -37,7 +37,8 @@
     "optparse": "~1.0.4",
     "jsdom": "~0.3.4",
     "backbone": "~0.9.10",
-    "findup-sync": "~0.1.1"
+    "findup-sync": "~0.1.1",
+    "colors": "~0.6.0-1"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.1.0",
