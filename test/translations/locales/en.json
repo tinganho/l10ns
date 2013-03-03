@@ -170,6 +170,11 @@
     "translations": [],
     "timestamp": 1361260813314
   },
+  "It can have ::": {
+    "vars": [],
+    "translations": [],
+    "timestamp": 1362341122027
+  },
   "It can have ;;": {
     "vars": [],
     "translations": [],
@@ -224,6 +229,11 @@
     "vars": [],
     "translations": [],
     "timestamp": 1362337703694
+  },
+  "It can have @@": {
+    "vars": [],
+    "translations": [],
+    "timestamp": 1362341122027
   },
   "It can have ^^": {
     "vars": [],

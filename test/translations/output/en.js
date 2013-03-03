@@ -66,6 +66,9 @@ define(function() {
     "It can have ,,": function anonymous(it) {
       return "HASH_NOT_TRANSLATED: It can have ,,";
     },
+    "It can have ::": function anonymous(it) {
+      return "HASH_NOT_TRANSLATED: It can have ::";
+    },
     "It can have ;;": function anonymous(it) {
       return "HASH_NOT_TRANSLATED: It can have ;;";
     },
@@ -98,6 +101,9 @@ define(function() {
     },
     "It can have ()": function anonymous(it) {
       return "HASH_NOT_TRANSLATED: It can have ()";
+    },
+    "It can have @@": function anonymous(it) {
+      return "HASH_NOT_TRANSLATED: It can have @@";
     },
     "It can have ^^": function anonymous(it) {
       return "HASH_NOT_TRANSLATED: It can have ^^";
