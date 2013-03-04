@@ -24,7 +24,9 @@ module.exports = function(grunt) {
         supernew: true,
         strict: false,
         globals: {
-          gt: true
+          gt: true,
+          describe: true,
+          it: true
         }
       },
 

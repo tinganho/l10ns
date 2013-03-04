@@ -43,6 +43,8 @@ GruntTranslate.server = function() {
     console.log( 'Express server listening on port ' + server.get('port') );
   });
 
+  return server;
+
 };
 
 module.exports = GruntTranslate;

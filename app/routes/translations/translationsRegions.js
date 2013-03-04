@@ -2,6 +2,13 @@ var requirejs = require('requirejs'),
     findup    = require('findup-sync'),
     jsdom     = require('jsdom').jsdom;
 
+requirejs.config({
+
+  baseUrl: __dirname,
+  nodeRequire: require
+
+});
+
 var routes = function(server) {
 
   'use strict';
@@ -9,10 +16,21 @@ var routes = function(server) {
   require(findup('Gruntfile.js'))(grunt);
   var config = grunt.config.get('translate');
 
-  var tmpl = requirejs('./build/tmpl');
+  var tmpl = requirejs('../../build/tmpl');
 
   // Insert translation keys
-  var keys = grunt.file.readJSON(config.options.configDir + '/locales/' + config.options.defaultLanguage + '.json');
+  var translations = grunt.file.readJSON(config.options.configDir + '/locales/' + config.options.defaultLanguage + '.json');
+  var keys = [];
+  for(var key in translations) {
+    if(translations.hasOwnProperty(key)) {
+      keys.push(key);
+    }
+  }
+  keys.sort(function(a, b) {
+    return translations[b].timestamp - translations[a].timestamp;
+  });
+
+
   var outputKeys = {};
   var first;
   var n = 0;
