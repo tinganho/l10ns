@@ -7,6 +7,7 @@
          exec = require('child_process').exec,
        expect = require('chai').expect;
 
+
 // RequireJS settings
 requirejs.config({
   baseUrl: __dirname,
@@ -18,6 +19,9 @@ require(findup('Gruntfile.js'))(grunt);
 
 var config = grunt.config.get('translate'),
     options = config.options;
+
+// Routing tests
+require('../app/routes/translations/spec')(grunt, options);
 
 describe('Grunt Translate', function() {
   before(function(done){
@@ -49,7 +53,7 @@ describe('Grunt Translate', function() {
     it('should be able to take several || in if statements', function() {
       expect(gt('It can take several || in if statement', { firstname: 'Tingan', lastname: 'Ho'})).to.equal('Hello Tingan Ho!');
     });
-  })
+  });
 
   describe('Timestamp', function() {
     it('should have an timestamp', function() {

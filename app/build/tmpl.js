@@ -19,7 +19,7 @@ var out='<div class="m-main-search"><div class="l-main-search-icon"><i class="ey
 var out='<select class="language-select">'; for(var prop in it) { out+='<option value="'+(prop)+'">'+(it[prop])+'</option>'; } out+='</select>';return out;
 }
  tmpl['translation_keys']=function anonymous(it) {
-var out='<ul class="m-translation-keys">'; for(var keys in it) { out+='<li><a>'+(keys)+'</a></li>'; } out+='</ul>';return out;
+var out='<ul class="m-translation-keys">'; for(var keys in it) { out+='<li><a>'+(it[keys])+'</a></li>'; } out+='</ul>';return out;
 }
  tmpl['translations_regions']=function anonymous(it) {
 var out='<nav class="main-menu"><ul ><li class="r-search">'+(it.search)+'</li><li class="r-menu-items">'+(it.menu_items)+'</li></ul></nav><div class="page"><div class="r-body"><ul><li class="r-keys"><div class="l-page-wrapper">'+(it.keys_title)+(it.keys_region)+'</div></li><li class="r-values"><div class="l-page-wrapper">'+(it.values_title)+(it.values_region)+'</div></li></ul></div><footer class="r-footer"></footer></div>';return out;
