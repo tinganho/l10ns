@@ -1,6 +1,8 @@
-if( typeof define !== "function" ) {
-define = require( "amdefine" )( module )
+if(typeof define !== "function") {
+define = require( "amdefine")(module)
 }
+function encodeHTMLSource() {var encodeHTMLRules = { "&": "&#38;", "<": "&#60;", ">": "&#62;", '"': '&#34;', "'": '&#39;', "/": '&#47;' },matchHTML = /&(?!#?w+;)|<|>|"|'|\//g;return function() {return this ? this.replace(matchHTML, function(m) {return encodeHTMLRules[m] || m;}) : this;};};
+String.prototype.encodeHTML=encodeHTMLSource();
 define(function() {
 var tmpl=tmpl|| {};
  tmpl['layout']=function anonymous(it) {
@@ -12,7 +14,7 @@ var out='<h2>'+(it.title)+'</h2>';return out;
  tmpl['menu_items']=function anonymous(it) {
 var out='<ul class="menu-items"><li class="active"><a>Translations</a></li><li><a>Statistics</a></li></ul>';return out;
 }
- tmpl['main_search']=function anonymous() {
+ tmpl['main_search']=function anonymous(it) {
 var out='<div class="m-main-search"><div class="l-main-search-icon"><i class="eye-glass-icon main-eye-glass"></i></div><div class="l-main-search-input"><input class="main-search__input" value="Search"></input></div></div>';return out;
 }
  tmpl['langauge_select']=function anonymous(it) {

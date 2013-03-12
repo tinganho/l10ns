@@ -50,7 +50,7 @@
     "chai": "~1.4.2",
     "mocha": "~1.8.1",
     "grunt-contrib-compass": "~0.1.0",
-    "grunt-contrib-dot-compiler": "~0.2.14",
+    "grunt-dot-compiler": "~0.3.1",
     "grunt-contrib-watch": "~0.1.4"
   },
   "keywords": [

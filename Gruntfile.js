@@ -43,7 +43,7 @@ module.exports = function(grunt) {
       dist: {
         options: {
           config: 'app/config.rb',
-          require: ['susy', 'breakpoint', 'stylewithclass', 'sassy-buttons', 'toolkit'],
+          require: ['susy', 'breakpoint', 'sassy-buttons', 'toolkit'],
           sassDir: 'app/build',
           cssDir: 'app/public/styles',
           debugInfo: true,
@@ -71,13 +71,10 @@ module.exports = function(grunt) {
       }
     },
 
-    'compile-templates': {
+    'dot-compile': {
       dist: {
         options: {
-            variable: 'tmpl',
-            prefix: 'doT.template(',
-            suffix: ')',
-            root: __dirname + '/app'
+          variable: 'tmpl'
         },
         src: ['app/**/*.dot'],
         dest: 'app/build/tmpl.js'
@@ -121,12 +118,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-compass');
   grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-contrib-dot-compiler');
+  grunt.loadNpmTasks('grunt-dot-compiler');
   grunt.loadNpmTasks('grunt-open');
 
   // Default task.
   grunt.registerTask('default', 'jshint translate:update translate:compile test');
-
-
 
 };
