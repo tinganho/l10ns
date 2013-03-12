@@ -17,7 +17,9 @@ module.exports = function(grunt, options){
         request(server)
         .get('/translations')
         .end(function(err, res){
-          if (err) throw err;
+          if (err) {
+            throw err;
+          }
           expect(res.statusCode).to.equal(200);
           done();
         });
@@ -40,7 +42,7 @@ module.exports = function(grunt, options){
           return translations[b].timestamp - translations[a].timestamp;
         });
         done();
-      })
+      });
       it('should be ordered correctly', function(done){
         request(server)
         .get('/translations')
