@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 
 // Import the sys library
-var   sys = require('sys'),
-    grunt = require('grunt'),
-   findup = require('findup-sync'),
-bootstrap = require('../lib/bootstrap'),
-     open = require('open');
+var sys     = require('sys'),
+  grunt     = require('grunt'),
+  findup    = require('findup-sync'),
+  bootstrap = require('../lib/bootstrap'),
+  open      = require('open');
 
 require(findup('Gruntfile.js'))(grunt);
 

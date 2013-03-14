@@ -7,27 +7,27 @@ module.exports = function(grunt) {
 
     jshint: {
       options: {
-        curly: true,
-        eqeqeq: true,
-        loopfunc: true,
-        forin: false,
-        immed: true,
-        latedef: true,
-        newcap: true,
-        noarg: true,
-        sub: true,
-        undef: true,
-        boss: true,
-        eqnull: true,
-        node: true,
-        es5: true,
-        supernew: true,
-        strict: false,
+        curly    : true,
+        eqeqeq   : true,
+        loopfunc : true,
+        forin    : false,
+        immed    : true,
+        latedef  : true,
+        newcap   : true,
+        noarg    : true,
+        sub      : true,
+        undef    : true,
+        boss     : true,
+        eqnull   : true,
+        node     : true,
+        es5      : true,
+        supernew : true,
+        strict   : false,
         globals: {
-          gt: true,
-          describe: true,
-          it: true,
-          before: true,
+          gt       : true,
+          describe : true,
+          it       : true,
+          before   : true,
         }
       },
 
@@ -42,24 +42,24 @@ module.exports = function(grunt) {
     compass: {
       dist: {
         options: {
-          config: 'app/config.rb',
-          require: ['susy', 'breakpoint', 'sassy-buttons', 'toolkit'],
-          sassDir: 'app/build',
-          cssDir: 'app/public/styles',
-          debugInfo: true,
-          noLineComments: true,
-          imagesDir: 'app/public/images'
+          config         : 'app/config.rb',
+          require        : ['susy', 'breakpoint', 'sassy-buttons', 'toolkit'],
+          sassDir        : 'app/build',
+          cssDir         : 'app/public/styles',
+          debugInfo      : true,
+          noLineComments : true,
+          imagesDir      : 'app/public/images'
         }
       }
     },
 
     translate: {
       options: {
-        configDir: './test/translations',
-        requireJS: true,
-        defaultLanguage: 'en', // grunt-translate use it to update translation.
-        output: './test/translations/output',
-        src: ['./test/example/**/*.js']
+        configDir       : './test/translations',
+        requireJS       : true,
+        defaultLanguage : 'en', // grunt-translate use it to update translation.
+        output          : './test/translations/output',
+        src             : ['./test/example/**/*.js']
       },
       compile: {
       },
@@ -71,13 +71,13 @@ module.exports = function(grunt) {
       }
     },
 
-    'dot-compile': {
+    dot: {
       dist: {
         options: {
           variable: 'tmpl'
         },
-        src: ['app/**/*.dot'],
-        dest: 'app/build/tmpl.js'
+        src  : ['app/**/*.dot'],
+        dest : 'app/build/tmpl.js'
       }
     },
 
@@ -116,6 +116,7 @@ module.exports = function(grunt) {
 
   // Load npm tasks
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-requirejs');
   grunt.loadNpmTasks('grunt-contrib-compass');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-dot-compiler');
