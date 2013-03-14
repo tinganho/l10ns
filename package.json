@@ -20,7 +20,7 @@
       "url": "https://github.com/tinganho/grunt-translate/blob/master/LICENSE-MIT"
     }
   ],
-  "main": "grunt.js",
+  "main": "Gruntfile.js",
   "bin": "bin/gt",
   "engines": {
     "node": "*"

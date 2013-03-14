@@ -15,10 +15,10 @@ requirejs.config({
 });
 
 var gt = requirejs('translations/output/en');
-require(findup('Gruntfile.js'))(grunt);
+require(findup('Gruntfile.js'))(grunt, true);
 
 var config = grunt.config.get('translate'),
-    options = config.options;
+    options = config.dist.options;
 
 // Routing tests
 require('../app/routes/translations/spec')(grunt, options);
@@ -173,7 +173,7 @@ describe('Grunt Translate', function() {
       done();
     });
     it('should return 20 latest translations', function(){
-      var result = bootstrap.log(true);
+      var result = bootstrap.log(options, true);
       var n = 0;
       for(var key in result) {
         expect(key).to.equal(keys[n]);

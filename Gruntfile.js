@@ -1,4 +1,6 @@
-module.exports = function(grunt) {
+module.exports = function(grunt, gt) {
+
+  var gt = gt || false;
 
   'use strict';
 
@@ -54,20 +56,17 @@ module.exports = function(grunt) {
     },
 
     translate: {
-      options: {
-        configDir       : './test/translations',
-        requireJS       : true,
-        defaultLanguage : 'en', // grunt-translate use it to update translation.
-        output          : './test/translations/output',
-        src             : ['./test/example/**/*.js']
-      },
-      compile: {
-      },
-      update: {
-
-      },
-      server: {
-        port: 3000
+      dist: {
+        options: {
+          configDir       : './test/translations',
+          requireJS       : true,
+          defaultLanguage : 'en', // grunt-translate use it to update translation.
+          output          : './test/translations/output',
+          src             : ['./test/example/**/*.js'],
+          interface: {
+            port: 3000
+          }
+        }
       }
     },
 
@@ -112,7 +111,12 @@ module.exports = function(grunt) {
 
   });
   // Load local tasks.
-  grunt.loadTasks('lib');
+  if(gt) {
+    grunt.task.loadTasks('lib/translate.js'); // Some grunt trick
+  } else {
+    grunt.task.loadTasks('lib'); // Some grunt trick
+  }
+
 
   // Load npm tasks
   grunt.loadNpmTasks('grunt-contrib-jshint');
