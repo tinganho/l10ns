@@ -4,21 +4,21 @@
       "number"
     ],
     "translations": [],
-    "timestamp": 1359025336851
+    "timestamp": 1359025336849
   },
   "It can have an if and else if and else statements": {
     "vars": [
       "number"
     ],
     "translations": [],
-    "timestamp": 1359025336851
+    "timestamp": 1359025336849
   },
   "It can have only one string": {
     "vars": [
       "world"
     ],
     "translations": [],
-    "timestamp": 1359025336851
+    "timestamp": 1359025336849
   },
   "It can take && in if statement": {
     "vars": [
@@ -26,7 +26,7 @@
       "lastname"
     ],
     "translations": [],
-    "timestamp": 1359025336851
+    "timestamp": 1359025336849
   },
   "It can take || in if statement": {
     "vars": [
@@ -34,7 +34,7 @@
       "lastname"
     ],
     "translations": [],
-    "timestamp": 1359025336851
+    "timestamp": 1359025336849
   },
   "It can take several && in if statement": {
     "vars": [
@@ -42,7 +42,7 @@
       "lastname"
     ],
     "translations": [],
-    "timestamp": 1359025336851
+    "timestamp": 1359025336849
   },
   "It can take several || in if statement": {
     "vars": [
@@ -50,7 +50,7 @@
       "lastname"
     ],
     "translations": [],
-    "timestamp": 1359025336852
+    "timestamp": 1359025336849
   },
   "It can have <>": {
     "vars": [],

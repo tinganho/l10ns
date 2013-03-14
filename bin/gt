@@ -1,13 +1,22 @@
 #!/usr/bin/env node
 
 // Import the sys library
-var   sys = require('sys'),
-    grunt = require('grunt'),
-   findup = require('findup-sync'),
-bootstrap = require('../lib/bootstrap'),
-     open = require('open');
+var sys     = require('sys'),
+  grunt     = require('grunt'),
+  findup    = require('findup-sync'),
+  bootstrap = require('../lib/bootstrap'),
+  open      = require('open'),
+  _         = grunt.util._;
 
-require(findup('Gruntfile.js'))(grunt);
+require(findup('Gruntfile.js'))(grunt, true);
+var translation = './translations';
+var options = _.defaults(grunt.config.get('translate').dist.options, {
+  configDir: 'test' + '/' + translation,
+  output: './translation/output',
+  requireJS: true,
+  translationFunctionName: 'gt',
+  deleteLog: 'test' + '/' + translation + '/delete.log'
+});
 
 // Import the optparse library.
 var optparse = require('optparse');
@@ -18,7 +27,6 @@ var switches = [
 ];
 
 var arguments = process.argv.splice(2);
-
 switch(arguments[0]) {
   case 'interface':
     var server = require('../app/server');
@@ -28,7 +36,7 @@ switch(arguments[0]) {
   case 'update':
   case 'compile':
   case 'log':
-    bootstrap[arguments[0]]()
+    bootstrap[arguments[0]](options)
     break;
   default:
 

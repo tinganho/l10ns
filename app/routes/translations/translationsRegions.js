@@ -13,13 +13,13 @@ var routes = function(server) {
 
   'use strict';
   var grunt = require('grunt');
-  require(findup('Gruntfile.js'))(grunt);
+  require(findup('Gruntfile.js'))(grunt, true);
   var config = grunt.config.get('translate');
 
   var tmpl = requirejs('../../build/tmpl');
 
   // Insert translation keys
-  var translations = grunt.file.readJSON(config.options.configDir + '/locales/' + config.options.defaultLanguage + '.json');
+  var translations = grunt.file.readJSON(config.dist.options.configDir + '/locales/' + config.dist.options.defaultLanguage + '.json');
   var keys = [];
   for(var key in translations) {
     if(translations.hasOwnProperty(key)) {
