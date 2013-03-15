@@ -36,6 +36,7 @@ switch(arguments[0]) {
   case 'update':
   case 'compile':
   case 'log':
+  case 'search':
     bootstrap[arguments[0]](options)
     break;
   default:

@@ -21,7 +21,7 @@
     }
   ],
   "main": "Gruntfile.js",
-  "bin": "bin/gt",
+  "bin": { "gt" : "./bin/gt" },
   "engines": {
     "node": "*"
   },
