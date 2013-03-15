@@ -28,6 +28,7 @@ module.exports = function(grunt) {
   grunt.registerTask('translate:update', ['translate']);
   grunt.registerTask('translate:compile', ['translate']);
   grunt.registerTask('translate:log', ['translate']);
+  grunt.registerTask('translate:interface', ['translate']);
 
   grunt.registerMultiTask('translate', 'Your task description goes here.', function(opt) {
     // Run appropiate sub task
