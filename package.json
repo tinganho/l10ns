@@ -43,7 +43,8 @@
     "open": "0.0.3",
     "chai-http": "~0.3.0",
     "supertest": "~0.5.1",
-    "cheerio": "~0.10.7"
+    "cheerio": "~0.10.7",
+    "grunt-contrib-connect": "~0.2.0"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.1.0",
@@ -52,7 +53,11 @@
     "grunt-contrib-compass": "~0.1.0",
     "grunt-dot-compiler": "~0.3.10",
     "grunt-contrib-watch": "~0.1.4",
-    "grunt-contrib-requirejs": "~0.4.0"
+    "grunt-contrib-requirejs": "~0.4.0",
+    "grunt-contrib-livereload": "~0.1.2",
+    "grunt-regarde": "~0.1.1",
+    "grunt-contrib-clean": "~0.4.0",
+    "grunt-contrib-copy": "~0.4.0"
   },
   "keywords": [
     "gruntplugin"

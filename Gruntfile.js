@@ -1,3 +1,12 @@
+
+
+var lrSnippet = require('grunt-contrib-livereload/lib/utils').livereloadSnippet;
+
+var folderMount = function folderMount(connect, point) {
+  return connect.static(path.resolve(point));
+};
+
+
 module.exports = function(grunt, gt) {
 
   var gt = gt || false;
@@ -70,6 +79,24 @@ module.exports = function(grunt, gt) {
       }
     },
 
+    connect: {
+      livereload: {
+        options: {
+          port: 9001,
+          middleware: function(connect, options) {
+            return [lrSnippet, folderMount(connect, '.')]
+          }
+        }
+      }
+    },
+    // Configuration to be run (and then tested)
+    regarde: {
+      txt: {
+        files: '**/*.txt',
+        tasks: ['livereload']
+      }
+    },
+
     dot: {
       dist: {
         options: {
@@ -125,6 +152,9 @@ module.exports = function(grunt, gt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-dot-compiler');
   grunt.loadNpmTasks('grunt-open');
+  grunt.loadNpmTasks('grunt-regarde');
+  grunt.loadNpmTasks('grunt-contrib-connect');
+  grunt.loadNpmTasks('grunt-contrib-livereload');
 
   // Default task.
   grunt.registerTask('default', 'jshint translate:update translate:compile test');
