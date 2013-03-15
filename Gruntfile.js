@@ -46,7 +46,8 @@ module.exports = function(grunt, gt) {
         'grunt.js',
         'app/**/*.js',
         'lib/**/*.js',
-        '!app/build/tmpl.js'
+        '!app/build/tmpl.js',
+        '!app/vendor/**'
       ]
     },
 
