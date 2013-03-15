@@ -44,7 +44,9 @@
     "chai-http": "~0.3.0",
     "supertest": "~0.5.1",
     "cheerio": "~0.10.7",
-    "grunt-contrib-connect": "~0.2.0"
+    "grunt-contrib-connect": "~0.2.0",
+    "node-search": "http://github.com/tinganho/Search/tarball/0.0.1",
+    "nstore": "http://github.com/tinganho/nstore/tarball/0.0.1"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.1.0",
