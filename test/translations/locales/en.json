@@ -49,7 +49,7 @@
       "world"
     ],
     "translations": "\"Hello ${world}!\"",
-    "timestamp": 1359025336849
+    "timestamp": 1363339929164
   },
   "It can take && in if statement": {
     "vars": [
@@ -275,12 +275,12 @@
     "translations": [],
     "timestamp": 1361260813314
   },
-  "It can have \\'": {
+  "It can have '": {
     "vars": [],
     "translations": [],
     "timestamp": 1361261618370
   },
-  "It can have \\\"": {
+  "It can have \"": {
     "vars": [],
     "translations": [],
     "timestamp": 1361260837077

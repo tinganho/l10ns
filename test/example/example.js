@@ -24,7 +24,7 @@ function test() {
   });
 
   // Special chars
-  gt('It can have <>');
+  gt("It can have <>");
   gt('It can have ..');
   gt('It can have ,,');
   gt('It can have ::');
@@ -54,7 +54,7 @@ function test() {
 
   // Quotation
   gt('It can have \'');
-  gt('It can have \"');
+  gt('It can have "');
 
 
 }

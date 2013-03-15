@@ -68,7 +68,7 @@ module.exports = function(grunt, gt) {
     translate: {
       dist: {
         options: {
-          configDir       : './test/translations',
+          config          : './test/translations',
           requireJS       : true,
           defaultLanguage : 'en', // grunt-translate use it to update translation.
           output          : './test/translations/output',
@@ -140,9 +140,9 @@ module.exports = function(grunt, gt) {
   });
   // Load local tasks.
   if(gt) {
-    grunt.task.loadTasks('lib/translate.js'); // Some grunt trick
+    grunt.task.loadTasks('tasks/translate.js'); // Some grunt trick
   } else {
-    grunt.task.loadTasks('lib'); // Some grunt trick
+    grunt.task.loadTasks('tasks'); // Some grunt trick
   }
 
 

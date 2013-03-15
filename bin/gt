@@ -11,12 +11,12 @@ var sys     = require('sys'),
 require(findup('Gruntfile.js'))(grunt, true);
 var translation = './translations';
 var options = _.defaults(grunt.config.get('translate').dist.options, {
-  configDir: 'test' + '/' + translation,
-  output: './translation/output',
+  config: './translation',
   requireJS: true,
-  translationFunctionName: 'gt',
-  deleteLog: 'test' + '/' + translation + '/delete.log'
+  translationFunctionName: 'gt'
 });
+options.output = options.config + '/output';
+options.deleteLog = options.config + '/delete.log';
 
 // Import the optparse library.
 var optparse = require('optparse');
@@ -37,7 +37,7 @@ switch(arguments[0]) {
   case 'compile':
   case 'log':
   case 'search':
-    bootstrap[arguments[0]](options)
+    bootstrap[arguments[0]](options);
     break;
   default:
 

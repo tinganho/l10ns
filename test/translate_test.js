@@ -8,13 +8,9 @@
        expect = require('chai').expect;
 
 
-// RequireJS settings
-requirejs.config({
-  baseUrl: __dirname,
-  nodeRequire: require
-});
 
-var gt = requirejs('translations/output/en');
+
+var gt;
 require(findup('Gruntfile.js'))(grunt, true);
 
 var config = grunt.config.get('translate'),
@@ -24,8 +20,19 @@ var config = grunt.config.get('translate'),
 require('../app/routes/translations/spec')(grunt, options);
 
 describe('Grunt Translate', function() {
-  before(function(done){
-    done();
+  before(function(done) {
+    this.timeout(10000);
+    exec('grunt translate:update', function() {
+      exec('grunt translate:compile', function() {
+        // RequireJS settings
+        requirejs.config({
+          baseUrl: __dirname,
+          nodeRequire: require
+        });
+        gt = requirejs('./translations/output/en');
+        done();
+      });
+    });
   });
   describe('Compiling', function() {
     it('should be able to compile if and else statements', function() {
@@ -161,7 +168,7 @@ describe('Grunt Translate', function() {
     var keys = [];
     var bootstrap = require('../lib/bootstrap');
     before(function(done){
-      translations = grunt.file.readJSON(options.configDir + '/locales/' + options.defaultLanguage + '.json');
+      translations = grunt.file.readJSON(options.config + '/locales/' + options.defaultLanguage + '.json');
       for(var key in translations) {
         if(translations.hasOwnProperty(key)) {
           keys.push(key);

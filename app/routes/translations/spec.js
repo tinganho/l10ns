@@ -32,7 +32,7 @@ module.exports = function(grunt, options){
       var bootstrap = require('../../../lib/bootstrap');
 
       before(function(done){
-        translations = grunt.file.readJSON(options.configDir + '/locales/' + options.defaultLanguage + '.json');
+        translations = grunt.file.readJSON(options.config + '/locales/' + options.defaultLanguage + '.json');
         for(var key in translations) {
           if(translations.hasOwnProperty(key)) {
             keys.push(key);
