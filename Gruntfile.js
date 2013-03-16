@@ -114,10 +114,27 @@ module.exports = function(grunt, gt) {
       }
     },
 
+    jsdoc : {
+      dist : {
+        src: [
+          'app/**/*.js',
+          '!app/vendor/**',
+          'lib/**/*.js',
+          'tasks/**/*.js'
+        ],
+        options: {
+          destination: 'docs'
+        }
+      }
+    },
+
     watch: {
       templates: {
-        files: '**/*.dot',
-        tasks: ['compile-templates']
+        files: [
+          '**/*.dot',
+          '**/*.part'
+        ],
+        tasks: ['dot']
       },
 
       jshint: {

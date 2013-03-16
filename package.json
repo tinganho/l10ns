@@ -21,7 +21,9 @@
     }
   ],
   "main": "Gruntfile.js",
-  "bin": { "gt" : "./bin/gt" },
+  "bin": {
+    "gt": "./bin/gt"
+  },
   "engines": {
     "node": "*"
   },
@@ -45,7 +47,8 @@
     "cheerio": "~0.10.7",
     "grunt-contrib-connect": "~0.2.0",
     "node-search": "http://github.com/tinganho/Search/tarball/0.0.1",
-    "nstore": "http://github.com/tinganho/nstore/tarball/0.0.1"
+    "nstore": "http://github.com/tinganho/nstore/tarball/0.0.1",
+    "grunt-jsdoc": "~0.2.4"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.1.0",
