@@ -15,7 +15,7 @@ module.exports = function(grunt, options){
     describe('Website', function(){
       it('should return status ok', function(done){
         request(server)
-        .get('/translations')
+        .get('/')
         .end(function(err, res){
           if (err) {
             throw err;
@@ -29,7 +29,7 @@ module.exports = function(grunt, options){
     describe('Keys', function(){
       var translations;
       var keys = [];
-      var bootstrap = require('../../../lib/bootstrap');
+      var bootstrap = require('../../../src/bootstrap');
 
       before(function(done){
         translations = grunt.file.readJSON(options.config + '/locales/' + options.defaultLanguage + '.json');
@@ -45,7 +45,7 @@ module.exports = function(grunt, options){
       });
       it('should be ordered correctly', function(done){
         request(server)
-        .get('/translations')
+        .get('/')
         .end(function(err, res){
           if(err) {
             throw err;

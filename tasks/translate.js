@@ -35,7 +35,7 @@ module.exports = function(grunt) {
     var subtask = process.argv[2].split(':')[1];
     GruntTranslate[subtask](options);
   });
-  var bootstrap = require('../lib/bootstrap');
+  var bootstrap = require('../src/bootstrap');
   var server = require('../app/server');
 
   var GruntTranslate = _.extend(bootstrap, server);

@@ -46,9 +46,8 @@
     "supertest": "~0.5.1",
     "cheerio": "~0.10.7",
     "grunt-contrib-connect": "~0.2.0",
-    "node-search": "http://github.com/tinganho/Search/tarball/0.0.1",
-    "nstore": "http://github.com/tinganho/nstore/tarball/0.0.1",
-    "grunt-jsdoc": "~0.2.4"
+    "grunt-jsdoc": "~0.2.4",
+    "lunr": "http://github.com/tinganho/lunr.js/tarball/master"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.1.0",

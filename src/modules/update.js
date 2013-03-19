@@ -1,11 +1,12 @@
-var grunt = require('grunt'),
-   findup = require('findup-sync'),
-       fs = require('fs'),
-        _ = grunt.util._,
-     path = require('path'),
-   engine = require('../helpers/engine'),
-   config = require('../helpers/config');
-
+var grunt  = require('grunt'),
+    findup = require('findup-sync'),
+    fs     = require('fs'),
+    _      = grunt.util._,
+    path   = require('path'),
+    engine = require('../lib/engine'),
+    config = require('../lib/config'),
+    nStore = require('nstore'),
+    nStore = nStore.extend(require('nstore/query')());
 
 module.exports = function(options) {
 
@@ -25,7 +26,7 @@ module.exports = function(options) {
         var key = config.getTranslationKey(translation);
 
         var vars = config.getVars(translation);
-        if(!( key in res )) {
+        if(!( key in res )) {
           res[key] = {};
           res[key].vars = vars;
         } else {
@@ -43,9 +44,11 @@ module.exports = function(options) {
         if(typeof allTranslations[locale] !== 'undefined') {
           if(key in allTranslations[locale] && 'translations' in allTranslations[locale][key]) {
             newLocal[key].translations = allTranslations[locale][key].translations;
+            newLocal[key].query_translation = allTranslations[locale][key].translations;
           } else {
             newLocal[key].translations = [];
           }
+          newLocal[key].query_translation = key;
           if(key in allTranslations[locale] && 'timestamp' in allTranslations[locale][key]) {
             newLocal[key].timestamp = allTranslations[locale][key].timestamp;
           } else {
@@ -53,6 +56,7 @@ module.exports = function(options) {
           }
         } else {
           newLocal[key].translations = [];
+          newLocal[key].timestamp = now;
         }
       });
       var localPath = options.config + '/locales/';

@@ -34,11 +34,13 @@ module.exports = function(grunt, gt) {
         es5      : true,
         supernew : true,
         strict   : false,
+        expr     : true,
         globals: {
           gt       : true,
           describe : true,
           it       : true,
           before   : true,
+          define   : true
         }
       },
 
@@ -47,7 +49,8 @@ module.exports = function(grunt, gt) {
         'app/**/*.js',
         'lib/**/*.js',
         '!app/build/tmpl.js',
-        '!app/vendor/**'
+        '!app/vendor/**',
+        'src/**/*.js'
       ]
     },
 
@@ -74,7 +77,8 @@ module.exports = function(grunt, gt) {
           output          : './test/translations/output',
           src             : ['./test/example/**/*.js'],
           interface: {
-            port: 3000
+            autoOpen : true,
+            port     : 3000
           }
         }
       }
@@ -119,7 +123,7 @@ module.exports = function(grunt, gt) {
         src: [
           'app/**/*.js',
           '!app/vendor/**',
-          'lib/**/*.js',
+          'src/**/*.js',
           'tasks/**/*.js'
         ],
         options: {
@@ -173,6 +177,7 @@ module.exports = function(grunt, gt) {
   grunt.loadNpmTasks('grunt-regarde');
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-livereload');
+  grunt.loadNpmTasks('grunt-jsdoc');
 
   // Default task.
   grunt.registerTask('default', 'jshint translate:update translate:compile test');

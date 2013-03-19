@@ -182,7 +182,6 @@ engine.reformatTranslatedText = function(text, vars){
     }
     return '\" + it.' + m + ' + \"';
   });
-
 };
 
 /**

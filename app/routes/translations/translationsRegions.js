@@ -61,7 +61,7 @@ var routes = function(server) {
   });
 
   // DOM appending
-  server.get( '/translations', function(req, res) {
+  server.get( '/', function(req, res) {
     return res.send( layout );
   });
 

@@ -4,6 +4,7 @@
       "number"
     ],
     "translations": [],
+    "query_translation": "It can have an if and else statement",
     "timestamp": 1363339796493
   },
   "It can have an if and else if and else statements": {
@@ -11,6 +12,7 @@
       "number"
     ],
     "translations": [],
+    "query_translation": "It can have an if and else if and else statements",
     "timestamp": 1363339796493
   },
   "It can have only one string": {
@@ -18,6 +20,7 @@
       "world"
     ],
     "translations": [],
+    "query_translation": "It can have only one string",
     "timestamp": 1363339796493
   },
   "It can take && in if statement": {
@@ -26,6 +29,7 @@
       "lastname"
     ],
     "translations": [],
+    "query_translation": "It can take && in if statement",
     "timestamp": 1363339796493
   },
   "It can take || in if statement": {
@@ -34,6 +38,7 @@
       "lastname"
     ],
     "translations": [],
+    "query_translation": "It can take || in if statement",
     "timestamp": 1363339796493
   },
   "It can take several && in if statement": {
@@ -42,6 +47,7 @@
       "lastname"
     ],
     "translations": [],
+    "query_translation": "It can take several && in if statement",
     "timestamp": 1363339796493
   },
   "It can take several || in if statement": {
@@ -50,136 +56,163 @@
       "lastname"
     ],
     "translations": [],
+    "query_translation": "It can take several || in if statement",
     "timestamp": 1363339796493
   },
   "It can have <>": {
     "vars": [],
     "translations": [],
+    "query_translation": "It can have <>",
     "timestamp": 1363339796493
   },
   "It can have ..": {
     "vars": [],
     "translations": [],
+    "query_translation": "It can have ..",
     "timestamp": 1363339796493
   },
   "It can have ,,": {
     "vars": [],
     "translations": [],
+    "query_translation": "It can have ,,",
     "timestamp": 1363339796493
   },
   "It can have ::": {
     "vars": [],
     "translations": [],
+    "query_translation": "It can have ::",
     "timestamp": 1363339796493
   },
   "It can have ;;": {
     "vars": [],
     "translations": [],
+    "query_translation": "It can have ;;",
     "timestamp": 1363339796493
   },
   "It can have ’’": {
     "vars": [],
     "translations": [],
+    "query_translation": "It can have ’’",
     "timestamp": 1363339796493
   },
   "It can have __": {
     "vars": [],
     "translations": [],
+    "query_translation": "It can have __",
     "timestamp": 1363339796493
   },
   "It can have &&": {
     "vars": [],
     "translations": [],
+    "query_translation": "It can have &&",
     "timestamp": 1363339796493
   },
   "It can have %%": {
     "vars": [],
     "translations": [],
+    "query_translation": "It can have %%",
     "timestamp": 1363339796493
   },
   "It can have $$": {
     "vars": [],
     "translations": [],
+    "query_translation": "It can have $$",
     "timestamp": 1363339796493
   },
   "It can have €€": {
     "vars": [],
     "translations": [],
+    "query_translation": "It can have €€",
     "timestamp": 1363339796493
   },
   "It can have ##": {
     "vars": [],
     "translations": [],
+    "query_translation": "It can have ##",
     "timestamp": 1363339796493
   },
   "It can have ??": {
     "vars": [],
     "translations": [],
+    "query_translation": "It can have ??",
     "timestamp": 1363339796493
   },
   "It can have !!": {
     "vars": [],
     "translations": [],
+    "query_translation": "It can have !!",
     "timestamp": 1363339796493
   },
   "It can have ()": {
     "vars": [],
     "translations": [],
+    "query_translation": "It can have ()",
     "timestamp": 1363339796493
   },
   "It can have @@": {
     "vars": [],
     "translations": [],
+    "query_translation": "It can have @@",
     "timestamp": 1363339796493
   },
   "It can have ^^": {
     "vars": [],
     "translations": [],
+    "query_translation": "It can have ^^",
     "timestamp": 1363339796493
   },
   "It can have ´´": {
     "vars": [],
     "translations": [],
+    "query_translation": "It can have ´´",
     "timestamp": 1363339796493
   },
   "It can have ``": {
     "vars": [],
     "translations": [],
+    "query_translation": "It can have ``",
     "timestamp": 1363339796493
   },
   "It can have ==": {
     "vars": [],
     "translations": [],
+    "query_translation": "It can have ==",
     "timestamp": 1363339796493
   },
   "It can have ++": {
     "vars": [],
     "translations": [],
+    "query_translation": "It can have ++",
     "timestamp": 1363339796493
   },
   "It can have --": {
     "vars": [],
     "translations": [],
+    "query_translation": "It can have --",
     "timestamp": 1363339796493
   },
   "It can have **": {
     "vars": [],
     "translations": [],
+    "query_translation": "It can have **",
     "timestamp": 1363339796493
   },
   "It can have //": {
     "vars": [],
     "translations": [],
+    "query_translation": "It can have //",
     "timestamp": 1363339796493
   },
   "It can have '": {
     "vars": [],
     "translations": [],
+    "query_translation": "It can have '",
     "timestamp": 1363339796493
   },
   "It can have \"": {
     "vars": [],
     "translations": [],
+    "query_translation": "It can have \"",
     "timestamp": 1363339796493
   }
 }
