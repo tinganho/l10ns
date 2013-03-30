@@ -35,7 +35,6 @@
     "amdefine": "0.0.4",
     "requirejs": "~2.1.2",
     "express": "~3.1.0",
-    "http": "0.0.0",
     "optparse": "~1.0.4",
     "jsdom": "~0.3.4",
     "backbone": "~0.9.10",
