@@ -164,24 +164,8 @@ describe('Grunt translate', function() {
 
 
   describe('log', function(){
-    var translations;
-    var keys = [];
-    var bootstrap = require('../src/bootstrap');
-    before(function(done){
-      translations = grunt.file.readJSON(options.config + '/locales/' + options.defaultLanguage + '.json');
-      for(var key in translations) {
-        if(translations.hasOwnProperty(key)) {
-          keys.push(key);
-        }
-      }
-      keys.sort(function(a, b) {
-        return translations[b].timestamp - translations[a].timestamp;
-      });
-      done();
-    });
     it('should return 10 latest translations', function(done){
       exec('node bin/gt log', function(error, stdout, stderr) {
-        console.log(stdout);
         expect(/latest translation/.test(stdout)).to.be.true;
         done();
       });
@@ -192,7 +176,6 @@ describe('Grunt translate', function() {
     it('should be able to index translations', function(done) {
       exec('node bin/gt search take', function(error, stdout, stderr) {
         expect(/results found/.test(stdout)).to.be.true;
-        console.log(stdout);
         done();
       });
     });
@@ -207,22 +190,29 @@ describe('Grunt translate', function() {
       });
     });
 
-    it('should not be able to edit translation for -1000000', function() {
+    it('should not be able to edit translation for -1000000', function(done) {
       exec('node bin/gt edit -10000 "Helloworld"', function(error, stdout, stderr) {
         expect(/Your log doesn't contain/.test(stdout)).to.be.true;
         done();
       });
     });
 
-    it('should not be able to edit translation for @1000000', function() {
+    it('should not be able to edit translation for @1000000', function(done) {
       exec('node bin/gt edit @10000 "Helloworld"', function(error, stdout, stderr) {
         expect(/Your latest search didn/.test(stdout)).to.be.true;
         done();
       });
     });
 
-    it('should be able to edit "Edit me"', function() {
+    it('should be able to edit "Edit me"', function(done) {
       exec('node bin/gt edit "Edit me" "Helloworld"', function(error, stdout, stderr) {
+        expect(/Translation key:/.test(stdout)).to.be.true;
+        done();
+      });
+    });
+
+    it('should be able to edit "Edit me" in lang dn', function(done) {
+      exec('node bin/gt edit "Edit me" -lang=dn "Helloworld"', function(error, stdout, stderr) {
         expect(/Translation key:/.test(stdout)).to.be.true;
         done();
       });
