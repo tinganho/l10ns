@@ -214,5 +214,11 @@
     "translations": [],
     "query_translation": "It can have \"",
     "timestamp": 1363339796493
+  },
+  "Edit me": {
+    "vars": [],
+    "translations": "Helloworld",
+    "query_translation": "Helloworld",
+    "timestamp": 1364663143286
   }
 }

@@ -101,6 +101,9 @@ define(function() {
     },
     "It can have \"": function anonymous(it) {
       return "HASH_NOT_TRANSLATED: It can have \"";
+    },
+    "Edit me": function anonymous(it) {
+      return "HASH_NOT_TRANSLATED: Edit me";
     }
   };
   return function(translationKey) {

@@ -35,7 +35,6 @@
     "amdefine": "0.0.4",
     "requirejs": "~2.1.2",
     "express": "~3.1.0",
-    "http": "0.0.0",
     "optparse": "~1.0.4",
     "jsdom": "~0.3.4",
     "backbone": "~0.9.10",
@@ -57,10 +56,7 @@
     "grunt-dot-compiler": "~0.3.10",
     "grunt-contrib-watch": "~0.1.4",
     "grunt-contrib-requirejs": "~0.4.0",
-    "grunt-contrib-livereload": "~0.1.2",
-    "grunt-regarde": "~0.1.1",
-    "grunt-contrib-clean": "~0.4.0",
-    "grunt-contrib-copy": "~0.4.0"
+    "grunt-regarde": "~0.1.1"
   },
   "keywords": [
     "gruntplugin"

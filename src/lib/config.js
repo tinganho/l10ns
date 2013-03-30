@@ -1,8 +1,7 @@
 var grunt       = require('grunt'),
     engine      = require('./engine'),
     path        = require('path'),
-    OPERATORS   = require('./operators'),
-    nStore      = require('nstore');
+    OPERATORS   = require('./operators');
 
 grunt.util = grunt.util || grunt.utils;
 grunt.file.expand = grunt.file.expandFiles || grunt.file.expand;
@@ -151,6 +150,43 @@ config.isConditions = function(operand1, operator, operand2) {
   }
   return true;
 };
+
+/**
+  Get latest translation
+  @param {Object} opt
+  @param {Number} amount
+  @return {Array}
+ */
+config.getLatestTranslations = function(opt, amount) {
+  var amount = amount || 10;
+  var translations = grunt.file.readJSON(opt.config + '/locales/' + opt.defaultLanguage + '.json');
+  var keys = [];
+  for(var key in translations) {
+    if(translations.hasOwnProperty(key)) {
+      keys.push(key);
+    }
+  }
+  keys.sort(function(a, b) {
+    return translations[b].timestamp - translations[a].timestamp;
+  });
+  var n = 0;
+  return keys.slice(0, amount);
+}
+
+/**
+  Get latest search translation
+  @param {Object} opt
+  @param {Number} amount
+  @return {Array}
+ */
+config.getLatestSearchTranslations = function(opt, amount) {
+  var amount = amount || 10;
+  if(grunt.file.exists(opt.latestSearch)) {
+    return grunt.file.readJSON(opt.latestSearch).slice(0, amount);
+  } else {
+    return [];
+  }
+}
 
 /**
   Checks if an operand has the right syntax

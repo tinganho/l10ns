@@ -16,8 +16,10 @@ var options = _.defaults(grunt.config.get('translate').dist.options, {
   translationFunctionName : 'gt',
   autoOpen                : false
 });
-options.output    = options.config + '/output';
-options.deleteLog = options.config + '/delete.log';
+options.locales      = options.config + '/locales';
+options.output       = options.config + '/output';
+options.deleteLog    = options.config + '/delete.log';
+options.latestSearch = options.config + '/cache/latestSearch.json';
 
 // Import the optparse library.
 var optparse = require('optparse');
@@ -47,6 +49,21 @@ switch(arguments[0]) {
       return false;
     }
     bootstrap.search(options, arguments[1]);
+    break;
+  case 'edit':
+    var language, value;
+    if(/-lang=[a-z]{2}/.test(arguments[2])) {
+      language = arguments[2].substr(-2);
+      value = arguments[3];
+    } else {
+      language = options.defaultLanguage;
+      value = arguments[2]
+    }
+    if(typeof value === 'undefined') {
+      grunt.log.error('You must have a translation value to add to a translation key');
+      return false;
+    }
+    bootstrap.edit(options, arguments[1], language, value);
     break;
   default:
     break;
