@@ -58,8 +58,7 @@
     "grunt-contrib-watch": "~0.1.4",
     "grunt-contrib-requirejs": "~0.4.0",
     "grunt-regarde": "~0.1.1",
-    "grunt-contrib-clean": "~0.4.0",
-    "grunt-contrib-copy": "~0.4.0"
+    "grunt-contrib-clean": "~0.4.0"
   },
   "keywords": [
     "gruntplugin"
