@@ -4,9 +4,7 @@ var grunt  = require('grunt'),
     _      = grunt.util._,
     path   = require('path'),
     engine = require('../lib/engine'),
-    config = require('../lib/config'),
-    nStore = require('nstore'),
-    nStore = nStore.extend(require('nstore/query')());
+    config = require('../lib/config');
 
 module.exports = function(options) {
 

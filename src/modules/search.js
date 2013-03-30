@@ -1,6 +1,5 @@
 
-var NodeSearch = require('node-search'),
-    config     = require('../lib/config'),
+var config     = require('../lib/config'),
     Module     = require('./module'),
     lunr       = require('lunr'),
     colors     = require('colors'),
