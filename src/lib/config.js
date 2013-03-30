@@ -1,7 +1,8 @@
 var grunt       = require('grunt'),
     engine      = require('./engine'),
     path        = require('path'),
-    OPERATORS   = require('./operators');
+    OPERATORS   = require('./operators'),
+    nStore      = require('nstore');
 
 grunt.util = grunt.util || grunt.utils;
 grunt.file.expand = grunt.file.expandFiles || grunt.file.expand;
@@ -67,18 +68,19 @@ config.getTranslationKey = function(fn) {
   var type;
   fn.replace(/gt\(\s*(['|"])/ , function(m, quote) {
     if(/'/.test(quote)) {
-      type = 'single'
+      type = 'single';
     } else {
       type = 'double';
     }
   });
+  var str;
   if(type === 'single') {
     fn = fn.replace(/\\'/, 'SINGLE_QUOTE');
-    var str = fn.split("'")[1];
+    str = fn.split("'")[1];
     return str.replace('SINGLE_QUOTE', '\'');
   } else {
     fn = fn.replace(/\\"/, 'DOUBLE_QUOTE');
-    var str = fn.split(/"/)[1];
+    str = fn.split(/"/)[1];
     return str.replace('DOUBLE_QUOTE', "\"");
   }
 };

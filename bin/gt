@@ -4,18 +4,19 @@
 var sys     = require('sys'),
   grunt     = require('grunt'),
   findup    = require('findup-sync'),
-  bootstrap = require('../lib/bootstrap'),
+  bootstrap = require('../src/bootstrap'),
   open      = require('open'),
   _         = grunt.util._;
 
 require(findup('Gruntfile.js'))(grunt, true);
 var translation = './translations';
 var options = _.defaults(grunt.config.get('translate').dist.options, {
-  config: './translation',
-  requireJS: true,
-  translationFunctionName: 'gt'
+  config                  : './translation',
+  requireJS               : true,
+  translationFunctionName : 'gt',
+  autoOpen                : false
 });
-options.output = options.config + '/output';
+options.output    = options.config + '/output';
 options.deleteLog = options.config + '/delete.log';
 
 // Import the optparse library.
@@ -23,7 +24,7 @@ var optparse = require('optparse');
 
 // Switches
 var switches = [
-    ['-h', '--help', 'Shows help sections']
+  ['-h', '--help', 'Shows help sections']
 ];
 
 var arguments = process.argv.splice(2);
@@ -31,16 +32,23 @@ switch(arguments[0]) {
   case 'interface':
     var server = require('../app/server');
     server.server();
-    // open('http://localhost:3000/translations');
+    if(options.interface.autoOpen) {
+      open('http://localhost:' + options.interface.port);
+    }
     break;
   case 'update':
   case 'compile':
   case 'log':
-  case 'search':
     bootstrap[arguments[0]](options);
     break;
+  case 'search':
+    if(typeof arguments[1] === 'undefined') {
+      grunt.log.error('You need to provide a string in your search');
+      return false;
+    }
+    bootstrap.search(options, arguments[1]);
+    break;
   default:
-
     break;
 }
 

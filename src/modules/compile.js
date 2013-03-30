@@ -1,10 +1,10 @@
-var grunt = require('grunt'),
-   findup = require('findup-sync'),
-       fs = require('fs'),
-        _ = grunt.util._,
-     path = require('path'),
-   engine = require('../helpers/engine'),
-   config = require('../helpers/config');
+var grunt  = require('grunt'),
+    findup = require('findup-sync'),
+    fs     = require('fs'),
+    _      = grunt.util._,
+    path   = require('path'),
+    engine = require('../lib/engine'),
+    config = require('../lib/config');
 
 require(findup('Gruntfile.js'))(grunt);
 

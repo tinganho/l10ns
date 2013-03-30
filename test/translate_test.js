@@ -1,11 +1,11 @@
-    var grunt = require('grunt'),
-           fs = require('fs'),
-          sys = require('sys'),
+var grunt     = require('grunt'),
+    fs        = require('fs'),
+    sys       = require('sys'),
     requirejs = require('requirejs'),
-       findup = require('findup-sync'),
-        spawn = require('child_process').spawn,
-         exec = require('child_process').exec,
-       expect = require('chai').expect;
+    findup    = require('findup-sync'),
+    spawn     = require('child_process').spawn,
+    exec      = require('child_process').exec,
+    expect    = require('chai').expect;
 
 
 
@@ -166,7 +166,7 @@ describe('Grunt Translate', function() {
   describe('Log', function(){
     var translations;
     var keys = [];
-    var bootstrap = require('../lib/bootstrap');
+    var bootstrap = require('../src/bootstrap');
     before(function(done){
       translations = grunt.file.readJSON(options.config + '/locales/' + options.defaultLanguage + '.json');
       for(var key in translations) {
@@ -186,8 +186,17 @@ describe('Grunt Translate', function() {
         expect(key).to.equal(keys[n]);
         n++;
       }
-
     });
-  })
+  });
+
+  describe('Search', function() {
+    it('should be able to index translations', function(done) {
+      exec('node bin/gt search take', function(error, stdout, stderr) {
+        // RequireJS settings
+        expect(/results found/.test(stdout)).to.be.true;
+        done();
+      });
+    });
+  });
 });
 

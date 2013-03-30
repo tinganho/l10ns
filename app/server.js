@@ -41,6 +41,8 @@ GruntTranslate.server = function() {
 
 
   require('./routes/translations/translationsRegions')(server);
+  require('./modules/translations/api')(server);
+
 
   http.createServer(server).listen( server.get( 'port' ), function() {
     console.log( 'Express server listening on port ' + server.get('port') );
