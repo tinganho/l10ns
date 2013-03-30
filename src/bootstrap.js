@@ -17,5 +17,8 @@ GruntTranslate.search = function(opt, q) {
 GruntTranslate.interface = function(){
   require('../app/server').server();
 };
+GruntTranslate.edit = function(opt, hash, lang, value){
+  require('./modules/edit')(opt, hash, lang, value);
+};
 module.exports = GruntTranslate;
 

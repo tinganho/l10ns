@@ -56,5 +56,8 @@ function test() {
   gt('It can have \'');
   gt('It can have "');
 
+  // Edit translation
+  gt('Edit me');
+
 
 }

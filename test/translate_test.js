@@ -19,7 +19,7 @@ var config = grunt.config.get('translate'),
 // Routing tests
 require('../app/routes/translations/spec')(grunt, options);
 
-describe('Grunt Translate', function() {
+describe('Grunt translate', function() {
   before(function(done) {
     this.timeout(10000);
     exec('grunt translate:update', function() {
@@ -163,7 +163,7 @@ describe('Grunt Translate', function() {
   });
 
 
-  describe('Log', function(){
+  describe('log', function(){
     var translations;
     var keys = [];
     var bootstrap = require('../src/bootstrap');
@@ -179,21 +179,49 @@ describe('Grunt Translate', function() {
       });
       done();
     });
-    it('should return 20 latest translations', function(){
-      var result = bootstrap.log(options, true);
-      var n = 0;
-      for(var key in result) {
-        expect(key).to.equal(keys[n]);
-        n++;
-      }
+    it('should return 10 latest translations', function(done){
+      exec('node bin/gt log', function(error, stdout, stderr) {
+        expect(/10 latest translation/.test(stdout)).to.be.true;
+        done();
+      });
     });
   });
 
-  describe('Search', function() {
+  describe('search', function() {
     it('should be able to index translations', function(done) {
       exec('node bin/gt search take', function(error, stdout, stderr) {
-        // RequireJS settings
         expect(/results found/.test(stdout)).to.be.true;
+        done();
+      });
+    });
+  });
+
+  describe('edit', function() {
+
+    it('should give an error if no translation value is present', function(done) {
+      exec('node bin/gt edit -3', function(error, stdout, stderr) {
+        expect(/You must have a translation value to add to a translation key/.test(stdout)).to.be.true;
+        done();
+      });
+    });
+
+    it('should not be able to edit translation for -1000000', function() {
+      exec('node bin/gt edit -10000 "Helloworld"', function(error, stdout, stderr) {
+        expect(/Your log doesn't contain/.test(stdout)).to.be.true;
+        done();
+      });
+    });
+
+    it('should not be able to edit translation for @1000000', function() {
+      exec('node bin/gt edit @10000 "Helloworld"', function(error, stdout, stderr) {
+        expect(/Your latest search didn/.test(stdout)).to.be.true;
+        done();
+      });
+    });
+
+    it('should be able to edit "Edit me"', function() {
+      exec('node bin/gt edit "Edit me" "Helloworld"', function(error, stdout, stderr) {
+        expect(/Translation key:/.test(stdout)).to.be.true;
         done();
       });
     });

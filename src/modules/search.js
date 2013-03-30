@@ -58,13 +58,21 @@ Search.prototype._index = function() {
 Search.prototype.query = function(q) {
   var cb = cb || function() {};
   this._index();
-  var res = this.index.search(q);
-  var n = 0;
+  var res = this.index.search(q).slice(0, 10);
+  var n = 1;
   grunt.log.ok((res.length + ' results found'));
+  var cache = [];
   for(var i in res) {
-    grunt.log.writeln(('' + n).yellow + ' ' + res[i].ref);
+    grunt.log.writeln(('@' + n).yellow + ' ' + res[i].ref);
+    cache.push(res[i].ref);
     n++;
   }
+
+  // Store as cache
+  grunt.file.write(
+    this.gruntOpt.config + '/cache/latestSearch.json',
+    JSON.stringify(cache, null, 2)
+  );
 };
 
 
