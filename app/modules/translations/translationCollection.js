@@ -4,7 +4,7 @@ define(function(require) {
 
   var Backbone    = require('backbone'),
       $           = require('jquery'),
-      Translation = require('translationModel');
+      Translation = require('TranslationModel');
 
   var Translations = Backbone.Collection.extend({
 

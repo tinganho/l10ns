@@ -8,10 +8,10 @@ requirejs.config({
     'tmpl'                  : 'public/templates/tmpl',
 
     // modules
-    'translationModel'      : 'modules/translations/translationModel',
-    'translationCollection' : 'modules/translations/translationCollection',
-    'translationsView'      : 'modules/translations/views/translationsView',
-    'translationView'       : 'modules/translations/views/translationView'
+    'TranslationModel'      : 'modules/translations/TranslationModel',
+    'TranslationCollection' : 'modules/translations/TranslationCollection',
+    'TranslationsView'      : 'modules/translations/views/TranslationsView',
+    'TranslationView'       : 'modules/translations/views/TranslationView'
 
   },
 
@@ -38,13 +38,8 @@ define('modernizr', [], function() {
 require([
   'jquery',
   'backbone',
-  'modules/translations/views/translationsView'
+  'TranslationView'
 ], function($, Backbone, TranslationView) {
-
-  /**
-  * General config for API calls
-  * Possible pitfalls : Authorization token not present, weird API routes
-  */
 
   var translationView = new TranslationView();
 
