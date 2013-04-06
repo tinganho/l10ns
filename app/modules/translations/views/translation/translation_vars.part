@@ -1,0 +1,15 @@
+<ul class="translation-vars">
+  <li class="translation-header">VARIABLES</li>
+
+  <li class="translation-var">
+    <ul class="translation-vars-vars">
+    {{?it.vars}}
+      {{~it.vars :value:index}}
+          <li class="translation-vars-var">{{=value}}</li>
+      {{~}}
+    {{??}}
+      <li class="translation-vars-var">None</li>
+    {{?}}
+    </ul>
+  </li>
+</ul>

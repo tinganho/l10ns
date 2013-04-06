@@ -34,11 +34,14 @@ module.exports = function(grunt, gt) {
         strict   : false,
         expr     : true,
         globals: {
-          gt       : true,
-          describe : true,
-          it       : true,
-          before   : true,
-          define   : true
+          gt        : true,
+          describe  : true,
+          it        : true,
+          before    : true,
+          define    : true,
+          Modernizr : true,
+          requirejs : true,
+          alert     : true
         }
       },
 
@@ -48,6 +51,7 @@ module.exports = function(grunt, gt) {
         'lib/**/*.js',
         '!app/build/tmpl.js',
         '!app/vendor/**',
+        '!app/public/templates/**/*.js',
         'src/**/*.js'
       ]
     },
@@ -75,7 +79,7 @@ module.exports = function(grunt, gt) {
           output          : './test/translations/output',
           src             : ['./test/example/**/*.js'],
           interface: {
-            autoOpen : true,
+            autoOpen : false,
             port     : 3000
           }
         }
@@ -95,8 +99,8 @@ module.exports = function(grunt, gt) {
         options: {
           variable: 'tmpl'
         },
-        src  : ['app/**/*.dot'],
-        dest : 'app/build/tmpl.js'
+        src  : ['app/**/*.dot', 'app/**/*.part'],
+        dest : 'app/public/templates/tmpl.js'
       }
     },
 
@@ -134,8 +138,7 @@ module.exports = function(grunt, gt) {
           '**/*.js',
           'Gruntfile.js',
           'bin/**/*.js',
-          'tasks/**/*.js',
-          '!app/build/tmpl.js'
+          'tasks/**/*.js'
         ],
         tasks: ['jshint', 'translate:update', 'translate:compile']
       },

@@ -50,7 +50,7 @@
     "vars": [
       "world"
     ],
-    "translations": "\"Hello ${world}!\"",
+    "translations": "Hello ${world}!",
     "query_translation": "It can have only one string",
     "timestamp": 1363339929164
   },
@@ -151,12 +151,12 @@
         "||",
         "lastname",
         "===",
-        "\"Ho\"",
-        "\"Hello ${firstname} ${lastname}!\""
+        "Ho",
+        "Hello ${firstname} ${lastname}!"
       ],
       [
         "else",
-        "\"Firstname and last is not Tingan Ho\""
+        "Firstname and last is not Tingan Ho"
       ]
     ],
     "query_translation": "It can take several || in if statement",

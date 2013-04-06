@@ -62,8 +62,8 @@ $default-font-size: 16;
 
 // Susy settings
 $total-columns: 12; // 12 columns
-$column-width: 3em; // columns are 4em wide
-$gutter-width: 1em; // with 1em gutters
+$column-width: 1em; // columns are 4em wide
+$gutter-width: 3em; // with 1em gutters
 $grid-padding: 1em; // and 1em padding on the grid conta
 
 .page {
@@ -72,7 +72,8 @@ $grid-padding: 1em; // and 1em padding on the grid conta
 }
 .main-menu ul {
   @include container;
-  height: 63px;
+  height: 40px;
+  font-size: 16px;
 }
 
 
@@ -90,15 +91,16 @@ $grid-padding: 1em; // and 1em padding on the grid conta
 @import "../lib/scss/base";
 
 /* Components */
-@import "../lib/scss/menu";
-@import "../lib/scss/borders";
+@import "../lib/scss/menues";
+@import "../lib/scss/buttons";
+@import "../lib/scss/forms";
 
 /* Regions */
 @import "../routes/translations/translations_regions";
 
 /* Modules */
-@import "../modules/translations/views/translation_keys";
-@import "../modules/translations/views/translation_values";
-
+@import "../modules/translations/views/translations";
+@import "../modules/translations/views/translation/translation";
+@import "../modules/search/views/search";
 
 /* Overrides */

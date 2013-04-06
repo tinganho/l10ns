@@ -1,0 +1,76 @@
+.translation {
+  padding: 40px;
+  color: white;
+  font-weight: lighter;
+  overflow:hidden;
+  z-index: 100;
+}
+
+.translation-body {
+  margin-top: 40px;
+}
+
+.translation-key {
+  color: white;
+  font-size: 2.5em;
+  font-weight: lighter;
+}
+
+.translation-vars {
+  float: left;
+  min-width: 120px;
+  @include span-columns(3, 12);
+  @media( max-width: 720px) {
+    @include span-columns(12, 12);
+  }
+}
+
+.translation-vars-vars {
+  margin-top: 10px;
+}
+
+.translation-header {
+  border-bottom: 1px solid #acacac;
+  padding: 6px 0px;
+  font-size: 1.3em;
+}
+
+.translation-values {
+  float: left;
+  width: 400px;
+  @include span-columns(9 omega, 12);
+  @media( max-width: 720px) {
+    margin-top: 20px;
+    @include span-columns(12, 12);
+  }
+}
+
+.translation-form {
+  position: relative;
+}
+
+.translation-input {
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  bottom: 0px;
+  margin: 0px;
+  color: #333;
+  font-size: 18px;
+  outline: none;
+}
+
+.translation-input-helper {
+  margin-top: 10px;
+  position: relative;
+  height: 30px;
+}
+
+.translation-button-container {
+  margin-top: 10px;
+}
+
+.translation-save {
+  float: right;
+}

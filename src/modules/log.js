@@ -16,33 +16,20 @@ module.exports = function(options, silent) {
     silent = false;
   }
 
-  var translations = grunt.file.readJSON(options.config + '/locales/' + options.defaultLanguage + '.json');
-
-  var keys = config.getLatestTranslations(options, 10);
+  var translations = config.getLatestTranslations(options, 10);
   var n = 1;
   if(!silent) {
     grunt.log.ok('10 latest translation keys:');
   }
   var result = {};
-  for(var i in keys) {
-    key = keys[i];
-    var number = '-' + n;
-    var translation;
-    if(typeof translations[key].translations === 'string') {
-      translation = translations[key].translations;
-    } else {
-      if(translations[key].translations.length === 0) {
-        translation = 'NO TRANSLATION';
-      } else {
-        translation = 'if...';
-      }
-    }
+  for(var i in translations) {
+    var translation = translations[i];
+
     if(!silent) {
-      grunt.log.writeln(number.yellow + ' ' + key + ' ' + translation);
+      grunt.log.writeln(('-' + n).yellow + ' ' + translation.key + ' ' + translation.value.text);
     }
-    result[key] = translation;
     n++;
   }
 
-  return result;
+  return translations;
 };

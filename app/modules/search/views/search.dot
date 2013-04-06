@@ -1,0 +1,5 @@
+<div class="search">
+  <div class="search-input-container">
+    <input class="search-input" value="Search" type="text"></input>
+  </div>
+</div>

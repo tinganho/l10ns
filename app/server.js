@@ -31,21 +31,22 @@ GruntTranslate.server = function() {
     server.use(express.bodyParser());
 
     server.use(express.methodOverride());
-    server.use(server.router );
+    server.use(server.router);
     server.use('/public', express.static(__dirname + '/public'));
+    server.use('/vendor', express.static(__dirname + '/vendor'));
+    server.use(express.static(__dirname + '/'));
+
   });
 
   server.configure('development', function() {
     server.use(express.errorHandler());
   });
 
-
   require('./routes/translations/translationsRegions')(server);
-  require('./modules/translations/api')(server);
+  require('./modules/translations/translationRoute')(server);
 
-
-  http.createServer(server).listen( server.get( 'port' ), function() {
-    console.log( 'Express server listening on port ' + server.get('port') );
+  http.createServer(server).listen(server.get('port'), function() {
+    console.log('Express server listening on port ' + server.get('port'));
   });
 
   return server;
