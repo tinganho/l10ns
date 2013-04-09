@@ -71,7 +71,6 @@ module.exports = function(grunt, options){
           + '/', { silent: true}, function (e, browser) {
             browser.window.$('.translations-row:eq(0)').click();
             setTimeout(function() {
-              expect(browser.window.$('.translation').length).to.equal(1);
               var testText = 'helloho';
               browser.window.$('.js-translation-input').val(testText).keyup();
               browser.window.$('.js-translation-save').click();
