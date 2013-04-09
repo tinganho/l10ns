@@ -3,7 +3,6 @@ var grunt     = require('grunt'),
     sys       = require('sys'),
     requirejs = require('requirejs'),
     findup    = require('findup-sync'),
-    spawn     = require('child_process').spawn,
     exec      = require('child_process').exec,
     expect    = require('chai').expect;
 
@@ -17,7 +16,7 @@ var config = grunt.config.get('translate'),
     options = config.dist.options;
 
 // Routing tests
-require('../app/routes/translations/spec')(grunt, options);
+require('../app/pages/translations/spec')(grunt, options);
 
 describe('Grunt translate', function() {
   before(function(done) {

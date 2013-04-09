@@ -1,7 +1,8 @@
-var chai = require('chai'),
-    expect = chai.expect,
+var chai    = require('chai'),
+    expect  = chai.expect,
     request = require('supertest'),
-    cheerio = require('cheerio');
+    cheerio = require('cheerio'),
+    browser = require('zombie');
 
 
 var $;
@@ -26,7 +27,7 @@ module.exports = function(grunt, options){
       });
     });
 
-    describe('Keys', function(){
+    describe('keys', function(){
       var translations;
       var keys = [];
       var bootstrap = require('../../../src/bootstrap');
@@ -57,6 +58,36 @@ module.exports = function(grunt, options){
             n++;
           });
           done();
+        });
+      });
+    });
+
+
+    describe('translation values', function() {
+      this.timeout(5000);
+      it('should be able to edit values ', function(done) {
+        browser.visit('http://localhost:'
+          + server.get('port')
+          + '/', { silent: true}, function (e, browser) {
+            browser.window.$('.translations-row:eq(0)').click();
+            setTimeout(function() {
+              expect(browser.window.$('.translation').length).to.equal(1);
+              var testText = 'helloho';
+              browser.window.$('.js-translation-input').val(testText).keyup();
+              browser.window.$('.js-translation-save').click();
+              setTimeout(function() {
+                var text =
+                  browser.window
+                    .$('.translations-edit-row')
+                      .prev()
+                        .find('.translations-value .translations-text')
+                          .text();
+                  expect(text).to.equal(testText);
+                  done();
+                  browser.window.$('.js-translation-input').val('').keyup();
+                  browser.window.$('.js-translation-save').click();
+              }, 800);
+            }, 100);
         });
       });
     });
