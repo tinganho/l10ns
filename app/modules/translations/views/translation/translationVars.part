@@ -3,7 +3,7 @@
 
   <li class="translation-var">
     <ul class="translation-vars-vars">
-    {{?it.vars}}
+    {{?it.vars.length != 0}}
       {{~it.vars :value:index}}
           <li class="translation-vars-var">{{=value}}</li>
       {{~}}

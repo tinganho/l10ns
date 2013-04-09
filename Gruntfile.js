@@ -31,6 +31,7 @@ module.exports = function(grunt, gt) {
         node     : true,
         es5      : true,
         supernew : true,
+        laxbreak : true,
         strict   : false,
         expr     : true,
         globals: {
@@ -41,7 +42,8 @@ module.exports = function(grunt, gt) {
           define    : true,
           Modernizr : true,
           requirejs : true,
-          alert     : true
+          alert     : true,
+          window    : true
         }
       },
 
@@ -60,7 +62,7 @@ module.exports = function(grunt, gt) {
       dist: {
         options: {
           config         : 'app/config.rb',
-          require        : ['susy', 'breakpoint', 'sassy-buttons', 'toolkit'],
+          require        : ['susy', 'breakpoint', 'sassy-buttons', 'toolkit', 'animation'],
           sassDir        : 'app/build',
           cssDir         : 'app/public/styles',
           debugInfo      : true,
@@ -74,7 +76,7 @@ module.exports = function(grunt, gt) {
       dist: {
         options: {
           config          : './test/translations',
-          requireJS       : true,
+          requirejs       : true,
           defaultLanguage : 'en', // grunt-translate use it to update translation.
           output          : './test/translations/output',
           src             : ['./test/example/**/*.js'],
@@ -97,7 +99,9 @@ module.exports = function(grunt, gt) {
     dot: {
       dist: {
         options: {
-          variable: 'tmpl'
+          variable  : 'tmpl',
+          requirejs : true,
+          node      : true
         },
         src  : ['app/**/*.dot', 'app/**/*.part'],
         dest : 'app/public/templates/tmpl.js'
@@ -140,7 +144,7 @@ module.exports = function(grunt, gt) {
           'bin/**/*.js',
           'tasks/**/*.js'
         ],
-        tasks: ['jshint', 'translate:update', 'translate:compile']
+        tasks: ['jshint']
       },
 
       compass: {

@@ -1,4 +1,7 @@
+
+
 .translation {
+  position: relative;
   padding: 40px;
   color: white;
   font-weight: lighter;
@@ -73,4 +76,49 @@
 
 .translation-save {
   float: right;
+}
+
+.translation-loading-frame {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.3);
+  text-align: center;
+  display: none;
+}
+
+.translations-edit-cell.saving .translation-loading-frame {
+  display: block;
+}
+
+.translation-loading-container {
+  display: inline-block;
+  top: 30%;
+  position: relative;
+}
+
+.translation-loading-indicator {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+  background-image: url(../../public/images/main/loading.png);
+  @include animation(clock-spinleft 750ms linear 0s infinite);
+}
+
+.translation-loading-indicator-helper {
+  text-align: center;
+  display: block;
+  margin-bottom: 15px;
+}
+
+.translation-loading-text {
+  margin-left: 20px;
+  font-size: 1.3em;
+}
+
+@include keyframes(clock-spinleft) {
+    from { @include rotate(0deg); }
+    to { @include rotate(-360deg); }
 }

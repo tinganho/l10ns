@@ -69,6 +69,18 @@
   }
 }
 
+.translations-edit-row {
+  display: block;
+  overflow: hidden;
+  cursor: pointer;
+  background-color: rgba(0, 0,0 ,0.1);
+}
+
+.translations-edit-cell {
+  display: inline-block;
+  width: 100%;
+}
+
 .translations-key {
   font-size: 1.2em;
   font-weight: lighter;

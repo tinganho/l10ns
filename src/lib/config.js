@@ -159,27 +159,34 @@ config.getLatestTranslations = function(opt, amount) {
   var keys = [];
   for(var key in translations) {
     if(translations.hasOwnProperty(key)) {
-      var translation;
+      var translation, type;
       if(typeof translations[key].translations === 'string') {
+        type = 'simple';
         translation = {
           text  : translations[key].translations,
           value : translations[key].translations
         };
       } else {
         if(translations[key].translations.length === 0) {
+          type = 'simple';
           translation = {
             text  : 'NO TRANSLATION',
             value : ''
           };
         } else {
+          type = 'logical';
           translation = {
             text  : 'if...',
             value : translations[key].translations
           };
         }
       }
+
       keys.push({
+        id    : translations[key].id,
         key   : key,
+        vars  : translations[key].vars,
+        type  : type,
         value : translation
       });
     }

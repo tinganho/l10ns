@@ -5,10 +5,8 @@ define(function(require) {
   var Translation = Backbone.Model.extend({
 
     defaults : {
-      key : '',
-      translation : ''
+      type : 'simple'
     },
-
 
     url: '/translation'
 

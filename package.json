@@ -1,7 +1,7 @@
 {
-  "name": "grunt-contrib-translate",
+  "name": "grunt-translate",
   "description": "Translate dynamic texts",
-  "version": "0.0.2",
+  "version": "0.2.0",
   "homepage": "https://github.com/tinganho/grunt-translate",
   "author": {
     "name": "Tingan Ho",
@@ -47,14 +47,16 @@
     "grunt-contrib-connect": "~0.2.0",
     "grunt-jsdoc": "~0.2.4",
     "lunr": "http://github.com/tinganho/lunr.js/tarball/master",
-    "zombie": "~1.4.1"
+    "zombie": "~1.4.1",
+    "connect-modrewrite": "~0.2.3",
+    "rekuire": "0.0.4"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.1.0",
     "chai": "~1.4.2",
     "mocha": "~1.8.1",
     "grunt-contrib-compass": "~0.1.0",
-    "grunt-dot-compiler": "~0.3.10",
+    "grunt-dot-compiler": "~0.3.13",
     "grunt-contrib-watch": "~0.1.4",
     "grunt-contrib-requirejs": "~0.4.0",
     "grunt-regarde": "~0.1.1"

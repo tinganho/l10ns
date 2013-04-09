@@ -12,15 +12,27 @@
     </tr>
   </thead>
   <tbody class="translations-body">
-  {{ for(var key in it) { }}
-  <tr class="translations-row initial">
-    <td class="translations-key translations-first-col">
-      <div class="translations-text">{{=it[key].key}}</div>
-    </td>
-    <td class="translations-value translations-second-col">
-      <div class="translations-text">{{=it[key].value.text}}</div>
-    </td>
-  </tr>
+  {{ for(var key in it.collection) { }}
+    <tr class="translations-row"
+        {{?it.collection[key].edit}}style="display: none;"{{?}}
+        data-id="{{=it.collection[key].id}}">
+      <td class="translations-key translations-first-col">
+        <div class="translations-text">{{=it.collection[key].key}}</div>
+      </td>
+      <td class="translations-value translations-second-col">
+        <div class="translations-text">{{=it.collection[key].value.text}}</div>
+      </td>
+    </tr>
+    {{?it.collection[key].edit}}
+    <tr class="translations-edit-row" data-id="{{=it.collection[key].id}}">
+      <td class="translations-edit-cell" colspan="2">
+        {{=it.collection[key].edit}}
+      </td>
+    </tr>
+    {{?}}
   {{ } }}
   </tbody>
 </table>
+{{?it.json}}
+  <script class="js-translations-json">{{=it.json}}</script>
+{{?}}

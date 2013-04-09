@@ -78,9 +78,8 @@ $grid-padding: 1em; // and 1em padding on the grid conta
 
 
 /* Import of utilities */
-@import "compass/utilities";
-@import "compass/typography";
-@import "compass/layout/stretching";
+@import "compass";
+@import "animation";
 
 /* General styles */
 @import "compass/reset";
@@ -96,11 +95,11 @@ $grid-padding: 1em; // and 1em padding on the grid conta
 @import "../lib/scss/forms";
 
 /* Regions */
-@import "../routes/translations/translations_regions";
+@import "../pages/translations/translations_regions";
 
 /* Modules */
-@import "../modules/translations/views/translations";
 @import "../modules/translations/views/translation/translation";
+@import "../modules/translations/views/translations/translations";
 @import "../modules/search/views/search";
 
 /* Overrides */

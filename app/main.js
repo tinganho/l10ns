@@ -1,21 +1,26 @@
 requirejs.config({
 
   paths: {
+
     // libs
     'lodash'                : 'vendor/lodash/lodash',
     'backbone'              : 'vendor/backbone/backbone',
     'jquery'                : 'vendor/jquery/jquery',
     'tmpl'                  : 'public/templates/tmpl',
 
-    // modules
+    // Modules
     'TranslationModel'      : 'modules/translations/TranslationModel',
     'TranslationCollection' : 'modules/translations/TranslationCollection',
-    'TranslationsView'      : 'modules/translations/views/TranslationsView',
-    'TranslationView'       : 'modules/translations/views/TranslationView'
+    'TranslationsView'      : 'modules/translations/views/translations/TranslationsView',
+    'TranslationView'       : 'modules/translations/views/translation/TranslationView',
+    'TranslationRouter'     : 'modules/translations/TranslationRouter',
+
+    'SearchRouter'          : 'modules/search/SearchRouter'
 
   },
 
   shim: {
+
     'lodash' : {
       exports : '_'
     },
@@ -26,6 +31,7 @@ requirejs.config({
     'jquery': {
       exports: 'jQuery'
     }
+
   }
 
 });
@@ -35,14 +41,23 @@ define('modernizr', [], function() {
 });
 
 // Require all libraries
-require([
+requirejs([
+
+  // Libs
   'jquery',
   'backbone',
-  'TranslationView'
-], function($, Backbone, TranslationView) {
+  'App'
 
-  var translationView = new TranslationView();
+], function(
 
-  Backbone.history.start({ pushState: true });
+  $,
+  Backbone,
+  App
+
+){
+
+  $(function(){
+    App.init();
+  });
 
 });
