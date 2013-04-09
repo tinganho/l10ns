@@ -1,0 +1,23 @@
+
+
+
+
+.form-submit {
+  background-color: white;
+  width: 80px;
+  border: none;
+  background-color: #e55a5a;
+  font-size: 1.2em;
+  font-weight: lighter;
+  font-family: $default-font-family;
+  padding: 8px 5px;
+  border-radius: 2px;
+  cursor: pointer;
+  color: white;
+  @include single-box-shadow(rgba(0, 0, 0, 0.1), 1px, 1px, 1px, 0px);
+
+  &:active {
+    background-color: rgb(207, 81, 81);
+    @include single-box-shadow(rgba(0, 0, 0, 0.2), 2px, 2px, 1px, 0px, inset);
+  }
+}

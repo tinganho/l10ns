@@ -17,7 +17,8 @@
       ]
     ],
     "query_translation": "It can have an if and else statement",
-    "timestamp": 1359025336849
+    "timestamp": 1359025336849,
+    "id": "1f969d3b7b07853e7cec3c36097f6b2a"
   },
   "It can have an if and else if and else statements": {
     "vars": [
@@ -44,15 +45,17 @@
       ]
     ],
     "query_translation": "It can have an if and else if and else statements",
-    "timestamp": 1359025336849
+    "timestamp": 1359025336849,
+    "id": "8471e6bd9a632753ce328c947da3e9a0"
   },
   "It can have only one string": {
     "vars": [
       "world"
     ],
-    "translations": "\"Hello ${world}!\"",
+    "translations": "Hello ${world}!",
     "query_translation": "It can have only one string",
-    "timestamp": 1363339929164
+    "timestamp": 1365422189183,
+    "id": "5b00cd7018b4439c8e3659be0edb5e78"
   },
   "It can take && in if statement": {
     "vars": [
@@ -77,7 +80,8 @@
       ]
     ],
     "query_translation": "It can take && in if statement",
-    "timestamp": 1359025336849
+    "timestamp": 1359025336849,
+    "id": "9abde9c7f7f1149cc35045b691d38fdd"
   },
   "It can take || in if statement": {
     "vars": [
@@ -102,7 +106,8 @@
       ]
     ],
     "query_translation": "It can take || in if statement",
-    "timestamp": 1359025336849
+    "timestamp": 1359025336849,
+    "id": "d7f82a8354d6d6ffb0889947ad1e3468"
   },
   "It can take several && in if statement": {
     "vars": [
@@ -131,7 +136,8 @@
       ]
     ],
     "query_translation": "It can take several && in if statement",
-    "timestamp": 1359025336849
+    "timestamp": 1359025336849,
+    "id": "3fe978fec181cd1a229bdc81e376d446"
   },
   "It can take several || in if statement": {
     "vars": [
@@ -151,177 +157,205 @@
         "||",
         "lastname",
         "===",
-        "\"Ho\"",
-        "\"Hello ${firstname} ${lastname}!\""
+        "Ho",
+        "Hello ${firstname} ${lastname}!"
       ],
       [
         "else",
-        "\"Firstname and last is not Tingan Ho\""
+        "Firstname and last is not Tingan Ho"
       ]
     ],
     "query_translation": "It can take several || in if statement",
-    "timestamp": 1359025336849
+    "timestamp": 1359025336849,
+    "id": "f970eadccedf102c20d41f56a3d10dd5"
   },
   "It can have <>": {
     "vars": [],
     "translations": [],
     "query_translation": "It can have <>",
-    "timestamp": 1361260151027
+    "timestamp": 1361260151027,
+    "id": "77a4a766b729c6b9d74760e892ddc546"
   },
   "It can have ..": {
     "vars": [],
     "translations": [],
     "query_translation": "It can have ..",
-    "timestamp": 1361260813314
+    "timestamp": 1365426454459,
+    "id": "8d52fd4e114f6498a34bb7829013f061"
   },
   "It can have ,,": {
     "vars": [],
     "translations": [],
     "query_translation": "It can have ,,",
-    "timestamp": 1361260813314
+    "timestamp": 1361260813314,
+    "id": "a317a72b92120604bb8b6c8e68c71241"
   },
   "It can have ::": {
     "vars": [],
     "translations": [],
     "query_translation": "It can have ::",
-    "timestamp": 1362341122027
+    "timestamp": 1365426440850,
+    "id": "2bc1be2c33d177820a84e2ce8bbfe7ac"
   },
   "It can have ;;": {
     "vars": [],
     "translations": [],
     "query_translation": "It can have ;;",
-    "timestamp": 1362340167096
+    "timestamp": 1365422170199,
+    "id": "18e4619697270e29762db24e07bb63bc"
   },
   "It can have ’’": {
     "vars": [],
     "translations": [],
     "query_translation": "It can have ’’",
-    "timestamp": 1361260813314
+    "timestamp": 1361260813314,
+    "id": "041a9e2b5172628dc18d92a92c3d3a69"
   },
   "It can have __": {
     "vars": [],
     "translations": [],
     "query_translation": "It can have __",
-    "timestamp": 1361260813314
+    "timestamp": 1361260813314,
+    "id": "df72a6bd4fd5ab333ec30e15c4191322"
   },
   "It can have &&": {
     "vars": [],
     "translations": [],
     "query_translation": "It can have &&",
-    "timestamp": 1361260813314
+    "timestamp": 1361260813314,
+    "id": "64efb047e953cd676d21cdfa672451ef"
   },
   "It can have %%": {
     "vars": [],
     "translations": [],
     "query_translation": "It can have %%",
-    "timestamp": 1361260813314
+    "timestamp": 1361260813314,
+    "id": "25b4c841fa47f2d38d8a192172dc6eb8"
   },
   "It can have $$": {
     "vars": [],
     "translations": [],
     "query_translation": "It can have $$",
-    "timestamp": 1361260813314
+    "timestamp": 1361260813314,
+    "id": "aa2df5bf5abeaefcf313be30237a24af"
   },
   "It can have €€": {
     "vars": [],
     "translations": [],
     "query_translation": "It can have €€",
-    "timestamp": 1361260813314
+    "timestamp": 1361260813314,
+    "id": "8294ef1e86c3fa4a096be3fdc10f8795"
   },
   "It can have ##": {
     "vars": [],
     "translations": [],
     "query_translation": "It can have ##",
-    "timestamp": 1361260813314
+    "timestamp": 1361260813314,
+    "id": "74ae369e00a8aefcace127cc1bab47f0"
   },
   "It can have ??": {
     "vars": [],
     "translations": [],
     "query_translation": "It can have ??",
-    "timestamp": 1361260813314
+    "timestamp": 1361260813314,
+    "id": "3043fa61adeb59031df4a3a99cf194a6"
   },
   "It can have !!": {
     "vars": [],
     "translations": [],
     "query_translation": "It can have !!",
-    "timestamp": 1361260813314
+    "timestamp": 1361260813314,
+    "id": "57fba26f2caee2e33229fe085847665c"
   },
   "It can have ()": {
     "vars": [],
     "translations": [],
     "query_translation": "It can have ()",
-    "timestamp": 1362337703694
+    "timestamp": 1362337703694,
+    "id": "e4b77cb7553c289767be75f36b83c121"
   },
   "It can have @@": {
     "vars": [],
     "translations": [],
     "query_translation": "It can have @@",
-    "timestamp": 1362341122027
+    "timestamp": 1365422111682,
+    "id": "33c5b0c620587fe5ed2bc2ce435b4e61"
   },
   "It can have ^^": {
     "vars": [],
     "translations": [],
     "query_translation": "It can have ^^",
-    "timestamp": 1361260813314
+    "timestamp": 1361260813314,
+    "id": "a923bb45abe7a3778e0ba238525cef18"
   },
   "It can have ´´": {
     "vars": [],
     "translations": [],
     "query_translation": "It can have ´´",
-    "timestamp": 1361260813314
+    "timestamp": 1361260813314,
+    "id": "86891b3b5b9093f5907917bca334c65b"
   },
   "It can have ``": {
     "vars": [],
     "translations": [],
     "query_translation": "It can have ``",
-    "timestamp": 1361260813314
+    "timestamp": 1361260813314,
+    "id": "61510dcdb7da2cf7455ec105d7e4a731"
   },
   "It can have ==": {
     "vars": [],
     "translations": [],
     "query_translation": "It can have ==",
-    "timestamp": 1361260813314
+    "timestamp": 1361260813314,
+    "id": "b6433e52696f3b9444b9f39619347900"
   },
   "It can have ++": {
     "vars": [],
     "translations": [],
     "query_translation": "It can have ++",
-    "timestamp": 1361260813314
+    "timestamp": 1361260813314,
+    "id": "0fedff9a838835aa3532379a09ab9a3a"
   },
   "It can have --": {
     "vars": [],
     "translations": [],
     "query_translation": "It can have --",
-    "timestamp": 1361260813314
+    "timestamp": 1361260813314,
+    "id": "9fb38ec6351d57fe85a01dca4a1980ee"
   },
   "It can have **": {
     "vars": [],
     "translations": [],
     "query_translation": "It can have **",
-    "timestamp": 1361260813314
+    "timestamp": 1361260813314,
+    "id": "f231818f52a561b19761421585b5db92"
   },
   "It can have //": {
     "vars": [],
     "translations": [],
     "query_translation": "It can have //",
-    "timestamp": 1361260813314
+    "timestamp": 1361260813314,
+    "id": "2e847f1f1dd0f28c1558371d299f6599"
   },
   "It can have '": {
     "vars": [],
     "translations": [],
     "query_translation": "It can have '",
-    "timestamp": 1361261618370
+    "timestamp": 1361261618370,
+    "id": "a73dec3930758129dce45293f0cc5083"
   },
   "It can have \"": {
     "vars": [],
     "translations": [],
     "query_translation": "It can have \"",
-    "timestamp": 1361260837077
+    "timestamp": 1361260837077,
+    "id": "8d58be63a2bf722dbddb770cec73865c"
   },
   "Edit me": {
     "vars": [],
     "translations": "Helloworld",
     "query_translation": "Helloworld",
-    "timestamp": 1364663143286
+    "timestamp": 1365422355828,
+    "id": "e976e6af5ce2e18733c4dc1463815bfb"
   }
 }

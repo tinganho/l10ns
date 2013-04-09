@@ -103,7 +103,7 @@ define(function() {
       return "HASH_NOT_TRANSLATED: It can have \"";
     },
     "Edit me": function anonymous(it) {
-      return "HASH_NOT_TRANSLATED: Edit me";
+      return Helloworld;
     }
   };
   return function(translationKey) {

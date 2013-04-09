@@ -1,0 +1,25 @@
+.search {
+    margin-top: 2px;
+}
+.search-input-container {
+  @include span-columns(9, 12);
+}
+.search-input {
+  color: white;
+  background-color: rgb(231, 127, 127);
+  border: none;
+  height: 27px;
+  font-size: 16px;
+  outline: none;
+  margin-top: 3px;
+  color: white;
+  width: 340px;
+  padding-left: 10px;
+  border-radius: 2px;
+  font-weight: normal;
+  @include single-box-shadow(rgba(0, 0, 0, 0.2), 1px, 1px, 1px, 0px, inset);
+
+  &:focus {
+    color:white;
+  }
+}

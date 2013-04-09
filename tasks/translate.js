@@ -18,7 +18,7 @@ module.exports = function(grunt) {
   var translation = './translations';
   var options = _.defaults(grunt.config.get('translate').dist.options, {
     config: './translation',
-    requireJS: true,
+    requirejs: true,
     translationFunctionName: 'gt'
   });
   options.output = options.config + '/output';
