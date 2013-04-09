@@ -115,11 +115,6 @@ config.isTranslationText = function(text, key) {
       name: 'Undefined translation',
       message: 'You have an undefined translation in:\n' + key
     };
-  } else if(text.substr(0,1) !== '"' || text.substr(-1) !== '"') {
-    throw {
-      name: 'Translation Text Wrong Syntax',
-      message: 'You have missed quotation in:\n' + text
-    };
   }
 };
 
@@ -155,23 +150,52 @@ config.isConditions = function(operand1, operator, operand2) {
   Get latest translation
   @param {Object} opt
   @param {Number} amount
+  @param {Boolean} withValues
   @return {Array}
  */
 config.getLatestTranslations = function(opt, amount) {
-  var amount = amount || 10;
+  amount = amount || 10;
   var translations = grunt.file.readJSON(opt.config + '/locales/' + opt.defaultLanguage + '.json');
   var keys = [];
   for(var key in translations) {
     if(translations.hasOwnProperty(key)) {
-      keys.push(key);
+      var translation, type;
+      if(typeof translations[key].translations === 'string') {
+        type = 'simple';
+        translation = {
+          text  : translations[key].translations,
+          value : translations[key].translations
+        };
+      } else {
+        if(translations[key].translations.length === 0) {
+          type = 'simple';
+          translation = {
+            text  : 'NO TRANSLATION',
+            value : ''
+          };
+        } else {
+          type = 'logical';
+          translation = {
+            text  : 'if...',
+            value : translations[key].translations
+          };
+        }
+      }
+
+      keys.push({
+        id    : translations[key].id,
+        key   : key,
+        vars  : translations[key].vars,
+        type  : type,
+        value : translation
+      });
     }
   }
   keys.sort(function(a, b) {
-    return translations[b].timestamp - translations[a].timestamp;
+    return translations[b.key].timestamp - translations[a.key].timestamp;
   });
-  var n = 0;
   return keys.slice(0, amount);
-}
+};
 
 /**
   Get latest search translation
@@ -180,13 +204,13 @@ config.getLatestTranslations = function(opt, amount) {
   @return {Array}
  */
 config.getLatestSearchTranslations = function(opt, amount) {
-  var amount = amount || 10;
+  amount = amount || 10;
   if(grunt.file.exists(opt.latestSearch)) {
     return grunt.file.readJSON(opt.latestSearch).slice(0, amount);
   } else {
     return [];
   }
-}
+};
 
 /**
   Checks if an operand has the right syntax

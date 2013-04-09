@@ -1,8 +1,0 @@
-<div class="m-main-search">
-  <div class="l-main-search-icon">
-    <i class="eye-glass-icon main-eye-glass"></i>
-  </div>
-  <div class="l-main-search-input">
-    <input class="main-search__input" value="Search"></input>
-  </div>
-</div>

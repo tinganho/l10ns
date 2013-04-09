@@ -31,7 +31,7 @@ module.exports = function(options) {
     var js = '';
 
     // RequireJS
-    if(options.requireJS) {
+    if(options.requirejs) {
       js += engine.appendRequireJSContent();
     } else {
       js += engine.appendModuleContent(options);
@@ -41,7 +41,7 @@ module.exports = function(options) {
     js += engine.appendTranslationContent(file);
 
     // RequireJS
-    if(options.requireJS) {
+    if(options.requirejs) {
       js += '});' + grunt.util.linefeed;
     } else {
       js += '})()' + grunt.util.linefeed;

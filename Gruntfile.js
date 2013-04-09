@@ -31,14 +31,19 @@ module.exports = function(grunt, gt) {
         node     : true,
         es5      : true,
         supernew : true,
+        laxbreak : true,
         strict   : false,
         expr     : true,
         globals: {
-          gt       : true,
-          describe : true,
-          it       : true,
-          before   : true,
-          define   : true
+          gt        : true,
+          describe  : true,
+          it        : true,
+          before    : true,
+          define    : true,
+          Modernizr : true,
+          requirejs : true,
+          alert     : true,
+          window    : true
         }
       },
 
@@ -48,6 +53,7 @@ module.exports = function(grunt, gt) {
         'lib/**/*.js',
         '!app/build/tmpl.js',
         '!app/vendor/**',
+        '!app/public/templates/**/*.js',
         'src/**/*.js'
       ]
     },
@@ -56,7 +62,7 @@ module.exports = function(grunt, gt) {
       dist: {
         options: {
           config         : 'app/config.rb',
-          require        : ['susy', 'breakpoint', 'sassy-buttons', 'toolkit'],
+          require        : ['susy', 'breakpoint', 'sassy-buttons', 'toolkit', 'animation'],
           sassDir        : 'app/build',
           cssDir         : 'app/public/styles',
           debugInfo      : true,
@@ -70,12 +76,12 @@ module.exports = function(grunt, gt) {
       dist: {
         options: {
           config          : './test/translations',
-          requireJS       : true,
+          requirejs       : true,
           defaultLanguage : 'en', // grunt-translate use it to update translation.
           output          : './test/translations/output',
           src             : ['./test/example/**/*.js'],
           interface: {
-            autoOpen : true,
+            autoOpen : false,
             port     : 3000
           }
         }
@@ -93,10 +99,12 @@ module.exports = function(grunt, gt) {
     dot: {
       dist: {
         options: {
-          variable: 'tmpl'
+          variable  : 'tmpl',
+          requirejs : true,
+          node      : true
         },
-        src  : ['app/**/*.dot'],
-        dest : 'app/build/tmpl.js'
+        src  : ['app/**/*.dot', 'app/**/*.part'],
+        dest : 'app/public/templates/tmpl.js'
       }
     },
 
@@ -134,10 +142,9 @@ module.exports = function(grunt, gt) {
           '**/*.js',
           'Gruntfile.js',
           'bin/**/*.js',
-          'tasks/**/*.js',
-          '!app/build/tmpl.js'
+          'tasks/**/*.js'
         ],
-        tasks: ['jshint', 'translate:update', 'translate:compile']
+        tasks: ['jshint']
       },
 
       compass: {

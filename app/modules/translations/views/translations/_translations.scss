@@ -1,0 +1,92 @@
+.translations {
+  width: 100%;
+}
+
+.translations-title {
+  font-size: 2em;
+  font-weight: lighter;
+}
+
+.translations-title-layout {
+  display: block;
+}
+
+.translations-header {
+  display: block;
+  margin-top: 30px;
+}
+
+.translations-body {
+  margin-top: 30px;
+  display: inline-block;
+  position: relative;
+  width: 100%;
+}
+
+.translations-first-col {
+  @include span-columns(6, 12);
+  @media(max-width: 415px) {
+    @include span-columns(12, 12);
+  }
+
+  .translations-title,  {
+    margin-left: 40px;
+  }
+  .translations-text {
+    margin-left: 40px;
+  }
+}
+
+.translations-text {
+  padding: 5px 0px;
+}
+
+.translations-second-col {
+  @include span-columns(6 omega, 12);
+  @media(max-width: 415px) {
+    display: none !important;
+  }
+}
+
+.translations-row {
+  display: block;
+  overflow: hidden;
+  cursor: pointer;
+  // @include transition(max-height 0.2s);
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  &.active {
+    background-color: rgba(0, 0, 0, 0.1);
+    cursor: default;
+  }
+  &.initial {
+    max-height: 29px;
+  }
+  &.expanded {
+    max-height: 800px;
+  }
+}
+
+.translations-edit-row {
+  display: block;
+  overflow: hidden;
+  cursor: pointer;
+  background-color: rgba(0, 0,0 ,0.1);
+}
+
+.translations-edit-cell {
+  display: inline-block;
+  width: 100%;
+}
+
+.translations-key {
+  font-size: 1.2em;
+  font-weight: lighter;
+}
+
+.translations-value {
+  @extend .translations-key;
+}
+

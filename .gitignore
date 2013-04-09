@@ -1,6 +1,8 @@
 npm-debug.log
 node_modules/
+!node_modules/lib
 test/translations/delete.log
 .sass-cache/
 docs/
+app/public/images/main-*
 app/public/styles/*

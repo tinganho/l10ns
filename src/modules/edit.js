@@ -3,13 +3,13 @@ var config = require('../lib/config'),
 
 
 module.exports = function(opt, hash, lang, val) {
-  var key;
+  var key, latest;
   if(/-\d+/.test(hash)) {
-    var latest = hash.match(/\d+/)[0];
+    latest = +hash.match(/\d+/)[0];
     var latestTranslations = config.getLatestTranslations(opt, 10);
     var n = 1;
     for(var i in latestTranslations) {
-      if(latest == n) {
+      if(latest === n) {
         key = latestTranslations[i];
         break;
       }
@@ -20,7 +20,7 @@ module.exports = function(opt, hash, lang, val) {
       return false;
     }
   } else if(/@\d+/.test(hash)) {
-    var latest = hash.match(/\d+/)[0] - 1;
+    latest = hash.match(/\d+/)[0] - 1;
     var latestSearchTranslations = config.getLatestSearchTranslations(opt, 10);
     if(typeof latestSearchTranslations[latest] !== 'undefined') {
       key = latestSearchTranslations[latest];

@@ -1,0 +1,20 @@
+{{##def.vars    : load('./translationVars.part') #}}
+{{##def.values  : load('./translationValues.part') #}}
+{{##def.loading : load('./translationLoading.part') #}}
+
+<div class="translation">
+
+  <div class="translation-blur-helper">
+    <h1 class="translation-key">{{=it.key}}</h1>
+
+    <div class="translation-body">
+
+      {{#def.vars}}
+      {{#def.values}}
+
+    </div>
+  </div>
+
+  {{#def.loading}}
+
+</div>

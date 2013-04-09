@@ -1,0 +1,4 @@
+<tr class="translations-edit-row" data-id="{{=it.id}}">
+  <td class="translations-edit-cell" colspan="2">
+  </td>
+</tr>

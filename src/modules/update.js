@@ -4,9 +4,15 @@ var grunt  = require('grunt'),
     _      = grunt.util._,
     path   = require('path'),
     engine = require('../lib/engine'),
-    config = require('../lib/config');
+    config = require('../lib/config'),
+    crypto = require('crypto'),
+    os     = require('os');
+
+
 
 module.exports = function(options) {
+
+  var machineHash = crypto.createHash('md5').update(os.hostname()).digest('hex');
 
   var res = {};
   // get all locales
@@ -36,9 +42,10 @@ module.exports = function(options) {
   var now = (new Date()).getTime();
   var locales = config.getAllLocales(options);
   locales.forEach(function(locale){
+    var x = 0;
     (function(locale){
       var newLocal = res;
-      Object.keys(newLocal).forEach(function(key){
+      Object.keys(newLocal).forEach(function(key) {
         if(typeof allTranslations[locale] !== 'undefined') {
           if(key in allTranslations[locale] && 'translations' in allTranslations[locale][key]) {
             newLocal[key].translations = allTranslations[locale][key].translations;
@@ -46,16 +53,28 @@ module.exports = function(options) {
           } else {
             newLocal[key].translations = [];
           }
+
+          // Assign timestamp
           newLocal[key].query_translation = key;
           if(key in allTranslations[locale] && 'timestamp' in allTranslations[locale][key]) {
             newLocal[key].timestamp = allTranslations[locale][key].timestamp;
           } else {
             newLocal[key].timestamp = now;
           }
+
+          // Assign id
+          if(key in allTranslations[locale] && 'id' in allTranslations[locale][key]) {
+            newLocal[key].id = allTranslations[locale][key].id;
+          } else {
+            console.log(crypto.createHash('md5').update(machineHash + now + x).digest('hex'));
+            newLocal[key].id = crypto.createHash('md5').update(machineHash + now + x).digest('hex');
+          }
+
         } else {
           newLocal[key].translations = [];
           newLocal[key].timestamp = now;
         }
+        x++;
       });
       var localPath = options.config + '/locales/';
       if(!fs.existsSync(localPath)) {
