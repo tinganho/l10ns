@@ -1,4 +1,6 @@
-var Translations = require('../lib/translations');
+var root = '../../../';
+var path = require('path');
+var Translations = require(path.join(root, 'src/lib/translations'));
 
 module.exports = function(server) {
 

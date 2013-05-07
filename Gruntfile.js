@@ -165,7 +165,6 @@ module.exports = function(grunt, gt) {
   // Load npm tasks
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-requirejs');
-  grunt.loadNpmTasks('grunt-translate');
   grunt.loadNpmTasks('grunt-contrib-compass');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-dot-compiler');
