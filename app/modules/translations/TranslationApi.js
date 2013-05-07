@@ -1,4 +1,4 @@
-var Translations = require('lib/translations');
+var Translations = require('../lib/translations');
 
 module.exports = function(server) {
 
