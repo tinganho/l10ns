@@ -165,6 +165,7 @@ module.exports = function(grunt, gt) {
   // Load npm tasks
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-requirejs');
+  grunt.loadNpmTasks('grunt-translate');
   grunt.loadNpmTasks('grunt-contrib-compass');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-dot-compiler');
@@ -172,6 +173,7 @@ module.exports = function(grunt, gt) {
   grunt.loadNpmTasks('grunt-regarde');
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-jsdoc');
+
 
   // Default task.
   grunt.registerTask('default', 'jshint translate:update translate:compile test');

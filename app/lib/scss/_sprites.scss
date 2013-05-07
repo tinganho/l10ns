@@ -1,0 +1,100 @@
+
+$sprite-folders : icons;
+
+// Generates a normal and retina version css rule for an sprite icon
+
+// $map : variable containing the normal sprites
+// $map2x : retina version, twice the resolution
+// $name : name of the icon
+
+@mixin background-sprite( $map, $map2x, $name ) {
+
+    display: inline-block;
+    height: image-height( sprite-file( $map, $name ) );
+    width: image-width( sprite-file( $map, $name ) );
+    background-position: sprite-position( $map, $name );
+    @media ( -webkit-min-device-pixel-ratio: 1.5 ),
+      ( min--moz-device-pixel-ratio: 3/2 ),
+      ( min-resolution: 1.5dppx ),
+      ( min-resolution: 19dpi ) {
+      background-position: 0 round( nth( sprite-position( $map2x, $name ), 2) / 2);
+      height: round( image-height( sprite-file( $map2x, $name ) ) / 2 );
+      width: round( image-width( sprite-file( $map2x, $name ) ) /2 );
+      background-size: ceil( image-width( sprite-path( $map2x ) ) / 2) auto;
+    }
+}
+// Icon sprites are stored in i tags when possible
+
+i {
+  display: inline-block;
+  vertical-align: middle;
+  margin-top: -4px; // Hack to properly align text
+}
+
+/*
+    Sprite images to be divided into 2 separate groups
+    Those accessed often and those accessed occasionnaly
+    (For exemple login and signup sprites)
+    The first ones should all be regrouped into one sprite
+    The later ones should be divided by modules
+
+*/
+
+/**
+
+    Sprites will all consists of two files
+    A normal and a retina version
+
+*/
+
+
+/*
+    Icons with special suffixes generate also
+    hover and active states
+
+    For exemple icon-inactive will generate in addition
+    the .sp-active .icon-inactive, .sp-hover:hover .icon-inactive, .icon-active {}
+    CSS rule
+*/
+$active-pattern     : '-active';
+$inactive-pattern   : '-inactive';
+$active-class       : 'sp-active';
+$hover-class        : 'sp-hover';
+
+@each $sprite-name in $sprite-folders {
+
+  $sprite         : sprite-map( "#{$sprite-name}/*.png" );
+  $sprite-ret     : sprite-map( "#{$sprite-name}2x/*.png" );
+
+  .sp-#{$sprite-name} {
+    background      : $sprite;
+    @media (
+      -webkit-min-device-pixel-ratio: 1.5 ),
+      ( min--moz-device-pixel-ratio: 3/2 ),
+      ( min-resolution: 1.5dppx ),
+      ( min-resolution: 192dpi ) {
+        background: $sprite-ret;
+    }
+  }
+
+  @each $sprite-image in sprite_names( $sprite ) {
+    // Prevent the active class from being created
+    @if str_pos( $active-pattern, $sprite-image ) == -1 {
+
+      .sp-#{$sprite-name}-#{$sprite-image} {
+          @include background-sprite( $sprite, $sprite-ret, $sprite-image );
+      }
+      $inactive : str_pos( $inactive-pattern, $sprite-image );
+      // If the sprite has the active suffix we create an additional
+      // rule that covers all the possible active states
+      @if $inactive > -1 {
+        $active : str_replace($inactive-pattern, $active-pattern, $sprite-image);
+        .#{$hover-class}:hover .sp-#{$sprite-name}-#{$sprite-image}, // hover state
+        .#{$active-class} .sp-#{$sprite-name}-#{$sprite-image}, // active state
+        .sp-#{$sprite-name}-#{$active} {
+            @include background-sprite($sprite, $sprite-ret, $active);
+        }
+      }
+    }
+  }
+}
