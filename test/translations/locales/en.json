@@ -52,7 +52,7 @@
     "vars": [
       "world"
     ],
-    "translations": "Hello ${world}!",
+    "translations": "\"Hello ${world}!\"",
     "query_translation": "It can have only one string",
     "timestamp": 1365422189183,
     "id": "5b00cd7018b4439c8e3659be0edb5e78"
@@ -157,12 +157,12 @@
         "||",
         "lastname",
         "===",
-        "Ho",
-        "Hello ${firstname} ${lastname}!"
+        "\"Ho\"",
+        "\"Hello ${firstname} ${lastname}!\""
       ],
       [
         "else",
-        "Firstname and last is not Tingan Ho"
+        "\"Firstname and last is not Tingan Ho\""
       ]
     ],
     "query_translation": "It can take several || in if statement",
@@ -353,8 +353,8 @@
   },
   "Edit me": {
     "vars": [],
-    "translations": "Helloworld",
-    "query_translation": "Helloworld",
+    "translations": "\"Helloworld\"",
+    "query_translation": "Edit me",
     "timestamp": 1365422355828,
     "id": "e976e6af5ce2e18733c4dc1463815bfb"
   }

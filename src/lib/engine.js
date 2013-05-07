@@ -27,10 +27,7 @@ engine.reformatOperandIfVariable = function(operand, vars) {
     // Re-formats all params/vars
     operand = operand.replace('$', '');
     if(vars.indexOf(operand) === -1) {
-      throw {
-        name: 'Use of Undefined Variable',
-        message: 'You have defined a variable in the translated text that is not used: \n' + operand.replace('$', '') + ' should instead be one of ' + vars.join(', ')
-      };
+      throw TypeError('You have defined a variable in the translated text that is not used: \n' + operand.replace('$', '') + ' should instead be one of ' + vars.join(', '));
     }
     operand = 'it.' + operand;
   }

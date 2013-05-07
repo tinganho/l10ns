@@ -136,7 +136,7 @@ define(function() {
       return "HASH_NOT_TRANSLATED: It can have \"";
     },
     "Edit me": function anonymous(it) {
-      return Helloworld;
+      return "Helloworld";
     }
   };
   return function(translationKey) {
