@@ -76,7 +76,7 @@
   "It can have ..": {
     "vars": [],
     "translations": "\"oiuner\"",
-    "query_translation": "oiuner",
+    "query_translation": "It can have ..",
     "timestamp": 1363339796493,
     "id": "8d52fd4e114f6498a34bb7829013f061"
   },
@@ -250,7 +250,7 @@
   },
   "Edit me": {
     "vars": [],
-    "translations": "Helloworld",
+    "translations": "\"Helloworld\"",
     "query_translation": "Helloworld",
     "timestamp": 1364663143286,
     "id": "e976e6af5ce2e18733c4dc1463815bfb"
