@@ -10,7 +10,7 @@ module.exports = function(opt, hash, lang, val) {
     var n = 1;
     for(var i in latestTranslations) {
       if(latest === n) {
-        key = latestTranslations[i];
+        key = latestTranslations[i].key;
         break;
       }
       n++;

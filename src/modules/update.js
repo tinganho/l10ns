@@ -66,7 +66,6 @@ module.exports = function(options) {
           if(key in allTranslations[locale] && 'id' in allTranslations[locale][key]) {
             newLocal[key].id = allTranslations[locale][key].id;
           } else {
-            console.log(crypto.createHash('md5').update(machineHash + now + x).digest('hex'));
             newLocal[key].id = crypto.createHash('md5').update(machineHash + now + x).digest('hex');
           }
 
