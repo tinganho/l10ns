@@ -42,7 +42,7 @@ module.exports = function(opt, hash, lang, val) {
       return false;
     } else {
       translations[key].query_translation = val;
-      translations[key].translations = val;
+      translations[key].translations = '"' + val + '"';
       grunt.file.write(file, JSON.stringify(translations, null, 2));
       grunt.log.ok('Translation key: "' + key + '" has now the value: "' + val + '"');
     }
