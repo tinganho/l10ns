@@ -41,7 +41,11 @@ switch(arguments[0]) {
   case 'update':
   case 'compile':
   case 'log':
-    bootstrap[arguments[0]](options);
+    var lang;
+    if(typeof arguments[1] !== 'undefined') {
+      lang = arguments[1].match(/-lang=([a-z]{2})/)[1];
+    }
+    bootstrap[arguments[0]](options, false, lang);
     break;
   case 'search':
     if(typeof arguments[1] === 'undefined') {

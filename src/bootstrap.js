@@ -7,8 +7,8 @@ GruntTranslate.update = function(opt){
 GruntTranslate.compile = function(opt){
   require('./modules/compile')(opt);
 };
-GruntTranslate.log = function(opt, silent){
-  return require('./modules/log')(opt, silent);
+GruntTranslate.log = function(opt, silent, loc){
+  return require('./modules/log')(opt, silent, loc);
 };
 GruntTranslate.search = function(opt, q) {
   var search = new (require('./modules/search'))(opt);

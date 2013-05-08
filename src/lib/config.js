@@ -12,8 +12,12 @@ var config = {};
   Get all locales
   return Array of all locales
  */
-config.getAllLocales = function(options){
-  return Object.keys(grunt.file.readJSON(options.config + '/locales.json'));
+config.getAllLocales = function(opt){
+  return Object.keys(grunt.file.readJSON(opt.config + '/locales.json'));
+};
+
+config.hasLocale = function(opt, loc) {
+  return this.getAllLocales(opt).indexOf(loc) !== -1;
 };
 
 /**
@@ -153,9 +157,14 @@ config.isConditions = function(operand1, operator, operand2) {
   @param {Boolean} withValues
   @return {Array}
  */
-config.getLatestTranslations = function(opt, amount) {
+config.getLatestTranslations = function(opt, amount, loc) {
+  if(typeof loc !== 'undefined' && !config.hasLocale(opt, loc)) {
+    grunt.log.error('Locale: ' + loc + ' is not defined in locales.json');
+    return false;
+  }
+  loc = loc || opt.defaultLanguage;
   amount = amount || 10;
-  var translations = grunt.file.readJSON(opt.config + '/locales/' + opt.defaultLanguage + '.json');
+  var translations = grunt.file.readJSON(opt.config + '/locales/' + loc + '.json');
   var keys = [];
   for(var key in translations) {
     if(translations.hasOwnProperty(key)) {
@@ -211,6 +220,8 @@ config.getLatestSearchTranslations = function(opt, amount) {
     return [];
   }
 };
+
+
 
 /**
   Checks if an operand has the right syntax

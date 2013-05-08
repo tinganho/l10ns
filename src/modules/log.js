@@ -10,13 +10,16 @@ var grunt  = require('grunt'),
 grunt.util = grunt.util || grunt.utils;
 grunt.file.expand = grunt.file.expandFiles || grunt.file.expand;
 
-module.exports = function(options, silent) {
+module.exports = function(opt, silent, loc) {
 
+  loc = loc || opt.defaultLangauge;
   if(typeof silent === 'undefined') {
     silent = false;
   }
 
-  var translations = config.getLatestTranslations(options, 10);
+  if(!(translations = config.getLatestTranslations(opt, 10, loc))) {
+    return false;
+  }
   var n = 1;
   if(!silent) {
     grunt.log.ok('10 latest translation keys:');
