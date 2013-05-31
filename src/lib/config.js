@@ -171,9 +171,10 @@ config.getLatestTranslations = function(opt, amount, loc) {
       var translation, type;
       if(typeof translations[key].translations === 'string') {
         type = 'simple';
+        var val = translations[key].translations.substr(1, translations[key].translations.length - 1);
         translation = {
-          text  : translations[key].translations,
-          value : translations[key].translations
+          text  : val,
+          value : val
         };
       } else {
         if(translations[key].translations.length === 0) {

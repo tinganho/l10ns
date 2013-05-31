@@ -35,6 +35,8 @@ Translations.prototype.update = function(key, value, language, cb, err) {
     var translations = grunt.file.readJSON(_path);
     if(value === '') {
       value = [];
+    } else if(typeof value  === 'string') {
+      value = '\"' + value + '\"'
     }
 
     translations[key].translations = value;
