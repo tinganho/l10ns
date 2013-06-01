@@ -6,16 +6,7 @@ requirejs.config({
     'lodash'                : 'vendor/lodash/lodash',
     'backbone'              : 'vendor/backbone/backbone',
     'jquery'                : 'vendor/jquery/jquery',
-    'tmpl'                  : 'public/templates/tmpl',
-
-    // Modules
-    'TranslationModel'      : 'modules/translations/TranslationModel',
-    'TranslationCollection' : 'modules/translations/TranslationCollection',
-    'TranslationsView'      : 'modules/translations/views/translations/TranslationsView',
-    'TranslationView'       : 'modules/translations/views/translation/TranslationView',
-    'TranslationRouter'     : 'modules/translations/TranslationRouter',
-
-    'SearchRouter'          : 'modules/search/SearchRouter'
+    'backbone.paginator'    : 'vendor/backbone.paginator/lib/backbone.paginator'
 
   },
 
@@ -24,14 +15,29 @@ requirejs.config({
     'lodash' : {
       exports : '_'
     },
-    'backbone': {
+    'backbone' : {
       deps: ['lodash', 'jquery'],
       exports: 'Backbone'
     },
-    'jquery': {
+    'jquery' : {
       exports: 'jQuery'
-    }
+    },
+    'backbone.paginator' : ['backbone']
+  },
 
+  map : {
+    '*' : {
+
+      'tmpl'                  : 'public/templates/tmpl',
+        // Modules
+      'TranslationModel'      : 'modules/translations/TranslationModel',
+      'TranslationCollection' : 'modules/translations/TranslationCollection',
+      'TranslationsView'      : 'modules/translations/views/translations/TranslationsView',
+      'TranslationView'       : 'modules/translations/views/translation/TranslationView',
+      'TranslationRouter'     : 'modules/translations/TranslationRouter',
+
+      'SearchRouter'          : 'modules/search/SearchRouter'
+    }
   }
 
 });
@@ -46,12 +52,22 @@ requirejs([
   // Libs
   'jquery',
   'backbone',
+
+  // Plugins
+  'backbone.paginator',
+
   'App'
 
 ], function(
 
+  // Libs
   $,
   Backbone,
+
+  // Plugins
+  BackbonePaginator,
+
+  // App
   App
 
 ){

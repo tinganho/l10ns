@@ -6,3 +6,4 @@ test/translations/delete.log
 docs/
 app/public/images/main-*
 app/public/styles/*
+Gemfile.lock

@@ -6,6 +6,7 @@
     "jquery": ">=1.7.2",
     "lodash": ">=0.10",
     "modernizr": ">=2.6.2",
-    "requirejs": ">=2.1.2"
+    "requirejs": ">=2.1.2",
+    "backbone.paginator": "latest"
   }
 }

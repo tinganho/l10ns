@@ -1,8 +1,17 @@
 var root = '../../../';
 var path = require('path');
 var Translations = require(path.join(root, 'src/lib/translations'));
+var translation = new Translations();
+var config = require('lib/config');
+
+
 
 module.exports = function(server) {
+
+  server.get('/translations', function(req, res) {
+    var translations = config.getLatestTranslations(opt, +req.param('skip') + 1, req.param('top'));
+    res.send(JSON.stringify(translations));
+  });
 
   server.post('/translation', function(req, res) {
     res.send('hej');
@@ -10,7 +19,6 @@ module.exports = function(server) {
 
   server.put('/translation', function(req, res) {
 
-    var translation = new Translations();
     translation.update(req.body.key, req.body.value.value, function() {
       res.send(JSON.stringify({
         meta : {

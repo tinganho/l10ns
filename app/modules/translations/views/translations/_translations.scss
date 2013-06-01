@@ -90,3 +90,22 @@
   @extend .translations-key;
 }
 
+.translations-pagination {
+  display: block;
+}
+
+.translation-pagination-load-more-button {
+  display: block;
+  border: 1px solid #999;
+  text-align: center;
+  height: 40px;
+  line-height: 40px;
+  margin: 20px 40px;
+  cursor: pointer;
+
+  &:hover {
+    color: white;
+    background-color: rgba(0, 0, 0, 0.2);
+
+  }
+}

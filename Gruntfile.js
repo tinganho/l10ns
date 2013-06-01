@@ -62,7 +62,7 @@ module.exports = function(grunt, gt) {
       dist: {
         options: {
           config         : 'app/config.rb',
-          require        : ['susy', 'breakpoint', 'sassy-buttons', 'toolkit', 'animation'],
+          require        : ['susy', 'compass-placeholder', 'sassy-buttons', 'toolkit', 'animation'],
           sassDir        : 'app/build',
           cssDir         : 'app/public/styles',
           debugInfo      : true,

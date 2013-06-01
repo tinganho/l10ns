@@ -79,6 +79,7 @@ $grid-padding: 1em; // and 1em padding on the grid conta
 
 /* Import of utilities */
 @import "compass";
+@import "compass-placeholder";
 @import "animation";
 
 /* General styles */
@@ -100,6 +101,6 @@ $grid-padding: 1em; // and 1em padding on the grid conta
 /* Modules */
 @import "../modules/translations/views/translation/translation";
 @import "../modules/translations/views/translations/translations";
-@import "../modules/search/views/search";
+@import "../modules/search/search";
 
 /* Overrides */

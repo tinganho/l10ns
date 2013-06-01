@@ -36,7 +36,7 @@ Translations.prototype.update = function(key, value, language, cb, err) {
     if(value === '') {
       value = [];
     } else if(typeof value  === 'string') {
-      value = '\"' + value + '\"'
+      value = '\"' + value + '\"';
     }
 
     translations[key].translations = value;

@@ -157,7 +157,7 @@ config.isConditions = function(operand1, operator, operand2) {
   @param {Boolean} withValues
   @return {Array}
  */
-config.getLatestTranslations = function(opt, amount, loc) {
+config.getLatestTranslations = function(opt, from, amount, loc) {
   if(typeof loc !== 'undefined' && !config.hasLocale(opt, loc)) {
     grunt.log.error('Locale: ' + loc + ' is not defined in locales.json');
     return false;
@@ -171,7 +171,7 @@ config.getLatestTranslations = function(opt, amount, loc) {
       var translation, type;
       if(typeof translations[key].translations === 'string') {
         type = 'simple';
-        var val = translations[key].translations.substr(1, translations[key].translations.length - 1);
+        var val = translations[key].translations.substr(1, translations[key].translations.length - 2);
         translation = {
           text  : val,
           value : val
@@ -201,10 +201,12 @@ config.getLatestTranslations = function(opt, amount, loc) {
       });
     }
   }
+
   keys.sort(function(a, b) {
     return translations[b.key].timestamp - translations[a.key].timestamp;
   });
-  return keys.slice(0, amount);
+
+  return keys.splice(from, amount);
 };
 
 /**

@@ -21,6 +21,7 @@ options.output       = options.config + '/output';
 options.deleteLog    = options.config + '/delete.log';
 options.latestSearch = options.config + '/cache/latestSearch.json';
 
+GLOBAL.opt = options;
 // Import the optparse library.
 var optparse = require('optparse');
 

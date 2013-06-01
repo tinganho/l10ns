@@ -17,7 +17,9 @@ module.exports = function(opt, silent, loc) {
     silent = false;
   }
 
-  if(!(translations = config.getLatestTranslations(opt, 10, loc))) {
+  var translations;
+
+  if(!(translations = config.getLatestTranslations(opt, 0, 10, loc))) {
     return false;
   }
   var n = 1;

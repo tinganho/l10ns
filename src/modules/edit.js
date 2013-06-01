@@ -6,7 +6,7 @@ module.exports = function(opt, hash, lang, val) {
   var key, latest;
   if(/-\d+/.test(hash)) {
     latest = +hash.match(/\d+/)[0];
-    var latestTranslations = config.getLatestTranslations(opt, 10);
+    var latestTranslations = config.getLatestTranslations(opt, 0, 10);
     var n = 1;
     for(var i in latestTranslations) {
       if(latest === n) {

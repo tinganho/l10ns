@@ -1,7 +1,15 @@
-define(function(require) {
+define([
 
-  var Backbone    = require('backbone'),
-      $           = require('jquery');
+  'backbone',
+  'jquery'
+
+], function(
+
+  Backbone,
+  $
+
+) {
+
   var Translation = Backbone.Model.extend({
 
     defaults : {

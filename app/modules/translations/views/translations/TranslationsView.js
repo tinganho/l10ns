@@ -32,8 +32,6 @@ define([
 
   var TranslationsView = Backbone.View.extend({
 
-
-
     initialize : function() {
 
       this.sel = {
@@ -50,7 +48,7 @@ define([
         }
       };
 
-      App.TranslationCollection = new TranslationCollection();
+
 
       var json         = $(this.sel.json),
           hasData      = json.length,
@@ -68,14 +66,19 @@ define([
           vars  : translations[key].vars,
           value : translations[key].value
         });
-        App.TranslationCollection.add(translation);
       }
+      App.TranslationCollection = new TranslationCollection(translations);
+      App.TranslationCollection.bootstrap({totalRecords: 100});
+      App.TranslationCollection.meta('prevLength', translations.length);
+
+      // events
+      App.TranslationCollection.on('change', this.reRenderTitles, this);
+      // App.TranslationCollection.on('add', this.renderNewTranslations);
 
       // Remove json data
       json.remove();
 
-      // events
-      App.TranslationCollection.on('change', this.reRenderTitles, this);
+
 
       translation = $(this.sel.editCell);
       if(translation.length) {
@@ -90,14 +93,14 @@ define([
           });
         }
       }
-
     },
 
     el : '.translations',
 
     events : {
-      'click .translations-row'           : 'openEdit',
-      'click .translations-row-close-btn' : 'closeEdit'
+      'click .translations-row'                        : 'openEdit',
+      'click .translations-row-close-btn'              : 'closeEdit',
+      'click .translation-pagination-load-more-button' : 'loadMoreTranslations'
     },
 
     openEdit : function(event) {
@@ -124,6 +127,37 @@ define([
               .html(val);
         }
       });
+    },
+
+    loadMoreTranslations : function() {
+      var self = this;
+      App.TranslationCollection.nextPage({
+        update: true,
+        remove: false,
+        success: function() {
+          self.appendNewTranslations();
+        }});
+    },
+
+    appendNewTranslations : function() {
+      var newCollection =
+      App
+        .TranslationCollection
+          .slice(App.TranslationCollection.meta('prevLength'));
+      for(var i = 0; i < newCollection.length; i++) {
+        var _tmpl = tmpl.translationRow({
+          id    : newCollection[i].get('id'),
+          key   : newCollection[i].get('key'),
+          value : newCollection[i].get('value').text
+        });
+        this.$('.translations-pagination').before(_tmpl);
+      }
+
+      App.TranslationCollection.meta('prevLength', App.TranslationCollection.length);
+
+      if(newCollection.length < 20) {
+        this.$('.translations-pagination').hide();
+      }
     }
   });
 

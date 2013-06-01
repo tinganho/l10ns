@@ -1,0 +1,6 @@
+source 'https://rubygems.org'
+gem 'sass', '3.2.1'
+gem 'compass'
+gem 'compass-placeholder'
+gem 'susy'
+gem 'animation'

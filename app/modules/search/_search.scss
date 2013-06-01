@@ -18,6 +18,9 @@
   border-radius: 2px;
   font-weight: normal;
   @include single-box-shadow(rgba(0, 0, 0, 0.2), 1px, 1px, 1px, 0px, inset);
+  @include placeholder {
+    color: rgba(255, 255, 255, 0.7);
+  }
 
   &:focus {
     color:white;

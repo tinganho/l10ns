@@ -1,5 +1,5 @@
 <div class="search">
   <div class="search-input-container">
-    <input class="search-input" value="Search" type="text"></input>
+    <input class="search-input" type="text" placeholder="Search"></input>
   </div>
 </div>

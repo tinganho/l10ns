@@ -31,6 +31,13 @@
     </tr>
     {{?}}
   {{ } }}
+
+  <tr class="translations-pagination">
+    <td class="translation-pagination-load-more-button">
+      <span class="translations-load-more-text">Load more</span>
+    </td>
+  </tr>
+
   </tbody>
 </table>
 {{?it.json}}
