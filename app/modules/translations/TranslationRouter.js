@@ -49,6 +49,7 @@ define([
 
     showTranslation : function(id) {
 
+      var id = id.split('?')[0];
       var self = this;
 
       var isShowing =

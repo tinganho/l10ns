@@ -48,7 +48,7 @@
     "grunt-jsdoc": "~0.2.4",
     "lunr": "http://github.com/tinganho/lunr.js/tarball/master",
     "zombie": "~1.4.1",
-    "connect-modrewrite": "~0.2.3"
+    "connect-modrewrite": "~0.3.16"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.1.0",

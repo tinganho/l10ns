@@ -32,7 +32,8 @@ GruntTranslate.server = function() {
     server.use(express.favicon());
     server.use(express.logger('dev'));
     server.use(express.bodyParser());
-    server.use(modRewrite([], [
+    server.use(modRewrite([
+    ], [
       /\/public\//,
       /\/vendor\//,
       /\/modules\//,
@@ -40,11 +41,12 @@ GruntTranslate.server = function() {
       /\/App\.js$/
     ]));
 
-    server.use(express.methodOverride());
     server.use(server.router);
+    server.use(express.methodOverride());
     server.use('/public', express.static(__dirname + '/public'));
     server.use('/vendor', express.static(__dirname + '/vendor'));
     server.use(express.static(__dirname + '/'));
+
 
   });
 
@@ -58,6 +60,7 @@ GruntTranslate.server = function() {
 
   // APIs
   require('./modules/translations/TranslationApi')(server);
+
 
   http.createServer(server).listen(server.get('port'), function() {
     console.log('Express server listening on port ' + server.get('port'));

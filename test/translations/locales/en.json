@@ -62,23 +62,7 @@
       "firstname",
       "lastname"
     ],
-    "translations": [
-      [
-        "if",
-        "firstname",
-        "===",
-        "\"Tingan\"",
-        "&&",
-        "lastname",
-        "===",
-        "\"Ho\"",
-        "\"Hello ${firstname} ${lastname}!\""
-      ],
-      [
-        "else",
-        "\"Firstname and last is not Tingan Ho\""
-      ]
-    ],
+    "translations": "\"weffefewwe\"",
     "query_translation": "It can take && in if statement",
     "timestamp": 1359025336849,
     "id": "9abde9c7f7f1149cc35045b691d38fdd"
@@ -178,7 +162,7 @@
   },
   "It can have ..": {
     "vars": [],
-    "translations": "lkfnrnero",
+    "translations": "\"cewdeweew\"",
     "query_translation": "It can have ..",
     "timestamp": 1365426454459,
     "id": "8d52fd4e114f6498a34bb7829013f061"
@@ -192,7 +176,7 @@
   },
   "It can have ::": {
     "vars": [],
-    "translations": [],
+    "translations": "\"pokewfopkewffew\"",
     "query_translation": "It can have ::",
     "timestamp": 1365426440850,
     "id": "2bc1be2c33d177820a84e2ce8bbfe7ac"
@@ -241,7 +225,7 @@
   },
   "It can have €€": {
     "vars": [],
-    "translations": [],
+    "translations": "\"e\"",
     "query_translation": "It can have €€",
     "timestamp": 1361260813314,
     "id": "8294ef1e86c3fa4a096be3fdc10f8795"
@@ -297,7 +281,7 @@
   },
   "It can have ``": {
     "vars": [],
-    "translations": [],
+    "translations": "\"ew\"",
     "query_translation": "It can have ``",
     "timestamp": 1361260813314,
     "id": "61510dcdb7da2cf7455ec105d7e4a731"

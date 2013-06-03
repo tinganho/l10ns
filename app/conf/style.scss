@@ -45,13 +45,12 @@
 // Configuration
 
 $default-font-size: 16;
-
+$sprite-folders: icons;
 
 
 
 /* Imports of vendors */
 @import "susy";
-@import "sassy-buttons";
 @import "breakpoint";
 @import "toolkit";
 
@@ -69,6 +68,7 @@ $grid-padding: 1em; // and 1em padding on the grid conta
 .page {
   @include container;
   height: 100%;
+  overflow: hidden;
 }
 .main-menu ul {
   @include container;
@@ -80,6 +80,7 @@ $grid-padding: 1em; // and 1em padding on the grid conta
 /* Import of utilities */
 @import "compass";
 @import "compass-placeholder";
+@import "compass-retina-sprites";
 @import "animation";
 
 /* General styles */
@@ -96,11 +97,12 @@ $grid-padding: 1em; // and 1em padding on the grid conta
 @import "../lib/scss/forms";
 
 /* Regions */
-@import "../pages/translations/translations_regions";
+@import "../pages/translations/translationsPage";
 
 /* Modules */
 @import "../modules/translations/views/translation/translation";
 @import "../modules/translations/views/translations/translations";
+@import "../modules/locales/locales";
 @import "../modules/search/search";
 
 /* Overrides */

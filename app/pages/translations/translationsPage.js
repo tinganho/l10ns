@@ -18,9 +18,9 @@ var routes = function(server) {
 
   var tmpl = requirejs('../../public/templates/tmpl');
 
-  function getRegions(id) {
+  function getRegions(id, loc) {
 
-    var translations = config.getLatestTranslations(opt, 0, 20);
+    var translations = config.getLatestTranslations(opt, 0, 20, loc);
 
     // Append ID
     if(id) {
@@ -38,27 +38,32 @@ var routes = function(server) {
       json : JSON.stringify(translations)
     };
 
-    var regions = tmpl.translations_regions({
+    var regions = tmpl.translationsPage({
       search       : tmpl.search(),
-      menu_items   : tmpl.menu_items(),
-      translations : tmpl.translations(data)
+      menuItems    : tmpl.menuItems(),
+      translations : tmpl.translations(data),
+      localePick   : tmpl.localePick({
+          selected : { 'key' : 'en', 'text' : 'English' },
+          locales  : [{ 'key' : 'en', 'text' : 'English' }, { 'key' : 'dn', 'text' : 'Danish' }]
+        })
+
     });
 
     return regions;
   }
 
-
   server.get('/', function(req, res) {
     var layout = tmpl.layout({
-      body: getRegions()
+      body: getRegions(null, req.param('l'))
     });
     return res.send(layout);
   });
 
   server.get('/translation/:id', function(req, res) {
     var layout = tmpl.layout({
-      body: getRegions(req.param('id'))
+      body: getRegions(req.param('id'), req.param('l'))
     });
+
     return res.send(layout);
   });
 

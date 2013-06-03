@@ -7,6 +7,10 @@ define([
   'TranslationRouter',
   'SearchRouter',
 
+  // Views
+  'Locales',
+  'LocalesView',
+
 ], function(
 
   // Libs
@@ -14,7 +18,10 @@ define([
 
   // Routers
   TranslationRouter,
-  SearchRouter
+  SearchRouter,
+
+  Locales,
+  LocalesView
 
 ) {
 
@@ -25,6 +32,12 @@ define([
       // Enable routers
       this.TranslationRouter = new TranslationRouter;
       this.SearchRouter = new SearchRouter;
+
+      // Set Locales
+      this.Locales = new Locales;
+
+      // Enable Views
+      this.LocalesView = new LocalesView;
 
       // Enable pushState for compatible browsers
       var enablePushState = true;
@@ -47,6 +60,5 @@ define([
         });
       }
     }
-
   };
 });

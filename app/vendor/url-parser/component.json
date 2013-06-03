@@ -1,0 +1,8 @@
+{
+  "name": "url-parser",
+  "version": "2.2.1",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/allmarkedup/jQuery-URL-Parser.git"
+  }
+}

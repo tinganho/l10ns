@@ -21,17 +21,17 @@ function Translations() {
 
 }
 
-Translations.prototype.update = function(key, value, language, cb, err) {
+Translations.prototype.update = function(key, value, locale, cb, err) {
 
-  if(typeof language === 'function'){
-    cb = language;
-    language = this.opt.defaultLanguage;
+  if(typeof locale === 'function'){
+    cb = locale;
+    locale = this.opt.defaultLanguage;
   } else {
-    language = language || this.opt.defaultLanguage;
+    locale = locale || this.opt.defaultLanguage;
   }
 
   try {
-    var _path = this.opt.config + '/locales/' + language + '.json';
+    var _path = this.opt.config + '/locales/' + locale + '.json';
     var translations = grunt.file.readJSON(_path);
     if(value === '') {
       value = [];

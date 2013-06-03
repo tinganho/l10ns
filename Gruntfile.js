@@ -43,7 +43,9 @@ module.exports = function(grunt, gt) {
           Modernizr : true,
           requirejs : true,
           alert     : true,
-          window    : true
+          window    : true,
+          opt       : true,
+          document  : true
         }
       },
 
@@ -62,8 +64,8 @@ module.exports = function(grunt, gt) {
       dist: {
         options: {
           config         : 'app/config.rb',
-          require        : ['susy', 'compass-placeholder', 'sassy-buttons', 'toolkit', 'animation'],
-          sassDir        : 'app/build',
+          require        : ['susy', 'compass-placeholder', 'compass-retina-sprites', 'toolkit', 'animation'],
+          sassDir        : 'app/conf',
           cssDir         : 'app/public/styles',
           debugInfo      : true,
           noLineComments : true,

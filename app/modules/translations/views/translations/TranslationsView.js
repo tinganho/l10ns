@@ -105,7 +105,7 @@ define([
 
     openEdit : function(event) {
       App.TranslationRouter.navigate('translation/'
-        + $(event.currentTarget).attr('data-id'), {trigger: true});
+        + $(event.currentTarget).attr('data-id') + window.location.search, {trigger: true});
     },
 
     closeEdit : function() {

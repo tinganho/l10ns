@@ -6,6 +6,7 @@ requirejs.config({
     'lodash'                : 'vendor/lodash/lodash',
     'backbone'              : 'vendor/backbone/backbone',
     'jquery'                : 'vendor/jquery/jquery',
+    'jquery.url'            : 'vendor/url-parser/purl',
     'backbone.paginator'    : 'vendor/backbone.paginator/lib/backbone.paginator'
 
   },
@@ -22,6 +23,8 @@ requirejs.config({
     'jquery' : {
       exports: 'jQuery'
     },
+
+    'jquery.url' : ['jquery'],
     'backbone.paginator' : ['backbone']
   },
 
@@ -36,7 +39,10 @@ requirejs.config({
       'TranslationView'       : 'modules/translations/views/translation/TranslationView',
       'TranslationRouter'     : 'modules/translations/TranslationRouter',
 
-      'SearchRouter'          : 'modules/search/SearchRouter'
+      'SearchRouter'          : 'modules/search/SearchRouter',
+
+      'Locales'               : 'modules/locales/Locales',
+      'LocalesView'           : 'modules/locales/LocalesView'
     }
   }
 

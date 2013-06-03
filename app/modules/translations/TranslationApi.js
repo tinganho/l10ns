@@ -9,7 +9,7 @@ var config = require('lib/config');
 module.exports = function(server) {
 
   server.get('/translations', function(req, res) {
-    var translations = config.getLatestTranslations(opt, +req.param('skip') + 1, req.param('top'));
+    var translations = config.getLatestTranslations(opt, +req.param('skip') + 1, req.param('top'), req.param('locale'));
     res.send(JSON.stringify(translations));
   });
 
@@ -18,8 +18,7 @@ module.exports = function(server) {
   });
 
   server.put('/translation', function(req, res) {
-
-    translation.update(req.body.key, req.body.value.value, function() {
+    translation.update(req.body.key, req.body.value.value, req.body.locale, function() {
       res.send(JSON.stringify({
         meta : {
           code: 200,

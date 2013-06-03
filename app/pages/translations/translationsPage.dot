@@ -1,11 +1,15 @@
 <nav class="main-menu">
   <ul >
     <li class="search-region">{{=it.search}}</li>
-    <li class="menu-items-region">{{=it.menu_items}}</li>
+    <li class="menu-items-region">{{=it.menuItems}}</li>
   </ul>
 </nav>
 <div class="page">
+<div clasS="locales-pick-region">
+  {{=it.localePick}}
+</div>
 <div class="body-region">
+
   {{=it.translations}}
 </div>
 <footer class="footer-region"></footer>

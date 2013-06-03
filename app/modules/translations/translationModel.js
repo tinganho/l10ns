@@ -1,19 +1,22 @@
 define([
 
   'backbone',
-  'jquery'
+  'jquery',
+  'jquery.url'
 
 ], function(
 
   Backbone,
-  $
+  $,
+  jquerUrl
 
 ) {
 
   var Translation = Backbone.Model.extend({
 
     defaults : {
-      type : 'simple'
+      type : 'simple',
+      locale : $.url().param('l')
     },
 
     url: '/translation'

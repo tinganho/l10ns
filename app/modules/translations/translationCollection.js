@@ -4,6 +4,7 @@ define([
 
   'backbone',
   'backbone.paginator',
+  'jquery.url',
   'jquery',
   'TranslationModel'
 
@@ -11,6 +12,7 @@ define([
 
   Backbone,
   BackbonePaginator,
+  jQueryUrl,
   $,
   Translation
 
@@ -26,7 +28,7 @@ define([
 
     meta : function(prop, value) {
         if (value === undefined) {
-            return this._meta[prop]
+            return this._meta[prop];
         } else {
             this._meta[prop] = value;
         }
@@ -69,17 +71,19 @@ define([
       filter: '',
 
       // number of items to return per request/page
-      top: function() { return this.perPage },
+      top: function() { return this.perPage; },
 
       // how many results the request should skip ahead to
       // page * number of results per page was necessary.
-      skip: function() { return this.currentPage * this.perPage },
+      skip: function() { return this.currentPage * this.perPage; },
 
       // field to sort by
       orderby: 'timestamp',
 
       // what format would you like to request results in?
-      format: 'json'
+      format: 'json',
+
+      locale: $.url().param('l')
 
     },
 

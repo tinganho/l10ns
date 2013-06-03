@@ -1,0 +1,70 @@
+.locales-button {
+  position: relative;
+  color: rgb(90, 90, 90);
+  border: 1px solid #959595;
+  border-radius: 6px;
+  display: inline-block;
+  min-width: 100px;
+  font-size: 18px;
+  padding: 11px 39px;
+  cursor: pointer;
+  @include background(linear-gradient(0deg, #d1d1d1, #f4f4f4));
+
+  &:hover {
+    @include background(linear-gradient(0deg, #c2c2c2, #e5e4e4));
+  }
+
+  &:active, &.active {
+    @include background(linear-gradient(0deg, #f4f4f4, #d1d1d1));
+  }
+}
+
+.locales-arrow-container {
+  position: absolute;
+  right: 0;
+  top: 0;
+  border-left: 1px solid #a2a2a2;
+  height: 60%;
+  margin-top: 4%;
+  width: 50px;
+  text-align: center;
+  padding-top: 4px;
+}
+
+.locales-selection {
+  position: absolute;
+  left: 0;
+  top: 120%;
+  background-color: white;
+  width: 300px;
+  padding: 10px 0px;
+  z-index: 100;
+  border-radius: 4px;
+  border: 1px solid #a2a2a2;
+  @include box-shadow(0 5px 10px rgba(0, 0, 0, 0.2));
+}
+
+.locales-selection-option {
+  border-bottom: 1px solid #eee;
+
+  &:last-child {
+    border-bottom: 0px solid #eee;
+  }
+
+  &:hover {
+    background-color: #4183c4;
+
+    .locales-selection-option-text {
+      color: white;
+    }
+  }
+}
+
+.locales-selection-option-text {
+  text-indent: 40px;
+  color: rgb(90, 90, 90);
+  text-decoration: none;
+  width: 100%;
+  padding: 6px 0px;
+  display: block;
+}
