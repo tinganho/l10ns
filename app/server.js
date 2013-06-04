@@ -13,7 +13,7 @@ require(findup('Gruntfile.js'))(grunt, true);
 
 var conf = grunt.config.get('translate'),
     opt  = conf.dist.options;
-
+GLOBAL.opt = opt;
 requirejs.config({
   baseUrl: __dirname,
   nodeRequire: require

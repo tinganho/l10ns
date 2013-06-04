@@ -12,12 +12,34 @@ var config = {};
   Get all locales
   return Array of all locales
  */
-config.getAllLocales = function(opt){
-  return Object.keys(grunt.file.readJSON(opt.config + '/locales.json'));
+config.getAllLocales = function(hashed){
+
+  var hashed = !!hashed;
+
+  var locales = grunt.file.readJSON(opt.config + '/locales.json');
+  if(hashed) {
+    return Object.keys(locales);
+  } else {
+    var res = [];
+    for(var key in locales) {
+      res.push({key : key, text : locales[key]});
+    }
+    res = res.sort(function(a, b) {
+      if(a.text > b.text) {
+        return 1;
+      } else if(a.text < b.text) {
+        return -1;
+      } else {
+        return 0;
+      }
+    });
+    return res;
+  }
 };
 
-config.hasLocale = function(opt, loc) {
-  return this.getAllLocales(opt).indexOf(loc) !== -1;
+config.hasLocale = function(loc) {
+  var locales = this.getAllLocales(true);
+  return locales.indexOf(loc) !== -1;
 };
 
 /**
@@ -158,7 +180,7 @@ config.isConditions = function(operand1, operator, operand2) {
   @return {Array}
  */
 config.getLatestTranslations = function(opt, from, amount, loc) {
-  if(typeof loc !== 'undefined' && !config.hasLocale(opt, loc)) {
+  if(typeof loc !== 'undefined' && !config.hasLocale(loc)) {
     grunt.log.error('Locale: ' + loc + ' is not defined in locales.json');
     return false;
   }

@@ -38,15 +38,28 @@ var routes = function(server) {
       json : JSON.stringify(translations)
     };
 
+    var selected, locales  = config.getAllLocales();
+    for(var i = 0; i < locales.length; i++) {
+      if(locales[i].key === loc) {
+        selected = locales[i];
+        break;
+      }
+      if(typeof selected === 'undefined') {
+        if(locales[i].key === opt.defaultLanguage) {
+          selected = locales[i];
+          break;
+        }
+      }
+    }
+
     var regions = tmpl.translationsPage({
       search       : tmpl.search(),
       menuItems    : tmpl.menuItems(),
       translations : tmpl.translations(data),
       localePick   : tmpl.localePick({
-          selected : { 'key' : 'en', 'text' : 'English' },
-          locales  : [{ 'key' : 'en', 'text' : 'English' }, { 'key' : 'dn', 'text' : 'Danish' }]
+          selected : selected,
+          locales  : locales
         })
-
     });
 
     return regions;
