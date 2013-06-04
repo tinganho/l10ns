@@ -2,7 +2,7 @@ var root = '../../../';
 var path = require('path');
 var Translations = require(path.join(root, 'src/lib/translations'));
 var translation = new Translations();
-var config = require('lib/config');
+var config = require('../../../src/lib/config');
 
 
 
