@@ -6,7 +6,7 @@ function encodeHTMLSource() {var encodeHTMLRules = { "&": "&#38;", "<": "&#60;",
 String.prototype.encodeHTML=encodeHTMLSource();
 var tmpl=tmpl|| {};
  tmpl['layout']=function anonymous(it) {
-var out='<!DOCTYPE html><html><head><title>Grunt Translate</title><!-- styles --><link type="text/css" rel="stylesheet" href="public/styles/style.css"><!-- scripts --><script src="vendor/modernizr/modernizr.js"></script><!-- meta --><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0"></head><body>'+(it.body)+'<!-- build:js app.js --><script src="vendor/requirejs/require.js"></script><!-- endbuild --><script src="main.js"></script></body></html>';return out;
+var out='<!DOCTYPE html><html><head><title>Grunt Translate</title><!-- styles --><link type="text/css" rel="stylesheet" href="public/styles/style.css"><link rel="SHORTCUT ICON" href="/gt.ico"><!-- scripts --><script src="vendor/modernizr/modernizr.js"></script><!-- meta --><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0"></head><body>'+(it.body)+'<!-- build:js app.js --><script src="vendor/requirejs/require.js"></script><!-- endbuild --><script src="main.js"></script></body></html>';return out;
 };
  tmpl['menuItems']=function anonymous(it) {
 var out='<ul class="menu-items"><li class="menu-item active"><a>Translations</a></li><li class="menu-item"><a>Statistics</a></li></ul>';return out;
