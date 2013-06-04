@@ -46,7 +46,7 @@ GruntTranslate.server = function() {
     server.use('/public', express.static(__dirname + '/public'));
     server.use('/vendor', express.static(__dirname + '/vendor'));
     server.use(express.static(__dirname + '/'));
-
+    server.use(express.favicon(__dirname + '/gt.ico', { maxAge: 2592000000 }));
 
   });
 
