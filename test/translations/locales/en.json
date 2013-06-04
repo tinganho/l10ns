@@ -204,7 +204,7 @@
   },
   "It can have &&": {
     "vars": [],
-    "translations": [],
+    "translations": "\"weefe\"",
     "query_translation": "It can have &&",
     "timestamp": 1361260813314,
     "id": "64efb047e953cd676d21cdfa672451ef"

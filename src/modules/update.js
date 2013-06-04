@@ -40,8 +40,8 @@ module.exports = function(options) {
     }
   });
   var now = (new Date()).getTime();
-  var locales = config.getAllLocales(options);
-  locales.forEach(function(locale){
+  var locales = config.getAllLocales(true);
+  locales.forEach(function(locale) {
     var x = 0;
     (function(locale){
       var newLocal = res;

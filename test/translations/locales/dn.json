@@ -21,7 +21,7 @@
     "vars": [
       "world"
     ],
-    "translations": [],
+    "translations": "\"ewffefw\"",
     "query_translation": "It can have only one string",
     "timestamp": 1363339796493,
     "id": "5b00cd7018b4439c8e3659be0edb5e78"
@@ -41,7 +41,7 @@
       "firstname",
       "lastname"
     ],
-    "translations": [],
+    "translations": "\"wefefewf\"",
     "query_translation": "It can take || in if statement",
     "timestamp": 1363339796493,
     "id": "d7f82a8354d6d6ffb0889947ad1e3468"
