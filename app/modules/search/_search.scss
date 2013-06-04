@@ -1,9 +1,11 @@
 .search {
     margin-top: 2px;
 }
+
 .search-input-container {
   @include span-columns(9, 12);
 }
+
 .search-input {
   color: white;
   background-color: rgb(231, 127, 127);
