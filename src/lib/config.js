@@ -180,11 +180,12 @@ config.isConditions = function(operand1, operator, operand2) {
   @return {Array}
  */
 config.getLatestTranslations = function(opt, from, amount, loc) {
-  if(typeof loc !== 'undefined' && !config.hasLocale(loc)) {
+  if(typeof loc === 'undefined' || loc === '') {
+    loc = loc || opt.defaultLanguage;
+  } else if(!config.hasLocale(loc)) {
     grunt.log.error('Locale: ' + loc + ' is not defined in locales.json');
     return false;
   }
-  loc = loc || opt.defaultLanguage;
   amount = amount || 10;
   var translations = grunt.file.readJSON(opt.config + '/locales/' + loc + '.json');
   var keys = [];
