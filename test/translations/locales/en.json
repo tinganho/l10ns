@@ -176,7 +176,7 @@
   },
   "It can have ::": {
     "vars": [],
-    "translations": "\"pokewfopkewffew\"",
+    "translations": "\"w4rfrfrferr\"",
     "query_translation": "It can have ::",
     "timestamp": 1365426440850,
     "id": "2bc1be2c33d177820a84e2ce8bbfe7ac"
@@ -338,8 +338,15 @@
   "Edit me": {
     "vars": [],
     "translations": "\"Helloworld\"",
-    "query_translation": "Helloworld",
+    "query_translation": "Edit me",
     "timestamp": 1365422355828,
     "id": "e976e6af5ce2e18733c4dc1463815bfb"
+  },
+  "TEST_LABEL_THING": {
+    "vars": [],
+    "translations": "\"ewfeewfewfef\"",
+    "query_translation": "TEST_LABEL_THING",
+    "timestamp": 1370443437130,
+    "id": "1e62135df8029a77a9f5046ffdc7537e"
   }
 }

@@ -13,11 +13,14 @@ require(findup('Gruntfile.js'))(grunt, true);
 
 var conf = grunt.config.get('translate'),
     opt  = conf.dist.options;
-GLOBAL.opt = opt;
+
 requirejs.config({
   baseUrl: __dirname,
   nodeRequire: require
 });
+
+GLOBAL.opt  = opt;
+GLOBAL.tmpl = requirejs('public/templates/tmpl');
 
 var GruntTranslate = {};
 GruntTranslate.server = function() {
@@ -60,6 +63,7 @@ GruntTranslate.server = function() {
 
   // APIs
   require('./modules/translations/TranslationApi')(server);
+  require('./modules/search/searchApi')(server);
 
 
   http.createServer(server).listen(server.get('port'), function() {

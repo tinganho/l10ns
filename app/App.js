@@ -10,6 +10,7 @@ define([
   // Views
   'Locales',
   'LocalesView',
+  'SearchView'
 
 ], function(
 
@@ -21,7 +22,8 @@ define([
   SearchRouter,
 
   Locales,
-  LocalesView
+  LocalesView,
+  SearchView
 
 ) {
 
@@ -31,13 +33,14 @@ define([
       var self = this;
       // Enable routers
       this.TranslationRouter = new TranslationRouter;
-      this.SearchRouter = new SearchRouter;
+      this.SearchRouter      = new SearchRouter;
 
       // Set Locales
       this.Locales = new Locales;
 
       // Enable Views
       this.LocalesView = new LocalesView;
+      this.SearchView  = new SearchView;
 
       // Enable pushState for compatible browsers
       var enablePushState = true;

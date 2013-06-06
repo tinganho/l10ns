@@ -75,8 +75,8 @@ config.hasErrorDuplicate = function(res, key, vars){
   Get all locales
   @return Object of all locales
  */
-config.getAllTranslations = function(options) {
-  var files = grunt.file.expand({filter: 'isFile'}, options.config + '/locales/*.json');
+config.getAllTranslations = function() {
+  var files = grunt.file.expand({filter: 'isFile'}, opt.config + '/locales/*.json');
   var locales = {};
   files.forEach(function(locale){
     locales[path.basename(locale, '.json')] = grunt.file.readJSON(locale);

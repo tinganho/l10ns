@@ -21,7 +21,7 @@ module.exports = function(options) {
     };
   }
 
-  var output = options.config + '/output';
+  var output = opt.config + '/output';
   if( !fs.existsSync(output)) {
     fs.mkdirSync(output);
   }
@@ -59,5 +59,4 @@ module.exports = function(options) {
   });
 
   grunt.log.ok('Compiled new translation object in ' + options.config + '/output');
-
 };

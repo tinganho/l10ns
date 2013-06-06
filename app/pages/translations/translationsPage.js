@@ -14,9 +14,6 @@ var routes = function(server) {
   'use strict';
   var grunt = require('grunt');
   require(findup('Gruntfile.js'))(grunt, true);
-  var opt = grunt.config.get('translate').dist.options;
-
-  var tmpl = requirejs('../../public/templates/tmpl');
 
   function getRegions(id, loc) {
 

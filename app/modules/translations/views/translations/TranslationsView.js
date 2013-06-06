@@ -78,8 +78,6 @@ define([
       // Remove json data
       json.remove();
 
-
-
       translation = $(this.sel.editCell);
       if(translation.length) {
         var translationView = new TranslationView();

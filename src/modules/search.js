@@ -30,7 +30,7 @@ Search.prototype._index = function() {
   this.translations = config.getAllTranslations(this.gruntOpt);
   this.index = lunr(function() {
     this.field('key', { boost: 10 });
-    this.field('translation', { boost: 5});
+    this.field('translation', { boost: 10});
   });
 
   var id = 0;
@@ -69,9 +69,11 @@ Search.prototype.query = function(q) {
 
   // Store as cache
   grunt.file.write(
-    this.gruntOpt.config + '/cache/latestSearch.json',
+    opt.config + '/cache/latestSearch.json',
     JSON.stringify(cache, null, 2)
   );
+
+  return res;
 };
 
 

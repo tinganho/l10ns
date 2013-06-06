@@ -58,6 +58,6 @@ function test() {
 
   // Edit translation
   gt('Edit me');
-
+  gt('TEST_LABEL_THING');
 
 }

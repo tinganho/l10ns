@@ -26,12 +26,7 @@ define(function() {
       return "Hello " + it.world + "!";
     },
     "It can take && in if statement": function anonymous(it) {
-      if( it.firstname === "Tingan" && it.lastname === "Ho" ) {
-        return "Hello " + it.firstname + " " + it.lastname + "!";
-      }
-      else {
-        return "Firstname and last is not Tingan Ho";
-      }
+      return "weffefewwe";
     },
     "It can take || in if statement": function anonymous(it) {
       if( it.firstname === "Tingan" || it.lastname === "Ho" ) {
@@ -61,16 +56,16 @@ define(function() {
       return "HASH_NOT_TRANSLATED: It can have <>";
     },
     "It can have ..": function anonymous(it) {
-      return "oiuner";
+      return "cewdeweew";
     },
     "It can have ,,": function anonymous(it) {
       return "HASH_NOT_TRANSLATED: It can have ,,";
     },
     "It can have ::": function anonymous(it) {
-      return "HASH_NOT_TRANSLATED: It can have ::";
+      return "pokewfopkewffew";
     },
     "It can have ;;": function anonymous(it) {
-      return "HASH_NOT_TRANSLATED: It can have ;;";
+      return "feewefwfeew";
     },
     "It can have ’’": function anonymous(it) {
       return "HASH_NOT_TRANSLATED: It can have ’’";
@@ -79,7 +74,7 @@ define(function() {
       return "HASH_NOT_TRANSLATED: It can have __";
     },
     "It can have &&": function anonymous(it) {
-      return "HASH_NOT_TRANSLATED: It can have &&";
+      return "weefe";
     },
     "It can have %%": function anonymous(it) {
       return "HASH_NOT_TRANSLATED: It can have %%";
@@ -88,7 +83,7 @@ define(function() {
       return "HASH_NOT_TRANSLATED: It can have $$";
     },
     "It can have €€": function anonymous(it) {
-      return "HASH_NOT_TRANSLATED: It can have €€";
+      return "e";
     },
     "It can have ##": function anonymous(it) {
       return "HASH_NOT_TRANSLATED: It can have ##";
@@ -112,7 +107,7 @@ define(function() {
       return "HASH_NOT_TRANSLATED: It can have ´´";
     },
     "It can have ``": function anonymous(it) {
-      return "HASH_NOT_TRANSLATED: It can have ``";
+      return "ew";
     },
     "It can have ==": function anonymous(it) {
       return "HASH_NOT_TRANSLATED: It can have ==";
@@ -137,6 +132,9 @@ define(function() {
     },
     "Edit me": function anonymous(it) {
       return "Helloworld";
+    },
+    "TEST_LABEL_THING": function anonymous(it) {
+      return "HASH_NOT_TRANSLATED: TEST_LABEL_THING";
     }
   };
   return function(translationKey) {

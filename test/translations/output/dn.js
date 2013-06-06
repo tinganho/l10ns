@@ -10,13 +10,13 @@ define(function() {
       return "HASH_NOT_TRANSLATED: It can have an if and else if and else statements";
     },
     "It can have only one string": function anonymous(it) {
-      return "HASH_NOT_TRANSLATED: It can have only one string";
+      return "ewffefw";
     },
     "It can take && in if statement": function anonymous(it) {
       return "HASH_NOT_TRANSLATED: It can take && in if statement";
     },
     "It can take || in if statement": function anonymous(it) {
-      return "HASH_NOT_TRANSLATED: It can take || in if statement";
+      return "wefefewf";
     },
     "It can take several && in if statement": function anonymous(it) {
       return "HASH_NOT_TRANSLATED: It can take several && in if statement";
@@ -103,7 +103,10 @@ define(function() {
       return "HASH_NOT_TRANSLATED: It can have \"";
     },
     "Edit me": function anonymous(it) {
-      return "Helloworld";
+      return "Helloworlds";
+    },
+    "TEST_LABEL_THING": function anonymous(it) {
+      return "HASH_NOT_TRANSLATED: TEST_LABEL_THING";
     }
   };
   return function(translationKey) {

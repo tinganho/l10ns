@@ -251,8 +251,15 @@
   "Edit me": {
     "vars": [],
     "translations": "\"Helloworlds\"",
-    "query_translation": "Helloworld",
+    "query_translation": "Edit me",
     "timestamp": 1364663143286,
     "id": "e976e6af5ce2e18733c4dc1463815bfb"
+  },
+  "TEST_LABEL_THING": {
+    "vars": [],
+    "translations": "\"fewefefef\"",
+    "query_translation": "TEST_LABEL_THING",
+    "timestamp": 1370443437130,
+    "id": "1e62135df8029a77a9f5046ffdc7537e"
   }
 }

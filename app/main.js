@@ -40,6 +40,8 @@ requirejs.config({
       'TranslationRouter'     : 'modules/translations/TranslationRouter',
 
       'SearchRouter'          : 'modules/search/SearchRouter',
+      'SearchCollection'      : 'modules/search/SearchCollection',
+      'SearchView'            : 'modules/search/SearchView',
 
       'Locales'               : 'modules/locales/Locales',
       'LocalesView'           : 'modules/locales/LocalesView'
