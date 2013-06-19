@@ -33,6 +33,9 @@ Search.prototype._index = function() {
     this.field('translation', { boost: 10});
   });
 
+  // Remove stop filter
+  this.index.pipeline.remove(lunr.stopWordFilter);
+
   var id = 0;
   this.docs = {};
   for(var locale in this.translations) {

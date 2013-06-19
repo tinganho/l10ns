@@ -323,8 +323,8 @@
   },
   "It can have '": {
     "vars": [],
-    "translations": [],
-    "query_translation": "It can have '",
+    "translations": "\"owjfjiojefiwjef\"",
+    "query_translation": "\"owjfjiojefiwjef\"",
     "timestamp": 1361261618370,
     "id": "a73dec3930758129dce45293f0cc5083"
   },
@@ -344,8 +344,8 @@
   },
   "TEST_LABEL_THING": {
     "vars": [],
-    "translations": "\"aftonbladet\"",
-    "query_translation": "\"aftonbladet\"",
+    "translations": "\"iuwenfiuwefiuefw\"",
+    "query_translation": "\"iuwenfiuwefiuefw\"",
     "timestamp": 1370443437130,
     "id": "1e62135df8029a77a9f5046ffdc7537e"
   }
