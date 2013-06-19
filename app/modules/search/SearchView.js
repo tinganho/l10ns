@@ -16,7 +16,7 @@ define([
 
     initialize : function() {
       this.input = this.$('.js-search-input');
-      this.searchResultContainer = this.$('.js-search-result-container');
+      this.searchResultContainer = $('.js-search-result-region');
       this.collection = new SearchCollection;
     },
 
@@ -47,14 +47,7 @@ define([
         results: this.collection.models
       });
       this.searchResultContainer.html(resultTmpl);
-    },
-
-    // hideResult : function() {
-    //   console.log(this.input.val());
-    //   if(this.input.val().length === 0) {
-
-    //   }
-    // }
+    }
 
   });
 

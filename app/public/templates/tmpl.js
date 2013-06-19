@@ -39,7 +39,7 @@ var out='<table class="translations"><col class="translations-first-col"><col cl
 var out='<tr class="translations-edit-row" data-id="'+(it.id)+'"><td class="translations-edit-cell" colspan="2"></td></tr>';return out;
 };
  tmpl['translationsPage']=function anonymous(it) {
-var out='<nav class="main-menu"><ul ><li class="search-region">'+(it.search)+'</li><li class="menu-items-region">'+(it.menuItems)+'</li></ul></nav><div class="page"><div clasS="locales-pick-region">'+(it.localePick)+'</div><div class="body-region">'+(it.translations)+'</div><footer class="footer-region"></footer></div>';return out;
+var out='<nav class="main-menu"><ul ><li class="search-region">'+(it.search)+'</li><li class="menu-items-region">'+(it.menuItems)+'</li></ul></nav><div class="page"><div class="search-result-region js-search-result-region"></div><div clasS="locales-pick-region">'+(it.localePick)+'</div><div class="body-region">'+(it.translations)+'</div><footer class="footer-region"></footer></div>';return out;
 };
  tmpl['translationLoading']=function anonymous(it) {
 var out='<div class="translation-loading-frame"><div class="translation-loading-container"><div class="translation-loading-indicator-helper"><i class="translation-loading-indicator"></i></div><span class="translation-loading-text">SAVING...</span></div></div>';return out;
