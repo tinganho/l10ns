@@ -7,4 +7,5 @@ docs/
 app/public/images/main-*
 app/public/images/icons-*
 app/public/styles/*
+test/translations/cache/latestSearch.json
 Gemfile.lock
