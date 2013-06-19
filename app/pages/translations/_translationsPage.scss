@@ -1,4 +1,5 @@
 .search-region {
+  position: relative;
   @include span-columns(6, 12);
 }
 

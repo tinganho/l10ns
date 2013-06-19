@@ -1,3 +1,5 @@
+@import "./searchResult";
+
 .search {
     margin-top: 2px;
 }
@@ -7,15 +9,19 @@
 }
 
 .search-input {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
   color: white;
   background-color: rgb(231, 127, 127);
   border: none;
   height: 27px;
   font-size: 16px;
   outline: none;
-  margin-top: 3px;
+  margin-top: 5px;
   color: white;
-  width: 340px;
   padding-left: 10px;
   border-radius: 2px;
   font-weight: normal;

@@ -27,20 +27,25 @@ Search.prototype.constructor = new Module;
  */
 Search.prototype._index = function() {
   var _this = this;
-  this.translations = config.getAllTranslations(this.gruntOpt);
+  this.translations = config.getAllTranslations();
   this.index = lunr(function() {
     this.field('key', { boost: 10 });
     this.field('translation', { boost: 10});
   });
 
   var id = 0;
+  this.docs = {};
   for(var locale in this.translations) {
     for(var key in this.translations[locale]) {
-      this.index.add({
-        'key'         : key,
-        'translation' : this.translations[locale][key].query_translation,
-        'id'          : key
-      });
+      var obj = {
+        key           : key,
+        translation   : this.translations[locale][key].query_translation,
+        id            : locale + '_' + this.translations[locale][key].id,
+        _id           : this.translations[locale][key].id,
+        locale        : locale
+      };
+      this.index.add(obj);
+      this.docs[obj.id] = obj;
       id++;
     }
   }
@@ -57,12 +62,13 @@ Search.prototype._index = function() {
 Search.prototype.query = function(q) {
   var cb = cb || function() {};
   this._index();
-  var res = this.index.search(q).slice(0, 10);
+  var res = this.index.search(q).slice(0, 10), _res = [];
   var n = 1;
   grunt.log.ok((res.length + ' results found'));
   var cache = [];
   for(var i in res) {
-    grunt.log.writeln(('@' + n).yellow + ' ' + res[i].ref);
+    _res.push(this.docs[res[i].ref]);
+    grunt.log.writeln(('@' + n).yellow + ' ' + this.docs[res[i].ref]);
     cache.push(res[i].ref);
     n++;
   }
@@ -73,7 +79,9 @@ Search.prototype.query = function(q) {
     JSON.stringify(cache, null, 2)
   );
 
-  return res;
+  // console.log(this.index.documentStore.store);
+
+  return _res;
 };
 
 

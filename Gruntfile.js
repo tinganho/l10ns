@@ -45,7 +45,8 @@ module.exports = function(grunt, gt) {
           alert     : true,
           window    : true,
           opt       : true,
-          document  : true
+          document  : true,
+          tmpl      : true
         }
       },
 

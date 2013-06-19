@@ -2,4 +2,5 @@
   <div class="search-input-container">
     <input class="search-input js-search-input" type="text" placeholder="Search"></input>
   </div>
+  <div class="search-result-container js-search-result-container"></div>
 </div>

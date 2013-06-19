@@ -53,7 +53,7 @@
       "world"
     ],
     "translations": "\"Hello ${world}!\"",
-    "query_translation": "It can have only one string",
+    "query_translation": "\"Hello ${world}!\"",
     "timestamp": 1365422189183,
     "id": "5b00cd7018b4439c8e3659be0edb5e78"
   },
@@ -338,14 +338,14 @@
   "Edit me": {
     "vars": [],
     "translations": "\"Helloworld\"",
-    "query_translation": "Edit me",
+    "query_translation": "\"Helloworld\"",
     "timestamp": 1365422355828,
     "id": "e976e6af5ce2e18733c4dc1463815bfb"
   },
   "TEST_LABEL_THING": {
     "vars": [],
-    "translations": "\"ewfeewfewfef\"",
-    "query_translation": "TEST_LABEL_THING",
+    "translations": "\"aftonbladet\"",
+    "query_translation": "\"aftonbladet\"",
     "timestamp": 1370443437130,
     "id": "1e62135df8029a77a9f5046ffdc7537e"
   }

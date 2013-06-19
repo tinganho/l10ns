@@ -14,7 +14,7 @@ var config = {};
  */
 config.getAllLocales = function(hashed){
 
-  var hashed = !!hashed;
+  hashed = !!hashed;
 
   var locales = grunt.file.readJSON(opt.config + '/locales.json');
   if(hashed) {
@@ -179,7 +179,7 @@ config.isConditions = function(operand1, operator, operand2) {
   @param {Boolean} withValues
   @return {Array}
  */
-config.getLatestTranslations = function(opt, from, amount, loc) {
+config.getLatestTranslations = function(from, amount, loc) {
   if(typeof loc === 'undefined' || loc === '') {
     loc = loc || opt.defaultLanguage;
   } else if(!config.hasLocale(loc)) {
@@ -234,11 +234,10 @@ config.getLatestTranslations = function(opt, from, amount, loc) {
 
 /**
   Get latest search translation
-  @param {Object} opt
   @param {Number} amount
   @return {Array}
  */
-config.getLatestSearchTranslations = function(opt, amount) {
+config.getLatestSearchTranslations = function(amount) {
   amount = amount || 10;
   if(grunt.file.exists(opt.latestSearch)) {
     return grunt.file.readJSON(opt.latestSearch).slice(0, amount);

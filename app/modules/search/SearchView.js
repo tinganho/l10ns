@@ -1,11 +1,13 @@
 define([
 
   'backbone',
+  'tmpl',
   'SearchCollection'
 
 ], function(
-  
+
   Backbone,
+  tmpl,
   SearchCollection
 
 ) {
@@ -14,6 +16,7 @@ define([
 
     initialize : function() {
       this.input = this.$('.js-search-input');
+      this.searchResultContainer = this.$('.js-search-result-container');
       this.collection = new SearchCollection;
     },
 
@@ -25,7 +28,13 @@ define([
 
     showResult : function() {
       var self = this;
-      this.collection.meta('query', this.input.val());
+      var val = this.input.val();
+      if(val.length === 0) {
+        this.searchResultContainer.html('');
+        return;
+      }
+
+      this.collection.meta('query', val);
       this.collection.fetch({
         success: function() {
           self.renderResult();
@@ -34,8 +43,18 @@ define([
     },
 
     renderResult : function() {
+      var resultTmpl = tmpl.searchResult({
+        results: this.collection.models
+      });
+      this.searchResultContainer.html(resultTmpl);
+    },
 
-    }
+    // hideResult : function() {
+    //   console.log(this.input.val());
+    //   if(this.input.val().length === 0) {
+
+    //   }
+    // }
 
   });
 

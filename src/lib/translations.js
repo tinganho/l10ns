@@ -37,6 +37,7 @@ Translations.prototype.update = function(key, value, locale, cb, err) {
       value = [];
     } else if(typeof value  === 'string') {
       value = '\"' + value + '\"';
+      translations[key].query_translation = value;
     }
 
     translations[key].translations = value;
