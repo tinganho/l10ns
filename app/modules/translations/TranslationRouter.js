@@ -65,29 +65,29 @@ define([
 
       requirejs(['App'], function(App) {
 
-          // Remove edit rows
-          self.translations
-            .find(self.sel.editRow)
-              .remove();
+        // Remove edit rows
+        self.translations
+          .find(self.sel.editRow)
+            .remove();
 
-          // Show all rows
-          self.translations
-            .find(self.sel.row)
-              .show();
+        // Show all rows
+        self.translations
+          .find(self.sel.row)
+            .show();
 
-          // Hide showing
-          self.translations
-            .find(self.sel.row
-              + self.sel.dataAttributeId(id))
-              .hide()
-              .after(tmpl.translationsEditRow({id:id}));
+        // Hide showing
+        self.translations
+          .find(self.sel.row
+            + self.sel.dataAttributeId(id))
+            .hide()
+            .after(tmpl.translationsEditRow({id:id}));
 
-          var editCell = $(self.sel.editCell);
+        var editCell = $(self.sel.editCell);
 
-          var translationView = new TranslationView();
-          translationView.setElement(editCell);
-          translationView.model = App.TranslationCollection.get(id);
-          translationView.render();
+        var translationView = new TranslationView();
+        translationView.setElement(editCell);
+        translationView.model = App.TranslationCollection.get(id);
+        translationView.render();
 
       });
     }

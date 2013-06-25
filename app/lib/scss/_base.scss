@@ -1,10 +1,9 @@
-$default-font-family: helvetica, Arial;
+$default-font-family: 'Helvetica Neue', helvetica, Arial;
 
 body {
-  font-size:100%;
   background-color: rgb(235, 235, 235);
   color: rgb(243, 243, 243);
-  font-family: $default-font-family;
+  font: 200 16px $default-font-family;
   -webkit-font-smoothing: antialiased;
 }
 

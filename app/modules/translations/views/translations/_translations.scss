@@ -1,5 +1,6 @@
 .translations {
   width: 100%;
+  display: block;
 }
 
 .translations-title {
@@ -14,11 +15,12 @@
 .translations-header {
   display: block;
   margin-top: 30px;
+  overflow: hidden;
 }
 
 .translations-body {
   margin-top: 30px;
-  display: inline-block;
+  display: block;
   position: relative;
   width: 100%;
 }
@@ -52,6 +54,9 @@
   display: block;
   overflow: hidden;
   cursor: pointer;
+  @include span-columns(12, 12);
+  display: block;
+  
   // @include transition(max-height 0.2s);
 
   &:hover {
@@ -70,10 +75,11 @@
 }
 
 .translations-edit-row {
-  display: block;
   overflow: hidden;
   cursor: pointer;
   background-color: rgba(0, 0,0 ,0.1);
+  float: left;
+  width: 100%;
 }
 
 .translations-edit-cell {
@@ -92,6 +98,8 @@
 
 .translations-pagination {
   display: block;
+  float: left;
+  width: 100%;
 }
 
 .translation-pagination-load-more-button {

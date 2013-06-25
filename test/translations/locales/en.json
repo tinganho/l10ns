@@ -62,8 +62,8 @@
       "firstname",
       "lastname"
     ],
-    "translations": "\"weffefewwe\"",
-    "query_translation": "It can take && in if statement",
+    "translations": "\"weffefewwef\"",
+    "query_translation": "\"weffefewwef\"",
     "timestamp": 1359025336849,
     "id": "9abde9c7f7f1149cc35045b691d38fdd"
   },
@@ -344,8 +344,8 @@
   },
   "TEST_LABEL_THING": {
     "vars": [],
-    "translations": "\"ijfijoije\"",
-    "query_translation": "\"ijfijoije\"",
+    "translations": "\"ijfijoijed\"",
+    "query_translation": "\"ijfijoijed\"",
     "timestamp": 1370443437130,
     "id": "1e62135df8029a77a9f5046ffdc7537e"
   }

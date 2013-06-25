@@ -68,7 +68,6 @@ $grid-padding: 1em; // and 1em padding on the grid conta
 .page {
   @include container;
   height: 100%;
-  overflow: hidden;
 }
 .main-menu ul {
   @include container;

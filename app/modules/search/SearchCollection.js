@@ -1,14 +1,18 @@
 define([
 
-  'backbone'
+  'backbone',
+  'TranslationModel'
 
 ],function(
 
-  Backbone
+  Backbone,
+  TranslationModel
 
 ) {
 
   var SearchCollection = Backbone.Collection.extend({
+
+    model : TranslationModel,
 
     initialize : function() {
       this._meta = [];

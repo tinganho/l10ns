@@ -22,5 +22,11 @@
 
 .locales-pick-region {
   margin-bottom: 20px;
-  margin-top: 80px;
+  margin-top: 30px;
+}
+
+.search-result-region {
+  position: relative;
+  margin-top: 50px;
+  @include span-columns(12, 12);
 }

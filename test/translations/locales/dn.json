@@ -42,7 +42,7 @@
       "lastname"
     ],
     "translations": "\"wefefewf\"",
-    "query_translation": "It can take || in if statement",
+    "query_translation": "\"wefefewf\"",
     "timestamp": 1363339796493,
     "id": "d7f82a8354d6d6ffb0889947ad1e3468"
   },
@@ -257,8 +257,8 @@
   },
   "TEST_LABEL_THING": {
     "vars": [],
-    "translations": "\"fewefefef\"",
-    "query_translation": "TEST_LABEL_THING",
+    "translations": "\"ewddwe\"",
+    "query_translation": "\"ewddwe\"",
     "timestamp": 1370443437130,
     "id": "1e62135df8029a77a9f5046ffdc7537e"
   }

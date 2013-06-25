@@ -172,22 +172,8 @@ config.isConditions = function(operand1, operator, operand2) {
   return true;
 };
 
-/**
-  Get latest translation
-  @param {Object} opt
-  @param {Number} amount
-  @param {Boolean} withValues
-  @return {Array}
- */
-config.getLatestTranslations = function(from, amount, loc) {
-  if(typeof loc === 'undefined' || loc === '') {
-    loc = loc || opt.defaultLanguage;
-  } else if(!config.hasLocale(loc)) {
-    grunt.log.error('Locale: ' + loc + ' is not defined in locales.json');
-    return false;
-  }
-  amount = amount || 10;
-  var translations = grunt.file.readJSON(opt.config + '/locales/' + loc + '.json');
+config.normalizeTranslations = function(translations) {
+
   var keys = [];
   for(var key in translations) {
     if(translations.hasOwnProperty(key)) {
@@ -224,6 +210,27 @@ config.getLatestTranslations = function(from, amount, loc) {
       });
     }
   }
+
+  return keys;
+};
+/**
+  Get latest translation
+  @param {Object} opt
+  @param {Number} amount
+  @param {Boolean} withValues
+  @return {Array}
+ */
+config.getLatestTranslations = function(from, amount, loc) {
+  if(typeof loc === 'undefined' || loc === '') {
+    loc = loc || opt.defaultLanguage;
+  } else if(!config.hasLocale(loc)) {
+    grunt.log.error('Locale: ' + loc + ' is not defined in locales.json');
+    return false;
+  }
+  amount = amount || 10;
+  var translations = grunt.file.readJSON(opt.config + '/locales/' + loc + '.json');
+
+  var keys = config.normalizeTranslations(translations);
 
   keys.sort(function(a, b) {
     return translations[b.key].timestamp - translations[a.key].timestamp;
