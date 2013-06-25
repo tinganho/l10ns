@@ -29,7 +29,7 @@ GruntTranslate.server = function() {
 
   server.configure(function() {
 
-    server.set('port', process.env.PORT || opt.interface.port);
+    server.set('port', opt.interface.port || 3333);
     server.set('views', __dirname);
 
     server.use(express.favicon());
