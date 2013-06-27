@@ -1,6 +1,6 @@
 <div class="search-result js-search-result">
   <table class="search-result-list">
-    <thead>
+    <thead class="translation-head">
       <tr class="search-result-header">
         <th class="search-result-col-container search-result-first-col">
           <span class="search-result-header-text search-result-header-text-locale">L</span>

@@ -35,13 +35,14 @@ define([
     initialize : function() {
 
       this.sel = {
-        json        : '.js-translations-json',
-        translation : '.translation',
-        row         : '.translations-row',
-        editRow     : '.translations-edit-row',
-        editCell    : '.translations-edit-cell',
-        keyText     : '.translations-key .translations-text',
-        valueText   : '.translations-value .translations-text',
+        json         : '.js-translations-json',
+        translation  : '.translation',
+        row          : '.translations-row',
+        editRow      : '.translations-edit-row',
+        editRowInput : '.js-translation-input',
+        editCell     : '.translations-edit-cell',
+        keyText      : '.translations-key .translations-text',
+        valueText    : '.translations-value .translations-text',
 
         dataAttributeId : function(id) {
           return '[data-id=' + id + ']';
@@ -113,8 +114,9 @@ define([
     reRenderTitles : function() {
       var self = this;
       App.TranslationCollection.each(function(model) {
+        var id = model.get('id');
         var row = self.$el.find(self.sel.row
-          + self.sel.dataAttributeId(model.get('id')));
+          + self.sel.dataAttributeId(id));
         if(row.length) {
           var val = model.get('value').text;
           if(val === '') {
@@ -123,6 +125,11 @@ define([
           row
             .find(self.sel.valueText)
               .html(val);
+
+          // Update translation input
+          $(self.sel.editRow + self.sel.dataAttributeId(id))
+            .find(self.sel.editRowInput)
+              .val(val);
         }
       });
     },

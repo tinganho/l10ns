@@ -70,6 +70,12 @@ define([
         success: function(model, response, options) {
           if(response.meta.code === 200) {
             requirejs(['App'], function(App) {
+              var _id = model.get('_id');
+              if(_id) {
+                var _model = App.TranslationCollection.get(_id);
+                var val = model.get('value');
+                _model.set({ value : val});
+              }
               App.TranslationCollection.trigger('change');
             });
             if(t > min) {

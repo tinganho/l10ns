@@ -6,6 +6,11 @@
   background-color: #e2e2e2;
   color: #5a5a5a;
   font-size: 19px;
+  @include transform(translateZ(0));
+}
+
+.search-result-header {
+  display: block;
 }
 
 .search-result-list {
@@ -35,11 +40,11 @@
 }
 
 .search-result-first-col {
-  @include span-columns(2, 20);
+  @include span-columns(3, 20);
 }
 
 .search-result-second-col {
-  @include span-columns(9, 20);
+  @include span-columns(8, 20);
 }
 
 .search-result-third-col {

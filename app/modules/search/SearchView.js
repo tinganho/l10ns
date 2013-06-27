@@ -74,10 +74,12 @@ define([
           '.js-search-result-item', this.openEdit);
       } else {
         this.searchResultContainer.html(tmpl.noSearchResult({ query: this.input.val()}));
+        $('.js-search-no-result-back').click(this.hideResult);
       }
     },
 
     hideResult : function() {
+      this.input.val('');
       this.localesPickRegion.show();
       this.bodyRegion.show();
       this.searchResultContainer.html('');
