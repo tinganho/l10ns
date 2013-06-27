@@ -14,6 +14,9 @@ var out='<ul class="menu-items"><li class="menu-item active"><a>Translations</a>
  tmpl['localePick']=function anonymous(it) {
 var out='<div class="locales"><div class="locales-button js-locales-button"><span class="locales-selected js-locales-selected">'+(it.selected.text)+'</span><div class="locales-arrow-container"><i class="sp-icons sp-icons-arrow"></i></div><ul class="locales-selection js-locales-selection" style="display: none;">';var arr1=it.locales;if(arr1){var locale,index=-1,l1=arr1.length-1;while(index<l1){locale=arr1[index+=1];out+='<li class="locales-selection-option js-locales-selection-option" data-key="'+(locale.key)+'"><a class="locales-selection-option-text" href="?l='+(locale.key)+'">'+(locale.text)+'</a></li>';} } out+='</ul><form><input class="js-selected-locale" type="hidden" value="'+(it.selected.key)+'"></input></form></div></div>';if(it.bootstrap){out+='<script class="js-locales-bootstrap">'+(it.bootstrap)+'</script>';}return out;
 };
+ tmpl['noSearchResult']=function anonymous(it) {
+var out='<div class="search-no-result bg-dark-grey"><span class="search-no-result-text">No result of "'+(it.query)+'"</span></div>';return out;
+};
  tmpl['search']=function anonymous(it) {
 var out='<div class="search"><div class="search-input-container"><input class="search-input js-search-input" type="text" placeholder="Search"></input></div><div class="search-result-container js-search-result-container"></div></div>';return out;
 };

@@ -8,14 +8,14 @@
   font-size: 18px;
   padding: 11px 70px 11px 39px;
   cursor: pointer;
-  @include background(linear-gradient(0deg, #d1d1d1, #f4f4f4));
+  @include background(linear-gradient(#f4f4f4, #d1d1d1));
 
   &:hover {
-    @include background(linear-gradient(0deg, #c2c2c2, #e5e4e4));
+    @include background(linear-gradient(#e5e4e4, #c2c2c2));
   }
 
   &:active, &.active {
-    @include background(linear-gradient(0deg, #f4f4f4, #d1d1d1));
+    @include background(linear-gradient(#d1d1d1, #f4f4f4));
   }
 
   @media(max-width: 415px) {

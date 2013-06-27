@@ -13,6 +13,7 @@
   margin-bottom: 40px;
   padding-bottom: 40px;
   min-height: 500px;
+  @include transform(translateZ(0));
   @include span-columns(12, 12);
 }
 

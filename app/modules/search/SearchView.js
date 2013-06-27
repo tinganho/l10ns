@@ -65,12 +65,16 @@ define([
     },
 
     renderResult : function() {
-      var resultTmpl = tmpl.searchResult({
-        results: this.collection.models
-      });
-      this.searchResultContainer.html(resultTmpl);
-      this.searchResultContainer.on('click',
-        '.js-search-result-item', this.openEdit);
+      if(this.collection.models.length > 0) {
+        var resultTmpl = tmpl.searchResult({
+          results: this.collection.models
+        });
+        this.searchResultContainer.html(resultTmpl);
+        this.searchResultContainer.on('click',
+          '.js-search-result-item', this.openEdit);
+      } else {
+        this.searchResultContainer.html(tmpl.noSearchResult({ query: this.input.val()}));
+      }
     },
 
     hideResult : function() {
