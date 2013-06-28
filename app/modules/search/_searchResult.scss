@@ -1,7 +1,5 @@
 .search-result {
-  position: absolute;
-  top: 40px;
-  left: 0;
+  margin-top: 20px;
   width: 100%;
   background-color: #e2e2e2;
   color: #5a5a5a;
@@ -15,6 +13,7 @@
 
 .search-result-list {
   margin-bottom: 40px;
+  padding-bottom: 40px;
   display: block;
 }
 

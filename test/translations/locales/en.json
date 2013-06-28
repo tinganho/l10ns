@@ -316,8 +316,8 @@
   },
   "It can have //": {
     "vars": [],
-    "translations": [],
-    "query_translation": "It can have //",
+    "translations": "\"poik\"",
+    "query_translation": "\"poik\"",
     "timestamp": 1361260813314,
     "id": "2e847f1f1dd0f28c1558371d299f6599"
   },
@@ -337,15 +337,15 @@
   },
   "Edit me": {
     "vars": [],
-    "translations": "\"Helloworld\"",
-    "query_translation": "\"Helloworld\"",
+    "translations": "\"Helloworlds\"",
+    "query_translation": "\"Helloworlds\"",
     "timestamp": 1365422355828,
     "id": "e976e6af5ce2e18733c4dc1463815bfb"
   },
   "TEST_LABEL_THING": {
     "vars": [],
-    "translations": "\"ijfijoij\"",
-    "query_translation": "\"ijfijoij\"",
+    "translations": "\"ijfijoijk\"",
+    "query_translation": "\"ijfijoijk\"",
     "timestamp": 1370443437130,
     "id": "1e62135df8029a77a9f5046ffdc7537e"
   }

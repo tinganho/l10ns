@@ -28,10 +28,12 @@ define([
       this.collection = new SearchCollection;
 
       this.sel = {
-        searchItem    : '.js-search-result-item',
-        translation   : '.translation',
-        editRow       : '.translations-edit-row',
-        editCell      : '.translations-edit-cell',
+        searchItem          : '.js-search-result-item',
+        translation         : '.translation',
+        editRow             : '.translations-edit-row',
+        editCell            : '.translations-edit-cell',
+        searchResultBarBack : '.js-search-result-bar-back',
+        searchResultItem    : '.js-search-result-item',
 
         dataAttributeId : function(id) {
           return '[data-id=' + id + ']';
@@ -67,15 +69,17 @@ define([
     renderResult : function() {
       if(this.collection.models.length > 0) {
         var resultTmpl = tmpl.searchResult({
-          results: this.collection.models
+          query   : this.input.val(),
+          results : this.collection.models
         });
         this.searchResultContainer.html(resultTmpl);
         this.searchResultContainer.on('click',
-          '.js-search-result-item', this.openEdit);
+          this.sel.searchResultItem, this.openEdit);
       } else {
         this.searchResultContainer.html(tmpl.noSearchResult({ query: this.input.val()}));
-        $('.js-search-no-result-back').click(this.hideResult);
       }
+      this.searchResultContainer.on('click',
+          this.sel.searchResultBarBack, this.hideResult);
     },
 
     hideResult : function() {

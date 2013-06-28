@@ -1,3 +1,8 @@
+<div class="search-result-bar bg-dark-grey">
+  <span class="search-result-bar-query">Search result of "{{=it.query}}"</span>
+  <span class="search-result-bar-back js-search-result-bar-back">Back to latest translations</span>
+</div>
+
 <div class="search-result js-search-result">
   <table class="search-result-list">
     <thead class="translation-head">
