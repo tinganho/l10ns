@@ -1,7 +1,7 @@
 {
   "name": "grunt-translate",
   "description": "Translate dynamic texts",
-  "version": "0.3.15",
+  "version": "0.3.16",
   "homepage": "https://github.com/tinganho/grunt-translate",
   "author": {
     "name": "Tingan Ho",
