@@ -31,6 +31,14 @@ function test() {
     fullname : iueh.iuhef[efkuh.kwehf].iuewgy
   });
 
+  invitationUrl : '/invitation/' + invitationToken,
+
+  // Labels
+  i18n_shareInfo : gt('share_page_info', {
+    fullname: fullname
+  }),
+  i18n_join      : gt('share_page_join')
+
   // Special chars
   gt("It can have <>");
   gt('It can have ..');

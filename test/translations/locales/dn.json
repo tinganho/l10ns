@@ -57,6 +57,22 @@
     "timestamp": 1372863028141,
     "id": "816e802aa993b2c5e94e9fce404133b6"
   },
+  "share_page_info": {
+    "vars": [
+      "fullname"
+    ],
+    "translations": [],
+    "query_translation": "share_page_info",
+    "timestamp": 1372866169437,
+    "id": "aee3a8f4e35c8341b040d911c5c66104"
+  },
+  "share_page_join": {
+    "vars": [],
+    "translations": [],
+    "query_translation": "share_page_join",
+    "timestamp": 1372866169437,
+    "id": "a48499696eac262dce6ba6d79a6d6d80"
+  },
   "It can have <>": {
     "vars": [],
     "translations": [],
