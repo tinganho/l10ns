@@ -28,7 +28,7 @@ function test() {
   };
 
   gt('It can have dot notation in object', {
-    fullname : 'jnfenf'
+    fullname : iueh.iuhef[efkuh.kwehf].iuewgy
   });
 
   // Special chars

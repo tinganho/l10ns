@@ -125,6 +125,7 @@ config.getVars = function(fn) {
   for(var i = 0; i < json.length; i++) {
     json[i] = json[i].replace(/\s+|:/g, '');
   }
+  console.log(json);
   return json;
 };
 
