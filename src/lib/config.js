@@ -116,18 +116,16 @@ config.getTranslationKey = function(fn) {
   @return Array of all vars
  */
 config.getVars = function(fn) {
-  var json = fn.match(/\{[\w|\s|:|"|'|\-|\{|\}|\,|\/|\.]*\}/);
+
+  var json = fn.match(/\{(\s*\w*\s*\:(.*))*\s*\}/g);
   if(json === null) {
     return [];
   }
-  json = json[0].replace(/\s*\w+\s*\:/g, function(m) {
-    var key = m.match(/\w+/);
-    return '"' + key + '":';
-  }).replace(/'/g, function() {
-    return '"';
-  });
-  var vars = JSON.parse(json);
-  return Object.keys(vars);
+  json = json[0].match(/\s*(\w+)\s*\:/g)
+  for(var i = 0; i < json.length; i++) {
+    json[i] = json[i].replace(/\s+|:/g, '');
+  }
+  return json;
 };
 
 /**

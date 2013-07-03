@@ -28,7 +28,6 @@ module.exports = function(options) {
     if(translations !== null) {
       translations.forEach(function(translation){
         var key = config.getTranslationKey(translation);
-
         var vars = config.getVars(translation);
         if(!( key in res )) {
           res[key] = {};
