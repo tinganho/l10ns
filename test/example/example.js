@@ -23,6 +23,14 @@ function test() {
     lastname: 'Ho'
   });
 
+  var owner = {
+    name : 'fullname'
+  };
+
+  gt('It can have dot notation in object', {
+    fullname : 'jnfenf'
+  });
+
   // Special chars
   gt("It can have <>");
   gt('It can have ..');
@@ -47,7 +55,7 @@ function test() {
 
   // Math
   gt('It can have ==');
-  gt('It can have ++');
+  gt('It can have ++'); // aoiwdjwd, iwefjfew
   gt('It can have --');
   gt('It can have **');
   gt('It can have //');
