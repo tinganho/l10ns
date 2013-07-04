@@ -20,6 +20,24 @@
     "timestamp": 1359025336849,
     "id": "1f969d3b7b07853e7cec3c36097f6b2a"
   },
+  "It can have an if and else if and else statements": {
+    "vars": [
+      "number"
+    ],
+    "translations": [],
+    "query_translation": "It can have an if and else if and else statements",
+    "timestamp": 1372876481657,
+    "id": "2fb92f5d13af4b0baabf0aee16807fbd"
+  },
+  "It can have only one string": {
+    "vars": [
+      "world"
+    ],
+    "translations": [],
+    "query_translation": "It can have only one string",
+    "timestamp": 1372876481657,
+    "id": "d9a2ceec7d46ed3b7dcb4ee579249579"
+  },
   "It can take && in if statement": {
     "vars": [
       "firstname",
@@ -140,6 +158,31 @@
     "query_translation": "share_page_join",
     "timestamp": 1372866169437,
     "id": "a48499696eac262dce6ba6d79a6d6d80"
+  },
+  "register": {
+    "vars": [],
+    "translations": [],
+    "query_translation": "register",
+    "timestamp": 1372876481657,
+    "id": "e8b16b05cd4efe78cf86f3f012384433"
+  },
+  "friend_invited_you": {
+    "vars": [
+      "fullname"
+    ],
+    "translations": [],
+    "query_translation": "friend_invited_you",
+    "timestamp": 1372876481657,
+    "id": "30755160482194fdce9b4818a5b16bde"
+  },
+  "invite_text1": {
+    "vars": [
+      "fullname"
+    ],
+    "translations": [],
+    "query_translation": "invite_text1",
+    "timestamp": 1372876481657,
+    "id": "73e2a243377ff5cdfa53f9b874b4d6ca"
   },
   "It can have <>": {
     "vars": [],

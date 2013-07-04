@@ -41,6 +41,7 @@
 
 .translations-text {
   padding: 5px 0px;
+  margin-right: 40px;
 }
 
 .translations-second-col {
@@ -56,7 +57,7 @@
   cursor: pointer;
   @include span-columns(12, 12);
   display: block;
-  
+
   // @include transition(max-height 0.2s);
 
   &:hover {

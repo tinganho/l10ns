@@ -39,6 +39,15 @@ function test() {
   }),
   i18n_join      : gt('share_page_join')
 
+  i18n_register           : gt( 'register' ),
+
+  i18n_friend_invited_you : gt( 'friend_invited_you', {
+    fullname : inviter.fullname
+  }),
+  i18n_invite_text1       : gt( 'invite_text1', {
+    fullname : inviter.fullname
+  }),
+
   // Special chars
   gt("It can have <>");
   gt('It can have ..');
