@@ -17,7 +17,7 @@ var routes = function(server) {
 
   function getRegions(id, loc) {
 
-    var translations = config.getLatestTranslations(0, 20, loc);
+    var translations = config.getLatestTranslations(opt, 0, 20, loc);
 
     // Append ID
     if(id) {

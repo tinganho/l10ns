@@ -218,7 +218,7 @@ config.normalizeTranslations = function(translations) {
   @param {Boolean} withValues
   @return {Array}
  */
-config.getLatestTranslations = function(from, amount, loc) {
+config.getLatestTranslations = function(opt, from, amount, loc) {
   if(typeof loc === 'undefined' || loc === '') {
     loc = loc || opt.defaultLanguage;
   } else if(!config.hasLocale(loc)) {

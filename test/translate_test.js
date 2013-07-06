@@ -159,6 +159,30 @@ describe('Grunt translate', function() {
         expect(gt('It can have \"')).to.be.ok;
       });
     });
+
+    describe('Comments', function() {
+      it('should be able to have tailing comments', function() {
+        expect(gt('Grunt-translate can have tailing comments')).to.have.string('yes it can');
+      });
+      it('should be able to have tailing comments with translation vars', function() {
+        expect(gt('Grunt-translate can have tailing comments with translation vars')).to.have.string('yes it can');
+      });
+      it('should be able to have tailing comments with multi-line translation vars', function() {
+        expect(gt('Grunt-translate can have tailing comments with multi-line translation vars')).to.have.string('yes it can');
+      });
+    });
+
+    describe('Object', function() {
+      it('can be in object literal', function() {
+        expect(gt('Translation vars can be in one object literal')).to.have.string('yes it can');
+      });
+    });
+
+    describe('Vars', function() {
+      it('can be in object literal', function() {
+        expect(gt('Translation vars can be in one object literal')).to.have.string('yes it can');
+      });
+    });
   });
 
 
@@ -173,7 +197,7 @@ describe('Grunt translate', function() {
 
   describe('search', function() {
     it('should be able to index translations', function(done) {
-      exec('node bin/gt search take', function(error, stdout, stderr) {
+      exec('node bin/gt search test', function(error, stdout, stderr) {
         expect(/results found/.test(stdout)).to.be.true;
         done();
       });

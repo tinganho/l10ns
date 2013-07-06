@@ -57,23 +57,17 @@ define(function() {
         return "Firstname and last is not Tingan Ho";
       }
     },
-    "It can have dot notation in object": function anonymous(it) {
-      return "HASH_NOT_TRANSLATED: It can have dot notation in object";
+    "Translation vars can be in one object literal": function anonymous(it) {
+      return "yes it can";
     },
-    "share_page_info": function anonymous(it) {
-      return "HASH_NOT_TRANSLATED: share_page_info";
+    "Translation vars can have one line object literal": function anonymous(it) {
+      return "yes it can";
     },
-    "share_page_join": function anonymous(it) {
-      return "HASH_NOT_TRANSLATED: share_page_join";
+    "Translation vars can have multi-line object literal": function anonymous(it) {
+      return "HASH_NOT_TRANSLATED: Translation vars can have multi-line object literal";
     },
-    "register": function anonymous(it) {
-      return "HASH_NOT_TRANSLATED: register";
-    },
-    "friend_invited_you": function anonymous(it) {
-      return "HASH_NOT_TRANSLATED: friend_invited_you";
-    },
-    "invite_text1": function anonymous(it) {
-      return "HASH_NOT_TRANSLATED: invite_text1";
+    "Translation vars have dot notation": function anonymous(it) {
+      return "yes it can";
     },
     "It can have <>": function anonymous(it) {
       return "HASH_NOT_TRANSLATED: It can have <>";
@@ -158,6 +152,15 @@ define(function() {
     },
     "TEST_LABEL_THING": function anonymous(it) {
       return "ijfijoijk";
+    },
+    "Grunt-translate can have tailing comments": function anonymous(it) {
+      return "yes it can";
+    },
+    "Grunt-translate can have tailing comments with translation vars": function anonymous(it) {
+      return "yes it can";
+    },
+    "Grunt-translate can have tailing comments with multi-line translation vars": function anonymous(it) {
+      return "yes it can";
     }
   };
   return function(translationKey) {

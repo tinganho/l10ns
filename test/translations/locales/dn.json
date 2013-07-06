@@ -82,14 +82,14 @@
     "timestamp": 1372916804034,
     "id": "98f882f930ad55dbbf510a46874fd3ea"
   },
-  "Translation vars can have multi-line": {
+  "Translation vars can have multi-line object literal": {
     "vars": [
       "fullname"
     ],
     "translations": [],
-    "query_translation": "Translation vars can have multi-line",
-    "timestamp": 1372916804034,
-    "id": "52a75f57a21377aa06458760b881e27d"
+    "query_translation": "Translation vars can have multi-line object literal",
+    "timestamp": 1373125903372,
+    "id": "1d0da2feb724bd880afc48a3d025eeef"
   },
   "Translation vars have dot notation": {
     "vars": [
@@ -281,20 +281,6 @@
     "query_translation": "It can have \"",
     "timestamp": 1363339796493,
     "id": "8d58be63a2bf722dbddb770cec73865c"
-  },
-  "Edit me": {
-    "vars": [],
-    "translations": "\"Helloworld\"",
-    "query_translation": "Edit me",
-    "timestamp": 1364663143286,
-    "id": "e976e6af5ce2e18733c4dc1463815bfb"
-  },
-  "TEST_LABEL_THING": {
-    "vars": [],
-    "translations": "\"ew\"",
-    "query_translation": "TEST_LABEL_THING",
-    "timestamp": 1370443437130,
-    "id": "1e62135df8029a77a9f5046ffdc7537e"
   },
   "Grunt-translate can have tailing comments": {
     "vars": [],
