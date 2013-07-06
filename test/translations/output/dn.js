@@ -10,7 +10,7 @@ define(function() {
       return "HASH_NOT_TRANSLATED: It can have an if and else if and else statements";
     },
     "It can have only one string": function anonymous(it) {
-      return "ewffefw";
+      return "HASH_NOT_TRANSLATED: It can have only one string";
     },
     "It can take && in if statement": function anonymous(it) {
       return "HASH_NOT_TRANSLATED: It can take && in if statement";
@@ -23,6 +23,24 @@ define(function() {
     },
     "It can take several || in if statement": function anonymous(it) {
       return "HASH_NOT_TRANSLATED: It can take several || in if statement";
+    },
+    "It can have dot notation in object": function anonymous(it) {
+      return "HASH_NOT_TRANSLATED: It can have dot notation in object";
+    },
+    "share_page_info": function anonymous(it) {
+      return "HASH_NOT_TRANSLATED: share_page_info";
+    },
+    "share_page_join": function anonymous(it) {
+      return "HASH_NOT_TRANSLATED: share_page_join";
+    },
+    "register": function anonymous(it) {
+      return "HASH_NOT_TRANSLATED: register";
+    },
+    "friend_invited_you": function anonymous(it) {
+      return "HASH_NOT_TRANSLATED: friend_invited_you";
+    },
+    "invite_text1": function anonymous(it) {
+      return "HASH_NOT_TRANSLATED: invite_text1";
     },
     "It can have <>": function anonymous(it) {
       return "HASH_NOT_TRANSLATED: It can have <>";
@@ -103,10 +121,10 @@ define(function() {
       return "HASH_NOT_TRANSLATED: It can have \"";
     },
     "Edit me": function anonymous(it) {
-      return "Helloworlds";
+      return "Helloworld";
     },
     "TEST_LABEL_THING": function anonymous(it) {
-      return "HASH_NOT_TRANSLATED: TEST_LABEL_THING";
+      return "ew";
     }
   };
   return function(translationKey) {

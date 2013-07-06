@@ -66,55 +66,39 @@
     "timestamp": 1363339796493,
     "id": "f970eadccedf102c20d41f56a3d10dd5"
   },
-  "It can have dot notation in object": {
-    "vars": [
-      "fullname"
-    ],
-    "translations": [],
-    "query_translation": "It can have dot notation in object",
-    "timestamp": 1372863028141,
-    "id": "816e802aa993b2c5e94e9fce404133b6"
-  },
-  "share_page_info": {
-    "vars": [
-      "fullname"
-    ],
-    "translations": [],
-    "query_translation": "share_page_info",
-    "timestamp": 1372866169437,
-    "id": "aee3a8f4e35c8341b040d911c5c66104"
-  },
-  "share_page_join": {
+  "Translation vars can be in one object literal": {
     "vars": [],
     "translations": [],
-    "query_translation": "share_page_join",
-    "timestamp": 1372866169437,
-    "id": "a48499696eac262dce6ba6d79a6d6d80"
+    "query_translation": "Translation vars can be in one object literal",
+    "timestamp": 1372916804034,
+    "id": "459f9ddf9e40afcc911537195f814124"
   },
-  "register": {
-    "vars": [],
-    "translations": [],
-    "query_translation": "register",
-    "timestamp": 1372876481657,
-    "id": "e8b16b05cd4efe78cf86f3f012384433"
-  },
-  "friend_invited_you": {
+  "Translation vars can have one line object literal": {
     "vars": [
       "fullname"
     ],
     "translations": [],
-    "query_translation": "friend_invited_you",
-    "timestamp": 1372876481657,
-    "id": "30755160482194fdce9b4818a5b16bde"
+    "query_translation": "Translation vars can have one line object literal",
+    "timestamp": 1372916804034,
+    "id": "98f882f930ad55dbbf510a46874fd3ea"
   },
-  "invite_text1": {
+  "Translation vars can have multi-line": {
     "vars": [
       "fullname"
     ],
     "translations": [],
-    "query_translation": "invite_text1",
-    "timestamp": 1372876481657,
-    "id": "73e2a243377ff5cdfa53f9b874b4d6ca"
+    "query_translation": "Translation vars can have multi-line",
+    "timestamp": 1372916804034,
+    "id": "52a75f57a21377aa06458760b881e27d"
+  },
+  "Translation vars have dot notation": {
+    "vars": [
+      "fullname"
+    ],
+    "translations": [],
+    "query_translation": "Translation vars have dot notation",
+    "timestamp": 1372916804034,
+    "id": "b609eea3ccb7b0c4b4105204e411848f"
   },
   "It can have <>": {
     "vars": [],
@@ -311,5 +295,30 @@
     "query_translation": "TEST_LABEL_THING",
     "timestamp": 1370443437130,
     "id": "1e62135df8029a77a9f5046ffdc7537e"
+  },
+  "Grunt-translate can have tailing comments": {
+    "vars": [],
+    "translations": [],
+    "query_translation": "Grunt-translate can have tailing comments",
+    "timestamp": 1372916804034,
+    "id": "c4810f8822d4d8db7a477eec6f46268e"
+  },
+  "Grunt-translate can have tailing comments with translation vars": {
+    "vars": [
+      "test"
+    ],
+    "translations": [],
+    "query_translation": "Grunt-translate can have tailing comments with translation vars",
+    "timestamp": 1372916804034,
+    "id": "cc0247aa90060493816825612e11caa9"
+  },
+  "Grunt-translate can have tailing comments with multi-line translation vars": {
+    "vars": [
+      "test"
+    ],
+    "translations": [],
+    "query_translation": "Grunt-translate can have tailing comments with multi-line translation vars",
+    "timestamp": 1372916804034,
+    "id": "9871159b128a0ba518ac21a96b8260b0"
   }
 }

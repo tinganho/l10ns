@@ -23,28 +23,17 @@ function test() {
     lastname: 'Ho'
   });
 
-  var owner = {
-    name : 'fullname'
-  };
+  // Test of translation vars
+  test1 : gt('Translation vars can be in one object literal'),
+  test2 : gt('Translation vars can be in one object literal'),
 
-  gt('It can have dot notation in object', {
+  gt('Translation vars can have one line object literal', { fullname : inviter.fullname }),
+  gt('Translation vars can have multi-line', {
+    fullname: fullname
+  });
+  gt('Translation vars have dot notation', {
     fullname : iueh.iuhef[efkuh.kwehf].iuewgy
   });
-
-  invitationUrl : '/invitation/' + invitationToken,
-
-  // Labels
-  i18n_shareInfo : gt('share_page_info', {
-    fullname: fullname
-  }),
-  i18n_join      : gt('share_page_join')
-
-  i18n_register           : gt( 'register' ),
-
-  i18n_friend_invited_you : gt( 'friend_invited_you', {
-    fullname : inviter.fullname
-  }),
-  i18n_invite_text1       : gt( 'invite_text1', { fullname : inviter.fullname }),
 
   // Special chars
   gt("It can have <>");
@@ -70,7 +59,7 @@ function test() {
 
   // Math
   gt('It can have ==');
-  gt('It can have ++'); // aoiwdjwd, iwefjfew
+  gt('It can have ++');
   gt('It can have --');
   gt('It can have **');
   gt('It can have //');
@@ -82,5 +71,15 @@ function test() {
   // Edit translation
   gt('Edit me');
   gt('TEST_LABEL_THING');
+
+  // Comments
+  gt('Grunt-translate can have tailing comments');  // test1, test2
+  gt('Grunt-translate can have tailing comments with translation vars', { test : 'test' });  // test1, test2
+  gt('Grunt-translate can have tailing comments with multi-line translation vars', {
+    test : 'test'
+  });  // test1, test2
+  gt('Grunt-translate can have tailing comments with multi-line translation vars', {
+    test : 'test'
+  });  // test1, test2
 
 }
