@@ -179,8 +179,8 @@ describe('Grunt translate', function() {
     });
 
     describe('Vars', function() {
-      it('can be in object literal', function() {
-        expect(gt('Translation vars can be in one object literal')).to.have.string('yes it can');
+      it('can have one line object literal', function() {
+        expect(gt('Translation vars can have one line object literal')).to.have.string('yes it can');
       });
     });
   });

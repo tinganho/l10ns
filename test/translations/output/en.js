@@ -63,95 +63,92 @@ define(function() {
     "Translation vars can have one line object literal": function anonymous(it) {
       return "yes it can";
     },
-    "Translation vars can have multi-line object literal": function anonymous(it) {
-      return "HASH_NOT_TRANSLATED: Translation vars can have multi-line object literal";
+    "Translation vars can have multi-line": function anonymous(it) {
+      return "HASH_NOT_TRANSLATED: Translation vars can have multi-line";
     },
     "Translation vars have dot notation": function anonymous(it) {
       return "yes it can";
     },
     "It can have <>": function anonymous(it) {
-      return "HASH_NOT_TRANSLATED: It can have <>";
+      return "yes it can";
     },
     "It can have ..": function anonymous(it) {
-      return "cewdeweew";
+      return "yes it can";
     },
     "It can have ,,": function anonymous(it) {
       return "HASH_NOT_TRANSLATED: It can have ,,";
     },
     "It can have ::": function anonymous(it) {
-      return "w4rfrfrferr";
+      return "yes it can";
     },
     "It can have ;;": function anonymous(it) {
-      return "feewefwfeew";
+      return "yes it can";
     },
     "It can have ’’": function anonymous(it) {
-      return "HASH_NOT_TRANSLATED: It can have ’’";
+      return "yes it can";
     },
     "It can have __": function anonymous(it) {
-      return "HASH_NOT_TRANSLATED: It can have __";
+      return "yes it can";
     },
     "It can have &&": function anonymous(it) {
-      return "weefe";
+      return "yes it can";
     },
     "It can have %%": function anonymous(it) {
-      return "HASH_NOT_TRANSLATED: It can have %%";
+      return "yes it can";
     },
     "It can have $$": function anonymous(it) {
-      return "HASH_NOT_TRANSLATED: It can have $$";
+      return "yes it can";
     },
     "It can have €€": function anonymous(it) {
-      return "e";
+      return "yes it can";
     },
     "It can have ##": function anonymous(it) {
-      return "HASH_NOT_TRANSLATED: It can have ##";
+      return "yes it can";
     },
     "It can have ??": function anonymous(it) {
-      return "HASH_NOT_TRANSLATED: It can have ??";
+      return "yes it can";
     },
     "It can have !!": function anonymous(it) {
-      return "HASH_NOT_TRANSLATED: It can have !!";
+      return "yes it can";
     },
     "It can have ()": function anonymous(it) {
-      return "HASH_NOT_TRANSLATED: It can have ()";
+      return "yes it can";
     },
     "It can have @@": function anonymous(it) {
-      return "HASH_NOT_TRANSLATED: It can have @@";
+      return "yes it can";
     },
     "It can have ^^": function anonymous(it) {
-      return "HASH_NOT_TRANSLATED: It can have ^^";
+      return "yes it can";
     },
     "It can have ´´": function anonymous(it) {
-      return "HASH_NOT_TRANSLATED: It can have ´´";
+      return "yes it can";
     },
     "It can have ``": function anonymous(it) {
-      return "ew";
+      return "yes it can";
     },
     "It can have ==": function anonymous(it) {
-      return "HASH_NOT_TRANSLATED: It can have ==";
+      return "yes it can";
     },
     "It can have ++": function anonymous(it) {
-      return "HASH_NOT_TRANSLATED: It can have ++";
+      return "yes it can";
     },
     "It can have --": function anonymous(it) {
-      return "HASH_NOT_TRANSLATED: It can have --";
+      return "yes it can";
     },
     "It can have **": function anonymous(it) {
-      return "HASH_NOT_TRANSLATED: It can have **";
+      return "yes it can";
     },
     "It can have //": function anonymous(it) {
-      return "poik";
+      return "yes it can";
     },
     "It can have '": function anonymous(it) {
-      return "owjfjiojefiwjef";
+      return "yes it can";
     },
     "It can have \"": function anonymous(it) {
-      return "HASH_NOT_TRANSLATED: It can have \"";
+      return "yes it can";
     },
     "Edit me": function anonymous(it) {
       return "Helloworld";
-    },
-    "TEST_LABEL_THING": function anonymous(it) {
-      return "ijfijoijk";
     },
     "Grunt-translate can have tailing comments": function anonymous(it) {
       return "yes it can";

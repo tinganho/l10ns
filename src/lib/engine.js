@@ -59,11 +59,11 @@ engine.appendTranslationContent = function(file) {
       if(n !== 0) {
         t += ',' + grunt.util.linefeed;
       }
+
       if(translations[key].translations.length === 0){
-        key = key.replace(/"/, '\\"');
+        key = key.replace(/"/, '\\"'); // Normalize key
         fb += '      return "HASH_NOT_TRANSLATED: ' + key + '";';
       } else if(translations[key].translations[0][0] === 'if') {
-
         var trans = translations[key].translations;
         trans.forEach(function(condition){
 
@@ -129,6 +129,7 @@ engine.appendTranslationContent = function(file) {
       }
 
       /*jshint evil:true */
+      key = key.replace(/"/, '\\"'); // Normalize key
       t += '    "' + key + '": ' + (new Function(['it'], fb)).toString();
       t = t.slice(0, -1) + '    }';
       /*jshint evil:false */

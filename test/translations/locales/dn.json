@@ -82,14 +82,14 @@
     "timestamp": 1372916804034,
     "id": "98f882f930ad55dbbf510a46874fd3ea"
   },
-  "Translation vars can have multi-line object literal": {
+  "Translation vars can have multi-line": {
     "vars": [
       "fullname"
     ],
     "translations": [],
-    "query_translation": "Translation vars can have multi-line object literal",
-    "timestamp": 1373125903372,
-    "id": "1d0da2feb724bd880afc48a3d025eeef"
+    "query_translation": "Translation vars can have multi-line",
+    "timestamp": 1373127792372,
+    "id": "4813f8f56673df618d1af44164391dd5"
   },
   "Translation vars have dot notation": {
     "vars": [
@@ -281,6 +281,13 @@
     "query_translation": "It can have \"",
     "timestamp": 1363339796493,
     "id": "8d58be63a2bf722dbddb770cec73865c"
+  },
+  "Edit me": {
+    "vars": [],
+    "translations": "\"Helloworld\"",
+    "query_translation": "Helloworld",
+    "timestamp": 1373127792372,
+    "id": "2124a93fe03c3b03cbbf94171c756b91"
   },
   "Grunt-translate can have tailing comments": {
     "vars": [],

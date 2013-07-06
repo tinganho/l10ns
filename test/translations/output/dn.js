@@ -30,8 +30,8 @@ define(function() {
     "Translation vars can have one line object literal": function anonymous(it) {
       return "HASH_NOT_TRANSLATED: Translation vars can have one line object literal";
     },
-    "Translation vars can have multi-line object literal": function anonymous(it) {
-      return "HASH_NOT_TRANSLATED: Translation vars can have multi-line object literal";
+    "Translation vars can have multi-line": function anonymous(it) {
+      return "HASH_NOT_TRANSLATED: Translation vars can have multi-line";
     },
     "Translation vars have dot notation": function anonymous(it) {
       return "HASH_NOT_TRANSLATED: Translation vars have dot notation";
@@ -111,14 +111,11 @@ define(function() {
     "It can have '": function anonymous(it) {
       return "HASH_NOT_TRANSLATED: It can have '";
     },
-    "It can have \"": function anonymous(it) {
+    "It can have \\"": function anonymous(it) {
       return "HASH_NOT_TRANSLATED: It can have \"";
     },
     "Edit me": function anonymous(it) {
       return "Helloworld";
-    },
-    "TEST_LABEL_THING": function anonymous(it) {
-      return "ew";
     },
     "Grunt-translate can have tailing comments": function anonymous(it) {
       return "HASH_NOT_TRANSLATED: Grunt-translate can have tailing comments";

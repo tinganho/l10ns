@@ -25,7 +25,7 @@ test1 : gt('Translation vars can be in one object literal'),
 test2 : gt('Translation vars can be in one object literal'),
 
 gt('Translation vars can have one line object literal', { fullname : inviter.fullname }),
-gt('Translation vars can have multi-line object literal', {
+gt('Translation vars can have multi-line', {
   fullname: fullname
 });
 gt('Translation vars have dot notation', {
@@ -64,6 +64,9 @@ gt('It can have //');
 // Quotation
 gt('It can have \'');
 gt('It can have "');
+
+// Edit translation
+gt('Edit me');
 
 // Comments
 gt('Grunt-translate can have tailing comments');  // test1, test2
