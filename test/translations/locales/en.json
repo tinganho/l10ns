@@ -52,7 +52,7 @@
     "vars": [
       "world"
     ],
-    "translations": "\"Yes it can\"",
+    "translations": "\"yes it can\"",
     "query_translation": "It can have only one string",
     "timestamp": 1372902359285,
     "id": "cdcc025a1b7a2235c0adbf22df2fd169"
@@ -189,7 +189,7 @@
     "vars": [
       "fullname"
     ],
-    "translations": [],
+    "translations": "\"yes it can\"",
     "query_translation": "Translation vars can have multi-line",
     "timestamp": 1373127792372,
     "id": "4813f8f56673df618d1af44164391dd5"
@@ -388,7 +388,7 @@
   "Edit me": {
     "vars": [],
     "translations": "\"Helloworld\"",
-    "query_translation": "Helloworld",
+    "query_translation": "Edit me",
     "timestamp": 1373127792372,
     "id": "2124a93fe03c3b03cbbf94171c756b91"
   },
