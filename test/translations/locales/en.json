@@ -388,7 +388,7 @@
   "Edit me": {
     "vars": [],
     "translations": "\"Helloworld\"",
-    "query_translation": "Edit me",
+    "query_translation": "Helloworld",
     "timestamp": 1373127792372,
     "id": "2124a93fe03c3b03cbbf94171c756b91"
   },
