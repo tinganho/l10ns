@@ -42,7 +42,7 @@ describe('Grunt translate', function() {
       expect(gt('It can have an if and else if and else statements', {number: 3})).to.equal('yes it can');
     });
     it('should be able to compile string values', function() {
-      expect(gt('It can have only one string', { world: 'world'})).to.equal('Yes it can')
+      expect(gt('It can have only one string', { world: 'world'})).to.equal('yes it can')
     });
   });
 
