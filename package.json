@@ -46,7 +46,8 @@
     "autoroute": "~0.2.1",
     "lunr": "~0.4.0",
     "requirejs": "~2.1.6",
-    "zombie": "~2.0.0-alpha19"
+    "zombie": "~2.0.0-alpha19",
+    "prompt": "~0.2.11"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.1.0",
