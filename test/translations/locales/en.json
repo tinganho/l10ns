@@ -237,7 +237,7 @@
       "test2"
     ],
     "translations": "\"yes it can\"",
-    "query_translation": "\"yes it can\"",
+    "query_translation": "Translation vars can have multiple method calls",
     "timestamp": 1373701896901,
     "id": "b97f47d685fb398a2b07a88fa09071bc"
   },
@@ -426,14 +426,14 @@
   "It can have double and single quote in translation": {
     "vars": [],
     "translations": "\"yes it can have \"'\"",
-    "query_translation": "\"yes it can have \"'\"",
+    "query_translation": "It can have double and single quote in translation",
     "timestamp": 1373709180619,
     "id": "aff433423753a685b9869517d7871644"
   },
   "Edit me": {
     "vars": [],
     "translations": "\"Helloworld\"",
-    "query_translation": "Edit me",
+    "query_translation": "Helloworld",
     "timestamp": 1373127792372,
     "id": "2124a93fe03c3b03cbbf94171c756b91"
   },

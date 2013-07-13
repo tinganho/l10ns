@@ -158,6 +158,9 @@ describe('Grunt translate', function() {
       it(pre + '\"', function() {
         expect(gt('It can have \"')).to.be.ok;
       });
+      it('It can have double and single quote in translation', function() {
+        expect(gt('It can have double and single quote in translation')).to.have.string('yes it can');
+      });
     });
 
     describe('Comments', function() {
