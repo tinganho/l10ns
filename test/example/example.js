@@ -78,6 +78,7 @@ gt('It can have //');
 // Quotation
 gt('It can have \'');
 gt('It can have "');
+gt('It can have double and single quote in translation');
 
 // Edit translation
 gt('Edit me');

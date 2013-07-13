@@ -171,7 +171,12 @@ engine.appendTranslationContent = function(file) {
  */
 engine.reformatTranslatedText = function(text, vars){
 
-  var text = "'" + text.substring(1, text.length - 1) + "'";
+  var text = '"' + text.substring(1, text.length - 1).replace(/"/g, function(m) {
+
+    return '" + "' + '\\"' + '" + "';
+  }) + '"';
+
+  console.log(text);
 
   return text.replace(/\$\{\w+\}/g, function( m ) {
 

@@ -5,7 +5,7 @@
       <div class="translation-input-helper">
         <input class="translation-input js-translation-input"
           type="text"
-          value="{{?it.type === 'simple'}}{{=it.value.value}}{{?}}"></input>
+          value="{{?it.type === 'simple'}}{{!it.value.value}}{{?}}"></input>
       </div>
       <div class="translation-button-container">
         <div class="js-translation-else white-button"><a>ELSE</a></div>

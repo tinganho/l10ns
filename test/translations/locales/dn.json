@@ -320,10 +320,17 @@
     "timestamp": 1363339796493,
     "id": "8d58be63a2bf722dbddb770cec73865c"
   },
+  "It can have double and single quote in translation": {
+    "vars": [],
+    "translations": [],
+    "query_translation": "It can have double and single quote in translation",
+    "timestamp": 1373709180619,
+    "id": "aff433423753a685b9869517d7871644"
+  },
   "Edit me": {
     "vars": [],
     "translations": "\"Helloworld\"",
-    "query_translation": "Helloworld",
+    "query_translation": "Edit me",
     "timestamp": 1373127792372,
     "id": "2124a93fe03c3b03cbbf94171c756b91"
   },
