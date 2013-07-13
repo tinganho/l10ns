@@ -29,7 +29,14 @@ gt('Translation vars can have multi-line', {
   fullname: fullname
 });
 gt('Translation vars have dot notation', {
-  fullname : iueh.iuhef[efkuh.kwehf].iuewgy
+  fullname : test1.test2[test3.test4].test5
+});
+gt('Translation vars can have single function calls', {
+  test : test()
+});
+gt('Translation vars can have multiple function calls', {
+  test1 : test1(),
+  test2 : test2()
 });
 
 // Special chars

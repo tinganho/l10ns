@@ -23,7 +23,7 @@ module.exports = function(options) {
   var files = grunt.file.expand({ filter: 'isFile' }, options.src);
   files.forEach(function(file){
     var content = grunt.file.read(file);
-    var regex = /gt\(\s*((.*?)|(\s*?))+?\)/g;
+    var regex = /gt\(['|"](.*)['|"]\s*(\,\s*\{\s*((.*?)|(\s*?))+?\s*\})??\s*\)/g;
     var translations = content.match(regex);
 
     if(translations !== null) {

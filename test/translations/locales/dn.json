@@ -100,6 +100,25 @@
     "timestamp": 1372916804034,
     "id": "b609eea3ccb7b0c4b4105204e411848f"
   },
+  "Translation vars can have single function calls": {
+    "vars": [
+      "test"
+    ],
+    "translations": [],
+    "query_translation": "Translation vars can have single function calls",
+    "timestamp": 1373695468834,
+    "id": "9df04a7aab883d09b9601c4488ff2cf0"
+  },
+  "Translation vars can have multiple function calls": {
+    "vars": [
+      "test1",
+      "test2"
+    ],
+    "translations": [],
+    "query_translation": "Translation vars can have multiple function calls",
+    "timestamp": 1373695468834,
+    "id": "68a4d1e622579384be074416b912135c"
+  },
   "It can have <>": {
     "vars": [],
     "translations": [],
