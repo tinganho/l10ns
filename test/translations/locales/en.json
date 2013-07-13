@@ -207,7 +207,7 @@
     "vars": [
       "test"
     ],
-    "translations": [],
+    "translations": "\"yes it can\"",
     "query_translation": "Translation vars can have single function calls",
     "timestamp": 1373695468834,
     "id": "9df04a7aab883d09b9601c4488ff2cf0"
@@ -217,10 +217,29 @@
       "test1",
       "test2"
     ],
-    "translations": [],
+    "translations": "\"yes it can\"",
     "query_translation": "Translation vars can have multiple function calls",
     "timestamp": 1373695468834,
     "id": "68a4d1e622579384be074416b912135c"
+  },
+  "Translation vars can have single method calls": {
+    "vars": [
+      "test1"
+    ],
+    "translations": "\"yes it can\"",
+    "query_translation": "Translation vars can have single method calls",
+    "timestamp": 1373701896901,
+    "id": "23bc311bdecbe7ae92a895c90543d9c7"
+  },
+  "Translation vars can have multiple method calls": {
+    "vars": [
+      "test1",
+      "test2"
+    ],
+    "translations": "\"yes it can\"",
+    "query_translation": "Translation vars can have multiple method calls",
+    "timestamp": 1373701896901,
+    "id": "b97f47d685fb398a2b07a88fa09071bc"
   },
   "It can have <>": {
     "vars": [],
@@ -407,7 +426,7 @@
   "Edit me": {
     "vars": [],
     "translations": "\"Helloworld\"",
-    "query_translation": "Edit me",
+    "query_translation": "Helloworld",
     "timestamp": 1373127792372,
     "id": "2124a93fe03c3b03cbbf94171c756b91"
   },

@@ -38,6 +38,13 @@ gt('Translation vars can have multiple function calls', {
   test1 : test1(),
   test2 : test2()
 });
+gt('Translation vars can have single method calls', {
+  test1 : test.test1()
+});
+gt('Translation vars can have multiple method calls', {
+  test1 : test.test1(),
+  test2 : test.test2()
+});
 
 // Special chars
 gt("It can have <>");
