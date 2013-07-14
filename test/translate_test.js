@@ -35,11 +35,11 @@ describe('Grunt translate', function() {
   });
   describe('Compiling', function() {
     it('should be able to compile if and else statements', function() {
-      expect(gt('It can have an if and else statement', {number: 3})).to.equal('Number is 3');
-      expect(gt('It can have an if and else statement', {number: 1})).to.equal('Number is smaller than 2');
+      expect(gt('It can have an if and else statement', {test: 3})).to.have.string('if works');
+      expect(gt('It can have an if and else statement', {test: 1})).to.have.string('else works');
     });
     it('should be able to compile if and elseif and else statement', function() {
-      expect(gt('It can have an if and else if and else statements', {number: 3})).to.equal('yes it can');
+      expect(gt('It can have an if and else if and else statements', { test: 3 })).to.equal('yes it can');
     });
     it('should be able to compile string values', function() {
       expect(gt('It can have only one string', { world: 'world'})).to.equal('yes it can')
@@ -48,16 +48,16 @@ describe('Grunt translate', function() {
 
   describe('Operators', function() {
     it('should be able to take && in if statements', function() {
-      expect(gt('It can take && in if statement', { firstname: 'Tingan', lastname: 'Ho'})).to.equal('Hello Tingan Ho!');
+      expect(gt('It can take && in if statement', { test1: 'test1', test2: 'test2'})).to.have.string('yes it can');
     });
     it('should be able to take || in if statements', function() {
-      expect(gt('It can take || in if statement', { firstname: 'Tingan', lastname: 'Ho'})).to.equal('Hello Tingan Ho!');
+      expect(gt('It can take || in if statement', { test1: 'test1', test2: 'test2'})).to.have.string('yes it can');
     });
     it('should be able to take several && in if statements', function() {
-      expect(gt('It can take several && in if statement', { firstname: 'Tingan', lastname: 'Ho'})).to.equal('Hello Tingan Ho!');
+      expect(gt('It can take several && in if statement', { test1: 'test1', test2: 'test2', test3: 'test3' })).to.have.string('yes it can');
     });
     it('should be able to take several || in if statements', function() {
-      expect(gt('It can take several || in if statement', { firstname: 'Tingan', lastname: 'Ho'})).to.equal('Hello Tingan Ho!');
+      expect(gt('It can take several || in if statement', { test1: 'test1', test2: 'test2'})).to.have.string('yes it can');
     });
   });
 
@@ -186,13 +186,13 @@ describe('Grunt translate', function() {
         expect(gt('Translation vars can have one line object literal')).to.have.string('yes it can');
       });
       it('can have single function call', function() {
-        expect(gt('Translation vars can have single function calls')).to.have.string('yes it can');
+        expect(gt('Translation vars can have single function call')).to.have.string('yes it can');
       });
       it('can have multiple function calls', function() {
         expect(gt('Translation vars can have multiple function calls')).to.have.string('yes it can');
       });
       it('can have single method call', function() {
-        expect(gt('Translation vars can have single method calls')).to.have.string('yes it can');
+        expect(gt('Translation vars can have single method call')).to.have.string('yes it can');
       });
       it('can have multiple method calls', function() {
         expect(gt('Translation vars can have multiple method calls')).to.have.string('yes it can');

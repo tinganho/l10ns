@@ -19,7 +19,7 @@
   },
   "It can have only one string": {
     "vars": [
-      "world"
+      "test"
     ],
     "translations": [],
     "query_translation": "It can have only one string",
@@ -49,7 +49,8 @@
   "It can take several && in if statement": {
     "vars": [
       "test1",
-      "test2"
+      "test2",
+      "test3"
     ],
     "translations": [],
     "query_translation": "It can take several && in if statement",
@@ -59,7 +60,8 @@
   "It can take several || in if statement": {
     "vars": [
       "test1",
-      "test2"
+      "test2",
+      "test3"
     ],
     "translations": [],
     "query_translation": "It can take several || in if statement",
@@ -75,21 +77,21 @@
   },
   "Translation vars can have one line object literal": {
     "vars": [
-      "fullname"
+      "test"
     ],
     "translations": [],
     "query_translation": "Translation vars can have one line object literal",
     "timestamp": 1373816843593,
     "id": "ef0b689cf4565bb1cd55eb466f7d8113"
   },
-  "Translation vars can have multi-line": {
+  "Translation vars can have multi-line object literal": {
     "vars": [
-      "fullname"
+      "test"
     ],
     "translations": [],
-    "query_translation": "Translation vars can have multi-line",
-    "timestamp": 1373816843593,
-    "id": "4456ee66b82512815c88cc652ceebac4"
+    "query_translation": "Translation vars can have multi-line object literal",
+    "timestamp": 1373817924672,
+    "id": "358aa49de5c9f0c0496827d1c5ef444c"
   },
   "Translation vars have dot notation": {
     "vars": [
@@ -367,8 +369,8 @@
   },
   "Edit me": {
     "vars": [],
-    "translations": [],
-    "query_translation": "Edit me",
+    "translations": "\"Helloworld\"",
+    "query_translation": "Helloworld",
     "timestamp": 1373816843593,
     "id": "7fa03dcb38b42858075cfbffa926de6c"
   },
