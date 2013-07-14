@@ -1,465 +1,400 @@
 {
   "It can have an if and else statement": {
     "vars": [
-      "number"
+      "test"
     ],
-    "translations": [
-      [
-        "if",
-        "number",
-        ">",
-        "1",
-        "\"Number is ${number}\""
-      ],
-      [
-        "else",
-        "\"Number is smaller than 2\""
-      ]
-    ],
+    "translations": [],
     "query_translation": "It can have an if and else statement",
-    "timestamp": 1359025336849,
-    "id": "1f969d3b7b07853e7cec3c36097f6b2a"
+    "timestamp": 1373816843593,
+    "id": "b95db031c41e23aab67b51c7d828c18a"
   },
   "It can have an if and else if and else statements": {
     "vars": [
-      "number"
+      "test"
     ],
-    "translations": [
-      [
-        "if",
-        "number",
-        "<",
-        "2",
-        "\"Number is ${number}\""
-      ],
-      [
-        "else if",
-        "number",
-        "<",
-        "1",
-        "\"Number is ${number}\""
-      ],
-      [
-        "else",
-        "\"yes it can\""
-      ]
-    ],
+    "translations": [],
     "query_translation": "It can have an if and else if and else statements",
-    "timestamp": 1372902359285,
-    "id": "33c3dd9432c860eb78344ff3cefce7a8"
+    "timestamp": 1373816843593,
+    "id": "b052dcb09a663515feeb3cc7cbb356cf"
   },
   "It can have only one string": {
     "vars": [
       "world"
     ],
-    "translations": "\"yes it can\"",
+    "translations": [],
     "query_translation": "It can have only one string",
-    "timestamp": 1372902359285,
-    "id": "cdcc025a1b7a2235c0adbf22df2fd169"
+    "timestamp": 1373816843593,
+    "id": "213c3dde9317c7d6176274ad8a04779e"
   },
   "It can take && in if statement": {
     "vars": [
-      "firstname",
-      "lastname"
+      "test1",
+      "test2"
     ],
-    "translations": [
-      [
-        "if",
-        "firstname",
-        ">",
-        "lastname",
-        "\"Hello ${firstname} ${lastname}!\"",
-        "&&",
-        "lastname",
-        "<",
-        "3"
-      ],
-      [
-        "else",
-        "\"Number is smaller than 2\""
-      ]
-    ],
+    "translations": [],
     "query_translation": "It can take && in if statement",
-    "timestamp": 1359025336849,
-    "id": "9abde9c7f7f1149cc35045b691d38fdd"
+    "timestamp": 1373816843593,
+    "id": "06047e636a375cff0ab5a968086622ee"
   },
   "It can take || in if statement": {
     "vars": [
-      "firstname",
-      "lastname"
+      "test1",
+      "test2"
     ],
-    "translations": [
-      [
-        "if",
-        "firstname",
-        "===",
-        "\"Tingan\"",
-        "||",
-        "lastname",
-        "===",
-        "\"Ho\"",
-        "\"Hello ${firstname} ${lastname}!\""
-      ],
-      [
-        "else",
-        "\"Firstname and last is not Tingan Ho\""
-      ]
-    ],
+    "translations": [],
     "query_translation": "It can take || in if statement",
-    "timestamp": 1359025336849,
-    "id": "d7f82a8354d6d6ffb0889947ad1e3468"
+    "timestamp": 1373816843593,
+    "id": "25f153d7dabd2759bfe80853e10637d3"
   },
   "It can take several && in if statement": {
     "vars": [
-      "firstname",
-      "lastname"
+      "test1",
+      "test2"
     ],
-    "translations": [
-      [
-        "if",
-        "firstname",
-        "===",
-        "\"Tingan\"",
-        "&&",
-        "lastname",
-        "===",
-        "\"Ho\"",
-        "&&",
-        "lastname",
-        "===",
-        "\"Ho\"",
-        "\"Hello ${firstname} ${lastname}!\""
-      ],
-      [
-        "else",
-        "\"Firstname and last is not Tingan Ho\""
-      ]
-    ],
+    "translations": [],
     "query_translation": "It can take several && in if statement",
-    "timestamp": 1359025336849,
-    "id": "3fe978fec181cd1a229bdc81e376d446"
+    "timestamp": 1373816843593,
+    "id": "19e64c927f151f9db6d70092810f5186"
   },
   "It can take several || in if statement": {
     "vars": [
-      "firstname",
-      "lastname"
+      "test1",
+      "test2"
     ],
-    "translations": [
-      [
-        "if",
-        "firstname",
-        "===",
-        "\"Tingan\"",
-        "||",
-        "lastname",
-        "===",
-        "\"Ho\"",
-        "||",
-        "lastname",
-        "===",
-        "\"Ho\"",
-        "\"Hello ${firstname} ${lastname}!\""
-      ],
-      [
-        "else",
-        "\"Firstname and last is not Tingan Ho\""
-      ]
-    ],
+    "translations": [],
     "query_translation": "It can take several || in if statement",
-    "timestamp": 1359025336849,
-    "id": "f970eadccedf102c20d41f56a3d10dd5"
+    "timestamp": 1373816843593,
+    "id": "0aa8226b989f816eeac71a9c72ab79ed"
   },
   "Translation vars can be in one object literal": {
     "vars": [],
-    "translations": "\"yes it can\"",
+    "translations": [],
     "query_translation": "Translation vars can be in one object literal",
-    "timestamp": 1372916804034,
-    "id": "459f9ddf9e40afcc911537195f814124"
+    "timestamp": 1373816843593,
+    "id": "4c2c3c9b83ccb9763e70a86ab29ac786"
   },
   "Translation vars can have one line object literal": {
     "vars": [
       "fullname"
     ],
-    "translations": "\"yes it can\"",
+    "translations": [],
     "query_translation": "Translation vars can have one line object literal",
-    "timestamp": 1372916804034,
-    "id": "98f882f930ad55dbbf510a46874fd3ea"
+    "timestamp": 1373816843593,
+    "id": "ef0b689cf4565bb1cd55eb466f7d8113"
   },
   "Translation vars can have multi-line": {
     "vars": [
       "fullname"
     ],
-    "translations": "\"yes it can\"",
+    "translations": [],
     "query_translation": "Translation vars can have multi-line",
-    "timestamp": 1373127792372,
-    "id": "4813f8f56673df618d1af44164391dd5"
+    "timestamp": 1373816843593,
+    "id": "4456ee66b82512815c88cc652ceebac4"
   },
   "Translation vars have dot notation": {
     "vars": [
       "fullname"
     ],
-    "translations": "\"yes it can\"",
+    "translations": [],
     "query_translation": "Translation vars have dot notation",
-    "timestamp": 1372916804034,
-    "id": "b609eea3ccb7b0c4b4105204e411848f"
+    "timestamp": 1373816843593,
+    "id": "920df01b16323d8c9669c99e28c81d9e"
   },
-  "Translation vars can have single function calls": {
+  "Translation vars can have single function call": {
     "vars": [
       "test"
     ],
-    "translations": "\"yes it can\"",
-    "query_translation": "Translation vars can have single function calls",
-    "timestamp": 1373695468834,
-    "id": "9df04a7aab883d09b9601c4488ff2cf0"
+    "translations": [],
+    "query_translation": "Translation vars can have single function call",
+    "timestamp": 1373816843593,
+    "id": "10f08ab51b584aa635964de1cedd4357"
   },
   "Translation vars can have multiple function calls": {
     "vars": [
       "test1",
       "test2"
     ],
-    "translations": "\"yes it can\"",
+    "translations": [],
     "query_translation": "Translation vars can have multiple function calls",
-    "timestamp": 1373695468834,
-    "id": "68a4d1e622579384be074416b912135c"
+    "timestamp": 1373816843593,
+    "id": "a04b4e409f3f0ab9160b0ce61ff0b673"
   },
-  "Translation vars can have single method calls": {
+  "Translation vars can have single method call": {
     "vars": [
-      "test1"
+      "test"
     ],
-    "translations": "\"yes it can\"",
-    "query_translation": "Translation vars can have single method calls",
-    "timestamp": 1373701896901,
-    "id": "23bc311bdecbe7ae92a895c90543d9c7"
+    "translations": [],
+    "query_translation": "Translation vars can have single method call",
+    "timestamp": 1373816843593,
+    "id": "5d465d1d577720b505e7d59b3ff5827d"
   },
   "Translation vars can have multiple method calls": {
     "vars": [
       "test1",
       "test2"
     ],
-    "translations": "\"yes it can\"",
+    "translations": [],
     "query_translation": "Translation vars can have multiple method calls",
-    "timestamp": 1373701896901,
-    "id": "b97f47d685fb398a2b07a88fa09071bc"
+    "timestamp": 1373816843593,
+    "id": "75f44360994e9b166af08131ead4cd3b"
+  },
+  "Translation vars can have single function call with a single object literal as a parameter": {
+    "vars": [
+      "test1"
+    ],
+    "translations": [],
+    "query_translation": "Translation vars can have single function call with a single object literal as a parameter",
+    "timestamp": 1373816843593,
+    "id": "522e258002f9db56781874a0a84987b6"
+  },
+  "Translation vars can have multiple function call with a single object literal as a parameter": {
+    "vars": [
+      "test1",
+      "test2"
+    ],
+    "translations": [],
+    "query_translation": "Translation vars can have multiple function call with a single object literal as a parameter",
+    "timestamp": 1373816843593,
+    "id": "410f000a2da3ea9a8a1acc9b1a19d10d"
+  },
+  "Translation vars can have single function call with a multiple object literal as a parameter": {
+    "vars": [
+      "test"
+    ],
+    "translations": [],
+    "query_translation": "Translation vars can have single function call with a multiple object literal as a parameter",
+    "timestamp": 1373816843593,
+    "id": "9a36e8c7547a61274aa1d2a3b1fc5fb0"
+  },
+  "Translation vars can have multiple function call with a multiple object literal as a parameter": {
+    "vars": [
+      "test1",
+      "test2"
+    ],
+    "translations": [],
+    "query_translation": "Translation vars can have multiple function call with a multiple object literal as a parameter",
+    "timestamp": 1373816843593,
+    "id": "1e1f139727c235f18d21ab4ebe54d5f6"
   },
   "It can have <>": {
     "vars": [],
-    "translations": "\"yes it can\"",
+    "translations": [],
     "query_translation": "It can have <>",
-    "timestamp": 1361260151027,
-    "id": "77a4a766b729c6b9d74760e892ddc546"
+    "timestamp": 1373816843593,
+    "id": "6df24766d1a2000c84241f2131590c80"
   },
   "It can have ..": {
     "vars": [],
-    "translations": "\"yes it can\"",
+    "translations": [],
     "query_translation": "It can have ..",
-    "timestamp": 1365426454459,
-    "id": "8d52fd4e114f6498a34bb7829013f061"
+    "timestamp": 1373816843593,
+    "id": "ad79b9d5a38ade210bc922f0643d6f81"
   },
   "It can have ,,": {
     "vars": [],
-    "translations": "\"yes it can\"",
+    "translations": [],
     "query_translation": "It can have ,,",
-    "timestamp": 1361260813314,
-    "id": "a317a72b92120604bb8b6c8e68c71241"
+    "timestamp": 1373816843593,
+    "id": "9ba68e302fda80318300227cb9ae1c8f"
   },
   "It can have ::": {
     "vars": [],
-    "translations": "\"yes it can\"",
+    "translations": [],
     "query_translation": "It can have ::",
-    "timestamp": 1365426440850,
-    "id": "2bc1be2c33d177820a84e2ce8bbfe7ac"
+    "timestamp": 1373816843593,
+    "id": "2f4fb27e6a8d22041148ed0975b733ec"
   },
   "It can have ;;": {
     "vars": [],
-    "translations": "\"yes it can\"",
+    "translations": [],
     "query_translation": "It can have ;;",
-    "timestamp": 1365422170199,
-    "id": "18e4619697270e29762db24e07bb63bc"
+    "timestamp": 1373816843593,
+    "id": "f08d53342f5c40902d5397fa7d4b4a31"
   },
   "It can have ’’": {
     "vars": [],
-    "translations": "\"yes it can\"",
+    "translations": [],
     "query_translation": "It can have ’’",
-    "timestamp": 1361260813314,
-    "id": "041a9e2b5172628dc18d92a92c3d3a69"
+    "timestamp": 1373816843593,
+    "id": "267dfb8da8b95098f8e84c0b80455161"
   },
   "It can have __": {
     "vars": [],
-    "translations": "\"yes it can\"",
+    "translations": [],
     "query_translation": "It can have __",
-    "timestamp": 1361260813314,
-    "id": "df72a6bd4fd5ab333ec30e15c4191322"
+    "timestamp": 1373816843593,
+    "id": "e938a4ccd0898e365bee9ffe6e80cd22"
   },
   "It can have &&": {
     "vars": [],
-    "translations": "\"yes it can\"",
+    "translations": [],
     "query_translation": "It can have &&",
-    "timestamp": 1361260813314,
-    "id": "64efb047e953cd676d21cdfa672451ef"
+    "timestamp": 1373816843593,
+    "id": "d001f18984cfefb1c9370303331e7e9b"
   },
   "It can have %%": {
     "vars": [],
-    "translations": "\"yes it can\"",
+    "translations": [],
     "query_translation": "It can have %%",
-    "timestamp": 1361260813314,
-    "id": "25b4c841fa47f2d38d8a192172dc6eb8"
+    "timestamp": 1373816843593,
+    "id": "2898a7a211c341c1b641b3101e339991"
   },
   "It can have $$": {
     "vars": [],
-    "translations": "\"yes it can\"",
+    "translations": [],
     "query_translation": "It can have $$",
-    "timestamp": 1361260813314,
-    "id": "aa2df5bf5abeaefcf313be30237a24af"
+    "timestamp": 1373816843593,
+    "id": "99445a4a56f45676be83a61b9f64c315"
   },
   "It can have €€": {
     "vars": [],
-    "translations": "\"yes it can\"",
+    "translations": [],
     "query_translation": "It can have €€",
-    "timestamp": 1361260813314,
-    "id": "8294ef1e86c3fa4a096be3fdc10f8795"
+    "timestamp": 1373816843593,
+    "id": "602d35ee340f697be21608b2f408ec5e"
   },
   "It can have ##": {
     "vars": [],
-    "translations": "\"yes it can\"",
+    "translations": [],
     "query_translation": "It can have ##",
-    "timestamp": 1361260813314,
-    "id": "74ae369e00a8aefcace127cc1bab47f0"
+    "timestamp": 1373816843593,
+    "id": "822721408be2cbdb4cfb560cedd344ab"
   },
   "It can have ??": {
     "vars": [],
-    "translations": "\"yes it can\"",
+    "translations": [],
     "query_translation": "It can have ??",
-    "timestamp": 1361260813314,
-    "id": "3043fa61adeb59031df4a3a99cf194a6"
+    "timestamp": 1373816843593,
+    "id": "e5b40c69621cb701db6c9b789a439944"
   },
   "It can have !!": {
     "vars": [],
-    "translations": "\"yes it can\"",
+    "translations": [],
     "query_translation": "It can have !!",
-    "timestamp": 1361260813314,
-    "id": "57fba26f2caee2e33229fe085847665c"
+    "timestamp": 1373816843593,
+    "id": "70776c85a5b975a61c4d6aab31322922"
   },
   "It can have ()": {
     "vars": [],
-    "translations": "\"yes it can\"",
+    "translations": [],
     "query_translation": "It can have ()",
-    "timestamp": 1362337703694,
-    "id": "e4b77cb7553c289767be75f36b83c121"
+    "timestamp": 1373816843593,
+    "id": "4b58831cfad9f02becdc51ec7d8a40e2"
   },
   "It can have @@": {
     "vars": [],
-    "translations": "\"yes it can\"",
+    "translations": [],
     "query_translation": "It can have @@",
-    "timestamp": 1365422111682,
-    "id": "33c5b0c620587fe5ed2bc2ce435b4e61"
+    "timestamp": 1373816843593,
+    "id": "246cfcb86ed3ef6bfddc8e0d944a883a"
   },
   "It can have ^^": {
     "vars": [],
-    "translations": "\"yes it can\"",
+    "translations": [],
     "query_translation": "It can have ^^",
-    "timestamp": 1361260813314,
-    "id": "a923bb45abe7a3778e0ba238525cef18"
+    "timestamp": 1373816843593,
+    "id": "48bbd8a03601440b0941204385ed3642"
   },
   "It can have ´´": {
     "vars": [],
-    "translations": "\"yes it can\"",
+    "translations": [],
     "query_translation": "It can have ´´",
-    "timestamp": 1361260813314,
-    "id": "86891b3b5b9093f5907917bca334c65b"
+    "timestamp": 1373816843593,
+    "id": "50c624cdd8c53b3d165f76a1d9abeddb"
   },
   "It can have ``": {
     "vars": [],
-    "translations": "\"yes it can\"",
+    "translations": [],
     "query_translation": "It can have ``",
-    "timestamp": 1361260813314,
-    "id": "61510dcdb7da2cf7455ec105d7e4a731"
+    "timestamp": 1373816843593,
+    "id": "e758eeb3db2c3827039d0f2e5cb071d7"
   },
   "It can have ==": {
     "vars": [],
-    "translations": "\"yes it can\"",
+    "translations": [],
     "query_translation": "It can have ==",
-    "timestamp": 1361260813314,
-    "id": "b6433e52696f3b9444b9f39619347900"
+    "timestamp": 1373816843593,
+    "id": "543e7eb806c2881a6381a2dc0810e12c"
   },
   "It can have ++": {
     "vars": [],
-    "translations": "\"yes it can\"",
+    "translations": [],
     "query_translation": "It can have ++",
-    "timestamp": 1361260813314,
-    "id": "0fedff9a838835aa3532379a09ab9a3a"
+    "timestamp": 1373816843593,
+    "id": "41d0bd554bb161f209b9f33947c79a29"
   },
   "It can have --": {
     "vars": [],
-    "translations": "\"yes it can\"",
+    "translations": [],
     "query_translation": "It can have --",
-    "timestamp": 1361260813314,
-    "id": "9fb38ec6351d57fe85a01dca4a1980ee"
+    "timestamp": 1373816843593,
+    "id": "8ddbac46d3498889b54db2dad3885c34"
   },
   "It can have **": {
     "vars": [],
-    "translations": "\"yes it can\"",
+    "translations": [],
     "query_translation": "It can have **",
-    "timestamp": 1361260813314,
-    "id": "f231818f52a561b19761421585b5db92"
+    "timestamp": 1373816843593,
+    "id": "925306914a58572bdfdb51820e53cef1"
   },
   "It can have //": {
     "vars": [],
-    "translations": "\"yes it can\"",
+    "translations": [],
     "query_translation": "It can have //",
-    "timestamp": 1361260813314,
-    "id": "2e847f1f1dd0f28c1558371d299f6599"
+    "timestamp": 1373816843593,
+    "id": "a73fc72da001db5d79c3e942b043777d"
   },
   "It can have '": {
     "vars": [],
-    "translations": "\"yes it can\"",
+    "translations": [],
     "query_translation": "It can have '",
-    "timestamp": 1361261618370,
-    "id": "a73dec3930758129dce45293f0cc5083"
+    "timestamp": 1373816843593,
+    "id": "e4e7eda9380dd6b4728c902ef66c5277"
   },
   "It can have \"": {
     "vars": [],
-    "translations": "\"yes it can\"",
+    "translations": [],
     "query_translation": "It can have \"",
-    "timestamp": 1361260837077,
-    "id": "8d58be63a2bf722dbddb770cec73865c"
+    "timestamp": 1373816843593,
+    "id": "8d9ba3e518c74cae7f9673ab5f8ac441"
   },
   "It can have double and single quote in translation": {
     "vars": [],
-    "translations": "\"yes it can have \"'\"",
+    "translations": [],
     "query_translation": "It can have double and single quote in translation",
-    "timestamp": 1373709180619,
-    "id": "aff433423753a685b9869517d7871644"
+    "timestamp": 1373816843593,
+    "id": "b356da6c3961a7bd70f9fd6be0792784"
   },
   "Edit me": {
     "vars": [],
-    "translations": "\"Helloworld\"",
-    "query_translation": "Helloworld",
-    "timestamp": 1373127792372,
-    "id": "2124a93fe03c3b03cbbf94171c756b91"
+    "translations": [],
+    "query_translation": "Edit me",
+    "timestamp": 1373816843593,
+    "id": "7fa03dcb38b42858075cfbffa926de6c"
   },
   "Grunt-translate can have tailing comments": {
     "vars": [],
-    "translations": "\"yes it can\"",
+    "translations": [],
     "query_translation": "Grunt-translate can have tailing comments",
-    "timestamp": 1372916804034,
-    "id": "c4810f8822d4d8db7a477eec6f46268e"
+    "timestamp": 1373816843593,
+    "id": "2d18bd089250af4142320003138b52b8"
   },
   "Grunt-translate can have tailing comments with translation vars": {
     "vars": [
       "test"
     ],
-    "translations": "\"yes it can\"",
+    "translations": [],
     "query_translation": "Grunt-translate can have tailing comments with translation vars",
-    "timestamp": 1372916804034,
-    "id": "cc0247aa90060493816825612e11caa9"
+    "timestamp": 1373816843593,
+    "id": "ae3bcee0b74e7e8e9fec4db4dcea278d"
   },
   "Grunt-translate can have tailing comments with multi-line translation vars": {
     "vars": [
       "test"
     ],
-    "translations": "\"yes it can\"",
+    "translations": [],
     "query_translation": "Grunt-translate can have tailing comments with multi-line translation vars",
-    "timestamp": 1372916804034,
-    "id": "9871159b128a0ba518ac21a96b8260b0"
+    "timestamp": 1373816843593,
+    "id": "ea8119c19a4c4964d1d008cf79ceb31b"
   }
 }

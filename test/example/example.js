@@ -1,23 +1,23 @@
 
-gt('It can have an if and else statement', { number: 2 });
-gt('It can have an if and else if and else statements', { number: 3 });
+gt('It can have an if and else statement', { test: 2 });
+gt('It can have an if and else if and else statements', { test: 3 });
 gt('It can have only one string', { world: 'world'});
 
 gt('It can take && in if statement', {
-  firstname: 'Tingan',
-  lastname: 'Ho'
+  test1: 'test1',
+  test2: 'test2'
 });
 gt('It can take || in if statement', {
-  firstname: 'Tingan',
-  lastname: 'Ho'
+  test1: 'test1',
+  test2: 'test2'
 });
 gt('It can take several && in if statement', {
-  firstname: 'Tingan',
-  lastname: 'Ho'
+  test1: 'test1',
+  test2: 'test2'
 });
 gt('It can take several || in if statement', {
-  firstname: 'Tingan',
-  lastname: 'Ho'
+  test1: 'test1',
+  test2: 'test2'
 });
 
 // Test of translation vars
@@ -31,19 +31,33 @@ gt('Translation vars can have multi-line', {
 gt('Translation vars have dot notation', {
   fullname : test1.test2[test3.test4].test5
 });
-gt('Translation vars can have single function calls', {
+gt('Translation vars can have single function call', {
   test : test()
 });
 gt('Translation vars can have multiple function calls', {
   test1 : test1(),
   test2 : test2()
 });
-gt('Translation vars can have single method calls', {
-  test1 : test.test1()
+gt('Translation vars can have single method call', {
+  test : test.test()
 });
 gt('Translation vars can have multiple method calls', {
   test1 : test.test1(),
   test2 : test.test2()
+});
+gt('Translation vars can have single function call with a single object literal as a parameter', {
+  test1 : test.test1({ test: 'test'})
+});
+gt('Translation vars can have multiple function call with a single object literal as a parameter', {
+  test1 : test1.test({ test: 'test'}),
+  test2 : test2.test({ test: 'test'})
+});
+gt('Translation vars can have single function call with a multiple object literal as a parameter', {
+  test : test1.test({ test1: 'test'}, {test2 : 'test'})
+});
+gt('Translation vars can have multiple function call with a multiple object literal as a parameter', {
+  test1 : test1.test({ test1: 'test'}, {test2 : 'test'}),
+  test2 : test2.test({ test1: 'test'}, {test2 : 'test'})
 });
 
 // Special chars

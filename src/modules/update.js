@@ -23,6 +23,9 @@ module.exports = function(options) {
   var files = grunt.file.expand({ filter: 'isFile' }, options.src);
   files.forEach(function(file){
     var content = grunt.file.read(file);
+    content = content.replace(/\s+(?!gt)[.|\w]+?\((.*?\s*?)*?\)/g, function(m) {
+      return '';
+    });
     var regex = /gt\(['|"](.*)['|"]\s*(\,\s*\{\s*((.*?)|(\s*?))+?\s*\})??\s*\)/g;
     var translations = content.match(regex);
 
@@ -144,16 +147,16 @@ module.exports = function(options) {
 
   });
 
-  prompt.start();
+  // prompt.start();
 
-   prompt.get(['username', 'email'], function (err, result) {
-    //
-    // Log the results.
-    //
-    console.log('Command-line input received:');
-    console.log('  username: ' + result.username);
-    console.log('  email: ' + result.email);
-  });
+  //  prompt.get(['username', 'email'], function (err, result) {
+  //   //
+  //   // Log the results.
+  //   //
+  //   console.log('Command-line input received:');
+  //   console.log('  username: ' + result.username);
+  //   console.log('  email: ' + result.email);
+  // });
 
   grunt.log.ok('Updated all translation keys from source');
 };

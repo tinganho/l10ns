@@ -176,8 +176,6 @@ engine.reformatTranslatedText = function(text, vars){
     return '" + "' + '\\"' + '" + "';
   }) + '"';
 
-  console.log(text);
-
   return text.replace(/\$\{\w+\}/g, function( m ) {
 
     m = m.substring(2, m.length - 1);

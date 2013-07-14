@@ -185,19 +185,30 @@ describe('Grunt translate', function() {
       it('can have one line object literal', function() {
         expect(gt('Translation vars can have one line object literal')).to.have.string('yes it can');
       });
-      it('can have single function calls', function() {
+      it('can have single function call', function() {
         expect(gt('Translation vars can have single function calls')).to.have.string('yes it can');
       });
       it('can have multiple function calls', function() {
         expect(gt('Translation vars can have multiple function calls')).to.have.string('yes it can');
       });
-      it('can have single method calls', function() {
+      it('can have single method call', function() {
         expect(gt('Translation vars can have single method calls')).to.have.string('yes it can');
       });
       it('can have multiple method calls', function() {
         expect(gt('Translation vars can have multiple method calls')).to.have.string('yes it can');
       });
-
+      it('can have single function call with a single object literal as a parameter', function() {
+        expect(gt('Translation vars can have single function call with a single object literal as a parameter')).to.have.string('yes it can');
+      });
+      it('can have multiple function call with a single object literal as a parameter', function() {
+        expect(gt('Translation vars can have multiple function call with a single object literal as a parameter')).to.have.string('yes it can');
+      });
+      it('can have single function call with a multiple object literal as a parameter', function() {
+        expect(gt('Translation vars can have single function call with a multiple object literal as a parameter')).to.have.string('yes it can');
+      });
+      it('can have multiple function call with a multiple object literal as a parameter', function() {
+        expect(gt('Translation vars can have multiple function call with a multiple object literal as a parameter')).to.have.string('yes it can');
+      });
     });
   });
 

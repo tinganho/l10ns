@@ -116,7 +116,6 @@ config.getTranslationKey = function(fn) {
   @return Array of all vars
  */
 config.getVars = function(fn) {
-  console.log(fn);
   var json = fn.match(/\{(\s*\w*\s*\:(.*))*\s*\}/g);
   if(json === null) {
     return [];
