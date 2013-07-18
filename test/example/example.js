@@ -61,6 +61,10 @@ gt('Translation vars can have multiple function call with a multiple object lite
   test1 : test1.test({ test1: 'test'}, {test2 : 'test'}),
   test2 : test2.test({ test1: 'test'}, {test2 : 'test'})
 });
+test({
+  test : gt('Translation function can be inside function calls')
+});
+
 
 // Special chars
 gt("It can have <>");

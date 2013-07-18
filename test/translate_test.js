@@ -209,6 +209,9 @@ describe('Grunt translate', function() {
       it('can have multiple function call with a multiple object literal as a parameter', function() {
         expect(gt('Translation vars can have multiple function call with a multiple object literal as a parameter')).to.have.string('yes it can');
       });
+      it('can be inside function calls', function() {
+        expect(gt('Translation function can be inside function calls')).to.have.string('yes it can');
+      });
     });
   });
 

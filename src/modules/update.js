@@ -26,7 +26,11 @@ module.exports = function(options) {
 
     // Normalize file content from functions
     content = content.replace(/\s+(?!gt)[.|\w]+?\((.*?\s*?)*?\)/g, function(m) {
-      return '';
+      if(/gt\(/g.test(m)) {
+        return m;
+      } else {
+        return '';
+      }
     });
 
     // Match all gt()

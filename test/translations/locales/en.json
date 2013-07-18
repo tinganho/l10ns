@@ -281,6 +281,13 @@
     "timestamp": 1373817174635,
     "id": "abaac249f5a6cf735c36eee939d88210"
   },
+  "Translation function can be inside function calls": {
+    "vars": [],
+    "translations": "\"yes it can\"",
+    "query_translation": "Translation function can be inside function calls",
+    "timestamp": 1374138616121,
+    "id": "f1dd0e188779bcc5dede860f2fe36b81"
+  },
   "It can have <>": {
     "vars": [],
     "translations": "\"yes it can\"",
@@ -473,7 +480,7 @@
   "Edit me": {
     "vars": [],
     "translations": "\"Helloworld\"",
-    "query_translation": "Edit me",
+    "query_translation": "Helloworld",
     "timestamp": 1373127792372,
     "id": "2124a93fe03c3b03cbbf94171c756b91"
   },
