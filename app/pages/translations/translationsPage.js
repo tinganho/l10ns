@@ -17,7 +17,7 @@ var routes = function(server) {
 
   function getRegions(id, loc) {
 
-    var translations = config.getLatestTranslations(opt, 0, 20, loc);
+    var translations = config.getLatestTranslations(opt, 0, cf.TRANSLATION_PAGE_LENGTH, loc);
 
     // Append ID
     if(id) {
@@ -32,7 +32,8 @@ var routes = function(server) {
     // Append to data
     var data = {
       collection : translations,
-      json : JSON.stringify(translations)
+      json       : JSON.stringify(translations),
+      pageLength : cf.TRANSLATION_PAGE_LENGTH
     };
 
     var selected, locales  = config.getAllLocales();

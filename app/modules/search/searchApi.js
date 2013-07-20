@@ -1,5 +1,4 @@
 
-
 var Search = require('../../../src/modules/search');
 var search = new Search;
 search._index();

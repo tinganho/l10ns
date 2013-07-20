@@ -32,7 +32,7 @@
     {{?}}
   {{ } }}
 
-  <tr class="translations-pagination">
+  <tr class="translations-pagination" {{?it.collection.length < it.pageLength}}style="display: none;"{{?}}>
     <td class="translation-pagination-load-more-button">
       <span class="translations-load-more-text">Load more</span>
     </td>

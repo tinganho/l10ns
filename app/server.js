@@ -19,6 +19,7 @@ requirejs.config({
   nodeRequire: require
 });
 
+GLOBAL.cf   = require('./conf/appConfig');
 GLOBAL.opt  = opt;
 GLOBAL.tmpl = requirejs('public/templates/tmpl');
 
