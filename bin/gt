@@ -141,41 +141,4 @@ program
 
 
 program.parse(process.argv);
-// var arguments = process.argv.splice(2);
-// switch(arguments[0]) {
-//   case 'interface':
-//
-//     if(options.interface.autoOpen) {
-//       open('http://localhost:' + options.interface.port);
-//     }
-//     break;
-//   case 'update':
-//   case 'compile':
-//   case 'log':
-//
-//   case 'search':
-    // if(typeof arguments[1] === 'undefined') {
-    //   grunt.log.error('You need to provide a string in your search');
-    //   return false;
-    // }
-    // bootstrap.search(options, arguments[1]);
-//     break;
-//   case 'edit':
-//     var language, value;
-//     if(/-lang=[a-z]{2}/.test(arguments[2])) {
-//       language = arguments[2].substr(-2);
-//       value = arguments[3];
-//     } else {
-//       language = options.defaultLanguage;
-//       value = arguments[2]
-//     }
-//     if(typeof value === 'undefined') {
-//       grunt.log.error('You must have a translation value to add to a translation key');
-//       return false;
-//     }
-//     bootstrap.edit(options, arguments[1], language, value);
-//     break;
-//   default:
-//     break;
-// }
 
