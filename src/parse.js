@@ -1,6 +1,7 @@
 var grunt       = require('grunt'),
-    engine      = require('./engine'),
+    compile      = require('./compile'),
     path        = require('path');
+
 var config = {};
 
 /**

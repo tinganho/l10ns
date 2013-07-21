@@ -1,6 +1,6 @@
-var grunt  = require('grunt'),
-    colors = require('colors'),
-    config = require('./lib/config');
+var grunt  = require('grunt')
+  , colors = require('colors')
+  , parse = require('./parse');
 
 module.exports = function() {
 

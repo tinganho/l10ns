@@ -1,7 +1,6 @@
 var grunt       = require('grunt'),
     engine      = require('./engine'),
-    path        = require('path'),
-    OPERATORS   = require('./operators');
+    path        = require('path');
 
 function Translations() {
   // Set grunt

@@ -1,4 +1,4 @@
-var config = require('../lib/config'),
+var config = require('./parse'),
     grunt  = require('grunt');
 
 
