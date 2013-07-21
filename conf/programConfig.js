@@ -27,7 +27,9 @@ var conf = {
   DEFAULT_FOLDER               : './translations',
   DEFAULT_OUTPUT               : '/output',
   DEFAULT_PORT                 : 3001,
-  DEFAULT_AUTO_OPEN            : true
+  DEFAULT_AUTO_OPEN            : true,
+
+  OPERATORS : ['<', '>', '===', '>==', '<==', '==', '>=', '<=']
 
 };
 
