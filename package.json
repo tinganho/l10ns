@@ -1,8 +1,8 @@
 {
-  "name": "grunt-translate",
-  "description": "Translate dynamic texts",
+  "name": "get-translation",
+  "description": "Effective translation workflow",
   "version": "0.3.29",
-  "homepage": "https://github.com/tinganho/grunt-translate",
+  "homepage": "https://github.com/tinganho/get-translation",
   "author": {
     "name": "Tingan Ho",
     "email": "tingan87@gmail.com"
@@ -48,7 +48,10 @@
     "requirejs": "~2.1.6",
     "zombie": "~2.0.0-alpha19",
     "prompt": "~0.2.11",
-    "grunt-dot-compiler": "~0.5.1"
+    "grunt-dot-compiler": "~0.5.1",
+    "commander": "~2.0.0",
+    "underscore": "~1.5.1",
+    "glob": "~3.2.3"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.1.0",

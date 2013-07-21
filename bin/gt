@@ -1,76 +1,181 @@
 #!/usr/bin/env node
 
-// Import the sys library
-var sys     = require('sys'),
-  grunt     = require('grunt'),
-  findup    = require('findup-sync'),
-  bootstrap = require('../src/bootstrap'),
-  open      = require('open'),
-  _         = grunt.util._;
+/**
+ * Module dependencies
+ */
 
-require(findup('Gruntfile.js'))(grunt, true);
-var translation = './translations';
-var options = _.defaults(grunt.config.get('translate').dist.options, {
-  config                  : './translation',
-  requireJS               : true,
-  translationFunctionName : 'gt',
-  autoOpen                : false
-});
-options.locales      = options.config + '/locales';
-options.output       = options.config + '/output';
-options.deleteLog    = options.config + '/delete.log';
-options.latestSearch = options.config + '/cache/latestSearch.json';
+var sys     = require('sys')
+  , program = require('commander')
+  , grunt   = require('grunt')
+  , findup  = require('findup-sync')
+  , path    = require('path')
+  , gt      = require('../src')()
+  , open    = require('open')
+  , pjson   = require('../package.json')
+  , _       = require('underscore')
+  , glob    = require('glob')
+  , gtPath  = findup('gt.json')
+  , root    = path.dirname(gtPath)
+  , cf      = require(gtPath)
+  , pcf     = require('../conf/programConfigs');
 
-GLOBAL.opt = options;
-// Import the optparse library.
-var optparse = require('optparse');
+/**
+ * Set default configs
+ */
+var defaultConfigs = {
+  folder              : pcf.DEFAULT_FOLDER,
+  requirejs           : pcf.DEFAULT_REQUIREJS,
+  translationFunction : pcf.DEFAULT_TRANSLATION_FUNCTION,
+  src                 : pcf.DEFAULT_SRC,
+  port                : pcf.DEFAULT_PORT,
+  autoOpen            : pcf.DEFAULT_AUTO_OPEN
+};
+if(typeof cf.output === 'undefined') {
+  cf.output = cf.folder + pcf.DEFAULT_OUTPUT;
+}
+// Merge with programConfigs
+defaultConfigs = _.extend(defaultConfigs, programConfigs);
+cf = _.defaults(cf, defaultConfigs);
 
-// Switches
-var switches = [
-  ['-h', '--help', 'Shows help sections']
-];
+/**
+ * Set short-cuts configs
+ */
 
-var arguments = process.argv.splice(2);
-switch(arguments[0]) {
-  case 'interface':
+cf.locales      = cf.folder + pcf.LOCALES_FOLDER;
+cf.deleteLog    = cf.folder + pcf.DELETE_LOG;
+cf.latestSearch = cf.folder + pcf.LATEST_SEARCH_CACHE;
+
+/**
+ * Get all source files.
+ */
+
+var src = [], _files, add, removes;
+for(var i = 0; i < cf.src.length; i++) {
+  if(cf.src[i].substr(0, 1) !== '!') {
+    adds = glob.sync(cf.src[i], { cwd: root });
+    src  = src.concat(adds);
+  } else {
+    removes = glob.sync(files[i].substr(1), { cwd: root });
+    src     = src.filter(function(file) {
+      return removes.indexOf(file) === -1;
+    });
+  }
+}
+cf.src = src;
+
+/**
+ * Set cf as global.
+ */
+
+GLOBAL.cf  = cf;
+GLOBAL.pcf = pcf;
+
+/**
+ * Check minimum configs.
+ */
+
+if(typeof cf.defaultLocale === 'undefined') {
+  grunt.log.error('You must define defaultLocale in .gt');
+}
+if(typeof cf.locales === 'locales') {
+  grunt.log.error('You must define your locales in ' + cf.folder + '/locales.json');
+}
+
+program
+  .version(pjson.version)
+  .option('-l, --lang <lang>', 'specify the language', String, cf.defaultLocale)
+  .option('-p, --port <port>', 'specify the port [\'' + cf.port + '\']', Number, cf.port)
+
+program
+  .command('init')
+  .description('Initialize a new GetTranslation project')
+  .action(function() {
+    // No initialize service yet
+  });
+
+program
+  .command('interface')
+  .description('Starts the translation interface')
+  .action(function() {
     var server = require('../app/server');
     server.server();
-    if(options.interface.autoOpen) {
-      open('http://localhost:' + options.interface.port);
-    }
-    break;
-  case 'update':
-  case 'compile':
-  case 'log':
-    var lang;
-    if(typeof arguments[1] !== 'undefined') {
-      lang = arguments[1].match(/-lang=([a-z]{2})/)[1];
-    }
-    bootstrap[arguments[0]](options, false, lang);
-    break;
-  case 'search':
-    if(typeof arguments[1] === 'undefined') {
-      grunt.log.error('You need to provide a string in your search');
+  });
+
+program
+  .command('search [q]')
+  .description('Search translation keys and values')
+  .action(function(q) {
+    if(typeof q === 'undefined') {
+      grunt.log.error('You need to provide a query in your search. E.g. gt search "some query"');
       return false;
     }
-    bootstrap.search(options, arguments[1]);
-    break;
-  case 'edit':
-    var language, value;
-    if(/-lang=[a-z]{2}/.test(arguments[2])) {
-      language = arguments[2].substr(-2);
-      value = arguments[3];
-    } else {
-      language = options.defaultLanguage;
-      value = arguments[2]
-    }
-    if(typeof value === 'undefined') {
-      grunt.log.error('You must have a translation value to add to a translation key');
-      return false;
-    }
-    bootstrap.edit(options, arguments[1], language, value);
-    break;
-  default:
-    break;
-}
+    gt.search(q);
+  });
+
+program
+  .command('log')
+  .description('Get the latest translations')
+  .action(function() {
+    gt.log(this.lang);
+  });
+
+program
+  .command('update')
+  .description('Update translation keys from source')
+  .action(function() {
+
+  });
+
+program
+  .command('compile')
+  .description('Compile transations')
+  .action(function() {
+
+  });
+program
+  .command('edit')
+  .description('Edit transations')
+  .action(function() {
+
+  });
+
+
+program.parse(process.argv);
+// var arguments = process.argv.splice(2);
+// switch(arguments[0]) {
+//   case 'interface':
+//
+//     if(options.interface.autoOpen) {
+//       open('http://localhost:' + options.interface.port);
+//     }
+//     break;
+//   case 'update':
+//   case 'compile':
+//   case 'log':
+//
+//   case 'search':
+    // if(typeof arguments[1] === 'undefined') {
+    //   grunt.log.error('You need to provide a string in your search');
+    //   return false;
+    // }
+    // bootstrap.search(options, arguments[1]);
+//     break;
+//   case 'edit':
+//     var language, value;
+//     if(/-lang=[a-z]{2}/.test(arguments[2])) {
+//       language = arguments[2].substr(-2);
+//       value = arguments[3];
+//     } else {
+//       language = options.defaultLanguage;
+//       value = arguments[2]
+//     }
+//     if(typeof value === 'undefined') {
+//       grunt.log.error('You must have a translation value to add to a translation key');
+//       return false;
+//     }
+//     bootstrap.edit(options, arguments[1], language, value);
+//     break;
+//   default:
+//     break;
+// }
 

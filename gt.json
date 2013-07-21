@@ -1,0 +1,13 @@
+{
+  "folder": "./test/translations",
+  "requirejs": true,
+  "locales": {
+    "en-US": "English",
+    "zh-CN": "Chinese"
+  },
+  "defaultLocale": "en-US",
+  "output": "test/translations/output",
+  "src": ["test/example/**/*.js"],
+  "autoOpen": false,
+  "port": 3000
+}
