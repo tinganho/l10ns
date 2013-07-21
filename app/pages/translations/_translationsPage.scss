@@ -1,6 +1,6 @@
 .search-region {
   position: relative;
-  @include span-columns(6, 12);
+  @include span-columns(12, 12);
 }
 
 .menu-items-region {
@@ -10,8 +10,7 @@
 .body-region {
   background-color: rgb(226, 226, 226);
   color: rgb(90, 90, 90);
-  margin-bottom: 40px;
-  padding-bottom: 40px;
+  margin-bottom: 100px;
   min-height: 500px;
   @include transform(translateZ(0));
   @include span-columns(12, 12);

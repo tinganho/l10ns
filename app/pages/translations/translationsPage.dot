@@ -1,7 +1,6 @@
 <nav class="main-menu">
   <ul >
     <li class="search-region">{{=it.search}}</li>
-    <li class="menu-items-region">{{=it.menuItems}}</li>
   </ul>
 </nav>
 <div class="page">
