@@ -9,7 +9,7 @@ var config = require('../../../src/lib/config');
 module.exports = function(server) {
 
   server.get('/translations', function(req, res) {
-    var translations = config.getLatestTranslations(opt, +req.param('skip') + 1, req.param('top'), req.param('locale'));
+    var translations = config.getLatestTranslations(opt, +req.param('skip'), req.param('top'), req.param('locale'));
     res.send(JSON.stringify(translations));
   });
 
