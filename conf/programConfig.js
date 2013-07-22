@@ -11,11 +11,12 @@ module.exports = conf;
 
 var conf = {
 
+  // Folders
   LOCALES_FOLDER : '/locales',
-  
-  DELETE_LOG : '/delete.log',
 
-  LATEST_SEARCH_CACHE : '/cache/latestSearch.json',
+  // Files
+  DELETE_LOG_FILE : '/delete.log',
+  LATEST_SEARCH_CACHE_FILE : '/cache/latestSearch.json',
 
   // Gt log length
   LOG_LENGTH : 10,
@@ -29,7 +30,9 @@ var conf = {
   DEFAULT_PORT                 : 3001,
   DEFAULT_AUTO_OPEN            : true,
 
-  OPERATORS : ['<', '>', '===', '>==', '<==', '==', '>=', '<=']
+  OPERATORS : ['<', '>', '===', '>==', '<==', '==', '>=', '<='],
+
+  NO_TRANSLATION : 'NO TRANSLATION'
 
 };
 

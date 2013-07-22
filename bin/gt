@@ -4,8 +4,7 @@
  * Module dependencies
  */
 
-var sys     = require('sys')
-  , program = require('commander')
+var program = require('commander')
   , grunt   = require('grunt')
   , findup  = require('findup-sync')
   , path    = require('path')
@@ -34,16 +33,16 @@ if(typeof cf.output === 'undefined') {
   cf.output = cf.folder + pcf.DEFAULT_OUTPUT;
 }
 // Merge with programConfigs
-defaultConfigs = _.extend(defaultConfigs, programConfigs);
+defaultConfigs = _.extend(defaultConfigs, pcf);
 cf = _.defaults(cf, defaultConfigs);
 
 /**
  * Set short-cuts configs
  */
 
-cf.locales      = cf.folder + pcf.LOCALES_FOLDER;
-cf.deleteLog    = cf.folder + pcf.DELETE_LOG;
-cf.latestSearch = cf.folder + pcf.LATEST_SEARCH_CACHE;
+cf.localesFolder     = cf.folder + pcf.LOCALES_FOLDER;
+cf.deleteLog         = cf.folder + pcf.DELETE_LOG_FILE;
+cf.latestSearchFile  = cf.folder + pcf.LATEST_SEARCH_CACHE_FILE;
 
 /**
  * Get all source files.
