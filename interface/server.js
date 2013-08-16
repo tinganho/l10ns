@@ -4,12 +4,7 @@ var express    = require('express'),
     http       = require('http'),
     path       = require('path'),
     requirejs  = require('requirejs'),
-    grunt      = require('grunt'),
     modRewrite = require('connect-modrewrite'),
-    findup     = grunt.file.findup;
-
-var conf = grunt.config.get('translate'),
-    opt  = conf.dist.options;
 
 requirejs.config({
   baseUrl: __dirname,

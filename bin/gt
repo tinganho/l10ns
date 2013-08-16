@@ -8,7 +8,6 @@ var program = require('commander')
   , grunt   = require('grunt')
   , findup  = require('findup-sync')
   , path    = require('path')
-  , gt      = require('../src')()
   , open    = require('open')
   , pjson   = require('../package.json')
   , _       = require('underscore')
@@ -16,7 +15,7 @@ var program = require('commander')
   , gtPath  = findup('gt.json')
   , root    = path.dirname(gtPath)
   , cf      = require(gtPath)
-  , pcf     = require('../conf/programConfigs');
+  , pcf     = require('../conf/programConfig');
 
 /**
  * Set default configs
@@ -27,7 +26,8 @@ var defaultConfigs = {
   translationFunction : pcf.DEFAULT_TRANSLATION_FUNCTION,
   src                 : pcf.DEFAULT_SRC,
   port                : pcf.DEFAULT_PORT,
-  autoOpen            : pcf.DEFAULT_AUTO_OPEN
+  autoOpen            : pcf.DEFAULT_AUTO_OPEN,
+  root                : root
 };
 if(typeof cf.output === 'undefined') {
   cf.output = cf.folder + pcf.DEFAULT_OUTPUT;
@@ -80,6 +80,7 @@ if(typeof cf.locales === 'locales') {
   grunt.log.error('You must define your locales in ' + cf.folder + '/locales.json');
 }
 
+var gt = require('../lib')
 program
   .version(pjson.version)
   .option('-l, --lang <lang>', 'specify the language', String, cf.defaultLocale)
@@ -122,14 +123,13 @@ program
   .command('update')
   .description('Update translation keys from source')
   .action(function() {
-
+    gt.update();
   });
 
 program
   .command('compile')
   .description('Compile transations')
   .action(function() {
-
   });
 program
   .command('edit')
@@ -140,4 +140,5 @@ program
 
 
 program.parse(process.argv);
+
 

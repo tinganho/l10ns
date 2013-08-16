@@ -1,22 +1,16 @@
 
 /**
- * Expose config
- */
-
-module.exports = conf;
-
-/**
  * Program configs
  */
 
-var conf = {
+module.exports = {
 
   // Folders
   LOCALES_FOLDER : '/locales',
 
   // Files
-  DELETE_LOG_FILE : '/delete.log',
-  LATEST_SEARCH_CACHE_FILE : '/cache/latestSearch.json',
+  DELETE_LOG_FILE     : '/delete.log',
+  LATEST_SEARCH_CACHE : '/cache/latestSearch.json',
 
   // Gt log length
   LOG_LENGTH : 10,
@@ -32,9 +26,11 @@ var conf = {
 
   OPERATORS : ['<', '>', '===', '>==', '<==', '==', '>=', '<='],
 
-  NO_TRANSLATION : 'NO TRANSLATION'
+  NO_TRANSLATION : 'NO TRANSLATION',
+
+  TRANSLATION_ID_HASH_SECRET : 'gt',
+  TRANSLATION_ID_CHAR_LENGTH : 8
 
 };
-
 
 

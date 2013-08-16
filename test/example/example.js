@@ -109,3 +109,6 @@ gt('Grunt-translate can have tailing comments with translation vars', { test : '
 gt('Grunt-translate can have tailing comments with multi-line translation vars', {
   test : 'test'
 });  // test1, test2
+
+gt('atttoddeddrewfidddjoferidfdgjofeirj')
+gt('ewfekijwwefeoijf')

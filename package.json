@@ -51,7 +51,9 @@
     "grunt-dot-compiler": "~0.5.1",
     "commander": "~2.0.0",
     "underscore": "~1.5.1",
-    "glob": "~3.2.3"
+    "glob": "~3.2.3",
+    "hashids": "~0.1.4",
+    "celeri": "~0.3.2"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.1.0",
