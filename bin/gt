@@ -43,6 +43,10 @@ cf = _.defaults(cf, defaultConfigs);
 cf.localesFolder     = cf.folder + pcf.LOCALES_FOLDER;
 cf.deleteLog         = cf.folder + pcf.DELETE_LOG_FILE;
 cf.latestSearchFile  = cf.folder + pcf.LATEST_SEARCH_CACHE_FILE;
+cf.language          = cf.language || pcf.DEFAULT_LANGAUGE;
+
+
+lcf = require('../language/' + cf.language);
 
 /**
  * Get all source files.
@@ -68,6 +72,7 @@ cf.src = src;
 
 GLOBAL.cf  = cf;
 GLOBAL.pcf = pcf;
+GLOBAL.lcf = lcf;
 
 /**
  * Check minimum configs.

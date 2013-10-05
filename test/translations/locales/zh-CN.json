@@ -3,450 +3,555 @@
     "vars": [
       "test"
     ],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "It can have an if and else statement",
-    "timestamp": 1376205852010,
-    "id": "xdz9xbApHx"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "It can have an if and else if and else statements": {
     "vars": [
       "test"
     ],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "It can have an if and else if and else statements",
-    "timestamp": 1376205852010,
-    "id": "zdx9zbApfE"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "It can have only one string": {
     "vars": [
       "test"
     ],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "It can have only one string",
-    "timestamp": 1376205852010,
-    "id": "E5jKoRnXfo"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "It can take && in if statement": {
     "vars": [],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "It can take && in if statement",
-    "timestamp": 1376205852010,
-    "id": "8dx98bApsR"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "It can take || in if statement": {
     "vars": [],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "It can take || in if statement",
-    "timestamp": 1376205852010,
-    "id": "LnjyBXaxf7"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "It can take several && in if statement": {
     "vars": [],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "It can take several && in if statement",
-    "timestamp": 1376205852010,
-    "id": "oxd4q6pas5"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "It can take several || in if statement": {
     "vars": [],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "It can take several || in if statement",
-    "timestamp": 1376205852010,
-    "id": "zdx9zbApHj"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "Translation vars can be in one object literal": {
     "vars": [],
-    "file": ", test/example/example.js",
+    "files": [
+      "test/example/example.js",
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "Translation vars can be in one object literal",
-    "timestamp": 1376205852010,
-    "id": "5KMqXyEeIp"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "Translation vars can have one line object literal": {
     "vars": [
       "test"
     ],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "Translation vars can have one line object literal",
-    "timestamp": 1376205852010,
-    "id": "g5pq9X6asx"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "Translation vars can have multi-line object literal": {
     "vars": [
       "test"
     ],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "Translation vars can have multi-line object literal",
-    "timestamp": 1376205852010,
-    "id": "8dx98bApsk"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "Translation vars have dot notation": {
     "vars": [
       "fullname"
     ],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "Translation vars have dot notation",
-    "timestamp": 1376205852010,
-    "id": "y4zrAKXjux"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "Translation vars can have single function call": {
     "vars": [
       "test"
     ],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "Translation vars can have single function call",
-    "timestamp": 1376205852010,
-    "id": "XBjq9yGRuo"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "Translation vars can have multiple function calls": {
     "vars": [],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "Translation vars can have multiple function calls",
-    "timestamp": 1376205852010,
-    "id": "GRp9oxnXuG"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "Translation vars can have single method call": {
     "vars": [
       "test"
     ],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "Translation vars can have single method call",
-    "timestamp": 1376205852010,
-    "id": "9eE7AKXpCo"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "Translation vars can have multiple method calls": {
     "vars": [],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "Translation vars can have multiple method calls",
-    "timestamp": 1376205852010,
-    "id": "nEg94d7aCr"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "Translation vars can have single function call with a single object literal as a parameter": {
     "vars": [
       "test1"
     ],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "Translation vars can have single function call with a single object literal as a parameter",
-    "timestamp": 1376205852010,
-    "id": "A5jK8RyLCz"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "Translation vars can have multiple function call with a single object literal as a parameter": {
     "vars": [],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "Translation vars can have multiple function call with a single object literal as a parameter",
-    "timestamp": 1376205852010,
-    "id": "64xrAkydC7"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "Translation vars can have single function call with a multiple object literal as a parameter": {
     "vars": [
       "test"
     ],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "Translation vars can have single function call with a multiple object literal as a parameter",
-    "timestamp": 1376205852010,
-    "id": "qKr4XyEdCe"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "Translation vars can have multiple function call with a multiple object literal as a parameter": {
     "vars": [],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "Translation vars can have multiple function call with a multiple object literal as a parameter",
-    "timestamp": 1376205852010,
-    "id": "dxM9qk45Cn"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "Translation function can be inside function calls": {
     "vars": [],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "Translation function can be inside function calls",
-    "timestamp": 1376205852010,
-    "id": "kzje4Kb5Ck"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "It can have <>": {
     "vars": [],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "It can have <>",
-    "timestamp": 1376205852010,
-    "id": "E5jKoRnXue"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "It can have ..": {
     "vars": [],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "It can have ..",
-    "timestamp": 1376205852010,
-    "id": "y4zrAKXju9"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "It can have ,,": {
     "vars": [],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "It can have ,,",
-    "timestamp": 1376205852010,
-    "id": "XBjq9yGRuM"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "It can have ::": {
     "vars": [],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "It can have ::",
-    "timestamp": 1376205852010,
-    "id": "GRp9oxnXu7"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "It can have ;;": {
     "vars": [],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "It can have ;;",
-    "timestamp": 1376205852010,
-    "id": "8dx98bApCr"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "It can have ’’": {
     "vars": [],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "It can have ’’",
-    "timestamp": 1376205852010,
-    "id": "nEg94d7aCk"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "It can have __": {
     "vars": [],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "It can have __",
-    "timestamp": 1376205852010,
-    "id": "A5jK8RyLCG"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "It can have &&": {
     "vars": [],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "It can have &&",
-    "timestamp": 1376205852010,
-    "id": "64xrAkydCR"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "It can have %%": {
     "vars": [],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "It can have %%",
-    "timestamp": 1376205852010,
-    "id": "qKr4XyEdCL"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "It can have $$": {
     "vars": [],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "It can have $$",
-    "timestamp": 1376205852010,
-    "id": "LnjyBXaxCq"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "It can have €€": {
     "vars": [],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "It can have €€",
-    "timestamp": 1376205852010,
-    "id": "RrX6KzRxCoX"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "It can have ##": {
     "vars": [],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "It can have ##",
-    "timestamp": 1376205852010,
-    "id": "E5jKoRnXupp"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "It can have ??": {
     "vars": [],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "It can have ??",
-    "timestamp": 1376205852010,
-    "id": "y4zrAKXjuyG"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "It can have !!": {
     "vars": [],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "It can have !!",
-    "timestamp": 1376205852010,
-    "id": "XBjq9yGRuEp"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "It can have ()": {
     "vars": [],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "It can have ()",
-    "timestamp": 1376205852010,
-    "id": "xdz9xbApuEb"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "It can have @@": {
     "vars": [],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "It can have @@",
-    "timestamp": 1376205852010,
-    "id": "8dx98bApCz5"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "It can have ^^": {
     "vars": [],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "It can have ^^",
-    "timestamp": 1376205852010,
-    "id": "nEg94d7aCyo"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "It can have ´´": {
     "vars": [],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "It can have ´´",
-    "timestamp": 1376205852010,
-    "id": "A5jK8RyLCp5"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "It can have ``": {
     "vars": [],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "It can have ``",
-    "timestamp": 1376205852010,
-    "id": "64xrAkydC89"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "It can have ==": {
     "vars": [],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "It can have ==",
-    "timestamp": 1376205852010,
-    "id": "oxd4q6paCBA"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "It can have ++": {
     "vars": [],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "It can have ++",
-    "timestamp": 1376205852010,
-    "id": "B5pqygGkCkd"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "It can have --": {
     "vars": [],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "It can have --",
-    "timestamp": 1376205852010,
-    "id": "RrX6KzRxCo4"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "It can have **": {
     "vars": [],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "It can have **",
-    "timestamp": 1376205852010,
-    "id": "E5jKoRnXupE"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "It can have //": {
     "vars": [],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "It can have //",
-    "timestamp": 1376205852010,
-    "id": "y4zrAKXjuy8"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "It can have \\": {
     "vars": [],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "It can have \\",
-    "timestamp": 1376205852010,
-    "id": "a5pq9X6BuB5"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "It can have \"": {
     "vars": [],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "It can have \"",
-    "timestamp": 1376205852010,
-    "id": "xdz9xbApuEL"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "It can have double and single quote in translation": {
     "vars": [],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "It can have double and single quote in translation",
-    "timestamp": 1376205852010,
-    "id": "8dx98bApCzg"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "Edit me": {
     "vars": [],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "Edit me",
-    "timestamp": 1376205852010,
-    "id": "nEg94d7aCyG"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "Grunt-translate can have tailing comments": {
     "vars": [],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "Grunt-translate can have tailing comments",
-    "timestamp": 1376205852010,
-    "id": "A5jK8RyLCpn"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "Grunt-translate can have tailing comments with translation vars": {
     "vars": [
       "test"
     ],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "Grunt-translate can have tailing comments with translation vars",
-    "timestamp": 1376205852010,
-    "id": "MXnMBGrxCaB"
+    "timestamp": 1380805525317,
+    "id": ""
   },
   "Grunt-translate can have tailing comments with multi-line translation vars": {
     "vars": [
       "test"
     ],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
     "queryTranslation": "Grunt-translate can have tailing comments with multi-line translation vars",
-    "timestamp": 1376205852010,
-    "id": "kzje4Kb5CaG"
+    "timestamp": 1380805525317,
+    "id": ""
   },
-  "atttoddeddrewfidddjoferidfdgjofeirj": {
+  "testbajsdddfdfwxxd": {
     "vars": [],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
-    "queryTranslation": "atttoddeddrewfidddjoferidfdgjofeirj",
-    "timestamp": 1376242448016,
-    "_new": true,
-    "id": "zdx9d7aaFEa"
+    "queryTranslation": "testbajsdddfdfwxxd",
+    "timestamp": 1380874124885,
+    "id": ""
   },
-  "ewfekijwwefeoijf": {
+  "testbajsweddsv1234": {
     "vars": [],
-    "file": "test/example/example.js",
+    "files": [
+      "test/example/example.js"
+    ],
     "translations": [],
-    "queryTranslation": "ewfekijwwefeoijf",
-    "timestamp": 1376242448016,
-    "_new": true,
-    "id": "xdz9d7aaFEq"
+    "queryTranslation": "testbajswedr1234",
+    "timestamp": 1380879495815,
+    "id": ""
   }
 }
