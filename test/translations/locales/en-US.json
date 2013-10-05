@@ -8,7 +8,7 @@
     ],
     "translations": [],
     "queryTranslation": "It can have an if and else statement",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "It can have an if and else if and else statements": {
@@ -20,7 +20,7 @@
     ],
     "translations": [],
     "queryTranslation": "It can have an if and else if and else statements",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "It can have only one string": {
@@ -32,7 +32,7 @@
     ],
     "translations": [],
     "queryTranslation": "It can have only one string",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "It can take && in if statement": {
@@ -42,7 +42,7 @@
     ],
     "translations": [],
     "queryTranslation": "It can take && in if statement",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "It can take || in if statement": {
@@ -52,7 +52,7 @@
     ],
     "translations": [],
     "queryTranslation": "It can take || in if statement",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "It can take several && in if statement": {
@@ -62,7 +62,7 @@
     ],
     "translations": [],
     "queryTranslation": "It can take several && in if statement",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "It can take several || in if statement": {
@@ -72,7 +72,7 @@
     ],
     "translations": [],
     "queryTranslation": "It can take several || in if statement",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "Translation vars can be in one object literal": {
@@ -83,7 +83,7 @@
     ],
     "translations": [],
     "queryTranslation": "Translation vars can be in one object literal",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "Translation vars can have one line object literal": {
@@ -95,7 +95,7 @@
     ],
     "translations": [],
     "queryTranslation": "Translation vars can have one line object literal",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "Translation vars can have multi-line object literal": {
@@ -107,7 +107,7 @@
     ],
     "translations": [],
     "queryTranslation": "Translation vars can have multi-line object literal",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "Translation vars have dot notation": {
@@ -119,7 +119,7 @@
     ],
     "translations": [],
     "queryTranslation": "Translation vars have dot notation",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "Translation vars can have single function call": {
@@ -131,7 +131,7 @@
     ],
     "translations": [],
     "queryTranslation": "Translation vars can have single function call",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "Translation vars can have multiple function calls": {
@@ -141,7 +141,7 @@
     ],
     "translations": [],
     "queryTranslation": "Translation vars can have multiple function calls",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "Translation vars can have single method call": {
@@ -153,7 +153,7 @@
     ],
     "translations": [],
     "queryTranslation": "Translation vars can have single method call",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "Translation vars can have multiple method calls": {
@@ -163,7 +163,7 @@
     ],
     "translations": [],
     "queryTranslation": "Translation vars can have multiple method calls",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "Translation vars can have single function call with a single object literal as a parameter": {
@@ -175,7 +175,7 @@
     ],
     "translations": [],
     "queryTranslation": "Translation vars can have single function call with a single object literal as a parameter",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "Translation vars can have multiple function call with a single object literal as a parameter": {
@@ -185,7 +185,7 @@
     ],
     "translations": [],
     "queryTranslation": "Translation vars can have multiple function call with a single object literal as a parameter",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "Translation vars can have single function call with a multiple object literal as a parameter": {
@@ -197,7 +197,7 @@
     ],
     "translations": [],
     "queryTranslation": "Translation vars can have single function call with a multiple object literal as a parameter",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "Translation vars can have multiple function call with a multiple object literal as a parameter": {
@@ -207,7 +207,7 @@
     ],
     "translations": [],
     "queryTranslation": "Translation vars can have multiple function call with a multiple object literal as a parameter",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "Translation function can be inside function calls": {
@@ -217,7 +217,7 @@
     ],
     "translations": [],
     "queryTranslation": "Translation function can be inside function calls",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "It can have <>": {
@@ -227,7 +227,7 @@
     ],
     "translations": [],
     "queryTranslation": "It can have <>",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "It can have ..": {
@@ -237,7 +237,7 @@
     ],
     "translations": [],
     "queryTranslation": "It can have ..",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "It can have ,,": {
@@ -247,7 +247,7 @@
     ],
     "translations": [],
     "queryTranslation": "It can have ,,",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "It can have ::": {
@@ -257,7 +257,7 @@
     ],
     "translations": [],
     "queryTranslation": "It can have ::",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "It can have ;;": {
@@ -267,7 +267,7 @@
     ],
     "translations": [],
     "queryTranslation": "It can have ;;",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "It can have ’’": {
@@ -277,7 +277,7 @@
     ],
     "translations": [],
     "queryTranslation": "It can have ’’",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "It can have __": {
@@ -287,7 +287,7 @@
     ],
     "translations": [],
     "queryTranslation": "It can have __",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "It can have &&": {
@@ -297,7 +297,7 @@
     ],
     "translations": [],
     "queryTranslation": "It can have &&",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "It can have %%": {
@@ -307,7 +307,7 @@
     ],
     "translations": [],
     "queryTranslation": "It can have %%",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "It can have $$": {
@@ -317,7 +317,7 @@
     ],
     "translations": [],
     "queryTranslation": "It can have $$",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "It can have €€": {
@@ -327,7 +327,7 @@
     ],
     "translations": [],
     "queryTranslation": "It can have €€",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "It can have ##": {
@@ -337,7 +337,7 @@
     ],
     "translations": [],
     "queryTranslation": "It can have ##",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "It can have ??": {
@@ -347,7 +347,7 @@
     ],
     "translations": [],
     "queryTranslation": "It can have ??",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "It can have !!": {
@@ -357,7 +357,7 @@
     ],
     "translations": [],
     "queryTranslation": "It can have !!",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "It can have ()": {
@@ -367,7 +367,7 @@
     ],
     "translations": [],
     "queryTranslation": "It can have ()",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "It can have @@": {
@@ -377,7 +377,7 @@
     ],
     "translations": [],
     "queryTranslation": "It can have @@",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "It can have ^^": {
@@ -387,7 +387,7 @@
     ],
     "translations": [],
     "queryTranslation": "It can have ^^",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "It can have ´´": {
@@ -397,7 +397,7 @@
     ],
     "translations": [],
     "queryTranslation": "It can have ´´",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "It can have ``": {
@@ -407,7 +407,7 @@
     ],
     "translations": [],
     "queryTranslation": "It can have ``",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "It can have ==": {
@@ -417,7 +417,7 @@
     ],
     "translations": [],
     "queryTranslation": "It can have ==",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "It can have ++": {
@@ -427,7 +427,7 @@
     ],
     "translations": [],
     "queryTranslation": "It can have ++",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "It can have --": {
@@ -437,7 +437,7 @@
     ],
     "translations": [],
     "queryTranslation": "It can have --",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "It can have **": {
@@ -447,7 +447,7 @@
     ],
     "translations": [],
     "queryTranslation": "It can have **",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "It can have //": {
@@ -457,7 +457,7 @@
     ],
     "translations": [],
     "queryTranslation": "It can have //",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "It can have \\": {
@@ -467,7 +467,7 @@
     ],
     "translations": [],
     "queryTranslation": "It can have \\",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "It can have \"": {
@@ -477,7 +477,7 @@
     ],
     "translations": [],
     "queryTranslation": "It can have \"",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "It can have double and single quote in translation": {
@@ -487,7 +487,7 @@
     ],
     "translations": [],
     "queryTranslation": "It can have double and single quote in translation",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "Edit me": {
@@ -497,7 +497,7 @@
     ],
     "translations": [],
     "queryTranslation": "Edit me",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "Grunt-translate can have tailing comments": {
@@ -507,7 +507,7 @@
     ],
     "translations": [],
     "queryTranslation": "Grunt-translate can have tailing comments",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "Grunt-translate can have tailing comments with translation vars": {
@@ -519,7 +519,7 @@
     ],
     "translations": [],
     "queryTranslation": "Grunt-translate can have tailing comments with translation vars",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
   "Grunt-translate can have tailing comments with multi-line translation vars": {
@@ -531,27 +531,29 @@
     ],
     "translations": [],
     "queryTranslation": "Grunt-translate can have tailing comments with multi-line translation vars",
-    "timestamp": 1380805525317,
+    "timestamp": 1380965208480,
     "id": ""
   },
-  "testbajsdddfdfwxxd": {
+  "testbewfajwdesdwefwweefdwewfwfeefsfefddfweddfwwddwdeedxxd": {
     "vars": [],
     "files": [
       "test/example/example.js"
     ],
     "translations": [],
-    "queryTranslation": "testbajsdddfdfwxxd",
-    "timestamp": 1380874124884,
+    "queryTranslation": "testbewfajwdesdwefwweefdwfwfeefsfefddfweddfwwddwdeedxxd",
+    "timestamp": 1380968533220,
+    "_new": true,
     "id": ""
   },
-  "testbajsweddsv1234": {
+  "teswfefewwetbafewewjswdewweeefewfwwefxfwddswdewewddv1234": {
     "vars": [],
     "files": [
       "test/example/example.js"
     ],
     "translations": [],
-    "queryTranslation": "testbajswedr1234",
-    "timestamp": 1380879495815,
+    "queryTranslation": "teswfefewwetbafewewjswdewweeefewfwwefxfwddswdewewddv1234",
+    "timestamp": 1380969593406,
+    "_new": true,
     "id": ""
   }
 }

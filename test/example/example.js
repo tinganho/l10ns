@@ -110,5 +110,5 @@ gt('Grunt-translate can have tailing comments with multi-line translation vars',
   test : 'test'
 });  // test1, test2
 
-gt('testbajsdddfdfwxxd')
-gt('testbajsweddsv1234')
+gt('testbewfajwdesdwefwweefdwewfwfeefsfefddfweddfwwddwdeedxxd')
+gt('teswfefewwetbafewewjswdewweeefewfwwefxfwddswdewewddv1234')

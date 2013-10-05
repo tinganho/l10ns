@@ -136,6 +136,7 @@ program
   .description('Compile transations')
   .action(function() {
   });
+
 program
   .command('edit')
   .description('Edit transations')
