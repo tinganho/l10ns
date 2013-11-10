@@ -20,6 +20,7 @@ var program = require('commander')
 /**
  * Set default configs
  */
+
 var defaultConfigs = {
   folder              : pcf.DEFAULT_FOLDER,
   requirejs           : pcf.DEFAULT_REQUIREJS,
@@ -46,7 +47,7 @@ cf.latestSearchFile  = cf.folder + pcf.LATEST_SEARCH_CACHE_FILE;
 cf.language          = cf.language || pcf.DEFAULT_LANGAUGE;
 
 
-lcf = require('../language/' + cf.language);
+lcf = require('../plugins/' + cf.language + '/parseConfigs');
 
 /**
  * Get all source files.
