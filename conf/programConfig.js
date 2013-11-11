@@ -31,7 +31,7 @@ module.exports = {
   TRANSLATION_ID_HASH_SECRET : 'gt',
   TRANSLATION_ID_CHAR_LENGTH : 8,
 
-  DEFAULT_LANGAUGE : 'javascript'
+  DEFAULT_PROGAMMING_LANGAUGE : 'javascript'
 
 };
 

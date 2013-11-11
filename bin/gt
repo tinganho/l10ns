@@ -41,13 +41,13 @@ cf = _.defaults(cf, defaultConfigs);
  * Set short-cuts configs
  */
 
-cf.localesFolder     = cf.folder + pcf.LOCALES_FOLDER;
-cf.deleteLog         = cf.folder + pcf.DELETE_LOG_FILE;
-cf.latestSearchFile  = cf.folder + pcf.LATEST_SEARCH_CACHE_FILE;
-cf.language          = cf.language || pcf.DEFAULT_LANGAUGE;
+cf.localesFolder       = cf.folder + pcf.LOCALES_FOLDER;
+cf.deleteLog           = cf.folder + pcf.DELETE_LOG_FILE;
+cf.latestSearchFile    = cf.folder + pcf.LATEST_SEARCH_CACHE_FILE;
+cf.programmingLanguage = cf.programmingLanguage || pcf.DEFAULT_PROGAMMING_LANGAUGE;
 
 
-lcf = require('../plugins/' + cf.language + '/parseConfigs');
+lcf = require('../plugins/' + cf.programmingLanguage + '/parseConfigs');
 
 /**
  * Get all source files.
@@ -89,8 +89,15 @@ if(typeof cf.locales === 'locales') {
 var gt = require('../lib')
 program
   .version(pjson.version)
-  .option('-l, --lang <lang>', 'specify the language', String, cf.defaultLocale)
+  .option('-l, --locale <locale>', 'specify locale', String, cf.defaultLocale)
+  .option('-ls, --locales <locales>', 'specify locales', String, cf.defaultLocales)
   .option('-p, --port <port>', 'specify the port [\'' + cf.port + '\']', Number, cf.port)
+  .option('-f, --folder <folder>', 'specify folder', String, cf.folder)
+  .option('-o, --output <output>', 'specify output', String, cf.output)
+  .option('-s, --source <source>', 'specify source', String, cf.src)
+  .option('-dl, --default-locale <default-locale>', 'specify default locale', String, cf.defaultLocale)
+  .option('-pl, --programming-languague <programming-languague>', 'specify programming languague', String, cf.programmingLanguague)
+
 
 program
   .command('init')

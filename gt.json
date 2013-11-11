@@ -1,6 +1,10 @@
 {
   "folder": "./test/translations",
-  "requirejs": true,
+  "programmingLanguage": "javascript",
+  "programmingLanguageOptions": {
+    "requirejs": true,
+    "node": true
+  },
   "locales": {
     "en-US": "English",
     "zh-CN": "Chinese"
@@ -8,6 +12,8 @@
   "defaultLocale": "en-US",
   "output": "test/translations/output",
   "src": ["test/example/**/*.js"],
-  "autoOpen": false,
-  "port": 3000
+  "interface" : {
+    "autoOpenBrowser": false,
+    "port": 3000
+  }
 }
