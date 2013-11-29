@@ -1,0 +1,10 @@
+
+<!--
+
+Non-translated function body
+
+@param {string} string to return
+
+!-->
+
+return 'KEY_NOT_TRANSLATED: ' + {{=it.key}} + ';';

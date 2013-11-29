@@ -1,0 +1,18 @@
+
+<!--
+
+Else statement
+
+@param {string} string to return
+
+!-->
+
+{{##def.returnStatement : load('./returnStatement.part'); #}}
+
+var {{=it.variable}} = (function() {
+
+  {{=it.translationMap}}
+
+  {{#def.returnStatement}}
+
+})();

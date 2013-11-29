@@ -1,0 +1,16 @@
+
+<!--
+
+NodeJS wrapper
+
+@param {string} translationMap
+
+!-->
+
+{{##def.returnStatement : load('./returnStatement.part'); #}}
+
+module.exports = (function() {
+
+  {{=it.translationMap}}
+
+})();

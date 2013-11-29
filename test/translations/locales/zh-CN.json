@@ -24,9 +24,7 @@
     "id": ""
   },
   "It can have only one string": {
-    "vars": [
-      "test"
-    ],
+    "vars": [],
     "files": [
       "test/example/example.js"
     ],
@@ -99,9 +97,7 @@
     "id": ""
   },
   "Translation vars can have multi-line object literal": {
-    "vars": [
-      "test"
-    ],
+    "vars": [],
     "files": [
       "test/example/example.js"
     ],
@@ -123,9 +119,7 @@
     "id": ""
   },
   "Translation vars can have single function call": {
-    "vars": [
-      "test"
-    ],
+    "vars": [],
     "files": [
       "test/example/example.js"
     ],
@@ -523,9 +517,7 @@
     "id": ""
   },
   "Grunt-translate can have tailing comments with multi-line translation vars": {
-    "vars": [
-      "test"
-    ],
+    "vars": [],
     "files": [
       "test/example/example.js"
     ],
@@ -540,9 +532,8 @@
       "test/example/example.js"
     ],
     "translations": [],
-    "queryTranslation": "testbewfajwdesdwefwweefdwfwfeefsfefddfweddfwwddwdeedxxd",
+    "queryTranslation": "testbewfajwdesdwefwweefdwewfwfeefsfefddfweddfwwddwdeedxxd",
     "timestamp": 1380968533221,
-    "_new": true,
     "id": ""
   },
   "teswfefewwetbafewewjswdewweeefewfwwefxfwddswdewewddv1234": {
@@ -553,7 +544,6 @@
     "translations": [],
     "queryTranslation": "teswfefewwetbafewewjswdewweeefewfwwefxfwddswdewewddv1234",
     "timestamp": 1380969593406,
-    "_new": true,
     "id": ""
   }
 }

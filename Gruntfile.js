@@ -80,7 +80,7 @@ module.exports = function(grunt, gt) {
       dist: {
         options: {
           config          : './test/translations',
-          requirejs       : true,
+          requirejs       : false,
           defaultLanguage : 'en', // grunt-translate use it to update translation.
           output          : './test/translations/output',
           src             : ['./test/example/**/*.js'],
@@ -107,8 +107,18 @@ module.exports = function(grunt, gt) {
           requirejs : true,
           node      : true
         },
-        src  : ['app/**/*.dot', 'app/**/*.part'],
-        dest : 'app/public/templates/tmpl.js'
+        src  : ['interface/**/*.dot'],
+        dest : 'interface/public/templates/tmpl.js'
+      },
+
+      plugins : {
+        options: {
+          variable  : 'tmpl',
+          requirejs : false,
+          node      : true
+        },
+        src  : ['plugins/**/*.{dot,part}'],
+        dest : 'plugins/templates/tmpl.js'
       }
     },
 

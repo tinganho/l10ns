@@ -15,7 +15,7 @@ var program = require('commander')
   , gtPath  = findup('gt.json')
   , root    = path.dirname(gtPath)
   , cf      = require(gtPath)
-  , pcf     = require('../conf/programConfig');
+  , pcf     = require('../conf/programConfigs');
 
 /**
  * Set default configs
@@ -33,6 +33,9 @@ var defaultConfigs = {
 if(typeof cf.output === 'undefined') {
   cf.output = cf.folder + pcf.DEFAULT_OUTPUT;
 }
+else {
+  cf.output = cf.root + cf.output;
+}
 // Merge with programConfigs
 defaultConfigs = _.extend(defaultConfigs, pcf);
 cf = _.defaults(cf, defaultConfigs);
@@ -41,11 +44,10 @@ cf = _.defaults(cf, defaultConfigs);
  * Set short-cuts configs
  */
 
-cf.localesFolder       = cf.folder + pcf.LOCALES_FOLDER;
+cf.localesFolder       = path.join(cf.root, cf.folder, pcf.LOCALES_FOLDER);
 cf.deleteLog           = cf.folder + pcf.DELETE_LOG_FILE;
 cf.latestSearchFile    = cf.folder + pcf.LATEST_SEARCH_CACHE_FILE;
 cf.programmingLanguage = cf.programmingLanguage || pcf.DEFAULT_PROGAMMING_LANGAUGE;
-
 
 lcf = require('../plugins/' + cf.programmingLanguage + '/parseConfigs');
 
@@ -143,6 +145,7 @@ program
   .command('compile')
   .description('Compile transations')
   .action(function() {
+    gt.compile();
   });
 
 program
