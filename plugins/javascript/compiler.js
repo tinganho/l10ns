@@ -371,7 +371,15 @@ Compiler.prototype._getFormatedTranslatedText = function(text, vars) {
     if(vars.indexOf(match) === -1) {
       throw new TypeError('You have used an undefined variable ' + operand);
     }
-    return _this.quote + _this.add + _this.namespace + _this.dot + match + _this.add + _this.quote;
+    return String.prototype.concat(
+      _this.quote,
+      _this.add,
+      _this.namespace,
+      _this.dot,
+      match,
+      _this.add,
+      _this.quote
+    );
   });
 };
 
