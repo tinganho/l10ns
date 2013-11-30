@@ -34,26 +34,20 @@
     "grunt": "~0.4.1",
     "amdefine": "0.0.4",
     "express": "~3.1.0",
-    "optparse": "~1.0.4",
     "findup-sync": "~0.1.1",
     "colors": "~0.6.0-1",
-    "grunt-open": "~0.2.0",
     "open": "0.0.3",
-    "supertest": "~0.5.1",
-    "cheerio": "~0.10.7",
     "grunt-contrib-connect": "~0.2.0",
     "connect-modrewrite": "~0.3.16",
     "autoroute": "~0.2.1",
     "lunr": "~0.4.0",
     "requirejs": "~2.1.6",
-    "zombie": "~2.0.0-alpha19",
     "prompt": "~0.2.11",
     "grunt-dot-compiler": "~0.5.10",
     "commander": "~2.0.0",
     "underscore": "~1.5.1",
     "glob": "~3.2.3",
-    "hashids": "~0.1.4",
-    "celeri": "~0.3.2"
+    "hashids": "~0.1.4"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.1.0",
@@ -63,7 +57,7 @@
     "grunt-dot-compiler": "~0.3.13",
     "grunt-contrib-watch": "~0.1.4",
     "grunt-contrib-requirejs": "~0.4.0",
-    "grunt-regarde": "~0.1.1"
+    "sinon": "~1.7.3"
   },
   "keywords": [
     "gruntplugin"
