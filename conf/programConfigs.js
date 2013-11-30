@@ -20,7 +20,7 @@ module.exports = {
   DEFAULT_TRANSLATION_FUNCTION : 'gt',
   DEFAULT_REQUIREJS            : true,
   DEFAULT_FOLDER               : 'translations',
-  DEFAULT_OUTPUT               : '/output',
+  DEFAULT_OUTPUT               : 'output',
   DEFAULT_PORT                 : 3001,
   DEFAULT_AUTO_OPEN            : true,
 
@@ -32,8 +32,9 @@ module.exports = {
   DEFAULT_PROGAMMING_LANGAUGE : 'javascript',
 
   // Syntaxes
-  SYNTAX_OPERAND  : /^\$?\w+$/,
-  SYNTAX_VARIABLE : /^$[a-zA-Z0-9]+$/,
+  SYNTAX_OPERAND         : /^\$?\w+$/,
+  SYNTAX_VARIABLE        : /^$[a-zA-Z0-9]+$/,
+  SYNTAX_VARIABLE_MARKUP : /\$\{[a-zA-Z0-9]+\}/g,
 
   // conditions
   CONDITIONS : ['if', 'else', 'elseif'],

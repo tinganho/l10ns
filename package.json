@@ -48,7 +48,7 @@
     "requirejs": "~2.1.6",
     "zombie": "~2.0.0-alpha19",
     "prompt": "~0.2.11",
-    "grunt-dot-compiler": "~0.5.1",
+    "grunt-dot-compiler": "~0.5.10",
     "commander": "~2.0.0",
     "underscore": "~1.5.1",
     "glob": "~3.2.3",

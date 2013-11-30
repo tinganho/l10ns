@@ -30,12 +30,6 @@ var defaultConfigs = {
   autoOpen            : pcf.DEFAULT_AUTO_OPEN,
   root                : root
 };
-if(typeof cf.output === 'undefined') {
-  cf.output = cf.folder + pcf.DEFAULT_OUTPUT;
-}
-else {
-  cf.output = cf.root + cf.output;
-}
 // Merge with programConfigs
 defaultConfigs = _.extend(defaultConfigs, pcf);
 cf = _.defaults(cf, defaultConfigs);
@@ -48,6 +42,12 @@ cf.localesFolder       = path.join(cf.root, cf.folder, pcf.LOCALES_FOLDER);
 cf.deleteLog           = cf.folder + pcf.DELETE_LOG_FILE;
 cf.latestSearchFile    = cf.folder + pcf.LATEST_SEARCH_CACHE_FILE;
 cf.programmingLanguage = cf.programmingLanguage || pcf.DEFAULT_PROGAMMING_LANGAUGE;
+if(typeof cf.output === 'undefined') {
+  cf.output = path.join(cf.folder, pcf.DEFAULT_OUTPUT);
+}
+else {
+  cf.output = path.join(cf.root, cf.output);
+}
 
 lcf = require('../plugins/' + cf.programmingLanguage + '/parseConfigs');
 

@@ -1,0 +1,13 @@
+
+<!--
+
+Additional condition string
+
+@param {string} additionalCondition
+@param {string} operand1
+@param {string} operator
+@param {string} operand2
+
+!-->
+
+{{=it.additionalCondition}} {{=it.operand1}} {{=it.operator}} {{=it.operand2}}

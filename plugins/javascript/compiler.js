@@ -16,18 +16,28 @@ var Compiler = function() {
   if(typeof cf.programmingLanguageOptions !== 'object') {
     throw new TypeError('cf.programmingLanguageOptions is not set');
   }
-  // Programming languague options
+  // programming languague options
   // {
   //  node : {boolean},
   //  requirejs : {boolean}
   // }
   this.opts = cf.programmingLanguageOptions;
-  // Languague wrapper
+  // languague wrapper
   this.wrap = null;
-  // Default namespace
+  // default namespace
   this.namespace = 'it';
-  // New line
+  // new line
   this.newline = '\n';
+  // quote
+  this.quote = '\'';
+  // dot
+  this.dot = '.';
+  // comma
+  this.comma = ',';
+  // add
+  this.add = ' + ';
+  // space
+  this.space = ' ';
 };
 
 /**
@@ -46,7 +56,7 @@ Compiler.prototype.compile = function() {
     var content = this.wrap({
       translationMap : this._getTranslationMap(locale)
     });
-    fs.writeFileSync(cf.output, content);
+    fs.writeFileSync(cf.output + '/' + locale + '.js', content);
   }
 };
 
@@ -102,12 +112,17 @@ Compiler.prototype._getTranslationMap = function(locale) {
   for(var key in translations) {
     // Append a comma for previous hashes
     if(n !== 0) {
-      body += ',' + this.newline;
+      body += this.comma + this.newline;
     }
-    body += tmpl.JSONTranslationFunctionField({
-      key : key,
+
+    var field = tmpl.JSONTranslationFunctionField({
+      key : this._normalizeText(key),
       functionString : this._getFunctionBodyString(translations, key)
     });
+
+    body += field;
+
+    console.log(locale, this._normalizeText(key));
 
     n++;
   }
@@ -120,6 +135,22 @@ Compiler.prototype._getTranslationMap = function(locale) {
 };
 
 /**
+ * Normalize text
+ *
+ * @param {string} text
+ * @private
+ */
+
+Compiler.prototype._normalizeText = function(text) {
+  return text
+    .replace('\\', 'ESCAPE_CHAR')
+    .replace(/'/, '\\\'')
+    .replace(/[^\\]ESCAPE_CHAR/g, function(m, p1) {
+      return m.replace('ESCAPE_CHAR', '\\\\');
+    });
+};
+
+/**
  * Get function body string
  *
  * @param {TranslationObject} translation
@@ -128,20 +159,20 @@ Compiler.prototype._getTranslationMap = function(locale) {
  * @private
  */
 
-Compiler.prototype._getFunctionBodyString = function(translation, key) {
+Compiler.prototype._getFunctionBodyString = function(translations, key) {
   var str = '';
-  if(translation[key].translations.length === 0){
-    str += this._getUntranslatedFunctionBodyString(key);
+  if(translations[key].translations.length === 0) {
+    str += this._getNonTranslatedFunctionBodyString(this._normalizeText(key));
   } else if(translations[key].translations[0][0] === pcf.CONDITION_IF) {
-    str += this._getConditionsFunctionBodyString(
-      translation[key].translations[0],
-      translation[key].vars
+    str += this._getConditionsString(
+      translations[key].translations[0],
+      translations[key].vars
     );
   } else {
     str += this._getNonConditionsFunctionBodyString(
-      _this._getFormatTranslatedText(
-        translation[key].translations,
-        translation[key].vars
+      this._getFormatedTranslatedText(
+        translations[key].translations,
+        translations[key].vars
       )
     );
   }
@@ -159,7 +190,9 @@ Compiler.prototype._getFunctionBodyString = function(translation, key) {
  */
 
 Compiler.prototype._getNonConditionsFunctionBodyString = function(string) {
-  return tmpl.nonTranslatedFunctionBody(string);
+  return tmpl.nonConditionFunctionBody({
+    string : string
+  });
 };
 
 /**
@@ -171,34 +204,31 @@ Compiler.prototype._getNonConditionsFunctionBodyString = function(string) {
  * @private
  */
 
-Compiler.prototype._getUntranslatedFunctionBodyString = function(key) {
+Compiler.prototype._getNonTranslatedFunctionBodyString = function(key) {
   return tmpl.nonTranslatedFunctionBody({
     key : key
   });
 };
 
 /**
- * Get conditions function body string
+ * Get conditions string
  *
- * @param {ConditionArray}
+ * @param {array} conditions
+ * @param {array} vars
  *
  * @return {string}
  * @private
  */
 
-Compiler.prototype._getConditionsFunctionBodyString = function(conditions, vars) {
-  var _this = this;
-
+Compiler.prototype._getConditionsString = function(conditions, vars) {
   var str = '';
-  conditions.forEach(function(condition) {
-    if(condition[0] !== pcf.CONDITION_ELSE) {
-      str += _this._getConditionString(condition);
-      str += _this._getAdditionalConditionString(condition);
-    }
-    else {
-      str += _this._getElseStatementString();
-    }
-  });
+  if(conditions[0] !== pcf.CONDITION_ELSE) {
+    str += this._getConditionString(conditions, vars);
+    str += this._getAdditionalConditionString(conditions, vars);
+  }
+  else {
+    str += this._getElseStatementString();
+  }
 
   return str;
 };
@@ -206,25 +236,26 @@ Compiler.prototype._getConditionsFunctionBodyString = function(conditions, vars)
 /**
  * Get condition string
  *
- * @param {ConditionArray}
+ * @param {array} condition
+ * @param {array} vars
  *
  * @return {string}
  * @private
  */
 
-Compiler.prototype._getConditionString = function(condition) {
-  var _condition = condition[0]
-    , operand1   = _this._getFormatedOperandString(condition[1], vars)
-    , operator   = condition[2]
-    , operand2   = _this._getFormatedOperandString(condition[3], vars);
+Compiler.prototype._getConditionString = function(conditions, vars) {
+  var _condition = conditions[0]
+    , operand1   = this._getFormatedOperandString(conditions[1], vars)
+    , operator   = conditions[2]
+    , operand2   = this._getFormatedOperandString(conditions[3], vars);
 
   // Check if string represent a condition
-  if(syntax.stringIsCondition(operand1, operator, operand2)) {
+  if(!syntax.stringIsCondition(operand1, operator, operand2)) {
     throw new TypeError('string does not represent a condition');
   }
 
   return tmpl.condition({
-    condition : _condition
+    condition : _condition,
     operand1  : operand1,
     operator  : operator,
     operand2  : operand2
@@ -240,25 +271,25 @@ Compiler.prototype._getConditionString = function(condition) {
  * @private
  */
 
-Compiler.prototype._getAdditionalConditionString = function(condition) {
+Compiler.prototype._getAdditionalConditionString = function(conditions, vars) {
   var str = '', index = 4;
-  while(condition[index] === pcf.ADDITIONAL_CONDITION_AND ||
-        condition[index] === pcf.ADDITIONAL_CONDITION_OR) {
+  while(conditions[index] === pcf.ADDITIONAL_CONDITION_AND ||
+        conditions[index] === pcf.ADDITIONAL_CONDITION_OR) {
 
     // Declare additional condition
-    var additionalCondition = condition[index];
+    var additionalCondition = conditions[index];
 
     // Declare operators and operands
-    var operand1 = _this._getFormatedOperandString(condition[index + 1], vars)
-      , operator = condition[index + 2]
-      , operand2 = _this._getFormatedOperandString(condition[index + 3], vars);
+    var operand1 = this._getFormatedOperandString(conditions[index + 1], vars)
+      , operator = conditions[index + 2]
+      , operand2 = this._getFormatedOperandString(conditions[index + 3], vars);
 
     // Check if string represent a condition
-    if(syntax.stringIsCondition(operand1, operator, operand2)) {
+    if(!syntax.stringIsCondition(operand1, operator, operand2)) {
       throw new TypeError('string does not represent a condition');
     }
 
-    str += tmpl.additionalCondition({
+    str += this.space + tmpl.additionalCondition({
       additionalCondition : additionalCondition,
       operand1            : operand1,
       operator            : operator,
@@ -267,6 +298,11 @@ Compiler.prototype._getAdditionalConditionString = function(condition) {
 
     index += 4;
   }
+
+  // append condition body
+  str += tmpl.conditionBody({
+    string : this._getFormatedTranslatedText(conditions[index], vars)
+  });
 
   return str;
 };
@@ -305,12 +341,12 @@ Compiler.prototype._getElseStatementString = function(string) {
 
 Compiler.prototype._getFormatedOperandString = function(operand, vars) {
   if(pcf.SYNTAX_VARIABLE.test(operand)) {
-    // Re-formats all params/vars
+    // Re-formats all vars
     operand = operand.replace('$', '');
     if(vars.indexOf(operand) === -1) {
       throw new TypeError('You have used an undefined variable ' + operand);
     }
-    operand = this.namespace + '.' + operand;
+    operand = this.namespace + this.dot + operand;
   }
 
   return operand;
@@ -325,20 +361,17 @@ Compiler.prototype._getFormatedOperandString = function(operand, vars) {
  * @private
  */
 
-Compiler.prototype._getFormatTranslatedText = function(text, vars){
-  var text = '"' + text.substring(1, text.length - 1).replace(/"/g, function(m) {
-    return '" + "' + '\\"' + '" + "';
-  }) + '"';
+Compiler.prototype._getFormatedTranslatedText = function(text, vars) {
+  var _this = this;
+  // Replace quotations
+  text = this._normalizeText(text);
 
-  return text.replace(/\$\{[a-zA-Z0-9]+\}/g, function(m) {
-    m = m.substring(2, m.length - 1);
-    if(vars.indexOf(m) === -1) {
-      throw {
-        name: 'Use of undefined variable',
-        message: '"' + m + '" is never defined'
-      };
+  return text.replace(pcf.SYNTAX_VARIABLE_MARKUP, function(match) {
+    match = match.substring(2, match.length - 1);
+    if(vars.indexOf(match) === -1) {
+      throw new TypeError('You have used an undefined variable ' + operand);
     }
-    return '\" + it.' + m + ' + \"';
+    return _this.quote + _this.add + _this.namespace + _this.dot + match + _this.add + _this.quote;
   });
 };
 

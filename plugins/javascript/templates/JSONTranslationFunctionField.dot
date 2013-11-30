@@ -8,4 +8,4 @@ JSON translation function field
 
 !-->
 
-{{=it.key}} : {{=it.functionString}}
+'{{=it.key}}' : {{=it.functionString}}

@@ -7,4 +7,4 @@ Non-condition function body string
 
 !-->
 
-return '{{it.string}}';
+return '{{=it.string}}';

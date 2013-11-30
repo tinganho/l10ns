@@ -9,7 +9,7 @@
         "test",
         ">",
         "1",
-        "if works"
+        "it works"
       ],
       [
         "else",
@@ -458,21 +458,31 @@
   },
   "It can have '": {
     "vars": [],
-    "translations": "yes it can",
+    "translations": "yes it can have '",
     "query_translation": "It can have '",
     "timestamp": 1361261618370,
     "id": "a73dec3930758129dce45293f0cc5083"
   },
-  "It can have ": {
+  "It can have \"": {
     "vars": [],
-    "translations": "yes it can",
-    "query_translation": "It can have ",
+    "translations": "yes it can \"",
+    "query_translation": "It can have",
     "timestamp": 1361260837077,
     "id": "8d58be63a2bf722dbddb770cec73865c"
   },
+  "It can have \\": {
+    "vars": [],
+    "files": [
+      "test/example/example.js"
+    ],
+    "translations": [],
+    "queryTranslation": "It can have \\",
+    "timestamp": 1380965208480,
+    "id": ""
+  },
   "It can have double and single quote in translation": {
     "vars": [],
-    "translations": "yes it can have '",
+    "translations": "yes it can have woiefje '",
     "query_translation": "It can have double and single quote in translation",
     "timestamp": 1373709180619,
     "id": "aff433423753a685b9869517d7871644"
