@@ -7,11 +7,6 @@ var sinon      = require('sinon')
   , _          = require('underscore')
   , path       = require('path')
   , expect     = require('chai').expect
-  , findup     = require('findup-sync')
-  , gtPath     = findup('gt.json')
-  , root       = path.dirname(gtPath)
-  , cf         = require(gtPath)
-  , pcf        = require('../conf/programConfigs')
   , proxyquire = require('proxyquire')
   , fixtures   = require('./fixtures/compiler');
 
