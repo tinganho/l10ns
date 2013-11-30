@@ -145,7 +145,7 @@ Compiler.prototype._normalizeText = function(text) {
   return text
     .replace('\\', 'ESCAPE_CHAR')
     .replace(/'/, '\\\'')
-    .replace(/[^\\]ESCAPE_CHAR/g, function(m, p1) {
+    .replace(/[^\\]ESCAPE_CHAR/g, function(m) {
       return m.replace('ESCAPE_CHAR', '\\\\');
     });
 };
