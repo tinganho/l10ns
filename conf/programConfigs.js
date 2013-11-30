@@ -23,6 +23,7 @@ module.exports = {
   DEFAULT_OUTPUT               : 'output',
   DEFAULT_PORT                 : 3001,
   DEFAULT_AUTO_OPEN            : true,
+  DEFAULT_QUIET                : false,
 
   NO_TRANSLATION : 'NO TRANSLATION',
 
@@ -37,10 +38,10 @@ module.exports = {
   SYNTAX_VARIABLE_MARKUP : /\$\{[a-zA-Z0-9]+\}/g,
 
   // conditions
-  CONDITIONS : ['if', 'else', 'elseif'],
+  CONDITIONS : ['if', 'else', 'else if'],
   CONDITION_IF     : 'if',
   CONDITION_ELSE   : 'else',
-  CONDITION_ELSEIF : 'elseif',
+  CONDITION_ELSEIF : 'else if',
 
   ADDITIONAL_CONDITIONS : ['&&', '||'],
   ADDITIONAL_CONDITION_AND : '&&',

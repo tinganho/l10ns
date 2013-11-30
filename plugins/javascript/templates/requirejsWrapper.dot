@@ -1,0 +1,18 @@
+
+<!--
+
+RequireJS wrapper
+
+@param {string} translationMap
+
+!-->
+
+{{##def.returnStatement : load('./returnStatement.part'); #}}
+
+define(function() {
+
+  {{=it.translationMap}}
+
+  {{#def.returnStatement}}
+
+});

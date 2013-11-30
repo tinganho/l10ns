@@ -9,6 +9,7 @@
     "en-US": "English",
     "zh-CN": "Chinese"
   },
+  "quiet" : false,
   "defaultLocale": "en-US",
   "output": "test/translations/output",
   "src": ["test/example/**/*.js"],

@@ -2,7 +2,7 @@ var grunt   = require('grunt')
   , fs      = require('fs')
   , path    = require('path')
   , syntax  = require('./syntax')
-  , tmpl    = require('../templates/tmpl');
+  , tmpl    = require('./templates/build/tmpl');
 
 
 /**
@@ -38,6 +38,9 @@ var Compiler = function() {
   this.add = ' + ';
   // space
   this.space = ' ';
+
+  // Quiet
+  this.quiet = lcf.quiet;
 };
 
 /**
@@ -72,11 +75,14 @@ Compiler.prototype._getWrapper = function() {
   if(this.opts.requirejs && this.opts.node) {
     wrapper = tmpl.requirejsAndNodejsWrapper;
   }
-  else if(this.opts.requirejs) {
-    wrapper = tmpl.requirejsWrapper
+  else if(this.opts.requirejs && !this.opts.node) {
+    wrapper = tmpl.requirejsWrapper;
+  }
+  else if(!this.opts.requirejs && this.opts.node) {
+    wrapper = tmpl.nodejsWrapper;
   }
   else {
-    wrapper = tmpl.nodejsWrapper;
+    wrapper = tmpl.javascriptWrapper;
   }
   return wrapper;
 };
@@ -91,7 +97,8 @@ Compiler.prototype._getWrapper = function() {
  */
 
 Compiler.prototype._getTranslations = function(locale) {
-  return require(path.normalize(cf.localesFolder + '/' + locale + '.json'));
+  // We don't use require, beacuse we can stub fs.readFileSync
+  return JSON.parse(fs.readFileSync(path.normalize(cf.localesFolder + '/' + locale + '.json')));
 };
 
 /**
@@ -122,7 +129,9 @@ Compiler.prototype._getTranslationMap = function(locale) {
 
     body += field;
 
-    console.log(locale, this._normalizeText(key));
+    if(!this.quiet) {
+      console.log(locale, this._normalizeText(key));
+    }
 
     n++;
   }
@@ -135,7 +144,7 @@ Compiler.prototype._getTranslationMap = function(locale) {
 };
 
 /**
- * Normalize text
+ * Normalize text, ' should be \'
  *
  * @param {string} text
  * @private
@@ -165,7 +174,7 @@ Compiler.prototype._getFunctionBodyString = function(translations, key) {
     str += this._getNonTranslatedFunctionBodyString(this._normalizeText(key));
   } else if(translations[key].translations[0][0] === pcf.CONDITION_IF) {
     str += this._getConditionsString(
-      translations[key].translations[0],
+      translations[key].translations,
       translations[key].vars
     );
   } else {
@@ -222,13 +231,15 @@ Compiler.prototype._getNonTranslatedFunctionBodyString = function(key) {
 
 Compiler.prototype._getConditionsString = function(conditions, vars) {
   var str = '';
-  if(conditions[0] !== pcf.CONDITION_ELSE) {
-    str += this._getConditionString(conditions, vars);
-    str += this._getAdditionalConditionString(conditions, vars);
-  }
-  else {
-    str += this._getElseStatementString();
-  }
+  conditions.forEach(function(condition) {
+    if(condition[0] !== pcf.CONDITION_ELSE) {
+      str += this._getConditionString(condition, vars);
+      str += this._getAdditionalConditionString(condition, vars);
+    }
+    else {
+      str += this.space + this._getElseStatementString(condition[1]);
+    }
+  }, this);
 
   return str;
 };

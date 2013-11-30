@@ -17,7 +17,7 @@ var out=') {return \''+(it.string)+'\';}';return out;
 var out='else {return \''+(it.string)+'\';}';return out;
 };
   tmpl['javascriptWrapper']=function anonymous(it) {
-var out='var '+(it.variable)+' = (function() {'+(it.translationMap)+'return function(key, opt) { if(!(key in t)) { return \'KEY_NOT_IN_SOURCE: \' + key; } return t[key].apply(undefined, arguments);};})();';return out;
+var out='var '+(it.variable)+' = (function() {'+(it.translationMap)+'return function(key) { if(!(key in t)) { return \'KEY_NOT_IN_SOURCE: \' + key; } return t[key].apply(undefined, arguments);};})();';return out;
 };
   tmpl['mapDeclaration']=function anonymous(it) {
 var out='var t = {'+(it.body)+'};';return out;
@@ -32,9 +32,12 @@ var out='return \''+(it.string)+'\';';return out;
 var out='return \'KEY_NOT_TRANSLATED: \' + \''+(it.key)+'\' + \';\';';return out;
 };
   tmpl['requirejsAndNodejsWrapper']=function anonymous(it) {
-var out='if(typeof define !== \'function\') {var define = require(\'amdefine\')(module);}define(function() {'+(it.translationMap)+'return function(key, opt) { if(!(key in t)) { return \'KEY_NOT_IN_SOURCE: \' + key; } return t[key].apply(undefined, arguments);};});';return out;
+var out='if(typeof define !== \'function\') {var define = require(\'amdefine\')(module);}define(function() {'+(it.translationMap)+'return function(key) { if(!(key in t)) { return \'KEY_NOT_IN_SOURCE: \' + key; } return t[key].apply(undefined, arguments);};});';return out;
+};
+  tmpl['requirejsWrapper']=function anonymous(it) {
+var out='define(function() {'+(it.translationMap)+'return function(key) { if(!(key in t)) { return \'KEY_NOT_IN_SOURCE: \' + key; } return t[key].apply(undefined, arguments);};});';return out;
 };
   tmpl['returnStatement']=function anonymous(it) {
-var out='return function(key, opt) {if(!(key in t)) {return \'KEY_NOT_IN_SOURCE: \' + key;}return t[key].apply(undefined, arguments);};';return out;
+var out='return function(key) {if(!(key in t)) {return \'KEY_NOT_IN_SOURCE: \' + key;}return t[key].apply(undefined, arguments);};';return out;
 };
 module.exports = tmpl;

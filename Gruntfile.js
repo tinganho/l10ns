@@ -111,14 +111,14 @@ module.exports = function(grunt, gt) {
         dest : 'interface/public/templates/tmpl.js'
       },
 
-      plugins : {
+      jsPlugin : {
         options: {
           variable  : 'tmpl',
           requirejs : false,
           node      : true
         },
         src  : ['plugins/**/*.{dot,part}'],
-        dest : 'plugins/templates/tmpl.js'
+        dest : 'plugins/javascript/templates/build/tmpl.js'
       }
     },
 
@@ -182,10 +182,7 @@ module.exports = function(grunt, gt) {
   grunt.loadNpmTasks('grunt-contrib-compass');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-dot-compiler');
-  grunt.loadNpmTasks('grunt-open');
-  grunt.loadNpmTasks('grunt-regarde');
   grunt.loadNpmTasks('grunt-contrib-connect');
-  grunt.loadNpmTasks('grunt-jsdoc');
 
 
   // Default task.

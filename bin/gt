@@ -50,6 +50,9 @@ else {
 }
 
 lcf = require('../plugins/' + cf.programmingLanguage + '/parseConfigs');
+if(typeof lcf.quiet === 'undefined') {
+  lcf.quiet = pcf.DEFAULT_QUIET;
+}
 
 /**
  * Get all source files.

@@ -1,4 +1,3 @@
 #!/usr/bin/env sh
 
-echo 'Running tests...'
-./node_modules/mocha/bin/mocha ./test/translate_test.js
+./node_modules/mocha/bin/mocha ./test/jsCompiler.js
