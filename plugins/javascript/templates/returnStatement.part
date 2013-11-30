@@ -5,7 +5,7 @@ Return statement
 
 !-->
 
-return function(key, opt) {
+return function(key) {
   if(!(key in t)) {
     return 'KEY_NOT_IN_SOURCE: ' + key;
   }
