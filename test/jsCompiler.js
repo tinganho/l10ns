@@ -8,7 +8,7 @@ var sinon      = require('sinon')
   , path       = require('path')
   , expect     = require('chai').expect
   , proxyquire = require('proxyquire')
-  , fixtures   = require('./fixtures/compiler');
+  , fixtures   = require('./fixtures/json');
 
 var Compiler = require('../plugins/javascript/compiler');
 

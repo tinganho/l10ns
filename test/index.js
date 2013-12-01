@@ -4,4 +4,6 @@
 require('../bin/gt');
 
 require('./update')();
+
+// compilers
 require('./jsCompiler')();

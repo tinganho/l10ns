@@ -10,6 +10,40 @@ module.exports = {
     }
   },
 
+  oldBasicTranslationItem : {
+    'test' : {
+      'vars' : [],
+      'translations' : 'test',
+      'query_translation' : 'It can have',
+      'timestamp': 1361261618370,
+      'id': 'a73dec3930758129dce45293f0cc5083'
+    }
+  },
+
+  basicTranslation : {
+    'en-US' : {
+      'test' : {
+        'vars' : [],
+        'translations' : '',
+        'query_translation' : 'It can have',
+        'timestamp': 1361261618370,
+        'id': 'a73dec3930758129dce45293f0cc5083'
+      }
+    }
+  },
+
+  oldBasicTranslation : {
+    'en-US' : {
+      'test' : {
+        'vars' : [],
+        'translations' : 'test',
+        'query_translation' : 'It can have',
+        'timestamp': 1361261618370,
+        'id': 'a73dec3930758129dce45293f0cc5083'
+      }
+    }
+  },
+
   ifElseConditions : {
     'test' : {
       'vars' : [],
