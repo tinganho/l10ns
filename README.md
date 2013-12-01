@@ -1,4 +1,4 @@
-grunt-contrib-translate [![Build Status](https://circleci.com/gh/tinganho/get-translation.png?869eb32e4d1b89981f74e8772266173a3f6906f0)](https://circleci.com/gh/tinganho/get-translation.png?869eb32e4d1b89981f74e8772266173a3f6906f0)
+grunt-contrib-translate [![Build Status](https://circleci.com/gh/tinganho/get-translation.png?0b6ffa65a021a71d30fa28e57ee07ed2375b40da)](https://circleci.com/gh/tinganho/get-translation.png?0b6ffa65a021a71d30fa28e57ee07ed2375b40da)
 ==============
 Translate dynamic text
 
