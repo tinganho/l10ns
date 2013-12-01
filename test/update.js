@@ -68,17 +68,27 @@ module.exports = function() {
     });
 
     describe('_mergeTranslations', function() {
-      it('should be able to migrate old translations', function(done) {
+      it('should be able to merge source keys with old translations', function(done) {
         var update = new Update();
         update.locales = ['en-US'];
         update.getTranslations = sinon.stub().returns(jsonFixtures.oldBasicTranslation);
         update.mergeUserInputs = function(_newTranslations, oldTranslations, callback) {
           callback(null, _newTranslations);
         };
-        update._mergeTranslations(jsonFixtures.basicTranslationItem, function(err, _newTranslations) {
+        update._mergeTranslations(jsonFixtures.basicSourceUpdateItem, function(err, _newTranslations) {
+          expect(_newTranslations['en-US'].test).to.have.property('id');
+          expect(_newTranslations['en-US'].test).to.have.property('timestamp');
+          expect(_newTranslations['en-US'].test).to.have.property('queryTranslation');
+          expect(_newTranslations['en-US'].test).to.have.property('translations');
           expect(_newTranslations['en-US'].test.translations).to.have.string('test');
           done();
         });
+      });
+    });
+
+    describe('_getDeletedTranslations', function() {
+      it('should be able to return delete translations', function() {
+
       });
     });
   });

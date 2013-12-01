@@ -1,5 +1,12 @@
 module.exports = {
 
+  basicSourceUpdateItem : {
+    'test' : {
+      'vars' : [],
+      'files' : []
+    }
+  },
+
   basicTranslationItem : {
     'test' : {
       'vars' : [],
