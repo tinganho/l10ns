@@ -34,7 +34,8 @@ module.exports = {
         'translations' : '',
         'query_translation' : 'It can have',
         'timestamp': 1361261618370,
-        'id': 'a73dec3930758129dce45293f0cc5083'
+        'id': 'a73dec3930758129dce45293f0cc5083',
+        'files' : ['test.js']
       }
     }
   },
@@ -47,6 +48,19 @@ module.exports = {
         'query_translation' : 'It can have',
         'timestamp': 1361261618370,
         'id': 'a73dec3930758129dce45293f0cc5083'
+      }
+    }
+  },
+
+  deletedBasicTranslation : {
+    'en-US' : {
+      'test1' : {
+        'vars' : [],
+        'translations' : 'test',
+        'query_translation' : 'It can have',
+        'timestamp': 1361261618370,
+        'id': 'a73dec3930758129dce45293f0cc5083',
+        'files' : ['test.js']
       }
     }
   },

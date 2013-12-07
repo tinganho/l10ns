@@ -23,7 +23,7 @@ module.exports = function() {
     describe('_getSourceKeys', function() {
       var fsStub = {
         readFileSync : function() {
-          return 'gt(\'test\');'; 
+          return 'gt(\'test\');';
         }
       };
       var Update = proxyquire('../lib/update', { fs : fsStub }).Update
@@ -47,10 +47,10 @@ module.exports = function() {
             && opts.cwd === localesFolder) {
               return locales;
             }
-          } 
+          }
         };
         var fsStub = {
-          readFileSync : sinon.stub().returns(JSON.stringify(jsonFixtures.basicTranslationItem)) 
+          readFileSync : sinon.stub().returns(JSON.stringify(jsonFixtures.basicTranslationItem))
         };
         var pathStub = {
           join : function() {
@@ -88,7 +88,21 @@ module.exports = function() {
 
     describe('_getDeletedTranslations', function() {
       it('should be able to return delete translations', function() {
+        var update = new Update();
+        update.locales = ['en-US'];
+        var deletedTranslations = update._getDeletedTranslations(jsonFixtures.deletedBasicTranslation, jsonFixtures.oldBasicTranslation);
+        expect(deletedTranslations).to.have.property('test');
+        expect(deletedTranslations.test).to.have.property('en-US');
+      });
+    });
 
+    describe('_getUpdatedFiles', function() {
+      it('should be able to retrieve updated files', function() {
+        var update = new Update();
+        update.defaultLocale = 'en-US';
+        var files = update._getUpdatedFiles(jsonFixtures.deletedBasicTranslation, jsonFixtures.oldBasicTranslation);
+        expect(files).to.have.property('test.js');
+        expect(files['test.js']).to.include('test1');
       });
     });
   });
