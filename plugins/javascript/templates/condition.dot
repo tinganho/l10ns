@@ -10,4 +10,4 @@ Condition string
 
 !-->
 
-{{=it.condition}}({{=it.operand1}} {{=it.operator}} {{=it.operand2}}
+{{=it.condition}}(it.{{=it.operand1}} {{=it.operator}} it.{{=it.operand2}}

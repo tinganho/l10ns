@@ -8,7 +8,7 @@ var out='\''+(it.key)+'\' : '+(it.functionString);return out;
 var out=''+(it.additionalCondition)+' '+(it.operand1)+' '+(it.operator)+' '+(it.operand2);return out;
 };
   tmpl['condition']=function anonymous(it) {
-var out=''+(it.condition)+'('+(it.operand1)+' '+(it.operator)+' '+(it.operand2);return out;
+var out=''+(it.condition)+'(it.'+(it.operand1)+' '+(it.operator)+' it.'+(it.operand2);return out;
 };
   tmpl['conditionBody']=function anonymous(it) {
 var out=') {return \''+(it.string)+'\';}';return out;
