@@ -37,50 +37,27 @@ module.exports = function() {
       expect(translation.test.vars).to.have.length(0);
     });
 
-    describe('getTranslations', function() {
-      it('should be able to return a translation object', function() {
-        var localesFolder = 'localesFolder';
-        var locales = ['en-US', 'zh-CN'];
-        var globStub = {
-          sync : function(path, opts) {
-            if(/\.json/.test(path)
-            && opts.cwd === localesFolder) {
-              return locales;
-            }
-          }
-        };
-        var fsStub = {
-          readFileSync : sinon.stub().returns(JSON.stringify(jsonFixtures.basicTranslationItem))
-        };
-        var pathStub = {
-          join : function() {
-            return 'en-US.json';
-          }
-        };
-        var Update = proxyquire('../lib/update', { glob : globStub, fs : fsStub, path : pathStub }).Update
-        var update = new Update();
-        update.localesFolder = localesFolder;
-        update.locales = locales;
-        var translations = update.getTranslations();
-        expect(translations).to.have.property(locales[0]);
-        expect(translations).to.have.property(locales[1]);
-      });
-    });
-
     describe('_mergeTranslations', function() {
       it('should be able to merge source keys with old translations', function(done) {
+        var fileStub = {
+          localesFolder : cf.localesFolder,
+          readTranslations : sinon.stub().returns(jsonFixtures.oldBasicTranslation)
+        };
+        var File = proxyquire('../lib/update', { file : fileStub }).Update
         var update = new Update();
         update.locales = ['en-US'];
-        update.getTranslations = sinon.stub().returns(jsonFixtures.oldBasicTranslation);
-        update.mergeUserInputs = function(_newTranslations, oldTranslations, callback) {
+        update._mergeUserInputs = function(_newTranslations, oldTranslations, callback) {
           callback(null, _newTranslations);
         };
         update._mergeTranslations(jsonFixtures.basicSourceUpdateItem, function(err, _newTranslations) {
+          expect(_newTranslations['en-US'].test).to.have.property('vars');
           expect(_newTranslations['en-US'].test).to.have.property('id');
           expect(_newTranslations['en-US'].test).to.have.property('timestamp');
-          expect(_newTranslations['en-US'].test).to.have.property('queryTranslation');
-          expect(_newTranslations['en-US'].test).to.have.property('translations');
-          expect(_newTranslations['en-US'].test.translations).to.have.string('test');
+          expect(_newTranslations['en-US'].test).to.have.property('text');
+          expect(_newTranslations['en-US'].test).to.have.property('_new');
+          expect(_newTranslations['en-US'].test).to.have.property('value');
+          expect(_newTranslations['en-US'].test).to.have.property('files');
+          expect(_newTranslations['en-US'].test.text).to.have.string('test');
           done();
         });
       });

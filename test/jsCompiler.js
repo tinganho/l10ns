@@ -50,11 +50,9 @@ module.exports = function() {
     });
 
     it('should get the right translations', function() {
-      var pathStub = {};
-      var Compiler = proxyquire('../plugins/javascript/compiler', { fs : pathStub});
-      pathStub.readFileSync = sinon.stub()
-        .withArgs(path.normalize(cf.localesFolder + '/en-US.json'))
-        .returns('{ "test" : "test" }');
+      var fileStub = {};
+      var Compiler = proxyquire('../plugins/javascript/compiler', { '../../lib/file' : fileStub});
+      fileStub.readTranslations = sinon.stub().returns(fixtures.basicTranslation);
       var compiler = new Compiler();
       var translations = compiler._getTranslations('en-US');
       expect(translations).to.have.property('test');
@@ -89,7 +87,7 @@ module.exports = function() {
     });
 
     describe('_getFunctionBodyString', function() {
-      it('should get a non-translated function body string whenever a key is not translated with if and else', function() {
+      it('should get a non-translated function body string, whenever a key is not translated with if and else', function() {
         var compiler = new Compiler();
         var text = compiler._getFunctionBodyString(fixtures.ifElseConditions, 'test');
         expect(text).to.have.string('if');

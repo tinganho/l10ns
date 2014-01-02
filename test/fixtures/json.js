@@ -7,11 +7,14 @@ module.exports = {
     }
   },
 
+  basicTranslationItemString : '{ "key" : "test",\n"vars" : [],\n"translations" : "",\n"text" : "It can have",\n"timestamp": 1361261618370,"id": "MXejjjx6FyR" }\n\n',
+
   basicTranslationItem : {
     'test' : {
+      'key' : 'test',
       'vars' : [],
-      'translations' : '',
-      'query_translation' : 'It can have',
+      'value' : 'It can have',
+      'text' : 'It can have',
       'timestamp': 1361261618370,
       'id': 'a73dec3930758129dce45293f0cc5083'
     }
@@ -20,8 +23,8 @@ module.exports = {
   oldBasicTranslationItem : {
     'test' : {
       'vars' : [],
-      'translations' : 'test',
-      'query_translation' : 'It can have',
+      'value' : 'test',
+      'text' : 'It can have',
       'timestamp': 1361261618370,
       'id': 'a73dec3930758129dce45293f0cc5083'
     }
@@ -31,8 +34,8 @@ module.exports = {
     'en-US' : {
       'test' : {
         'vars' : [],
-        'translations' : '',
-        'query_translation' : 'It can have',
+        'value' : '',
+        'text' : 'It can have',
         'timestamp': 1361261618370,
         'id': 'a73dec3930758129dce45293f0cc5083',
         'files' : ['test.js']
@@ -43,9 +46,10 @@ module.exports = {
   oldBasicTranslation : {
     'en-US' : {
       'test' : {
+        'key' : 'test',
         'vars' : [],
-        'translations' : 'test',
-        'query_translation' : 'It can have',
+        'value' : 'test',
+        'text' : 'It can have',
         'timestamp': 1361261618370,
         'id': 'a73dec3930758129dce45293f0cc5083'
       }
@@ -56,8 +60,8 @@ module.exports = {
     'en-US' : {
       'test1' : {
         'vars' : [],
-        'translations' : 'test',
-        'query_translation' : 'It can have',
+        'value' : 'test',
+        'text' : 'It can have',
         'timestamp': 1361261618370,
         'id': 'a73dec3930758129dce45293f0cc5083',
         'files' : ['test.js']
@@ -68,7 +72,7 @@ module.exports = {
   ifElseConditions : {
     'test' : {
       'vars' : [],
-      'translations' : [
+      'value' : [
         [
           "if",
           "test1",
@@ -81,7 +85,7 @@ module.exports = {
           "no it can not"
         ]
       ],
-      'query_translation' : 'It can have',
+      'text' : 'It can have',
       'timestamp': 1361261618370,
       'id': 'a73dec3930758129dce45293f0cc5083'
     }
@@ -90,7 +94,7 @@ module.exports = {
   ifElseifElseConditions : {
     'test' : {
       'vars' : [],
-      'translations' : [
+      'value' : [
         [
           "if",
           "test1",
@@ -110,7 +114,7 @@ module.exports = {
           "no it can not"
         ]
       ],
-      'query_translation' : 'It can have',
+      'text' : 'It can have',
       'timestamp': 1361261618370,
       'id': 'a73dec3930758129dce45293f0cc5083'
     }
@@ -119,7 +123,7 @@ module.exports = {
   additionalConditionAnd : {
     'test' : {
       'vars' : [],
-      'translations' : [
+      'value' : [
         [
           "if",
           "test1",
@@ -136,7 +140,7 @@ module.exports = {
           "no it can not"
         ]
       ],
-      'query_translation' : 'It can have',
+      'text' : 'It can have',
       'timestamp': 1361261618370,
       'id': 'a73dec3930758129dce45293f0cc5083'
     }
@@ -145,7 +149,7 @@ module.exports = {
   additionConditionOr : {
     'test' : {
       'vars' : [],
-      'translations' : [
+      'value' : [
         [
           "if",
           "test1",
@@ -162,7 +166,7 @@ module.exports = {
           "no it can not"
         ]
       ],
-      'query_translation' : 'It can have',
+      'text' : 'It can have',
       'timestamp': 1361261618370,
       'id': 'a73dec3930758129dce45293f0cc5083'
     }
@@ -171,7 +175,7 @@ module.exports = {
   multipleAdditionConditions : {
     'test' : {
       'vars' : [],
-      'translations' : [
+      'value' : [
         [
           "if",
           "test1",
@@ -192,7 +196,7 @@ module.exports = {
           "no it can not"
         ]
       ],
-      'query_translation' : 'It can have',
+      'text' : 'It can have',
       'timestamp': 1361261618370,
       'id': 'a73dec3930758129dce45293f0cc5083'
     }

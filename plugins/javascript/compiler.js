@@ -2,7 +2,8 @@ var grunt   = require('grunt')
   , fs      = require('fs')
   , path    = require('path')
   , syntax  = require('./syntax')
-  , tmpl    = require('./templates/build/tmpl');
+  , tmpl    = require('./templates/build/tmpl')
+  , file    = require('../../lib/file');
 
 
 /**
@@ -90,23 +91,23 @@ Compiler.prototype._getWrapper = function() {
 /**
  * Get translations
  *
- * @param {string} locale
+ * @param {String} locale
  *
- * @param {JSONObject}
+ * @param {Object}
  * @private
  */
 
 Compiler.prototype._getTranslations = function(locale) {
-  // We don't use require, beacuse we can stub fs.readFileSync
-  return JSON.parse(fs.readFileSync(path.normalize(cf.localesFolder + '/' + locale + '.json')));
+  var translations = file.readTranslations();
+  return translations[locale];
 };
 
 /**
  * Get translation map
  *
- * @param {locale} string
+ * @param {String} locale
  *
- * @return {string} JS String representation fo translation map
+ * @return {String} JS String representation fo translation map
  * @private
  */
 
@@ -162,25 +163,25 @@ Compiler.prototype._normalizeText = function(text) {
 /**
  * Get function body string
  *
- * @param {TranslationObject} translation
+ * @param {Object} translation
  *
- * @return {string} function body string
+ * @return {String} function body string
  * @private
  */
 
 Compiler.prototype._getFunctionBodyString = function(translations, key) {
   var str = '';
-  if(translations[key].translations.length === 0) {
+  if(translations[key].value.length === 0) {
     str += this._getNonTranslatedFunctionBodyString(this._normalizeText(key));
-  } else if(translations[key].translations[0][0] === pcf.CONDITION_IF) {
+  } else if(translations[key].value[0][0] === pcf.CONDITION_IF) {
     str += this._getConditionsString(
-      translations[key].translations,
+      translations[key].value,
       translations[key].vars
     );
   } else {
     str += this._getNonConditionsFunctionBodyString(
       this._getFormatedTranslatedText(
-        translations[key].translations,
+        translations[key].value,
         translations[key].vars
       )
     );
