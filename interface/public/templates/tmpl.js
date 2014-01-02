@@ -41,13 +41,4 @@ var out='<tr class="translations-edit-row" data-id="'+(it.id)+'"><td class="tran
   tmpl['translationsPage']=function anonymous(it) {
 var out='<nav class="main-menu"><ul ><li class="search-region">'+(it.search)+'</li></ul></nav><div class="page"><div class="search-result-region js-search-result-region"></div><div clasS="locales-pick-region js-locales-pick-region">'+(it.localePick)+'</div><div class="body-region js-body-region">'+(it.translations)+'</div><footer class="footer-region"></footer></div>';return out;
 };
-  tmpl['translationLoading']=function anonymous(it) {
-var out='<div class="translation-loading-frame"><div class="translation-loading-container"><div class="translation-loading-indicator-helper"><i class="translation-loading-indicator"></i></div><span class="translation-loading-text">SAVING...</span></div></div>';return out;
-};
-  tmpl['translationValues']=function anonymous(it) {
-var out='<ul class="translation-values"><li class="translation-header">TRANSLATION</li><li class="translation-form"><form class="js-translation-value-form"><div class="translation-input-helper"><input class="translation-input js-translation-input"type="text"value="';if(it.type === 'simple'){out+=(it.value.value||'').toString().encodeHTML();}out+='"></input></div><div class="translation-button-container"><div class="js-translation-else white-button"><a>ELSE</a></div><input class="translation-save js-translation-save form-submit" type="submit" value="SAVE"></input></div></form></li></ul>';return out;
-};
-  tmpl['translationVars']=function anonymous(it) {
-var out='<ul class="translation-vars"><li class="translation-header">VARIABLES</li><li class="translation-var"><ul class="translation-vars-vars">';if(it.vars.length != 0){var arr1=it.vars;if(arr1){var value,index=-1,l1=arr1.length-1;while(index<l1){value=arr1[index+=1];out+='<li class="translation-vars-var">'+(value)+'</li>';} } }else{out+='<li class="translation-vars-var">None</li>';}out+='</ul></li></ul>';return out;
-};
 return tmpl;});

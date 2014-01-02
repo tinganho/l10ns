@@ -71,7 +71,7 @@
 
 {
   "key": "It can take && in if statement",
-  "vars": [],
+  "vars": ["test1", "test2"],
   "files": [
     "test/example/example.js"
   ],
@@ -99,7 +99,7 @@
 
 {
   "key": "It can take || in if statement",
-  "vars": [],
+  "vars": ["test1", "test2"],
   "files": [
     "test/example/example.js"
   ],
@@ -127,7 +127,7 @@
 
 {
   "key": "It can take several && in if statement",
-  "vars": [],
+  "vars": ["test1", "test2", "test3"],
   "files": [
     "test/example/example.js"
   ],
@@ -159,7 +159,7 @@
 
 {
   "key": "It can take several || in if statement",
-  "vars": [],
+  "vars": ["test1", "test2", "test3"],
   "files": [
     "test/example/example.js"
   ],

@@ -33,8 +33,8 @@ module.exports = {
   DEFAULT_PROGAMMING_LANGAUGE : 'javascript',
 
   // Syntaxes
-  SYNTAX_OPERAND         : /^\$?\w+$/,
-  SYNTAX_VARIABLE        : /^$[a-zA-Z0-9]+$/,
+  SYNTAX_OPERAND         : /^(it\.)?\w+$/,
+  SYNTAX_VARIABLE        : /^[a-zA-Z][a-zA-Z0-9]+$/,
   SYNTAX_VARIABLE_MARKUP : /\$\{[a-zA-Z0-9]+\}/g,
 
   // conditions
