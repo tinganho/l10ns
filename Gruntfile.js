@@ -101,7 +101,7 @@ module.exports = function(grunt, gt) {
     },
 
     dot: {
-      dist: {
+      interface: {
         options: {
           variable  : 'tmpl',
           requirejs : true,

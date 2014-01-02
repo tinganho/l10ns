@@ -82,5 +82,29 @@ module.exports = function() {
         expect(files['test.js']).to.include('test1');
       });
     });
+
+    describe('_mergeUserInputs', function() {
+      it('should return newTranslations of there is no deleted translations', function() {
+        var update = new Update();
+        update._mergeUserInputs(jsonFixtures.oldBasicTranslation, jsonFixtures.oldBasicTranslation, function(err, newTranslations) {
+          expect(newTranslations).to.eql(jsonFixtures.oldBasicTranslation);
+        });
+      });
+
+      it('should be able to merge/migrate user inputs', function() {
+        var update = new Update();
+        update.locales = ['en-US'];
+        var deletedKeys = [];
+        sinon.stub(update, '_executeUserInputStream', function(newTranslations, oldTranslations, callback) {
+          callback();
+        });
+        update._mergeUserInputs(jsonFixtures.deletedBasicTranslation, jsonFixtures.oldBasicTranslation, function(err, newTranslations) {
+          expect(update._executeUserInputStream.calledOnce).to.be.true;
+          expect(update.deletedKeys).to.eql(['test']);
+          expect(update.addedKeys).to.eql(['test1']);
+        });
+      });
+    });
+
   });
 };

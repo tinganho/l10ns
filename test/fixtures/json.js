@@ -51,8 +51,20 @@ module.exports = {
         'value' : 'test',
         'text' : 'It can have',
         'timestamp': 1361261618370,
-        'id': 'a73dec3930758129dce45293f0cc5083'
+        'id': 'a73dec3930758129dce45293f0cc5083',
+        'files' : ['test.js']
       }
+    }
+  },
+
+  deletedTranslations : {
+    'test' : {
+      'vars' : [],
+      'value' : 'test',
+      'text' : 'It can have',
+      'timestamp': 1361261618370,
+      'id': 'a73dec3930758129dce45293f0cc5083',
+      'files' : ['test.js']
     }
   },
 
