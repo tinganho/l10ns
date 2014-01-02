@@ -106,5 +106,17 @@ module.exports = function() {
       });
     });
 
+    describe('_pushToUserInputStream', function() {
+      it('should push added keys and deleted keys to update.addedKeys array and update.deletedKeys array', function() {
+        var deletedKey = 'test'
+          , addedKeys = ['test1', 'test2'];
+
+        var update = new Update();
+        update._pushToUserInputStream(deletedKey, addedKeys);
+        expect(update.deletedKeys).to.contain(deletedKey);
+        expect(update.addedKeys).to.eql(addedKeys);
+      });
+    });
+
   });
 };
