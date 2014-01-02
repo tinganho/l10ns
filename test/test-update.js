@@ -169,10 +169,43 @@ module.exports = function() {
     });
 
     describe('_getUserInputKey', function() {
-      it('should be able to ask the right question for the user', function() {
+      it('should be able to handle one to many options', function() {
         var readlineStub = {};
         var Update = proxyquire('../lib/update', { readline : readlineStub }).Update;
+        readlineStub.createInterface = sinon.stub().returns({
+          question : sinon.stub().callsArgWith(1, '1'),
+          on : sinon.spy()
+        });
+        var update = new Update();
+        update._getUserInputKey('key1', ['key2', 'key3'], function(err, migrationKey, deletedKey) {
+          expect(migrationKey).to.equal('key2');
+          expect(deletedKey).to.equal('key1');
+        });
+        expect(update.rl.question.calledOnce).to.be.true;
+        // It should contain two options for migrate
+        expect(update.rl.question.args[0][0]).to.contain('\u001b[36m[1]\u001b[39m - migrate to');
+        expect(update.rl.question.args[0][0]).to.contain('\u001b[36m[2]\u001b[39m - migrate to');
+        expect(update.rl.question.args[0][0]).to.contain('\u001b[36m[d]\u001b[39m - \u001b[31mdelete');
+        expect(update.rl.on.calledOnce).to.be.true;
+      });
 
+      it('should have one delete option', function() {
+        var readlineStub = {};
+        var Update = proxyquire('../lib/update', { readline : readlineStub }).Update;
+        readlineStub.createInterface = sinon.stub().returns({
+          question : sinon.stub().callsArgWith(1, 'd'),
+          on : sinon.spy()
+        });
+        var update = new Update();
+        update._getUserInputKey('key1', ['key2', 'key3'], function(err, migrationKey, deletedKey) {
+          expect(migrationKey).to.equal('DELETE');
+        });
+        expect(update.rl.question.calledOnce).to.be.true;
+        // It should contain two options for migrate
+        expect(update.rl.question.args[0][0]).to.contain('\u001b[36m[1]\u001b[39m - migrate to');
+        expect(update.rl.question.args[0][0]).to.contain('\u001b[36m[2]\u001b[39m - migrate to');
+        expect(update.rl.question.args[0][0]).to.contain('\u001b[36m[d]\u001b[39m - \u001b[31mdelete');
+        expect(update.rl.on.calledOnce).to.be.true;
       });
     });
   });
