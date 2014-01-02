@@ -3,8 +3,8 @@
 // Sets global vars pcf and cf
 require('../bin/gt');
 
-require('./update')();
-require('./file')();
+require('./test-update')();
+require('./test-file')();
 
 // compilers
-require('./jsCompiler')();
+require('./test-js-compiler')();
