@@ -5,9 +5,7 @@ var folderMount = function folderMount(connect, point) {
 };
 
 
-module.exports = function(grunt, gt) {
-
-  var gt = gt || false;
+module.exports = function(grunt) {
 
   'use strict';
 
@@ -168,12 +166,6 @@ module.exports = function(grunt, gt) {
     }
 
   });
-  // Load local tasks.
-  if(gt) {
-    grunt.task.loadTasks('tasks/translate.js'); // Some grunt trick
-  } else {
-    grunt.task.loadTasks('tasks'); // Some grunt trick
-  }
 
 
   // Load npm tasks
