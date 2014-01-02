@@ -71,7 +71,7 @@ module.exports = {
 
   ifElseConditions : {
     'test' : {
-      'vars' : [],
+      'vars' : ["test1"],
       'value' : [
         [
           "if",
@@ -93,7 +93,7 @@ module.exports = {
 
   ifElseifElseConditions : {
     'test' : {
-      'vars' : [],
+      'vars' : ["test1"],
       'value' : [
         [
           "if",
@@ -122,7 +122,7 @@ module.exports = {
 
   additionalConditionAnd : {
     'test' : {
-      'vars' : [],
+      'vars' : ["test1"],
       'value' : [
         [
           "if",
@@ -148,7 +148,7 @@ module.exports = {
 
   additionConditionOr : {
     'test' : {
-      'vars' : [],
+      'vars' : ["test1"],
       'value' : [
         [
           "if",
@@ -174,7 +174,7 @@ module.exports = {
 
   multipleAdditionConditions : {
     'test' : {
-      'vars' : [],
+      'vars' : ["test1"],
       'value' : [
         [
           "if",
