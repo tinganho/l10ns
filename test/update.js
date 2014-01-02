@@ -158,5 +158,14 @@ module.exports = function() {
       });
     });
 
+    describe('_setOldTranslation', function() {
+      it('should be able to set an old translation to new', function() {
+        var update = new Update();
+        update.locales = ['en-US'];
+        var translations = update._setOldTranslation('test', 'test1', jsonFixtures.deletedBasicTranslation, jsonFixtures.oldBasicTranslation);
+        expect(translations['en-US']).to.have.property('test1');
+        expect(translations['en-US']).not.have.property('test');
+      });
+    });
   });
 };
