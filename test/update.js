@@ -118,5 +118,26 @@ module.exports = function() {
       });
     });
 
+    describe('_executeUserInputStream', function() {
+      it('should throw a type error if addedKeys property or deletedKeys property has length 0', function() {
+        var update = new Update();
+        // addedKeys and deletedKeys has [] as default
+        var fn = function() {
+          update._executeUserInputStream(jsonFixtures.deletedBasicTranslation, jsonFixtures.oldBasicTranslation, function() {});
+        }
+        expect(fn).to.throw(TypeError, new RegExp('You can\'t execute user input stream if you have neither deletedKeys nor addedKeys'));
+      });
+
+      it('should throw a type error if addedKeys and deletedKeys have different length', function() {
+        var update = new Update();
+        update.addedKeys = ['key1', 'key2'];
+        update.deletedKeys = ['key3'];
+        var fn = function() {
+          update._executeUserInputStream(jsonFixtures.deletedBasicTranslation, jsonFixtures.oldBasicTranslation, function() {});
+        }
+        expect(fn).to.throw(TypeError, /Deleted keys must have same array length as added keys length/);
+      });
+    });
+
   });
 };
