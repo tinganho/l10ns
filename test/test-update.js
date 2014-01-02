@@ -167,5 +167,13 @@ module.exports = function() {
         expect(translations['en-US']).not.have.property('test');
       });
     });
+
+    describe('_getUserInputKey', function() {
+      it('should be able to ask the right question for the user', function() {
+        var readlineStub = {};
+        var Update = proxyquire('../lib/update', { readline : readlineStub }).Update;
+
+      });
+    });
   });
 };
