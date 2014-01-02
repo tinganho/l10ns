@@ -101,7 +101,7 @@ module.exports = function() {
         update._mergeUserInputs(jsonFixtures.deletedBasicTranslation, jsonFixtures.oldBasicTranslation, function(err, newTranslations) {
           expect(update._executeUserInputStream.calledOnce).to.be.true;
           expect(update.deletedKeys).to.eql(['test']);
-          expect(update.addedKeys).to.eql(['test1']);
+          expect(update.addedKeys).to.eql([['test1']]);
         });
       });
     });
@@ -114,7 +114,7 @@ module.exports = function() {
         var update = new Update();
         update._pushToUserInputStream(deletedKey, addedKeys);
         expect(update.deletedKeys).to.contain(deletedKey);
-        expect(update.addedKeys).to.eql(addedKeys);
+        expect(update.addedKeys).to.eql([addedKeys]);
       });
     });
 
@@ -136,6 +136,25 @@ module.exports = function() {
           update._executeUserInputStream(jsonFixtures.deletedBasicTranslation, jsonFixtures.oldBasicTranslation, function() {});
         }
         expect(fn).to.throw(TypeError, /Deleted keys must have same array length as added keys length/);
+      });
+
+      it('should send the proper addedKeys and proper deletedKeys to _getUserInputKey', function() {
+        var update = new Update();
+        update.addedKeys = [['key1']];
+        update.deletedKeys = ['key3'];
+        sinon.stub(update, '_getUserInputKey', function(deletedKeys, addedKeys, callback) {
+          callback(null, 'key1', ['key3']);
+        });
+        sinon.stub(update, '_setOldTranslation', function(newKey, oldKey, newTranslations, oldTranslations) {
+          return jsonFixtures.deletedBasicTranslation;
+        });
+        update.rl = { close : sinon.spy() };
+        update._executeUserInputStream(jsonFixtures.deletedBasicTranslation, jsonFixtures.oldBasicTranslation, function(err, newKey, oldKey) {
+          expect(update.rl.close.calledOnce).to.be.true;
+          expect(update._setOldTranslation.calledOnce).to.be.true;
+          expect(update._getUserInputKey.args[0][0]).to.equal('key3');
+          expect(update._getUserInputKey.args[0][1]).to.eql(['key1']);
+        });
       });
     });
 
