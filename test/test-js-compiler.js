@@ -58,7 +58,7 @@ module.exports = function() {
       expect(translations).to.have.property('test');
     });
 
-    describe('_normalizeText', function() {
+    describe('#_normalizeText', function() {
       it('should be able to normalize text containing \' to \\\'', function() {
         var compiler = new Compiler();
         var text = compiler._normalizeText('test \'');
@@ -72,7 +72,7 @@ module.exports = function() {
       });
     });
 
-    describe('_getNonTranslatedFunctionBodyString', function() {
+    describe('#_getNonTranslatedFunctionBodyString', function() {
       it('should be able to get a non-condition function body string', function() {
         var compiler = new Compiler();
         var text = compiler._getNonConditionsFunctionBodyString('test');
@@ -86,7 +86,7 @@ module.exports = function() {
       });
     });
 
-    describe('_getFunctionBodyString', function() {
+    describe('#_getFunctionBodyString', function() {
       it('should get a non-translated function body string, whenever a key is not translated with if and else', function() {
         var compiler = new Compiler();
         var text = compiler._getFunctionBodyString(fixtures.ifElseConditions, 'test');
@@ -134,7 +134,7 @@ module.exports = function() {
       });
     });
 
-    describe('_getElseStatementString', function() {
+    describe('#_getElseStatementString', function() {
       it('should be able to get en alse statement string', function() {
         var compiler = new Compiler();
         var text = compiler._getElseStatementString('test');

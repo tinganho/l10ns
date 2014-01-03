@@ -20,7 +20,7 @@ module.exports = function() {
       });
     });
 
-    describe('_getSourceKeys', function() {
+    describe('#_getSourceKeys', function() {
       var fsStub = {
         readFileSync : function() {
           return 'gt(\'test\');';
@@ -37,7 +37,7 @@ module.exports = function() {
       expect(translation.test.vars).to.have.length(0);
     });
 
-    describe('_mergeTranslations', function() {
+    describe('#_mergeTranslations', function() {
       it('should be able to merge source keys with old translations', function(done) {
         var fileStub = {
           localesFolder : cf.localesFolder,
@@ -63,7 +63,7 @@ module.exports = function() {
       });
     });
 
-    describe('_getDeletedTranslations', function() {
+    describe('#_getDeletedTranslations', function() {
       it('should be able to return delete translations', function() {
         var update = new Update();
         update.locales = ['en-US'];
@@ -73,7 +73,7 @@ module.exports = function() {
       });
     });
 
-    describe('_getUpdatedFiles', function() {
+    describe('#_getUpdatedFiles', function() {
       it('should be able to retrieve updated files', function() {
         var update = new Update();
         update.defaultLocale = 'en-US';
@@ -83,7 +83,7 @@ module.exports = function() {
       });
     });
 
-    describe('_mergeUserInputs', function() {
+    describe('#_mergeUserInputs', function() {
       it('should return newTranslations of there is no deleted translations', function() {
         var update = new Update();
         update._mergeUserInputs(jsonFixtures.oldBasicTranslation, jsonFixtures.oldBasicTranslation, function(err, newTranslations) {
@@ -106,7 +106,7 @@ module.exports = function() {
       });
     });
 
-    describe('_pushToUserInputStream', function() {
+    describe('#_pushToUserInputStream', function() {
       it('should push added keys and deleted keys to update.addedKeys array and update.deletedKeys array', function() {
         var deletedKey = 'test'
           , addedKeys = ['test1', 'test2'];
@@ -118,7 +118,7 @@ module.exports = function() {
       });
     });
 
-    describe('_executeUserInputStream', function() {
+    describe('#_executeUserInputStream', function() {
       it('should throw a type error if addedKeys property or deletedKeys property has length 0', function() {
         var update = new Update();
         // addedKeys and deletedKeys has [] as default
@@ -158,7 +158,7 @@ module.exports = function() {
       });
     });
 
-    describe('_setOldTranslation', function() {
+    describe('#_setOldTranslation', function() {
       it('should be able to set an old translation to new', function() {
         var update = new Update();
         update.locales = ['en-US'];
@@ -168,7 +168,7 @@ module.exports = function() {
       });
     });
 
-    describe('_getUserInputKey', function() {
+    describe('#_getUserInputKey', function() {
       it('should be able to handle one to many options', function() {
         var readlineStub = {};
         var Update = proxyquire('../lib/update', { readline : readlineStub }).Update;
