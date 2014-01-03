@@ -22,6 +22,12 @@ module.exports = function() {
         var key = parser.getKey('gt(\'SOME_KEY\')');
         expect(key).to.equal('SOME_KEY');
       });
+
+      it('should get translation key from a function string containing a map of vars', function() {
+        var parser = new Parser();
+        var key = parser.getKey('gt(\'SOME_KEY\')');
+        var key = parser.getKey('gt(\'SOME_KEY\', { test : test})');
+      });
     });
   });
 };
