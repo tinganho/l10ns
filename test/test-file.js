@@ -72,20 +72,6 @@ module.exports = function() {
         expect(fsStub.mkdirSync.args[0][0]).to.equal(localesFolder);
       });
 
-      it('should make a folder for locales storage if it does not exists', function() {
-        var localesFolder = 'test-folder';
-        var fsStub = {
-          existsSync : sinon.stub().withArgs(localesFolder).returns(false),
-          mkdirSync : sinon.spy()
-        };
-        var File = proxyquire('../lib/file', { fs : fsStub }).File;
-        var file = new File();
-        file.localesFolder = localesFolder;
-        file.writeTranslations();
-        expect(fsStub.mkdirSync.calledOnce).to.be.true;
-        expect(fsStub.mkdirSync.args[0][0]).to.equal(localesFolder);
-      });
-
       it('should check if a current locale file exists', function() {
         var localesFolder = 'test-folder';
         var p = localesFolder + '/en-US.locale';
