@@ -106,6 +106,25 @@ module.exports = function() {
         expect(fsStub.existsSync.args[1][0]).to.equal(p);
       });
 
+      it('should append translation(JSON content) to localization file', function() {
+        var localesFolder = 'test-folder';
+        var p = localesFolder + '/en-US.locale';
+        var existsSyncStub = sinon.stub();
+        existsSyncStub.withArgs(localesFolder).returns(true);
+        existsSyncStub.withArgs(p).returns(false);
+        var fsStub = {
+          existsSync : existsSyncStub,
+          appendFileSync : sinon.spy()
+        };
+        var File = proxyquire('../lib/file', { fs : fsStub }).File;
+        var file = new File();
+        file.locales = ['en-US'];
+        file.localesFolder = localesFolder;
+        var obj = { 'en-US': { 'test' : {} } };
+        file.writeTranslations(obj);
+        expect(fsStub.appendFileSync.args[0][0]).to.equal(p);
+        expect(fsStub.appendFileSync.args[0][1]).to.equal(JSON.stringify(obj['en-US']['test']) + '\n\n');
+      });
     });
   });
 };
