@@ -103,6 +103,41 @@ module.exports = function() {
         expect(fsStub.existsSync.args[1][0]).to.equal(p);
       });
 
+      it('should unlink existing locale files', function() {
+        var localesFolder = 'test-folder';
+        var p = localesFolder + '/en-US.locale';
+        var stub = sinon.stub();
+        stub.withArgs(localesFolder).returns(true);
+        stub.withArgs(p).returns(false);
+        var fsStub = {
+          existsSync : stub
+        };
+        var File = proxyquire('../lib/file', { fs : fsStub }).File;
+        var file = new File();
+        file.locales = ['en-US'];
+        file.localesFolder = localesFolder;
+        file.writeTranslations({ 'en-US': {} });
+        expect(fsStub.existsSync.args[1][0]).to.equal(p);
+      });
+
+      it('should write a JSON to the file system', function() {
+        var localesFolder = 'test-folder';
+        var p = localesFolder + '/en-US.locale';
+        var stub = sinon.stub();
+        stub.withArgs(localesFolder).returns(true);
+        stub.withArgs(p).returns(true);
+        var fsStub = {
+          existsSync : stub,
+          unlinkSync : sinon.spy()
+        };
+        var File = proxyquire('../lib/file', { fs : fsStub }).File;
+        var file = new File();
+        file.locales = ['en-US'];
+        file.localesFolder = localesFolder;
+        file.writeTranslations({ 'en-US': {} });
+        expect(fsStub.unlinkSync.calledOnce).to.be.true;
+      });
+
     });
   });
 };
