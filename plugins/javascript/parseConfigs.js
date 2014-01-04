@@ -61,8 +61,9 @@ module.exports = {
   // Example match (double hard brackets mean match):
   //
   // {
-  //   [['test' :]] 'test'
+  //   [['test1' :]] 'test',
+  //   [['test2' :]] 'test',
   // };
   //
-  TRANSLATION_VAR : /\s*(\w+)\s*\:/g
+  TRANSLATION_VAR : /\s*(['|"])?\w+\1?\s*\:/g
 };

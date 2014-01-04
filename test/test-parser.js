@@ -37,13 +37,13 @@ module.exports = function() {
         expect(vars).to.eql([]);
       });
 
-      it('should return an array containing the variable if a variable maps is provided', function() {
+      it('should return an array containing the variable if a variable map is provided', function() {
         var parser = new Parser();
         var vars = parser.getVars('gt(\'SOME_KEY\', { test : \'test\'})');
         expect(vars).to.eql(['test']);
       });
 
-      it('should return empty array if rpeokrpok', function() {
+      it('should return an array of multiple variables if a variable map with multiple variables is provided', function() {
         var parser = new Parser();
         var vars = parser.getVars('gt(\'SOME_KEY\', { test1 : \'test1\',\n \'test2\' : test2 })');
         expect(vars).to.eql(['test1', 'test2']);
