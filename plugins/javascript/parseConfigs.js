@@ -43,7 +43,8 @@ module.exports = {
   // Translation vars regex should capture a match
   // of the whole translation var object literal in
   // the first index of the whole translation function
-  // call string.
+  // call string. It should also match multiline
+  // variable map.
   //
   // Example match (double hard brackets mean match):
   //
@@ -51,7 +52,7 @@ module.exports = {
   //   'test' : 'test'
   // }]]);
   //
-  TRANSLATION_VARS : /(\{\s*?\w*?\s*?\:.*?\s*?\})/g,
+  TRANSLATION_VARS : /(\{(.|\s)*?\})/g,
 
   // Translation var regex should capture a match
   // of one line of the translation var key including
