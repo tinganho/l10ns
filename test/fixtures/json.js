@@ -212,6 +212,29 @@ module.exports = {
       'timestamp': 1361261618370,
       'id': 'a73dec3930758129dce45293f0cc5083'
     }
+  },
+
+  readTranslationJSON : {
+    'en-US' : {
+      'test' : {
+        'key' : 'test',
+        'vars' : [],
+        'value' : 'It can have',
+        'text' : 'It can have',
+        'timestamp': 1361261618370,
+        'id': 'MXejjjx6FyR'
+      }
+    },
+    'zh-CN' : {
+      'test' : {
+        'key' : 'test',
+        'vars' : [],
+        'value' : 'It can have',
+        'text' : 'It can have',
+        'timestamp': 1361261618370,
+        'id': 'MXejjjx6FyR'
+      }
+    }
   }
 
 };
