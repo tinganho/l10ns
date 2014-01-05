@@ -7,7 +7,7 @@ module.exports = {
     }
   },
 
-  basicTranslationItemString : '{ "key" : "test",\n"vars" : [],\n"translations" : "",\n"text" : "It can have",\n"timestamp": 1361261618370,"id": "MXejjjx6FyR" }\n\n',
+  basicTranslationItemString : '{ "key" : "test",\n"vars" : [],\n"value" : "It can have",\n"text" : "It can have",\n"timestamp": 1361261618370,"id": "MXejjjx6FyR" }\n\n',
 
   basicTranslationItem : {
     'test' : {
@@ -16,7 +16,7 @@ module.exports = {
       'value' : 'It can have',
       'text' : 'It can have',
       'timestamp': 1361261618370,
-      'id': 'a73dec3930758129dce45293f0cc5083'
+      'id': 'MXejjjx6FyR'
     }
   },
 

@@ -31,9 +31,7 @@ module.exports = function() {
           readFileSync : sinon.stub().returns(jsonFixtures.basicTranslationItemString)
         };
         var pathStub = {
-          join : function() {
-            return 'en-US.locale';
-          }
+          join : sinon.stub().returns('en-US.locale')
         };
         var File = proxyquire('../lib/file', { glob : globStub, fs : fsStub, path : pathStub }).File
         var file = new File();
@@ -44,7 +42,27 @@ module.exports = function() {
       });
 
       it('should be able to return an translation object containing just one language', function() {
-
+        var localesFolder = cf.localesFolder;
+        var locales = ['en-US'];
+        var globStub = {
+          sync : function(path, opts) {
+            if(/\.locale/.test(path)
+            && opts.cwd === localesFolder) {
+              return locales;
+            }
+          }
+        };
+        var fsStub = {
+          readFileSync : sinon.stub().returns(jsonFixtures.basicTranslationItemString)
+        };
+        var pathStub = {
+          join : sinon.stub().returns('en-US.locale')
+        };
+        var File = proxyquire('../lib/file', { glob : globStub, fs : fsStub, path : pathStub }).File
+        var file = new File();
+        file.localesFolder = cf.localesFolder;
+        file.locales = locales;
+        expect(file.readTranslations('en-US')).to.have.eql(jsonFixtures.basicTranslationItem);
       });
 
       it('should throw an error if first parameter is not a string', function() {
