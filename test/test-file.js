@@ -72,6 +72,44 @@ module.exports = function() {
         };
         expect(fn).to.throw(TypeError, /first parameter must be string or undefined/);
       });
+
+      it('should return an object containing only locale codes that references empty objects if there does not exist any translations', function() {
+        var localesFolder = cf.localesFolder;
+        var locales = ['en-US'];
+        var globStub = {
+          sync : sinon.stub().returns(['en-US.locale'])
+        };
+        var fsStub = {
+          readFileSync : sinon.stub().returns('')
+        };
+        var pathStub = {
+          join : sinon.stub().returns('en-US.locale')
+        };
+        var File = proxyquire('../lib/file', { glob : globStub, fs : fsStub, path : pathStub }).File
+        var file = new File();
+        file.localesFolder = cf.localesFolder;
+        file.locales = locales;
+        expect(file.readTranslations()).to.have.eql({ 'en-US' : {} });
+      });
+
+      it('should return an empty object if there does not exist any translations and one locale code is provided', function() {
+        var localesFolder = cf.localesFolder;
+        var locales = ['en-US'];
+        var globStub = {
+          sync : sinon.stub().returns(['en-US.locale'])
+        };
+        var fsStub = {
+          readFileSync : sinon.stub().returns('')
+        };
+        var pathStub = {
+          join : sinon.stub().returns('en-US.locale')
+        };
+        var File = proxyquire('../lib/file', { glob : globStub, fs : fsStub, path : pathStub }).File
+        var file = new File();
+        file.localesFolder = cf.localesFolder;
+        file.locales = locales;
+        expect(file.readTranslations('en-US')).to.have.eql({});
+      });
     });
 
     describe('#writeTranslations', function() {
