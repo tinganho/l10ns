@@ -16,7 +16,7 @@ var File = require('../lib/file').File;
 module.exports = function() {
   describe('File', function() {
     describe('#readTranslations', function() {
-      it('should be able to return a translation object', function() {
+      it('should be able to return a translation object containing all translations', function() {
         var localesFolder = cf.localesFolder;
         var locales = ['en-US'];
         var globStub = {
@@ -41,6 +41,18 @@ module.exports = function() {
         file.locales = locales;
         var translations = file.readTranslations();
         expect(translations).to.have.property(locales[0]);
+      });
+
+      it('should be able to return an translation object containing just one language', function() {
+
+      });
+
+      it('should throw an error if first parameter is not a string', function() {
+        var file = new File();
+        var fn = function() {
+          file.readTranslations(1);
+        };
+        expect(fn).to.throw(TypeError, /first parameter must be string or undefined/);
       });
     });
 
