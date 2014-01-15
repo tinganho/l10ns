@@ -1,8 +1,13 @@
-var fs      = require('fs')
-  , path    = require('path')
-  , syntax  = require('./syntax')
-  , tmpl    = require('./templates/build/tmpl')
-  , file    = require('../../lib/file');
+
+/**
+ * Module dependencies
+ */
+
+var fs = require('fs')
+  , path = require('path')
+  , syntax = require('./syntax')
+  , tmpl = require('./templates/build/tmpl')
+  , file = require('../../lib/file');
 
 
 /**
