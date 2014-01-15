@@ -3,12 +3,12 @@
  * Module dependencies
  */
 
-var sinon        = require('sinon')
-  , _            = require('underscore')
-  , path         = require('path')
-  , expect       = require('chai').expect
-  , proxyquire   = require('proxyquire')
-  , fixtures     = require('./fixtures/json');
+var sinon = require('sinon')
+  , _ = require('underscore')
+  , path = require('path')
+  , expect = require('chai').expect
+  , proxyquire = require('proxyquire')
+  , fixtures = require('./fixtures/json');
 
 var Log = require('../lib/log').Log;
 
@@ -30,6 +30,14 @@ module.exports = function() {
         log.defaultLocale = 'en-US';
         log._getLatestUpdates();
         expect(fileStub.readTranslations.args[0][0]).to.equal('en-US');
+      });
+
+      it('should set the default locale if no locale is added', function() {
+        var fileStub = { readTranslations : sinon.stub().returns(fixtures.readTranslationJSON['en-US']) };
+        var Log = proxyquire('../lib/log', { './file' : fileStub }).Log;
+        var log = new Log;
+        var translations = log._getLatestUpdates('en-US');
+        expect(translations).to.eql(fixtures.readTranslationJSON['en-US']);
       });
     });
   });

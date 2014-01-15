@@ -1,5 +1,4 @@
-var grunt   = require('grunt')
-  , fs      = require('fs')
+var fs      = require('fs')
   , path    = require('path')
   , syntax  = require('./syntax')
   , tmpl    = require('./templates/build/tmpl')
@@ -9,7 +8,7 @@ var grunt   = require('grunt')
 /**
  * Compiler
  *
- * @constructor
+ * @constructor Compiler
  */
 
 var Compiler = function() {
@@ -48,7 +47,7 @@ var Compiler = function() {
  * Compile task
  *
  * @return {void}
- * @public
+ * @api public
  */
 
 Compiler.prototype.compile = function() {
@@ -68,7 +67,7 @@ Compiler.prototype.compile = function() {
  * Get wrapper for translation content
  *
  * @return {void}
- * @private
+ * @api private
  */
 
 Compiler.prototype._getWrapper = function() {
@@ -94,7 +93,7 @@ Compiler.prototype._getWrapper = function() {
  * @param {String} locale
  *
  * @param {Object}
- * @private
+ * @api private
  */
 
 Compiler.prototype._getTranslations = function(locale) {
@@ -108,7 +107,7 @@ Compiler.prototype._getTranslations = function(locale) {
  * @param {String} locale
  *
  * @return {String} JS String representation fo translation map
- * @private
+ * @api private
  */
 
 Compiler.prototype._getTranslationMap = function(locale) {
@@ -147,8 +146,8 @@ Compiler.prototype._getTranslationMap = function(locale) {
 /**
  * Normalize text, ' should be \'
  *
- * @param {string} text
- * @private
+ * @param {String} text
+ * @api private
  */
 
 Compiler.prototype._normalizeText = function(text) {
@@ -166,7 +165,7 @@ Compiler.prototype._normalizeText = function(text) {
  * @param {Object} translation
  *
  * @return {String} function body string
- * @private
+ * @api private
  */
 
 Compiler.prototype._getFunctionBodyString = function(translations, key) {
@@ -193,10 +192,10 @@ Compiler.prototype._getFunctionBodyString = function(translations, key) {
 /**
  * Get non-conditions function body string
  *
- * @param {string} key
+ * @param {String} key
  *
- * @return {string}
- * @private
+ * @return {String}
+ * @api private
  */
 
 Compiler.prototype._getNonConditionsFunctionBodyString = function(string) {
@@ -208,10 +207,10 @@ Compiler.prototype._getNonConditionsFunctionBodyString = function(string) {
 /**
  * Get non-translated function body string
  *
- * @param {string} key
+ * @param {String} key
  *
- * @return {string}
- * @private
+ * @return {String}
+ * @api private
  */
 
 Compiler.prototype._getNonTranslatedFunctionBodyString = function(key) {
@@ -223,11 +222,11 @@ Compiler.prototype._getNonTranslatedFunctionBodyString = function(key) {
 /**
  * Get conditions string
  *
- * @param {array} conditions
- * @param {array} vars
+ * @param {Array} conditions
+ * @param {Array} vars
  *
- * @return {string}
- * @private
+ * @return {String}
+ * @api private
  */
 
 Compiler.prototype._getConditionsString = function(conditions, vars) {
@@ -248,11 +247,11 @@ Compiler.prototype._getConditionsString = function(conditions, vars) {
 /**
  * Get condition string
  *
- * @param {array} condition
- * @param {array} vars
+ * @param {Array} condition
+ * @param {Array} vars
  *
- * @return {string}
- * @private
+ * @return {String}
+ * @api private
  */
 
 Compiler.prototype._getConditionString = function(conditions, vars) {
@@ -279,8 +278,8 @@ Compiler.prototype._getConditionString = function(conditions, vars) {
  *
  * @param {ConditionArray}
  *
- * @return {string}
- * @private
+ * @return {String}
+ * @api private
  */
 
 Compiler.prototype._getAdditionalConditionString = function(conditions, vars) {
@@ -322,8 +321,8 @@ Compiler.prototype._getAdditionalConditionString = function(conditions, vars) {
 /**
  * Get condition body string
  *
- * @param {string} condition body
- * @private
+ * @param {String} condition body
+ * @api private
  */
 
 Compiler.prototype._getConditionBodyString = function(string) {
@@ -333,8 +332,8 @@ Compiler.prototype._getConditionBodyString = function(string) {
 /**
  * Get else statement string
  *
- * @return {string} else statement
- * @private
+ * @return {String} else statement
+ * @api private
  */
 
 Compiler.prototype._getElseStatementString = function(string) {
@@ -344,11 +343,10 @@ Compiler.prototype._getElseStatementString = function(string) {
 /**
  * Reformats a translation JSON variable to javascript string
  *
- * @param {string} operand
- * @param {array} vars
- *
- * @return {string}
- * @private
+ * @param {String} operand
+ * @param {Array} vars
+ * @return {String}
+ * @api private
  */
 
 Compiler.prototype._getFormatedOperandString = function(operand, vars) {
@@ -367,10 +365,9 @@ Compiler.prototype._getFormatedOperandString = function(operand, vars) {
 /**
  * Get formated translated text
  *
- * @param {string} text
- *
- * @return {string} formated text
- * @private
+ * @param {String} text
+ * @return {String} formated text
+ * @api private
  */
 
 Compiler.prototype._getFormatedTranslatedText = function(text, vars) {

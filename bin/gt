@@ -85,13 +85,16 @@ GLOBAL.lcf = lcf;
  */
 
 if(typeof cf.defaultLocale === 'undefined') {
-  grunt.log.error('You must define defaultLocale in .gt');
+  console.error('You must define defaultLocale in gt.json');
+  process.exit();
 }
 if(typeof cf.locales === 'locales') {
-  grunt.log.error('You must define your locales in ' + cf.folder + '/locales.json');
+  console.error('You must define your locales in ' + cf.folder + '/locales.json');
+  process.exit();
 }
 
-var gt = require('../lib')
+var gt = require('../lib');
+
 program
   .version(pjson.version)
   .option('-l, --locale <locale>', 'specify locale', String, cf.defaultLocale)
@@ -134,7 +137,7 @@ program
   .command('log')
   .description('Get the latest translations')
   .action(function() {
-    gt.log(this.lang);
+    gt.log(this.locale);
   });
 
 program
