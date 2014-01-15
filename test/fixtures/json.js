@@ -235,6 +235,124 @@ module.exports = {
         'id': 'MXejjjx6FyR'
       }
     }
+  },
+
+  readTranslationArray : {
+    'en-US' : [
+      {
+        'key' : 'test',
+        'vars' : [],
+        'value' : 'It can have',
+        'text' : 'It can have',
+        'timestamp': 1361261618370,
+        'id': 'MXejjjx6FyR'
+      }
+    ],
+    'zh-CN' : [
+      {
+        'key' : 'test',
+        'vars' : [],
+        'value' : 'It can have',
+        'text' : 'It can have',
+        'timestamp': 1361261618370,
+        'id': 'MXejjjx6FyR'
+      }
+    ]
+  },
+  readTranslationArray_long : {
+    'en-US' : [
+      {
+        'key' : 'test1',
+        'vars' : [],
+        'value' : 'It can have',
+        'text' : 'It can have',
+        'timestamp': 1361261618370,
+        'id': 'MXejjjx6FyR'
+      },
+      {
+        'key' : 'test2',
+        'vars' : [],
+        'value' : 'It can have',
+        'text' : 'It can have',
+        'timestamp': 1361261618370,
+        'id': 'MXejjjx6FyR'
+      },
+      {
+        'key' : 'test3',
+        'vars' : [],
+        'value' : 'It can have',
+        'text' : 'It can have',
+        'timestamp': 1361261618370,
+        'id': 'MXejjjx6FyR'
+      },
+      {
+        'key' : 'test4',
+        'vars' : [],
+        'value' : 'It can have',
+        'text' : 'It can have',
+        'timestamp': 1361261618370,
+        'id': 'MXejjjx6FyR'
+      },
+      {
+        'key' : 'test5',
+        'vars' : [],
+        'value' : 'It can have',
+        'text' : 'It can have',
+        'timestamp': 1361261618370,
+        'id': 'MXejjjx6FyR'
+      },
+      {
+        'key' : 'test6',
+        'vars' : [],
+        'value' : 'It can have',
+        'text' : 'It can have',
+        'timestamp': 1361261618370,
+        'id': 'MXejjjx6FyR'
+      },
+      {
+        'key' : 'test7',
+        'vars' : [],
+        'value' : 'It can have',
+        'text' : 'It can have',
+        'timestamp': 1361261618370,
+        'id': 'MXejjjx6FyR'
+      },
+      {
+        'key' : 'test8',
+        'vars' : [],
+        'value' : 'It can have',
+        'text' : 'It can have',
+        'timestamp': 1361261618370,
+        'id': 'MXejjjx6FyR'
+      },
+      {
+        'key' : 'test9',
+        'vars' : [],
+        'value' : 'It can have',
+        'text' : 'It can have',
+        'timestamp': 1361261618370,
+        'id': 'MXejjjx6FyR'
+      },
+      {
+        'key' : 'test10',
+        'vars' : [],
+        'value' : 'It can have',
+        'text' : 'It can have',
+        'timestamp': 1361261618370,
+        'id': 'MXejjjx6FyR'
+      }
+
+    ],
+    'zh-CN' : [
+      {
+        'key' : 'test',
+        'vars' : [],
+        'value' : 'It can have',
+        'text' : 'It can have',
+        'timestamp': 1361261618370,
+        'id': 'MXejjjx6FyR'
+      }
+    ]
   }
 
 };

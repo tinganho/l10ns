@@ -60,6 +60,25 @@ module.exports = function() {
         expect(log._log.calledOnce).to.be.true;
         expect(log._log.args[0][0]).to.equal('\nNo translations\n');
       });
+
+      it('should output translation log whenever there is translations', function() {
+        var log = new Log;
+        log._log = sinon.spy();
+        log._getLatestUpdates = sinon.stub().returns(fixtures.readTranslationArray['en-US']);
+        log.defaultLocale = 'en-US';
+        log.outputLog();
+        expect(log._log.args[0][0]).to.contain('\nLatest translations in');
+      });
+
+      it('should output translation log of maxium length equal to ' + cf.LOG_LENGTH, function() {
+        var log = new Log;
+        log._log = sinon.spy();
+        log._getLatestUpdates = sinon.stub().returns(fixtures.readTranslationArray_long['en-US']);
+        log.defaultLocale = 'en-US';
+        log.outputLog();
+        expect(log._log.callCount).to.equal(12);
+        expect(log._log.args[11][0]).to.contain('-10');
+      });
     });
   });
 };
