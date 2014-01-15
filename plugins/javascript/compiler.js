@@ -91,7 +91,6 @@ Compiler.prototype._getWrapper = function() {
  * Get translations
  *
  * @param {String} locale
- *
  * @param {Object}
  * @api private
  */
@@ -105,7 +104,6 @@ Compiler.prototype._getTranslations = function(locale) {
  * Get translation map
  *
  * @param {String} locale
- *
  * @return {String} JS String representation fo translation map
  * @api private
  */
@@ -163,7 +161,6 @@ Compiler.prototype._normalizeText = function(text) {
  * Get function body string
  *
  * @param {Object} translation
- *
  * @return {String} function body string
  * @api private
  */
@@ -193,7 +190,6 @@ Compiler.prototype._getFunctionBodyString = function(translations, key) {
  * Get non-conditions function body string
  *
  * @param {String} key
- *
  * @return {String}
  * @api private
  */
@@ -208,7 +204,6 @@ Compiler.prototype._getNonConditionsFunctionBodyString = function(string) {
  * Get non-translated function body string
  *
  * @param {String} key
- *
  * @return {String}
  * @api private
  */
@@ -224,7 +219,6 @@ Compiler.prototype._getNonTranslatedFunctionBodyString = function(key) {
  *
  * @param {Array} conditions
  * @param {Array} vars
- *
  * @return {String}
  * @api private
  */
@@ -249,7 +243,6 @@ Compiler.prototype._getConditionsString = function(conditions, vars) {
  *
  * @param {Array} condition
  * @param {Array} vars
- *
  * @return {String}
  * @api private
  */
@@ -277,7 +270,6 @@ Compiler.prototype._getConditionString = function(conditions, vars) {
  * Get condition string
  *
  * @param {ConditionArray}
- *
  * @return {String}
  * @api private
  */
