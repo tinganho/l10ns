@@ -5,30 +5,30 @@
  */
 
 var program = require('commander')
-  , grunt   = require('grunt')
-  , findup  = require('findup-sync')
-  , path    = require('path')
-  , open    = require('open')
-  , pjson   = require('../package.json')
-  , _       = require('underscore')
-  , glob    = require('glob')
-  , gtPath  = findup('gt.json')
-  , root    = path.dirname(gtPath)
-  , cf      = require(gtPath)
-  , pcf     = require('../conf/programConfigs');
+  , grunt = require('grunt')
+  , findup = require('findup-sync')
+  , path = require('path')
+  , open = require('open')
+  , pjson = require('../package.json')
+  , _ = require('underscore')
+  , glob = require('glob')
+  , gtPath = findup('gt.json')
+  , root = path.dirname(gtPath)
+  , cf = require(gtPath)
+  , pcf = require('../conf/programConfigs');
 
 /**
  * Set default configs
  */
 
 var defaultConfigs = {
-  folder              : pcf.DEFAULT_FOLDER,
-  requirejs           : pcf.DEFAULT_REQUIREJS,
+  folder : pcf.DEFAULT_FOLDER,
+  requirejs : pcf.DEFAULT_REQUIREJS,
   translationFunction : pcf.DEFAULT_TRANSLATION_FUNCTION,
-  src                 : pcf.DEFAULT_SRC,
-  port                : pcf.DEFAULT_PORT,
-  autoOpen            : pcf.DEFAULT_AUTO_OPEN,
-  root                : root
+  src : pcf.DEFAULT_SRC,
+  port : pcf.DEFAULT_PORT,
+  autoOpen : pcf.DEFAULT_AUTO_OPEN,
+  root : root
 };
 // Merge with programConfigs
 defaultConfigs = _.extend(defaultConfigs, pcf);
@@ -38,9 +38,9 @@ cf = _.defaults(cf, defaultConfigs);
  * Set short-cuts configs
  */
 
-cf.localesFolder       = path.join(cf.root, cf.folder, pcf.LOCALES_FOLDER);
-cf.deleteLog           = cf.folder + pcf.DELETE_LOG_FILE;
-cf.latestSearchFile    = cf.folder + pcf.LATEST_SEARCH_CACHE_FILE;
+cf.localesFolder = path.join(cf.root, cf.folder, pcf.LOCALES_FOLDER);
+cf.deleteLog = cf.folder + pcf.DELETE_LOG_FILE;
+cf.latestSearchFile = cf.folder + pcf.LATEST_SEARCH_CACHE_FILE;
 cf.programmingLanguage = cf.programmingLanguage || pcf.DEFAULT_PROGAMMING_LANGAUGE;
 if(typeof cf.output === 'undefined') {
   cf.output = path.join(cf.folder, pcf.DEFAULT_OUTPUT);
@@ -62,10 +62,10 @@ var src = [], _files, add, removes;
 for(var i = 0; i < cf.src.length; i++) {
   if(cf.src[i].substr(0, 1) !== '!') {
     adds = glob.sync(cf.src[i], { cwd: root });
-    src  = src.concat(adds);
+    src = src.concat(adds);
   } else {
     removes = glob.sync(files[i].substr(1), { cwd: root });
-    src     = src.filter(function(file) {
+    src = src.filter(function(file) {
       return removes.indexOf(file) === -1;
     });
   }
@@ -76,7 +76,7 @@ cf.src = src;
  * Set cf as global.
  */
 
-GLOBAL.cf  = cf;
+GLOBAL.cf = cf;
 GLOBAL.pcf = pcf;
 GLOBAL.lcf = lcf;
 
