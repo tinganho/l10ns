@@ -40,5 +40,26 @@ module.exports = function() {
         expect(translations).to.eql(fixtures.readTranslationJSON['en-US']);
       });
     });
+
+    describe('#outputLog', function() {
+      it('should use the default locale whenever a locale parameter is not provided', function() {
+        var log = new Log;
+        log._log = sinon.spy();
+        log.defaultLocale = 'en-US';
+        log._getLatestUpdates = sinon.stub().returns([]);
+        log.outputLog();
+        expect(log._getLatestUpdates.args[0][0]).to.equal('en-US');
+      });
+
+      it('should output no translation whenever there is no translations', function() {
+        var log = new Log;
+        log._log = sinon.spy();
+        log._getLatestUpdates = sinon.stub().returns([]);
+        log.defaultLocale = 'en-US';
+        log.outputLog();
+        expect(log._log.calledOnce).to.be.true;
+        expect(log._log.args[0][0]).to.equal('\nNo translations\n');
+      });
+    });
   });
 };
