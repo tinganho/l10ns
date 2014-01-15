@@ -3,13 +3,13 @@
  * Module dependencies
  */
 
-var sinon        = require('sinon')
-  , _            = require('underscore')
-  , path         = require('path')
-  , expect       = require('chai').expect
-  , proxyquire   = require('proxyquire')
+var sinon = require('sinon')
+  , _ = require('underscore')
+  , path = require('path')
+  , expect = require('chai').expect
+  , proxyquire = require('proxyquire')
   , jsonFixtures = require('./fixtures/json')
-  , fixtures     = require('./fixtures/update');
+  , fixtures = require('./fixtures/update');
 
 var File = require('../lib/file').File;
 
