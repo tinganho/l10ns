@@ -3,9 +3,9 @@
  * Module dependencies
  */
 
-var sinon      = require('sinon')
-  , path       = require('path')
-  , expect     = require('chai').expect
+var sinon = require('sinon')
+  , path = require('path')
+  , expect = require('chai').expect
   , proxyquire = require('proxyquire')
 
 /**
