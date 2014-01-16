@@ -4,6 +4,7 @@
 require('../bin/gt');
 
 require('./test-update')();
+require('./test-merger')();
 require('./test-log')();
 require('./test-file')();
 require('./test-parser')();
