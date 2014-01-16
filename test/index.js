@@ -7,4 +7,5 @@ require('./test-update')();
 require('./test-log')();
 require('./test-file')();
 require('./test-parser')();
+require('./test-syntax')();
 require('./test-js-compiler')();
