@@ -58,7 +58,8 @@
     "grunt-contrib-watch": "~0.1.4",
     "grunt-contrib-requirejs": "~0.4.0",
     "sinon": "~1.7.3",
-    "proxyquire": "~0.5.1"
+    "proxyquire": "~0.5.1",
+    "jshint-globals": "~0.1.0"
   },
   "keywords": [
     "gruntplugin"

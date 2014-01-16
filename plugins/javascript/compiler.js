@@ -17,7 +17,6 @@ var fs = require('fs')
  */
 
 var Compiler = function() {
-
   if(typeof cf.programmingLanguageOptions !== 'object') {
     throw new TypeError('cf.programmingLanguageOptions is not set');
   }

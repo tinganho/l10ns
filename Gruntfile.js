@@ -1,9 +1,5 @@
 
-
-var folderMount = function folderMount(connect, point) {
-  return connect.static(path.resolve(point));
-};
-
+var jshintGlobals = require('jshint-globals');
 
 module.exports = function(grunt) {
 
@@ -34,24 +30,20 @@ module.exports = function(grunt) {
         expr : true,
         laxcomma : true,
         unused : true,
-        globals: {
+        globals: jshintGlobals({
           lcf : true,
           pcf : true,
           cf : true,
           gt : true,
-          describe : true,
-          it : true,
-          before : true,
-          define : true,
-          Modernizr : true,
-          requirejs : true,
-          alert : true,
-          window : true,
-          opt : true,
-          document : true,
           tmpl : true,
-          $ : true
-        }
+          opt : true,
+          Modernizr : true,
+          jQuery : true,
+          $ : true,
+          requirejs : jshintGlobals.requirejs,
+          mocha : jshintGlobals.mocha,
+          browser : jshintGlobals.browser
+        })
       },
 
       files: [
