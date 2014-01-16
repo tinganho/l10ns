@@ -68,13 +68,13 @@ module.exports = function(grunt) {
     compass: {
       dist: {
         options: {
-          config         : 'app/config.rb',
-          require        : ['susy', 'compass-placeholder', 'compass-retina-sprites', 'toolkit', 'animation'],
-          sassDir        : 'app/conf',
-          cssDir         : 'app/public/styles',
-          debugInfo      : true,
+          config : 'app/config.rb',
+          require : ['susy', 'compass-placeholder', 'compass-retina-sprites', 'toolkit', 'animation'],
+          sassDir : 'app/conf',
+          cssDir : 'app/public/styles',
+          debugInfo : true,
           noLineComments : true,
-          imagesDir      : 'app/public/images'
+          imagesDir : 'app/public/images'
         }
       }
     },
@@ -82,14 +82,14 @@ module.exports = function(grunt) {
     translate: {
       dist: {
         options: {
-          config          : './test/translations',
-          requirejs       : false,
+          config : './test/translations',
+          requirejs : false,
           defaultLanguage : 'en', // grunt-translate use it to update translation.
-          output          : './test/translations/output',
-          src             : ['./test/example/**/*.js'],
+          output : './test/translations/output',
+          src : ['./test/example/**/*.js'],
           interface: {
             autoOpen : false,
-            port     : 3000
+            port : 3000
           }
         }
       }
@@ -106,21 +106,21 @@ module.exports = function(grunt) {
     dot: {
       interface: {
         options: {
-          variable  : 'tmpl',
+          variable : 'tmpl',
           requirejs : true,
-          node      : true
+          node : true
         },
-        src  : ['interface/**/*.dot'],
+        src : ['interface/**/*.dot'],
         dest : 'interface/public/templates/tmpl.js'
       },
 
       jsPlugin : {
         options: {
-          variable  : 'tmpl',
+          variable : 'tmpl',
           requirejs : false,
-          node      : true
+          node : true
         },
-        src  : ['plugins/**/*.{dot,part}'],
+        src : ['plugins/**/*.{dot,part}'],
         dest : 'plugins/javascript/templates/build/tmpl.js'
       }
     },
