@@ -14,7 +14,7 @@ function Syntax() {
  *
  * @param {String} operand
  * @return {Boolean}
- * @public
+ * @api public
  */
 
 Syntax.prototype.stringIsOperand = function(operand) {
@@ -31,7 +31,7 @@ Syntax.prototype.stringIsOperand = function(operand) {
  * @param String operator
  * @param String operand2
  * @return Boolean true
- * @public
+ * @api public
  */
 
 Syntax.prototype.stringIsCondition = function(operand1, operator, operand2) {

@@ -389,4 +389,8 @@ Compiler.prototype._getFormatedTranslatedText = function(text, vars) {
   });
 };
 
+/**
+ * Export instance
+ */
+
 module.exports = Compiler;
