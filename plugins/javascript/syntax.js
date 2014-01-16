@@ -13,7 +13,6 @@ function Syntax() {
  * Check if string is operand
  *
  * @param {String} operand
- *
  * @return {Boolean}
  * @public
  */
@@ -31,7 +30,6 @@ Syntax.prototype.stringIsOperand = function(operand) {
  * @param String operand1
  * @param String operator
  * @param String operand2
- *
  * @return Boolean true
  * @public
  */
@@ -47,5 +45,9 @@ Syntax.prototype.stringIsCondition = function(operand1, operator, operand2) {
   }
   return true;
 };
+
+/**
+ * Export instance
+ */
 
 module.exports = new Syntax();
