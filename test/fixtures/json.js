@@ -218,7 +218,7 @@ module.exports = {
     'en-US' : {
       'test' : {
         'key' : 'test',
-        'vars' : [],
+        'vars' : ['test1', 'test2'],
         'value' : 'It can have',
         'text' : 'It can have',
         'timestamp': 1361261618370,
