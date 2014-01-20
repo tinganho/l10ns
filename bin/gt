@@ -14,7 +14,8 @@ var program = require('commander')
   , gtPath = findup('gt.json')
   , root = path.dirname(gtPath)
   , cf = require(gtPath)
-  , pcf = require('../conf/programConfigs');
+  , pcf = require('../conf/programConfigs')
+  , log = require('../lib/_log');
 
 /**
  * Add terminal colors
@@ -132,7 +133,7 @@ program
   .description('Search translation keys and values')
   .action(function(q) {
     if(typeof q === 'undefined') {
-      console.error('[error]'.red + ' You need to provide a query in your search. E.g. gt search "some query"');
+      log.error('You need to provide a query in your search. E.g. gt search "some query"');
       return false;
     }
     gt.search(q);
