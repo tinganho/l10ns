@@ -5,7 +5,6 @@
  */
 
 var program = require('commander')
-  , grunt = require('grunt')
   , findup = require('findup-sync')
   , path = require('path')
   , open = require('open')
@@ -16,6 +15,12 @@ var program = require('commander')
   , root = path.dirname(gtPath)
   , cf = require(gtPath)
   , pcf = require('../conf/programConfigs');
+
+/**
+ * Add terminal colors
+ */
+
+require('colors');
 
 /**
  * Set default configs
@@ -127,7 +132,7 @@ program
   .description('Search translation keys and values')
   .action(function(q) {
     if(typeof q === 'undefined') {
-      grunt.log.error('You need to provide a query in your search. E.g. gt search "some query"');
+      console.error('[error]'.red + ' You need to provide a query in your search. E.g. gt search "some query"');
       return false;
     }
     gt.search(q);
