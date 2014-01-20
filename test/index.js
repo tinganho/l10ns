@@ -9,6 +9,7 @@ require('./test-log')();
 require('./test-file')();
 require('./test-parser')();
 require('./test-syntax')();
+require('./test-search')();
 
 // Compilers
 require('./test-js-compiler')();
