@@ -20,11 +20,9 @@ module.exports = function() {
       it('should create index and remove default stop word filter', function() {
         var _Search = Search;
         _Search.prototype._createIndex = sinon.spy();
-        _Search.prototype._removeDefaultStopWordFilter = sinon.spy();
         var search = new _Search();
         expect(search._createIndex.calledOnce).to.be.true;
-        expect(search._removeDefaultStopWordFilter.calledOnce).to.be.true;
       });
-    }); 
+    });
   });
 };
