@@ -167,6 +167,13 @@ program
 
   });
 
+program
+  .command('undo')
+  .description('Edit transations')
+  .action(function() {
+
+  });
+
 
 program.parse(process.argv);
 
