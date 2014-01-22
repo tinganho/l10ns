@@ -29,5 +29,13 @@ module.exports = function() {
         expect(res.test.timestamp).to.be.a('number');
       });
     });
+
+    describe('#mergeId', function() {
+
+    });
+
+    describe('#mergeTranslations', function() {
+
+    });
   });
 };
