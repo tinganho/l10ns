@@ -176,9 +176,9 @@ module.exports = function() {
         });
         update.rl.question.should.have.been.calledOnce;
         // It should contain two options for migrate
-        expect(update.rl.question.args[0][0]).to.contain('\u001b[36m[1]\u001b[39m - migrate to');
-        expect(update.rl.question.args[0][0]).to.contain('\u001b[36m[2]\u001b[39m - migrate to');
-        expect(update.rl.question.args[0][0]).to.contain('\u001b[36m[d]\u001b[39m - \u001b[31mdelete');
+        update.rl.question.calledWith('\u001b[36m[1]\u001b[39m - migrate to');
+        update.rl.question.calledWith('\u001b[36m[2]\u001b[39m - migrate to');
+        update.rl.question.calledWith('\u001b[36m[d]\u001b[39m - \u001b[31mdelete');
         update.rl.on.should.have.been.calledOnce;
       });
 
@@ -195,9 +195,9 @@ module.exports = function() {
         });
         update.rl.question.should.have.been.calledOnce;
         // It should contain two options for migrate
-        expect(update.rl.question.args[0][0]).to.contain('\u001b[36m[1]\u001b[39m - migrate to');
-        expect(update.rl.question.args[0][0]).to.contain('\u001b[36m[2]\u001b[39m - migrate to');
-        expect(update.rl.question.args[0][0]).to.contain('\u001b[36m[d]\u001b[39m - \u001b[31mdelete');
+        update.rl.question.calledWith('\u001b[36m[1]\u001b[39m - migrate to');
+        update.rl.question.calledWith('\u001b[36m[2]\u001b[39m - migrate to');
+        update.rl.question.calledWith('\u001b[36m[d]\u001b[39m - \u001b[31mdelete');
         update.rl.on.should.have.been.calledOnce;
       });
     });
