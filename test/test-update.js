@@ -92,7 +92,7 @@ module.exports = function() {
           callback();
         });
         update._mergeUserInputs(jsonFixtures.deletedBasicTranslation, jsonFixtures.oldBasicTranslation, function(err, newTranslations) {
-          expect(update._executeUserInputStream.calledOnce).to.be.true;
+          update._executeUserInputStream.should.have.been.calledOnce;
           expect(update.deletedKeys).to.eql(['test']);
           expect(update.addedKeys).to.eql([['test1']]);
         });
@@ -145,8 +145,8 @@ module.exports = function() {
         update._executeUserInputStream(jsonFixtures.deletedBasicTranslation, jsonFixtures.oldBasicTranslation, function(err, newKey, oldKey) {
           update.rl.close.should.have.been.calledOnce;
           update._setOldTranslation.should.have.been.calledOnce;
-          expect(update._getUserInputKey.args[0][0]).to.equal('key3');
-          expect(update._getUserInputKey.args[0][1]).to.eql(['key1']);
+          update._getUserInputKey.calledWith('key3');
+          update._getUserInputKey.calledWith(['key1']);
         });
       });
     });
