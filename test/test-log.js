@@ -3,14 +3,8 @@
  * Module dependencies
  */
 
-var sinon = require('sinon')
-  , _ = require('underscore')
-  , path = require('path')
-  , expect = require('chai').expect
-  , proxyquire = require('proxyquire')
-  , fixtures = require('./fixtures/json');
-
-var Log = require('../lib/log').Log;
+var fixtures = require('./fixtures/json')
+  , Log = require('../lib/log').Log;
 
 module.exports = function() {
   describe('Log', function() {

@@ -3,14 +3,8 @@
  * Module dependencies
  */
 
-var sinon = require('sinon')
-  , _ = require('underscore')
-  , path = require('path')
-  , expect = require('chai').expect
-  , proxyquire = require('proxyquire')
-  , fixtures = require('./fixtures/json');
-
-var Compiler = require('../plugins/javascript/compiler');
+var fixtures = require('./fixtures/json')
+  , Compiler = require('../plugins/javascript/compiler');
 
 module.exports = function() {
 

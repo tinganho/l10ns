@@ -3,10 +3,7 @@
  * Module dependencies
  */
 
-var sinon = require('sinon')
-  , path = require('path')
-  , expect = require('chai').expect
-  , proxyquire = require('proxyquire')
+var path = require('path');
 
 /**
  * Import Parser constructor

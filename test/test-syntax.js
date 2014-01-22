@@ -3,14 +3,8 @@
  * Module dependencies
  */
 
-var sinon = require('sinon')
-  , _ = require('underscore')
-  , path = require('path')
-  , expect = require('chai').expect
-  , proxyquire = require('proxyquire')
-  , fixtures = require('./fixtures/json');
-
-var Syntax = require('../lib/syntax').Syntax;
+var fixtures = require('./fixtures/json')
+  , Syntax = require('../lib/syntax').Syntax;
 
 module.exports = function() {
   describe('Syntax', function() {

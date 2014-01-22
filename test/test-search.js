@@ -3,10 +3,7 @@
  * Module dependencies
  */
 
-var sinon = require('sinon')
-  , path = require('path')
-  , expect = require('chai').expect
-  , proxyquire = require('proxyquire')
+var path = require('path');
 
 /**
  * Import Parser constructor
@@ -21,7 +18,7 @@ module.exports = function() {
         var _Search = Search;
         _Search.prototype._createIndex = sinon.spy();
         var search = new _Search();
-        expect(search._createIndex.calledOnce).to.be.true;
+        search._createIndex.should.have.been.calledOnce;
       });
     });
   });
