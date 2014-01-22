@@ -10,7 +10,7 @@ module.exports = function(grunt) {
 
     jshint: {
       options: {
-        maxlen : 180,
+        maxlen : 100,
         strict : false,
         curly : false,
         eqeqeq : true,

@@ -18,6 +18,7 @@ module.exports = function() {
         var _Search = Search;
         _Search.prototype._createIndex = sinon.spy();
         var search = new _Search();
+        expect(search.defaultLocale).to.equal(cf.defaultLocale);
         search._createIndex.should.have.been.calledOnce;
       });
     });
