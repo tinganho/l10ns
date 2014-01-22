@@ -38,7 +38,7 @@ module.exports = function() {
         };
         var File = proxyquire('../lib/update', { file : fileStub }).Update
         var update = new Update();
-        update.locales = ['en-US'];
+        update.locales = {'en-US' : 'English'};
         update._mergeUserInputs = function(_newTranslations, oldTranslations, callback) {
           callback(null, _newTranslations);
         };
@@ -59,7 +59,7 @@ module.exports = function() {
     describe('#_getDeletedTranslations', function() {
       it('should be able to return delete translations', function() {
         var update = new Update();
-        update.locales = ['en-US'];
+        update.locales = {'en-US' : 'English'};
         var deletedTranslations = update._getDeletedTranslations(jsonFixtures.deletedBasicTranslation, jsonFixtures.oldBasicTranslation);
         expect(deletedTranslations).to.have.property('test');
         expect(deletedTranslations.test).to.have.property('en-US');
@@ -86,7 +86,7 @@ module.exports = function() {
 
       it('should be able to merge/migrate user inputs', function() {
         var update = new Update();
-        update.locales = ['en-US'];
+        update.locales = {'en-US' : 'English'};;
         var deletedKeys = [];
         sinon.stub(update, '_executeUserInputStream', function(newTranslations, oldTranslations, callback) {
           callback();
@@ -154,7 +154,7 @@ module.exports = function() {
     describe('#_setOldTranslation', function() {
       it('should be able to set an old translation to new', function() {
         var update = new Update();
-        update.locales = ['en-US'];
+        update.locales = {'en-US' : 'English'};
         var translations = update._setOldTranslation('test', 'test1', jsonFixtures.deletedBasicTranslation, jsonFixtures.oldBasicTranslation);
         expect(translations['en-US']).to.have.property('test1');
         expect(translations['en-US']).not.have.property('test');

@@ -107,7 +107,7 @@ module.exports = function() {
 
       it('should return an empty object if there does not exist any translations and one locale code is provided', function() {
         var localesFolder = cf.localesFolder;
-        var locales = ['en-US'];
+        var locales =  { 'en-US' : 'English' };
         var globStub = {
           sync : sinon.stub().returns(['en-US.locale'])
         };
@@ -134,6 +134,7 @@ module.exports = function() {
         };
         var File = proxyquire('../lib/file', { fs : fsStub }).File;
         var file = new File();
+        file.locales = {};
         file.localesFolder = localesFolder;
         file.writeTranslations();
         fsStub.mkdirSync.should.not.have.been.calledOnce;
@@ -147,6 +148,7 @@ module.exports = function() {
         };
         var File = proxyquire('../lib/file', { fs : fsStub }).File;
         var file = new File();
+        file.locales = {};
         file.localesFolder = localesFolder;
         file.writeTranslations();
         fsStub.mkdirSync.should.have.been.calledOnce;
@@ -164,7 +166,7 @@ module.exports = function() {
         };
         var File = proxyquire('../lib/file', { fs : fsStub }).File;
         var file = new File();
-        file.locales = ['en-US'];
+        file.locales =  { 'en-US' : 'English' };
         file.localesFolder = localesFolder;
         file.writeTranslations({ 'en-US': {} });
         fsStub.existsSync.calledWith(p);
@@ -181,7 +183,7 @@ module.exports = function() {
         };
         var File = proxyquire('../lib/file', { fs : fsStub }).File;
         var file = new File();
-        file.locales = ['en-US'];
+        file.locales =  { 'en-US' : 'English' };
         file.localesFolder = localesFolder;
         file.writeTranslations({ 'en-US': {} });
         fsStub.existsSync.calledWith(p);
@@ -199,7 +201,7 @@ module.exports = function() {
         };
         var File = proxyquire('../lib/file', { fs : fsStub }).File;
         var file = new File();
-        file.locales = ['en-US'];
+        file.locales =  { 'en-US' : 'English' };
         file.localesFolder = localesFolder;
         var obj = { 'en-US': { 'test' : {} } };
         file.writeTranslations(obj);
