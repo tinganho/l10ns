@@ -10,7 +10,9 @@ module.exports = function(grunt) {
 
     jshint: {
       options: {
-        curly : true,
+        maxlen : 180,
+        strict : false,
+        curly : false,
         eqeqeq : true,
         loopfunc : true,
         forin : false,
@@ -26,7 +28,6 @@ module.exports = function(grunt) {
         es5 : true,
         supernew : true,
         laxbreak : true,
-        strict : false,
         expr : true,
         laxcomma : true,
         unused : true,
