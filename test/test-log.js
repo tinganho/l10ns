@@ -47,14 +47,14 @@ module.exports = function() {
       });
 
       it('should output no translation whenever there is no translations', function() {
-        var arg = '\nNo translations\n';
+        var arg = 'No translations';
         var logStub = { log : sinon.spy() };
         var Log = proxyquire('../lib/log', { './_log' : logStub }).Log;
         var log = new Log;
         log._getLatestUpdates = sinon.stub().returns([]);
         log.defaultLocale = 'en-US';
         log.outputLog();
-        logStub.log.calledWith(arg);
+        logStub.log.calledWithMatch(arg);
       });
 
       it('should output translation log whenever there is translations', function() {
