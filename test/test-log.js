@@ -43,18 +43,18 @@ module.exports = function() {
         log.defaultLocale = 'en-US';
         log._getLatestUpdates = sinon.stub().returns([]);
         log.outputLog();
-        expect(log._getLatestUpdates.args[0][0]).to.equal('en-US');
+        log._getLatestUpdates.calledWith('en-US');
       });
 
       it('should output no translation whenever there is no translations', function() {
+        var arg = '\nNo translations\n';
         var logStub = { log : sinon.spy() };
         var Log = proxyquire('../lib/log', { './_log' : logStub }).Log;
         var log = new Log;
         log._getLatestUpdates = sinon.stub().returns([]);
         log.defaultLocale = 'en-US';
         log.outputLog();
-        expect(logStub.log.calledOnce).to.be.true;
-        expect(logStub.log.args[0][0]).to.equal('\nNo translations\n');
+        logStub.log.calledWith(arg);
       });
 
       it('should output translation log whenever there is translations', function() {
@@ -64,7 +64,7 @@ module.exports = function() {
         log._getLatestUpdates = sinon.stub().returns(fixtures.readTranslationArray['en-US']);
         log.defaultLocale = 'en-US';
         log.outputLog();
-        expect(logStub.log.args[0][0]).to.contain('\nLatest translations in');
+        logStub.log.calledWithMatch('\nLatest translations in');
       });
 
       it('should output translation log of maxium length equal to ' + cf.LOG_LENGTH, function() {

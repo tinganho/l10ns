@@ -44,8 +44,7 @@ module.exports = function() {
         file._getArrayTranslations = sinon.spy();
         file.localesFolder = cf.localesFolder;
         file.readTranslations();
-        expect(file._getHashMapTranslations.calledOnce).to.be.true;
-        expect(file._getArrayTranslations.called).to.be.false;
+        file._getHashMapTranslations.should.have.been.calledOnce;
       });
 
       it('should be able to return a translation object containing all translations', function() {
@@ -137,7 +136,7 @@ module.exports = function() {
         var file = new File();
         file.localesFolder = localesFolder;
         file.writeTranslations();
-        expect(fsStub.mkdirSync.calledOnce).to.be.false;
+        fsStub.mkdirSync.should.not.have.been.calledOnce;
       });
 
       it('should make a folder for locales storage if it does not exists', function() {
@@ -150,8 +149,8 @@ module.exports = function() {
         var file = new File();
         file.localesFolder = localesFolder;
         file.writeTranslations();
-        expect(fsStub.mkdirSync.calledOnce).to.be.true;
-        expect(fsStub.mkdirSync.args[0][0]).to.equal(localesFolder);
+        fsStub.mkdirSync.should.have.been.calledOnce;
+        fsStub.mkdirSync.should.have.been.calledWith(localesFolder);
       });
 
       it('should check if a current locale file exists', function() {
@@ -168,7 +167,7 @@ module.exports = function() {
         file.locales = ['en-US'];
         file.localesFolder = localesFolder;
         file.writeTranslations({ 'en-US': {} });
-        expect(fsStub.existsSync.args[1][0]).to.equal(p);
+        fsStub.existsSync.calledWith(p);
       });
 
       it('should unlink existing localization files', function() {
@@ -185,7 +184,7 @@ module.exports = function() {
         file.locales = ['en-US'];
         file.localesFolder = localesFolder;
         file.writeTranslations({ 'en-US': {} });
-        expect(fsStub.existsSync.args[1][0]).to.equal(p);
+        fsStub.existsSync.calledWith(p);
       });
 
       it('should append translation(JSON content) to localization file', function() {
@@ -204,8 +203,8 @@ module.exports = function() {
         file.localesFolder = localesFolder;
         var obj = { 'en-US': { 'test' : {} } };
         file.writeTranslations(obj);
-        expect(fsStub.appendFileSync.args[0][0]).to.equal(p);
-        expect(fsStub.appendFileSync.args[0][1]).to.equal(JSON.stringify(obj['en-US']['test']) + '\n\n');
+        fsStub.appendFileSync.calledWith(p);
+        fsStub.appendFileSync.calledWith(JSON.stringify(obj['en-US']['test']) + '\n\n');
       });
     });
   });

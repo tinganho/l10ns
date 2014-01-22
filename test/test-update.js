@@ -143,8 +143,8 @@ module.exports = function() {
         });
         update.rl = { close : sinon.spy() };
         update._executeUserInputStream(jsonFixtures.deletedBasicTranslation, jsonFixtures.oldBasicTranslation, function(err, newKey, oldKey) {
-          expect(update.rl.close.calledOnce).to.be.true;
-          expect(update._setOldTranslation.calledOnce).to.be.true;
+          update.rl.close.should.have.been.calledOnce;
+          update._setOldTranslation.should.have.been.calledOnce;
           expect(update._getUserInputKey.args[0][0]).to.equal('key3');
           expect(update._getUserInputKey.args[0][1]).to.eql(['key1']);
         });
@@ -174,12 +174,12 @@ module.exports = function() {
           expect(migrationKey).to.equal('key2');
           expect(deletedKey).to.equal('key1');
         });
-        expect(update.rl.question.calledOnce).to.be.true;
+        update.rl.question.should.have.been.calledOnce;
         // It should contain two options for migrate
         expect(update.rl.question.args[0][0]).to.contain('\u001b[36m[1]\u001b[39m - migrate to');
         expect(update.rl.question.args[0][0]).to.contain('\u001b[36m[2]\u001b[39m - migrate to');
         expect(update.rl.question.args[0][0]).to.contain('\u001b[36m[d]\u001b[39m - \u001b[31mdelete');
-        expect(update.rl.on.calledOnce).to.be.true;
+        update.rl.on.should.have.been.calledOnce;
       });
 
       it('should have one delete option', function() {
@@ -193,12 +193,12 @@ module.exports = function() {
         update._getUserInputKey('key1', ['key2', 'key3'], function(err, migrationKey, deletedKey) {
           expect(migrationKey).to.equal('DELETE');
         });
-        expect(update.rl.question.calledOnce).to.be.true;
+        update.rl.question.should.have.been.calledOnce;
         // It should contain two options for migrate
         expect(update.rl.question.args[0][0]).to.contain('\u001b[36m[1]\u001b[39m - migrate to');
         expect(update.rl.question.args[0][0]).to.contain('\u001b[36m[2]\u001b[39m - migrate to');
         expect(update.rl.question.args[0][0]).to.contain('\u001b[36m[d]\u001b[39m - \u001b[31mdelete');
-        expect(update.rl.on.calledOnce).to.be.true;
+        update.rl.on.should.have.been.calledOnce;
       });
     });
   });
