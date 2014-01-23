@@ -65,7 +65,36 @@ module.exports = function() {
     });
 
     describe('#mergeTranslations', function() {
+      it('should migrate old translation value', function() {
+        var merger = new Merger();
+        var value = 'wefew';
+        var res = merger.mergeTranslations({ 'test' : {}}, { 'test' : { value : value }}, 'test');
+        expect(res.test.value).to.equal(value);
+      });
 
+      it('should set an empty array as value whenever old translation value doesn\'t exists', function() {
+        var merger = new Merger();
+        var res = merger.mergeTranslations({ 'test' : {}}, { 'test' : {}}, 'test');
+        expect(res.test.value).to.eql([]);
+      });
+
+      it('should set the key as text whenever no old translations exists', function() {
+        var merger = new Merger();
+        var res = merger.mergeTranslations({ 'test' : {}}, { 'test' : {}}, 'test');
+        expect(res.test.text).to.eql('test');
+      });
+
+      it('should set the key as text if old value is an array', function() {
+        var merger = new Merger();
+        var res = merger.mergeTranslations({ 'test' : {}}, { 'test' : { value : []}}, 'test');
+        expect(res.test.text).to.eql('test');
+      });
+
+      it('should set the value as text if old value is of type string', function() {
+        var merger = new Merger();
+        var res = merger.mergeTranslations({ 'test' : {}}, { 'test' : { value : 'string'}}, 'test');
+        expect(res.test.text).to.eql('string');
+      });
     });
   });
 };
