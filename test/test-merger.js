@@ -57,7 +57,7 @@ module.exports = function() {
         expect(res.test._new).to.be.true;
       });
 
-      it('should increase counter everytime we ', function() {
+      it('should increase counter everytime mergeId is called', function() {
         var merger = new Merger();
         merger.mergeId({ 'test' : {}}, { 'test' : {}}, 'test');
         expect(merger.counter).to.be.above(0);
