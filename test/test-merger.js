@@ -41,7 +41,7 @@ module.exports = function() {
       it('should set a new translation id if there doesn\'t exist a old one', function() {
         var merger = new Merger();
         var res = merger.mergeId({ 'test' : {}}, { 'test' : { }}, 'test');
-        expect(res.test.id).to.have.a('string');
+        expect(res.test.id).to.be.a('string');
       });
 
       it('should set property `_new` to false if `id` already exists', function() {
@@ -55,6 +55,12 @@ module.exports = function() {
         var merger = new Merger();
         var res = merger.mergeId({ 'test' : {}}, { 'test' : {}}, 'test');
         expect(res.test._new).to.be.true;
+      });
+
+      it('should increase counter everytime we ', function() {
+        var merger = new Merger();
+        merger.mergeId({ 'test' : {}}, { 'test' : {}}, 'test');
+        expect(merger.counter).to.be.above(0);
       });
     });
 
