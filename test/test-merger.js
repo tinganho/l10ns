@@ -31,7 +31,31 @@ module.exports = function() {
     });
 
     describe('#mergeId', function() {
+      it('should merge old translation `id`', function() {
+        var merger = new Merger();
+        var id = 'iuerhg';
+        var res = merger.mergeId({ 'test' : {}}, { 'test' : { id : id }}, 'test');
+        expect(res.test.id).to.equal(id);
+      });
 
+      it('should set a new translation id if there doesn\'t exist a old one', function() {
+        var merger = new Merger();
+        var res = merger.mergeId({ 'test' : {}}, { 'test' : { }}, 'test');
+        expect(res.test.id).to.have.a('string');
+      });
+
+      it('should set property `_new` to false if `id` already exists', function() {
+        var merger = new Merger();
+        var id = 'iuerhg';
+        var res = merger.mergeId({ 'test' : {}}, { 'test' : { id : id }}, 'test');
+        expect(res.test._new).to.be.false;
+      });
+
+      it('should set property `_new` to true if `id` doesn\'t exists', function() {
+        var merger = new Merger();
+        var res = merger.mergeId({ 'test' : {}}, { 'test' : {}}, 'test');
+        expect(res.test._new).to.be.true;
+      });
     });
 
     describe('#mergeTranslations', function() {
