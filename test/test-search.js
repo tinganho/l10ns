@@ -42,6 +42,11 @@ module.exports = function() {
         expect(search.translations).to.not.be.a('undefined');
       });
 
+      it('should set logLength to global config LOG_LENGTH', function() {
+        var search = new _Search;
+        expect(search.logLength).to.equal(cf.LOG_LENGTH);
+      });
+
       it('should call the EventEmitter constructor', function() {
         var eventsStub = { EventEmitter : sinon.spy() };
         var _Search = proxyquire('../lib/search', { events : eventsStub }).Search
