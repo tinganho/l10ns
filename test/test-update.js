@@ -112,13 +112,13 @@ module.exports = function() {
     });
 
     describe('#_executeUserInputStream', function() {
-      it('should throw a type error if addedKeys property or deletedKeys property has length 0', function() {
+      it('should execute callback if addedKeys property or deletedKeys property has length 0', function() {
         var update = new Update();
         // addedKeys and deletedKeys has [] as default
-        var fn = function() {
-          update._executeUserInputStream(jsonFixtures.deletedBasicTranslation, jsonFixtures.oldBasicTranslation, function() {});
-        }
-        expect(fn).to.throw(TypeError, new RegExp('You can\'t execute user input stream if you have neither deletedKeys nor addedKeys'));
+        var callback = sinon.spy();
+        update._executeUserInputStream(jsonFixtures.deletedBasicTranslation, jsonFixtures.oldBasicTranslation, callback);
+        callback.should.have.been.calledOnce;
+        callback.should.have.been.calledWith(null, jsonFixtures.deletedBasicTranslation);
       });
 
       it('should throw a type error if addedKeys and deletedKeys have different length', function() {
