@@ -74,7 +74,7 @@ module.exports = function() {
         log._getLatestUpdates = sinon.stub().returns(fixtures.readTranslationArray_long['en-US']);
         log.defaultLocale = 'en-US';
         log.outputLog();
-        expect(logStub.log.callCount).to.equal(12);
+        logStub.log.should.have.callCount(12);
         expect(logStub.log.args[11][0]).to.contain('-10');
       });
     });

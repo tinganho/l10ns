@@ -50,3 +50,4 @@
 {"key":"Grunt-translate can have tailing comments with translation vars","vars":["test"],"files":["test/example/example.js"],"value":"yes it can","text":"yes it can","timestamp":1372916804034,"_new":false,"id":"kz7Eqrejsak"}
 {"key":"Grunt-translate can have tailing comments with multi-line translation vars","vars":["test"],"files":["test/example/example.js"],"value":"yes it can","text":"yes it can","timestamp":1372916804034,"_new":false,"id":"5K7rjBqMsMn"}
 {"key":"testbewfajwdesdwefwweefdwewfwfeefsfefddfweddfwwddwdeedxxd","vars":[],"files":["test/example/example.js"],"value":[],"text":"testbewfajwdesdwefwweefdwewfwfeefsfefddfweddfwwddwdeedxxd","timestamp":1385841470089,"_new":false,"id":"a5kxKMqpfBK"}
+{"key":"teswfefewwetbafewewjswdewweeefewfwwefxfwddswdewewddv1234","vars":[],"files":["test/example/example.js"],"value":[],"text":"teswfefewwetbafewewjswdewweeefewfwwefxfwddswdewewddv1234","timestamp":1390527443787,"_new":true,"id":"g5kx79AgSaR"}
