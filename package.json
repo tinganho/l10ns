@@ -47,7 +47,8 @@
     "commander": "~2.0.0",
     "underscore": "~1.5.1",
     "glob": "~3.2.3",
-    "hashids": "~0.1.4"
+    "hashids": "~0.1.4",
+    "terminal-colors": "~0.1.0"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.1.0",
