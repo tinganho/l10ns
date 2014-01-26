@@ -21,7 +21,7 @@ var program = require('commander')
  * Add terminal colors
  */
 
-require('colors');
+require('terminal-colors');
 
 /**
  * Set default configs
