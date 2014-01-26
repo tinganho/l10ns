@@ -47,7 +47,7 @@
     "underscore": "~1.5.2",
     "glob": "~3.2.8",
     "hashids": "~0.1.4",
-    "terminal-colors": "~0.1.0",
+    "terminal-colors": "~0.1.3",
     "sinon-chai": "~2.4.0",
     "grunt-contrib-requirejs": "~0.4.1",
     "proxyquire": "~0.5.2",
