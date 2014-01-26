@@ -68,7 +68,7 @@
     "sinon": "~1.7.3",
     "proxyquire": "~0.5.1",
     "jshint-globals": "~0.1.0",
-    "sinon-chai": "~2.4.0"
+    "sinon-chai": "https://github.com/tinganho/sinon-chai/tarball/master"
   },
   "keywords": [
     "gruntplugin"
