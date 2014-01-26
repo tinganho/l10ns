@@ -356,7 +356,8 @@ Compiler.prototype._getFormatedOperandString = function(operand, vars) {
     // Re-formats all vars
     operand = operand.replace('$', '');
     if(vars.indexOf(operand) === -1) {
-      log.error('You have used an undefined variable ' + operand.red);
+      log.error('You have used an undefined variable ' + operand.red
+      + '.\n Please add the variable or remove the operand from your source.');
       process.exit();
     }
     operand = this.namespace + this.dot + operand;
@@ -381,7 +382,8 @@ Compiler.prototype._getFormatedTranslatedText = function(text, vars) {
   return text.replace(pcf.SYNTAX_VARIABLE_MARKUP, function(match) {
     match = match.substring(2, match.length - 1);
     if(vars.indexOf(match) === -1) {
-      log.error('You have used an undefined variable ' + operand.red);
+      log.error('You have used an undefined variable ' + operand.red
+      + '.\n Please add the variable or remove the operand from your source.');
       process.exit();
     }
     return String.prototype.concat(
