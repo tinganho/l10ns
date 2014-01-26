@@ -137,12 +137,14 @@ module.exports = function() {
       });
     });
 
-    it('should be able to get a translation map', function() {
-      var compiler = new Compiler();
-      compiler.quiet = true;
-      var map = compiler._getTranslationMap('en-US');
-      expect(map).to.have.string('var t = {');
-      expect(map).to.have.string('};');
+    describe('#_getTranslationMap', function() {
+      it('should be able to get a translation map', function() {
+        var compiler = new Compiler();
+        compiler.quiet = true;
+        var map = compiler._getTranslationMap('en-US');
+        expect(map).to.have.string('var t = {');
+        expect(map).to.have.string('};');
+      });
     });
   });
 

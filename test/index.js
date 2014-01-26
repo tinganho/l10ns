@@ -29,6 +29,7 @@ chai.use(sinonChai);
  */
 
 require('./test-update')();
+require('./test-edit')();
 require('./test-merger')();
 require('./test-log')();
 require('./test-file')();

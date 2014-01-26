@@ -7,8 +7,14 @@ var fs = require('fs')
   , path = require('path')
   , syntax = require('./syntax')
   , tmpl = require('./templates/build/tmpl')
-  , file = require('../../lib/file');
+  , file = require('../../lib/file')
+  , log = require('../../lib/_log');
 
+/**
+ * Add terminal colors
+ */
+
+require('terminal-colors');
 
 /**
  * Compiler
@@ -350,7 +356,8 @@ Compiler.prototype._getFormatedOperandString = function(operand, vars) {
     // Re-formats all vars
     operand = operand.replace('$', '');
     if(vars.indexOf(operand) === -1) {
-      throw new TypeError('You have used an undefined variable ' + operand);
+      log.error('You have used an undefined variable ' + operand.red);
+      process.exit();
     }
     operand = this.namespace + this.dot + operand;
   }
@@ -374,7 +381,8 @@ Compiler.prototype._getFormatedTranslatedText = function(text, vars) {
   return text.replace(pcf.SYNTAX_VARIABLE_MARKUP, function(match) {
     match = match.substring(2, match.length - 1);
     if(vars.indexOf(match) === -1) {
-      throw new TypeError('You have used an undefined variable ' + operand);
+      log.error('You have used an undefined variable ' + operand.red);
+      process.exit();
     }
     return String.prototype.concat(
       _this.quote,
