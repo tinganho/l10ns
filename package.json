@@ -55,7 +55,8 @@
     "grunt-contrib-watch": "~0.1.4",
     "mocha": "~1.8.2",
     "q": "~1.0.0",
-    "chai": "~1.8.1"
+    "chai": "~1.8.1",
+    "chai-as-promised": "~4.1.0"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.1.0",
