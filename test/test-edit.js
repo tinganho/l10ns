@@ -9,9 +9,14 @@ var Edit = require('../lib/edit').Edit
 module.exports = function() {
   describe('Edit', function() {
     describe('#contructor', function() {
-      it('should set default locale form global config', function() {
+      it('should set default locale from global config', function() {
         var edit = new Edit;
         expect(edit.defaultLocale).to.equal(cf.defaultLocale);
+      });
+
+      it('should set locales from global config', function() {
+        var edit = new Edit;
+        expect(edit.locales).to.equal(cf.locales);
       });
     });
 
