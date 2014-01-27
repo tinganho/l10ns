@@ -18,7 +18,7 @@ module.exports = function() {
     describe('#_getKey', function() {
       it('should eventually return an error if supplied key is not of type string', function(done) {
         var edit = new Edit;
-        edit._getKey(1).should.be.rejectedWith('r').notify(done);
+        edit._getKey(1).should.be.rejectedWith(/first parameter is not of type string/).notify(done);
       });
 
       it('should get key from latest search if it begins with `@`', function(done) {
@@ -56,7 +56,41 @@ module.exports = function() {
     });
 
     describe('#_getKeyFromLatestSearch', function() {
+      it('should eventually return a key from a search reference of type string', function(done) {
+        var fileStub = { readSearchTranslations : sinon.stub().returns(Q.resolve([{
+          ref : 'test'
+        }]))};
+        var Edit = proxyquire('../lib/Edit', { './file' : fileStub }).Edit;
+        var edit = new Edit;
+        edit._getKeyFromLatestSearch('1').should.eventually.equal('test').notify(done);
+      });
 
+      it('should eventually return a key from a search reference of type number', function(done) {
+        var fileStub = { readSearchTranslations : sinon.stub().returns(Q.resolve([{
+          ref : 'test'
+        }]))};
+        var Edit = proxyquire('../lib/Edit', { './file' : fileStub }).Edit;
+        var edit = new Edit;
+        edit._getKeyFromLatestSearch(1).should.eventually.equal('test').notify(done);
+      });
+
+      it('should reject, if ref is smaller than 1', function(done) {
+        var fileStub = { readSearchTranslations : sinon.stub().returns(Q.resolve([{
+          ref : 'test'
+        }]))};
+        var Edit = proxyquire('../lib/Edit', { './file' : fileStub }).Edit;
+        var edit = new Edit;
+        edit._getKeyFromLatestSearch(0).should.be.rejectedWith(TypeError, /ref is out of index/).notify(done);
+      });
+
+      it('should reject, if ref is bigger than cached search length ', function(done) {
+        var fileStub = { readSearchTranslations : sinon.stub().returns(Q.resolve([{
+          ref : 'test'
+        }]))};
+        var Edit = proxyquire('../lib/Edit', { './file' : fileStub }).Edit;
+        var edit = new Edit;
+        edit._getKeyFromLatestSearch(2).should.be.rejectedWith(TypeError, /ref is out of index/).notify(done);
+      });
     });
   });
 };
