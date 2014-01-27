@@ -92,5 +92,35 @@ module.exports = function() {
         edit._getKeyFromLatestSearch(2).should.be.rejectedWith(TypeError, /ref is out of index/).notify(done);
       });
     });
+
+    describe('#_getKeyFromLatestTranslations', function() {
+      it('should reject if ref is smaller than 1', function(done) {
+        var fileStub = { readTranslations : sinon.stub().returns([]) };
+        var Edit = proxyquire('../lib/Edit', { './file' : fileStub }).Edit;
+        var edit = new Edit;
+        edit._getKeyFromLatestTranslations(0).should.be.rejectedWith(TypeError, /ref is out of index/).notify(done);
+      });
+
+      it('should reject if ref is out of index in translations', function(done) {
+        var fileStub = { readTranslations : sinon.stub().returns([{}, {}]) };
+        var Edit = proxyquire('../lib/Edit', { './file' : fileStub }).Edit;
+        var edit = new Edit;
+        edit._getKeyFromLatestTranslations(-3).should.be.rejectedWith(TypeError, /ref is out of index/).notify(done);
+      });
+
+      it('should reject if ref is out of index in translations', function(done) {
+        var fileStub = { readTranslations : sinon.stub().returns([{}, {}]) };
+        var Edit = proxyquire('../lib/Edit', { './file' : fileStub }).Edit;
+        var edit = new Edit;
+        edit._getKeyFromLatestTranslations(-3).should.be.rejectedWith(TypeError, /ref is out of index/).notify(done);
+      });
+
+      it('should return key', function(done) {
+        var fileStub = { readTranslations : sinon.stub().returns([{ key : 'test' }]) };
+        var Edit = proxyquire('../lib/Edit', { './file' : fileStub }).Edit;
+        var edit = new Edit;
+        edit._getKeyFromLatestTranslations(-1).should.become('test').notify(done);
+      });
+    });
   });
 };
