@@ -11,18 +11,19 @@ require('../bin/gt');
 
 global.sinon = require('sinon');
 global.chai = require('chai');
-global.should = require("chai").should();
-global.expect = require("chai").expect;
+global.should = require('chai').should();
+global.expect = require('chai').expect;
 global.proxyquire = require('proxyquire');
 global.path = require('path');
 
-var sinonChai = require('sinon-chai');
-
 /**
- * Use sinon chai
+ * Plugins
  */
+var sinonChai = require('sinon-chai')
+  , chaiAsPromised = require('chai-as-promised');
 
 chai.use(sinonChai);
+chai.use(chaiAsPromised);
 
 /**
  * Test core
