@@ -48,15 +48,14 @@
     "glob": "~3.2.8",
     "hashids": "~0.1.4",
     "terminal-colors": "~0.1.3",
-    "sinon-chai": "~2.4.0",
     "grunt-contrib-requirejs": "~0.4.1",
     "proxyquire": "~0.5.2",
-    "chai": "~1.4.2",
     "grunt-contrib-jshint": "~0.1.1",
     "grunt-contrib-compass": "~0.1.3",
     "grunt-contrib-watch": "~0.1.4",
     "mocha": "~1.8.2",
-    "q": "~1.0.0"
+    "q": "~1.0.0",
+    "chai": "~1.8.1"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.1.0",

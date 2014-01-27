@@ -11,7 +11,6 @@ require('../bin/gt');
 
 global.sinon = require('sinon');
 global.chai = require('chai');
-global.should = require('chai').should();
 global.expect = require('chai').expect;
 global.proxyquire = require('proxyquire');
 global.path = require('path');
@@ -22,8 +21,9 @@ global.path = require('path');
 var sinonChai = require('sinon-chai')
   , chaiAsPromised = require('chai-as-promised');
 
-chai.use(sinonChai);
+chai.should();
 chai.use(chaiAsPromised);
+chai.use(sinonChai);
 
 /**
  * Test core

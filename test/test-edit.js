@@ -12,10 +12,15 @@ module.exports = function() {
       it('should set default locale form global config', function() {
         var edit = new Edit;
         expect(edit.defaultLocale).to.equal(cf.defaultLocale);
-      }); 
+      });
     });
 
     describe('#_getKey', function() {
+      it('should eventually return an error if supplied key is not of type string', function(done) {
+        var edit = new Edit;
+        edit._getKey(1).should.be.rejectedWith('r').notify(done);
+      });
+
       it('should get key from latest search if it begins with `@`', function(done) {
         var edit = new Edit;
         edit._getKeyFromLatestSearch = sinon.stub().returns(Q.resolve('test'));
@@ -25,7 +30,7 @@ module.exports = function() {
         });
       });
 
-      it('should get formated key whenver ref begins with `@`', function(done) {
+      it('should get formated key whenever ref begins with `@`', function(done) {
         var edit = new Edit;
         edit._getKeyFromLatestSearch = sinon.stub().returns(Q.resolve('test'));
         edit._getKey('@1').then(function(key) {
