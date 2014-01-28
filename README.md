@@ -1,4 +1,4 @@
-get-translation [![Build Status](https://circleci.com/gh/tinganho/get-translation.png?b6ffa65a021a71d30fa28e57ee07ed2375b40da)](https://circleci.com/gh/tinganho/get-translation)
+get-translation [![Build Status](https://circleci.com/gh/tinganho/get-translation.png?0b6ffa65a021a71d30fa28e57ee07ed2375b40da)](https://circleci.com/gh/tinganho/get-translation)
 ==============
 Effective translation workflow. Translate multiple plural forms not just two with ease.
 
