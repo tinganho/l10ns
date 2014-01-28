@@ -78,6 +78,20 @@ module.exports = function() {
           done();
         }, 0);
       });
+
+      it('should show error if get key fails', function(done) {
+        var logStub = { error : sinon.spy() };
+        var Edit = proxyquire('../lib/edit', { './_log' : logStub }).Edit;
+        var edit = new Edit;
+        var err = new TypeError;
+        edit._getKey = sinon.stub().returns(Q.reject(err));
+        edit.edit('test', 'test', 'en-US');
+        setTimeout(function() {
+          logStub.error.should.have.been.calledWith('Couldn\'t edit your translations');
+          logStub.error.should.have.been.calledOnce;
+          done();
+        }, 0);
+      })
     });
 
     describe('#_getKey', function() {
