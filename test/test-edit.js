@@ -47,7 +47,7 @@ module.exports = function() {
       it('should get key from latest translations if it begins with `-`', function(done) {
         var edit = new Edit;
         edit._getKeyFromLatestTranslations = sinon.stub().returns(Q.resolve('test'));
-        edit._getKey('$1').then(function(key) {
+        edit._getKey('%1').then(function(key) {
           edit._getKeyFromLatestTranslations.should.have.been.calledOnce;
           edit._getKeyFromLatestTranslations.should.have.been.calledWith(1);
           done();
