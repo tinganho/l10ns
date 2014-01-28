@@ -73,9 +73,10 @@ module.exports = function() {
         edit._replace = sinon.stub().returns({});
         edit.edit('test', 'test', 'zh-CN');
         setTimeout(function() {
+          logStub.success.should.have.been.calledWithMatch('successfully');
           logStub.success.should.have.been.calledOnce;
           done();
-        }, 0);
+        }, 20);
       });
 
       it('should show error if get key fails', function(done) {
@@ -86,9 +87,10 @@ module.exports = function() {
         edit._getKey = sinon.stub().returns(Q.reject(err));
         edit.edit('test', 'test', 'en-US');
         setTimeout(function() {
+          logStub.error.should.have.been.calledWithMatch('Couldn\'t edit your translations');
           logStub.error.should.have.been.calledOnce;
           done();
-        }, 0);
+        }, 20);
       })
     });
 
