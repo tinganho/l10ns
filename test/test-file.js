@@ -220,6 +220,52 @@ module.exports = function() {
         fsStub.appendFileSync.calledWith(JSON.stringify(obj['en-US']['test']) + '\n\n');
       });
     });
+
+    describe('#readSearchTranslations', function() {
+      it('should read files from cache/latestSearch.json', function() {
+        var deferStub = { promise : null, resolve : sinon.spy(), reject : sinon.spy() };
+        var qStub = { defer : sinon.stub().returns(deferStub) };
+        var fsStub = { readFile : sinon.stub().callsArg(2) };
+        var File = proxyquire('../lib/file', { q : qStub, fs : fsStub }).File;
+        var file = new File;
+        file.readSearchTranslations();
+        expect(fsStub.readFile.args[0][0]).to.contain('cache/latestSearch.json');
+      });
+
+      it('should read files using utf-8', function() {
+        var deferStub = { promise : null, resolve : sinon.spy(), reject : sinon.spy() };
+        var qStub = { defer : sinon.stub().returns(deferStub) };
+        var fsStub = { readFile : sinon.stub().callsArg(2) };
+        var File = proxyquire('../lib/file', { q : qStub, fs : fsStub }).File;
+        var file = new File;
+        file.readSearchTranslations();
+        expect(fsStub.readFile.args[0][1]).to.eql({ encoding : 'utf-8' });
+      });
+
+      it('should reject if an error occur in fs#readFile', function() {
+        var deferStub = { promise : null, resolve : sinon.spy(), reject : sinon.spy() };
+        var qStub = { defer : sinon.stub().returns(deferStub) };
+        var err = new TypeError;
+        var fsStub = { readFile : sinon.stub().callsArgWith(2, err) };
+        var File = proxyquire('../lib/file', { q : qStub, fs : fsStub }).File;
+        var file = new File;
+        file.readSearchTranslations();
+        deferStub.reject.should.have.been.calledOnce;
+        deferStub.reject.should.have.been.calledWith(err);
+      });
+
+      it('should resolve when file content contain valid JSON', function() {
+        var deferStub = { promise : null, resolve : sinon.spy(), reject : sinon.spy() };
+        var qStub = { defer : sinon.stub().returns(deferStub) };
+        var data = JSON.stringify({ 'test' : null });
+        var fsStub = { readFile : sinon.stub().callsArgWith(2, null, data) };
+        var File = proxyquire('../lib/file', { q : qStub, fs : fsStub }).File;
+        var file = new File;
+        file.readSearchTranslations();
+        deferStub.resolve.should.have.been.calledOnce;
+        deferStub.resolve.should.have.been.calledWith(JSON.parse(data));
+      });
+    });
   });
 };
 
