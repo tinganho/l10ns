@@ -129,8 +129,40 @@ module.exports = function() {
     });
 
     describe('#_replace', function() {
-      it('should set the', function() {
+      it('should set the default locale if no locale is specified', function() {
+        var fileStub = { readTranslations : sinon.stub().returns({ 'en-US' : { 'test' : { value : [], text : '' }}}) };
+        var Edit = proxyquire('../lib/edit', { './file' : fileStub }).Edit;
+        var edit = new Edit;
+        var res = edit._replace('test', 'test');
+        expect(res[cf.defaultLocale]['test'].value).to.equal('test');
+        expect(res[cf.defaultLocale]['test'].text).to.equal('test');
+      });
 
+      it('should show an error if locale is not translations', function() {
+        var logStub = { error : sinon.spy() };
+        var fileStub = { readTranslations : sinon.stub().returns({ 'en-US' : { 'test' : { value : [], text : '' }}}) };
+        var Edit = proxyquire('../lib/edit', { './file' : fileStub, './_log' : logStub }).Edit;
+        var edit = new Edit;
+        var res = edit._replace('test', 'test', 'zh-CN');
+        logStub.error.should.have.been.calledWithMatch('is not in current translations');
+      });
+
+      it('should show an error if key is not translations', function() {
+        var logStub = { error : sinon.spy() };
+        var fileStub = { readTranslations : sinon.stub().returns({ 'en-US' : { 'test' : { value : [], text : '' }}}) };
+        var Edit = proxyquire('../lib/edit', { './file' : fileStub, './_log' : logStub }).Edit;
+        var edit = new Edit;
+        var res = edit._replace('test2', 'test', 'en-US');
+        logStub.error.should.have.been.calledWithMatch('is not in current translations');
+      });
+
+      it('should edit value and text', function() {
+        var fileStub = { readTranslations : sinon.stub().returns({ 'en-US' : { 'test' : { value : [], text : '' }}}) };
+        var Edit = proxyquire('../lib/edit', { './file' : fileStub }).Edit;
+        var edit = new Edit;
+        var res = edit._replace('test', 'test');
+        expect(res[cf.defaultLocale]['test'].value).to.equal('test');
+        expect(res[cf.defaultLocale]['test'].text).to.equal('test');
       });
     });
   });
