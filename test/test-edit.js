@@ -47,9 +47,9 @@ module.exports = function() {
       it('should get key from latest translations if it begins with `-`', function(done) {
         var edit = new Edit;
         edit._getKeyFromLatestTranslations = sinon.stub().returns(Q.resolve('test'));
-        edit._getKey('-1').then(function(key) {
+        edit._getKey('$1').then(function(key) {
           edit._getKeyFromLatestTranslations.should.have.been.calledOnce;
-          edit._getKeyFromLatestTranslations.should.have.been.calledWith(-1);
+          edit._getKeyFromLatestTranslations.should.have.been.calledWith(1);
           done();
         });
       });
@@ -121,10 +121,16 @@ module.exports = function() {
       });
 
       it('should return key', function(done) {
-        var fileStub = { readTranslations : sinon.stub().returns([{ key : 'test' }]) };
+        var fileStub = { readTranslations : sinon.stub().returns({ 'en-US' : [{ key : 'test' }] }) };
         var Edit = proxyquire('../lib/edit', { './file' : fileStub }).Edit;
         var edit = new Edit;
-        edit._getKeyFromLatestTranslations(-1).should.become('test').notify(done);
+        edit._getKeyFromLatestTranslations(1).should.become('test').notify(done);
+      });
+    });
+
+    describe('#_replace', function() {
+      it('should set the', function() {
+
       });
     });
   });

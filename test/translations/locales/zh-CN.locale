@@ -50,4 +50,4 @@
 {"key":"Grunt-translate can have tailing comments with translation vars","vars":["test"],"files":["test/example/example.js"],"value":[],"text":"Grunt-translate can have tailing comments with translation vars","timestamp":1390375457465,"_new":false,"id":"a5kxKMqpI7y"}
 {"key":"Grunt-translate can have tailing comments with multi-line translation vars","vars":["test"],"files":["test/example/example.js"],"value":[],"text":"Grunt-translate can have tailing comments with multi-line translation vars","timestamp":1390375457465,"_new":false,"id":"5K7rjBqMh6X"}
 {"key":"wef","vars":[],"files":["test/example/example.js"],"value":[],"text":"wef","timestamp":1390715987509,"_new":false,"id":"B5jMjzzgHRp"}
-{"key":"efwedwefdefddwedwedewefdwfew","vars":[],"files":["test/example/example.js"],"value":[],"text":"efwedwefdefddwedwedewefdwfew","timestamp":1390744053898,"_new":false,"id":"E5db45yatXz"}
+{"key":"efwedwefdefddqwdedwwedwecdsdewefdwfew","vars":[],"files":["test/example/example.js"],"value":[],"text":"efwedwefdefddqwdedwwedwecdsdewefdwfew","timestamp":1390869223315,"_new":true,"id":"MXepjypEtyR"}

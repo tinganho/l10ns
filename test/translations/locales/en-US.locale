@@ -50,4 +50,4 @@
 {"key":"Grunt-translate can have tailing comments with translation vars","vars":["test"],"files":["test/example/example.js"],"value":"yes it can","text":"yes it can","timestamp":1372916804034,"_new":false,"id":"kz7Eqrejsak"}
 {"key":"Grunt-translate can have tailing comments with multi-line translation vars","vars":["test"],"files":["test/example/example.js"],"value":"yes it can","text":"yes it can","timestamp":1372916804034,"_new":false,"id":"5K7rjBqMsMn"}
 {"key":"wef","vars":[],"files":["test/example/example.js"],"value":[],"text":"wef","timestamp":1390715987508,"_new":false,"id":"g5kxkzzXHaK"}
-{"key":"efwedwefdefddwedwedewefdwfew","vars":[],"files":["test/example/example.js"],"value":"eowifjofijfie","text":"efwedwefdefddwedwedewefdwfew","timestamp":1390744053896,"_new":false,"id":"zdkBGdreIEq"}
+{"key":"efwedwefdefddqwdedwwedwecdsdewefdwfew","vars":[],"files":["test/example/example.js"],"value":[],"text":"efwedwefdefddqwdedwwedwecdsdewefdwfew","timestamp":1390869223314,"_new":true,"id":"A5dXaGX6Fp9"}
