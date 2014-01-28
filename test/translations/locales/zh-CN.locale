@@ -1,5 +1,5 @@
-{"key":"It can have __","vars":[],"files":["test/example/example.js"],"value":[],"text":"It can have __","timestamp":1390881992190,"_new":false,"id":"g5kLRRA9FnB"}
 {"key":"It can have an if and else statement","vars":["test"],"files":["test/example/example.js"],"value":[],"text":"It can have an if and else statement","timestamp":1390881992190,"_new":false,"id":"Ln5d99GBHpB"}
+{"key":"It can have an if and else if and else statements","vars":["test"],"files":["test/example/example.js"],"value":[],"text":"It can have an if and else if and else statements","timestamp":1390881992190,"_new":false,"id":"e5kLRRA9faA"}
 {"key":"It can have only one string","vars":["test"],"files":["test/example/example.js"],"value":[],"text":"It can have only one string","timestamp":1390881992190,"_new":false,"id":"4q9nMMzAs8B"}
 {"key":"It can take && in if statement","vars":["test1","test2"],"files":["test/example/example.js"],"value":[],"text":"It can take && in if statement","timestamp":1390881992190,"_new":false,"id":"qKgnbbRXSry"}
 {"key":"It can take || in if statement","vars":["test1","test2"],"files":["test/example/example.js"],"value":[],"text":"It can take || in if statement","timestamp":1390881992190,"_new":false,"id":"9eGnMM8AF9d"}
@@ -24,7 +24,7 @@
 {"key":"It can have ::","vars":[],"files":["test/example/example.js"],"value":[],"text":"It can have ::","timestamp":1390881992190,"_new":false,"id":"e5kLRRA9fno"}
 {"key":"It can have ;;","vars":[],"files":["test/example/example.js"],"value":[],"text":"It can have ;;","timestamp":1390881992190,"_new":false,"id":"4q9nMMzAsEo"}
 {"key":"It can have ’’","vars":[],"files":["test/example/example.js"],"value":[],"text":"It can have ’’","timestamp":1390881992190,"_new":false,"id":"qKgnbbRXS5B"}
-{"key":"It can have an if and else if and else statements","vars":["test"],"files":["test/example/example.js"],"value":[],"text":"It can have an if and else if and else statements","timestamp":1390881992190,"_new":false,"id":"e5kLRRA9faA"}
+{"key":"It can have __","vars":[],"files":["test/example/example.js"],"value":[],"text":"It can have __","timestamp":1390881992190,"_new":false,"id":"g5kLRRA9FnB"}
 {"key":"It can have &&","vars":[],"files":["test/example/example.js"],"value":[],"text":"It can have &&","timestamp":1390881992190,"_new":false,"id":"KXdb44eBhEg"}
 {"key":"It can have %%","vars":[],"files":["test/example/example.js"],"value":[],"text":"It can have %%","timestamp":1390881992190,"_new":false,"id":"64qnMMzAUEd"}
 {"key":"It can have $$","vars":[],"files":["test/example/example.js"],"value":[],"text":"It can have $$","timestamp":1390881992190,"_new":false,"id":"GRjALLqoIoq"}

@@ -75,7 +75,7 @@ module.exports = function() {
         log.defaultLocale = 'en-US';
         log.outputLog();
         logStub.log.should.have.callCount(10);
-        expect(logStub.log.args[9][0]).to.contain('$10');
+        expect(logStub.log.args[9][0]).to.contain('%10');
       });
     });
   });

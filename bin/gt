@@ -104,7 +104,6 @@ var gt = require('../lib');
 program
   .version(pjson.version)
   .option('-l, --locale <locale>', 'specify locale', String, cf.defaultLocale)
-  .option('-v, --value <value>', 'specify value', String)
   .option('-ls, --locales <locales>', 'specify locales', String, cf.defaultLocales)
   .option('-p, --port <port>', 'specify the port [\'' + cf.port + '\']', Number, cf.port)
   .option('-f, --folder <folder>', 'specify folder', String, cf.folder)
@@ -162,10 +161,10 @@ program
   });
 
 program
-  .command('edit [ref]')
+  .command('edit [ref] [value]')
   .description('Edit transations')
-  .action(function(ref) {
-    gt.edit(ref, this.value, this.locale);
+  .action(function(ref, value) {
+    gt.edit(ref, value, this.locale);
   });
 
 program.parse(process.argv);
