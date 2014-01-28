@@ -140,6 +140,17 @@ module.exports = function() {
         fsStub.mkdirSync.should.not.have.been.calledOnce;
       });
 
+      it('should sort map to array', function() {
+        var file = new File();
+        file.locales = {};
+        file._sortMaptoArray = sinon.spy();
+        file.localesFolder = cf.localesFolder;
+        var newTranslations = { 'test' : {}};
+        file.writeTranslations(newTranslations);
+        file._sortMaptoArray.should.have.been.calledOnce;
+        file._sortMaptoArray.should.have.been.calledWith(newTranslations);
+      });
+
       it('should make a folder for locales storage if it does not exists', function() {
         var localesFolder = 'test-folder';
         var fsStub = {
