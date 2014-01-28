@@ -20,6 +20,66 @@ module.exports = function() {
       });
     });
 
+    describe('#edit', function() {
+      it('should show an error if first parameter is not of type string', function() {
+        var logStub = { error : sinon.spy() };
+        var Edit = proxyquire('../lib/edit', { './_log' : logStub }).Edit;
+        var edit = new Edit;
+        edit.edit(1);
+        logStub.error.should.have.been.calledOnce;
+        logStub.error.should.have.been.calledWith('ref must be of type string');
+      });
+
+      it('should show an error if second parameter is not of type string', function() {
+        var logStub = { error : sinon.spy() };
+        var Edit = proxyquire('../lib/edit', { './_log' : logStub }).Edit;
+        var edit = new Edit;
+        edit.edit('test', 1);
+        logStub.error.should.have.been.calledOnce;
+        logStub.error.should.have.been.calledWith('value must be of type string');
+      });
+
+      it('should show an error if third parameter locale is not in global config', function() {
+        var logStub = { error : sinon.spy() };
+        var Edit = proxyquire('../lib/edit', { './_log' : logStub }).Edit;
+        var edit = new Edit;
+        edit.locales = { 'en-US' : 'English' };
+        edit.edit('test', 'wef', 'zh-CN');
+        logStub.error.should.have.been.calledOnce;
+        logStub.error.should.have.been.calledWith('locale is not defined');
+      });
+
+      it('should write the translaton on edit', function(done) {
+        var logStub = { success : sinon.spy() };
+        var fileStub = { writeTranslations : sinon.stub().callsArg(1) };
+        var Edit = proxyquire('../lib/edit', {  './file' : fileStub, './_log' : logStub }).Edit;
+        var edit = new Edit;
+        edit._getKey = sinon.stub().returns(Q.resolve('tewefwst'));
+        edit._replace = sinon.stub().returns({});
+        edit.edit('test', 'test', 'zh-CN');
+        setTimeout(function() {
+          expect(fileStub.writeTranslations.args[0][0]).to.eql({});
+          fileStub.writeTranslations.should.have.been.calledOnce;
+          done();
+        }, 0);
+      });
+
+      it('should show succes text', function(done) {
+        var logStub = { success : sinon.spy() };
+        var fileStub = { writeTranslations : sinon.stub().callsArg(1) };
+        var Edit = proxyquire('../lib/edit', {  './file' : fileStub, './_log' : logStub }).Edit;
+        var edit = new Edit;
+        edit._getKey = sinon.stub().returns(Q.resolve('tewefwst'));
+        edit._replace = sinon.stub().returns({});
+        edit.edit('test', 'test', 'zh-CN');
+        setTimeout(function() {
+          logStub.success.should.have.been.calledWithMatch('successfully');
+          logStub.success.should.have.been.calledOnce;
+          done();
+        }, 0);
+      });
+    });
+
     describe('#_getKey', function() {
       it('should eventually return an error if supplied key is not of type string', function(done) {
         var edit = new Edit;
