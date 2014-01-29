@@ -117,7 +117,7 @@ program
   .command('init')
   .description('Initialize a new GetTranslation project')
   .action(function() {
-    // No initialize service yet
+    gt.init();
   });
 
 program
