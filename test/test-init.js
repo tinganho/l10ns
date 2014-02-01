@@ -13,9 +13,14 @@ module.exports = function() {
         expect(init.json).to.eql(null);
       });
 
-      it('should set intro property to the one specified in global config', function() {
+      it('should set initIntro property to the one specified in global config', function() {
         var init = new Init;
-        expect(init.intro).to.eql(cf.INTRO);
+        expect(init.initIntro).to.eql(cf.INIT_INTRO);
+      });
+
+      it('should set localesDescription property to the one specified in global config', function() {
+        var init = new Init;
+        expect(init.localesDescription).to.eql(cf.LOCALES_DESCRIPTION);
       });
     });
 
@@ -23,6 +28,7 @@ module.exports = function() {
       it('should output introduction', function() {
         var init = new Init;
         init._outputIntroduction = sinon.spy();
+        init.getLocales = sinon.spy();
         init.init();
         init._outputIntroduction.should.have.been.calledOnce;
       });
@@ -34,8 +40,8 @@ module.exports = function() {
         var arg = { input: process.stdin, output: process.stdout, terminal : false };
         var Init = proxyquire('../lib/init', { readline : readlineStub }).Init;
         var init = new Init;
-        init._createReadlineInterface();
-        readlineStub.createInterface.should.have.been.calledOnce;
+        // Twice because we are exporting an instance too
+        readlineStub.createInterface.should.have.been.calledTwice;
         readlineStub.createInterface.should.have.been.calledWith(arg);
       });
     });
@@ -46,7 +52,7 @@ module.exports = function() {
         var init = new Init;
         init._outputIntroduction();
         process.stdout.write.should.have.been.calledOnce;
-        process.stdout.write.should.have.been.calledWith(cf.INTRO);
+        process.stdout.write.should.have.been.calledWith(cf.INIT_INTRO);
         process.stdout.write.restore();
       });
     });
