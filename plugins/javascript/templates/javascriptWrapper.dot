@@ -7,12 +7,26 @@ Else statement
 
 !-->
 
-{{##def.returnStatement : load('./returnStatement.part'); #}}
+{{##def.function : load('./function.part'); #}}
 
-var {{=it.variable}} = (function() {
+;(function() {
 
   {{=it.translationMap}}
 
-  {{#def.returnStatement}}
+  {{#def.function}}
+
+  if(typeof require === "function" && typeof exports === 'object' && typeof module === 'object') {
+    // NodeJS
+    module.exports = gt;
+  }
+  else if (typeof define === "function" && define.amd) {
+    // AMD
+    define(function () {
+      return gt;
+    });
+  }
+  else {
+    window['{{=it.variable}}''] = gt;
+  }
 
 })();

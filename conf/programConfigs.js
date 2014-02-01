@@ -78,7 +78,9 @@ module.exports = {
 
   DEFAULT_LOCALE_QUESTION : '\nPlease choose your default locale:\n',
 
-  DEFAULT_LOCALE_WRONG_ANSWER : '\nYour option didn\'t match any of the locales you provided\n'.red
+  DEFAULT_LOCALE_WRONG_ANSWER : '\nYour option didn\'t match any of the locales you provided\n'.red,
+
+  PROGRAMMING_LANGUAGUES : ['javascript']
 };
 
 

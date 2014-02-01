@@ -23,15 +23,11 @@ require('terminal-colors');
  */
 
 var Compiler = function() {
-  if(typeof cf.programmingLanguageOptions !== 'object') {
-    throw new TypeError('cf.programmingLanguageOptions is not set');
-  }
   // programming languague options
   // {
   //  node : {boolean},
   //  requirejs : {boolean}
   // }
-  this.opts = cf.programmingLanguageOptions;
   // languague wrapper
   this.wrap = null;
   // default namespace
@@ -81,20 +77,7 @@ Compiler.prototype.compile = function() {
  */
 
 Compiler.prototype._getWrapper = function() {
-  var wrapper;
-  if(this.opts.requirejs && this.opts.node) {
-    wrapper = tmpl.requirejsAndNodejsWrapper;
-  }
-  else if(this.opts.requirejs && !this.opts.node) {
-    wrapper = tmpl.requirejsWrapper;
-  }
-  else if(!this.opts.requirejs && this.opts.node) {
-    wrapper = tmpl.nodejsWrapper;
-  }
-  else {
-    wrapper = tmpl.javascriptWrapper;
-  }
-  return wrapper;
+  return tmpl.javascriptWrapper;
 };
 
 /**

@@ -9,38 +9,12 @@ var fixtures = require('./fixtures/json')
 module.exports = function() {
 
   describe('javascript compiler', function() {
-    it('should use the requireJsAndNodejsWrapper whenever opts.node and opts.requirejs is true', function() {
+    it('should use the javascriptWrapper', function() {
       var compiler = new Compiler();
-      compiler.opts.node = true;
-      compiler.opts.requirejs = true;
       var wrap = compiler._getWrapper();
-      expect(wrap.toString()).to.have.string('require(\\\'amdefine\\\')(module);');
-    });
-
-    it('should use the nodejsWrapper whenever opts.node is true and opts.requirejs is false', function() {
-      var compiler = new Compiler();
-      compiler.opts.node = true;
-      compiler.opts.requirejs = false;
-      var wrap = compiler._getWrapper();
-      expect(wrap.toString()).to.have.string('module.exports');
-    });
-
-    it('should use the requirejsWrapper whenever opts.node is false and opts.requirejs is false', function() {
-      var compiler = new Compiler();
-      compiler.opts.node = false;
-      compiler.opts.requirejs = true;
-      var wrap = compiler._getWrapper();
-      expect(wrap.toString()).to.have.string('define(function() {');
-      expect(wrap.toString()).to.not.have.string('require(\\\'amdefine\\\')(module);');
-    });
-
-    it('should use the javascriptWrapper whenever opts.node and opts.requirejs is false', function() {
-      var compiler = new Compiler();
-      compiler.opts.node = false;
-      compiler.opts.requirejs = false;
-      var wrap = compiler._getWrapper();
-      expect(wrap.toString()).to.have.string('= (function() {');
-      expect(wrap.toString()).to.have.string('})()');
+      expect(wrap.toString()).to.have.string('module.exports = gt;');
+      expect(wrap.toString()).to.have.string('define(function () {return gt;});');
+      expect(wrap.toString()).to.have.string('window[');
     });
 
     it('should get the right translations', function() {

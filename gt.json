@@ -1,10 +1,6 @@
 {
   "folder": "./test/translations",
   "programmingLanguage": "javascript",
-  "programmingLanguageOptions": {
-    "requirejs": true,
-    "node": true
-  },
   "locales": {
     "en-US": "English",
     "zh-CN": "Chinese"
