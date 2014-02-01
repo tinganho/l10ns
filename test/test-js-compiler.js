@@ -9,14 +9,6 @@ var fixtures = require('./fixtures/json')
 module.exports = function() {
 
   describe('javascript compiler', function() {
-    it('should use the javascriptWrapper', function() {
-      var compiler = new Compiler();
-      var wrap = compiler._getWrapper();
-      expect(wrap.toString()).to.have.string('module.exports = gt;');
-      expect(wrap.toString()).to.have.string('define(function () {return gt;});');
-      expect(wrap.toString()).to.have.string('window[');
-    });
-
     it('should get the right translations', function() {
       var fileStub = {};
       var Compiler = proxyquire('../plugins/javascript/compiler', { '../../lib/file' : fileStub});

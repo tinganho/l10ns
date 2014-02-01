@@ -43,8 +43,9 @@ module.exports = function() {
         var arg = { input: process.stdin, output: process.stdout, terminal : false };
         var Init = proxyquire('../lib/init', { readline : readlineStub }).Init;
         var init = new Init;
+        init._createReadlineInterface();
         // Twice because we are exporting an instance too
-        readlineStub.createInterface.should.have.been.calledTwice;
+        readlineStub.createInterface.should.have.been.calledOnce;
         readlineStub.createInterface.should.have.been.calledWith(arg);
       });
     });

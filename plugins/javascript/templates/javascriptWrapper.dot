@@ -16,17 +16,15 @@ Else statement
   {{#def.function}}
 
   if(typeof require === "function" && typeof exports === 'object' && typeof module === 'object') {
-    // NodeJS
     module.exports = gt;
   }
   else if (typeof define === "function" && define.amd) {
-    // AMD
     define(function () {
       return gt;
     });
   }
   else {
-    window['{{=it.variable}}''] = gt;
+    window.{{=it.variable}} = gt;
   }
 
 })();

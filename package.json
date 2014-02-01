@@ -42,7 +42,6 @@
     "lunr": "~0.4.3",
     "requirejs": "~2.1.10",
     "prompt": "~0.2.12",
-    "grunt-dot-compiler": "~0.3.15",
     "commander": "~2.0.0",
     "underscore": "~1.5.2",
     "glob": "~3.2.8",
@@ -60,7 +59,6 @@
     "grunt-contrib-jshint": "~0.1.0",
     "mocha": "~1.8.1",
     "grunt-contrib-compass": "~0.1.0",
-    "grunt-dot-compiler": "~0.3.13",
     "grunt-contrib-watch": "~0.1.4",
     "grunt-contrib-requirejs": "~0.4.0",
     "sinon": "~1.7.3",
@@ -68,7 +66,8 @@
     "jshint-globals": "~0.1.0",
     "sinon-chai": "~2.5.0",
     "chai-as-promised": "~4.1.0",
-    "chai": "~1.8.1"
+    "chai": "~1.8.1",
+    "grunt-dot-compiler": "~0.5.12"
   },
   "keywords": [
     "gruntplugin"

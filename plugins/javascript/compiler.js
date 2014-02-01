@@ -23,11 +23,8 @@ require('terminal-colors');
  */
 
 var Compiler = function() {
-  // programming languague options
-  // {
-  //  node : {boolean},
-  //  requirejs : {boolean}
-  // }
+  // set default translation function
+  this.defaultTranslationFunction = cf.DEFAULT_TRANSLATION_FUNCTION;
   // languague wrapper
   this.wrap = null;
   // default namespace
@@ -44,9 +41,10 @@ var Compiler = function() {
   this.add = ' + ';
   // space
   this.space = ' ';
-
   // Quiet
   this.quiet = lcf.quiet;
+  // Set locales
+  this.locales = cf.locales;
 };
 
 /**
@@ -57,27 +55,13 @@ var Compiler = function() {
  */
 
 Compiler.prototype.compile = function() {
-  if(!this.wrapper) {
-    this.wrap = this._getWrapper();
-  }
-
-  for(locale in cf.locales) {
-    var content = this.wrap({
+  for(locale in this.locales) {
+    var content = tmpl.javascriptWrapper({
+      variable : this.defaultTranslationFunction,
       translationMap : this._getTranslationMap(locale)
     });
     fs.writeFileSync(cf.output + '/' + locale + '.js', content);
   }
-};
-
-/**
- * Get wrapper for translation content
- *
- * @return {void}
- * @api private
- */
-
-Compiler.prototype._getWrapper = function() {
-  return tmpl.javascriptWrapper;
 };
 
 /**
