@@ -82,9 +82,21 @@ module.exports = {
 
   PROGRAMMING_LANGUAGUES : ['js', 'go'],
 
-
   CHOOSE_PROGRAMMING_LANGUAGE_PROMPT : 'Choose one of the following languagues:\n',
-  CHOOSE_PROGRAMMING_LANGUAGE_WRONG_ANSWER : '\nUnrecognized programming language. Please try again'.red + '\n\n'
+  CHOOSE_PROGRAMMING_LANGUAGE_WRONG_ANSWER : '\nUnrecognized programming language. Please try again'.red + '\n\n',
+
+  PROGRAMMING_LANGUAGUE_TO_DEFAULT_SRC_MAP : [
+    'js' : '**/*.js',
+    'go' : '**/*.go'
+  ],
+
+  DEFAULT_CONFIGS : {
+    quiet : false,
+    interface : {
+      autoOpenBrowser: false,
+      port : 3000
+    }
+  }
 };
 
 
