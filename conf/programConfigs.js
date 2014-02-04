@@ -36,7 +36,7 @@ module.exports = {
   TRANSLATION_ID_HASH_SECRET : 'gt',
   TRANSLATION_ID_CHAR_LENGTH : 8,
 
-  DEFAULT_PROGAMMING_LANGAUGE : 'js',
+  DEFAULT_PROGAMMING_LANGUAGE : 'javascript',
 
   // Syntaxes
   SYNTAX_OPERAND         : /^(it\.)?\w+$/,
@@ -69,7 +69,7 @@ module.exports = {
   '\n' +
   '    en-US:English,zh-CN:Chinese\n\n',
 
-  LOCALES_WRONG_ANSWER : '\nUnrecognized string. Please add your locales again'.red + '\n\n',
+  LOCALES_WRONG_ANSWER : '\nUnrecognized string. Please add your locales again.'.red + '\n\n',
 
   LOCALES_SYNTAX : /([\w\-]+:[\(\)\w\-\s]+,?)+/,
 
@@ -78,25 +78,30 @@ module.exports = {
 
   DEFAULT_LOCALE_QUESTION : '\nPlease choose your default locale:\n',
 
-  DEFAULT_LOCALE_WRONG_ANSWER : '\nYour option didn\'t match any of the locales you provided\n'.red,
+  DEFAULT_LOCALE_WRONG_ANSWER : '\nYour option didn\'t match any of the locales you provided.\n'.red,
 
-  PROGRAMMING_LANGUAGUES : ['js', 'go'],
+  PROGRAMMING_LANGUAGUES : ['javascript', 'go'],
 
-  CHOOSE_PROGRAMMING_LANGUAGE_PROMPT : 'Choose one of the following languagues:\n',
-  CHOOSE_PROGRAMMING_LANGUAGE_WRONG_ANSWER : '\nUnrecognized programming language. Please try again'.red + '\n\n',
+  CHOOSE_PROGRAMMING_LANGUAGE_PROMPT : 'Choose one of the following programming languagues:\n',
+  CHOOSE_PROGRAMMING_LANGUAGE_WRONG_ANSWER : '\nUnrecognized programming language. Please try again.'.red + '\n\n',
 
-  PROGRAMMING_LANGUAGUE_TO_DEFAULT_SRC_MAP : [
-    'js' : '**/*.js',
+  PROGRAMMING_LANGUAGUE_TO_DEFAULT_SRC_MAP : {
+    'javascript' : '**/*.js',
     'go' : '**/*.go'
-  ],
+  },
 
   DEFAULT_CONFIGS : {
+    storageFolder : './.gt',
     quiet : false,
     interface : {
       autoOpenBrowser: false,
       port : 3000
     }
-  }
+  },
+
+  DEFAULT_OUTPUT_FOLDER : 'i10n'
+
+
 };
 
 

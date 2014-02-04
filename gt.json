@@ -1,6 +1,6 @@
 {
   "folder": "./test/translations",
-  "programmingLanguage": "js",
+  "programmingLanguage": "javascript",
   "locales": {
     "en-US": "English",
     "zh-CN": "Chinese"

@@ -47,7 +47,7 @@ cf = _.defaults(cf, defaultConfigs);
 cf.localesFolder = path.join(cf.root, cf.folder, pcf.LOCALES_FOLDER);
 cf.deleteLog = cf.folder + pcf.DELETE_LOG_FILE;
 cf.latestSearchFile = cf.folder + pcf.LATEST_SEARCH_CACHE_FILE;
-cf.programmingLanguage = cf.programmingLanguage || pcf.DEFAULT_PROGAMMING_LANGAUGE;
+cf.programmingLanguage = cf.programmingLanguage || pcf.DEFAULT_PROGAMMING_LANGUAGE;
 if(typeof cf.output === 'undefined') {
   cf.output = path.join(cf.folder, pcf.DEFAULT_OUTPUT);
 }
