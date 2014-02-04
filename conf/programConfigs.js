@@ -36,7 +36,7 @@ module.exports = {
   TRANSLATION_ID_HASH_SECRET : 'gt',
   TRANSLATION_ID_CHAR_LENGTH : 8,
 
-  DEFAULT_PROGAMMING_LANGAUGE : 'javascript',
+  DEFAULT_PROGAMMING_LANGAUGE : 'js',
 
   // Syntaxes
   SYNTAX_OPERAND         : /^(it\.)?\w+$/,
@@ -80,7 +80,11 @@ module.exports = {
 
   DEFAULT_LOCALE_WRONG_ANSWER : '\nYour option didn\'t match any of the locales you provided\n'.red,
 
-  PROGRAMMING_LANGUAGUES : ['javascript']
+  PROGRAMMING_LANGUAGUES : ['js', 'go'],
+
+
+  CHOOSE_PROGRAMMING_LANGUAGE_PROMPT : 'Choose one of the following languagues:\n',
+  CHOOSE_PROGRAMMING_LANGUAGE_WRONG_ANSWER : '\nUnrecognized programming language. Please try again'.red + '\n\n'
 };
 
 

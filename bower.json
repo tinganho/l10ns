@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "dependencies": {
     "backbone": ">=0.9.9",
-    "jquery": ">=1.7.2",
+    "jquery": "1.7.x",
     "lodash": ">=0.10",
     "modernizr": ">=2.6.2",
     "requirejs": ">=2.1.2",

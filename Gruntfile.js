@@ -113,8 +113,8 @@ module.exports = function(grunt) {
           requirejs : false,
           node : true
         },
-        src : ['plugins/**/*.{dot,part}'],
-        dest : 'plugins/javascript/templates/build/tmpl.js'
+        src : ['plugins/js/templates/*.{dot,part}'],
+        dest : 'plugins/js/templates/build/tmpl.js'
       }
     },
 
