@@ -1,0 +1,13 @@
+
+<!--
+
+Condition string
+
+@param {string} condition
+@param {string} operand1
+@param {string} operator
+@param {string} operand2
+
+!-->
+
+{{=it.condition}}({{=it.operand1}} {{=it.operator}} {{=it.operand2}}

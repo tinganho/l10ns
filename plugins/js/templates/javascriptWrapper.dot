@@ -1,0 +1,30 @@
+
+<!--
+
+Else statement
+
+@param {string} string to return
+
+!-->
+
+{{##def.function : load('./function.part'); #}}
+
+;(function() {
+
+  {{=it.translationMap}}
+
+  {{#def.function}}
+
+  if(typeof require === "function" && typeof exports === 'object' && typeof module === 'object') {
+    module.exports = gt;
+  }
+  else if (typeof define === "function" && define.amd) {
+    define(function () {
+      return gt;
+    });
+  }
+  else {
+    window.{{=it.variable}} = gt;
+  }
+
+})();

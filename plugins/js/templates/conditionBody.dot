@@ -1,0 +1,12 @@
+
+<!--
+
+Condition body including brackets
+
+@param {string} string to return
+
+!-->
+
+) {
+  return '{{=it.string}}';
+}

@@ -1,0 +1,10 @@
+
+<!--
+
+Non-condition function body string
+
+@param {string} string to return
+
+!-->
+
+return '{{=it.string}}';
