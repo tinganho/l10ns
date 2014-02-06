@@ -99,7 +99,13 @@ module.exports = {
     }
   },
 
-  DEFAULT_OUTPUT_FOLDER : 'i10n'
+  DEFAULT_OUTPUT_FOLDER_PROMPT :
+  '\nAll translations will be compiled to a single folder.\n' +
+  'Please specify which folder you want them to be compiled to.\n\n',
+
+  DEFAULT_OUTPUT_FOLDER : 'i10n',
+
+  DEFAULT_OUTPUT_FOLDER_WRONG_ANSWER : '\nFailed to resolve path. Please try again.\n'
 
 
 };
