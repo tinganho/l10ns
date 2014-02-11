@@ -86,12 +86,11 @@ module.exports = {
   CHOOSE_PROGRAMMING_LANGUAGE_WRONG_ANSWER : '\nUnrecognized programming language. Please try again.'.red + '\n\n',
 
   PROGRAMMING_LANGUAGUE_TO_DEFAULT_SRC_MAP : {
-    'javascript' : '**/*.js',
-    'go' : '**/*.go'
+    'javascript' : ['**/*.js'],
+    'go' : ['**/*.go']
   },
 
   DEFAULT_CONFIGS : {
-    storageFolder : './.gt',
     quiet : false,
     interface : {
       autoOpenBrowser: false,
@@ -103,7 +102,7 @@ module.exports = {
   '\nAll translations will be compiled to a single folder.\n' +
   'Please specify which folder you want them to be compiled to.\n\n',
 
-  DEFAULT_OUTPUT_FOLDER : 'i10n',
+  DEFAULT_OUTPUT_FOLDER : 'l10n',
 
   DEFAULT_OUTPUT_FOLDER_WRONG_ANSWER : '\nFailed to resolve path. Please try again.\n'
 
