@@ -54,7 +54,7 @@ var Compiler = function() {
  * @api public
  */
 
-Compiler.prototype.compile = function() {
+Compiler.prototype.compile = function() {
   for(locale in this.locales) {
     var content = tmpl.javascriptWrapper({
       variable : this.defaultTranslationFunction,
