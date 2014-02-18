@@ -1,8 +1,0 @@
-<div class="translation-loading-frame">
-  <div class="translation-loading-container">
-    <div class="translation-loading-indicator-helper">
-      <i class="translation-loading-indicator"></i>
-    </div>
-    <span class="translation-loading-text">SAVING...</span>
-  </div>
-</div>

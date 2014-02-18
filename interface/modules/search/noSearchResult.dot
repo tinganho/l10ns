@@ -1,4 +1,0 @@
-<div class="search-result-bar bg-dark-grey">
-  <span class="search-result-bar-query">No result for "{{=it.query}}"</span>
-  <span class="search-result-bar-back js-search-result-bar-back">Back to latest translations</span>
-</div>

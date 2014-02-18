@@ -1,9 +1,0 @@
-<tr class="translations-row"
-    data-id="{{=it.id}}">
-  <td class="translations-key translations-first-col">
-    <div class="translations-text">{{=it.key}}</div>
-  </td>
-  <td class="translations-value translations-second-col">
-    <div class="translations-text">{{=it.value}}</div>
-  </td>
-</tr>
