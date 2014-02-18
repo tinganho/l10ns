@@ -9,4 +9,6 @@ app/public/images/icons-*
 app/public/styles/*
 test/translations/cache/latestSearch.json
 test/translations/output/
-Gemfile.lock
+
+app/page/document/build/
+app/page/layout/build/
