@@ -1,0 +1,36 @@
+
+<!--
+
+The default document
+
+@param {String} title
+@param {String} description
+@param {Array} styles
+@param {Array} scripts
+@param {HTML} layout
+
+!-->
+
+{{##def.metas : load('./templates/metas.part') #}}
+{{##def.title : load('./templates/title.part') #}}
+{{##def.features : load('./templates/features.part') #}}
+{{##def.styles : load('./templates/styles.part') #}}
+{{##def.scripts : load('./templates/scripts.part') #}}
+
+<!DOCTYPE html>
+<html lang="{{=it.locale}}" class="{{=it.locale}} {{=it.device}}">
+  <head>
+
+    {{#def.metas}}
+    {{#def.title}}
+    {{#def.features}}
+    {{#def.styles}}
+    {{#def.scripts}}
+
+  </head>
+  <body>
+
+    {{=it.layout}}
+
+  </body>
+</html>

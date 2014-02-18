@@ -1,0 +1,12 @@
+
+<!--
+
+Scripts tag
+
+@param {Array} scripts
+
+!-->
+
+{{~it.scripts :src:index}}
+<script src="{{=src}}" type="text/javascript"></script>
+{{~}}

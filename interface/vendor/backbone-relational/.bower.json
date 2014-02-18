@@ -1,0 +1,14 @@
+{
+  "name": "backbone-relational",
+  "homepage": "https://github.com/PaulUithol/Backbone-relational",
+  "version": "0.8.6",
+  "_release": "0.8.6",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.8.6",
+    "commit": "142af74c014215fd3b9821cb2b822eb98a6fe670"
+  },
+  "_source": "git://github.com/PaulUithol/Backbone-relational.git",
+  "_target": "~0.8.6",
+  "_originalSource": "backbone-relational"
+}

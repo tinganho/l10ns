@@ -1,0 +1,27 @@
+
+<!--
+
+Error report script
+
+!-->
+
+<script>
+window.onerror = function(message, file, line) {
+  var now = (new Date()).getTime();
+  if(typeof lastError === 'number'
+  && now < lastError + 60 * 1000) {
+    return;
+  }
+  var xmlHttp = new XMLHttpRequest();
+  xmlHttp.open('post', cf.CLIENT_ERROR_PATH, true);
+  xmlHttp.setRequestHeader('X-Requested-By', cf.X_REQUESTED_BY);
+  xmlHttp.setRequestHeader('Content-type', 'application/json');
+  xmlHttp.send(JSON.stringify({
+    url     : window.location.pathname,
+    file    : file + ':' + line,
+    message : message
+  }));
+
+  window.lastError = now;
+};
+</script>

@@ -1,0 +1,22 @@
+{
+  "name": "Squire.js",
+  "main": "src/Squire.js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components",
+    "test/",
+    "package.json",
+    "grunt.js"
+  ],
+  "homepage": "https://github.com/iammerrick/Squire.js",
+  "_release": "06304a7b29",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "06304a7b29268dd91498e83bfdba6964bfc2f2b7"
+  },
+  "_source": "git://github.com/iammerrick/Squire.js.git",
+  "_target": "*",
+  "_originalSource": "squire"
+}
