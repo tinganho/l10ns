@@ -11,7 +11,7 @@ module.exports = function() {
       it('should set json property to null', function() {
         var init = new Init;
         init._createReadlineInterface = sinon.spy();
-        expect(init.json).to.eql({});
+        expect(init.json).to.eql(cf.DEFAULT_CONFIGS);
       });
 
       it('should set initIntro property to the one specified in global config', function() {

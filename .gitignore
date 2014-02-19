@@ -3,6 +3,7 @@ node_modules/
 !node_modules/lib
 test/translations/delete.log
 .sass-cache/
+.gt/
 docs/
 app/public/images/main-*
 app/public/images/icons-*
