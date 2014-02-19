@@ -287,6 +287,23 @@ module.exports = function() {
         defaultLocale[init.defaultLocaleCode] = init.defaultLocaleName;
         deferredStub.resolve.should.have.been.calledWith(defaultLocale);
       });
+
+      it('should ask the question again if user provides wrong syntax', function() {
+        var question = 'Please add at least one locale to your project';
+        var deferredStub = { resolve : sinon.spy() };
+        var qStub = { defer : sinon.stub().returns(deferredStub) };
+        var Init = proxyquire('../lib/init', { q : qStub }).Init
+        var init = new Init;
+        var n = 0;
+        init.rl = { question : function(question, callback) {
+          n++;
+          if(n < 2) callback('wrong-locale-syntax');
+        }};
+        init._getLocales();
+        _.defer(function() {
+          expect(n).to.equal(2);
+        });
+      });
     });
   });
 };
