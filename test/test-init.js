@@ -243,5 +243,50 @@ module.exports = function() {
         process.stdout.write.restore();
       });
     });
+
+    describe('#_getLocales', function() {
+      it('should ask the user to input locales', function() {
+        var question = 'Please add at least one locale to your project';
+        var init = new Init;
+        init.rl = { question : sinon.spy() };
+        init._getLocales();
+        init.rl.question.should.have.been.calledWithMatch(question);
+      });
+
+      it('should parse locales from colon separated string to JSON', function() {
+        var question = 'Please add at least one locale to your project';
+        var deferredStub = { resolve : sinon.spy() };
+        var qStub = { defer : sinon.stub().returns(deferredStub) };
+        var Init = proxyquire('../lib/init', { q : qStub }).Init
+        var init = new Init;
+        init.rl = { question : sinon.stub().callsArgWith(1, 'en-US:English (US)') };
+        init._getLocales();
+        deferredStub.resolve.should.have.been.calledWith({ 'en-US' : 'English (US)' });
+      });
+
+      it('should parse multiple locales from colon separated string to JSON', function() {
+        var question = 'Please add at least one locale to your project';
+        var deferredStub = { resolve : sinon.spy() };
+        var qStub = { defer : sinon.stub().returns(deferredStub) };
+        var Init = proxyquire('../lib/init', { q : qStub }).Init
+        var init = new Init;
+        init.rl = { question : sinon.stub().callsArgWith(1, 'en-US:English (US),zh-CN:Chinese') };
+        init._getLocales();
+        deferredStub.resolve.should.have.been.calledWith({ 'en-US' : 'English (US)', 'zh-CN' : 'Chinese' });
+      });
+
+      it('should be able to use default locale', function() {
+        var question = 'Please add at least one locale to your project';
+        var deferredStub = { resolve : sinon.spy() };
+        var qStub = { defer : sinon.stub().returns(deferredStub) };
+        var Init = proxyquire('../lib/init', { q : qStub }).Init
+        var init = new Init;
+        init.rl = { question : sinon.stub().callsArgWith(1, '') };
+        init._getLocales();
+        var defaultLocale = {};
+        defaultLocale[init.defaultLocaleCode] = init.defaultLocaleName;
+        deferredStub.resolve.should.have.been.calledWith(defaultLocale);
+      });
+    });
   });
 };
