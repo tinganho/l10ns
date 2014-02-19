@@ -3,7 +3,9 @@
  * Module dependencies
  */
 
-var Init = require('../lib/init').Init;
+var Init = require('../lib/init').Init
+  , Q = require('q')
+  , _ = require('underscore');
 
 module.exports = function() {
   describe('Init', function() {
@@ -112,13 +114,110 @@ module.exports = function() {
     });
 
     describe('#init', function() {
-      // it('should output introduction', function() {
-      //   var init = new Init;
-      //   init._outputIntroduction = sinon.spy();
-      //   init.getLocales = sinon.spy();
-      //   init.init();
-      //   init._outputIntroduction.should.have.been.calledOnce;
-      // });
+      it('should create a readline interface', function() {
+        var init = new Init;
+        init._createReadlineInterface = sinon.spy();
+        init._outputIntroduction = sinon.spy();
+        init._getLocales = sinon.stub().returns(Q.reject());
+        init.init();
+        init._createReadlineInterface.should.have.been.calledOnce;
+      });
+
+      it('should output an introduction', function() {
+        var init = new Init;
+        init._createReadlineInterface = sinon.spy();
+        init._outputIntroduction = sinon.spy();
+        init._getLocales = sinon.stub().returns(Q.reject());
+        init.init();
+        init._outputIntroduction.should.have.been.calledOnce;
+      });
+
+      it('should get locales', function() {
+        var init = new Init;
+        init._createReadlineInterface = function() {};
+        init._outputIntroduction = function() {};
+        init._getLocales = sinon.stub().returns(Q.reject());
+        init.init();
+        init._getLocales.should.have.been.calledOnce;
+      });
+
+      it('should get and set default locale if locales have been got', function(done) {
+        var locales = { 'en-US' : 'English (US)'};
+        var init = new Init;
+        init._createReadlineInterface = function() {};
+        init._outputIntroduction = function() {};
+        init._getLocales = sinon.stub().returns(Q.resolve(locales));
+        init._getDefaultLocale = sinon.stub().returns(Q.reject());
+        init.init();
+        init._getLocales.should.have.been.calledOnce;
+        _.defer(function() {
+          init._getDefaultLocale.should.have.been.calledOnce;
+          expect(init.json.locales).to.be.eql(locales);
+          done();
+        });
+      });
+
+      it('should get and set default programming language if default locales have been got', function(done) {
+        var locales = { 'en-US' : 'English (US)'};
+        var init = new Init;
+        init._createReadlineInterface = function() {};
+        init._outputIntroduction = function() {};
+        init._getLocales = sinon.stub().returns(Q.resolve(locales));
+        init._getDefaultLocale = sinon.stub().returns(Q.resolve('en-US'));
+        init._getDefaultProgrammingLanguage = sinon.stub().returns(Q.reject());
+        init.init();
+        init._getLocales.should.have.been.calledOnce;
+        _.defer(function() {
+          init._getDefaultLocale.should.have.been.calledOnce;
+          init._getDefaultProgrammingLanguage.should.have.been.calledOnce;
+          expect(init.json.defaultLocale).to.be.equal('en-US');
+          done();
+        });
+      });
+
+      it('should get and set default output if default programmingLanguage have been got', function(done) {
+        var locales = { 'en-US' : 'English (US)'};
+        var init = new Init;
+        init._createReadlineInterface = function() {};
+        init._outputIntroduction = function() {};
+        init._getLocales = sinon.stub().returns(Q.resolve(locales));
+        init._getDefaultLocale = sinon.stub().returns(Q.resolve('en-US'));
+        init._getDefaultProgrammingLanguage = sinon.stub().returns(Q.resolve('javascript'));
+        init._setDefaultOutput = sinon.stub().returns(Q.reject());
+        init.init();
+        init._getLocales.should.have.been.calledOnce;
+        _.defer(function() {
+          init._getDefaultLocale.should.have.been.calledOnce;
+          init._getDefaultProgrammingLanguage.should.have.been.calledOnce;
+          init._setDefaultOutput.should.have.been.calledOnce;
+          expect(init.json.programmingLanguage).to.be.equal('javascript');
+          done();
+        });
+      });
+
+      it('should set default src and write project', function(done) {
+        var locales = { 'en-US' : 'English (US)'};
+        var init = new Init;
+        init._createReadlineInterface = function() {};
+        init._outputIntroduction = function() {};
+        init._getLocales = sinon.stub().returns(Q.resolve(locales));
+        init._getDefaultLocale = sinon.stub().returns(Q.resolve('en-US'));
+        init._getDefaultProgrammingLanguage = sinon.stub().returns(Q.resolve('javascript'));
+        init._setDefaultOutput = sinon.stub().returns(Q.resolve('some/output'));
+        init._setDefaultSrc = sinon.spy();
+        init.writeProject = sinon.spy();
+        init.init();
+        init._getLocales.should.have.been.calledOnce;
+        _.defer(function() {
+          init._getDefaultLocale.should.have.been.calledOnce;
+          init._getDefaultProgrammingLanguage.should.have.been.calledOnce;
+          init._setDefaultOutput.should.have.been.calledOnce;
+          init._setDefaultSrc.should.have.been.calledOnce;
+          init.writeProject.should.have.been.calledOnce;
+          expect(init.json.programmingLanguage).to.be.equal('javascript');
+          done();
+        });
+      });
     });
 
     describe('#_createReadlineInterface', function() {
