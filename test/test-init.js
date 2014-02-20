@@ -310,7 +310,7 @@ module.exports = function() {
       it('should set the default locale to the provided locales if the locales is only one locale', function() {
         var deferredStub = { resolve : sinon.spy() };
         var qStub = { defer : sinon.stub().returns(deferredStub) };
-        var Init = proxyquire('../lib/init', { q : qStub }).Init
+        var Init = proxyquire('../lib/init', { q : qStub }).Init;
         var init = new Init;
         init._getDefaultLocale({ 'en-US' : 'English (US)' });
         deferredStub.resolve.should.have.been.calledWith('en-US');
@@ -319,7 +319,7 @@ module.exports = function() {
       it('should ask to choose locale if two locales have been set to the project', function() {
         var deferredStub = { resolve : sinon.spy() };
         var qStub = { defer : sinon.stub().returns(deferredStub) };
-        var Init = proxyquire('../lib/init', { q : qStub }).Init
+        var Init = proxyquire('../lib/init', { q : qStub }).Init;
         var init = new Init;
         init.rl = { question : sinon.spy() };
         init._getDefaultLocale({ 'en-US' : 'English (US)', 'zh-CN' : 'Chinese' });
@@ -329,17 +329,17 @@ module.exports = function() {
       it('should map the user selected option to the correct locale', function() {
         var deferredStub = { resolve : sinon.spy() };
         var qStub = { defer : sinon.stub().returns(deferredStub) };
-        var Init = proxyquire('../lib/init', { q : qStub }).Init
+        var Init = proxyquire('../lib/init', { q : qStub }).Init;
         var init = new Init;
         init.rl = { question : sinon.stub().callsArgWith(1, '1') };
         init._getDefaultLocale({ 'en-US' : 'English (US)', 'zh-CN' : 'Chinese' });
         deferredStub.resolve.should.have.been.calledWith('en-US');
       });
 
-      it('should as the user again if wrong option is provided', function(done) {
+      it('should ask the user again if wrong option is provided', function(done) {
         var deferredStub = { resolve : sinon.spy() };
         var qStub = { defer : sinon.stub().returns(deferredStub) };
-        var Init = proxyquire('../lib/init', { q : qStub }).Init
+        var Init = proxyquire('../lib/init', { q : qStub }).Init;
         var init = new Init;
         var n = 0;
         init.rl = { question : function(question, callback) {
@@ -347,6 +347,42 @@ module.exports = function() {
           if(n < 2) callback('3');
         }};
         init._getDefaultLocale({ 'en-US' : 'English (US)', 'zh-CN' : 'Chinese' });
+        _.defer(function() {
+          expect(n).to.equal(2);
+          done();
+        });
+      });
+    });
+
+    describe('#_getDefaultProgrammingLanguage', function() {
+      it('should ask what kind programming language the user want to set to his project', function() {
+        var init = new Init;
+        init.rl = { question : sinon.spy() };
+        init._getDefaultProgrammingLanguage();
+        init.rl.question.should.have.been.calledOnce;
+      });
+
+      it('should map the user chosen option with the available programming languages', function() {
+        var deferredStub = { resolve : sinon.spy() };
+        var qStub = { defer : sinon.stub().returns(deferredStub) };
+        var Init = proxyquire('../lib/init', { q : qStub }).Init;
+        var init = new Init;
+        init.rl = { question : sinon.stub().callsArgWith(1, 1) };
+        init._getDefaultProgrammingLanguage();
+        deferredStub.resolve.should.have.been.calledWith('javascript');
+        init.rl = { question : sinon.stub().callsArgWith(1, 2) };
+        init._getDefaultProgrammingLanguage();
+        deferredStub.resolve.should.have.been.calledWith('go');
+      });
+
+      it('should ask the user again if wrong option is provided', function(done) {
+        var init = new Init;
+        var n = 0;
+        init.rl = { question : function(question, callback) {
+          n++;
+          if(n < 2) callback('odd-language');
+        }};
+        init._getDefaultProgrammingLanguage();
         _.defer(function() {
           expect(n).to.equal(2);
           done();
