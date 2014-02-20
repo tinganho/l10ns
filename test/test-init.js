@@ -288,8 +288,7 @@ module.exports = function() {
         deferredStub.resolve.should.have.been.calledWith(defaultLocale);
       });
 
-      it('should ask the question again if user provides wrong syntax', function() {
-        var question = 'Please add at least one locale to your project';
+      it('should ask the question again if user provides wrong syntax', function(done) {
         var deferredStub = { resolve : sinon.spy() };
         var qStub = { defer : sinon.stub().returns(deferredStub) };
         var Init = proxyquire('../lib/init', { q : qStub }).Init
@@ -302,6 +301,55 @@ module.exports = function() {
         init._getLocales();
         _.defer(function() {
           expect(n).to.equal(2);
+          done();
+        });
+      });
+    });
+
+    describe('#_getDefaultLocale', function() {
+      it('should set the default locale to the provided locales if the locales is only one locale', function() {
+        var deferredStub = { resolve : sinon.spy() };
+        var qStub = { defer : sinon.stub().returns(deferredStub) };
+        var Init = proxyquire('../lib/init', { q : qStub }).Init
+        var init = new Init;
+        init._getDefaultLocale({ 'en-US' : 'English (US)' });
+        deferredStub.resolve.should.have.been.calledWith('en-US');
+      });
+
+      it('should ask to choose locale if two locales have been set to the project', function() {
+        var deferredStub = { resolve : sinon.spy() };
+        var qStub = { defer : sinon.stub().returns(deferredStub) };
+        var Init = proxyquire('../lib/init', { q : qStub }).Init
+        var init = new Init;
+        init.rl = { question : sinon.spy() };
+        init._getDefaultLocale({ 'en-US' : 'English (US)', 'zh-CN' : 'Chinese' });
+        init.rl.question.should.have.been.calledOnce;
+      });
+
+      it('should map the user selected option to the correct locale', function() {
+        var deferredStub = { resolve : sinon.spy() };
+        var qStub = { defer : sinon.stub().returns(deferredStub) };
+        var Init = proxyquire('../lib/init', { q : qStub }).Init
+        var init = new Init;
+        init.rl = { question : sinon.stub().callsArgWith(1, '1') };
+        init._getDefaultLocale({ 'en-US' : 'English (US)', 'zh-CN' : 'Chinese' });
+        deferredStub.resolve.should.have.been.calledWith('en-US');
+      });
+
+      it('should as the user again if wrong option is provided', function(done) {
+        var deferredStub = { resolve : sinon.spy() };
+        var qStub = { defer : sinon.stub().returns(deferredStub) };
+        var Init = proxyquire('../lib/init', { q : qStub }).Init
+        var init = new Init;
+        var n = 0;
+        init.rl = { question : function(question, callback) {
+          n++;
+          if(n < 2) callback('3');
+        }};
+        init._getDefaultLocale({ 'en-US' : 'English (US)', 'zh-CN' : 'Chinese' });
+        _.defer(function() {
+          expect(n).to.equal(2);
+          done();
         });
       });
     });
