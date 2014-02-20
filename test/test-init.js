@@ -389,5 +389,29 @@ module.exports = function() {
         });
       });
     });
+
+    describe('#_setDefaultOutput', function() {
+      it('should set the default output to l10n/ folder if there doesn\'t exist any app/ folder', function() {
+        var deferredStub = { resolve : sinon.spy() };
+        var qStub = { defer : sinon.stub().returns(deferredStub) };
+        var fsStub = { existsSync : sinon.stub().returns(false) };
+        var Init = proxyquire('../lib/init', { fs : fsStub, q : qStub }).Init;
+        var init = new Init;
+        init.rl = { question : sinon.stub().callsArgWith(1, '') };
+        init._setDefaultOutput();
+        deferredStub.resolve.should.have.been.calledWith('l10n/');
+      });
+
+      it('should set the default output to app/l10n/ folder if there does exist an app/ folder', function() {
+        var deferredStub = { resolve : sinon.spy() };
+        var qStub = { defer : sinon.stub().returns(deferredStub) };
+        var fsStub = { existsSync : sinon.stub().returns(true) };
+        var Init = proxyquire('../lib/init', { fs : fsStub, q : qStub }).Init;
+        var init = new Init;
+        init.rl = { question : sinon.stub().callsArgWith(1, '') };
+        init._setDefaultOutput();
+        deferredStub.resolve.should.have.been.calledWith('app/l10n/');
+      });
+    });
   });
 };
