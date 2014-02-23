@@ -205,7 +205,7 @@ module.exports = function() {
         init._getDefaultProgrammingLanguage = sinon.stub().returns(Q.resolve('javascript'));
         init._setDefaultOutput = sinon.stub().returns(Q.resolve('some/output'));
         init._setDefaultSrc = sinon.spy();
-        init.writeProject = sinon.spy();
+        init._writeProject = sinon.spy();
         init.init();
         init._getLocales.should.have.been.calledOnce;
         _.defer(function() {
@@ -213,7 +213,7 @@ module.exports = function() {
           init._getDefaultProgrammingLanguage.should.have.been.calledOnce;
           init._setDefaultOutput.should.have.been.calledOnce;
           init._setDefaultSrc.should.have.been.calledOnce;
-          init.writeProject.should.have.been.calledOnce;
+          init._writeProject.should.have.been.calledOnce;
           expect(init.json.programmingLanguage).to.be.equal('javascript');
           done();
         });
@@ -411,6 +411,40 @@ module.exports = function() {
         init.rl = { question : sinon.stub().callsArgWith(1, '') };
         init._setDefaultOutput();
         deferredStub.resolve.should.have.been.calledWith('app/l10n/');
+      });
+    });
+
+    describe('#_setDefaultSrc', function() {
+      it('should set map the programming language with the right default source', function() {
+        var init = new Init;
+        init.json.programmingLanguage = 'javascript';
+        init._setDefaultSrc();
+        expect(init.json.src).to.eql(['**/*.js']);
+      });
+    });
+
+    describe('#writeProject', function() {
+      it('should write gt.json file if it doesn\'t exists', function() {
+        var existsSyncStub = sinon.stub()
+        existsSyncStub.onCall(0).returns(false);
+        existsSyncStub.onCall(1).returns(true);
+        var fsStub = { existsSync : existsSyncStub, writeFile : sinon.spy() };
+        var Init = proxyquire('../lib/init', { fs : fsStub }).Init;
+        var init = new Init;
+        init.json = JSON.stringify({});
+        init._writeProject();
+        fsStub.writeFile.should.have.been.calledOnce;
+      });
+
+      it('should make a l10n folder if it doesn\' already exists', function() {
+        var existsSyncStub = sinon.stub()
+        existsSyncStub.onCall(0).returns(true);
+        existsSyncStub.onCall(1).returns(false);
+        var fsStub = { existsSync : existsSyncStub, mkdir : sinon.spy() };
+        var Init = proxyquire('../lib/init', { fs : fsStub }).Init;
+        var init = new Init;
+        init._writeProject();
+        fsStub.mkdir.should.have.been.calledOnce;
       });
     });
   });
