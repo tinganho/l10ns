@@ -72,30 +72,6 @@ module.exports = function(grunt) {
       }
     },
 
-    translate: {
-      dist: {
-        options: {
-          config : './test/translations',
-          requirejs : false,
-          defaultLanguage : 'en', // grunt-translate use it to update translation.
-          output : './test/translations/output',
-          src : ['./test/example/**/*.js'],
-          interface: {
-            autoOpen : false,
-            port : 3000
-          }
-        }
-      }
-    },
-
-    // Configuration to be run (and then tested)
-    regarde: {
-      txt: {
-        files: '**/*.txt',
-        tasks: ['livereload']
-      }
-    },
-
     dot: {
       interface: {
         options: {
