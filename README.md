@@ -1,8 +1,14 @@
 get-translation [![Build Status](https://travis-ci.org/tinganho/get-translation.png)](https://travis-ci.org/tinganho/get-translation)
 ==============
-Effective translation workflow. Translate multiple plural forms not just two with ease.
+Effective translation workflow. 
 
-## Goal
+* Updated translation keys from source
+* Intuitive web translation interface
+* Translate every translation problem you can think of
+* CLI tool for updating and translating
+* Support for multiple languages
+
+##  
 
 ## Documentation
 _(Coming soon)_
