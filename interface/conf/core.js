@@ -183,7 +183,7 @@ var configs = {
    * @type {String}
    */
 
-  DOCUMENT_TEMPLATES : 'page/document/build/tmpl',
+  DOCUMENT_TEMPLATES : 'documents/build/tmpl',
 
 
   /**
@@ -192,7 +192,7 @@ var configs = {
    * @type {String}
    */
 
-  LAYOUT_TEMPLATES : 'page/layout/build/tmpl'
+  LAYOUT_TEMPLATES : 'layouts/build/tmpl'
 };
 
 /**

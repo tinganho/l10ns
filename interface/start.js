@@ -44,7 +44,7 @@ var express = require('express')
   , path = require('path')
   , cluster = require('cluster')
   /*jshint unused:false */
-  , readTmpls = require('./page/page').readTmpls
+  , readTmpls = require('./page').readTmpls
   , helmet = require('helmet')
   , scf = require('./conf/core')
   , autoroute = require('autoroute')
@@ -57,7 +57,7 @@ var express = require('express')
  */
 
 var numCPUs = require('os').cpus().length;
-http.globalAgent.maxSockets = cf.MAX_SOCKETS;
+http.globalAgent.maxSockets = scf.MAX_SOCKETS;
 
 if(cluster.isMaster && process.env.NODE_ENV === 'production') {
   // Fork workers.
@@ -83,7 +83,7 @@ else {
   /**
    * Globals.
    */
-
+  GLOBAL.requirejs = requirejs;
   GLOBAL.cf = scf;
 
 

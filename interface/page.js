@@ -4,7 +4,8 @@
  */
 
 var _ = require('underscore')
-  , fs = require('fs');
+  , fs = require('fs')
+  , path = require('path');
 
 /**
  * Add terminal colors
@@ -50,7 +51,7 @@ function page(url) {
  * @api public
  */
 
-Page.prototype.document = function(name, opts) {
+page.prototype.document = function(name, opts) {
   if(typeof this._documentTmpls[name] === 'undefined') {
     throw new TypeError('document ' + name + ' does not exist');
   }
@@ -94,7 +95,7 @@ Page.prototype.document = function(name, opts) {
  * @api public
  */
 
-Page.prototype.layout = function(name) {
+page.prototype.layout = function(name) {
   if(typeof this._layoutTmpls[name] === 'undefined') {
     throw new TypeError(name + ' layout doesn\'t exists');
   }
@@ -112,7 +113,7 @@ Page.prototype.layout = function(name) {
  * @api public
  */
 
-Page.prototype.modules = function(modules) {
+page.prototype.modules = function(modules) {
   var n = 0; size = _.size(modules);
   for(var container in modules) {
     if(!modules[container].fetch) {
@@ -141,7 +142,7 @@ Page.prototype.modules = function(modules) {
  * @callback
  */
 
-Page.prototype.fail = function(callback) {
+page.prototype.fail = function(callback) {
   this.fail = callback;
 };
 
@@ -152,7 +153,7 @@ Page.prototype.fail = function(callback) {
  * @api private
  */
 
-Page.prototype._serve = function() {
+page.prototype._serve = function() {
   var html = this._documentTmpl({
     title : this._title,
     description : this._description,
@@ -170,7 +171,7 @@ Page.prototype._serve = function() {
  * Export constructor
  */
 
-module.exports = Page;
+module.exports = page;
 
 /**
  * Read template
@@ -180,14 +181,17 @@ module.exports = Page;
  */
 
 module.exports.readTmpls = function() {
-  if(!fs.existsSync(cf.DOCUMENT_TEMPLATES)
-  || !fs.existsSync(cf.LAYOUT_TEMPLATES)) {
-    console.log('[:(]'.red + ' Have you built your templates yet?');
+  if(!fs.existsSync(path.join(__dirname, cf.DOCUMENT_TEMPLATES + '.js'))) {
+    console.log('[:(]'.red + ' Have you built your document templates yet?');
+    process.exit();
+  }
+  if(!fs.existsSync(path.join(__dirname, cf.LAYOUT_TEMPLATES + '.js'))) {
+    console.log('[:(]'.red + ' Have you built your layout templates yet?');
     process.exit();
   }
 
-  GLOBAL.documentTmpls = requirejs('page/document/build/tmpl');
-  GLOBAL.layoutTmpls = requirejs('page/layout/build/tmpl');
+  GLOBAL.documentTmpls = requirejs('./' + cf.DOCUMENT_TEMPLATES);
+  GLOBAL.layoutTmpls = requirejs('./' + cf.LAYOUT_TEMPLATES);
 };
 
 /**

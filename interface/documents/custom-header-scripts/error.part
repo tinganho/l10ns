@@ -7,7 +7,7 @@ Error report script
 
 <script>
 window.onerror = function(message, file, line) {
-  var now = (new Date()).getTime();
+  var now = new Date().getTime();
   if(typeof lastError === 'number'
   && now < lastError + 60 * 1000) {
     return;

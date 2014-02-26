@@ -73,14 +73,24 @@ module.exports = function(grunt) {
     },
 
     dot: {
-      interface: {
+      documents: {
         options: {
           variable : 'tmpl',
           requirejs : true,
           node : true
         },
-        src : ['interface/**/*.dot'],
-        dest : 'interface/public/templates/tmpl.js'
+        src : ['interface/documents/**/*.dot'],
+        dest : 'interface/documents/build/tmpl.js'
+      },
+
+      layouts : {
+        options: {
+          variable : 'tmpl',
+          requirejs : true,
+          node : true
+        },
+        src : ['interface/layouts/**/*.dot'],
+        dest : 'interface/layouts/build/tmpl.js'
       },
 
       jsPlugin : {
@@ -138,7 +148,6 @@ module.exports = function(grunt) {
         tasks: ['compass']
       }
     }
-
   });
 
 

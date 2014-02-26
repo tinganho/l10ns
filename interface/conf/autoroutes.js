@@ -16,6 +16,5 @@
  */
 
 module.exports = [
-  './**/*Api.js',
-  './pages/**/*Pages.js'
+  './**/*Api.js'
 ];
