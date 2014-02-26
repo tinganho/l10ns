@@ -2,16 +2,26 @@ get-translation [![Build Status](https://travis-ci.org/tinganho/get-translation.
 ==============
 Effective translation workflow. 
 
-* Updated translation keys from source
-* Intuitive web translation interface
-* Translate every translation problem you can think of
-* CLI tool for updating and translating
-* Support for multiple languages
+* Updated translation keys from source.
+* Intuitive web translation interface.
+* Translate every translation problem you can think of.
+* CLI tool for updating and translating.
+* Support for multiple languages.
 
-##  
+----
 
-## Documentation
-_(Coming soon)_
+## Today's translation problems
+There is a lot of problem involved with translating an application today. Regardless of which languague it is written in. The main problems are maintenance, inefficent workflow and inability to translate complex translations.
+
+Examples:
+
+* A key got deleted from source. You have to yourself delete the key in all your localization files.
+* If a translation key got added to source. You have to youself add the key to all you localization files.
+* Translators often need to contact developers for translation.
+* Trouble to translate gender context. E.g. `You gave him 5 coins`
+* Trouble to translate multiple translation forms. Some languages don't just have singular and plural they have more than 2 plural forms.
+* Translators need to learn complex language syntax to solve complex translations. E.g. ICU and gettext.
+
 
 
 ## License
