@@ -70,7 +70,7 @@ Lets set up a web interface for translator to use:
 ```
 $ gt interface
 ```
-![Imgur](http://i.imgur.com/GdEjkkb.jpg)
+![Imgur](http://i.imgur.com/nsWPunD.jpg)
 
 ## License
 Copyright (c) 2014 Tingan Ho
