@@ -6,7 +6,7 @@ Effective translation workflow.
 * Intuitive web translation interface.
 * Translate every translation problem you can think of.
 * CLI tool for updating and translating.
-* Support for multiple languages.
+* Support for multiple programming languages.
 
 ----
 
@@ -23,15 +23,49 @@ Examples:
 * Translators need to learn complex language syntax to solve complex translations. E.g. ICU.
 * Check this slides for more problems: https://docs.google.com/presentation/d/1ZyN8-0VXmod5hbHveq-M1AeQ61Ga3BmVuahZjbmbBxo/pub?start=false&loop=false&delayms=3000#slide=id.g1bc43a82_2_14
 
-## Installation
+## Getting started
 
-`npm install get-translation -g`
+Install get-translation `npm install get-translation -g`
 
-## Usage
-
-
-
-
+Create a new project folder `test` and initialize a new translation project. The initialization guide will guide you through creating a project.
+```
+$ mkdir test
+$ cd test
+$ gt init
+```
+Now, create a source file `test.js` with (at least) the following code:
+``` javascript
+var firstnameLabel = gt('FIRSTNAME')
+  , lastnameLabel = gt('LASTNAME')
+  // Pass in variables
+  , age = 7
+  , yourAgeIsLabel = gt('YOUR_AGE_IS', { age : age });
+  // Pass in multiple variables
+  , cats = 2
+  , dogs = 3
+  , catsAndDogsLabel = gt('YOU_HAVE_NUMBER_OF_CATS_AND_DOGS', { cats : cats, dogs : dogs});
+```
+Now, lets update translation keys from source:
+```
+$ gt update
+```
+Lets check which translation keys have been added:
+```
+$ gt log
+%1 FIRSTNAME | NO TRANSLATION
+%2 LASTNAME | NO TRANSLATION
+%3 YOUR_AGE | NO TRANSLATION
+%4 YOU_HAVE_NUMBER_OF_CATS_AND_DOGS | NO TRANSLATION
+```
+Edit the last translation using `log reference`:
+```
+$ gt edit %1 "Firstname" # using default langague
+$ gt edit %1 --locale=zh "名" # using chinese
+```
+Translation are now saved to a localization file. To compile to your source programming language:
+```
+$ gt compile
+```
 
 
 ## License
