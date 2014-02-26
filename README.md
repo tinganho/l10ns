@@ -66,7 +66,11 @@ Translation are now saved to a localization file. To compile to your source prog
 ```
 $ gt compile
 ```
-
+Lets set up a web interface for translator to use:
+```
+$ gt interface
+```
+![Imgur](http://i.imgur.com/GdEjkkb.jpg)
 
 ## License
 Copyright (c) 2014 Tingan Ho
