@@ -4,22 +4,28 @@ GEM
     animation (0.1.alpha.3)
       compass (>= 0.12.0)
       sass (>= 3.2.0.alpha.95)
-    chunky_png (1.2.9)
+    breakpoint (2.0.7)
+      compass (>= 0.12.1)
+      sass (>= 3.2.0)
+    chunky_png (1.3.0)
     compass (0.12.2)
       chunky_png (~> 1.2)
       fssm (>= 0.2.7)
       sass (~> 3.1)
-    compass-placeholder (0.0.2)
+    compass-h5bp (0.1.2)
+      compass
+    compass-placeholder (0.0.3)
       compass (>= 0.11)
     fssm (0.2.10)
-    sass (3.2.1)
+    sass (3.2.14)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   animation
-  compass
+  breakpoint
+  compass (= 0.12.2)
+  compass-h5bp
   compass-placeholder
-  sass (= 3.2.1)
-
+  sass (= 3.2.14)

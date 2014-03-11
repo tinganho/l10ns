@@ -1,0 +1,10 @@
+
+<!--
+
+Search
+
+!-->
+
+<div class="search-layout">
+  <input class="search" type="text" placeholder="{{=it.i18n_placeholder}}"></input>
+</div>

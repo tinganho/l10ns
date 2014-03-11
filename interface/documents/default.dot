@@ -11,17 +11,22 @@ The default document
 
 !-->
 
-{{##def.metas : load('./templates/metas.part') #}}
-{{##def.title : load('./templates/title.part') #}}
-{{##def.features : load('./templates/features.part') #}}
-{{##def.styles : load('./templates/styles.part') #}}
-{{##def.scripts : load('./templates/scripts.part') #}}
+{{##def.metas : load('./partials/metas.part') #}}
+{{##def.favicon : load('./partials/favicon.part') #}}
+{{##def.title : load('./partials/title.part') #}}
+{{##def.features : load('./partials/features.part') #}}
+{{##def.styles : load('./partials/styles.part') #}}
+{{##def.scripts : load('./partials/scripts.part') #}}
 
 <!DOCTYPE html>
 <html lang="{{=it.locale}}" class="{{=it.locale}} {{=it.device}}">
   <head>
+    <script src="{{=it.modernizr}}"></script>
+    <script>window.inServer = false;</script>
+    <script>window.inClient = true;</script>
 
     {{#def.metas}}
+    {{#def.favicon}}
     {{#def.title}}
     {{#def.features}}
     {{#def.styles}}
@@ -31,6 +36,8 @@ The default document
   <body>
 
     {{=it.layout}}
+    {{=it.jsonScripts}}
 
+    <script data-main="{{=it.main}}" src="{{=it.requirejs}}"></script>
   </body>
 </html>

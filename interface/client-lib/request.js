@@ -32,7 +32,6 @@ define([
    * @param {String} url
    * @param {=Object} data
    * @param {=Function} callback
-   *
    * @return {Request}
    * @override Request#post
    */
@@ -47,7 +46,6 @@ define([
    * @param {String} url
    * @param {=Object} data
    * @param {=Function} callback
-   *
    * @return {Request}
    * @override Request#post
    */
@@ -62,7 +60,6 @@ define([
    * @param {String} url
    * @param {=Object} data
    * @param {=Function} callback
-   *
    * @return {Request}
    * @override Request#put
    */
@@ -77,7 +74,6 @@ define([
    * @param {String} url
    * @param {=Object} data
    * @param {=Function} callback
-   *
    * @return {Request}
    * @override Request#patch
    */
@@ -92,7 +88,6 @@ define([
    * @param {String} url
    * @param {=Object} data
    * @param {=Function} callback
-   *
    * @return {Request}
    * @override Request#head
    */
@@ -107,7 +102,6 @@ define([
    * @param {String} url
    * @param {=Object} data
    * @param {=Function} callback
-   *
    * @return {Request}
    * @override Request#del
    */

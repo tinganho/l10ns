@@ -1,0 +1,31 @@
+//
+// Documents & layouts
+//
+
+// Mixin that allows to specify arbitrary CSS properties with
+// unitless numbers. The output has rem unit with pixel fallback.
+// Shorthand assignments are supported too!
+$base-line: 10;
+
+@mixin font-size($value) {
+  font-size : #{ $value * $base-line + px };
+  font-size : #{ $value + rem };
+}
+
+// Configurations
+$sprite-folders : default;
+
+$mobile: 0px 500px;
+$tablet: 0px 900px;
+$desktop: 401px;
+
+// General styles
+@import "animation";
+@import "compass";
+@import "breakpoint";
+@import "compass-placeholder";
+
+/* Content */
+@import "../translations/translations";
+@import "../search/search";
+@import "../edit/edit";

@@ -1,5 +1,5 @@
 {
-  "directory" : "app/vendor",
+  "directory" : "interface/vendor",
   "json"      : "component.json",
   "endpoint"  : "https://bower.herokuapp.com"
 }

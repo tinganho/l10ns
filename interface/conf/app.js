@@ -3,34 +3,17 @@ var modrewrite = require('connect-modrewrite')
   , modrewrites = require('./modrewrites')
   , path = require('path')
   , helmet = require('helmet')
-  , express = require('express');
+  , express = require('express')
+  , path = require('path');
 
 module.exports = function(app) {
-
-  /**
-   * General configurations
-   */
-
-  app.configure(function() {
-    app.use(express.query());
-    app.use(express.compress());
-    app.set('port', process.env.PORT || cf.DEFAULT_PORT);
-    app.set('dist', path.dirname(__dirname) === 'dist');
-    app.use(express.favicon(cf.FAVICON, { maxAge: 2592000000 }));
-    app.use(helmet.xframe('SAMEORIGIN'));
-    app.use(modrewrite(modrewrites));
-    app.use(express.errorHandler());
-    app.use(express.cookieParser());
-    app.use(express.bodyParser({ uploadDir: __dirname + cf.UPLOAD_FOLDER }));
-    app.use(app.router);
-  });
 
   /**
    * Development configurations
    */
 
   app.configure('development', function() {
-    app.use(express.static(__dirname + '/'));
+    app.use(express.static(path.join(__dirname, '../')));
   });
 
   /**
@@ -61,6 +44,25 @@ module.exports = function(app) {
    * Production configurations
    */
 
-   app.configure('production', function() {
+  app.configure('production', function() {
+
+  });
+
+   /**
+   * General configurations
+   */
+
+  app.configure(function() {
+    app.use(express.query());
+    app.use(express.compress());
+    app.set('port', process.env.PORT || cf.DEFAULT_PORT);
+    app.set('dist', path.dirname(__dirname) === 'dist');
+    app.use(express.favicon(cf.FAVICON, { maxAge: 2592000000 }));
+    app.use(helmet.xframe('SAMEORIGIN'));
+    app.use(modrewrite(modrewrites));
+    app.use(express.errorHandler());
+    app.use(express.cookieParser());
+    app.use(express.bodyParser({ uploadDir: __dirname + cf.UPLOAD_FOLDER }));
+    app.use(app.router);
   });
 };

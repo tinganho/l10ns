@@ -1,0 +1,62 @@
+
+$padding: 40px;
+
+.edit {
+  width: calc(720px - #{2 * $padding});
+  margin: auto;
+  background-color: #cbcbcb;
+  padding: $padding;
+}
+
+.edit-title {
+  color: #fff;
+  font-size: 40px;
+  margin-bottom: 40px;
+  word-wrap: break-word;
+}
+
+.edit-form {
+  overflow: hidden;
+}
+
+.edit-variables {
+  float: left;
+  width: 20%;
+  margin-right: 6.67%;
+}
+
+.edit-sub-title {
+  color: #fff;
+  padding: 6px 0;
+  border-bottom: 1px solid #acacac;
+  margin-bottom: 10px;
+  @include font-size(2);
+}
+
+.edit-inputs {
+  width: calc(73.33% - 2px);
+  float: left;
+
+  .edit-sub-title {
+    margin-left: 2px;
+    margin-right: 2px
+  }
+}
+
+.edit-input {
+  width: calc(100% - 23px);
+  margin-right: 2px;
+  margin-left: 1px;
+  background-color: #f0f0f0;
+}
+
+.edit-actions {
+  float: right;
+  overflow: hidden;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.edit-actions-save {
+  float: right;
+}

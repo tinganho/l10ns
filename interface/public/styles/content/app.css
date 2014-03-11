@@ -1,0 +1,132 @@
+/* Content */
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/tinganho\/Development\/get-translation\/interface\/content\/translations\/translations\.scss}line{font-family:\000035}}
+.translations {
+  padding: 40px 0;
+  background-color: #e2e2e2;
+  overflow: hidden;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/tinganho\/Development\/get-translation\/interface\/content\/translations\/translations\.scss}line{font-family:\0000310}}
+.translations.hidden {
+  display: none;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/tinganho\/Development\/get-translation\/interface\/content\/translations\/translations\.scss}line{font-family:\0000315}}
+.translations-headers {
+  margin-bottom: 40px;
+  overflow: hidden;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/tinganho\/Development\/get-translation\/interface\/content\/translations\/translations\.scss}line{font-family:\0000320}}
+.translation {
+  cursor: pointer;
+  overflow: hidden;
+  padding: 10px 0;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/tinganho\/Development\/get-translation\/interface\/content\/translations\/translations\.scss}line{font-family:\0000325}}
+.translation:hover {
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/tinganho\/Development\/get-translation\/interface\/content\/translations\/translations\.scss}line{font-family:\0000331}}
+.translation-col {
+  float: left;
+  width: calc(50% - 60px);
+  padding-left: 40px;
+  padding-right: 20px;
+  word-wrap: break-word;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/tinganho\/Development\/get-translation\/interface\/content\/search\/search\.scss}line{font-family:\000034}}
+.search-layout {
+  position: relative;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/tinganho\/Development\/get-translation\/interface\/content\/search\/search\.scss}line{font-family:\0000310}}
+.search {
+  width: calc(100% - 20px);
+  color: white;
+  background-color: #e77f7f;
+  border: none;
+  height: 30px;
+  margin: auto 0;
+  padding: 0 10px;
+  border-radius: 2px;
+  font-size: 16px;
+  font-size: 1.6rem;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.2) 1px 1px 1px 0px inset;
+  -moz-box-shadow: rgba(0, 0, 0, 0.2) 1px 1px 1px 0px inset;
+  box-shadow: rgba(0, 0, 0, 0.2) 1px 1px 1px 0px inset;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/tinganho\/Development\/get-translation\/interface\/content\/edit\/edit\.scss}line{font-family:\000034}}
+.edit {
+  width: calc(720px - 80px);
+  margin: auto;
+  background-color: #cbcbcb;
+  padding: 40px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/tinganho\/Development\/get-translation\/interface\/content\/edit\/edit\.scss}line{font-family:\0000311}}
+.edit-title {
+  color: #fff;
+  font-size: 40px;
+  margin-bottom: 40px;
+  word-wrap: break-word;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/tinganho\/Development\/get-translation\/interface\/content\/edit\/edit\.scss}line{font-family:\0000318}}
+.edit-form {
+  overflow: hidden;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/tinganho\/Development\/get-translation\/interface\/content\/edit\/edit\.scss}line{font-family:\0000322}}
+.edit-variables {
+  float: left;
+  width: 20%;
+  margin-right: 6.67%;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/tinganho\/Development\/get-translation\/interface\/content\/edit\/edit\.scss}line{font-family:\0000328}}
+.edit-sub-title {
+  color: #fff;
+  padding: 6px 0;
+  border-bottom: 1px solid #acacac;
+  margin-bottom: 10px;
+  font-size: 20px;
+  font-size: 2rem;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/tinganho\/Development\/get-translation\/interface\/content\/edit\/edit\.scss}line{font-family:\0000336}}
+.edit-inputs {
+  width: calc(73.33% - 2px);
+  float: left;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/tinganho\/Development\/get-translation\/interface\/content\/edit\/edit\.scss}line{font-family:\0000340}}
+.edit-inputs .edit-sub-title {
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/tinganho\/Development\/get-translation\/interface\/content\/edit\/edit\.scss}line{font-family:\0000346}}
+.edit-input {
+  width: calc(100% - 23px);
+  margin-right: 2px;
+  margin-left: 1px;
+  background-color: #f0f0f0;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/tinganho\/Development\/get-translation\/interface\/content\/edit\/edit\.scss}line{font-family:\0000353}}
+.edit-actions {
+  float: right;
+  overflow: hidden;
+  margin-top: 20px;
+  width: 100%;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/tinganho\/Development\/get-translation\/interface\/content\/edit\/edit\.scss}line{font-family:\0000360}}
+.edit-actions-save {
+  float: right;
+}

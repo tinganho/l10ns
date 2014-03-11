@@ -3,9 +3,10 @@
  * Module dependencies
  */
 
-var config = require('../lib/config')
-  , path = require('path');
-
+var config = require('../core/config')
+  , path = require('path')
+  , glob = require('glob')
+  , corePath = require('../core/path');
 
 /**
  * Core server configs for your app. Use DEV__, STAG__, PROD__ prefixes
@@ -110,7 +111,7 @@ var configs = {
    * @type {String}
    */
 
-  CLIENT_CONF_BUILD : 'public/conf',
+  CLIENT_CONF_BUILD : 'public/scripts/conf',
 
   /**
    * Path to the default favicon for your website
@@ -183,8 +184,7 @@ var configs = {
    * @type {String}
    */
 
-  DOCUMENT_TEMPLATES : 'documents/build/tmpl',
-
+  DOCUMENT_TEMPLATES : 'public/templates/documents/tmpl',
 
   /**
    * Layout built templates path
@@ -192,7 +192,47 @@ var configs = {
    * @type {String}
    */
 
-  LAYOUT_TEMPLATES : 'layouts/build/tmpl'
+  LAYOUT_TEMPLATES : 'public/templates/layouts/tmpl',
+
+  /**
+   * Layout built templates path
+   *
+   * @type {String}
+   */
+
+  CORE_TEMPLATES : 'public/templates/core/tmpl',
+
+  /**
+   * Requirejs path
+   *
+   * @type {String}
+   */
+
+  REQUIREJS : corePath.requirejs(),
+
+  /**
+   * Modernizr path
+   *
+   * @type {String}
+   */
+
+  MODERNIZR : corePath.modernizr(),
+
+  /**
+   * Default main path
+   *
+   * @type {String}
+   */
+
+  DEFAULT_MAIN : 'mains/default',
+
+  /**
+   * Translation items per page. Used for pagination.
+   *
+   * @type {Number}
+   */
+
+  TRANSLATION_ITEMS_PER_PAGE : 20
 };
 
 /**

@@ -9,7 +9,7 @@
  * Module dependencies
  */
 
-var config = require('../lib/config');
+var config = require('../core/config');
 
 /**
  * Core client configs for your app. Use DEV__, STAG__, PROD__ prefixes

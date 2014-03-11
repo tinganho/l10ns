@@ -1,0 +1,14 @@
+{
+  "name": "url-parser",
+  "homepage": "https://github.com/allmarkedup/jQuery-URL-Parser",
+  "version": "2.2.1",
+  "_release": "2.2.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "v2.2.1",
+    "commit": "1dd1a0a7e9798c278e25f28e5c8585302a7ac3dc"
+  },
+  "_source": "git://github.com/allmarkedup/jQuery-URL-Parser.git",
+  "_target": "~2.2.1",
+  "_originalSource": "url-parser"
+}

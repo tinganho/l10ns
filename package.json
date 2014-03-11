@@ -32,12 +32,12 @@
   },
   "dependencies": {
     "grunt": "~0.4.2",
-    "amdefine": "0.0.4",
+    "amdefine": "^0.1.0",
     "express": "~3.1.2",
     "findup-sync": "~0.1.1",
     "open": "0.0.3",
     "grunt-contrib-connect": "~0.2.0",
-    "connect-modrewrite": "~0.3.16",
+    "connect-modrewrite": "^0.6.0",
     "autoroute": "~0.2.1",
     "lunr": "~0.4.3",
     "requirejs": "~2.1.10",
@@ -55,7 +55,8 @@
     "mocha": "~1.8.2",
     "q": "~1.0.0",
     "sinon": "~1.8.2",
-    "helmet": "~0.1.2"
+    "helmet": "~0.1.2",
+    "backbone": "~1.1.2"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.1.0",
@@ -68,7 +69,8 @@
     "sinon-chai": "~2.5.0",
     "chai-as-promised": "~4.1.0",
     "chai": "~1.8.1",
-    "grunt-dot-compiler": "~0.5.12"
+    "grunt-dot-compiler": "~0.5.12",
+    "grunt-modernizr": "~0.5.1"
   },
   "keywords": [
     "gruntplugin"

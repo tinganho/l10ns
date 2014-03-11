@@ -1,0 +1,357 @@
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/Ruby\/Gems\/2\.0\.0\/gems\/compass-0\.12\.2\/frameworks\/compass\/stylesheets\/compass\/reset\/_utilities\.scss}line{font-family:\0000317}}
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  vertical-align: baseline;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/Ruby\/Gems\/2\.0\.0\/gems\/compass-0\.12\.2\/frameworks\/compass\/stylesheets\/compass\/reset\/_utilities\.scss}line{font-family:\0000322}}
+html {
+  line-height: 1;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/Ruby\/Gems\/2\.0\.0\/gems\/compass-0\.12\.2\/frameworks\/compass\/stylesheets\/compass\/reset\/_utilities\.scss}line{font-family:\0000324}}
+ol, ul {
+  list-style: none;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/Ruby\/Gems\/2\.0\.0\/gems\/compass-0\.12\.2\/frameworks\/compass\/stylesheets\/compass\/reset\/_utilities\.scss}line{font-family:\0000326}}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/Ruby\/Gems\/2\.0\.0\/gems\/compass-0\.12\.2\/frameworks\/compass\/stylesheets\/compass\/reset\/_utilities\.scss}line{font-family:\0000328}}
+caption, th, td {
+  text-align: left;
+  font-weight: normal;
+  vertical-align: middle;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/Ruby\/Gems\/2\.0\.0\/gems\/compass-0\.12\.2\/frameworks\/compass\/stylesheets\/compass\/reset\/_utilities\.scss}line{font-family:\0000330}}
+q, blockquote {
+  quotes: none;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/Ruby\/Gems\/2\.0\.0\/gems\/compass-0\.12\.2\/frameworks\/compass\/stylesheets\/compass\/reset\/_utilities\.scss}line{font-family:\00003103}}
+q:before, q:after, blockquote:before, blockquote:after {
+  content: "";
+  content: none;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/Ruby\/Gems\/2\.0\.0\/gems\/compass-0\.12\.2\/frameworks\/compass\/stylesheets\/compass\/reset\/_utilities\.scss}line{font-family:\0000332}}
+a img {
+  border: none;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/Ruby\/Gems\/2\.0\.0\/gems\/compass-0\.12\.2\/frameworks\/compass\/stylesheets\/compass\/reset\/_utilities\.scss}line{font-family:\00003116}}
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {
+  display: block;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/Ruby\/Gems\/2\.0\.0\/gems\/compass-h5bp-0\.1\.2\/stylesheets\/h5bp\/_main\.scss}line{font-family:\0000322}}
+html,
+button,
+input,
+select,
+textarea {
+  color: #222222;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/Ruby\/Gems\/2\.0\.0\/gems\/compass-h5bp-0\.1\.2\/stylesheets\/h5bp\/_main\.scss}line{font-family:\0000326}}
+body {
+  font-size: 1em;
+  line-height: 1.4;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/Ruby\/Gems\/2\.0\.0\/gems\/compass-h5bp-0\.1\.2\/stylesheets\/h5bp\/_main\.scss}line{font-family:\0000334}}
+::-moz-selection {
+  background: #b3d4fc;
+  text-shadow: none;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/Ruby\/Gems\/2\.0\.0\/gems\/compass-h5bp-0\.1\.2\/stylesheets\/h5bp\/_main\.scss}line{font-family:\0000339}}
+::selection {
+  background: #b3d4fc;
+  text-shadow: none;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/Ruby\/Gems\/2\.0\.0\/gems\/compass-h5bp-0\.1\.2\/stylesheets\/h5bp\/_main\.scss}line{font-family:\0000345}}
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 1em 0;
+  padding: 0;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/Ruby\/Gems\/2\.0\.0\/gems\/compass-h5bp-0\.1\.2\/stylesheets\/h5bp\/_main\.scss}line{font-family:\0000355}}
+img {
+  vertical-align: middle;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/Ruby\/Gems\/2\.0\.0\/gems\/compass-h5bp-0\.1\.2\/stylesheets\/h5bp\/_main\.scss}line{font-family:\0000360}}
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/Ruby\/Gems\/2\.0\.0\/gems\/compass-h5bp-0\.1\.2\/stylesheets\/h5bp\/_main\.scss}line{font-family:\0000367}}
+textarea {
+  resize: vertical;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/Ruby\/Gems\/2\.0\.0\/gems\/compass-h5bp-0\.1\.2\/stylesheets\/h5bp\/_helpers\.scss}line{font-family:\000037}}
+.ir {
+  background-color: transparent;
+  border: 0;
+  overflow: hidden;
+  *text-indent: -9999px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/Ruby\/Gems\/2\.0\.0\/gems\/compass-h5bp-0\.1\.2\/stylesheets\/h5bp\/_helpers\.scss}line{font-family:\0000327}}
+.ir:before {
+  content: "";
+  display: block;
+  width: 0;
+  height: 150%;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/Ruby\/Gems\/2\.0\.0\/gems\/compass-h5bp-0\.1\.2\/stylesheets\/h5bp\/_helpers\.scss}line{font-family:\000039}}
+.hidden {
+  display: none !important;
+  visibility: hidden;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/Ruby\/Gems\/2\.0\.0\/gems\/compass-h5bp-0\.1\.2\/stylesheets\/h5bp\/_helpers\.scss}line{font-family:\0000311}}
+.visuallyhidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/Ruby\/Gems\/2\.0\.0\/gems\/compass-h5bp-0\.1\.2\/stylesheets\/h5bp\/_helpers\.scss}line{font-family:\0000367}}
+.visuallyhidden.focusable:active, .visuallyhidden.focusable:focus {
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  width: auto;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/Ruby\/Gems\/2\.0\.0\/gems\/compass-h5bp-0\.1\.2\/stylesheets\/h5bp\/_helpers\.scss}line{font-family:\0000313}}
+.invisible {
+  visibility: hidden;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/Ruby\/Gems\/2\.0\.0\/gems\/compass-h5bp-0\.1\.2\/stylesheets\/h5bp\/_helpers\.scss}line{font-family:\0000393}}
+.clearfix:before, .clearfix:after {
+  content: " ";
+  display: table;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/Ruby\/Gems\/2\.0\.0\/gems\/compass-h5bp-0\.1\.2\/stylesheets\/h5bp\/_helpers\.scss}line{font-family:\0000398}}
+.clearfix:after {
+  clear: both;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/Ruby\/Gems\/2\.0\.0\/gems\/compass-h5bp-0\.1\.2\/stylesheets\/h5bp\/_helpers\.scss}line{font-family:\00003104}}
+.clearfix {
+  *zoom: 1;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/tinganho\/Development\/get-translation\/interface\/components\/fonts\.scss}line{font-family:\0000313}}
+html {
+  font-family: Helvetica Neue, Arial;
+  font-weight: 100;
+  color: #5a5a5a;
+  font-size: 62.5%;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/tinganho\/Development\/get-translation\/interface\/components\/fonts\.scss}line{font-family:\0000320}}
+input {
+  font-family: Helvetica Neue, Arial;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/tinganho\/Development\/get-translation\/interface\/components\/fonts\.scss}line{font-family:\0000325}}
+[type=text],
+[type=password] {
+  font-weight: 200;
+  letter-spacing: 1px;
+  outline: none;
+  font-size: 20px;
+  font-size: 2rem;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/Ruby\/Gems\/2\.0\.0\/gems\/compass-placeholder-0\.0\.3\/stylesheets\/_compass-placeholder\.scss}line{font-family:\000032}}
+[type=text]::-webkit-input-placeholder,
+[type=password]::-webkit-input-placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/Ruby\/Gems\/2\.0\.0\/gems\/compass-placeholder-0\.0\.3\/stylesheets\/_compass-placeholder\.scss}line{font-family:\000036}}
+[type=text]:-moz-placeholder,
+[type=password]:-moz-placeholder {
+  /* Firefox 18- */
+  color: rgba(255, 255, 255, 0.6);
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/Ruby\/Gems\/2\.0\.0\/gems\/compass-placeholder-0\.0\.3\/stylesheets\/_compass-placeholder\.scss}line{font-family:\0000310}}
+[type=text]::-moz-placeholder,
+[type=password]::-moz-placeholder {
+  /* Firefox 19+ */
+  color: rgba(255, 255, 255, 0.6);
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/Ruby\/Gems\/2\.0\.0\/gems\/compass-placeholder-0\.0\.3\/stylesheets\/_compass-placeholder\.scss}line{font-family:\0000314}}
+[type=text]:-ms-input-placeholder,
+[type=password]:-ms-input-placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/tinganho\/Development\/get-translation\/interface\/components\/fonts\.scss}line{font-family:\0000335}}
+div {
+  font-size: 19px;
+  font-size: 1.9rem;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/tinganho\/Development\/get-translation\/interface\/components\/fonts\.scss}line{font-family:\0000339}}
+h2 {
+  font-size: 30px;
+  font-size: 3rem;
+  font-weight: 100;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/tinganho\/Development\/get-translation\/interface\/components\/inputs\.scss}line{font-family:\000033}}
+[type=text],
+[type=password] {
+  border: none;
+  padding: 0 10px;
+  height: 35px;
+  border-radius: 2px;
+  width: calc(100% - 20px);
+  font-size: 20px;
+  font-size: 2rem;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.2) 1px 1px 1px 0px inset;
+  -moz-box-shadow: rgba(0, 0, 0, 0.2) 1px 1px 1px 0px inset;
+  box-shadow: rgba(0, 0, 0, 0.2) 1px 1px 1px 0px inset;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/tinganho\/Development\/get-translation\/interface\/components\/inputs\.scss}line{font-family:\0000313}}
+:focus {
+  outline: none;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/tinganho\/Development\/get-translation\/interface\/components\/buttons\.scss}line{font-family:\000032}}
+.button[type=submit] {
+  color: #fff;
+  background-color: #e55a5a;
+  -webkit-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.2);
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/tinganho\/Development\/get-translation\/interface\/components\/buttons\.scss}line{font-family:\000037}}
+.button[type=submit]:active {
+  -webkit-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.4) inset;
+  -moz-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.4) inset;
+  box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.4) inset;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/tinganho\/Development\/get-translation\/interface\/components\/buttons\.scss}line{font-family:\0000312}}
+.button {
+  display: inline-block;
+  color: #a5a5a5;
+  background-color: #e7e7e7;
+  min-width: 40px;
+  padding: 10px 30px;
+  margin: 2px;
+  border-radius: 2px;
+  font-weight: 100;
+  border: none;
+  cursor: pointer;
+  line-height: 2.4rem;
+  line-height: 24px;
+  text-align: center;
+  font-size: 20px;
+  font-size: 2rem;
+  -webkit-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.1);
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/tinganho\/Development\/get-translation\/interface\/components\/buttons\.scss}line{font-family:\0000329}}
+.button:active {
+  -webkit-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3) inset;
+  -moz-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3) inset;
+  box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3) inset;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/tinganho\/Development\/get-translation\/interface\/layouts\/app\.scss}line{font-family:\000032}}
+html {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/tinganho\/Development\/get-translation\/interface\/layouts\/app\.scss}line{font-family:\000038}}
+body {
+  background-color: #ebebeb;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/tinganho\/Development\/get-translation\/interface\/layouts\/app\.scss}line{font-family:\0000312}}
+.app {
+  overflow: hidden;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/tinganho\/Development\/get-translation\/interface\/layouts\/app\.scss}line{font-family:\0000316}}
+.app-header {
+  position: fixed;
+  width: 100%;
+  height: 40px;
+  z-index: 10000;
+  background-color: #e04d4d;
+  display: table;
+  -webkit-box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.2);
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/tinganho\/Development\/get-translation\/interface\/layouts\/app\.scss}line{font-family:\0000326}}
+.app-search {
+  position: relative;
+  width: 720px;
+  margin: 0px auto;
+  height: 100%;
+  display: table;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/tinganho\/Development\/get-translation\/interface\/layouts\/app\.scss}line{font-family:\0000334}}
+.app-translations {
+  width: 720px;
+  margin: 100px auto;
+  -webkit-transform: translateZ(0);
+  -moz-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  -o-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/tinganho\/Development\/get-translation\/interface\/layouts\/app\.scss}line{font-family:\0000340}}
+.app-edit {
+  position: absolute;
+  top: 25%;
+  width: 100%;
+}

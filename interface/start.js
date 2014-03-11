@@ -1,5 +1,17 @@
 
 /**
+ * Mark in server
+ */
+
+GLOBAL.inServer = true;
+
+/**
+ * Mark not in client
+ */
+
+GLOBAL.inClient = false;
+
+/**
  * Environmental vars dependencies
  */
 
@@ -11,6 +23,12 @@ else if(!/development|staging|production/.test(process.env.NODE_ENV)) {
   console.log('[' + ':('.red + ']' + ' NODE_ENV must have the value development|staging|production'.yellow);
   process.kill();
 }
+
+/**
+ * Sets global vars pcf and cf
+ */
+
+require('../bin/gt');
 
 /**
  * Set ENV
@@ -36,19 +54,18 @@ global.ENV = ENV;
 /**
  * Module dependencies.
  */
+GLOBAL.requirejs = require('requirejs');
 
 var express = require('express')
   , fs = require('fs')
-  , requirejs = require('requirejs')
   , http = require('http')
   , path = require('path')
   , cluster = require('cluster')
   /*jshint unused:false */
-  , readTmpls = require('./page').readTmpls
   , helmet = require('helmet')
   , scf = require('./conf/core')
   , autoroute = require('autoroute')
-  , config = require('./lib/config')
+  , config = require('./core/config')
   , configure = require('./conf/app')
   , autoroutes = require('./conf/autoroutes');
 
@@ -71,6 +88,15 @@ if(cluster.isMaster && process.env.NODE_ENV === 'production') {
 }
 else {
 
+  var page = require('./core/page')
+    , readTmpls = page.readTmpls;
+
+  /**
+   * Content templates
+   */
+
+  GLOBAL.content_appTmpls = requirejs('./public/templates/content/app');
+
   /**
    * RequireJS config.
    */
@@ -83,7 +109,6 @@ else {
   /**
    * Globals.
    */
-  GLOBAL.requirejs = requirejs;
   GLOBAL.cf = scf;
 
 
@@ -116,7 +141,7 @@ else {
    * App namespace.
    */
 
-  var app = express();
+  GLOBAL.app = express();
 
   /**
    * Add default security
@@ -125,23 +150,31 @@ else {
   helmet.defaults(app, { xframe: false, csp: false });
 
   /**
-   * App configuration.
-   */
-
-  configure(app);
-
-  /**
    * Autoroute.
    */
 
   autoroute(autoroutes, app);
 
   /**
+   * App configuration.
+   */
+
+  configure(app);
+
+  /**
    * Server start.
    */
 
+  require('./pages/home')(page);
+  require('./pages/edit')(page);
+
   http.createServer(app).listen(app.get('port'), function() {
     console.log('[%s] Express app listening on port ' + app.get('port'), process.pid);
+  });
+
+  app.post('/oauth2/token', function(req, res) {
+    console.log(req.body);
+    res.send('hej')
   });
 
   /**

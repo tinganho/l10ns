@@ -1,0 +1,37 @@
+
+$padding-left: 40px;
+$padding-right: 20px;
+
+.translations {
+  padding: $padding-left 0;
+  background-color: #e2e2e2;
+  overflow: hidden;
+
+  &.hidden {
+    display: none;
+  }
+}
+
+.translations-headers {
+  margin-bottom: 40px;
+  overflow: hidden;
+}
+
+.translation {
+  cursor: pointer;
+  overflow: hidden;
+  padding: 10px 0;
+
+  &:hover {
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+}
+
+.translation-col {
+  float: left;
+  width: calc(50% - #{$padding-left + $padding-right});
+  padding-left: $padding-left;
+  padding-right: $padding-right;
+  word-wrap: break-word;
+}

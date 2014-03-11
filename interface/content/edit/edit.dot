@@ -1,0 +1,26 @@
+
+<div class="edit">
+  <h1 class="edit-title">{{=it.key}}</h1>
+  <form class="edit-form">
+    <div class="edit-variables">
+      <h2 class="edit-sub-title">{{=it.i18n_variables}}</h2>
+      <ul class="edit-variables-list">
+      {{?it.variables}}
+        {{~it.variables :variable:index}}
+          <li class="edit-variable">{{=variable}}</li>
+        {{~}}
+      {{??}}
+        <li class="edit-variable">{{=it.i18n_none}}</li>
+      {{?}}
+      </ul>
+    </div>
+    <div class="edit-inputs clearfix">
+      <h2 class="edit-sub-title">{{=it.i18n_translation}}</h2>
+      <input type="text" class="edit-input"></input>
+      <div class="edit-actions">
+        <input class="edit-actions-save button" type="submit" value="{{=it.i18n_save}}" disabled></input>
+        <a class="edit-actions-cancel button" disabled>{{=it.i18n_else}}</a>
+      </div>
+    </div>
+  </form>
+</div>

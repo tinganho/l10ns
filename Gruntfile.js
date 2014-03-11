@@ -1,5 +1,6 @@
 
-var jshintGlobals = require('jshint-globals');
+var jshintGlobals = require('jshint-globals')
+  , compassRequires = ['susy', 'compass-placeholder', 'compass-retina-sprites', 'toolkit', 'animation', 'compass-h5bp'];
 
 module.exports = function(grunt) {
 
@@ -58,69 +59,107 @@ module.exports = function(grunt) {
       ]
     },
 
-    compass: {
-      dist: {
-        options: {
-          config : 'app/config.rb',
-          require : ['susy', 'compass-placeholder', 'compass-retina-sprites', 'toolkit', 'animation'],
-          sassDir : 'app/conf',
-          cssDir : 'app/public/styles',
+    compass : {
+      documents : {
+        options : {
+          require : compassRequires,
+          sassDir : 'interface/documents/styles',
+          cssDir : 'interface/public/styles/documents',
           debugInfo : true,
           noLineComments : true,
-          imagesDir : 'app/public/images'
+          imagesDir : 'interface/public/images'
+        }
+      },
+
+      content : {
+        options : {
+          require : compassRequires,
+          sassDir : 'interface/content/styles',
+          cssDir : 'interface/public/styles/content',
+          debugInfo : true,
+          noLineComments : true,
+          imagesDir : 'interface/public/images'
         }
       }
     },
 
-    dot: {
-      documents: {
-        options: {
+    modernizr : {
+      dist : {
+        devFile : 'interface/vendor/modernizr/modernizr.js',
+        outputFile : 'interface/vendor/modernizr/build/modernizr.js', // we will revision this later
+        extra : {
+          shiv : true,
+          printShiv : false,
+          mq : true,
+          cssclasses : true
+        },
+        extensibility : {
+          addtest : true,
+          prefixed : false,
+          teststyles : false,
+          testallprops : false,
+          hasevents : false,
+          prefixes : false,
+          domprefixes : false,
+        },
+        uglify : true,
+        parseFiles : true
+      }
+    },
+
+    dot : {
+      core : {
+        options : {
+          variable : 'tmpl',
+          requirejs : true,
+          node : true
+        },
+        src : ['interface/core/**/*.dot'],
+        dest : 'interface/public/templates/core/tmpl.js'
+      },
+
+      documents : {
+        options : {
           variable : 'tmpl',
           requirejs : true,
           node : true
         },
         src : ['interface/documents/**/*.dot'],
-        dest : 'interface/documents/build/tmpl.js'
+        dest : 'interface/public/templates/documents/tmpl.js'
       },
 
       layouts : {
-        options: {
+        options : {
           variable : 'tmpl',
           requirejs : true,
           node : true
         },
         src : ['interface/layouts/**/*.dot'],
-        dest : 'interface/layouts/build/tmpl.js'
+        dest : 'interface/public/templates/layouts/tmpl.js'
+      },
+
+      content_app : {
+        options : {
+          variable : 'tmpl',
+          requirejs : true,
+          node : true
+        },
+        src : [
+          'interface/content/translations/**/*.dot',
+          'interface/content/search/**/*.dot',
+          'interface/content/edit/**/*.dot'
+        ],
+        dest : 'interface/public/templates/content/app.js'
       },
 
       jsPlugin : {
-        options: {
+        options : {
           variable : 'tmpl',
           requirejs : false,
           node : true
         },
         src : ['plugins/javascript/templates/*.{dot,part}'],
         dest : 'plugins/javascript/templates/build/tmpl.js'
-      }
-    },
-
-    open : {
-      translation : {
-        path: 'http://localhost:3000/translations'
-      }
-    },
-
-    jsdoc : {
-      dist : {
-        src: [
-          'app/**/*.js',
-          '!app/vendor/**',
-          'src/**/*.js',
-          'tasks/**/*.js'
-        ],
-        options: {
-          destination: 'docs'
-        }
       }
     },
 
@@ -143,9 +182,40 @@ module.exports = function(grunt) {
         tasks: ['jshint']
       },
 
-      compass: {
-        files: ['app/**/*.scss'],
-        tasks: ['compass']
+      styles_documents : {
+        files : [
+          'interface/layouts/**/*.scss',
+          'interface/documents/styles/**/*.scss',
+          'interface/components/**/*.scss'
+        ],
+        tasks : ['compass:documents']
+      },
+
+      styles_content_app : {
+        files : [
+          'interface/content/styles/app.scss',
+          'interface/content/translations/**/*.scss',
+          'interface/content/search/**/*.scss',
+          'interface/content/edit/**/*.scss'
+        ],
+        tasks : ['compass:content']
+      }
+    },
+
+    requirejs: {
+      default: {
+        options: {
+          optimize : 'uglify',
+          preserveLicenseComments : false,
+          // generateSourceMaps : true,
+          baseUrl : 'interface',
+          mainConfigFile : 'interface/mains/default.js',
+          out : 'interface/mains/build/default.js',
+          name : 'mains/default',
+          paths : {
+            'modernizr' : 'empty:'
+          }
+        }
       }
     }
   });
@@ -157,10 +227,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-compass');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-dot-compiler');
-  grunt.loadNpmTasks('grunt-contrib-connect');
-
-
-  // Default task.
-  grunt.registerTask('default', 'jshint translate:update translate:compile test');
+  grunt.loadNpmTasks('grunt-modernizr');
 
 };
