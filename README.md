@@ -1,4 +1,4 @@
-get-translation [![Build Status](https://travis-ci.org/tinganho/get-translation.png)](https://travis-ci.org/tinganho/get-translation)
+(WIP) get-translation [![Build Status](https://travis-ci.org/tinganho/get-translation.png)](https://travis-ci.org/tinganho/get-translation)
 ==============
 Effective translation workflow. 
 
