@@ -83,7 +83,7 @@ var configs = {
    * @type {String}
    */
 
-  JSON_HIJACKING_PREFIX : 'while(1);',
+  JSON_HIJACK_PREFIX : 'while(1);',
 
   /**
    * X-Request-By header for protecting against CSRF attacks.

@@ -4,7 +4,7 @@ if(typeof define !== 'function') {
 }
 
 define(function(require) {
-  var View = inServer ? require('../../lib/View') : require('lib/View')
+  var View = inServer ? require('../../lib/View') : require('View')
     , template = inServer ? content_appTmpls : require('contentTmpls');
 
   return View.extend({

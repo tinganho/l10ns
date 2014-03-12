@@ -529,6 +529,21 @@ function parseString(str) {
   return obj;
 }
 
+ /**
+  * Parse text if it contains JSON Hijack
+  *
+  * @param {String} str
+  * @return {Object}
+  * @api private
+  */
+
+function parseText(str) {
+  if(str.indexOf(cf.JSON_HIJACK_PREFIX) === -1) {
+    return str;
+  }
+  return JSON.parse(str.replace(cf.JSON_HIJACK_PREFIX, ''));
+}
+
 /**
  * Expose parser.
  */
@@ -576,7 +591,8 @@ request.types = {
 
 request.parse = {
   'application/x-www-form-urlencoded': parseString,
-  'application/json': JSON.parse
+  'application/json': JSON.parse,
+  'text/plain' : parseText
 };
 
 /**

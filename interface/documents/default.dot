@@ -17,13 +17,13 @@ The default document
 {{##def.features : load('./partials/features.part') #}}
 {{##def.styles : load('./partials/styles.part') #}}
 {{##def.scripts : load('./partials/scripts.part') #}}
+{{##def.globals : load('./partials/globals.part') #}}
 
 <!DOCTYPE html>
-<html lang="{{=it.locale}}" class="{{=it.locale}} {{=it.device}}">
+<html lang="{{=it.locale}}" class="locale-{{=it.locale}} {{=it.device}}">
   <head>
     <script src="{{=it.modernizr}}"></script>
-    <script>window.inServer = false;</script>
-    <script>window.inClient = true;</script>
+    <script src="{{=it.cf}}"></script>
 
     {{#def.metas}}
     {{#def.favicon}}
@@ -31,6 +31,7 @@ The default document
     {{#def.features}}
     {{#def.styles}}
     {{#def.scripts}}
+    {{#def.globals}}
 
   </head>
   <body>

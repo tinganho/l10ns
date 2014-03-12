@@ -5,6 +5,6 @@ Search
 
 !-->
 
-<div class="search-layout">
+<div class="search-layout" data-content="search">
   <input class="search" type="text" placeholder="{{=it.i18n_placeholder}}"></input>
 </div>

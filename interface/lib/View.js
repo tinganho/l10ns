@@ -22,7 +22,7 @@ define(function(require) {
      */
 
     _ensureElement : function() {
-      if(!inServer) {
+      if(inClient) {
         Backbone.View.prototype._ensureElement.call(this, arguments);
       }
     },

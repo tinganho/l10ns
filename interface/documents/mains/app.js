@@ -48,7 +48,11 @@ requirejs.config({
     '*': {
       'View' : 'lib/View',
       'Collection' : 'lib/Collection',
-      'Model' : 'lib/Model'
+      'Model' : 'lib/Model',
+      'contentTmpls' : 'public/templates/content/app',
+
+      'CompositeRouter' : 'public/scripts/routers/composer',
+      'request' : 'client-lib/request'
     }
   },
 
@@ -63,11 +67,13 @@ define('modernizr', function() {
 
 require([
 
-  'backbone'
+  'backbone',
+  'CompositeRouter'
 
 ], function(
 
-  Backbone
+  Backbone,
+  CompositeRouter
 
 ) {
 
@@ -102,6 +108,7 @@ require([
    */
 
   App.delegateRouters = function() {
+    new CompositeRouter();
   };
 
   // Initialize App

@@ -1,17 +1,18 @@
 
-
-
 if(typeof define !== 'function') {
   var define = require('amdefine')(module);
 }
+if(inServer) {
+  var file = require('../../../lib/file');
+}
 
 define(function(require) {
-  var Collection = inServer ? require('../../lib/Collection') : require('/lib/Collection')
-    , Translation = inServer ? require('./Translation') : require('/lib/Translation')
-    , _ = require('underscore');
+  var Collection = inServer ? require('../../lib/Collection') : require('Collection')
+    , Translation = inServer ? require('./Translation') : require('content/translations/Translation')
+    , _ = require('underscore')
 
-  if(inServer) {
-    var file = require('../../../lib/file');
+  if(inClient) {
+    var request = require('request');
   }
 
   return Collection.extend({
@@ -56,8 +57,16 @@ define(function(require) {
           else {
             this.put('revealed', true);
           }
+          opts.success(collection.toJSON());
         }
-        opts.success(collection.toJSON());
+        else {
+          request
+            .get('/translations')
+            .end(function(err, data) {
+              console.log(data);
+            })
+        }
+
       }
     }
   });

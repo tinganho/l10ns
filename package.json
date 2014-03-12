@@ -56,7 +56,8 @@
     "q": "~1.0.0",
     "sinon": "~1.8.2",
     "helmet": "~0.1.2",
-    "backbone": "~1.1.2"
+    "backbone": "~1.1.2",
+    "superagent": "~0.17.0"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.1.0",

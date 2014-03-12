@@ -8,7 +8,7 @@ $horizontal-padding: 10px;
 }
 
 .search {
-  width: calc(100% - #{2*$horizontal-padding});
+  width: calc(100% - #{ 2 * $horizontal-padding });
   color: white;
   background-color: #e77f7f;
   border: none;

@@ -1,8 +1,8 @@
 
 <div class="app">
   <header class="app-header">
-    <div class="app-search" data-content="search">{{=it.search}}</div>
+    <div class="app-search" data-region="search">{{=it.search}}</div>
   </header>
-  <div class="app-translations" data-content="translations">{{=it.translations}}</div>
-  <div class="app-edit" data-content="edit">{{?it.edit}}{{=it.edit}}{{?}}</div>
+  <div class="app-translations" data-region="body">{{=it.body}}</div>
+  <div class="app-edit" data-region="edit">{{?it.edit}}{{=it.edit}}{{?}}</div>
 </div>

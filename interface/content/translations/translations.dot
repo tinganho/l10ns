@@ -1,5 +1,5 @@
 
-<ul class="translations {{?!it.metas.revealed}}hidden{{?}}">
+<ul class="translations {{?!it.metas.revealed}}hidden{{?}}" data-content="translations">
   <li class="translations-headers">
     <h2 class="translation-col translations-header">{{=it.metas.l10n_keys}}</h2>
     <h2 class="translation-col translations-header">{{=it.metas.l10n_values}}</h2>

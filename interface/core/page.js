@@ -114,8 +114,8 @@ Page.prototype._getContent = function(callback, req) {
       throw new TypeError('name `' + name + '` doesn\'t have a view');
     }
 
-    var Model = require('../content/' + this.content[name].model)
-      , View = require('../content/' + this.content[name].view);
+    var Model = require('../' + this.content[name].model)
+      , View = require('../' + this.content[name].view);
 
     if(!Model.prototype.fetch) {
       throw new TypeError(this.content[name].model + ' is not an instance of Model or Collection');
@@ -141,19 +141,12 @@ Page.prototype._getContent = function(callback, req) {
         success : function() {
           var data = {};
           var json = model.toJSON();
-          data[name] = json;
-          // If collection we need add meta data to the template
-          if(typeof model.metas !== 'undefined' && _.size(model.metas) !== 0) {
-            data[name].metas = model.metas;
-          }
-          content[name] = view.template(data[name]);
+          content[name] = view.template(json);
 
           if(typeof model.page.title === 'string' && model.page.title.length > 0) {
             _this._documentProps.title = model.page.title;
           }
-          console.log(typeof model.page.description)
           if(typeof model.page.description === 'string' && model.page.description.length > 0) {
-            console.log('hej')
             _this._documentProps.description = model.page.description;
           }
 
@@ -183,7 +176,6 @@ Page.prototype._getContent = function(callback, req) {
         console.log(err);
       }
     }
-
   }
 };
 
@@ -241,7 +233,8 @@ Page.prototype._next = function(req, res) {
       jsonScripts : jsonScripts,
       layout : _this._layoutTmpl(content),
       modernizr : cf.MODERNIZR,
-      requirejs : cf.REQUIREJS
+      requirejs : cf.REQUIREJS,
+      cf : cf.CLIENT_CONF_BUILD + '/cf.js'
     });
 
     res.send(html);

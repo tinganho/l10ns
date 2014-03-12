@@ -3,6 +3,6 @@ function encodeHTMLSource() {  var encodeHTMLRules = { "&": "&#38;", "<": "&#60;
 String.prototype.encodeHTML=encodeHTMLSource();
 var tmpl = {};
   tmpl['app']=function anonymous(it) {
-var out='<div class="app"><header class="app-header"><div class="app-search" data-content="search">'+(it.search)+'</div></header><div class="app-translations" data-content="translations">'+(it.translations)+'</div><div class="app-edit" data-content="edit">';if(it.edit){out+=(it.edit);}out+='</div></div>';return out;
+var out='<div class="app"><header class="app-header"><div class="app-search" data-region="search">'+(it.search)+'</div></header><div class="app-translations" data-region="body">'+(it.body)+'</div><div class="app-edit" data-region="edit">';if(it.edit){out+=(it.edit);}out+='</div></div>';return out;
 };
 return tmpl;});

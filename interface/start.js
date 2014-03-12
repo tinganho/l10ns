@@ -1,14 +1,9 @@
 
 /**
- * Mark in server
+ * Set inServer and inClient globals
  */
 
 GLOBAL.inServer = true;
-
-/**
- * Mark not in client
- */
-
 GLOBAL.inClient = false;
 
 /**
@@ -56,8 +51,7 @@ global.ENV = ENV;
  */
 GLOBAL.requirejs = require('requirejs');
 
-var express = require('express')
-  , fs = require('fs')
+var fs = require('fs')
   , http = require('http')
   , path = require('path')
   , cluster = require('cluster')
@@ -141,13 +135,13 @@ else {
    * App namespace.
    */
 
-  GLOBAL.app = express();
+  GLOBAL.app = require('./core/app');
 
   /**
    * Add default security
    */
 
-  helmet.defaults(app, { xframe: false, csp: false });
+  // helmet.defaults(app, { xframe: false, csp: false });
 
   /**
    * Autoroute.
@@ -170,11 +164,6 @@ else {
 
   http.createServer(app).listen(app.get('port'), function() {
     console.log('[%s] Express app listening on port ' + app.get('port'), process.pid);
-  });
-
-  app.post('/oauth2/token', function(req, res) {
-    console.log(req.body);
-    res.send('hej')
   });
 
   /**

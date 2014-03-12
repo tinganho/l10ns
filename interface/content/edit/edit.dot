@@ -1,5 +1,5 @@
 
-<div class="edit">
+<div class="edit" data-content="edit">
   <h1 class="edit-title">{{=it.key}}</h1>
   <form class="edit-form">
     <div class="edit-variables">

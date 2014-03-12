@@ -209,9 +209,9 @@ module.exports = function(grunt) {
           preserveLicenseComments : false,
           // generateSourceMaps : true,
           baseUrl : 'interface',
-          mainConfigFile : 'interface/mains/default.js',
-          out : 'interface/mains/build/default.js',
-          name : 'mains/default',
+          mainConfigFile : 'interface/documents/mains/app.js',
+          out : 'interface/public/scripts/mains/app.js',
+          name : 'documents/mains/app',
           paths : {
             'modernizr' : 'empty:'
           }

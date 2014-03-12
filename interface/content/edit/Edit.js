@@ -2,15 +2,14 @@
 if(typeof define !== 'function') {
   var define = require('amdefine')(module);
 }
+if(inServer) {
+  var file = require('../../../lib/file');
+}
 
 define(function(require) {
-  var Model = inServer ? require('../../lib/Model') : require('lib/Model')
+  var Model = inServer ? require('../../lib/Model') : require('Model')
     , template = inServer ? content_appTmpls : require('contentTmpls')
     , _ = require('underscore');
-
-  if(inServer) {
-    var file = require('../../../lib/file');
-  }
 
   return Model.extend({
     defaults : {

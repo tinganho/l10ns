@@ -62,6 +62,12 @@ define(function(require) {
 
     setPageDescription : function(description) {
       this.page.description = description;
+    },
+
+    toJSON : function() {
+      var json = Backbone.Collection.prototype.toJSON.call(this);
+      json.metas = this.metas;
+      return json;
     }
   });
 

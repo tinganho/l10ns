@@ -5,16 +5,16 @@ module.exports = function(page) {
     .layout('app')
     .content({
       search : {
-        model : 'search/Search',
-        view : 'search/SearchView'
+        model : 'content/search/Search',
+        view : 'content/search/SearchView'
       },
-      translations : {
-        model : 'translations/Translations',
-        view : 'translations/TranslationsView'
+      body : {
+        model : 'content/translations/Translations',
+        view : 'content/translations/TranslationsView'
       },
       edit : {
-        model : 'edit/Edit',
-        view : 'edit/EditView'
+        model : 'content/edit/Edit',
+        view : 'content/edit/EditView'
       }
     })
     .fail(function(err) {});
