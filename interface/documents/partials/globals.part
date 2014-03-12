@@ -1,0 +1,16 @@
+
+<!--
+
+Meta tags
+
+@param {String} description
+
+!-->
+
+<script>
+
+window.inServer = false;
+window.inClient = true;
+window.has = Modernizr;
+
+</script>
