@@ -5,9 +5,10 @@ test/translations/delete.log
 .sass-cache/
 .gt/
 docs/
-app/public/images/main-*
-app/public/images/icons-*
-app/public/styles/*
+interface/public/images/default-*
+interface/public/styles/
+interface/public/scripts/
+interface/public/templates/
 test/translations/cache/latestSearch.json
 test/translations/output/
 

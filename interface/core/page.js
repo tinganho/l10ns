@@ -152,7 +152,7 @@ Page.prototype._getContent = function(callback, req) {
 
           // Push json scripts
           jsonScripts += coreTmpls.jsonScript({
-            name : name,
+            name : _this.content[name].model.split('/')[2].toLowerCase(),
             json : JSON.stringify(json)
           });
 

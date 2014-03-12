@@ -63,7 +63,6 @@ define(function(require) {
           request
             .get('/translations')
             .end(function(err, data) {
-              console.log(data);
             })
         }
 
