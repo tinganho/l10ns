@@ -1,0 +1,85 @@
+<!--
+{
+  imports : [{
+    view : { name : '', path : ''}
+    model : { name : '', path : ''}
+  }]
+
+  pages : [{
+    path : '',
+    layout : ''
+    contentScripts : '',
+    renderScripts : '',
+    mapScripts : ''
+  }]
+}
+
+!-->
+
+define([
+
+  'backbone',
+  'jquery',
+  {{~it.imports :_import:index}}
+    '{{=_import.view.path}}',
+    '{{=_import.model.path}}'
+    {{?index !== it.imports.length - 1}},{{?}}
+  {{~}}
+
+], function(
+
+  Backbone,
+  $,
+  {{~it.imports :_import:index}}
+    {{=_import.view.name}},
+    {{=_import.model.name}}
+    {{?index !== it.imports.length - 1}},{{?}}
+  {{~}}
+
+) {
+
+  var Constructor = Backbone.Router.extend({
+
+    routes : {
+    {{~it.pages :page:index}}
+      '{{=page.path}}' : 'compose {{=page.path}}'
+      {{?index !== it.pages.length - 1}},{{?}}
+    {{~}}
+    },
+
+    {{~it.pages :page:index}}
+      'compose {{=page.path}}' : function() {
+        var _this = this
+          , incorrectRegions = 0
+          , n = 0;
+
+        {{=page.contentScripts}}
+      },
+    {{~}}
+
+    {{~it.pages :page:index}}
+    'render {{=page.path}}' : function() {
+      this.emit('onrenderstart');
+      if(document.querySelectorAll('[data-layout={{=page.layout}}]').length) {
+        {{=page.renderScripts}}
+
+        return;
+      }
+
+      app.$layout.remove();
+      app.$body.append(app.layoutTmpls.{{=page.layout}}({
+        {{=page.mapScripts}}
+      }));
+
+      this.emit('onrenderend');
+    },
+    {{~}}
+
+    emit : function(message) {
+      app.document.emit(message);
+    }
+  });
+
+  Constructor.prototype.content = {};
+  return Constructor;
+});

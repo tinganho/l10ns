@@ -30,12 +30,12 @@ The default document
     {{#def.title}}
     {{#def.features}}
     {{#def.styles}}
-    {{#def.scripts}}
     {{#def.globals}}
 
   </head>
   <body>
 
+    {{#def.scripts}}
     {{=it.layout}}
     {{=it.jsonScripts}}
 

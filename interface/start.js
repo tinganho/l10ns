@@ -64,6 +64,20 @@ var fs = require('fs')
   , autoroutes = require('./conf/autoroutes');
 
 /**
+ * We want to extend String object to provide a first letter
+ * uppercase function. It is used be the composite router.
+ *
+ * @return {void}
+ * @api public
+ */
+
+if(typeof String.prototype.toFirstLetterUpperCase === 'undefined') {
+  String.prototype.toFirstLetterUpperCase = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+  };
+}
+
+/**
  * Define cluster
  */
 
@@ -83,7 +97,8 @@ if(cluster.isMaster && process.env.NODE_ENV === 'production') {
 else {
 
   var page = require('./core/page')
-    , readTmpls = page.readTmpls;
+    , readTmpls = page.readTmpls
+    , createCompositeRouter = page.createCompositeRouter;
 
   /**
    * Content templates
@@ -161,6 +176,7 @@ else {
 
   require('./pages/home')(page);
   require('./pages/edit')(page);
+  createCompositeRouter();
 
   http.createServer(app).listen(app.get('port'), function() {
     console.log('[%s] Express app listening on port ' + app.get('port'), process.pid);

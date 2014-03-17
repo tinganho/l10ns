@@ -1,0 +1,44 @@
+<!--
+
+{
+  contents : [
+    {
+      model : '',
+      view : '',
+      region : '',
+      path : ''
+    }
+  ]
+}
+
+!-->
+
+{{~it :content:index}}
+  if(typeof app.models.{{=content.model.toLowerCase()}} === 'undefined') {
+    var {{=content.model.toLowerCase()}} = new {{=content.model}};
+    app.views.{{=content.model.toLowerCase()}}  = new {{=content.view}}({{=content.model.toLowerCase()}});
+    if(!{{=content.model.toLowerCase()}}.bootstrapped) {
+      incorrectRegions++;
+      try {
+        {{=content.model.toLowerCase()}}.fetch({
+          success: function() {
+            _this.content['{{=content.region}}'] = {{=content.view}}.prototype.template({{=content.model.toLowerCase()}}.toJSON());
+            n++;
+            if(n === incorrectRegions) _this['render {{=content.path}}']();
+          }
+        });
+      }
+      catch(err) {
+        if(err.message === 'A "url" property or function must be specified') {
+          _this.content['{{=content.region}}'] = {{=content.view}}.prototype.template({{=content.model.toLowerCase()}}.toJSON());
+          n++;
+          if(n === incorrectRegions) _this['render {{=content.path}}']();
+        }
+        else {
+          console.log(err);
+        }
+      }
+    }
+    app.models.{{=content.model.toLowerCase()}} = {{=content.model.toLowerCase()}};
+  }
+{{~}}

@@ -1,0 +1,20 @@
+<!--
+
+{
+  contents : [
+    {
+      model : '',
+      view : '',
+      region : '',
+      path : ''
+    }
+  ]
+}
+
+!-->
+
+{{~it :content:index}}
+  if(!document.querySelector('[data-region={{=content.region}}] [data-content={{=content.model.toLowerCase()}}]')) {
+    document.querySelector('[data-region={{=content.region}}]').innerHTML = this.content['{{=content.region}}'];
+  }
+{{~}}

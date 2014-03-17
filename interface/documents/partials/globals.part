@@ -12,5 +12,10 @@ Meta tags
 window.inServer = false;
 window.inClient = true;
 window.has = Modernizr;
+if(typeof String.prototype.toFirstLetterUpperCase === 'undefined') {
+  String.prototype.toFirstLetterUpperCase = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+  };
+}
 
 </script>

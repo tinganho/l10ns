@@ -16,7 +16,7 @@ define(function(require) {
   var Constructor = Backbone.Collection.extend({
 
     /**
-     * Get property
+     * Get property.
      *
      * @param {String} prop
      * @param {*} value
@@ -29,7 +29,7 @@ define(function(require) {
     },
 
     /**
-     * Get property
+     * Get property.
      *
      * @param {String} prop
      * @return {*}
@@ -41,7 +41,7 @@ define(function(require) {
     },
 
     /**
-     * Set page title
+     * Set page title.
      *
      * @param {String} title
      * @return {void}
@@ -53,7 +53,7 @@ define(function(require) {
     },
 
     /**
-     * Set page description
+     * Set page description.
      *
      * @param {String} description
      * @return {void}
@@ -63,6 +63,13 @@ define(function(require) {
     setPageDescription : function(description) {
       this.page.description = description;
     },
+
+    /**
+     * In order to provide the views with the meta data. We need to set it
+     * on toJSON method.
+     *
+     * @overried toJSON
+     */
 
     toJSON : function() {
       var json = Backbone.Collection.prototype.toJSON.call(this);
@@ -87,6 +94,18 @@ define(function(require) {
    */
 
   Constructor.prototype.page = {};
+
+  /**
+   * Check if model have bootstrapped data from the document
+   *
+   * @type {Boolean}
+   */
+
+  Constructor.prototype.bootstrapped = false;
+
+  /**
+   * Export constructor
+   */
 
   return Constructor;
 });

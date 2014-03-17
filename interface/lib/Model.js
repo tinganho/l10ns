@@ -46,5 +46,17 @@ define(function(require) {
 
   Constructor.prototype.page = {};
 
+  /**
+   * Check if model have bootstrapped data from the document
+   *
+   * @type {Boolean}
+   */
+
+  Constructor.prototype.bootstrapped = false;
+
+  /**
+   * Export constructor
+   */
+
   return Constructor;
 });

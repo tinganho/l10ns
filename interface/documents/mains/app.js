@@ -52,7 +52,9 @@ requirejs.config({
       'contentTmpls' : 'public/templates/content/app',
 
       'CompositeRouter' : 'public/scripts/routers/composer',
-      'request' : 'client-lib/request'
+      'request' : 'client-lib/request',
+      'Document' : 'lib/Document',
+      'layoutTmpls' : 'public/templates/layouts/tmpl'
     }
   },
 
@@ -68,29 +70,40 @@ define('modernizr', function() {
 require([
 
   'backbone',
-  'CompositeRouter'
+  'CompositeRouter',
+  'Document',
+  'layoutTmpls'
 
 ], function(
 
   Backbone,
-  CompositeRouter
+  CompositeRouter,
+  Document,
+  layoutTmpls
 
 ) {
 
+  var $body = $(document.body);
+
   // App
-  window.App = {
+  window.app = {
     routers : {},
     models : {},
     collections : {},
     views : {},
-    components : {}
+    components : {},
+    document : new Document,
+    layoutTmpls : layoutTmpls,
+    ladingRoute : window.location.pathname,
+    $body : $body,
+    $layout : $body.find('[data-layout]')
   };
 
   /**
    * Initialize App
    */
 
-  App.initialize = function() {
+  app.initialize = function() {
     this.delegateRouters();
     this.startBackbone();
   };
@@ -99,7 +112,7 @@ require([
    * Start backbone router
    */
 
-  App.startBackbone = function() {
+  app.startBackbone = function() {
     Backbone.history.start({ pushState : true, hashChange : false });
   };
 
@@ -107,12 +120,12 @@ require([
    * Delegate Backbone routers
    */
 
-  App.delegateRouters = function() {
+  app.delegateRouters = function() {
     new CompositeRouter();
   };
 
   // Initialize App
-  App.initialize();
+  app.initialize();
 
 });
 

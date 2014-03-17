@@ -29,6 +29,14 @@ define(function(require) {
         l10n_values : 'Values',
         revealed : true
       });
+
+      // Parse bootstrapped data
+      if(inClient) {
+        var $json = $('.js-json-translations');
+        this.add(JSON.parse($json.html()));
+        this.bootstrapped = true;
+        $json.remove();
+      }
     },
 
     /**

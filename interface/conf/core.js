@@ -246,6 +246,14 @@ var configs = {
    */
 
   JSON_HIJACK_PREFIX : 'while(1);',
+
+  /**
+   * Path of composite router
+   *
+   * @type {String}
+   */
+
+  COMPOSITE_ROUTER_PATH : 'public/scripts/routers/composer.js'
 };
 
 /**

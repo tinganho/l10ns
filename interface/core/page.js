@@ -9,7 +9,12 @@ var _ = require('underscore')
   , _Model = requirejs('lib/Model')
   , _Collection = requirejs('lib/Collection')
   , glob = require('glob')
-  , isArray = require('../lib/isArray');
+  , isArray = require('../lib/isArray')
+  , importNames = []
+  , imports = []
+  , pages = [];
+
+
 
 /**
  * Add terminal colors
@@ -74,6 +79,8 @@ Page.prototype.layout = function(name) {
   if(typeof this._layoutTmpls[name] === 'undefined') {
     throw new TypeError(name + ' layout doesn\'t exists');
   }
+
+  this._layout = name;
 
   this._layoutTmpl = this._layoutTmpls[name];
 
@@ -198,8 +205,8 @@ Page.prototype.fail = function(callback) {
 
 Page.prototype._serve = function() {
   var _this = this;
-
-  console.log('page:', this._url);
+  this._addContent();
+  this._addPages();
   app.get(this._url, _this._next);
 };
 
@@ -209,19 +216,6 @@ Page.prototype._serve = function() {
 
 Page.prototype._next = function(req, res) {
   var _this = this;
-
-  if(this._documentProps.outputRouter && typeof this._documentProps.outputRouter === 'string') {
-    this._outputRouter = this._documentProps.outputRouter;
-    if(GLOBAL._outputRouters
-    && isArray(GLOBAL._outputRouters)) {
-      if(GLOBAL._outputRouters.indexOf(opts.outputRouter) !== -1) {
-        GLOBAL._outputRouters.push(opts.outputRouter);
-      }
-    }
-    else {
-      GLOBAL._outputRouters = [opts.outputRouter];
-    }
-  }
 
   this._getContent(function(content, jsonScripts) {
     var html = _this._documentTmpl({
@@ -242,11 +236,90 @@ Page.prototype._next = function(req, res) {
 };
 
 /**
+ * Get content name
+ *
+ * @param {String} path
+ * @api private
+ */
+
+Page.prototype._getConstructorName = function(path) {
+  return _.last(path.split('/'));
+};
+
+/**
+ * We want to add content to the content varaiable, to compile
+ * the composite routers.
+ *
+ * @param {Object} content
+ * @api private
+ */
+
+Page.prototype._addContent = function() {
+  for(var i in this.content) {
+    var content = this.content[i];
+    var name = this._getConstructorName(content.model);
+
+    // If content have been stored continue the loop
+    if(importNames.indexOf(name) !== -1) {
+      continue;
+    }
+
+    var _import = {
+      model : {
+        name : name,
+        path : content.model
+      },
+      view : {
+        name : this._getConstructorName(content.view),
+        path : content.view
+      }
+    }
+    imports.push(_import);
+    importNames.push(name);
+  }
+};
+
+/**
+ * We want to add pages to the pages variable, to compile
+ * the composite routers.
+ *
+ * @param {Object} content
+ * @api private
+ */
+
+Page.prototype._addPages = function() {
+  var path = this._url.substr(1);
+  var page = {
+    path : path,
+    layout : this._layout
+  };
+  var contents = [];
+  for(var region in this.content) {
+    var map = {};
+    map['model'] = this._getConstructorName(this.content[region].model);
+    map['view'] = this._getConstructorName(this.content[region].view);
+    map['region'] = region;
+    map['path'] = path;
+    contents.push(map);
+  }
+  page.contentScripts = coreTmpls['contentScripts'](contents);
+  page.renderScripts = coreTmpls['renderScripts'](contents);
+  page.mapScripts = coreTmpls['mapScripts'](contents);
+  pages.push(page);
+};
+
+/**
  * Export constructor
  */
 
 module.exports = function(url) {
   return new Page(url);
+};
+
+
+module.exports.createCompositeRouter = function() {
+  var router = coreTmpls['compositeRouter']({ pages : pages, imports : imports });
+  fs.writeFileSync(cf.ROOT_FOLDER + cf.COMPOSITE_ROUTER_PATH, router);
 };
 
 /**
@@ -269,13 +342,4 @@ module.exports.readTmpls = function() {
   GLOBAL.documentTmpls = requirejs(cf.DOCUMENT_TEMPLATES);
   GLOBAL.layoutTmpls = requirejs(cf.LAYOUT_TEMPLATES);
   GLOBAL.coreTmpls = requirejs(cf.CORE_TEMPLATES);
-};
-
-/**
- * Write router files
- *
- * @return {void}
- */
-
-module.exports.writeRouters = function() {
 };
