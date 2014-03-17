@@ -8,7 +8,7 @@ docs/
 interface/public/images/default-*
 interface/public/styles/
 interface/public/scripts/
-interface/public/templates/
+interface/public/templates/**/*
 test/translations/cache/latestSearch.json
 test/translations/output/
 
