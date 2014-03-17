@@ -59,7 +59,7 @@ define([
 
     {{~it.pages :page:index}}
     'render {{=page.path}}' : function() {
-      this.emit('onrenderstart');
+      app.document.trigger('onrenderstart');
       if(document.querySelectorAll('[data-layout={{=page.layout}}]').length) {
         {{=page.renderScripts}}
 
@@ -71,13 +71,9 @@ define([
         {{=page.mapScripts}}
       }));
 
-      this.emit('onrenderend');
+      app.document.trigger('onrenderend');
     },
     {{~}}
-
-    emit : function(message) {
-      app.document.emit(message);
-    }
   });
 
   Constructor.prototype.content = {};

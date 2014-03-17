@@ -8,6 +8,25 @@ define(function(require) {
   var template = inServer ? content_appTmpls : require('contentTmpls');
 
   return View.extend({
-    template : template.search
+
+    /**
+     * Initializer
+     *
+     * @api public
+     */
+
+    initialize : function() {
+      if(inClient) {
+        this.$input = this.$('.js-search-input');
+      }
+    },
+
+    template : template.search,
+
+    /**
+     * Root element
+     */
+
+    el : '.js-search'
   });
 });

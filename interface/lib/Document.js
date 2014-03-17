@@ -10,10 +10,6 @@ define(function(require) {
     initialize : function() {
       this.set('title', document.querySelector('title').innerHMTL);
       this.set('description', document.querySelector('meta[name=description]').getAttribute('content'));
-    },
-
-    emit : function() {
-      console.log('hej')
     }
   });
 });
