@@ -17,7 +17,7 @@ define(function(require) {
      */
 
     initialize : function() {
-      if(!inServer) {
+      if(inClient) {
         this._setElement();
       }
     },

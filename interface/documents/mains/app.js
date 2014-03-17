@@ -96,7 +96,10 @@ require([
     layoutTmpls : layoutTmpls,
     ladingRoute : window.location.pathname,
     $body : $body,
-    $layout : $body.find('[data-layout]')
+    $layout : $body.find('[data-layout]'),
+    navigate : function(path) {
+      Backbone.Router.prototype.navigate(path, { trigger : true });
+    }
   };
 
   /**

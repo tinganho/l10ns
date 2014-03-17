@@ -30,8 +30,9 @@ define(function(require) {
         revealed : true
       });
 
-      // Parse bootstrapped data
+
       if(inClient) {
+        // Parse bootstrapped data
         var $json = $('.js-json-translations');
         this.add(JSON.parse($json.html()));
         this.bootstrapped = true;

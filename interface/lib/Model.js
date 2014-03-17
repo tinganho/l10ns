@@ -23,7 +23,12 @@ define(function(require) {
      */
 
     setPageTitle : function(title) {
-      this.page.title = title;
+      if(insServer) {
+        this.page.title = title;
+      }
+      else {
+        app.document.set('title', title);
+      }
     },
 
     /**
@@ -34,7 +39,12 @@ define(function(require) {
      */
 
     setPageDescription : function(description) {
-      this.page.description = description;
+      if(insServer) {
+        this.page.description = description;
+      }
+      else {
+        app.document.set('description', description);
+      }
     }
   });
 

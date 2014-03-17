@@ -8,6 +8,82 @@ define(function(require) {
     , template = inServer ? content_appTmpls : require('contentTmpls');
 
   return View.extend({
-    template : template.translations
+
+    /**
+     * Initializer
+     *
+     * @return {void}
+     * @api public
+     */
+
+    initialize : function(model) {
+      if(inClient) {
+        this._model = model;
+        this._bindElements();
+        this._addDesktopListeners();
+      }
+    },
+
+    /**
+     * Bind elements
+     *
+     * @return {void}
+     * @api private
+     */
+
+    _bindElements : function() {
+      _.bindAll(this, '_showTranslation');
+    },
+
+    /**
+     * Add desktop listeners
+     *
+     * @return {void}
+     * @api private
+     */
+
+    _addDesktopListeners : function() {
+      this.$el.on('click', '.translation', this._showTranslation);
+      this._model.on('metachange', function() {
+        if(this._model.get('revealed')) {
+          this.$el.addClass('revaled');
+          this.$el.removeClass('hidden');
+        }
+        else {
+          this.$el.addClass('hidden');
+          this.$el.removeClass('revealed');
+        }
+      }, this);
+    },
+
+    /**
+     * Add desktop listeners
+     *
+     * @return {void}
+     * @api private
+     */
+
+    _showTranslation : function(event) {
+      var id = event.currentTarget.getAttribute('data-id');
+      app.document.on('renderstart', function() {
+        app.models.translations.put('revealed', false);
+      });
+      app.navigate('/t/' + id);
+
+    },
+
+    /**
+     * Template
+     *
+     * @type {Function}
+     */
+
+    template : template.translations,
+
+    /**
+     * Translations
+     */
+
+    el : '.translations'
   });
 });

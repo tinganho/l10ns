@@ -15,8 +15,8 @@
 
 {{~it :content:index}}
   if(!document.querySelector('[data-region={{=content.region}}] [data-content={{=content.model.toLowerCase()}}]')) {
-    app.document.trigger('onrender{{=content.model.toLowerCase()}}start');
+    app.document.trigger('render{{=content.model.toLowerCase()}}start');
     document.querySelector('[data-region={{=content.region}}]').innerHTML = this.content['{{=content.region}}'];
-    app.document.trigger('onrender{{=content.model.toLowerCase()}}end');
+    app.document.trigger('render{{=content.model.toLowerCase()}}end');
   }
 {{~}}

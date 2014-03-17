@@ -11,6 +11,10 @@ define(function(require) {
     , template = inServer ? content_appTmpls : require('contentTmpls')
     , _ = require('underscore');
 
+  if(inClient) {
+    var request = require('request');
+  }
+
   return Model.extend({
     defaults : {
       key : null,
@@ -29,17 +33,29 @@ define(function(require) {
     },
 
     sync : function(method, collection, opts, req) {
+      var _this = this;
+
       if(method === 'read') {
-        var translations = file.readTranslations(cf.DEFAULT_LOCALE, { returnType : 'array' }).slice(0, cf.TRANSLATION_ITEMS_PER_PAGE);
-
-        var translation = _.findWhere(translations, { id : req.param('id') });
-
-        this.set(translation);
-
-        this.setPageTitle(translation.key);
-        this.setPageDescription('Edit ' + translation.key);
-
-        opts.success();
+        if(inServer) {
+          var translations = file.readTranslations(cf.DEFAULT_LOCALE, { returnType : 'array' }).slice(0, cf.TRANSLATION_ITEMS_PER_PAGE);
+          var translation = _.findWhere(translations, { id : req.param('id') });
+          this.set(translation);
+          this.setPageTitle(translation.key);
+          this.setPageDescription('Edit: ' + translation.key);
+          opts.success();
+        }
+        else {
+          var id = window.location.pathname.split('/')[2];
+          request
+            .get('/translations/' + id)
+            .end(function(err, res) {
+              var translation = res.body;
+              _this.set(translation);
+              app.document.set('title', translation.key);
+              app.document.set('description', 'Edit: ' + translation.key);
+              opts.success();
+            });
+        }
       }
     }
   });

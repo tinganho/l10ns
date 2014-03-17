@@ -26,6 +26,8 @@ define(function(require) {
 
     put : function(prop, value) {
       this.metas[prop] = value;
+      this.trigger('metaadd');
+      this.trigger('metachange');
     },
 
     /**

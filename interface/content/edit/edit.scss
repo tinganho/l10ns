@@ -48,6 +48,7 @@ $padding: 40px;
   margin-right: 2px;
   margin-left: 1px;
   background-color: #f0f0f0;
+  @include box-shadow(rgba(0, 0, 0, 0.3) 1px 1px 1px 0px inset);
 }
 
 .edit-actions {
