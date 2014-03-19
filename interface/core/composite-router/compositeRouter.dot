@@ -8,9 +8,10 @@
   pages : [{
     path : '',
     layout : ''
-    contentScripts : '',
-    renderScripts : '',
-    mapScripts : ''
+    contentScript : '',
+    renderScript : '',
+    mapScript : ''
+    noViewsScript : ''
   }]
 }
 
@@ -53,7 +54,16 @@ define([
           , incorrectRegions = 0
           , n = 0;
 
-        {{=page.contentScripts}}
+        app.document.trigger('fetchstart', '{{=page.path}}');
+
+        {{=page.contentScript}}
+
+        for(var view in app.views) {
+          if({{=page.noViewsScript}}) {
+            app.views[view].remove();
+            delete app.views[view];
+          }
+        }
       },
     {{~}}
 
@@ -61,15 +71,29 @@ define([
     'render {{=page.path}}' : function() {
       app.document.trigger('renderstart');
       if(document.querySelectorAll('[data-layout={{=page.layout}}]').length) {
-        {{=page.renderScripts}}
+        {{=page.renderScript}}
 
         return;
       }
 
       app.$layout.remove();
       app.$body.append(app.layoutTmpls.{{=page.layout}}({
-        {{=page.mapScripts}}
+        {{=page.mapScript}}
       }));
+
+      for(var view in app.views) {
+        if({{=page.noViewsScript}}) {
+          app.views[view].remove();
+          delete app.views[view];
+        }
+      }
+
+      for(var view in app.views) {
+        if({{=page.noViewsScript}}) {
+          app.views[view].remove();
+          delete app.views[view];
+        }
+      }
 
       app.document.trigger('renderend');
     },

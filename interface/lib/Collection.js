@@ -16,54 +16,74 @@ define(function(require) {
   var Constructor = Backbone.Collection.extend({
 
     /**
-     * Get property.
+     * Set meta property.
      *
      * @param {String} prop
      * @param {*} value
-     * @return {void}
+     * @return {this}
      * @api public
      */
 
-    put : function(prop, value) {
+    setMeta : function(prop, value) {
+      var eventName = '';
+      if(typeof this.metas[prop] === 'undefined') {
+        eventName = 'metaadd';
+      }
+      else {
+        eventName = 'metachange';
+      }
       this.metas[prop] = value;
-      this.trigger('metaadd');
-      this.trigger('metachange');
+      this.trigger(eventName);
+
+      return this;
     },
 
     /**
-     * Get property.
+     * Get meta property.
      *
      * @param {String} prop
      * @return {*}
      * @api public
      */
 
-    get : function(prop) {
+    getMeta : function(prop) {
       return this.metas[prop];
     },
 
     /**
-     * Set page title.
+     * Set page title
      *
      * @param {String} title
-     * @return {void}
+     * @return {this}
      * @api public
      */
 
     setPageTitle : function(title) {
-      this.page.title = title;
+      if(inServer) {
+        this.page.title = title;
+      }
+      else {
+        app.document.set('title', title);
+      }
+
+      return this;
     },
 
     /**
-     * Set page description.
+     * Set page description
      *
      * @param {String} description
-     * @return {void}
+     * @return {this}
      * @api public
      */
 
     setPageDescription : function(description) {
-      this.page.description = description;
+      if(inServer) {
+        this.page.description = description;
+      }
+      else {
+        app.document.set('description', description);
+      }
     },
 
     /**
@@ -77,7 +97,18 @@ define(function(require) {
       var json = Backbone.Collection.prototype.toJSON.call(this);
       json.metas = this.metas;
       return json;
-    }
+    },
+
+    /**
+     * CompositeRouter is always executing this callback if it doesn't
+     * render the view for this model.
+     *
+     * @param {String} path
+     * @return {void}
+     * @api public
+     */
+
+    onHistoryChange : function(path) {}
   });
 
   /**
@@ -93,6 +124,7 @@ define(function(require) {
    * Page properties
    *
    * @type {Object}
+   * @api private
    */
 
   Constructor.prototype.page = {};
@@ -101,6 +133,7 @@ define(function(require) {
    * Check if model have bootstrapped data from the document
    *
    * @type {Boolean}
+   * @api public
    */
 
   Constructor.prototype.bootstrapped = false;

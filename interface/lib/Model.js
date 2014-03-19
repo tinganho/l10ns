@@ -19,11 +19,12 @@ define(function(require) {
      * Set page title
      *
      * @param {String} title
+     * @return {void}
      * @api public
      */
 
     setPageTitle : function(title) {
-      if(insServer) {
+      if(inServer) {
         this.page.title = title;
       }
       else {
@@ -35,17 +36,30 @@ define(function(require) {
      * Set page description
      *
      * @param {String} description
+     * @return {void}
      * @api public
      */
 
     setPageDescription : function(description) {
-      if(insServer) {
+      if(inServer) {
         this.page.description = description;
       }
       else {
         app.document.set('description', description);
       }
-    }
+    },
+
+    /**
+     * CompositeRouter is always executing this callback if it doesn't
+     * render the view for this model.
+     *
+     * @param {String} path
+     * @return {void}
+     * @api public
+     */
+
+    onHistoryChange : function(path) {}
+
   });
 
   /**

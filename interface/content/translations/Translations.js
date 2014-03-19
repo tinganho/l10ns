@@ -33,10 +33,12 @@ define(function(require) {
 
       if(inClient) {
         // Parse bootstrapped data
-        var $json = $('.js-json-translations');
-        this.add(JSON.parse($json.html()));
-        this.bootstrapped = true;
-        $json.remove();
+        if(!this.bootstrapped) {
+          var $json = $('.js-json-translations');
+          this.add(JSON.parse($json.html()));
+          this.bootstrapped = true;
+          $json.remove();
+        }
       }
     },
 
@@ -61,10 +63,10 @@ define(function(require) {
           collection.add(translations);
 
           if(/^\/t/.test(req.url)) {
-            this.put('revealed', false);
+            this.setMeta('revealed', false);
           }
           else {
-            this.put('revealed', true);
+            this.setMeta('revealed', true);
           }
           opts.success(collection.toJSON());
         }
@@ -74,7 +76,24 @@ define(function(require) {
             .end(function(err, data) {
             })
         }
+      }
+    },
 
+    /**
+     * On history push to `/`. We want to change the `revealed` porperty
+     * to true.
+     *
+     * @delegate
+     */
+
+    onHistoryChange : function(path) {
+      if(path === '') {
+        this.setMeta('revealed', true);
+        this.setPageTitle('Translations')
+        this.setPageDescription('Latest translations');
+      }
+      else {
+        this.setMeta('revealed', false);
       }
     }
   });

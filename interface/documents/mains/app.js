@@ -54,6 +54,7 @@ requirejs.config({
       'CompositeRouter' : 'public/scripts/routers/composer',
       'request' : 'client-lib/request',
       'Document' : 'lib/Document',
+      'DocumentView' : 'lib/DocumentView',
       'layoutTmpls' : 'public/templates/layouts/tmpl'
     }
   },
@@ -72,6 +73,7 @@ require([
   'backbone',
   'CompositeRouter',
   'Document',
+  'DocumentView',
   'layoutTmpls'
 
 ], function(
@@ -79,6 +81,7 @@ require([
   Backbone,
   CompositeRouter,
   Document,
+  DocumentView,
   layoutTmpls
 
 ) {
@@ -117,6 +120,7 @@ require([
 
   app.startBackbone = function() {
     Backbone.history.start({ pushState : true, hashChange : false });
+    app.views.document = new DocumentView(app.document);
   };
 
   /**

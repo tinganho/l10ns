@@ -16,6 +16,32 @@ define(function(require) {
   }
 
   return Model.extend({
+
+    /**
+     * Initializer
+     *
+     * @return {void}
+     * @api public
+     */
+
+    initialize : function() {
+      if(inClient) {
+        // Parse bootstrapped data
+        if(this.bootstrapped) {
+          var $json = $('.js-json-edit');
+          this.set(JSON.parse($json.html()));
+          this.bootstrapped = true;
+          $json.remove();
+        }
+      }
+    },
+
+    /**
+     * Default values
+     *
+     * @type {Object}
+     */
+
     defaults : {
       key : null,
       value : [],
@@ -32,6 +58,12 @@ define(function(require) {
       variables : null
     },
 
+    /**
+     * Sync
+     *
+     * @delegate
+     */
+
     sync : function(method, collection, opts, req) {
       var _this = this;
 
@@ -46,6 +78,15 @@ define(function(require) {
         }
         else {
           var id = window.location.pathname.split('/')[2];
+          var translation = app.models.translations.get(id);
+          if(translation) {
+            translation = translation.toJSON();
+            _this.set(translation);
+            app.document.set('title', translation.key);
+            app.document.set('description', 'Edit: ' + translation.key);
+            opts.success();
+            return;
+          }
           request
             .get('/translations/' + id)
             .end(function(err, res) {

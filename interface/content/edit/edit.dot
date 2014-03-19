@@ -16,10 +16,10 @@
     </div>
     <div class="edit-inputs clearfix">
       <h2 class="edit-sub-title">{{=it.i18n_translation}}</h2>
-      <input type="text" class="edit-input"></input>
+      <input type="text" class="edit-input" value="{{=it.value}}"></input>
       <div class="edit-actions">
-        <input class="edit-actions-save button" type="submit" value="{{=it.i18n_save}}" disabled></input>
-        <a class="edit-actions-cancel button" disabled>{{=it.i18n_else}}</a>
+        <button class="edit-actions-save button js-edit-actions-save" type="submit" disabled>{{=it.i18n_save}}</button>
+        <button class="edit-actions-else button js-edit-actions-else" type="button" disabled>{{=it.i18n_else}}</button>
       </div>
     </div>
   </form>

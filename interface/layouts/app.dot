@@ -4,5 +4,5 @@
     <div class="app-search" data-region="search">{{=it.search}}</div>
   </header>
   <div class="app-translations" data-region="body">{{=it.body}}</div>
-  <div class="app-edit" data-region="edit">{{?it.edit}}{{=it.edit}}{{?}}</div>
+  <div class="app-edit hidden" data-region="edit">{{?it.edit}}{{=it.edit}}{{?}}</div>
 </div>

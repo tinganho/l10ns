@@ -5,12 +5,13 @@ if(typeof define !== 'function') {
 
 define(function(require) {
   var View = inServer ? require('../../lib/View') : require('View')
-    , template = inServer ? content_appTmpls : require('contentTmpls');
+    , template = inServer ? content_appTmpls : require('contentTmpls')
+    , _ = require('underscore');
 
   return View.extend({
 
     /**
-     * Initializer
+     * Initializer.
      *
      * @return {void}
      * @api public
@@ -19,45 +20,57 @@ define(function(require) {
     initialize : function(model) {
       if(inClient) {
         this._model = model;
-        this._bindElements();
-        this._addDesktopListeners();
+        this
+          ._bindElements()
+          ._addDesktopListeners();
       }
     },
 
     /**
-     * Bind elements
+     * Bind elements.
      *
-     * @return {void}
+     * @return {this}
      * @api private
      */
 
     _bindElements : function() {
       _.bindAll(this, '_showTranslation');
+
+      return this;
     },
 
     /**
-     * Add desktop listeners
+     * Add desktop listeners.
      *
-     * @return {void}
+     * @return {this}
      * @api private
      */
 
     _addDesktopListeners : function() {
       this.$el.on('click', '.translation', this._showTranslation);
-      this._model.on('metachange', function() {
-        if(this._model.get('revealed')) {
-          this.$el.addClass('revaled');
-          this.$el.removeClass('hidden');
-        }
-        else {
-          this.$el.addClass('hidden');
-          this.$el.removeClass('revealed');
-        }
-      }, this);
+      this._model.on('metachange', this._updateMeta, this);
+
+      return this;
     },
 
     /**
-     * Add desktop listeners
+     * Update meta.
+     *
+     * @return {void}
+     * @api private
+     */
+
+    _updateMeta : function() {
+      if(this._model.getMeta('revealed')) {
+        this.$el.removeClass('invisible');
+      }
+      else {
+        this.$el.addClass('invisible');
+      }
+    },
+
+    /**
+     * Add desktop listeners.
      *
      * @return {void}
      * @api private
@@ -65,15 +78,11 @@ define(function(require) {
 
     _showTranslation : function(event) {
       var id = event.currentTarget.getAttribute('data-id');
-      app.document.on('renderstart', function() {
-        app.models.translations.put('revealed', false);
-      });
       app.navigate('/t/' + id);
-
     },
 
     /**
-     * Template
+     * Template.
      *
      * @type {Function}
      */
@@ -81,7 +90,7 @@ define(function(require) {
     template : template.translations,
 
     /**
-     * Translations
+     * Translations.
      */
 
     el : '.translations'

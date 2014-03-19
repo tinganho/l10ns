@@ -14,9 +14,12 @@
 !-->
 
 {{~it :content:index}}
-  if(!document.querySelector('[data-region={{=content.region}}] [data-content={{=content.model.toLowerCase()}}]')) {
     app.document.trigger('render{{=content.model.toLowerCase()}}start');
-    document.querySelector('[data-region={{=content.region}}]').innerHTML = this.content['{{=content.region}}'];
+    try {
+      app.views.{{=content.model.toLowerCase()}}.render();
+    }
+    catch(err) {
+      throw err;
+    }
     app.document.trigger('render{{=content.model.toLowerCase()}}end');
-  }
 {{~}}

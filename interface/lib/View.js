@@ -12,7 +12,7 @@ define(function(require) {
    * @constructor
    */
 
-  return Backbone.View.extend({
+  var Constructor = Backbone.View.extend({
 
     /**
      * We create a noop of this element if on server. Because it requires the DOM
@@ -53,7 +53,34 @@ define(function(require) {
       }
 
       return isOutOfRange;
-    }
+    },
+
+    /**
+     * CompositeRouter is always executing this callback if it doesn't
+     * render the view for this model.
+     *
+     * @param {String} path
+     * @return {void}
+     * @api public
+     */
+
+    onHistoryChange : function(path) {},
+
+    /**
+     * Render noop.
+     *
+     * @return {void}
+     * @api public
+     */
+
+    render : function() {}
+
   });
+
+  /**
+   * Export
+   */
+
+  return Constructor;
 
 });

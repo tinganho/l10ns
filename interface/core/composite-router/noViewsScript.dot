@@ -1,0 +1,5 @@
+
+{{~it :view:index}}
+  view !== '{{=view}}'
+  {{?index !== it.length - 1}} && {{?}}
+{{~}}

@@ -293,18 +293,21 @@ Page.prototype._addPages = function() {
     path : path,
     layout : this._layout
   };
-  var contents = [];
+  var contents = [], views = [];
   for(var region in this.content) {
     var map = {};
-    map['model'] = this._getConstructorName(this.content[region].model);
+    var model = this._getConstructorName(this.content[region].model);
+    map['model'] = model;
     map['view'] = this._getConstructorName(this.content[region].view);
     map['region'] = region;
     map['path'] = path;
+    views.push(model.toLowerCase());
     contents.push(map);
   }
-  page.contentScripts = coreTmpls['contentScripts'](contents);
-  page.renderScripts = coreTmpls['renderScripts'](contents);
-  page.mapScripts = coreTmpls['mapScripts'](contents);
+  page.contentScript = coreTmpls['contentScript'](contents);
+  page.renderScript = coreTmpls['renderScript'](contents);
+  page.mapScript = coreTmpls['mapScript'](contents);
+  page.noViewsScript = coreTmpls['noViewsScript'](views);
   pages.push(page);
 };
 

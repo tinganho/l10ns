@@ -4,12 +4,19 @@ if(typeof define !== 'function') {
 }
 
 define(function(require) {
-  var Model = require('./Model');
+  var Model = require('backbone');
 
-  return Model.extend({
-    initialize : function() {
-      this.set('title', document.querySelector('title').innerHMTL);
-      this.set('description', document.querySelector('meta[name=description]').getAttribute('content'));
+  return Model.Model.extend({
+
+    /**
+     * Default values
+     *
+     * @†ype {Object}
+     */
+
+    defaults : {
+      title : document.querySelector('title').innerHMTL,
+      description : document.querySelector('meta[name=description]').getAttribute('content')
     }
   });
 });

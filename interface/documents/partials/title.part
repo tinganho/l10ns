@@ -7,4 +7,4 @@ Title used in your website
 
 !-->
 
-<title class="js-page-title">{{=it.title}}</title>
+<title>{{=it.title}}</title>
