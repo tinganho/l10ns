@@ -66,7 +66,7 @@ define(function(require) {
 
     _addDesktopListeners : function() {
       this.$('[disabled]').removeAttr('disabled');
-      this.$el.on('click', '.js-edit-actions-else', this._addCondition);
+      this.$el.on('click', '.js-edit-actions-add-condition', this._addCondition);
       this.$el.on('click', '.js-edit-actions-save', this._save);
     },
 
@@ -78,7 +78,7 @@ define(function(require) {
      */
 
     _setElements : function() {
-      this.$region = document.querySelector('[data-region=edit]');
+      this.$region = $('[data-region=edit]');
     },
 
     /**
@@ -109,9 +109,9 @@ define(function(require) {
      */
 
     render : function() {
-      this.$region.innerHTML = this.template(this._model.toJSON());
+      this.$region[0].innerHTML = this.template(this._model.toJSON());
 
-      this.$region.classList.remove('hidden');
+      this.$region[0].classList.remove('hidden');
 
       this.setElement(document.querySelector('[data-content=edit]'));
       this._bind();
@@ -125,7 +125,7 @@ define(function(require) {
 
     remove : function() {
       View.prototype.remove.call(this);
-      document.querySelector('[data-region=edit]').classList.add('hidden');
+      this.$region[0].classList.add('hidden');
     },
 
     /**

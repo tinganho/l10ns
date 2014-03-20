@@ -17,26 +17,35 @@ html {
   font-size: 62.5%;
 }
 
-input, button {
+div, span, h1, h2, h3, h4, h5, h6, button, input {
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+
+input, button, table {
   font-family: $font-family;
 }
 
 [type=text],
 [type=password] {
-  font-weight: 200;
-  letter-spacing: 1px;
   outline: none;
+  font-weight: 200;
   @include font-size(2);
   @include placeholder {
+    font-weight: 400;
     color: rgba(255, 255, 255, 0.6);
   }
 }
 
-div {
-  @include font-size(1.9);
+table, tr, td {
+  display: block;
 }
 
-h2 {
+div, td {
+  @include font-size(1.9);
+  font-weight: 100;
+}
+
+h2, tr {
   @include font-size(3);
   font-weight: 100;
 }

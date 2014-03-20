@@ -14,8 +14,6 @@ var _ = require('underscore')
   , imports = []
   , pages = [];
 
-
-
 /**
  * Add terminal colors
  */
@@ -221,6 +219,7 @@ Page.prototype._next = function(req, res) {
     var html = _this._documentTmpl({
       title : _this._documentProps.title,
       description : _this._documentProps.description,
+      noScroll : _this._documentProps.noScroll,
       locale : _this._documentProps.locale,
       styles : _this._documentProps.styles,
       main : _this._documentProps.main,

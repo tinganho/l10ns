@@ -54,7 +54,7 @@ define(function(require) {
       i18n_translation : 'TRANSLATION',
       i18n_none : 'None',
       i18n_save : 'SAVE',
-      i18n_else : 'ELSE',
+      i18n_addCondition : 'ADD CONDITION',
       variables : null
     },
 

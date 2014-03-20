@@ -12,9 +12,11 @@ $padding-right: 20px;
   }
 }
 
-.translations-headers {
+.translations-header {
+  font-weight: 100;
   margin-bottom: 40px;
   overflow: hidden;
+  @include font-size(4.2);
 }
 
 .translation {

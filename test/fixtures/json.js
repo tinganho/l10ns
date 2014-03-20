@@ -7,13 +7,13 @@ module.exports = {
     }
   },
 
-  basicTranslationItemString : '{ "key" : "test",\n"vars" : [],\n"value" : "It can have",\n"text" : "It can have",\n"timestamp": 1361261618370,"id": "MXejjjx6FyR" }\n\n',
+  basicTranslationItemString : '{ "key" : "test",\n"vars" : [],\n"values" : ["It can have"],\n"text" : "It can have",\n"timestamp": 1361261618370,"id": "MXejjjx6FyR" }\n\n',
 
   basicTranslationItem : {
     'test' : {
       'key' : 'test',
       'vars' : [],
-      'value' : 'It can have',
+      'values' : ['It can have'],
       'text' : 'It can have',
       'timestamp': 1361261618370,
       'id': 'MXejjjx6FyR'
@@ -23,7 +23,7 @@ module.exports = {
   oldBasicTranslationItem : {
     'test' : {
       'vars' : [],
-      'value' : 'test',
+      'values' : ['test'],
       'text' : 'It can have',
       'timestamp': 1361261618370,
       'id': 'a73dec3930758129dce45293f0cc5083'
@@ -34,8 +34,8 @@ module.exports = {
     'en-US' : {
       'test' : {
         'vars' : [],
-        'value' : '',
-        'text' : 'It can have',
+        'values' : '',
+        'text' : ['It can have'],
         'timestamp': 1361261618370,
         'id': 'a73dec3930758129dce45293f0cc5083',
         'files' : ['test.js']
@@ -48,7 +48,7 @@ module.exports = {
       'test' : {
         'key' : 'test',
         'vars' : [],
-        'value' : 'test',
+        'values' : ['test'],
         'text' : 'It can have',
         'timestamp': 1361261618370,
         'id': 'a73dec3930758129dce45293f0cc5083',
@@ -60,7 +60,7 @@ module.exports = {
   deletedTranslations : {
     'test' : {
       'vars' : [],
-      'value' : 'test',
+      'values' : ['test'],
       'text' : 'It can have',
       'timestamp': 1361261618370,
       'id': 'a73dec3930758129dce45293f0cc5083',
@@ -72,7 +72,7 @@ module.exports = {
     'en-US' : {
       'test1' : {
         'vars' : [],
-        'value' : 'test',
+        'values' : ['test'],
         'text' : 'It can have',
         'timestamp': 1361261618370,
         'id': 'a73dec3930758129dce45293f0cc5083',
@@ -84,7 +84,7 @@ module.exports = {
   ifElseConditions : {
     'test' : {
       'vars' : ["test1"],
-      'value' : [
+      'values' : [
         [
           "if",
           "test1",
@@ -106,7 +106,7 @@ module.exports = {
   ifElseifElseConditions : {
     'test' : {
       'vars' : ["test1"],
-      'value' : [
+      'values' : [
         [
           "if",
           "test1",
@@ -135,7 +135,7 @@ module.exports = {
   additionalConditionAnd : {
     'test' : {
       'vars' : ["test1"],
-      'value' : [
+      'values' : [
         [
           "if",
           "test1",
@@ -161,7 +161,7 @@ module.exports = {
   additionConditionOr : {
     'test' : {
       'vars' : ["test1"],
-      'value' : [
+      'values' : [
         [
           "if",
           "test1",
@@ -187,7 +187,7 @@ module.exports = {
   multipleAdditionConditions : {
     'test' : {
       'vars' : ["test1"],
-      'value' : [
+      'values' : [
         [
           "if",
           "test1",
@@ -219,7 +219,7 @@ module.exports = {
       'test' : {
         'key' : 'test',
         'vars' : ['test1', 'test2'],
-        'value' : 'It can have',
+        'values' : ['It can have'],
         'text' : 'It can have',
         'timestamp': 1361261618370,
         'id': 'MXejjjx6FyR'
@@ -229,7 +229,7 @@ module.exports = {
       'test' : {
         'key' : 'test',
         'vars' : [],
-        'value' : 'It can have',
+        'values' : ['It can have'],
         'text' : 'It can have',
         'timestamp': 1361261618370,
         'id': 'MXejjjx6FyR'
@@ -242,7 +242,7 @@ module.exports = {
       {
         'key' : 'test',
         'vars' : [],
-        'value' : 'It can have',
+        'values' : ['It can have'],
         'text' : 'It can have',
         'timestamp': 1361261618370,
         'id': 'MXejjjx6FyR'
@@ -252,7 +252,7 @@ module.exports = {
       {
         'key' : 'test',
         'vars' : [],
-        'value' : 'It can have',
+        'values' : ['It can have'],
         'text' : 'It can have',
         'timestamp': 1361261618370,
         'id': 'MXejjjx6FyR'
@@ -264,7 +264,7 @@ module.exports = {
       {
         'key' : 'test1',
         'vars' : [],
-        'value' : 'It can have',
+        'values' : ['It can have'],
         'text' : 'It can have',
         'timestamp': 1361261618370,
         'id': 'MXejjjx6FyR'
@@ -272,7 +272,7 @@ module.exports = {
       {
         'key' : 'test2',
         'vars' : [],
-        'value' : 'It can have',
+        'values' : ['It can have'],
         'text' : 'It can have',
         'timestamp': 1361261618370,
         'id': 'MXejjjx6FyR'
@@ -280,7 +280,7 @@ module.exports = {
       {
         'key' : 'test3',
         'vars' : [],
-        'value' : 'It can have',
+        'values' : ['It can have'],
         'text' : 'It can have',
         'timestamp': 1361261618370,
         'id': 'MXejjjx6FyR'
@@ -288,7 +288,7 @@ module.exports = {
       {
         'key' : 'test4',
         'vars' : [],
-        'value' : 'It can have',
+        'values' : ['It can have'],
         'text' : 'It can have',
         'timestamp': 1361261618370,
         'id': 'MXejjjx6FyR'
@@ -296,7 +296,7 @@ module.exports = {
       {
         'key' : 'test5',
         'vars' : [],
-        'value' : 'It can have',
+        'values' : ['It can have'],
         'text' : 'It can have',
         'timestamp': 1361261618370,
         'id': 'MXejjjx6FyR'
@@ -304,7 +304,7 @@ module.exports = {
       {
         'key' : 'test6',
         'vars' : [],
-        'value' : 'It can have',
+        'values' : ['It can have'],
         'text' : 'It can have',
         'timestamp': 1361261618370,
         'id': 'MXejjjx6FyR'
@@ -312,7 +312,7 @@ module.exports = {
       {
         'key' : 'test7',
         'vars' : [],
-        'value' : 'It can have',
+        'values' : ['It can have'],
         'text' : 'It can have',
         'timestamp': 1361261618370,
         'id': 'MXejjjx6FyR'
@@ -320,7 +320,7 @@ module.exports = {
       {
         'key' : 'test8',
         'vars' : [],
-        'value' : 'It can have',
+        'values' : ['It can have'],
         'text' : 'It can have',
         'timestamp': 1361261618370,
         'id': 'MXejjjx6FyR'
@@ -328,7 +328,7 @@ module.exports = {
       {
         'key' : 'test9',
         'vars' : [],
-        'value' : 'It can have',
+        'values' : ['It can have'],
         'text' : 'It can have',
         'timestamp': 1361261618370,
         'id': 'MXejjjx6FyR'
@@ -336,7 +336,7 @@ module.exports = {
       {
         'key' : 'test10',
         'vars' : [],
-        'value' : 'It can have',
+        'values' : ['It can have'],
         'text' : 'It can have',
         'timestamp': 1361261618370,
         'id': 'MXejjjx6FyR'
@@ -347,7 +347,7 @@ module.exports = {
       {
         'key' : 'test',
         'vars' : [],
-        'value' : 'It can have',
+        'values' : ['It can have'],
         'text' : 'It can have',
         'timestamp': 1361261618370,
         'id': 'MXejjjx6FyR'

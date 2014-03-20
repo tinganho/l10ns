@@ -1,0 +1,10 @@
+
+<!--
+
+Input element
+
+@param {String} value
+
+!-->
+
+<input type="text" class="edit-input" value="{{=it.value}}"></input>

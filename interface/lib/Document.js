@@ -16,7 +16,8 @@ define(function(require) {
 
     defaults : {
       title : document.querySelector('title').innerHMTL,
-      description : document.querySelector('meta[name=description]').getAttribute('content')
+      description : document.querySelector('meta[name=description]').getAttribute('content'),
+      noScroll : document.documentElement.classList.contains('no-scroll')
     }
   });
 });

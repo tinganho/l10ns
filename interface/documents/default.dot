@@ -20,7 +20,7 @@ The default document
 {{##def.globals : load('./partials/globals.part') #}}
 
 <!DOCTYPE html>
-<html lang="{{=it.locale}}" class="locale-{{=it.locale}} {{=it.device}}">
+<html lang="{{=it.locale}}" class="locale-{{=it.locale}} {{?it.noScroll}}no-scroll{{?}}">
   <head>
     <script src="{{=it.modernizr}}"></script>
     <script src="{{=it.cf}}"></script>

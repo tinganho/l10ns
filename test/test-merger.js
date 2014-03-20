@@ -65,17 +65,17 @@ module.exports = function() {
     });
 
     describe('#mergeTranslations', function() {
-      it('should migrate old translation value', function() {
+      it('should migrate old translation values', function() {
         var merger = new Merger();
-        var value = 'wefew';
-        var res = merger.mergeTranslations({ 'test' : {}}, { 'test' : { value : value }}, 'test');
-        expect(res.test.value).to.equal(value);
+        var values = ['wefew'];
+        var res = merger.mergeTranslations({ 'test' : {}}, { 'test' : { values : values }}, 'test');
+        expect(res.test.values).to.equal(values);
       });
 
-      it('should set an empty array as value whenever old translation value doesn\'t exists', function() {
+      it('should set an empty array as values whenever old translation values doesn\'t exists', function() {
         var merger = new Merger();
         var res = merger.mergeTranslations({ 'test' : {}}, { 'test' : {}}, 'test');
-        expect(res.test.value).to.eql([]);
+        expect(res.test.values).to.eql([]);
       });
 
       it('should set the key as text whenever no old translations exists', function() {
@@ -86,14 +86,15 @@ module.exports = function() {
 
       it('should set the key as text if old value is an array', function() {
         var merger = new Merger();
-        var res = merger.mergeTranslations({ 'test' : {}}, { 'test' : { value : []}}, 'test');
+        var res = merger.mergeTranslations({ 'test' : {}}, { 'test' : { values : []}}, 'test');
         expect(res.test.text).to.eql('test');
       });
 
       it('should set the value as text if old value is of type string', function() {
         var merger = new Merger();
-        var res = merger.mergeTranslations({ 'test' : {}}, { 'test' : { value : 'string'}}, 'test');
-        expect(res.test.text).to.eql('string');
+        var values = ['test'];
+        var res = merger.mergeTranslations({ 'test' : {}}, { 'test' : { values : values }}, 'test');
+        expect(res.test.text).to.eql(values[0]);
       });
     });
   });

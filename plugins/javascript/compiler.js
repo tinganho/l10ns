@@ -144,17 +144,17 @@ Compiler.prototype._normalizeText = function(text) {
 
 Compiler.prototype._getFunctionBodyString = function(translations, key) {
   var str = '';
-  if(translations[key].value.length === 0) {
+  if(translations[key].values.length === 0) {
     str += this._getNonTranslatedFunctionBodyString(this._normalizeText(key));
-  } else if(translations[key].value[0][0] === pcf.CONDITION_IF) {
+  } else if(translations[key].values[0][0] === pcf.CONDITION_IF) {
     str += this._getConditionsString(
-      translations[key].value,
+      translations[key].values,
       translations[key].vars
     );
   } else {
     str += this._getNonConditionsFunctionBodyString(
       this._getFormatedTranslatedText(
-        translations[key].value,
+        translations[key].values[0],
         translations[key].vars
       )
     );

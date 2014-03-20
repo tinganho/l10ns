@@ -3,6 +3,10 @@ html {
   position: relative;
   height: 100%;
   width: 100%;
+
+  &.no-scroll {
+    overflow: hidden;
+  }
 }
 
 body {

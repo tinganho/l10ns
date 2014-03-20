@@ -48,7 +48,7 @@ module.exports = function() {
           expect(_newTranslations['en-US'].test).to.have.property('timestamp');
           expect(_newTranslations['en-US'].test).to.have.property('text');
           expect(_newTranslations['en-US'].test).to.have.property('_new');
-          expect(_newTranslations['en-US'].test).to.have.property('value');
+          expect(_newTranslations['en-US'].test).to.have.property('values');
           expect(_newTranslations['en-US'].test).to.have.property('files');
           expect(_newTranslations['en-US'].test.text).to.have.string('test');
           done();

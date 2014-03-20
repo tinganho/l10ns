@@ -67,7 +67,7 @@ module.exports = function() {
         expect(translations).to.have.property(locales[0]);
       });
 
-      it('should be able to return an translation object containing just one language', function() {
+      it('should be able to return a translation object containing just one language', function() {
         var localesFolder = cf.localesFolder;
         var locales = ['en-US'];
         var globStub = {

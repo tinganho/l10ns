@@ -1,13 +1,17 @@
 
-<ul class="translations {{?!it.metas.revealed}}invisible{{?}}" data-content="translations">
-  <li class="translations-headers">
-    <h2 class="translation-col translations-header">{{=it.metas.l10n_keys}}</h2>
-    <h2 class="translation-col translations-header">{{=it.metas.l10n_values}}</h2>
-  <li>
-  {{~it :translation:index}}
-    <li class="translation" data-id="{{=translation.id}}">
-      <div class="translation-col translation-key">{{=translation.key}}</div>
-      <div class="translation-col translation-value">{{=translation.text}}</div>
-    </li>
-  {{~}}
-</ul>
+<table class="translations {{?!it.metas.revealed}}invisible{{?}}" data-content="translations">
+  <thead class="translations-headers">
+    <tr>
+      <th class="translation-col translations-header">{{=it.metas.l10n_keys}}</th>
+      <th class="translation-col translations-header">{{=it.metas.l10n_values}}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{~it :translation:index}}
+      <tr class="translation" data-id="{{=translation.id}}">
+        <td class="translation-col translation-key">{{=translation.key}}</td>
+        <td class="translation-col translation-value">{{=translation.text}}</td>
+      </tr>
+    {{~}}
+  </tbody>
+</table>
