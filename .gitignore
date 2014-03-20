@@ -9,6 +9,7 @@ interface/public/images/default-*
 interface/public/styles/
 interface/public/scripts/
 interface/public/templates/**/*
+interface/vendor/**/*
 test/translations/cache/latestSearch.json
 test/translations/output/
 
