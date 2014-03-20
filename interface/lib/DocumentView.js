@@ -102,8 +102,6 @@ define(function(require) {
       else {
         classList.remove('no-scroll');
       }
-
     }
-
   });
 });
