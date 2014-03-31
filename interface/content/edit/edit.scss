@@ -1,4 +1,7 @@
 
+@import "./condition";
+@import "./input";
+
 $padding: 40px;
 
 .edit {
@@ -44,18 +47,10 @@ $padding: 40px;
   }
 }
 
-.edit-input {
-  width: calc(100% - 23px);
-  margin-right: 2px;
-  margin-left: 1px;
-  background-color: #f0f0f0;
-  @include box-shadow(rgba(0, 0, 0, 0.3) 1px 1px 1px 0px inset);
-}
-
 .edit-actions {
   float: right;
   overflow: hidden;
-  margin-top: 20px;
+  margin-top: 10px;
   width: 100%;
 }
 

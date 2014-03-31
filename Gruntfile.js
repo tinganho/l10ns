@@ -67,7 +67,8 @@ module.exports = function(grunt) {
           cssDir : 'interface/public/styles/documents',
           debugInfo : true,
           noLineComments : true,
-          imagesDir : 'interface/public/images'
+          imagesDir : 'interface/public/images',
+          relativeAssets : true
         }
       },
 
@@ -78,7 +79,8 @@ module.exports = function(grunt) {
           cssDir : 'interface/public/styles/content',
           debugInfo : true,
           noLineComments : true,
-          imagesDir : 'interface/public/images'
+          imagesDir : 'interface/public/images',
+          relativeAssets : true
         }
       }
     },
@@ -105,6 +107,10 @@ module.exports = function(grunt) {
         uglify : true,
         parseFiles : true
       }
+    },
+
+    clean : {
+      css: ['interface/public/styles/*']
     },
 
     dot : {
@@ -202,6 +208,20 @@ module.exports = function(grunt) {
       }
     },
 
+    webp: {
+      dev : {
+        expand: true,
+        cwd : 'interface/public/images',
+        src : [
+          '*.{jpg,png}'
+        ],
+        dest : 'interface/public/images-webp'
+      },
+      options: {
+        lossless: true,
+      }
+    },
+
     requirejs: {
       default: {
         options: {
@@ -225,6 +245,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-requirejs');
   grunt.loadNpmTasks('grunt-contrib-compass');
+  grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-webp');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-dot-compiler');
   grunt.loadNpmTasks('grunt-modernizr');

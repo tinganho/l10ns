@@ -88,13 +88,6 @@ define([
         }
       }
 
-      for(var view in app.views) {
-        if({{=page.noViewsScript}}) {
-          app.views[view].remove();
-          delete app.views[view];
-        }
-      }
-
       app.document.trigger('renderend');
     },
     {{~}}

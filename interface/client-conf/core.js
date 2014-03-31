@@ -73,17 +73,10 @@ var configs = {
   AJAX_TIMEOUT : 10000,
 
   /**
-   * We want to prevent people from JSON hijacking. Other site can include
-   * script tags and override Object and Array constructor to read any kind
-   * of JSON content we provide. We can prevent this if we have a script that
-   * crashes the web page.
-   *
-   * More info: http://stackoverflow.com/questions/2669690/why-does-google-prepend-while1-to-their-json-responses
-   *
-   * @type {String}
+   * @import cf.JSON_HIJACK_PREFIX
    */
 
-  JSON_HIJACK_PREFIX : 'while(1);',
+  JSON_HIJACK_PREFIX : cf.JSON_HIJACK_PREFIX,
 
   /**
    * X-Request-By header for protecting against CSRF attacks.
@@ -102,7 +95,19 @@ var configs = {
    * @type {String}
    */
 
-  CLIENT_ERROR_PATH : '/log/error'
+  CLIENT_ERROR_PATH : '/log/error',
+
+  /**
+   * @import cf.OPERATORS
+   */
+
+  OPERATORS : cf.OPERATORS,
+
+  /**
+   * @import cf.ADDITIONAL_COMPAIR_OPERATORS
+   */
+
+  ADDITIONAL_COMPAIR_OPERATORS : cf.ADDITIONAL_COMPAIR_OPERATORS
 };
 
 /**

@@ -20,10 +20,9 @@ define(function(require) {
     initialize : function(model) {
       if(inClient) {
         this._model = model;
-        if(!this._model.bootstrapped) {
-          this.setElement(document.querySelector('[data-content=edit]'));
-          this._bind();
-        }
+        this.setElement(document.querySelector('[data-content=edit]'));
+        this._setElements();
+        this._bind();
       }
     },
 
@@ -35,21 +34,20 @@ define(function(require) {
      */
 
     _bind : function() {
-      this._setElements();
-      this._bindElements();
+      this._bindMethods();
       if(!has.touch) {
         this._addDesktopListeners();
       }
     },
 
     /**
-     * Add desktop listeners
+     * Bind methods
      *
      * @return {void}
      * @api private
      */
 
-    _bindElements : function() {
+    _bindMethods : function() {
       _.bindAll(
         this,
         '_addCondition',
@@ -115,6 +113,8 @@ define(function(require) {
 
       this.setElement(document.querySelector('[data-content=edit]'));
       this._bind();
+
+      this._model.bindComponents();
     },
 
     /**
@@ -134,6 +134,51 @@ define(function(require) {
      * @type {Function}
      */
 
-    template : template.edit,
+    template : function(json) {
+      if(json.values.length === 1) {
+        json.valuesHtml = template.input({ value : json.values[0] });
+        return template.edit.call(this, json);
+      }
+      else {
+        var values = '';
+        for(var i = 0; i<json.values.length; i++) {
+          if(json.values[i].length > 2) {
+            var y = 0, row = 0;
+            while(typeof json.values[i][y] !== 'undefined') {
+              var condition = {
+                statement : json.values[i][y],
+                firstOperand : json.values[i][y + 1],
+                operator : json.values[i][y + 2],
+                lastOperand : json.values[i][y + 3],
+                vars : json.vars,
+                operators : cf.OPERATORS,
+                additionalCompairOperators : cf.ADDITIONAL_COMPAIR_OPERATORS,
+                row : row
+              };
+
+              console.log(json.vars);
+              row++;
+
+              if(json.values[i][y + 4] === '&&'
+              || json.values[i][y + 4] === '||') {
+                y += 4;
+                continue;
+              }
+              values += template.condition(condition);
+              values += template.input({ value : json.values[i][y + 4] });
+              y += 5;
+            }
+          }
+          else {
+            values += template.condition_else();
+            values += template.input({ value : json.values[i][1] });
+          }
+        }
+
+        // reset values to computed template
+        json.valuesHtml = values;
+        return template.edit.call(this, json);
+      }
+    }
   });
 });

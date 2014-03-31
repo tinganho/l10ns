@@ -12,7 +12,9 @@ define(function(require) {
     , _ = require('underscore');
 
   if(inClient) {
-    var request = require('request');
+    var request = require('request')
+     , Condition = require('./Condition')
+     , ConditionView = require('./ConditionView');
   }
 
   return Model.extend({
@@ -27,13 +29,67 @@ define(function(require) {
     initialize : function() {
       if(inClient) {
         // Parse bootstrapped data
-        if(this.bootstrapped) {
+        $json = $('.js-json-edit');
+        if($json.length) {
           var $json = $('.js-json-edit');
           this.set(JSON.parse($json.html()));
-          this.bootstrapped = true;
           $json.remove();
+          this.bindComponents();
         }
       }
+    },
+
+    /**
+     * Initialize components and bind them.
+     *
+     * @param {Array} values
+     * @return {this}
+     * @api private
+     */
+
+    bindComponents : function() {
+      var values = this.get('values')
+        , objects = [];
+
+      if(values.length === 1) {
+        return this.set('_valuesObjects', []);
+      }
+
+      for(var i = 0; i<values.length; i++) {
+        if(values[i].length > 2) {
+          var y = 0, row = 0;
+          while(typeof values[i][y] !== 'undefined') {
+            var condition = new Condition({
+              statement : values[i][y],
+              operand1 : values[i][y + 1],
+              operator : values[i][y + 2],
+              operand2 : values[i][y + 3],
+              row : row
+            });
+
+            new ConditionView(condition);
+
+            objects.push(condition);
+
+            row++;
+
+            if(values[i][y + 4] === '&&'
+            || values[i][y + 4] === '||') {
+              return y += 4;
+            }
+
+            y += 5;
+          }
+        }
+        else {
+
+        }
+      }
+
+      // store
+      this.set('_valuesObjects', objects);
+
+      return this;
     },
 
     /**
@@ -44,11 +100,12 @@ define(function(require) {
 
     defaults : {
       key : null,
-      value : [],
+      values : [],
       vars : [],
       text : '',
       timestamp : null,
       _new : false,
+      _compairs : null,
 
       i18n_variables : 'VARIABLES',
       i18n_translation : 'TRANSLATION',
@@ -74,7 +131,7 @@ define(function(require) {
           this.set(translation);
           this.setPageTitle(translation.key);
           this.setPageDescription('Edit: ' + translation.key);
-          opts.success();
+          return opts.success();
         }
         else {
           var id = window.location.pathname.split('/')[2];

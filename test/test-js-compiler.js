@@ -112,6 +112,45 @@ module.exports = function() {
         expect(map).to.have.string('};');
       });
     });
+
+    describe('#_getFormatedOperandString', function() {
+      it('should return an int if the operand is just using 0-9', function() {
+        var compiler = new Compiler();
+        compiler.quiet = true;
+        var operand = compiler._getFormatedOperandString('1', []);
+        expect(operand).to.equal('1');
+      });
+
+      it('should return a string if the operand is not just containing 0-9', function() {
+        var compiler = new Compiler();
+        compiler.quiet = true;
+        var operand = compiler._getFormatedOperandString('1f', []);
+        expect(operand).to.equal('\'1f\'');
+      });
+
+      it('should return a variable if the operand have mustach ${...} syntax', function() {
+        var compiler = new Compiler();
+        compiler.quiet = true;
+        var operand = compiler._getFormatedOperandString('${test}', ['${test}']);
+        expect(operand).to.equal('it.test');
+      });
+
+      it('should throw an error if the variable begins with an integer', function() {
+        var compiler = new Compiler();
+        compiler.quiet = true;
+        function test() {
+          var operand = compiler._getFormatedOperandString('${1test}', ['${1test}']);
+        };
+        expect(test).to.throw(TypeError);
+      });
+
+      it('should return a string if the variable syntax doesn\'t contain [0-9a-zA-Z]', function() {
+        var compiler = new Compiler();
+        compiler.quiet = true;
+        var operand = compiler._getFormatedOperandString('${test/}', ['${test/}']);
+        expect(operand).to.equal('\'${test/}\'');
+      });
+    });
   });
 
 };

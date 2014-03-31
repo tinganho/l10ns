@@ -253,7 +253,32 @@ var configs = {
    * @type {String}
    */
 
-  COMPOSITE_ROUTER_PATH : 'public/scripts/routers/composer.js'
+  COMPOSITE_ROUTER_PATH : 'public/scripts/routers/composer.js',
+
+  /**
+   * Operators used for comparing operands in translation interface.
+   *
+   * @type {Object}
+   */
+
+  OPERATORS : {
+    'Equals' : '==',
+    'Smaller than' : '<',
+    'Bigger than' : '>',
+    'Smaller and equal' : '<=',
+    'Bigger and equal' : '>='
+  },
+
+  /**
+   * Additional compair operators.
+   *
+   * @type {Array}
+   */
+
+  ADDITIONAL_COMPAIR_OPERATORS : {
+    'and' : '&&',
+    'or' : '||'
+  }
 };
 
 /**

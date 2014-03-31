@@ -156,7 +156,7 @@ else {
    * Add default security
    */
 
-  // helmet.defaults(app, { xframe: false, csp: false });
+  helmet.defaults(app, { xframe: false, csp: false });
 
   /**
    * Autoroute.

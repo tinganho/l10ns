@@ -2,17 +2,15 @@
 // Documents & layouts
 //
 
-// Configurations
-$sprite-folders : default;
-
-$mobile: 0px 500px;
-$tablet: 0px 900px;
-$desktop: 401px;
 
 // General styles
 @import "animation";
 @import "compass";
 @import "compass-placeholder";
+
+$mobile: 0px 500px;
+$tablet: 0px 900px;
+$desktop: 401px;
 @import "breakpoint";
 
 // Reset

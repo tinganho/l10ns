@@ -96,8 +96,9 @@ require([
     views : {},
     components : {},
     document : new Document,
+    $document : $(document),
     layoutTmpls : layoutTmpls,
-    ladingRoute : window.location.pathname,
+    landingPath : window.location.pathname,
     $body : $body,
     $layout : $body.find('[data-layout]'),
     navigate : function(path) {

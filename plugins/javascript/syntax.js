@@ -10,21 +10,6 @@ function Syntax() {
 }
 
 /**
- * Check if string is operand
- *
- * @param {String} operand
- * @return {Boolean}
- * @api public
- */
-
-Syntax.prototype.stringIsOperand = function(operand) {
-  if(pcf.SYNTAX_OPERAND.test(operand)) {
-    return true;
-  }
-  return false;
-};
-
-/**
  * Checks if operands and operators has the correct syntax
  *
  * @param String operand1
@@ -36,7 +21,7 @@ Syntax.prototype.stringIsOperand = function(operand) {
 
 Syntax.prototype.stringIsCondition = function(operand1, operator, operand2) {
   // Check operands
-  if(!this.stringIsOperand(operand1) || !this.stringIsOperand(operand2)) {
+  if(typeof operand1 !== 'string' || typeof operand2 !== 'string') {
     return false
   }
   // Validate operator

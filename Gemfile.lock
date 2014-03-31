@@ -16,8 +16,13 @@ GEM
       compass
     compass-placeholder (0.0.3)
       compass (>= 0.11)
+    compass-retina-sprites (0.1.8)
+      compass (>= 0.11)
+      sassy-strings (>= 0.3.1)
     fssm (0.2.10)
     sass (3.2.14)
+    sassy-strings (1.0.0)
+      compass (>= 0.12.2)
 
 PLATFORMS
   ruby
@@ -28,4 +33,5 @@ DEPENDENCIES
   compass (= 0.12.2)
   compass-h5bp
   compass-placeholder
+  compass-retina-sprites
   sass (= 3.2.14)

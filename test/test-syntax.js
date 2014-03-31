@@ -19,19 +19,19 @@ module.exports = function() {
       + 'parameter doesn\'t have the same length as the some old'
       + 'translation variable array providied before', function() {
         var syntax = new Syntax;
-        var res = syntax.hasErrorDuplicate(fixtures.readTranslationJSON['en-US'], 'test', ['test1']);
+        var res = syntax.hasErrorDuplicate(fixtures.readTranslationJSON['en-US'], 'test', ['${test1}']);
         expect(res).to.be.true;
       });
 
       it('should return true if the variables have the same length but different names', function() {
         var syntax = new Syntax;
-        var res = syntax.hasErrorDuplicate(fixtures.readTranslationJSON['en-US'], 'test', ['test1', 'some-other-key']);
+        var res = syntax.hasErrorDuplicate(fixtures.readTranslationJSON['en-US'], 'test', ['${test1}', '${some-other-key}']);
         expect(res).to.be.true;
       });
 
       it('should return false if the variables have the same length and same names', function() {
         var syntax = new Syntax;
-        var res = syntax.hasErrorDuplicate(fixtures.readTranslationJSON['en-US'], 'test', ['test1', 'test2']);
+        var res = syntax.hasErrorDuplicate(fixtures.readTranslationJSON['en-US'], 'test', ['${test1}', '${test2}']);
         expect(res).to.be.false;
       });
     });

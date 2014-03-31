@@ -1,0 +1,35 @@
+<!--
+
+Condition
+
+@param {String} statement
+@param {Array.<Variable>} vars
+
+!-->
+
+{{##def.operators : load('./condition_operators.part'); #}}
+{{##def.then : load('./condition_then.part'); #}}
+{{##def.firstOperand : load('./condition_operand.part', {
+  type : 'first'
+}); #}}
+{{##def.lastOperand : load('./condition_operand.part', {
+  type : 'last'
+}); #}}
+
+<div class="condition" data-row="{{=it.row}}">
+  <label class="condition-statement">{{=it.statement}}</label>
+  <div class="condition-vertical"></div>
+    {{#def.firstOperand}}
+  <div class="condition-vertical"></div>
+    {{#def.operators}}
+  <div class="condition-vertical"></div>
+    {{#def.lastOperand}}
+  <div class="condition-vertical"></div>
+    {{#def.then}}
+  <div class="condition-vertical"></div>
+  <div class="condition-exit">
+    <span class="condition-exit-background">
+      <i class="condition-exit-icon js-condition-exit sp-default sp-default-exit"></i>
+    </span>
+  </div>
+</div>

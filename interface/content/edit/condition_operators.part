@@ -1,0 +1,13 @@
+
+<div class="condition-operators condition-item">
+  <span class="condition-operators-value js-operators-value">{{?it.operatorValue}}{{=it.operatorValue}}{{??}}=={{?}}</span>
+  <ul class="condition-operators-list condition-dropdown ">
+    {{ for(var prop in it.operators) { }}
+      <li class="condition-operator condition-dropdown-list-item">
+        <span class="condition-operator-symbol">{{=it.operators[prop]}}</span>
+        <span class="condition-operator-text">{{=prop}}</span>
+        <i class="condition-check sp-default sp-default-check"></i>
+      </li>
+    {{ } }}
+  </ul>
+</div>

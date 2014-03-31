@@ -41,6 +41,8 @@ var Compiler = function() {
   this.add = ' + ';
   // space
   this.space = ' ';
+  // quote
+  this.quote = '\'';
   // Quiet
   this.quiet = lcf.quiet;
   // Set locales
@@ -319,15 +321,21 @@ Compiler.prototype._getElseStatementString = function(string) {
  */
 
 Compiler.prototype._getFormatedOperandString = function(operand, vars) {
-  if(pcf.SYNTAX_VARIABLE.test(operand)) {
+  pcf.SYNTAX_VARIABLE_MARKUP.lastIndex = 0;
+  if(pcf.SYNTAX_VARIABLE_MARKUP.test(operand)) {
     // Re-formats all vars
-    operand = operand.replace('$', '');
+    if(/^\$\{\d/.test(operand)) {
+      throw new TypeError('variable can\'t begin with an integer.');
+    }
     if(vars.indexOf(operand) === -1) {
       log.error('You have used an undefined variable ' + operand.red
       + '.\n Please add the variable or remove the operand from your source.');
       process.exit();
     }
-    operand = this.namespace + this.dot + operand;
+    operand = this.namespace + this.dot + operand.substring(2, operand.length -1);
+  }
+  else if(!/^\d+$/.test(operand)) {
+    operand = this.quote + operand + this.quote;
   }
 
   return operand;

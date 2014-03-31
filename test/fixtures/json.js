@@ -83,13 +83,13 @@ module.exports = {
 
   ifElseConditions : {
     'test' : {
-      'vars' : ["test1"],
+      'vars' : ["${test1}"],
       'values' : [
         [
           "if",
-          "test1",
+          "${test1}",
           "===",
-          "test1",
+          "${test1}",
           "yes it can"
         ],
         [
@@ -105,20 +105,20 @@ module.exports = {
 
   ifElseifElseConditions : {
     'test' : {
-      'vars' : ["test1"],
+      'vars' : ["${test1}"],
       'values' : [
         [
           "if",
-          "test1",
+          "${test1}",
           "===",
-          "test1",
+          "${test1}",
           "yes it can"
         ],
         [
           "else if",
-          "test1",
+          "${test1}",
           "===",
-          "test1",
+          "${test1}",
           "no it can not"
         ],
         [
@@ -134,17 +134,17 @@ module.exports = {
 
   additionalConditionAnd : {
     'test' : {
-      'vars' : ["test1"],
+      'vars' : ["${test1}"],
       'values' : [
         [
           "if",
-          "test1",
+          "${test1}",
           "===",
-          "test1",
+          "${test1}",
           "&&",
-          "test1",
+          "${test1}",
           "===",
-          "test1",
+          "${test1}",
           "yes it can"
         ],
         [
@@ -160,17 +160,17 @@ module.exports = {
 
   additionConditionOr : {
     'test' : {
-      'vars' : ["test1"],
+      'vars' : ["${test1}"],
       'values' : [
         [
           "if",
-          "test1",
+          "${test1}",
           "===",
-          "test1",
+          "${test1}",
           "||",
-          "test1",
+          "${test1}",
           "===",
-          "test1",
+          "${test1}",
           "yes it can"
         ],
         [
@@ -186,21 +186,21 @@ module.exports = {
 
   multipleAdditionConditions : {
     'test' : {
-      'vars' : ["test1"],
+      'vars' : ["${test1}"],
       'values' : [
         [
           "if",
-          "test1",
+          "${test1}",
           "===",
-          "test1",
+          "${test1}",
           "||",
-          "test1",
+          "${test1}",
           "===",
-          "test1",
+          "${test1}",
           "&&",
-          "test1",
+          "${test1}",
           "===",
-          "test1",
+          "${test1}",
           "yes it can"
         ],
         [
@@ -218,7 +218,7 @@ module.exports = {
     'en-US' : {
       'test' : {
         'key' : 'test',
-        'vars' : ['test1', 'test2'],
+        'vars' : ['${test1}', '${test2}'],
         'values' : ['It can have'],
         'text' : 'It can have',
         'timestamp': 1361261618370,
