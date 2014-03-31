@@ -24,6 +24,21 @@
   color: #fff;
 }
 
+.condition-custom-operand {
+  position: relative;
+  padding: 0 10px;
+  height: 44px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-weight: normal;
+
+  &.checked {
+    .condition-check {
+      visibility: visible;
+    }
+  }
+}
+
 .condition-custom-operand-input {
   position: absolute;
   top: 3px;
@@ -35,6 +50,10 @@
   border: 1px solid #f0dada;
   border-radius: 2px;
   @include font-size(1.4);
+
+  &:focus {
+    border: 1px solid #FF5757;
+  }
 }
 
 .condition-custom-operand-info {
@@ -69,14 +88,5 @@
 
 .condition-check {
   visibility: hidden;
-}
-
-.condition-custom-operand {
-  position: relative;
-  padding: 0 10px;
-  height: 44px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  font-weight: normal;
 }
 

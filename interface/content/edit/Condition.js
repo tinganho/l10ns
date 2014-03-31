@@ -31,8 +31,10 @@ define(function(require) {
      */
 
     bindComponents : function() {
-      this.operand1 = new Operand({ value : this.get('operand1'), row : this.get('row'), order : 'first' });
-      this.operand1View = new OperandView(this.operand1);
+      this.firstOperand = new Operand({ value : this.get('firstOperand'), vars : this.get('vars'), row : this.get('row'), order : 'first' });
+      this.firstOperandView = new OperandView(this.firstOperand);
+      this.lastOperand = new Operand({ value : this.get('lastOperand'), vars : this.get('vars'), row : this.get('row'), order : 'last' });
+      this.lastOperandView = new OperandView(this.lastOperand);
 
       return this;
     }

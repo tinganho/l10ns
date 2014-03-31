@@ -57,13 +57,14 @@ define(function(require) {
 
       for(var i = 0; i<values.length; i++) {
         if(values[i].length > 2) {
-          var y = 0, row = 0;
+          var y = 0, row = 0, vars = this.get('vars');
           while(typeof values[i][y] !== 'undefined') {
             var condition = new Condition({
               statement : values[i][y],
-              operand1 : values[i][y + 1],
+              firstOperand : values[i][y + 1],
               operator : values[i][y + 2],
-              operand2 : values[i][y + 3],
+              lastOperand : values[i][y + 3],
+              vars : vars,
               row : row
             });
 

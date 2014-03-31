@@ -34,6 +34,40 @@ define(function(require) {
       this._bindMethods();
       this._setElements();
       this._addDesktopListeners();
+      this._bindModel();
+    },
+
+    /**
+     * Set elements
+     *
+     * @return {void}
+     * @api private
+     */
+
+    _bindModel : function() {
+      this._model.on('change:value', this._onValueChange);
+    },
+
+    /**
+     * On value change
+     *
+     * @delegate
+     */
+
+    _onValueChange : function() {
+      this.$('.checked').removeClass('checked');
+      if(this._model.get('vars').indexOf(this._model.get('value')) !== -1) {
+        var selector = '.condition-variable-operand[data-value="' + this._model.get('value') + '"]';
+        this.el
+          .querySelector(selector)
+          .classList.add('checked');
+        this.$customVarInput.val('');
+      }
+      else {
+        this.$customVarInput.parent().addClass('checked');
+      }
+
+      this.$value.html(this._model.get('value'));
     },
 
     /**
@@ -44,7 +78,9 @@ define(function(require) {
      */
 
     _setElements : function() {
-      this.setElement(this.rootSelector);
+      this.setElement('.condition[data-row="' + this._model.get('row') + '"] ' + this.rootSelector);
+      this.$customVarInput = this.$('.js-condition-custom-operand-input');
+      this.$value = this.$('.condition-value');
     },
 
     /**
@@ -57,7 +93,12 @@ define(function(require) {
     _bindMethods : function() {
       _.bindAll(this,
         '_showDropDown',
-        '_hideDropDown'
+        '_hideDropDown',
+        '_setCustomVar',
+        '_selectAllText',
+        '_addSelectAllTextHandler',
+        '_setOperand',
+        '_onValueChange'
       );
     },
 
@@ -70,6 +111,32 @@ define(function(require) {
 
     _addDesktopListeners : function() {
       this.$el.on('click', this._showDropDown);
+      this.$el.on('click', '.condition-variable-operand', this._setOperand);
+      this.$customVarInput.on('keydown', this._setCustomVar);
+      this.$customVarInput.on('blur', this._addSelectAllTextHandler);
+    },
+
+    /**
+     * Set variable as operand
+     *
+     * @delegate
+     */
+
+    _setOperand : function(event) {
+      this._model.set('value', event.currentTarget.getAttribute('data-value'));
+      this._hideDropDown();
+    },
+
+    /**
+     * Adds select all text handler. The select all text handler is always
+     * removed after one have clicked the input. On blur we want add
+     * `_selectAllText` handler again.
+     *
+     * @delegate
+     */
+
+    _addSelectAllTextHandler : function() {
+      this.$customVarInput.on('mouseup', this._selectAllText);
     },
 
     /**
@@ -85,7 +152,8 @@ define(function(require) {
       if(!has.touch) {
         _.defer(function() {
           _this.$el.off('click', _this._showDropDown);
-          app.$document.on('click', _this._hideDropDown);
+          _this.$customVarInput.on('mouseup', _this._selectAllText);
+          app.$document.on('mousedown', _this._hideDropDown);
         });
       }
     },
@@ -99,7 +167,8 @@ define(function(require) {
     _hideDropDown : function(event) {
       var _this = this;
 
-      if($(event.target).parents(this.rootSelector).length > 0) {
+      if(typeof event !== 'undefined'
+      && $(event.target).parents(this.rootSelector).length > 0) {
         return;
       }
 
@@ -107,9 +176,38 @@ define(function(require) {
       if(!has.touch) {
         _.defer(function() {
           _this.$el.on('click', _this._showDropDown);
-          app.$document.off('click', _this._hideDropDown);
+          app.$document.off('mousedown', _this._hideDropDown);
         });
       }
+    },
+
+    /**
+     * Set custom var
+     *
+     * @delegate
+     */
+
+    _setCustomVar : function(event) {
+      if(event.keyCode === 13) {
+        this._model.set('value', this.$customVarInput.val());
+        this._hideDropDown();
+      }
+    },
+
+    /**
+     * Select all text
+     *
+     * @delegate
+     */
+
+    _selectAllText : function(event) {
+      var _this = this;
+
+      this.$customVarInput.select();
+      event.preventDefault();
+      _.defer(function() {
+        _this.$customVarInput.off('mouseup', _this._selectAllText);
+      });
     }
   });
 });

@@ -156,7 +156,6 @@ define(function(require) {
                 row : row
               };
 
-              console.log(json.vars);
               row++;
 
               if(json.values[i][y + 4] === '&&'
