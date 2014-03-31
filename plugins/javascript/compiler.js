@@ -355,12 +355,12 @@ Compiler.prototype._getFormatedTranslatedText = function(text, vars) {
   text = this._normalizeText(text);
 
   return text.replace(pcf.SYNTAX_VARIABLE_MARKUP, function(match) {
-    match = match.substring(2, match.length - 1);
     if(vars.indexOf(match) === -1) {
       log.error('You have used an undefined variable ' + operand.red
       + '.\n Please add the variable or remove the operand from your source.');
       process.exit();
     }
+    match = match.substring(2, match.length - 1);
     return String.prototype.concat(
       _this.quote,
       _this.add,
