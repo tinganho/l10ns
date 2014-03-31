@@ -22,6 +22,10 @@
   @include font-size(1.5);
   font-weight: normal;
   color: #fff;
+  max-width: 100%;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .condition-custom-operand {
