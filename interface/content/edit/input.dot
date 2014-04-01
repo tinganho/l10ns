@@ -7,4 +7,4 @@ Input element
 
 !-->
 
-<input type="text" class="edit-input" value="{{=it.value}}"></input>
+<input type="text" class="edit-input" value="{{=it.value}}" data-row="{{=it.row}}"></input>

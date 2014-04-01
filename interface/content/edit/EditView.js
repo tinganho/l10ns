@@ -164,13 +164,14 @@ define(function(require) {
                 continue;
               }
               values += template.condition(condition);
-              values += template.input({ value : json.values[i][y + 4] });
+              values += template.input({ value : json.values[i][y + 4], row : row });
+              row++;
               y += 5;
             }
           }
           else {
             values += template.condition_else();
-            values += template.input({ value : json.values[i][1] });
+            values += template.input({ value : json.values[i][1], row : row });
           }
         }
 

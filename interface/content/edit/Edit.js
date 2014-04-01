@@ -14,7 +14,9 @@ define(function(require) {
   if(inClient) {
     var request = require('request')
      , Condition = require('./Condition')
-     , ConditionView = require('./ConditionView');
+     , ConditionView = require('./ConditionView')
+     , Input = require('./Input')
+     , InputView = require('./InputView');
   }
 
   return Model.extend({
@@ -34,9 +36,21 @@ define(function(require) {
           var $json = $('.js-json-edit');
           this.set(JSON.parse($json.html()));
           $json.remove();
+          this._bindMethods();
           this.bindComponents();
         }
       }
+    },
+
+    /**
+     * Bind methods
+     *
+     * @return {this}
+     * @api private
+     */
+
+    _bindMethods : function() {
+      _.bindAll(this, '_setValues');
     },
 
     /**
@@ -52,7 +66,7 @@ define(function(require) {
         , objects = [];
 
       if(values.length === 1) {
-        return this.set('_valuesObjects', []);
+        return this.set('_valueObjects', []);
       }
 
       for(var i = 0; i<values.length; i++) {
@@ -67,30 +81,105 @@ define(function(require) {
               vars : vars,
               row : row
             });
-
             new ConditionView(condition);
 
-            objects.push(condition);
+            // Listen to changes and set new values from
+            // value objects, whenever changes occurs.
+            condition.on('change', this._setValues);
 
+            objects.push(condition);
             row++;
 
+            // Continue condition statement
             if(values[i][y + 4] === '&&'
             || values[i][y + 4] === '||') {
-              return y += 4;
+              y += 4;
+              continue;
             }
 
+            // Initialize input
+            var input = new Input({
+              value : values[i][y + 4],
+              row : row
+            });
+            new InputView(input);
+
+            // Listen to changes and set new values from
+            // value objects, whenever changes occurs.
+            input.on('change', this._setValues);
+
+            objects.push(input);
+
             y += 5;
+
+            row++;
           }
         }
         else {
+          // We indicate that this is the last value
+          objects.push('else');
 
+          // Initialize input
+          var input = new Input({
+            value : values[i][1],
+            row : row
+          });
+          new InputView(input);
+
+          // Listen to changes and set new values from
+          // value objects, whenever changes occurs.
+          input.on('change', this._setValues);
+
+          objects.push(input);
         }
       }
 
       // store
-      this.set('_valuesObjects', objects);
+      this.set('_valueObjects', objects);
 
       return this;
+    },
+
+    /**
+     * Set values from `_valueObjects`
+     *
+     * @return {void}
+     * @api private
+     */
+
+    _setValues : function() {
+      var valueObjects = this.get('_valueObjects');
+      var newValues = [];
+      var lastType, lastConditionIndex = 0;
+      valueObjects.every(function(value, index, array) {
+        if(value instanceof Condition) {
+          var condition = [
+            value.get('statement'),
+            value.get('firstOperand'),
+            value.get('operator'),
+            value.get('lastOperand')
+          ];
+          if(lastType === 'condition') {
+            newValues[lastConditionIndex].concat(condition);
+          }
+          else {
+            newValues.push(condition);
+            lastConditionIndex = index;
+          }
+          lastType = 'condition';
+        }
+        else if(value instanceof Input) {
+          newValues[lastConditionIndex].push(value.get('value'));
+        }
+        else if(value === 'else') {
+          newValues.push(['else', array[index + 1].get('value')]);
+          return false;
+        }
+
+        return true;
+      });
+
+      this.set('values', newValues);
     },
 
     /**
