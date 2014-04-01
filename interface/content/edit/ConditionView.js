@@ -21,7 +21,7 @@ define(function(require) {
       this._model = model;
       this.setElement(document.querySelector('.condition[data-row="' + this._model.get('row') + '"]'));
       this._setElements()
-        ._bind();
+      this._bind();
     },
 
     /**
@@ -34,8 +34,7 @@ define(function(require) {
     _setElements : function() {
       this.$operators = this.$('.condition-operators');
       this.$operator = this.$('.condition-operators-value');
-
-      return this;
+      this.$then = this.$('.condition-then');
     },
 
     /**
@@ -47,10 +46,8 @@ define(function(require) {
 
     _bind : function() {
       this._bindMethods()
-        ._addDesktopListeners()
-        ._bindModel();
-
-      return this;
+      this._addDesktopListeners()
+      this._bindModel();
     },
 
     /**
@@ -78,7 +75,7 @@ define(function(require) {
     /**
      * Bind methods
      *
-     * @return {this}
+     * @return {void}
      * @api private
      */
 
@@ -86,25 +83,24 @@ define(function(require) {
       _.bindAll(this,
         '_showOperatorsDropDown',
         '_hideOperatorsDropDown',
+        '_showThenDropDown',
+        '_hideThenDropDown',
         '_setOperator',
         '_onOperatorChange'
       );
-
-      return this;
     },
 
     /**
      * Add desktop listeners
      *
-     * @return {this}
+     * @return {void}
      * @api private
      */
 
     _addDesktopListeners : function() {
       this.$el.on('click', '.condition-operators', this._showOperatorsDropDown);
       this.$el.on('click', '.condition-operator', this._setOperator);
-
-      return this;
+      this.$el.on('click', '.condition-then', this._showThenDropDown);
     },
 
     /**
@@ -153,6 +149,43 @@ define(function(require) {
     _setOperator : function(event) {
       this._model.set('operator', event.currentTarget.dataset['value']);
       this._hideOperatorsDropDown();
+    },
+
+    /**
+     * Show then dropdown
+     *
+     * @delegate
+     */
+
+    _showThenDropDown : function() {
+      var _this = this;
+
+      this.$then[0].classList.add('active');
+      _.defer(function() {
+        _this.$el.off('click', '.condition-then');
+        app.$document.on('mousedown', _this._hideThenDropDown);
+      });
+    },
+
+    /**
+     * Hide operators dropdown
+     *
+     * @delegate
+     */
+
+    _hideThenDropDown : function(event) {
+      if(typeof event !== 'undefined'
+      && $(event.target).parents('.condition-then').length > 0) {
+        return;
+      }
+
+      var _this = this;
+
+      this.$then[0].classList.remove('active');
+      _.defer(function() {
+        _this.$el.on('click', '.condition-then', _this._showThenDropDown);
+        app.$document.off('mousedown', _this._hideThenDropDown);
+      });
     }
   });
 });
