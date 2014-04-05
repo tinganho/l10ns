@@ -186,6 +186,16 @@ define(function(require) {
         _this.$el.on('click', '.condition-then', _this._showThenDropDown);
         app.$document.off('mousedown', _this._hideThenDropDown);
       });
+    },
+
+    /**
+     * Add sub condition
+     *
+     * @delegate
+     */
+
+    _addSubCondition : function() {
+
     }
   });
 });

@@ -30,13 +30,13 @@ define(function(require) {
 
     initialize : function() {
       if(inClient) {
+        this._bindMethods();
         // Parse bootstrapped data
         $json = $('.js-json-edit');
         if($json.length) {
           var $json = $('.js-json-edit');
           this.set(JSON.parse($json.html()));
           $json.remove();
-          this._bindMethods();
           this.bindComponents();
         }
       }
@@ -64,6 +64,11 @@ define(function(require) {
     bindComponents : function() {
       var values = this.get('values')
         , objects = [];
+
+      // If all object are already bind return
+      if(this.get('_valueObjects')) {
+        return;
+      }
 
       if(values.length === 1) {
         return this.set('_valueObjects', []);
@@ -228,7 +233,7 @@ define(function(require) {
           var translation = app.models.translations.get(id);
           if(translation) {
             translation = translation.toJSON();
-            _this.set(translation);
+            this.set(translation);
             app.document.set('title', translation.key);
             app.document.set('description', 'Edit: ' + translation.key);
             opts.success();
