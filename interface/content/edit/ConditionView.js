@@ -60,6 +60,7 @@ define(function(require) {
 
     _bindModel : function() {
       this._model.on('change:operator', this._onOperatorChange);
+      this._model.on('change:row', this._onRowChange);
     },
 
     /**
@@ -70,6 +71,16 @@ define(function(require) {
 
     _onOperatorChange : function() {
       this.$operator.html(this._model.get('operator'));
+    },
+
+    /**
+     * On operator change
+     *
+     * @delegate
+     */
+
+    _onRowChange : function() {
+      this.el.dataset.row = this._model.get('row');
     },
 
     /**
@@ -87,6 +98,7 @@ define(function(require) {
         '_hideThenDropDown',
         '_setOperator',
         '_onOperatorChange',
+        '_onRowChange',
         '_addSubCondition'
       );
     },
@@ -149,7 +161,7 @@ define(function(require) {
      */
 
     _setOperator : function(event) {
-      this._model.set('operator', event.currentTarget.dataset['value']);
+      this._model.set('operator', event.currentTarget.dataset.value);
       this._hideOperatorsDropDown();
     },
 
@@ -210,8 +222,17 @@ define(function(require) {
           row : row
         };
 
+      $('.condition[data-row]').each(function() {
+        console.log(this.dataset)
+        if(this.dataset.row >= row) {
+          this.dataset.row = parseInt(this.dataset.row, 10) + 1;
+        }
+      });
+
       $('.condition[data-row="' + this._model.get('row') + '"]')
-          .after(this.template(data));
+        .after(this.template(data));
+
+
 
       var condition = new Condition(data);
 
