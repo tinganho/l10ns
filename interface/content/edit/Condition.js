@@ -20,15 +20,14 @@ define(function(require) {
 
     initialize : function(json) {
       this.set(json);
-      this
-        ._bindComponents()
-        ._bindModels();
+      this._bindComponents()
+      this._bindModels();
     },
 
     /**
      * Initialize components and bind them.
      *
-     * @return {this}
+     * @return {void}
      * @api private
      */
 
@@ -37,14 +36,12 @@ define(function(require) {
       this.firstOperandView = new OperandView(this.firstOperand);
       this.lastOperand = new Operand({ value : this.get('lastOperand'), vars : this.get('vars'), row : this.get('row'), order : 'last' });
       this.lastOperandView = new OperandView(this.lastOperand);
-
-      return this;
     },
 
     /**
      * Bind models
      *
-     * @return {this}
+     * @return {void}
      * @api private
      */
 
@@ -58,8 +55,6 @@ define(function(require) {
       this.lastOperand.on('change:value', function() {
         _this.set('lastOperand', _this.lastOperand.get('value'));
       });
-
-      return this;
     }
   });
 });

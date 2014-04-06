@@ -6,6 +6,7 @@ if(typeof define !== 'function') {
 define(function(require) {
   var View = inServer ? require('../../lib/View') : require('View')
     , template = inServer ? content_appTmpls : require('contentTmpls')
+    , Condition = require('./Condition')
     , _ = require('underscore');
 
   return View.extend({
@@ -53,13 +54,12 @@ define(function(require) {
     /**
      * Bind model
      *
-     * @return {this}
+     * @return {void}
      * @api private
      */
 
     _bindModel : function() {
       this._model.on('change:operator', this._onOperatorChange);
-      return this;
     },
 
     /**
@@ -86,7 +86,8 @@ define(function(require) {
         '_showThenDropDown',
         '_hideThenDropDown',
         '_setOperator',
-        '_onOperatorChange'
+        '_onOperatorChange',
+        '_addSubCondition'
       );
     },
 
@@ -101,6 +102,7 @@ define(function(require) {
       this.$el.on('click', '.condition-operators', this._showOperatorsDropDown);
       this.$el.on('click', '.condition-operator', this._setOperator);
       this.$el.on('click', '.condition-then', this._showThenDropDown);
+      this.$el.on('click', '.condition-comparator', this._addSubCondition);
     },
 
     /**
@@ -194,8 +196,36 @@ define(function(require) {
      * @delegate
      */
 
-    _addSubCondition : function() {
+    _addSubCondition : function(event) {
+      var statement = event.currentTarget.dataset.value
+        , row = this._model.get('row') + 1
+        , data = {
+          statement : statement,
+          firstOperand : 'value1',
+          operator : '==',
+          lastOperand : 'value2',
+          vars : this._model.get('vars'),
+          operators : cf.OPERATORS,
+          additionalCompairOperators : cf.ADDITIONAL_COMPAIR_OPERATORS,
+          row : row
+        };
 
-    }
+      $('.condition[data-row="' + this._model.get('row') + '"]')
+          .after(this.template(data));
+
+      var condition = new Condition(data);
+
+      app.models.edit.addValueObject(row, condition);
+
+      this._hideThenDropDown()
+    },
+
+    /**
+     * Template
+     *
+     * @type {String}
+     */
+
+    template : template.condition
   });
 });

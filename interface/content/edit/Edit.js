@@ -152,7 +152,11 @@ define(function(require) {
      * @api private
      */
 
-    _setValues : function() {
+    _setValues : function(model) {
+      // We don't handle row changes
+      if(typeof model.changed.row !== 'undefined') {
+        return;
+      }
       var valueObjects = this.get('_valueObjects');
       var newValues = [];
       var lastType, lastConditionIndex = 0;
@@ -249,6 +253,32 @@ define(function(require) {
               opts.success();
             });
         }
+      }
+    },
+
+    /**
+     * Add value object
+     *
+     * @return {void}
+     * @api public
+     */
+
+    addValueObject : function(row, object) {
+      var objects = this.get('_valueObjects');
+      var length = objects.length;
+      for(var i = length - 1; i > 0; i--) {
+        if(i >= row) {
+          if(typeof objects[i].set === 'function') {
+            objects[i].set('row', i + 1);
+          }
+          objects[i + 1] = objects[i];
+        }
+      }
+
+      objects[row] = object;
+
+      if(object instanceof Condition) {
+        var view = new ConditionView(object);
       }
     }
   });
