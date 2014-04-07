@@ -110,8 +110,7 @@ define(function(require) {
      */
 
     _addDesktopListeners : function() {
-      this.$el.on('click', this._showDropDown);
-      this.$el.on('click', '.condition-variable-operand', this._setOperand);
+      this.$el.on('mousedown', this._showDropDown);
       this.$customVarInput.on('keydown', this._setCustomVar);
       this.$customVarInput.on('blur', this._addSelectAllTextHandler);
     },
@@ -151,7 +150,8 @@ define(function(require) {
       this.el.classList.add('active');
       if(!has.touch) {
         _.defer(function() {
-          _this.$el.off('click', _this._showDropDown);
+          _this.$el.off('mousedown', _this._showDropDown);
+          _this.$el.on('mousedown', '.condition-variable-operand', _this._setOperand);
           _this.$customVarInput.on('mouseup', _this._selectAllText);
           app.$document.on('mousedown', _this._hideDropDown);
         });
@@ -165,17 +165,20 @@ define(function(require) {
      */
 
     _hideDropDown : function(event) {
-      var _this = this;
-
-      if(typeof event !== 'undefined'
-      && $(event.target).parents(this.rootSelector).length > 0) {
-        return;
+      if(typeof event !== 'undefined') {
+        var $parent = $(event.target).parents(this.rootSelector);
+        if($parent.length > 0 && $parent[0] === this.$el[0]) {
+          return;
+        }
       }
+
+      var _this = this;
 
       this.el.classList.remove('active');
       if(!has.touch) {
         _.defer(function() {
-          _this.$el.on('click', _this._showDropDown);
+          _this.$el.on('mousedown', _this._showDropDown);
+          _this.$el.off('mousedown', '.condition-variable-operand', _this._setOperand);
           app.$document.off('mousedown', _this._hideDropDown);
         });
       }

@@ -111,10 +111,10 @@ define(function(require) {
      */
 
     _addDesktopListeners : function() {
-      this.$el.on('click', '.condition-operators', this._showOperatorsDropDown);
-      this.$el.on('click', '.condition-operator', this._setOperator);
-      this.$el.on('click', '.condition-then', this._showThenDropDown);
-      this.$el.on('click', '.condition-comparator', this._addSubCondition);
+      this.$el.on('mousedown', '.condition-operators', this._showOperatorsDropDown);
+      this.$el.on('mousedown', '.condition-operator', this._setOperator);
+      this.$el.on('mousedown', '.condition-then', this._showThenDropDown);
+      this.$el.on('mousedown', '.condition-comparator', this._addSubCondition);
     },
 
     /**
@@ -128,7 +128,7 @@ define(function(require) {
 
       this.$operators[0].classList.add('active');
       _.defer(function() {
-        _this.$el.off('click', '.condition-operators');
+        _this.$el.off('mousedown', '.condition-operators');
         app.$document.on('mousedown', _this._hideOperatorsDropDown);
       });
     },
@@ -140,16 +140,18 @@ define(function(require) {
      */
 
     _hideOperatorsDropDown : function(event) {
-      if(typeof event !== 'undefined'
-      && $(event.target).parents('.condition-operators').length > 0) {
-        return;
+      if(typeof event !== 'undefined') {
+        var $parent = $(event.target).parents('.condition-operators');
+        if($parent.length > 0 && $parent[0] === this.$operators[0]) {
+          return;
+        }
       }
 
       var _this = this;
 
       this.$operators[0].classList.remove('active');
       _.defer(function() {
-        _this.$el.on('click', '.condition-operators', _this._showOperatorsDropDown);
+        _this.$el.on('mousedown', '.condition-operators', _this._showOperatorsDropDown);
         app.$document.off('mousedown', _this._hideOperatorsDropDown);
       });
     },
@@ -176,7 +178,7 @@ define(function(require) {
 
       this.$then[0].classList.add('active');
       _.defer(function() {
-        _this.$el.off('click', '.condition-then');
+        _this.$el.off('mousedown', '.condition-then');
         app.$document.on('mousedown', _this._hideThenDropDown);
       });
     },
@@ -188,16 +190,18 @@ define(function(require) {
      */
 
     _hideThenDropDown : function(event) {
-      if(typeof event !== 'undefined'
-      && $(event.target).parents('.condition-then').length > 0) {
-        return;
+      if(typeof event !== 'undefined') {
+        var $parent = $(event.target).parents('.condition-then');
+        if($parent.length > 0 && $parent[0] === this.$then[0]) {
+          return;
+        }
       }
 
       var _this = this;
 
       this.$then[0].classList.remove('active');
       _.defer(function() {
-        _this.$el.on('click', '.condition-then', _this._showThenDropDown);
+        _this.$el.on('mousedown', '.condition-then', _this._showThenDropDown);
         app.$document.off('mousedown', _this._hideThenDropDown);
       });
     },
@@ -223,7 +227,6 @@ define(function(require) {
         };
 
       $('.condition[data-row]').each(function() {
-        console.log(this.dataset)
         if(this.dataset.row >= row) {
           this.dataset.row = parseInt(this.dataset.row, 10) + 1;
         }
@@ -231,8 +234,6 @@ define(function(require) {
 
       $('.condition[data-row="' + this._model.get('row') + '"]')
         .after(this.template(data));
-
-
 
       var condition = new Condition(data);
 
