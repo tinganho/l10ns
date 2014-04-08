@@ -173,7 +173,8 @@ module.exports = function(grunt) {
       templates: {
         files: [
           '**/*.dot',
-          '**/*.part'
+          '**/*.part',
+          '!**/node_modules/**'
         ],
         tasks: ['dot']
       },
@@ -183,7 +184,8 @@ module.exports = function(grunt) {
           '**/*.js',
           'Gruntfile.js',
           'bin/**/*.js',
-          'tasks/**/*.js'
+          'tasks/**/*.js',
+          '!**/node_modules/**'
         ],
         tasks: ['jshint']
       },
@@ -192,7 +194,8 @@ module.exports = function(grunt) {
         files : [
           'interface/layouts/**/*.scss',
           'interface/documents/styles/**/*.scss',
-          'interface/components/**/*.scss'
+          'interface/components/**/*.scss',
+          '!**/node_modules/**'
         ],
         tasks : ['compass:documents']
       },
@@ -202,7 +205,8 @@ module.exports = function(grunt) {
           'interface/content/styles/app.scss',
           'interface/content/translations/**/*.scss',
           'interface/content/search/**/*.scss',
-          'interface/content/edit/**/*.scss'
+          'interface/content/edit/**/*.scss',
+          '!**/node_modules/**'
         ],
         tasks : ['compass:content']
       }
