@@ -171,7 +171,7 @@ define(function(require) {
           }
           else {
             values += template.condition_else();
-            values += template.input({ value : json.values[i][1], row : row });
+            values += template.input({ value : json.values[i][1], row : row + 1 });
           }
         }
 

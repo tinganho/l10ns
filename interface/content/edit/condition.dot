@@ -7,12 +7,12 @@ Condition
 
 !-->
 
-{{##def.operators : load('./condition_operators.part'); #}}
-{{##def.then : load('./condition_then.part'); #}}
-{{##def.firstOperand : load('./condition_operand.part', {
+{{##def.operators : load('./ConditionOperators.part'); #}}
+{{##def.then : load('./ConditionThen.part'); #}}
+{{##def.firstOperand : load('./ConditionOperand.part', {
   type : 'first'
 }); #}}
-{{##def.lastOperand : load('./condition_operand.part', {
+{{##def.lastOperand : load('./ConditionOperand.part', {
   type : 'last'
 }); #}}
 

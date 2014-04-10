@@ -20,7 +20,13 @@ define(function(require) {
 
     initialize : function(model) {
       this._model = model;
-      this.setElement(document.querySelector('.condition[data-row="' + this._model.get('row') + '"]'));
+      var element = document.querySelector('.condition[data-row="' + this._model.get('row') + '"]');
+      if(element) {
+        this.setElement(element);
+      }
+      else {
+        this.render();
+      }
       this._setElements()
       this._bind();
     },
@@ -99,7 +105,8 @@ define(function(require) {
         '_setOperator',
         '_onOperatorChange',
         '_onRowChange',
-        '_addSubCondition'
+        '_addSubCondition',
+        '_remove'
       );
     },
 
@@ -115,6 +122,7 @@ define(function(require) {
       this.$el.on('mousedown', '.condition-operator', this._setOperator);
       this.$el.on('mousedown', '.condition-then', this._showThenDropDown);
       this.$el.on('mousedown', '.condition-comparator', this._addSubCondition);
+      this.$el.on('click', '.condition-exit', this._remove);
     },
 
     /**
@@ -226,20 +234,39 @@ define(function(require) {
           row : row
         };
 
-      $('.condition[data-row]').each(function() {
-        if(this.dataset.row >= row) {
-          this.dataset.row = parseInt(this.dataset.row, 10) + 1;
-        }
-      });
-
-      $('.condition[data-row="' + this._model.get('row') + '"]')
-        .after(this.template(data));
-
       var condition = new Condition(data);
 
       app.models.edit.addValueObject(row, condition);
 
-      this._hideThenDropDown()
+      this._hideThenDropDown();
+    },
+
+    /**
+     * Remove
+     *
+     * @delegate
+     */
+
+    _remove : function() {
+      var _this = this;
+      this.$el.remove();
+      app.models.edit.removeValueObject(_this._model.get('row'));
+    },
+
+    /**
+     * Render
+     *
+     * @return {void}
+     * @api public
+     */
+
+    render : function() {
+      var _this = this;
+
+      $('.condition[data-row="' + (this._model.get('row') - 1) + '"]')
+        .after(this.template(this._model.toJSON()));
+
+      this.setElement('.condition[data-row="' + this._model.get('row') + '"]');
     },
 
     /**

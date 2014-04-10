@@ -20,6 +20,16 @@ define(function(require) {
     initialize : function(model) {
       this._model = model;
       this.rootSelector = '.js-' + this._model.get('order') + '-operand';
+      if(document) {
+        var element = document.querySelector('.condition[data-row="' + this._model.get('row') + '"] ' + this.rootSelector);
+        if(element) {
+          this.render();
+        }
+      }
+      else {
+        this.render();
+      }
+      this._setElements();
       this._bind();
     },
 
@@ -32,7 +42,6 @@ define(function(require) {
 
     _bind : function() {
       this._bindMethods();
-      this._setElements();
       this._addDesktopListeners();
       this._bindModel();
     },
@@ -78,7 +87,6 @@ define(function(require) {
      */
 
     _setElements : function() {
-      this.setElement('.condition[data-row="' + this._model.get('row') + '"] ' + this.rootSelector);
       this.$customVarInput = this.$('.js-condition-custom-operand-input');
       this.$value = this.$('.condition-value');
     },

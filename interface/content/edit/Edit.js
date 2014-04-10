@@ -273,12 +273,32 @@ define(function(require) {
           }
           objects[i + 1] = objects[i];
         }
+        else {
+          break;
+        }
       }
 
       objects[row] = object;
 
       if(object instanceof Condition) {
         var view = new ConditionView(object);
+      }
+    },
+
+    /**
+     * Remove value object
+     *
+     * @return {void}
+     * @api public
+     */
+
+    removeValueObject : function(row) {
+      var objects = this.get('_valueObjects');
+      objects.splice(row, 1);
+      for(var i = 0; i < objects.length; i++) {
+        if(typeof objects[i].set === 'function') {
+          objects[i].set('row', i);
+        }
       }
     }
   });

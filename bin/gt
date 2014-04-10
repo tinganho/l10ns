@@ -124,7 +124,7 @@ program
   .command('interface')
   .description('Starts the translation interface')
   .action(function() {
-    var server = require('../app/server');
+    var server = require('../interface/start');
     server.server();
   });
 

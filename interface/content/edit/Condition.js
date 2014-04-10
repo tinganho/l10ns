@@ -5,8 +5,8 @@ if(typeof define !== 'function') {
 
 define(function(require) {
   var Model = require('Model')
-    , Operand = require('./Operand')
-    , OperandView = require('./OperandView');
+    , Operand = require('./ConditionOperand')
+    , OperandView = require('./ConditionOperandView');
 
   return Model.extend({
 
