@@ -8,6 +8,7 @@
     "requirejs": ">=2.1.2",
     "backbone.paginator": "latest",
     "url-parser": "~2.2.1",
-    "jquery": "~2.1.0"
+    "jquery": "~2.1.0",
+    "backbone-relational": "~0.8.8"
   }
 }

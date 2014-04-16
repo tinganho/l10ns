@@ -4,7 +4,8 @@ if(typeof define !== 'function') {
 }
 
 define(function(require) {
-  var Backbone = require('backbone');
+  var Backbone = require('backbone-relational');
+
 
   /**
    * We alias the `Backbone.Model` to just `Model`. Because
@@ -13,7 +14,7 @@ define(function(require) {
    * @constructor Model
    */
 
-  var Constructor = Backbone.Model.extend({
+  var Constructor = Backbone.RelationalModel.extend({
 
     /**
      * Set page title
@@ -50,6 +51,23 @@ define(function(require) {
     },
 
     /**
+     * Set keywords
+     *
+     * @param {String} keywords
+     * @return {void}
+     * @api public
+     */
+
+    setKeywords : function(keywords) {
+      if(inServer) {
+        this.page.keywords = keywords;
+      }
+      else {
+        app.document.set('keywords', keywords);
+      }
+    },
+
+    /**
      * CompositeRouter is always executing this callback if it doesn't
      * render the view for this model.
      *
@@ -58,7 +76,23 @@ define(function(require) {
      * @api public
      */
 
-    onHistoryChange : function(path) {}
+    onHistoryChange : function(path) {},
+
+    /**
+     * Check if the given model may use the given `id`
+     *
+     * @param model
+     * @param [id]
+     * @return {void}
+     * @api public
+     * @override checkId
+     */
+
+    checkId: function( model, id ) {
+      if(inClient) {
+        Backbone.RelationalModel.prototype.checkId.apply(this, arguments);
+      }
+    }
 
   });
 

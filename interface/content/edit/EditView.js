@@ -18,8 +18,8 @@ define(function(require) {
      */
 
     initialize : function(model) {
+      this._model = model;
       if(inClient) {
-        this._model = model;
         this.setElement(document.querySelector('[data-content=edit]'));
         this._setElements();
         this._bind();
@@ -163,21 +163,21 @@ define(function(require) {
                 y += 4;
                 continue;
               }
-              values += template.condition(condition);
-              values += template.input({ value : json.values[i][y + 4], row : row });
+              values += template['Condition'](condition);
+              values += template['Input']({ value : json.values[i][y + 4], row : row });
               row++;
               y += 5;
             }
           }
           else {
-            values += template.condition_else();
-            values += template.input({ value : json.values[i][1], row : row + 1 });
+            values += template['ConditionElse']();
+            values += template['Input']({ value : json.values[i][1], row : row + 1 });
           }
         }
 
         // reset values to computed template
         json.valuesHtml = values;
-        return template.edit.call(this, json);
+        return template['Edit'].call(this, json);
       }
     }
   });

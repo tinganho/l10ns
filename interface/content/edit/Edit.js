@@ -32,12 +32,10 @@ define(function(require) {
       if(inClient) {
         this._bindMethods();
         // Parse bootstrapped data
-        $json = $('.js-json-edit');
+        var $json = $('.js-json-edit');
         if($json.length) {
-          var $json = $('.js-json-edit');
           this.set(JSON.parse($json.html()));
           $json.remove();
-          this.bindComponents();
         }
       }
     },
@@ -61,7 +59,7 @@ define(function(require) {
      * @api private
      */
 
-    bindComponents : function() {
+    _initSubModels : function() {
       var values = this.get('values')
         , objects = [];
 
@@ -86,7 +84,6 @@ define(function(require) {
               vars : vars,
               row : row
             });
-            new ConditionView(condition);
 
             // Listen to changes and set new values from
             // value objects, whenever changes occurs.
@@ -107,7 +104,6 @@ define(function(require) {
               value : values[i][y + 4],
               row : row
             });
-            new InputView(input);
 
             // Listen to changes and set new values from
             // value objects, whenever changes occurs.
@@ -129,7 +125,6 @@ define(function(require) {
             value : values[i][1],
             row : row
           });
-          new InputView(input);
 
           // Listen to changes and set new values from
           // value objects, whenever changes occurs.
@@ -238,6 +233,7 @@ define(function(require) {
           if(translation) {
             translation = translation.toJSON();
             this.set(translation);
+            this._initSubModels();
             app.document.set('title', translation.key);
             app.document.set('description', 'Edit: ' + translation.key);
             opts.success();

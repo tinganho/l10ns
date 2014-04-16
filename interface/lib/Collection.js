@@ -4,7 +4,7 @@ if(typeof define !== 'function') {
 }
 
 define(function(require) {
-  var Backbone = require('backbone');
+  var Backbone = require('backbone-relational');
 
   /**
    * We alias the `Backbone.Collection` to just `Collection`. Because
