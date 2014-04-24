@@ -17,7 +17,8 @@ define(function(require) {
      * @api public
      */
 
-    initialize : function() {
+    initialize : function(model) {
+      this.model = model;
       if(inClient) {
         this._bindElements();
         this._setElements();
@@ -33,7 +34,7 @@ define(function(require) {
      */
 
     _bindElements : function() {
-      _.bindAll(this, '_search');
+      _.bindAll(this, 'render', '_search');
     },
 
     /**
@@ -67,6 +68,17 @@ define(function(require) {
 
     _search : function() {
       console.log(this.$input.val());
+    },
+
+    /**
+     * Render view
+     *
+     * @return {void}
+     * @api public
+     */
+
+    render : function() {
+      return this.template(this.model.toJSON());
     },
 
     /**
