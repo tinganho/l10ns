@@ -98,6 +98,6 @@ define(function(require) {
      * @type {Function}
      */
 
-    template : template.translations
+    template : template['Translations']
   });
 });

@@ -18,7 +18,7 @@ define(function(require) {
      */
 
     initialize : function(model) {
-      this._model = model;
+      this.model = model;
       if(inClient) {
         this._setElements();
         this._bindMethods();
@@ -34,7 +34,7 @@ define(function(require) {
      */
 
     _setElements : function() {
-      this.setElement('.edit-input[data-row=' + this._model.get('row') + ']');
+      this.setElement('.edit-input[data-row=' + this.model.get('row') + ']');
     },
 
     /**
@@ -69,7 +69,7 @@ define(function(require) {
      */
 
     _setValue : function() {
-      this._model.set('value', this.$el.val());
+      this.model.set('value', this.$el.val());
     },
 
     /**
@@ -80,7 +80,7 @@ define(function(require) {
      */
 
     render : function() {
-      return this.template(this._model.toJSON());
+      return this.template(this.model.toJSON());
     },
 
     /**

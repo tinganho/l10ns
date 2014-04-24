@@ -20,17 +20,10 @@ define(function(require) {
      */
 
     initialize : function(model) {
-      this._model = model;
+      this.model = model;
       if(inClient) {
-        var element = document.querySelector('.condition[data-row="' + this._model.get('row') + '"]');
-        if(element) {
-          this.setElement(element);
-        }
-        else {
-          this.render();
-        }
-        this._setElements()
-        this._bind();
+        this._bindMethods();
+        this._bindModel();
       }
     },
 
@@ -47,29 +40,24 @@ define(function(require) {
       this.$then = this.$('.condition-then');
     },
 
+    _bindModel : function() {
+      this.model.on('change:operator', this._setOperatorText);
+    },
+
+    _setOperatorText : function() {
+      this.$operator.html(this.model.get('operator'));
+    },
+
     /**
-     * Bind view
+     * Bind object with the DOM
      *
      * @return {this}
      * @api private
      */
 
-    _bind : function() {
-      this._bindMethods()
-      this._addDesktopListeners()
-      this._bindModel();
-    },
-
-    /**
-     * Bind model
-     *
-     * @return {void}
-     * @api private
-     */
-
-    _bindModel : function() {
-      this._model.on('change:operator', this._onOperatorChange);
-      this._model.on('change:row', this._onRowChange);
+    bindDOM : function() {
+      this._setElements();
+      this._addMouseInteractions();
     },
 
     /**
@@ -79,7 +67,7 @@ define(function(require) {
      */
 
     _onOperatorChange : function() {
-      this.$operator.html(this._model.get('operator'));
+      this.$operator.html(this.model.get('operator'));
     },
 
     /**
@@ -89,7 +77,7 @@ define(function(require) {
      */
 
     _onRowChange : function() {
-      this.el.dataset.row = this._model.get('row');
+      this.el.dataset.row = this.model.get('row');
     },
 
     /**
@@ -110,7 +98,8 @@ define(function(require) {
         '_onOperatorChange',
         '_onRowChange',
         '_addSubCondition',
-        '_remove'
+        '_remove',
+        '_setOperatorText'
       );
     },
 
@@ -121,7 +110,7 @@ define(function(require) {
      * @api private
      */
 
-    _addDesktopListeners : function() {
+    _addMouseInteractions : function() {
       this.$el.on('mousedown', '.condition-operators', this._showOperatorsDropDown);
       this.$el.on('mousedown', '.condition-operator', this._setOperator);
       this.$el.on('mousedown', '.condition-then', this._showThenDropDown);
@@ -175,7 +164,7 @@ define(function(require) {
      */
 
     _setOperator : function(event) {
-      this._model.set('operator', event.currentTarget.dataset.value);
+      this.model.set('operator', event.currentTarget.dataset.value);
       this._hideOperatorsDropDown();
     },
 
@@ -226,17 +215,17 @@ define(function(require) {
 
     _addSubCondition : function(event) {
       var statement = event.currentTarget.dataset.value
-        , row = this._model.get('row') + 1
+        , row = this.model.get('row') + 1
         , data = {
           statement : statement,
           firstOperand : 'value1',
           operator : '==',
           lastOperand : 'value2',
-          vars : this._model.get('vars'),
+          vars : this.model.get('vars'),
           operators : cf.OPERATORS,
           additionalCompairOperators : cf.ADDITIONAL_COMPAIR_OPERATORS,
           row : row,
-          translation : this._model.translation
+          translation : this.model.translation
         };
 
       var condition = new Condition(data);
@@ -253,7 +242,7 @@ define(function(require) {
     _remove : function() {
       var _this = this;
       this.$el.remove();
-      app.models.edit.removeValueObject(_this._model.get('row'));
+      app.models.edit.removeValueObject(_this.model.get('row'));
     },
 
     /**
@@ -264,24 +253,14 @@ define(function(require) {
      */
 
     render : function() {
-      var json = this._model.toJSON();
+      var json = this.model.toJSON();
 
-      this.firstOperandView = new OperandView(this._model.get('firstOperand'));
-      this.lastOperandView = new OperandView(this._model.get('lastOperand'));
+      this.firstOperandView = new OperandView(this.model.get('firstOperand'));
+      this.lastOperandView = new OperandView(this.model.get('lastOperand'));
       json.firstOperand = this.firstOperandView.render();
       json.lastOperand = this.lastOperandView.render();
 
-      var html = this.template(json);
-
-      if(inClient) {
-        $('.condition[data-row="' + (this._model.get('row') - 1) + '"]')
-          .after(html);
-
-        this.setElement('.condition[data-row="' + this._model.get('row') + '"]');
-      }
-      else {
-        return html;
-      }
+      return this.template(json);
     },
 
     /**

@@ -9,7 +9,7 @@ Operand
 
 !-->
 
-<div class="condition-operand condition-item js-{{=it.order}}-operand">
+<div class="condition-operand condition-item condition-{{=it.order}}-operand">
   <span class="condition-value">{{=it.value}}</span>
   <ul class="condition-operands condition-dropdown">
     {{~it.vars :variable:index}}

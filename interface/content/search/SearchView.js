@@ -75,12 +75,6 @@ define(function(require) {
      * @type {Function}
      */
 
-    template : template.search,
-
-    /**
-     * Root element
-     */
-
-    el : '.js-search'
+    template : template['Search']
   });
 });

@@ -163,7 +163,7 @@ Page.prototype._getContent = function(callback, req) {
     }
     catch(err) {
       if(err.message === 'A "url" property or function must be specified') {
-        content[name] = view.template(model.toJSON());
+        content[name] = view.render();
         n++;
         if(n === size) {
           callback(content, jsonScripts);

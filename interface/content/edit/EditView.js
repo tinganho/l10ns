@@ -20,7 +20,7 @@ define(function(require) {
      */
 
     initialize : function(model) {
-      this._model = model;
+      this.model = model;
       this._conditionViews = [];
       this._inputViews = [];
       if(inClient) {
@@ -113,16 +113,16 @@ define(function(require) {
     render : function() {
       var _this = this
         , html = '', values = []
-        , json = this._model.toJSON()
-        , conditions = this._model.get('conditions')
-        , inputs = this._model.get('inputs');
+        , json = this.model.toJSON()
+        , conditions = this.model.get('conditions')
+        , inputs = this.model.get('inputs');
 
+      // We loop thrpugh each relation object and get the html
       conditions.forEach(function(condition) {
         var view = new ConditionView(condition);
         _this._conditionViews.push(view);
         values[condition.get('row')] = view.render();
       });
-
       inputs.forEach(function(input, index) {
         var view = new InputView(input);
         _this._inputViews.push(view);
@@ -141,6 +141,21 @@ define(function(require) {
         this.$region[0].classList.remove('hidden');
         document.querySelector('[data-region=edit]').innerHTML = html;
         this.setElement(document.querySelector('[data-content=edit]'));
+
+        // We loop through each relation view and try to bind
+        // them with our object
+        this._conditionViews.forEach(function(conditionView) {
+          var conditionSelector = '.condition[data-row="' + conditionView.model.get('row') + '"]';
+          conditionView.setElement(conditionSelector);
+          conditionView.bindDOM();
+          conditionView.firstOperandView.setElement(conditionSelector + ' .condition-first-operand');
+          conditionView.firstOperandView.bindDOM();
+          conditionView.lastOperandView.setElement(conditionSelector + ' .condition-last-operand');
+          conditionView.lastOperandView.bindDOM();
+        });
+        // this._inputViews.forEach(function(inputView) {
+        //   inputView.setElement('.condition[data-row=""]');
+        // });
       }
       else {
         return html;

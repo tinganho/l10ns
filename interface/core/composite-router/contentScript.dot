@@ -33,7 +33,7 @@
         }
         catch(err) {
           if(err.message === 'A "url" property or function must be specified') {
-            _this.content['{{=content.region}}'] = {{=content.view}}.prototype.template(app.models.{{=content.model.toLowerCase()}}.toJSON());
+            _this.content['{{=content.region}}'] = app.views.{{=content.model.toLowerCase()}}.render();
             n++;
             if(n === incorrectRegions) {
               app.document.trigger('fetchend', '{{=content.path}}');

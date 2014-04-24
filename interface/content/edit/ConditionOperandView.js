@@ -18,12 +18,10 @@ define(function(require) {
      */
 
     initialize : function(model) {
-      this._model = model;
+      this.model = model;
       if(inClient) {
-        this.rootSelector = '.js-' + this._model.get('order') + '-operand';
-        this.setElement(this.rootSelector);
-        this._setElements();
-        this._bind();
+        this._bindMethods();
+        this._bindModel();
       }
     },
 
@@ -31,13 +29,12 @@ define(function(require) {
      * Bind view, adds listeners for DOM events and model changes
      *
      * @return {void}
-     * @api private
+     * @api public
      */
 
-    _bind : function() {
-      this._bindMethods();
-      this._addDesktopListeners();
-      this._bindModel();
+    bindDOM : function() {
+      this._setElements();
+      this._addMouseInteractions();
     },
 
     /**
@@ -48,7 +45,7 @@ define(function(require) {
      */
 
     _bindModel : function() {
-      this._model.on('change:value', this._onValueChange);
+      this.model.on('change:value', this._onValueChange);
     },
 
     /**
@@ -59,8 +56,8 @@ define(function(require) {
 
     _onValueChange : function() {
       this.$('.checked').removeClass('checked');
-      if(this._model.get('vars').indexOf(this._model.get('value')) !== -1) {
-        var selector = '.condition-variable-operand[data-value="' + this._model.get('value') + '"]';
+      if(this.model.get('vars').indexOf(this.model.get('value')) !== -1) {
+        var selector = '.condition-variable-operand[data-value="' + this.model.get('value') + '"]';
         this.el
           .querySelector(selector)
           .classList.add('checked');
@@ -70,7 +67,7 @@ define(function(require) {
         this.$customVarInput.parent().addClass('checked');
       }
 
-      this.$value.html(this._model.get('value'));
+      this.$value.html(this.model.get('value'));
     },
 
     /**
@@ -111,7 +108,7 @@ define(function(require) {
      * @api private
      */
 
-    _addDesktopListeners : function() {
+    _addMouseInteractions : function() {
       this.$el.on('mousedown', this._showDropDown);
       this.$customVarInput.on('keydown', this._setCustomVar);
       this.$customVarInput.on('blur', this._addSelectAllTextHandler);
@@ -124,7 +121,7 @@ define(function(require) {
      */
 
     _setOperand : function(event) {
-      this._model.set('value', event.currentTarget.getAttribute('data-value'));
+      this.model.set('value', event.currentTarget.getAttribute('data-value'));
       this._hideDropDown();
     },
 
@@ -168,7 +165,7 @@ define(function(require) {
 
     _hideDropDown : function(event) {
       if(typeof event !== 'undefined') {
-        var $parent = $(event.target).parents(this.rootSelector);
+        var $parent = $(event.target).parents('.condition-operand');
         if($parent.length > 0 && $parent[0] === this.$el[0]) {
           return;
         }
@@ -194,7 +191,7 @@ define(function(require) {
 
     _setCustomVar : function(event) {
       if(event.keyCode === 13) {
-        this._model.set('value', this.$customVarInput.val());
+        this.model.set('value', this.$customVarInput.val());
         this._hideDropDown();
       }
     },
@@ -223,7 +220,7 @@ define(function(require) {
      */
 
     render : function() {
-      return this.template(this._model.toJSON());
+      return this.template(this.model.toJSON());
     },
 
     /**
