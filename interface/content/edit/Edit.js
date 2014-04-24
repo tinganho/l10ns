@@ -147,9 +147,7 @@ define(function(require) {
 
     _parse : function(json) {
       this._parseValues(json.values, json.vars);
-      this.set('key', json.key);
-      this.set('variables', json.variables);
-      this.set('text', json.text);
+      this.set(json);
 
       return this;
     },
