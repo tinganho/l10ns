@@ -40,9 +40,23 @@ define(function(require) {
       this.$then = this.$('.condition-then');
     },
 
+    /**
+     * Bind model
+     *
+     * @return {void}
+     * @api private
+     */
+
     _bindModel : function() {
       this.model.on('change:operator', this._setOperatorText);
     },
+
+    /**
+     * Set operator text
+     *
+     * @return {void}
+     * @api private
+     */
 
     _setOperatorText : function() {
       this.$operator.html(this.model.get('operator'));
