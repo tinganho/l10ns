@@ -71,7 +71,14 @@ define(function(require) {
      */
 
     _parseValues : function(values, vars) {
-      if(values.length === 1) {
+      if(values.length === 0) {
+        return new Input({
+          value : '',
+          row : 0,
+          translation : this
+        });
+      }
+      else if(values.length === 1) {
         return new Input({
           value : values[0],
           row : 0,
