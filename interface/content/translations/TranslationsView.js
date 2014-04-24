@@ -18,11 +18,11 @@ define(function(require) {
      */
 
     initialize : function(model) {
+      this._model = model;
       if(inClient) {
-        this._model = model;
-        this
-          ._bindElements()
-          ._addDesktopListeners();
+        this.setElement('.translations');
+        this._bindElements();
+        this._addDesktopListeners();
       }
     },
 
@@ -82,17 +82,22 @@ define(function(require) {
     },
 
     /**
+     * Render view
+     *
+     * @return {void}
+     * @api public
+     */
+
+    render : function() {
+      return this.template(this._model.toJSON());
+    },
+
+    /**
      * Template.
      *
      * @type {Function}
      */
 
-    template : template.translations,
-
-    /**
-     * Translations.
-     */
-
-    el : '.translations'
+    template : template.translations
   });
 });

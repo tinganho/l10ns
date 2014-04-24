@@ -139,6 +139,7 @@ define(function(require) {
 
       if(inClient) {
         this.$region[0].classList.remove('hidden');
+        document.querySelector('[data-region=edit]').innerHTML = html;
         this.setElement(document.querySelector('[data-content=edit]'));
       }
       else {
