@@ -7,17 +7,31 @@ if(inServer) {
 }
 
 define(function(require) {
-  var Model = inServer ? require('../../lib/Model') : require('Model')
+  var Backbone
+    , Model = inServer ? require('../../lib/Model') : require('Model')
+    , Collection = inServer ? require('../../lib/Collection') : require('Collection')
     , template = inServer ? content_appTmpls : require('contentTmpls')
-    , _ = require('underscore');
+    , _ = require('underscore')
+    , Condition = require('./Condition')
+    , ConditionView = require('./ConditionView')
+    , Input = require('./Input')
+    , InputView = require('./InputView');
 
   if(inClient) {
+    Backbone = require('backbone');
     var request = require('request')
-     , Condition = require('./Condition')
-     , ConditionView = require('./ConditionView')
-     , Input = require('./Input')
-     , InputView = require('./InputView');
   }
+  else {
+    Backbone = require('backbone-relational');
+  }
+
+  var Conditions = Collection.extend({
+    model : Condition
+  });
+
+  var Inputs = Collection.extend({
+    model : Input
+  });
 
   return Model.extend({
 
@@ -30,66 +44,69 @@ define(function(require) {
 
     initialize : function() {
       if(inClient) {
-        this._bindMethods();
         // Parse bootstrapped data
         var $json = $('.js-json-edit');
         if($json.length) {
-          this.set(JSON.parse($json.html()));
+          this._parse(JSON.parse($json.html()));
           $json.remove();
         }
       }
     },
 
     /**
-     * Bind methods
+     * Relations
      *
-     * @return {this}
-     * @api private
+     * @type {Object}
      */
 
-    _bindMethods : function() {
-      _.bindAll(this, '_setValues');
+    relations : [{
+      type: 'HasMany',
+      key: 'conditions',
+      relatedModel: Condition,
+      collectionType: Conditions,
+      reverseRelation: {
+        key: 'translation',
+        includeInJSON: 'id'
+      }
     },
+    {
+      type: 'HasMany',
+      key: 'inputs',
+      relatedModel: Input,
+      collectionType: Inputs,
+      reverseRelation: {
+        key: 'translation',
+        includeInJSON: 'id'
+      }
+    }],
 
     /**
-     * Initialize components and bind them.
+     * Parse values(conditions and inputs)
      *
-     * @param {Array} values
-     * @return {this}
+     * @param {Array.<value>} values
+     * @return {void}
      * @api private
      */
 
-    _initSubModels : function() {
-      var values = this.get('values')
-        , objects = [];
-
-      // If all object are already bind return
-      if(this.get('_valueObjects')) {
-        return;
-      }
-
-      if(values.length === 1) {
-        return this.set('_valueObjects', []);
-      }
-
+    _parseValues : function(values, vars) {
       for(var i = 0; i<values.length; i++) {
         if(values[i].length > 2) {
-          var y = 0, row = 0, vars = this.get('vars');
+          var y = 0, row = 0;
           while(typeof values[i][y] !== 'undefined') {
             var condition = new Condition({
               statement : values[i][y],
               firstOperand : values[i][y + 1],
               operator : values[i][y + 2],
+              operators : cf.OPERATORS,
               lastOperand : values[i][y + 3],
+              additionalCompairOperators : cf.ADDITIONAL_COMPAIR_OPERATORS,
               vars : vars,
-              row : row
+              row : row,
+              translation : this
             });
 
-            // Listen to changes and set new values from
-            // value objects, whenever changes occurs.
-            condition.on('change', this._setValues);
+            this.set('conditions', condition);
 
-            objects.push(condition);
             row++;
 
             // Continue condition statement
@@ -102,14 +119,11 @@ define(function(require) {
             // Initialize input
             var input = new Input({
               value : values[i][y + 4],
-              row : row
+              row : row,
+              translation : this
             });
 
-            // Listen to changes and set new values from
-            // value objects, whenever changes occurs.
-            input.on('change', this._setValues);
-
-            objects.push(input);
+            this.set('inputs', input);
 
             y += 5;
 
@@ -117,73 +131,33 @@ define(function(require) {
           }
         }
         else {
-          // We indicate that this is the last value
-          objects.push('else');
-
           // Initialize input
           var input = new Input({
             value : values[i][1],
-            row : row
+            row : row,
+            translation : this
           });
 
-          // Listen to changes and set new values from
-          // value objects, whenever changes occurs.
-          input.on('change', this._setValues);
-
-          objects.push(input);
+          this.set('inputs', input);
         }
       }
-
-      // store
-      this.set('_valueObjects', objects);
-
-      return this;
     },
 
     /**
-     * Set values from `_valueObjects`
+     * Parse raw data
      *
+     * @param {JSON} json
      * @return {void}
      * @api private
      */
 
-    _setValues : function(model) {
-      // We don't handle row changes
-      if(typeof model.changed.row !== 'undefined') {
-        return;
-      }
-      var valueObjects = this.get('_valueObjects');
-      var newValues = [];
-      var lastType, lastConditionIndex = 0;
-      valueObjects.every(function(value, index, array) {
-        if(value instanceof Condition) {
-          var condition = [
-            value.get('statement'),
-            value.get('firstOperand'),
-            value.get('operator'),
-            value.get('lastOperand')
-          ];
-          if(lastType === 'condition') {
-            newValues[lastConditionIndex].concat(condition);
-          }
-          else {
-            newValues.push(condition);
-            lastConditionIndex = index;
-          }
-          lastType = 'condition';
-        }
-        else if(value instanceof Input) {
-          newValues[lastConditionIndex].push(value.get('value'));
-        }
-        else if(value === 'else') {
-          newValues.push(['else', array[index + 1].get('value')]);
-          return false;
-        }
+    _parse : function(json) {
+      this._parseValues(json.values, json.vars);
+      this.set('key', json.key);
+      this.set('variables', json.variables);
+      this.set('text', json.text);
 
-        return true;
-      });
-
-      this.set('values', newValues);
+      return this;
     },
 
     /**
@@ -199,7 +173,6 @@ define(function(require) {
       text : '',
       timestamp : null,
       _new : false,
-      _compairs : null,
 
       i18n_variables : 'VARIABLES',
       i18n_translation : 'TRANSLATION',
@@ -222,7 +195,7 @@ define(function(require) {
         if(inServer) {
           var translations = file.readTranslations(cf.DEFAULT_LOCALE, { returnType : 'array' }).slice(0, cf.TRANSLATION_ITEMS_PER_PAGE);
           var translation = _.findWhere(translations, { id : req.param('id') });
-          this.set(translation);
+          this._parse(translation);
           this.setPageTitle(translation.key);
           this.setPageDescription('Edit: ' + translation.key);
           return opts.success();
@@ -232,8 +205,7 @@ define(function(require) {
           var translation = app.models.translations.get(id);
           if(translation) {
             translation = translation.toJSON();
-            this.set(translation);
-            this._initSubModels();
+            this._parse(translation);
             app.document.set('title', translation.key);
             app.document.set('description', 'Edit: ' + translation.key);
             opts.success();
@@ -243,13 +215,24 @@ define(function(require) {
             .get('/translations/' + id)
             .end(function(err, res) {
               var translation = res.body;
-              _this.set(translation);
+              _this._parse(translation);
               app.document.set('title', translation.key);
               app.document.set('description', 'Edit: ' + translation.key);
               opts.success();
             });
         }
       }
+    },
+
+    /**
+     * Get JSON represenation of object
+     *
+     * @override toJSON
+     */
+
+    toJSON : function() {
+      var json = Model.prototype.toJSON.call(this);
+      return json;
     },
 
     /**
@@ -260,25 +243,6 @@ define(function(require) {
      */
 
     addValueObject : function(row, object) {
-      var objects = this.get('_valueObjects');
-      var length = objects.length;
-      for(var i = length - 1; i > 0; i--) {
-        if(i >= row) {
-          if(typeof objects[i].set === 'function') {
-            objects[i].set('row', i + 1);
-          }
-          objects[i + 1] = objects[i];
-        }
-        else {
-          break;
-        }
-      }
-
-      objects[row] = object;
-
-      if(object instanceof Condition) {
-        var view = new ConditionView(object);
-      }
     },
 
     /**
@@ -289,13 +253,6 @@ define(function(require) {
      */
 
     removeValueObject : function(row) {
-      var objects = this.get('_valueObjects');
-      objects.splice(row, 1);
-      for(var i = 0; i < objects.length; i++) {
-        if(typeof objects[i].set === 'function') {
-          objects[i].set('row', i);
-        }
-      }
     }
   });
 });

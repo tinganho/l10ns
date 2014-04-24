@@ -6,7 +6,7 @@ requirejs.config({
     'underscore' : 'vendor/underscore/underscore',
     'backbone' : 'vendor/backbone/backbone',
     'backbone.queryparams' : 'vendor/backbone-query-parameters-patch/backbone.queryparams',
-    'backbone.relational' : 'vendor/backbone-relational/backbone-relational',
+    'backbone-relational' : 'vendor/backbone-relational/backbone-relational',
     'superagent' : 'vendor/superagent/superagent',
     'jquery.hammer' : 'vendor/hammerjs/dist/jquery.hammer',
     'purl' : 'vendor/purl/purl',
@@ -37,7 +37,7 @@ requirejs.config({
 
     // Plugins
     'backbone.queryparams' : ['backbone'],
-    'backbone.relational' : ['backbone', 'underscore', 'jquery'],
+    'backbone-relational' : ['backbone', 'underscore', 'jquery'],
     'jquery.cookie' : ['jquery'],
     'jquery.hammer' : ['jquery'],
     'purl' : ['jquery'],
@@ -71,6 +71,7 @@ define('modernizr', function() {
 require([
 
   'backbone',
+  'backbone-relational',
   'CompositeRouter',
   'Document',
   'DocumentView',
@@ -79,6 +80,7 @@ require([
 ], function(
 
   Backbone,
+  BackboneRelational,
   CompositeRouter,
   Document,
   DocumentView,

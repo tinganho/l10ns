@@ -22,7 +22,7 @@
         try {
           app.models.{{=content.model.toLowerCase()}}.fetch({
             success: function() {
-              _this.content['{{=content.region}}'] = {{=content.view}}.prototype.template(app.models.{{=content.model.toLowerCase()}}.toJSON());
+              _this.content['{{=content.region}}'] = app.views.{{=content.model.toLowerCase()}}.render();
               n++;
               if(n === incorrectRegions) {
                 app.document.trigger('fetchend', '{{=content.path}}');

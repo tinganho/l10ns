@@ -17,7 +17,7 @@
     <div class="edit-inputs clearfix">
       <label class="edit-sub-title">{{=it.i18n_translation}}</label>
       <div class="edit-values">
-        {{=it.valuesHtml}}
+        {{=it.values}}
       </div>
       <div class="edit-actions">
         <button class="edit-actions-save button js-edit-actions-save" type="submit" disabled>{{=it.i18n_save}}</button>

@@ -4,7 +4,7 @@ if(typeof define !== 'function') {
 }
 
 define(function(require) {
-  var Model = require('Model');
+  var Model = inServer ? require('../../lib/Model') : require('Model');
 
   return Model;
 });

@@ -19,18 +19,12 @@ define(function(require) {
 
     initialize : function(model) {
       this._model = model;
-      this.rootSelector = '.js-' + this._model.get('order') + '-operand';
-      if(document) {
-        var element = document.querySelector('.condition[data-row="' + this._model.get('row') + '"] ' + this.rootSelector);
-        if(element) {
-          this.render();
-        }
+      if(inClient) {
+        this.rootSelector = '.js-' + this._model.get('order') + '-operand';
+        this.setElement(this.rootSelector);
+        this._setElements();
+        this._bind();
       }
-      else {
-        this.render();
-      }
-      this._setElements();
-      this._bind();
     },
 
     /**
@@ -219,6 +213,25 @@ define(function(require) {
       _.defer(function() {
         _this.$customVarInput.off('mouseup', _this._selectAllText);
       });
-    }
+    },
+
+    /**
+     * Render
+     *
+     * @return {void}
+     * @api public
+     */
+
+    render : function() {
+      return this.template(this._model.toJSON());
+    },
+
+    /**
+     * Template
+     *
+     * @type {String}
+     */
+
+    template : template['ConditionOperand']
   });
 });

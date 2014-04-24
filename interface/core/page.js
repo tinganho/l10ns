@@ -83,6 +83,8 @@ Page.prototype.layout = function(name) {
   this._layoutTmpl = this._layoutTmpls[name];
 
   return this;
+
+  'Terms of Service'
 };
 
 /**
@@ -126,16 +128,8 @@ Page.prototype._getContent = function(callback, req) {
       throw new TypeError(this.content[name].model + ' is not an instance of Model or Collection');
     }
 
-    if(!View.prototype.template) {
-      throw new TypeError(this.content[name].view + ' have no template');
-    }
-
-    var model = new Model;
-
-    var view = new View;
-    if(!view.template) {
-      throw new TypeError(this.content[name].view + ' have no template');
-    }
+    var model = new Model
+      , view = new View(model);
 
     model.sync = function(method, model, opts) {
       Model.prototype.sync.call(this, method, model, opts, req);
@@ -144,9 +138,7 @@ Page.prototype._getContent = function(callback, req) {
     try {
       model.fetch({
         success : function() {
-          var data = {};
-          var json = model.toJSON();
-          content[name] = view.template(json);
+          content[name] = view.render();
 
           if(typeof model.page.title === 'string' && model.page.title.length > 0) {
             _this._documentProps.title = model.page.title;

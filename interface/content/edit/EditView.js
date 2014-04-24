@@ -5,6 +5,7 @@ if(typeof define !== 'function') {
 
 define(function(require) {
   var View = inServer ? require('../../lib/View') : require('View')
+    , ConditionView = require('./ConditionView')
     , template = inServer ? content_appTmpls : require('contentTmpls')
     , _ = require('underscore');
 
@@ -19,6 +20,7 @@ define(function(require) {
 
     initialize : function(model) {
       this._model = model;
+      this._conditions = [];
       if(inClient) {
         this.setElement(document.querySelector('[data-content=edit]'));
         this._setElements();
@@ -107,14 +109,32 @@ define(function(require) {
      */
 
     render : function() {
-      this.$region[0].innerHTML = this.template(this._model.toJSON());
+      var _this = this
+        , html = '', values = []
+        , json = this._model.toJSON()
+        , conditions = this._model.get('conditions');
 
-      this.$region[0].classList.remove('hidden');
+      conditions.forEach(function(condition) {
+        var view = new ConditionView(condition);
+        _this._conditions.push(view);
+        values[condition.get('row')] = view.render();
+      });
 
-      this.setElement(document.querySelector('[data-content=edit]'));
-      this._bind();
+      // inputs.forEach(function(input) {
 
-      this._model.bindComponents();
+      // });
+
+      json.values = values.join('');
+
+      html += template['Edit'](json);
+
+      if(inClient) {
+        this.$region[0].classList.remove('hidden');
+        this.setElement(document.querySelector('[data-content=edit]'));
+      }
+      else {
+        return html;
+      }
     },
 
     /**
@@ -126,59 +146,6 @@ define(function(require) {
     remove : function() {
       View.prototype.remove.call(this);
       this.$region[0].classList.add('hidden');
-    },
-
-    /**
-     * Template
-     *
-     * @type {Function}
-     */
-
-    template : function(json) {
-      if(json.values.length === 1) {
-        json.valuesHtml = template.input({ value : json.values[0] });
-        return template.edit.call(this, json);
-      }
-      else {
-        var values = '';
-        for(var i = 0; i<json.values.length; i++) {
-          if(json.values[i].length > 2) {
-            var y = 0, row = 0;
-            while(typeof json.values[i][y] !== 'undefined') {
-              var condition = {
-                statement : json.values[i][y],
-                firstOperand : json.values[i][y + 1],
-                operator : json.values[i][y + 2],
-                lastOperand : json.values[i][y + 3],
-                vars : json.vars,
-                operators : cf.OPERATORS,
-                additionalCompairOperators : cf.ADDITIONAL_COMPAIR_OPERATORS,
-                row : row
-              };
-
-              row++;
-
-              if(json.values[i][y + 4] === '&&'
-              || json.values[i][y + 4] === '||') {
-                y += 4;
-                continue;
-              }
-              values += template['Condition'](condition);
-              values += template['Input']({ value : json.values[i][y + 4], row : row });
-              row++;
-              y += 5;
-            }
-          }
-          else {
-            values += template['ConditionElse']();
-            values += template['Input']({ value : json.values[i][1], row : row + 1 });
-          }
-        }
-
-        // reset values to computed template
-        json.valuesHtml = values;
-        return template['Edit'].call(this, json);
-      }
     }
   });
 });

@@ -6,6 +6,7 @@ if(typeof define !== 'function') {
 define(function(require) {
   var View = inServer ? require('../../lib/View') : require('View')
     , template = inServer ? content_appTmpls : require('contentTmpls')
+    , OperandView = require('./ConditionOperandView')
     , Condition = require('./Condition')
     , _ = require('underscore');
 
@@ -20,15 +21,17 @@ define(function(require) {
 
     initialize : function(model) {
       this._model = model;
-      var element = document.querySelector('.condition[data-row="' + this._model.get('row') + '"]');
-      if(element) {
-        this.setElement(element);
+      if(inClient) {
+        var element = document.querySelector('.condition[data-row="' + this._model.get('row') + '"]');
+        if(element) {
+          this.setElement(element);
+        }
+        else {
+          this.render();
+        }
+        this._setElements()
+        this._bind();
       }
-      else {
-        this.render();
-      }
-      this._setElements()
-      this._bind();
     },
 
     /**
@@ -98,6 +101,7 @@ define(function(require) {
 
     _bindMethods : function() {
       _.bindAll(this,
+        'render',
         '_showOperatorsDropDown',
         '_hideOperatorsDropDown',
         '_showThenDropDown',
@@ -231,12 +235,11 @@ define(function(require) {
           vars : this._model.get('vars'),
           operators : cf.OPERATORS,
           additionalCompairOperators : cf.ADDITIONAL_COMPAIR_OPERATORS,
-          row : row
+          row : row,
+          translation : this._model.translation
         };
 
       var condition = new Condition(data);
-
-      app.models.edit.addValueObject(row, condition);
 
       this._hideThenDropDown();
     },
@@ -261,12 +264,24 @@ define(function(require) {
      */
 
     render : function() {
-      var _this = this;
+      var json = this._model.toJSON();
 
-      $('.condition[data-row="' + (this._model.get('row') - 1) + '"]')
-        .after(this.template(this._model.toJSON()));
+      this.firstOperandView = new OperandView(this._model.get('firstOperand'));
+      this.lastOperandView = new OperandView(this._model.get('lastOperand'));
+      json.firstOperand = this.firstOperandView.render();
+      json.lastOperand = this.lastOperandView.render();
 
-      this.setElement('.condition[data-row="' + this._model.get('row') + '"]');
+      var html = this.template(json);
+
+      if(inClient) {
+        $('.condition[data-row="' + (this._model.get('row') - 1) + '"]')
+          .after(html);
+
+        this.setElement('.condition[data-row="' + this._model.get('row') + '"]');
+      }
+      else {
+        return html;
+      }
     },
 
     /**
@@ -275,6 +290,6 @@ define(function(require) {
      * @type {String}
      */
 
-    template : template.condition
+    template : template['Condition']
   });
 });

@@ -1,0 +1,27 @@
+
+<!--
+
+Operand
+
+@inTemplateVar type
+@param {String} {{type}}operand
+@param {Array} vars
+
+!-->
+
+<div class="condition-operand condition-item js-{{=it.order}}-operand">
+  <span class="condition-value">{{=it.value}}</span>
+  <ul class="condition-operands condition-dropdown">
+    {{~it.vars :variable:index}}
+      <li class="condition-variable-operand condition-dropdown-list-item {{?variable === it.value}}checked{{?}}" data-value="{{=variable}}">
+        {{=variable}}
+        <i class="condition-check sp-default sp-default-check"></i>
+      </li>
+    {{~}}
+    <li class="condition-custom-operand {{?!/^\$\{/.test(it.value)}}checked{{?}}">
+      <input class="condition-custom-operand-input js-condition-custom-operand-input" placeholder="Enter custom value" value="{{?!/^\$\{/.test(it.value)}}{{=it.value}}{{?}}">
+      <i class="condition-check sp-default sp-default-check"></i>
+    </li>
+    <li class="condition-custom-operand-info">Press enter to submit.</li>
+  </ul>
+</div>

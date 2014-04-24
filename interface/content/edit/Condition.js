@@ -4,9 +4,11 @@ if(typeof define !== 'function') {
 }
 
 define(function(require) {
-  var Model = require('Model')
+  var Model = inServer ? require('../../lib/Model') : require('Model')
     , Operand = require('./ConditionOperand')
-    , OperandView = require('./ConditionOperandView');
+    , OperandView = require('./ConditionOperandView')
+    , FirstOperand = Operand.extend()
+    , LastOperand = Operand.extend();
 
   return Model.extend({
 
@@ -19,42 +21,54 @@ define(function(require) {
      */
 
     initialize : function(json) {
-      this.set(json);
-      this._bindComponents()
-      this._bindModels();
+      this._parse(json);
     },
 
     /**
-     * Initialize components and bind them.
+     * Parse raw data
      *
-     * @return {void}
+     * @returns {void}
      * @api private
      */
 
-    _bindComponents : function() {
-      this.firstOperand = new Operand({ value : this.get('firstOperand'), vars : this.get('vars'), row : this.get('row'), order : 'first' });
-      this.firstOperandView = new OperandView(this.firstOperand);
-      this.lastOperand = new Operand({ value : this.get('lastOperand'), vars : this.get('vars'), row : this.get('row'), order : 'last' });
-      this.lastOperandView = new OperandView(this.lastOperand);
+    _parse : function(json) {
+      this.set('firstOperand', new FirstOperand({
+        value : json.firstOperand,
+        vars : json.vars,
+        order : 'first',
+        condition : this
+      }));
+      this.set('lastOperand', new LastOperand({
+        value : json.lastOperand,
+        vars : json.vars,
+        order : 'last',
+        condition : this
+      }));
     },
 
     /**
-     * Bind models
+     * Relations
      *
-     * @return {void}
-     * @api private
+     * @type {Object}
      */
 
-    _bindModels : function() {
-      var _this = this;
-
-      this.firstOperand.on('change:value', function() {
-        _this.set('firstOperand', _this.firstOperand.get('value'));
-      });
-
-      this.lastOperand.on('change:value', function() {
-        _this.set('lastOperand', _this.lastOperand.get('value'));
-      });
-    }
+    relations : [{
+      type: 'HasOne',
+      key: 'firstOperand',
+      relatedModel: FirstOperand,
+      reverseRelation: {
+        key: 'condition',
+        includeInJSON: false
+      }
+    },
+    {
+      type: 'HasOne',
+      key: 'lastOperand',
+      relatedModel: LastOperand,
+      reverseRelation: {
+        key: 'condition',
+        includeInJSON: false
+      }
+    }]
   });
 });

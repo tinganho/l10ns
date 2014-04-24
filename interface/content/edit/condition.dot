@@ -9,21 +9,15 @@ Condition
 
 {{##def.operators : load('./ConditionOperators.part'); #}}
 {{##def.then : load('./ConditionThen.part'); #}}
-{{##def.firstOperand : load('./ConditionOperand.part', {
-  type : 'first'
-}); #}}
-{{##def.lastOperand : load('./ConditionOperand.part', {
-  type : 'last'
-}); #}}
 
 <div class="condition" data-row="{{=it.row}}">
   <label class="condition-statement">{{=it.statement}}</label>
   <div class="condition-vertical"></div>
-    {{#def.firstOperand}}
+    {{=it.firstOperand}}
   <div class="condition-vertical"></div>
     {{#def.operators}}
   <div class="condition-vertical"></div>
-    {{#def.lastOperand}}
+    {{=it.lastOperand}}
   <div class="condition-vertical"></div>
     {{#def.then}}
   <div class="condition-vertical"></div>
