@@ -6,6 +6,7 @@ if(typeof define !== 'function') {
 define(function(require) {
   var View = inServer ? require('../../lib/View') : require('View')
     , ConditionView = require('./ConditionView')
+    , InputView = require('./InputView')
     , template = inServer ? content_appTmpls : require('contentTmpls')
     , _ = require('underscore');
 
@@ -20,7 +21,8 @@ define(function(require) {
 
     initialize : function(model) {
       this._model = model;
-      this._conditions = [];
+      this._conditionViews = [];
+      this._inputViews = [];
       if(inClient) {
         this.setElement(document.querySelector('[data-content=edit]'));
         this._setElements();
@@ -112,17 +114,24 @@ define(function(require) {
       var _this = this
         , html = '', values = []
         , json = this._model.toJSON()
-        , conditions = this._model.get('conditions');
+        , conditions = this._model.get('conditions')
+        , inputs = this._model.get('inputs');
 
       conditions.forEach(function(condition) {
         var view = new ConditionView(condition);
-        _this._conditions.push(view);
+        _this._conditionViews.push(view);
         values[condition.get('row')] = view.render();
       });
 
-      // inputs.forEach(function(input) {
-
-      // });
+      inputs.forEach(function(input, index) {
+        var view = new InputView(input);
+        _this._inputViews.push(view);
+        var html = '';
+        if(index === inputs.length - 1) {
+          html += template['ConditionElse']();
+        }
+        values[input.get('row')] = html + view.render();
+      });
 
       json.values = values.join('');
 

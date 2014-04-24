@@ -105,8 +105,6 @@ define(function(require) {
               translation : this
             });
 
-            this.set('conditions', condition);
-
             row++;
 
             // Continue condition statement
@@ -123,8 +121,6 @@ define(function(require) {
               translation : this
             });
 
-            this.set('inputs', input);
-
             y += 5;
 
             row++;
@@ -137,8 +133,6 @@ define(function(require) {
             row : row,
             translation : this
           });
-
-          this.set('inputs', input);
         }
       }
     },

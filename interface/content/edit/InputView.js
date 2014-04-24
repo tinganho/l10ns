@@ -5,6 +5,7 @@ if(typeof define !== 'function') {
 
 define(function(require) {
   var View = inServer ? require('../../lib/View') : require('View')
+    , template = inServer ? content_appTmpls : require('contentTmpls')
     , _ = require('underscore');
 
   return View.extend({
@@ -18,9 +19,11 @@ define(function(require) {
 
     initialize : function(model) {
       this._model = model;
-      this._setElements();
-      this._bindMethods();
-      this._addDesktopListeners();
+      if(inClient) {
+        this._setElements();
+        this._bindMethods();
+        this._addDesktopListeners();
+      }
     },
 
     /**
@@ -42,7 +45,10 @@ define(function(require) {
      */
 
     _bindMethods : function() {
-      _.bindAll(this, '_setValue');
+      _.bindAll(this,
+        'render',
+        '_setValue'
+      );
     },
 
     /**
@@ -64,6 +70,25 @@ define(function(require) {
 
     _setValue : function() {
       this._model.set('value', this.$el.val());
-    }
+    },
+
+    /**
+     * Render view
+     *
+     * @return {void}
+     * @api public
+     */
+
+    render : function() {
+      return this.template(this._model.toJSON());
+    },
+
+    /**
+     * Template
+     *
+     * @type {String}
+     */
+
+    template : template['Input']
   });
 });
