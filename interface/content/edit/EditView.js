@@ -127,7 +127,7 @@ define(function(require) {
         var view = new InputView(input);
         _this._inputViews.push(view);
         var html = '';
-        if(index === inputs.length - 1) {
+        if(index === inputs.length - 1 && index !== 0) {
           html += template['ConditionElse']();
         }
         values[input.get('row')] = html + view.render();

@@ -36,24 +36,6 @@ define(function(require) {
   return Model.extend({
 
     /**
-     * Initializer
-     *
-     * @return {void}
-     * @api public
-     */
-
-    initialize : function() {
-      if(inClient) {
-        // Parse bootstrapped data
-        var $json = $('.js-json-edit');
-        if($json.length) {
-          this._parse(JSON.parse($json.html()));
-          $json.remove();
-        }
-      }
-    },
-
-    /**
      * Relations
      *
      * @type {Object}
@@ -89,11 +71,18 @@ define(function(require) {
      */
 
     _parseValues : function(values, vars) {
+      if(values.length === 1) {
+        return new Input({
+          value : values[0],
+          row : 0,
+          translation : this
+        });
+      }
       for(var i = 0; i<values.length; i++) {
         if(values[i].length > 2) {
           var y = 0, row = 0;
           while(typeof values[i][y] !== 'undefined') {
-            var condition = new Condition({
+            new Condition({
               statement : values[i][y],
               firstOperand : values[i][y + 1],
               operator : values[i][y + 2],
@@ -115,7 +104,7 @@ define(function(require) {
             }
 
             // Initialize input
-            var input = new Input({
+            new Input({
               value : values[i][y + 4],
               row : row,
               translation : this
@@ -128,7 +117,7 @@ define(function(require) {
         }
         else {
           // Initialize input
-          var input = new Input({
+          new Input({
             value : values[i][1],
             row : row,
             translation : this
@@ -193,6 +182,13 @@ define(function(require) {
           return opts.success();
         }
         else {
+          // Parse bootstrapped data
+          var $json = $('.js-json-edit');
+          if($json.length) {
+            this._parse(JSON.parse($json.html()));
+            $json.remove();
+            return;
+          }
           var id = window.location.pathname.split('/')[2];
           var translation = app.models.translations.get(id);
           if(translation) {
