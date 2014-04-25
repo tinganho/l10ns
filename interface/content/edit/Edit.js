@@ -220,17 +220,6 @@ define(function(require) {
     },
 
     /**
-     * Get JSON represenation of object
-     *
-     * @override toJSON
-     */
-
-    toJSON : function() {
-      var json = Model.prototype.toJSON.call(this);
-      return json;
-    },
-
-    /**
      * Add value object
      *
      * @return {void}

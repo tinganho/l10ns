@@ -59,7 +59,7 @@ define(function(require) {
     sync : function(method, collection, opts, req) {
       if(method === 'read') {
         if(inServer) {
-          translations = file.readTranslations(cf.DEFAULT_LOCALE, { returnType : 'array' }).slice(0, cf.TRANSLATION_ITEMS_PER_PAGE);
+          var translations = file.readTranslations(cf.DEFAULT_LOCALE, { returnType : 'array' }).slice(0, cf.TRANSLATION_ITEMS_PER_PAGE);
           collection.add(translations);
 
           if(/^\/t/.test(req.url)) {

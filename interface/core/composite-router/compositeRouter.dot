@@ -62,6 +62,9 @@ define([
           if({{=page.noViewsScript}}) {
             app.views[view].remove();
             delete app.views[view];
+            if(typeof app.models[view] !== 'undefined') {
+              Backbone.Relational.store.unregister(app.models[view]);
+            }
           }
         }
       },
@@ -80,13 +83,6 @@ define([
       app.$body.append(app.layoutTmpls.{{=page.layout}}({
         {{=page.mapScript}}
       }));
-
-      for(var view in app.views) {
-        if({{=page.noViewsScript}}) {
-          app.views[view].remove();
-          delete app.views[view];
-        }
-      }
 
       app.document.trigger('renderend');
     },
