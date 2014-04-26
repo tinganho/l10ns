@@ -19,14 +19,16 @@ $padding-right: 20px;
   @include font-size(4.2);
 }
 
-.translation {
-  cursor: pointer;
-  overflow: hidden;
-  padding: 10px 0;
+.translations{
+  .translation {
+    cursor: pointer;
+    overflow: hidden;
+    padding: 10px 0;
 
-  &:hover {
-    color: #fff;
-    background-color: rgba(0, 0, 0, 0.1);
+    &:hover {
+      color: #fff;
+      background-color: rgba(0, 0, 0, 0.1);
+    }
   }
 }
 
