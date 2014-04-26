@@ -158,8 +158,8 @@ configure(app);
  * Server start.
  */
 
-require('./pages/home')(page);
-require('./pages/edit')(page);
+require('./pages/translations')(page);
+require('./pages/translation')(page);
 createCompositeRouter();
 
 http.createServer(app).listen(app.get('port'), function() {
