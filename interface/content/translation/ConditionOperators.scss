@@ -1,0 +1,26 @@
+
+.condition-operators {
+  position: relative;
+  width: 19px;
+  text-align: center;
+}
+
+.condition-operators-list {
+  padding-bottom: 15px;
+  text-align: left;
+}
+
+.condition-operator {
+  position: relative;
+  color: #333;
+  height: 35px;
+  font-weight: normal;
+  padding: 0 15px;
+  @include font-size(1.5);
+}
+
+.condition-operator-symbol {
+  display: inline-block;
+  width: 15px;
+  padding-right: 15px;
+}
