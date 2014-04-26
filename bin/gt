@@ -85,6 +85,7 @@ cf.src = src;
 GLOBAL.cf = cf;
 GLOBAL.pcf = pcf;
 GLOBAL.lcf = lcf;
+GLOBAL.fromBin = true;
 
 /**
  * Check minimum configs.
@@ -124,8 +125,7 @@ program
   .command('interface')
   .description('Starts the translation interface')
   .action(function() {
-    var server = require('../interface/start');
-    server.server();
+    require('../interface/start');
   });
 
 program

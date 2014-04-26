@@ -23,7 +23,9 @@ else if(!/development|staging|production/.test(process.env.NODE_ENV)) {
  * Sets global vars pcf and cf
  */
 
-require('../bin/gt');
+if(typeof fromBin === 'undefined') {
+  require('../bin/gt');
+}
 
 /**
  * Set ENV
@@ -78,121 +80,99 @@ if(typeof String.prototype.toFirstLetterUpperCase === 'undefined') {
 }
 
 /**
- * Define cluster
+ * RequireJS config.
  */
 
-var numCPUs = require('os').cpus().length;
-http.globalAgent.maxSockets = scf.MAX_SOCKETS;
+requirejs.config({
+  baseUrl: __dirname,
+  nodeRequire: require
+});
 
-if(cluster.isMaster && process.env.NODE_ENV === 'production') {
-  // Fork workers.
-  for (var i = 0; i < numCPUs; i++) {
-    cluster.fork();
-  }
 
-  cluster.on('exit', function(worker, code, signal) {
-    console.log('worker ' + worker.process.pid + ' died');
-  });
+var page = require('./core/page')
+  , readTmpls = page.readTmpls
+  , createCompositeRouter = page.createCompositeRouter;
+
+/**
+ * Content templates
+ */
+
+GLOBAL.content_appTmpls = requirejs('./public/templates/content/app');
+
+/**
+ * Globals.
+ */
+GLOBAL.cf = scf;
+
+
+/**
+ * Read document and layout templates
+ */
+
+readTmpls();
+
+/**
+ * Create necessary folders
+ */
+
+var uploadFolderPath = cf.ROOT_FOLDER + cf.UPLOAD_FOLDER;
+if(!fs.existsSync(uploadFolderPath)) {
+  fs.mkdirSync(uploadFolderPath);
 }
-else {
-
-  var page = require('./core/page')
-    , readTmpls = page.readTmpls
-    , createCompositeRouter = page.createCompositeRouter;
-
-  /**
-   * Content templates
-   */
-
-  GLOBAL.content_appTmpls = requirejs('./public/templates/content/app');
-
-  /**
-   * RequireJS config.
-   */
-
-  requirejs.config({
-    baseUrl: path.join(__dirname),
-    nodeRequire: require
-  });
-
-  /**
-   * Globals.
-   */
-  GLOBAL.cf = scf;
-
-
-  /**
-   * Read document and layout templates
-   */
-
-  readTmpls();
-
-  /**
-   * Create necessary folders
-   */
-
-  var uploadFolderPath = cf.ROOT_FOLDER + cf.UPLOAD_FOLDER;
-  if(!fs.existsSync(uploadFolderPath)) {
-    fs.mkdirSync(uploadFolderPath);
-  }
-  var tmpFolderPath = cf.ROOT_FOLDER + cf.TMP_FOLDER;
-  if(!fs.existsSync(tmpFolderPath)) {
-    fs.mkdirSync(tmpFolderPath);
-  }
-
-  /**
-   * Write client config file
-   */
-
-  config.writeClientConfigs();
-
-  /**
-   * App namespace.
-   */
-
-  GLOBAL.app = require('./core/app');
-
-  /**
-   * Add default security
-   */
-
-  helmet.defaults(app, { xframe: false, csp: false });
-
-  /**
-   * Autoroute.
-   */
-
-  autoroute(autoroutes, app);
-
-  /**
-   * App configuration.
-   */
-
-  configure(app);
-
-  /**
-   * Server start.
-   */
-
-  require('./pages/home')(page);
-  require('./pages/edit')(page);
-  createCompositeRouter();
-
-  http.createServer(app).listen(app.get('port'), function() {
-    console.log('[%s] Express app listening on port ' + app.get('port'), process.pid);
-  });
-
-  /**
-   * Set process title
-   */
-
-  process.title = cf.PROCESS_TITLE;
-
-  /**
-   * Export app.
-   */
-
-  module.exports = app;
-
+var tmpFolderPath = cf.ROOT_FOLDER + cf.TMP_FOLDER;
+if(!fs.existsSync(tmpFolderPath)) {
+  fs.mkdirSync(tmpFolderPath);
 }
+
+/**
+ * Write client config file
+ */
+
+config.writeClientConfigs();
+
+/**
+ * App namespace.
+ */
+
+GLOBAL.app = require('./core/app');
+
+/**
+ * Add default security
+ */
+
+helmet.defaults(app, { xframe: false, csp: false });
+
+/**
+ * Autoroute.
+ */
+
+autoroute(autoroutes, app);
+
+/**
+ * App configuration.
+ */
+
+configure(app);
+
+/**
+ * Server start.
+ */
+
+require('./pages/home')(page);
+require('./pages/edit')(page);
+createCompositeRouter();
+
+http.createServer(app).listen(app.get('port'), function() {
+  console.log('[%s] Express app listening on port ' + app.get('port'), process.pid);
+});
+
+/**
+ * Set process title
+ */
+
+process.title = cf.PROCESS_TITLE;
+
+/**
+ * Export app.
+ */
 

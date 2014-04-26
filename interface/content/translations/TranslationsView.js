@@ -22,7 +22,7 @@ define(function(require) {
       if(inClient) {
         this.setElement('.translations');
         this._bindElements();
-        this._addDesktopListeners();
+        this._addMouseInteractions();
       }
     },
 
@@ -46,7 +46,7 @@ define(function(require) {
      * @api private
      */
 
-    _addDesktopListeners : function() {
+    _addMouseInteractions: function() {
       this.$el.on('click', '.translation', this._showTranslation);
       this._model.on('metachange', this._updateMeta, this);
 
