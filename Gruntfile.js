@@ -153,7 +153,7 @@ module.exports = function(grunt) {
         src : [
           'interface/content/translations/**/*.dot',
           'interface/content/search/**/*.dot',
-          'interface/content/edit/**/*.dot'
+          'interface/content/translation/**/*.dot'
         ],
         dest : 'interface/public/templates/content/app.js'
       },

@@ -24,10 +24,20 @@ define(function(require) {
       this._conditionViews = [];
       this._inputViews = [];
       if(inClient) {
-        this.setElement(document.querySelector('[data-content=edit]'));
+        this.setElement(document.querySelector('[data-content=translation]'));
         this._setElements();
-        this._bind();
+        this._bindMethods();
+        this._bindDOM();
+        this._bindModel();
       }
+    },
+
+    _bindModel : function() {
+      var _this = this;
+      this.model.on('add', function(model, collection) {
+        if(model instanceof _this.model.Condition) {
+        }
+      });
     },
 
     /**
@@ -37,10 +47,9 @@ define(function(require) {
      * @api private
      */
 
-    _bind : function() {
-      this._bindMethods();
+    _bindDOM : function() {
       if(!has.touch) {
-        this._addDesktopListeners();
+        this._addMouseInteractions();
       }
     },
 
@@ -66,7 +75,7 @@ define(function(require) {
      * @api private
      */
 
-    _addDesktopListeners : function() {
+    _addMouseInteractions : function() {
       this.$('[disabled]').removeAttr('disabled');
       this.$el.on('click', '.js-edit-actions-add-condition', this._addCondition);
       this.$el.on('click', '.js-edit-actions-save', this._save);
@@ -80,7 +89,7 @@ define(function(require) {
      */
 
     _setElements : function() {
-      this.$region = $('[data-region=edit]');
+      this.$region = $('[data-region=translation]');
     },
 
     /**
@@ -135,12 +144,12 @@ define(function(require) {
 
       json.values = values.join('');
 
-      html += template['Edit'](json);
+      html += template['Translation'](json);
 
       if(inClient) {
         this.$region[0].classList.remove('hidden');
-        document.querySelector('[data-region=edit]').innerHTML = html;
-        this.setElement(document.querySelector('[data-content=edit]'));
+        document.querySelector('[data-region=translation]').innerHTML = html;
+        this.setElement(document.querySelector('[data-content=translation]'));
 
         // We loop through each relation view and try to bind
         // them with our object

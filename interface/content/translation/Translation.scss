@@ -4,31 +4,31 @@
 
 $padding: 40px;
 
-.edit {
+.translation {
   width: calc(720px - #{2 * $padding});
   margin: auto;
   background-color: #cbcbcb;
   padding: $padding;
 }
 
-.edit-title {
+.translation-title {
   color: #fff;
   font-size: 40px;
   margin-bottom: 40px;
   word-wrap: break-word;
 }
 
-.edit-form {
+.translation-form {
   overflow: hidden;
 }
 
-.edit-variables {
+.translation-variables {
   float: left;
   width: 20%;
   margin-right: 6.67%;
 }
 
-.edit-sub-title {
+.translation-sub-title {
   color: #fff;
   padding: 6px 0;
   border-bottom: 1px solid #acacac;
@@ -37,23 +37,23 @@ $padding: 40px;
   @include font-size(2);
 }
 
-.edit-inputs {
+.translation-inputs {
   width: calc(73.33% - 2px);
   float: left;
 
-  .edit-sub-title {
+  .translation-sub-title {
     margin-left: 2px;
     margin-right: 2px
   }
 }
 
-.edit-actions {
+.translation-actions {
   float: right;
   overflow: hidden;
   margin-top: 10px;
   width: 100%;
 }
 
-.edit-actions-save {
+.translation-actions-save {
   float: right;
 }

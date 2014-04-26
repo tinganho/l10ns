@@ -91,6 +91,7 @@ define(function(require) {
 
     _bindMethods : function() {
       _.bindAll(this,
+        'render',
         '_showDropDown',
         '_hideDropDown',
         '_setCustomVar',

@@ -33,7 +33,7 @@ define(function(require) {
     model : Input
   });
 
-  return Model.extend({
+  var Constructor = Model.extend({
 
     /**
      * Relations
@@ -217,26 +217,25 @@ define(function(require) {
             });
         }
       }
-    },
-
-    /**
-     * Add value object
-     *
-     * @return {void}
-     * @api public
-     */
-
-    addValueObject : function(row, object) {
-    },
-
-    /**
-     * Remove value object
-     *
-     * @return {void}
-     * @api public
-     */
-
-    removeValueObject : function(row) {
     }
   });
+
+  /**
+   * Condtion used for checking if an instance is Condition
+   *
+   * @type {Condition}
+   */
+
+  Constructor.prototype.Condition = Condition;
+
+
+  /**
+   * Condtion used for checking if an instance is Condition
+   *
+   * @type {Condition}
+   */
+
+  Constructor.prototype.Input = Input;
+
+  return Constructor;
 });

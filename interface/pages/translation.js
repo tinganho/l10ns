@@ -12,7 +12,7 @@ module.exports = function(page) {
         model : 'content/translations/Translations',
         view : 'content/translations/TranslationsView'
       },
-      edit : {
+      translation : {
         model : 'content/translation/Translation',
         view : 'content/translation/TranslationView'
       }
