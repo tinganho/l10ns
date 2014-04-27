@@ -28,15 +28,19 @@ define(function(require) {
         this._setElements();
         this._bindMethods();
         this._bindDOM();
-        this._bindModel();
       }
     },
 
-    _bindModel : function() {
+    /**
+     * Bind model
+     *
+     * @return {void}
+     * @api public
+     */
+
+    bindModel : function() {
       var _this = this;
-      this.model.on('add', function(model, collection) {
-        if(model instanceof _this.model.Condition) {
-        }
+      this.model.on('add:conditions', function(model, collection) {
       });
     },
 

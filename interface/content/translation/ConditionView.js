@@ -239,10 +239,10 @@ define(function(require) {
           operators : cf.OPERATORS,
           additionalCompairOperators : cf.ADDITIONAL_COMPAIR_OPERATORS,
           row : row,
-          translation : this.model.translation
+          translation : app.models.translation
         };
 
-      var condition = new Condition(data);
+      var condition = new app.models.translation.Condition(data);
 
       this._hideThenDropDown();
     },
@@ -256,7 +256,6 @@ define(function(require) {
     _remove : function() {
       var _this = this;
       this.$el.remove();
-      app.models.edit.removeValueObject(_this.model.get('row'));
     },
 
     /**

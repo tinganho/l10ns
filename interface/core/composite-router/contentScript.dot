@@ -23,6 +23,9 @@
           app.models.{{=content.model.toLowerCase()}}.fetch({
             success: function() {
               _this.content['{{=content.region}}'] = app.views.{{=content.model.toLowerCase()}}.render();
+              if(typeof app.views.{{=content.model.toLowerCase()}}.bindModel === 'function') {
+                app.views.{{=content.model.toLowerCase()}}.bindModel();
+              }
               n++;
               if(n === incorrectRegions) {
                 app.document.trigger('fetchend', '{{=content.path}}');

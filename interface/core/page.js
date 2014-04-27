@@ -138,6 +138,7 @@ Page.prototype._getContent = function(callback, req) {
     try {
       model.fetch({
         success : function() {
+          view = new View(model)
           content[name] = view.render();
 
           if(typeof model.page.title === 'string' && model.page.title.length > 0) {
