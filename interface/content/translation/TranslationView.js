@@ -41,16 +41,35 @@ define(function(require) {
     bindModel : function() {
       var _this = this;
       this.model.on('add:conditions', function(model, collection) {
-        var view = new ConditionView(model);
+        var view = new ConditionView(model)
+          , insertingRow = model.get('row');
+        // We need a defer block because firstOperand and lastOperans relation
+        // are not set yet.
         _.defer(function() {
-          this.$('[data-row="' + (model.get('row') - 1)+ '"]').after(view.render());
-          conditionSelector = '.condition[data-row="' + model.get('row') + '"]';
+          this.$('[data-row="' + (insertingRow - 1) + '"]').after(view.render());
+          conditionSelector = '.condition[data-row="' + insertingRow + '"]';
           view.setElement(conditionSelector);
           view.bindDOM();
           view.firstOperandView.setElement(conditionSelector + ' .condition-first-operand');
           view.firstOperandView.bindDOM();
           view.lastOperandView.setElement(conditionSelector + ' .condition-last-operand');
           view.lastOperandView.bindDOM();
+
+          // We need to increase the row property on other conditions
+          // and inputs. Otherwise some DOM bindings/event handling
+          // will be wrong.
+          _this.model.get('conditions').forEach(function(condition) {
+            var currentRow = condition.get('row');
+            if(currentRow >= insertingRow) {
+              condition.set('row', currentRow + 1);
+            }
+          });
+          _this.model.get('inputs').forEach(function(input) {
+            var currentRow = input.get('row');
+            if(currentRow >= insertingRow) {
+              input.set('row', currentRow + 1);
+            }
+          });
         });
       });
     },

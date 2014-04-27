@@ -49,6 +49,7 @@ define(function(require) {
 
     _bindModel : function() {
       this.model.on('change:operator', this._setOperatorText);
+      this.model.on('change:row', this._updateRow);
     },
 
     /**
@@ -90,7 +91,7 @@ define(function(require) {
      * @delegate
      */
 
-    _onRowChange : function() {
+    _updateRow : function() {
       this.el.dataset.row = this.model.get('row');
     },
 
@@ -110,7 +111,7 @@ define(function(require) {
         '_hideThenDropDown',
         '_setOperator',
         '_onOperatorChange',
-        '_onRowChange',
+        '_updateRow',
         '_addSubCondition',
         '_remove',
         '_setOperatorText'
