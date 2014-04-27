@@ -268,6 +268,10 @@ define(function(require) {
     render : function() {
       var json = this.model.toJSON();
 
+      // We set this as object properties so we can access them outside.
+      // We need sometime call conditionView.firstOperandView.bindDOM().
+      // And without setting these views as properties it is impossible
+      // to bind the DOM with the object.
       this.firstOperandView = new OperandView(this.model.get('firstOperand'));
       this.lastOperandView = new OperandView(this.model.get('lastOperand'));
       json.firstOperand = this.firstOperandView.render();
