@@ -41,6 +41,17 @@ define(function(require) {
     bindModel : function() {
       var _this = this;
       this.model.on('add:conditions', function(model, collection) {
+        var view = new ConditionView(model);
+        _.defer(function() {
+          this.$('[data-row="' + (model.get('row') - 1)+ '"]').after(view.render());
+          conditionSelector = '.condition[data-row="' + model.get('row') + '"]';
+          view.setElement(conditionSelector);
+          view.bindDOM();
+          view.firstOperandView.setElement(conditionSelector + ' .condition-first-operand');
+          view.firstOperandView.bindDOM();
+          view.lastOperandView.setElement(conditionSelector + ' .condition-last-operand');
+          view.lastOperandView.bindDOM();
+        });
       });
     },
 
