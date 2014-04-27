@@ -277,6 +277,15 @@ define(function(require) {
       json.firstOperand = this.firstOperandView.render();
       json.lastOperand = this.lastOperandView.render();
 
+      // We need to convert symbols from `&&` and `||` to `and` and `or`
+      // so that non-programmers understand the meaning of `&&` and `||`
+      if(json.statement === '&&') {
+        json.statement = 'and';
+      }
+      else if(json.statement === '||') {
+        json.statement = 'or';
+      }
+
       return this.template(json);
     },
 
