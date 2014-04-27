@@ -60,7 +60,7 @@ define(function(require) {
           // will be wrong.
           _this.model.get('conditions').forEach(function(condition) {
             var currentRow = condition.get('row');
-            if(currentRow >= insertingRow) {
+            if(currentRow >= insertingRow && model.cid !== condition.cid) {
               condition.set('row', currentRow + 1);
             }
           });
