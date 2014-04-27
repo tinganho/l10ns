@@ -4,7 +4,7 @@
 
 $padding: 40px;
 
-.translation {
+[data-content=translation] {
   width: calc(720px - #{2 * $padding});
   margin: auto;
   background-color: #cbcbcb;
