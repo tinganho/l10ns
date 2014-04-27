@@ -196,9 +196,11 @@ define(function(require) {
           conditionView.lastOperandView.setElement(conditionSelector + ' .condition-last-operand');
           conditionView.lastOperandView.bindDOM();
         });
-        // this._inputViews.forEach(function(inputView) {
-        //   inputView.setElement('.condition[data-row=""]');
-        // });
+        this._inputViews.forEach(function(inputView) {
+          var conditionSelector = '.input[data-row="' + inputView.model.get('row') + '"]';
+          inputView.setElement(conditionSelector);
+          inputView.bindDOM();
+        });
       }
       else {
         return html;

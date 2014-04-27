@@ -20,21 +20,19 @@ define(function(require) {
     initialize : function(model) {
       this.model = model;
       if(inClient) {
-        this._setElements();
         this._bindMethods();
-        this._addDesktopListeners();
       }
     },
 
     /**
-     * Set element
+     * Bind DOM
      *
      * @return {void}
-     * @api private
+     * @api public
      */
 
-    _setElements : function() {
-      this.setElement('.edit-input[data-row=' + this.model.get('row') + ']');
+    bindDOM : function() {
+      this._addMouseInteractions();
     },
 
     /**
@@ -47,7 +45,9 @@ define(function(require) {
     _bindMethods : function() {
       _.bindAll(this,
         'render',
-        '_setValue'
+        '_setValue',
+        '_addSelectAllTextHandler',
+        '_selectAllText'
       );
     },
 
@@ -58,8 +58,38 @@ define(function(require) {
      * @api private
      */
 
-    _addDesktopListeners : function() {
+    _addMouseInteractions : function() {
+      this._addSelectAllTextHandler();
+      this.$el.on('blur', this._addSelectAllTextHandler);
       this.$el.on('keyup', this._setValue);
+    },
+
+    /**
+     * Adds select all text handler. The select all text handler is always
+     * removed after one have clicked the input. On blur we want add
+     * `_selectAllText` handler again.
+     *
+     * @delegate
+     */
+
+    _addSelectAllTextHandler : function() {
+      this.$el.on('mouseup', this._selectAllText);
+    },
+
+    /**
+     * Select all text
+     *
+     * @delegate
+     */
+
+    _selectAllText : function(event) {
+      var _this = this;
+
+      this.$el.select();
+      event.preventDefault();
+      _.defer(function() {
+        _this.$el.off('mouseup', _this._selectAllText);
+      });
     },
 
     /**
