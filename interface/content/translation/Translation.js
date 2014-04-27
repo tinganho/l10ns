@@ -165,8 +165,8 @@ define(function(require) {
       i18n_variables : 'VARIABLES',
       i18n_translation : 'TRANSLATION',
       i18n_none : 'None',
-      i18n_save : 'SAVE',
-      i18n_addCondition : 'ADD CONDITION',
+      i18n_save : 'Save',
+      i18n_addCondition : 'Add condition',
       variables : null
     },
 
