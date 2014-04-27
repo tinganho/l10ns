@@ -46,15 +46,6 @@ define(function(require) {
         // We need a defer block because firstOperand and lastOperans relation
         // are not set yet.
         _.defer(function() {
-          this.$('[data-row="' + (insertingRow - 1) + '"]').after(view.render());
-          conditionSelector = '.condition[data-row="' + insertingRow + '"]';
-          view.setElement(conditionSelector);
-          view.bindDOM();
-          view.firstOperandView.setElement(conditionSelector + ' .condition-first-operand');
-          view.firstOperandView.bindDOM();
-          view.lastOperandView.setElement(conditionSelector + ' .condition-last-operand');
-          view.lastOperandView.bindDOM();
-
           // We need to increase the row property on other conditions
           // and inputs. Otherwise some DOM bindings/event handling
           // will be wrong.
@@ -70,6 +61,15 @@ define(function(require) {
               input.set('row', currentRow + 1);
             }
           });
+
+          this.$('[data-row="' + (insertingRow - 1) + '"]').after(view.render());
+          var conditionSelector = '.condition[data-row="' + insertingRow + '"]';
+          view.setElement(conditionSelector);
+          view.bindDOM();
+          view.firstOperandView.setElement(conditionSelector + ' .condition-first-operand');
+          view.firstOperandView.bindDOM();
+          view.lastOperandView.setElement(conditionSelector + ' .condition-last-operand');
+          view.lastOperandView.bindDOM();
         });
       });
     },
