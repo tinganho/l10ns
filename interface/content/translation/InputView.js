@@ -21,6 +21,7 @@ define(function(require) {
       this.model = model;
       if(inClient) {
         this._bindMethods();
+        this._bindModel();
       }
     },
 
@@ -47,8 +48,20 @@ define(function(require) {
         'render',
         '_setValue',
         '_addSelectAllTextHandler',
-        '_selectAllText'
+        '_selectAllText',
+        '_updateRow'
       );
+    },
+
+    /**
+     * Bind model
+     *
+     * @return {void}
+     * @api private
+     */
+
+    _bindModel : function() {
+      this.model.on('change:row', this._updateRow);
     },
 
     /**
@@ -90,6 +103,16 @@ define(function(require) {
       _.defer(function() {
         _this.$el.off('mouseup', _this._selectAllText);
       });
+    },
+
+    /**
+     * On operator change
+     *
+     * @delegate
+     */
+
+    _updateRow : function() {
+      this.el.dataset.row = this.model.get('row');
     },
 
     /**
