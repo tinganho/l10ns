@@ -73,22 +73,17 @@ define([
     {{~it.pages :page:index}}
     'render {{=page.path}}' : function() {
       app.document.trigger('renderstart');
-      if(document.querySelectorAll('[data-layout={{=page.layout}}]').length) {
-        {{=page.renderScript}}
-
-        for(var i in app.views) {
-          if(typeof app.views[i].bindDOM === 'function') {
-            app.views[i].bindDOM();
-          }
-        }
-
-        return;
+      if(app.initialPageLoad) {
       }
-
-      app.$layout.remove();
-      app.$body.append(app.layoutTmpls.{{=page.layout}}({
-        {{=page.mapScript}}
-      }));
+      else if(document.querySelectorAll('[data-layout={{=page.layout}}]').length) {
+        {{=page.renderScript}}
+      }
+      else {
+        app.$layout.remove();
+        app.$body.append(app.layoutTmpls.{{=page.layout}}({
+          {{=page.mapScript}}
+        }));
+      }
 
       for(var i in app.views) {
         if(typeof app.views[i].bindDOM === 'function') {

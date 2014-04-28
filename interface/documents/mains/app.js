@@ -100,7 +100,7 @@ require([
     document : new Document,
     $document : $(document),
     layoutTmpls : layoutTmpls,
-    landingPath : window.location.pathname,
+    initialPageLoad : true,
     $body : $body,
     $layout : $body.find('[data-layout]'),
     navigate : function(path) {
