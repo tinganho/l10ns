@@ -24,10 +24,7 @@ define(function(require) {
       this._conditionViews = [];
       this._inputViews = [];
       if(inClient) {
-        this.setElement(document.querySelector('[data-content=translation]'));
-        this._setElements();
         this._bindMethods();
-        this._bindDOM();
       }
     },
 
@@ -81,10 +78,26 @@ define(function(require) {
      * @api private
      */
 
-    _bindDOM : function() {
+    bindDOM : function() {
       if(!has.touch) {
         this._addMouseInteractions();
       }
+      // We loop through each relation view and try to bind
+      // them with our object
+      this._conditionViews.forEach(function(conditionView) {
+        var conditionSelector = '.condition[data-row="' + conditionView.model.get('row') + '"]';
+        conditionView.setElement(conditionSelector);
+        conditionView.bindDOM();
+        conditionView.firstOperandView.setElement(conditionSelector + ' .condition-first-operand');
+        conditionView.firstOperandView.bindDOM();
+        conditionView.lastOperandView.setElement(conditionSelector + ' .condition-last-operand');
+        conditionView.lastOperandView.bindDOM();
+      });
+      this._inputViews.forEach(function(inputView) {
+        var conditionSelector = '.input[data-row="' + inputView.model.get('row') + '"]';
+        inputView.setElement(conditionSelector);
+        inputView.bindDOM();
+      });
     },
 
     /**
@@ -160,7 +173,7 @@ define(function(require) {
         , conditions = this.model.get('conditions')
         , inputs = this.model.get('inputs');
 
-      // We loop thrpugh each relation object and get the html
+      // We loop through each relation object to get the HTML
       conditions.forEach(function(condition) {
         var view = new ConditionView(condition);
         _this._conditionViews.push(view);
@@ -180,31 +193,7 @@ define(function(require) {
 
       html += template['Translation'](json);
 
-      if(inClient) {
-        this.$region[0].classList.remove('hidden');
-        document.querySelector('[data-region=translation]').innerHTML = html;
-        this.setElement(document.querySelector('[data-content=translation]'));
-
-        // We loop through each relation view and try to bind
-        // them with our object
-        this._conditionViews.forEach(function(conditionView) {
-          var conditionSelector = '.condition[data-row="' + conditionView.model.get('row') + '"]';
-          conditionView.setElement(conditionSelector);
-          conditionView.bindDOM();
-          conditionView.firstOperandView.setElement(conditionSelector + ' .condition-first-operand');
-          conditionView.firstOperandView.bindDOM();
-          conditionView.lastOperandView.setElement(conditionSelector + ' .condition-last-operand');
-          conditionView.lastOperandView.bindDOM();
-        });
-        this._inputViews.forEach(function(inputView) {
-          var conditionSelector = '.input[data-row="' + inputView.model.get('row') + '"]';
-          inputView.setElement(conditionSelector);
-          inputView.bindDOM();
-        });
-      }
-      else {
-        return html;
-      }
+      return html;
     },
 
     /**

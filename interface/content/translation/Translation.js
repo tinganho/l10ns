@@ -190,10 +190,11 @@ define(function(require) {
         }
         else {
           // Parse bootstrapped data
-          var $json = $('.js-json-edit');
+          var $json = $('.js-json-translation');
           if($json.length) {
             this._parse(JSON.parse($json.html()));
             $json.remove();
+            opts.success();
             return;
           }
           var id = window.location.pathname.split('/')[2];

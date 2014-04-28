@@ -16,7 +16,7 @@
 {{~it :content:index}}
     app.document.trigger('render{{=content.model.toLowerCase()}}start');
     try {
-      app.views.{{=content.model.toLowerCase()}}.render();
+      document.querySelector('[data-region="{{=content.region}}"]').innerHTML = this.content['{{=content.region}}'];
     }
     catch(err) {
       throw err;

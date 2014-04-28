@@ -29,17 +29,6 @@ define(function(require) {
         l10n_values : 'Values',
         revealed : true
       });
-
-
-      if(inClient) {
-        // Parse bootstrapped data
-        if(!this.bootstrapped) {
-          var $json = $('.js-json-translations');
-          this.add(JSON.parse($json.html()));
-          this.bootstrapped = true;
-          $json.remove();
-        }
-      }
     },
 
     /**
@@ -71,6 +60,13 @@ define(function(require) {
           opts.success(collection.toJSON());
         }
         else {
+          var $json = $('.js-json-translations');
+          if($json.length) {
+            this.add(JSON.parse($json.html()));
+            $json.remove();
+            opts.success();
+            return;
+          }
           request
             .get('/translations')
             .end(function(err, data) {

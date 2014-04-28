@@ -76,6 +76,12 @@ define([
       if(document.querySelectorAll('[data-layout={{=page.layout}}]').length) {
         {{=page.renderScript}}
 
+        for(var i in app.views) {
+          if(typeof app.views[i].bindDOM === 'function') {
+            app.views[i].bindDOM();
+          }
+        }
+
         return;
       }
 
@@ -83,6 +89,12 @@ define([
       app.$body.append(app.layoutTmpls.{{=page.layout}}({
         {{=page.mapScript}}
       }));
+
+      for(var i in app.views) {
+        if(typeof app.views[i].bindDOM === 'function') {
+          app.views[i].bindDOM();
+        }
+      }
 
       app.document.trigger('renderend');
     },
