@@ -190,8 +190,12 @@ define(function(require) {
         _this._inputViews.push(view);
         values[input.get('row')] = view.render();
       });
+
+      // `else` might be null if there is no conditions on translations
       var _else = this.model.get('else');
-      values[_else.get('row')] = (new ElseView(_else)).render();
+      if(_else) {
+        values[_else.get('row')] = (new ElseView(_else)).render();
+      }
 
       json.values = values.join('');
 
