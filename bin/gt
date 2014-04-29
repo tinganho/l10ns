@@ -113,7 +113,6 @@ program
   .option('-dl, --default-locale <default-locale>', 'specify default locale', String, cf.defaultLocale)
   .option('-pl, --programming-languague <programming-languague>', 'specify programming languague', String, cf.programmingLanguague)
 
-
 program
   .command('init')
   .description('Initialize a new GetTranslation project')

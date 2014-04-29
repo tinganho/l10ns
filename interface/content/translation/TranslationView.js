@@ -98,6 +98,10 @@ define(function(require) {
         inputView.setElement(conditionSelector);
         inputView.bindDOM();
       });
+
+      this._setElements();
+
+      this.boundDOM = true;
     },
 
     /**

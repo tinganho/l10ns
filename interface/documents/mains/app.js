@@ -123,7 +123,7 @@ require([
 
   app.startBackbone = function() {
     Backbone.history.start({ pushState : true, hashChange : false });
-    app.views.document = new DocumentView(app.document);
+    new DocumentView(app.document);
   };
 
   /**

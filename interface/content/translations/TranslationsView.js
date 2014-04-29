@@ -20,23 +20,34 @@ define(function(require) {
     initialize : function(model) {
       this._model = model;
       if(inClient) {
-        this.setElement('.translations');
-        this._bindElements();
-        this._addMouseInteractions();
+        this._bindMethods();
       }
     },
 
     /**
      * Bind elements.
      *
-     * @return {this}
+     * @return {void}
      * @api private
      */
 
-    _bindElements : function() {
-      _.bindAll(this, '_showTranslation');
+    _bindMethods : function() {
+      _.bindAll(this,
+        '_showTranslation',
+        '_updateMeta'
+      );
+    },
 
-      return this;
+    /**
+     * Bind DOM
+     *
+     * @return {void}
+     * @api public
+     */
+
+    bindDOM : function() {
+      this._addMouseInteractions();
+      this.boundDOM = true;
     },
 
     /**
@@ -49,8 +60,6 @@ define(function(require) {
     _addMouseInteractions: function() {
       this.$el.on('click', '.translation', this._showTranslation);
       this._model.on('metachange', this._updateMeta, this);
-
-      return this;
     },
 
     /**

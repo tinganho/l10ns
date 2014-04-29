@@ -73,7 +73,26 @@ define(function(require) {
      * @api public
      */
 
-    render : function() {}
+    render : function() {},
+
+    /**
+     * Bind DOM. This function is automatically called be the `Composer`
+     * object. The user need to define the method body and its purpose
+     * is to bind event from DOM with delegates from the `View` object.
+     * It should also set `Boolean boundDOM` to true after executed.
+     *
+     * @delegate
+     */
+
+    bindDOM : function() {},
+
+    /**
+     * Property for checking if the DOME have been bound
+     *
+     * @type {Boolean}
+     */
+
+    boundDOM : false
 
   });
 

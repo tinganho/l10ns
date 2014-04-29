@@ -218,6 +218,26 @@ define(function(require) {
             });
         }
       }
+    },
+
+    /**
+     * On history push to `/`. We want to change the `revealed` property
+     * to true.
+     *
+     * @delegate
+     */
+
+    onHistoryChange : function(path) {
+      if(/^\/t\//.test(path)) {
+        this.setMeta('revealed', true);
+        this.setPageTitle('Translations')
+        this.setPageDescription('Edit translations');
+        app.document.set('noScroll', false);
+      }
+      else {
+        this.setMeta('revealed', false);
+        app.document.set('noScroll', true);
+      }
     }
   });
 

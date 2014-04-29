@@ -76,7 +76,7 @@ define(function(require) {
     },
 
     /**
-     * On history push to `/`. We want to change the `revealed` porperty
+     * On history push to `/`. We want to change the `revealed` property
      * to true.
      *
      * @delegate
