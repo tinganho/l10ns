@@ -7,6 +7,7 @@ define(function(require) {
   var View = inServer ? require('../../lib/View') : require('View')
     , ConditionView = require('./ConditionView')
     , InputView = require('./InputView')
+    , ElseView = require('./ElseView')
     , template = inServer ? content_appTmpls : require('contentTmpls')
     , _ = require('underscore');
 
@@ -177,7 +178,8 @@ define(function(require) {
         , conditions = this.model.get('conditions')
         , inputs = this.model.get('inputs');
 
-      // We loop through each relation object to get the HTML
+      // We loop through each relation object to get the HTML. We use `row`
+      // to determine the order of the HTML
       conditions.forEach(function(condition) {
         var view = new ConditionView(condition);
         _this._conditionViews.push(view);
@@ -186,12 +188,10 @@ define(function(require) {
       inputs.forEach(function(input, index) {
         var view = new InputView(input);
         _this._inputViews.push(view);
-        var html = '';
-        if(index === inputs.length - 1 && index !== 0) {
-          html += template['ConditionElse']();
-        }
-        values[input.get('row')] = html + view.render();
+        values[input.get('row')] = view.render();
       });
+      var _else = this.model.get('else');
+      values[_else.get('row')] = (new ElseView(_else)).render();
 
       json.values = values.join('');
 

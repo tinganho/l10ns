@@ -10,12 +10,10 @@ define(function(require) {
   var Backbone
     , Model = inServer ? require('../../lib/Model') : require('Model')
     , Collection = inServer ? require('../../lib/Collection') : require('Collection')
-    , template = inServer ? content_appTmpls : require('contentTmpls')
     , _ = require('underscore')
     , Condition = require('./Condition')
-    , ConditionView = require('./ConditionView')
     , Input = require('./Input')
-    , InputView = require('./InputView');
+    , Else = require('./Else');
 
   if(inClient) {
     Backbone = require('backbone');
@@ -52,6 +50,15 @@ define(function(require) {
       }
     },
     {
+      type: 'HasOne',
+      key: 'else',
+      relatedModel: Else,
+      reverseRelation: {
+        key: 'parent', // Bug can't set `translation`
+        includeInJSON: 'id'
+      }
+    },
+    {
       type: 'HasMany',
       key: 'inputs',
       relatedModel: Input,
@@ -71,16 +78,9 @@ define(function(require) {
      */
 
     _parseValues : function(values, vars) {
-      if(values.length === 0) {
+      if(values.length <= 1) {
         return new Input({
-          value : '',
-          row : 0,
-          translation : this
-        });
-      }
-      else if(values.length === 1) {
-        return new Input({
-          value : values[0],
+          value : values.length ? values[0] : '',
           row : 0,
           translation : this
         });
@@ -123,10 +123,14 @@ define(function(require) {
           }
         }
         else {
-          // Initialize input
+          new Else({
+            row : row,
+            parent : this
+          });
+
           new Input({
             value : values[i][1],
-            row : row,
+            row : row + 1,
             translation : this
           });
         }
@@ -242,7 +246,7 @@ define(function(require) {
   });
 
   /**
-   * Condtion used for checking if an instance is Condition
+   * Constructor used for checking if an instance is Condition
    *
    * @type {Condition}
    */
@@ -251,12 +255,21 @@ define(function(require) {
 
 
   /**
-   * Condtion used for checking if an instance is Condition
+   * Constructor used for checking if an instance is Input
    *
    * @type {Condition}
    */
 
   Constructor.prototype.Input = Input;
+
+  /**
+   * Constructor used for checking if an instance is Else
+   *
+   * @type {Condition}
+   */
+
+  Constructor.prototype.Else = Else;
+
 
   return Constructor;
 });
