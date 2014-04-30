@@ -25,6 +25,17 @@ define(function(require) {
     },
 
     /**
+     * Set elements
+     *
+     * @return {void}
+     * @api public
+     */
+
+    _setElements : function() {
+      this.$region = $('[data-region=body]');
+    },
+
+    /**
      * Bind elements.
      *
      * @return {void}
@@ -46,6 +57,7 @@ define(function(require) {
      */
 
     bindDOM : function() {
+      this._setElements();
       this._addMouseInteractions();
       this.boundDOM = true;
     },
@@ -71,10 +83,10 @@ define(function(require) {
 
     _updateMeta : function() {
       if(this._model.getMeta('revealed')) {
-        this.$el.removeClass('invisible');
+        this.$region.removeClass('hidden');
       }
       else {
-        this.$el.addClass('invisible');
+        this.$region.addClass('hidden');
       }
     },
 
