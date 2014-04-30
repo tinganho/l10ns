@@ -1,5 +1,5 @@
 
-<table class="translations {{?!it.metas.revealed}}invisible{{?}}" data-content="translations">
+<table class="translations" data-content="translations">
   <thead class="translations-headers">
     <tr>
       <th class="translation-col translations-header">{{=it.metas.l10n_keys}}</th>
