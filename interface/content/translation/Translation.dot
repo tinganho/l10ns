@@ -20,8 +20,8 @@
         {{=it.values}}
       </div>
       <div class="translation-actions">
-        <button class="translation-actions-save button js-translation-actions-save" type="submit" disabled>{{=it.i18n_save}}</button>
-        <button class="translation-actions-add-condition button js-translation-actions-add-condition" type="button" disabled>{{=it.i18n_addCondition}}</button>
+        <button class="save button" type="submit" disabled>{{=it.i18n_save}}</button>
+        <button class="add-condition button" type="button" disabled>{{=it.i18n_addCondition}}</button>
       </div>
     </div>
   </form>

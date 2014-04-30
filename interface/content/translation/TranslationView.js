@@ -37,30 +37,87 @@ define(function(require) {
      */
 
     bindModel : function() {
+      this._bindConditionsAddition();
+      this._bindConditionRemoval();
+      this._bindInputAddition();
+      this._bindElseAddition();
+    },
+
+    /**
+     * Bind else addition
+     *
+     * @return {void}
+     * @api private
+     */
+
+    _bindElseAddition : function() {
       var _this = this;
-      this.model.on('add:conditions', function(model, collection) {
-        var view = new ConditionView(model)
-          , insertingRow = model.get('row');
+      this.model.on('change:else', function(_else) {
+        this._elseView = new ElseView(_else.get('else'));
+        _this.$('[data-row="0"]').after(this._elseView.render());
+        this._elseView.setElement('[data-row="1"]');
+        this._elseView.bindDOM();
+      });
+    },
+
+    /**
+     * Bind condition addition
+     *
+     * @return {void}
+     * @api private
+     */
+
+    _bindConditionsAddition : function() {
+      var _this = this;
+      this.model.on('add:conditions', function(condition) {
+        var view = new ConditionView(condition)
+          , insertingRow = condition.get('row')
+          , $condition;
         // We need a defer block because firstOperand and lastOperans relation
         // are not set yet.
         _.defer(function() {
+          // If we insert a condition by choosing `and` or `or` in the `then` dropdown
           // We need to increase the row property on other conditions
           // and inputs. Otherwise some DOM bindings/event handling
-          // will be wrong.
-          _this.model.get('conditions').forEach(function(condition) {
-            var currentRow = condition.get('row');
-            if(currentRow >= insertingRow && model.cid !== condition.cid) {
-              condition.set('row', currentRow + 1);
+          // will be wrong. We check that this is condition insertion from the `then`
+          // dropdown by checking if inserting row is equals the `else` row minus 2
+          if(insertingRow !== _this.model.get('else').get('row') - 2) {
+            _this.model.get('conditions').forEach(function(condition) {
+              var currentRow = condition.get('row');
+              if(currentRow >= insertingRow && model.cid !== condition.cid) {
+                condition.set('row', currentRow + 1);
+              }
+            });
+            _this.model.get('inputs').forEach(function(input) {
+              var currentRow = input.get('row');
+              if(currentRow >= insertingRow) {
+                input.set('row', currentRow + 1);
+              }
+            });
+            var _else = _this.model.get('else');
+            _else.set('row', _else.get('row') + 1);
+            $condition = $(view.render());
+          }
+          else {
+            if(insertingRow === 0) {
+              _this.model.get('inputs').forEach(function(input) {
+                var currentRow = input.get('row');
+                if(currentRow >= insertingRow) {
+                  input.set('row', currentRow + 1);
+                }
+              });
             }
-          });
-          _this.model.get('inputs').forEach(function(input) {
-            var currentRow = input.get('row');
-            if(currentRow >= insertingRow) {
-              input.set('row', currentRow + 1);
-            }
-          });
+            $condition = $(view.render()).addClass('invisible');
+          }
 
-          this.$('[data-row="' + (insertingRow - 1) + '"]').after(view.render());
+          // bind conditions' DOM
+          if(insertingRow > 0) {
+            this.$('[data-row="' + (insertingRow - 1) + '"]').after($condition);
+          }
+          else {
+            this.$('[data-row="1"]').before($condition);
+          }
+
           var conditionSelector = '.condition[data-row="' + insertingRow + '"]';
           view.setElement(conditionSelector);
           view.bindDOM();
@@ -69,6 +126,56 @@ define(function(require) {
           view.lastOperandView.setElement(conditionSelector + ' .condition-last-operand');
           view.lastOperandView.bindDOM();
         });
+      });
+    },
+
+    /**
+     * Bind condition removal
+     *
+     * @return {void}
+     * @api private
+     */
+
+    _bindConditionRemoval : function() {
+      var _this = this;
+      this.model.on('remove:conditions', function(condition) {
+
+      });
+    },
+
+    /**
+     * Bind condition removal
+     *
+     * @return {void}
+     * @api private
+     */
+
+    _bindInputAddition : function() {
+      var _this = this;
+      this.model.on('add:inputs', function(input) {
+        console.log(input);
+        var row = input.get('row')
+          , view = new InputView(input);
+
+        _this.$('[data-row="' + (row - 1) + '"]').after(view.render());
+        view.setElement('[data-row="' + row + '"]');
+        view.bindDOM();
+
+        _this._inputViews.push(view);
+      });
+    },
+
+    /**
+     * Bind condition removal
+     *
+     * @return {void}
+     * @api private
+     */
+
+    _bindInputRemoval : function() {
+      var _this = this;
+      this.model.on('remove:inputs', function(input) {
+
       });
     },
 
@@ -99,6 +206,10 @@ define(function(require) {
         inputView.setElement(conditionSelector);
         inputView.bindDOM();
       });
+      if(typeof this._elseView !== 'undefined') {
+        this._elseView.setElement('.condition-else');
+        this._elseView.bindModel();
+      }
 
       this._setElements();
 
@@ -129,8 +240,8 @@ define(function(require) {
 
     _addMouseInteractions : function() {
       this.$('[disabled]').removeAttr('disabled');
-      this.$el.on('click', '.js-edit-actions-add-condition', this._addCondition);
-      this.$el.on('click', '.js-edit-actions-save', this._save);
+      this.$el.on('click', '.add-condition', this._addCondition);
+      this.$el.on('click', '.save', this._save);
     },
 
     /**
@@ -152,6 +263,54 @@ define(function(require) {
 
     _addCondition : function(event) {
       event.preventDefault();
+
+      var _else = this.model.get('else'), row = 0, elseRow, inputRow;
+
+      if(_else) {
+        row = _else.get('row');
+      }
+
+      // We increase the row by two. So it becomes behind the input,
+      // which has a row that is one bigger than inserting row.
+      elseRow = row + 2;
+      inputRow = elseRow + 1;
+
+      var $inputs =
+      $('[data-row="' + row + '"]')
+        .add('[data-row="' + (row + 1) + '"]')
+        .add('[data-row="' + (row + 2) + '"]')
+        .addClass('invisible');
+
+      var data = {
+        statement : row === 0 ? 'if' : 'else if',
+        firstOperand : 'value1',
+        operator : '==',
+        lastOperand : 'value2',
+        vars : this.model.get('vars'),
+        operators : cf.OPERATORS,
+        additionalCompairOperators : cf.ADDITIONAL_COMPAIR_OPERATORS,
+        row : row,
+        translation : this.model
+      };
+
+      new this.model.Condition(data);
+
+      if(_else) {
+        _else.set('row', elseRow);
+        new this.model.Input({ value : '', row : inputRow, translation : this.model});
+      }
+      else {
+        new this.model.Else({ row : 2, parent : this.model });
+        console.log('fepowjewi')
+        var input = new this.model.Input({ value : '', row : 3, translation : this.model});
+      }
+
+      _.defer(function() {
+        $('[data-row="' + row + '"]')
+          .add('[data-row="' + (row + 1) + '"]')
+          .add('[data-row="' + (row + 2) + '"]')
+          .removeClass('invisible');
+      });
     },
 
     /**
@@ -194,7 +353,8 @@ define(function(require) {
       // `else` might be null if there is no conditions on translations
       var _else = this.model.get('else');
       if(_else) {
-        values[_else.get('row')] = (new ElseView(_else)).render();
+        this._elseView = new ElseView(_else);
+        values[_else.get('row')] = this._elseView.render();
       }
 
       json.values = values.join('');

@@ -56,7 +56,9 @@ define(function(require) {
      */
 
     _updateRow : function() {
-      this.el.dataset.row = this.model.get('row');
+      var row = this.model.get('row');
+      this.el.dataset.row = row;
+      $('[data-row="' + (row - 1) + '"]').after(this.$el);
     },
 
     /**
