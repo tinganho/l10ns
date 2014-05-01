@@ -82,7 +82,7 @@ define(function(require) {
           // and inputs. Otherwise some DOM bindings/event handling
           // will be wrong. We check that this is condition insertion from the `then`
           // dropdown by checking if inserting row is equals the `else` row minus 2
-          if(insertingRow !== _this.model.get('else').get('row') - 2) {
+          if(insertingRow !== _this.model.get('else').get('row')) {
             _this.model.get('conditions').forEach(function(_condition) {
               var currentRow = _condition.get('row');
               if(currentRow >= insertingRow && condition.cid !== _condition.cid) {
@@ -262,6 +262,8 @@ define(function(require) {
      */
 
     _addCondition : function(event) {
+      var _this = this;
+
       event.preventDefault();
 
       var _else = this.model.get('else'), row = 0, elseRow, inputRow;
@@ -296,12 +298,13 @@ define(function(require) {
       new this.model.Condition(data);
 
       if(_else) {
-        _else.set('row', elseRow);
-        new this.model.Input({ value : '', row : inputRow, translation : this.model});
+        _.defer(function() {
+          _else.set('row', elseRow);
+          new _this.model.Input({ value : '', row : inputRow, translation : _this.model});
+        });
       }
       else {
         new this.model.Else({ row : 2, parent : this.model });
-        console.log('fepowjewi')
         var input = new this.model.Input({ value : '', row : 3, translation : this.model});
       }
 

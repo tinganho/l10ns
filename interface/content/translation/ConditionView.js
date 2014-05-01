@@ -230,7 +230,6 @@ define(function(require) {
 
     _addSubCondition : function(event) {
       var statement = event.currentTarget.dataset.value
-        , row = this.model.get('row') + 1
         , data = {
           statement : statement,
           firstOperand : 'value1',
@@ -239,7 +238,7 @@ define(function(require) {
           vars : this.model.get('vars'),
           operators : cf.OPERATORS,
           additionalCompairOperators : cf.ADDITIONAL_COMPAIR_OPERATORS,
-          row : row,
+          row : this.model.get('row') + 1,
           translation : app.models.translation
         };
 
