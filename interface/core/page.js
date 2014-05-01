@@ -83,8 +83,6 @@ Page.prototype.layout = function(name) {
   this._layoutTmpl = this._layoutTmpls[name];
 
   return this;
-
-  'Terms of Service'
 };
 
 /**

@@ -147,6 +147,15 @@ define(function(require) {
 
     _parse : function(json) {
       this._parseValues(json.values, json.vars);
+
+      // Delete relations while parsing. Otherwise it will
+      // cause some nested relations during parsing.
+      delete json.conditions;
+      delete json.inputs;
+      delete json.else;
+      delete json.firstOperand;
+      delete json.lastOperand;
+
       this.set(json);
 
       return this;
@@ -180,7 +189,7 @@ define(function(require) {
      * @delegate
      */
 
-    sync : function(method, collection, opts, req) {
+    sync : function(method, model, opts, req) {
       var _this = this;
 
       if(method === 'read') {
@@ -222,6 +231,9 @@ define(function(require) {
             });
         }
       }
+      else if(method === 'update') {
+        var json = this.toGTStandardJSON();
+      }
     },
 
     /**
@@ -240,6 +252,78 @@ define(function(require) {
       else {
         this.setMeta('revealed', false);
       }
+    },
+
+    /**
+     * We will ovverride the default implementation of `toJSON` method
+     * because the relations is not mapped according to the server
+     * implementation. Relations `Conditions`, `Inputs`, `Else` need to
+     * under the property `values`
+     *
+     * @override
+     */
+
+    toGTStandardJSON : function() {
+      var json = Model.prototype.toJSON.call(this);
+
+      // First step: We store an array representation of the objects.
+      // We also order them according to the `row` property.
+      var firstValues = [];
+      this.get('inputs').forEach(function(input) {
+        firstValues[input.get('row')] = [input.get('value')];
+      });
+      this.get('conditions').forEach(function(condition) {
+        firstValues[condition.get('row')] = [
+          condition.get('statement'),
+          condition.get('firstOperand').get('value'),
+          condition.get('operator'),
+          condition.get('lastOperand').get('value')
+        ];
+      });
+      var _else = this.get('else');
+      if(_else) {
+        firstValues[_else.get('row')] = ['else'];
+      }
+
+      // Second step: We concatinate the arrays that have two or more
+      // conditions in a row.
+      var secondValues = [], currentValue = [], lastWasInput = false;
+      firstValues.forEach(function(value) {
+        // Check if condition. Condition have a length bigger than zero
+        // because it consist of an array [STATEMENT, FIRST_OPERAND,...]
+        if(value.length > 1) {
+          if(!lastWasInput) {
+            currentValue = currentValue.concat(value);
+          }
+          else {
+            currentValue = value;
+          }
+
+          lastWasInput = false;
+        }
+        else if(value[0] === 'else') {
+          currentValue = value;
+          lastWasInput = false;
+        }
+        else {
+          currentValue = currentValue.concat(value)
+          secondValues.push(currentValue);
+          lastWasInput = true;
+        }
+      });
+
+      json.values = secondValues;
+
+      // Delete translation. It is unnecessary that these travels
+      // through the network and they also don't represent properties
+      // of the GT Standard
+      delete json.i18n_addCondition;
+      delete json.i18n_none;
+      delete json.i18n_save;
+      delete json.i18n_translation;
+      delete json.i18n_variables;
+
+      return secondValues;
     }
   });
 

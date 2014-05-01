@@ -58,7 +58,7 @@ define(function(require) {
       relatedModel: FirstOperand,
       reverseRelation: {
         key: 'condition',
-        includeInJSON: false
+        includeInJSON: 'value'
       }
     },
     {
@@ -67,7 +67,7 @@ define(function(require) {
       relatedModel: LastOperand,
       reverseRelation: {
         key: 'condition',
-        includeInJSON: false
+        includeInJSON: 'value'
       }
     }]
   });

@@ -73,6 +73,7 @@ define(function(require) {
         var view = new ConditionView(condition)
           , insertingRow = condition.get('row')
           , $condition;
+
         // We need a defer block because firstOperand and lastOperans relation
         // are not set yet.
         _.defer(function() {
@@ -82,10 +83,10 @@ define(function(require) {
           // will be wrong. We check that this is condition insertion from the `then`
           // dropdown by checking if inserting row is equals the `else` row minus 2
           if(insertingRow !== _this.model.get('else').get('row') - 2) {
-            _this.model.get('conditions').forEach(function(condition) {
-              var currentRow = condition.get('row');
-              if(currentRow >= insertingRow && model.cid !== condition.cid) {
-                condition.set('row', currentRow + 1);
+            _this.model.get('conditions').forEach(function(_condition) {
+              var currentRow = _condition.get('row');
+              if(currentRow >= insertingRow && condition.cid !== _condition.cid) {
+                _condition.set('row', currentRow + 1);
               }
             });
             _this.model.get('inputs').forEach(function(input) {
@@ -153,7 +154,6 @@ define(function(require) {
     _bindInputAddition : function() {
       var _this = this;
       this.model.on('add:inputs', function(input) {
-        console.log(input);
         var row = input.get('row')
           , view = new InputView(input);
 
@@ -321,6 +321,7 @@ define(function(require) {
 
     _save : function(event) {
       event.preventDefault();
+      this.model.save();
     },
 
     /**
