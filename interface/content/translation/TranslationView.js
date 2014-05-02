@@ -126,7 +126,20 @@ define(function(require) {
           view.firstOperandView.bindDOM();
           view.lastOperandView.setElement(conditionSelector + ' .condition-last-operand');
           view.lastOperandView.bindDOM();
-          _this._conditionViews.push(view);
+
+          // We must insert the view in the right index in `_conditionViews`
+          var appended = false;
+          _this._conditionViews.some(function(conditionView, index) {
+            if(conditionView.model.get('row') === insertingRow - 1) {
+              _this._conditionViews.splice(index + 1, 0, view);
+              appended = true;
+              return true;
+            }
+            return false;
+          });
+          if(!appended) {
+            _this._conditionViews.push(view);
+          }
         });
       });
     },
@@ -143,7 +156,7 @@ define(function(require) {
       this.model.on('remove:conditions', function(condition) {
         var row = condition.get('row');
         if(row === 0) {
-          _this._removeConditionAndInputs(condition);
+          _this._removeLastCondition(condition);
           return;
         }
         _this.model.get('conditions').some(function(_condition) {
@@ -155,7 +168,7 @@ define(function(require) {
         });
         _this.model.get('inputs').some(function(input) {
           if(input.get('row') === row - 1) {
-            _this._removeConditionAndInputs(condition);
+            // _this._removeConditionAndInputs(condition);
           }
           return false;
         });
@@ -210,7 +223,7 @@ define(function(require) {
      * @api private
      */
 
-    _removeConditionElseAndInputs : function() {
+    _removeLastCondition : function() {
       this.model.else.destroy();
 
     },
