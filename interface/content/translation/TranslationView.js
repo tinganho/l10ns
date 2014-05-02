@@ -60,10 +60,6 @@ define(function(require) {
           _this._elseView.setElement('[data-row="2"]');
           _this._elseView.bindDOM();
         }
-        else {
-          _this._elseView.remove();
-          _this._elseView = null;
-        }
       });
     },
 
@@ -126,7 +122,7 @@ define(function(require) {
             this.$('[data-row="1"]').before($condition);
           }
 
-          var conditionSelector = '.condition[data-row="' + insertingRow + '"]';
+          var conditionSelector = '.condition[data-row="' + insertingRow + '"]:not(.condition-else)';
           view.setElement(conditionSelector);
           view.bindDOM();
           view.firstOperandView.setElement(conditionSelector + ' .condition-first-operand');
@@ -163,7 +159,7 @@ define(function(require) {
       this.model.on('remove:conditions', function(condition) {
         var row = condition.get('row');
         if(row === 0) {
-          _this._removeLastCondition(condition);
+          _this._removeFirstCondition();
           return;
         }
         _this.model.get('conditions').some(function(_condition) {
@@ -175,7 +171,7 @@ define(function(require) {
         });
         _this.model.get('inputs').some(function(input) {
           if(input.get('row') === row - 1) {
-            // _this._removeConditionAndInputs(condition);
+            _this._removeConditionAndInput(condition);
           }
           return false;
         });
@@ -223,21 +219,58 @@ define(function(require) {
     },
 
     /**
-     * Remove condition only. This method only removes the `condition` from
-     * the DOM by calling `Backbone.View.prototype.remove`.
+     * Remove the first condition. When removing the first condition some other logic
+     * need to be applied. First condition and the input after it should be removed
+     * from DOM. Then depending on if the `else` row is two or not else will be removed
+     * or one `else if` statement will be converted to just an if statement.
      *
      * @return {void}
      * @api private
      */
 
-    _removeLastCondition : function() {
+    _removeFirstCondition : function() {
+      var elseRow = this.model.get('else').get('row');
       this._conditionViews[0].remove();
       this._conditionViews.splice(0, 1);
-      this.model.get('else').destroy();
       this._inputViews[0].model.destroy();
       this._inputViews[0].remove();
       this._inputViews.splice(0, 1);
-      this._inputViews[0].model.set('row', 0);
+
+      if(elseRow === 2) {
+        this._elseView.model.destroy();
+        this._elseView.remove();
+        this._elseView = null;
+        this._inputViews[0].model.set('row', 0);
+      }
+      else {
+        var first = true;
+        this.model.get('conditions').forEach(function(condition) {
+          condition.set('row', condition.get('row') - 2);
+          if(first) {
+            condition.set('statement', 'if');
+            first = false;
+          }
+        });
+        this.model.get('inputs').forEach(function(input) {
+          input.set('row', input.get('row') - 2);
+        });
+
+        var _else = this.model.get('else');
+        _else.set('row', _else.get('row') - 2);
+      }
+    },
+
+    /**
+     * Remove condition and input. This method should be called when a
+     * condition have one input after and one input before it. This method
+     * will remove the condition and also remove the input after it.
+     *
+     * @return {void}
+     * @api private
+     */
+
+    _removeConditionAndInput : function(condition) {
+
     },
 
     /**

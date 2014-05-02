@@ -35,6 +35,7 @@ define(function(require) {
      */
 
     _setElements : function() {
+      this.$statement = this.$('.condition-statement');
       this.$operators = this.$('.condition-operators');
       this.$operator = this.$('.condition-operators-value');
       this.$then = this.$('.condition-then');
@@ -50,6 +51,7 @@ define(function(require) {
     _bindModel : function() {
       this.model.on('change:operator', this._setOperatorText);
       this.model.on('change:row', this._updateRow);
+      this.model.on('change:statement', this._updateStatement);
     },
 
     /**
@@ -96,6 +98,16 @@ define(function(require) {
     },
 
     /**
+     * On operator change
+     *
+     * @delegate
+     */
+
+    _updateStatement : function() {
+      this.$statement.html(this.model.get('statement'));
+    },
+
+    /**
      * Bind methods
      *
      * @return {void}
@@ -112,6 +124,7 @@ define(function(require) {
         '_setOperator',
         '_onOperatorChange',
         '_updateRow',
+        '_updateStatement',
         '_addSubCondition',
         '_removeCondition',
         '_setOperatorText'
