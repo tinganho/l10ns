@@ -56,8 +56,13 @@ define(function(require) {
         if(_this.model.get('else')) {
           _this._elseView = new ElseView(_else.get('else'));
           _this.$('[data-row="1"]').after(_this._elseView.render());
+          _this._elseView.bindModel();
           _this._elseView.setElement('[data-row="2"]');
           _this._elseView.bindDOM();
+        }
+        else {
+          _this._elseView.remove();
+          _this._elseView = null;
         }
       });
     },
@@ -227,8 +232,8 @@ define(function(require) {
 
     _removeLastCondition : function() {
       this._conditionViews[0].remove();
+      this._conditionViews.splice(0, 1);
       this.model.get('else').destroy();
-      this._elseView.remove();
       this._inputViews[0].model.destroy();
       this._inputViews[0].remove();
       this._inputViews.splice(0, 1);
