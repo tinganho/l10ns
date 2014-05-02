@@ -53,10 +53,12 @@ define(function(require) {
     _bindElseAddition : function() {
       var _this = this;
       this.model.on('change:else', function(_else) {
-        this._elseView = new ElseView(_else.get('else'));
-        _this.$('[data-row="0"]').after(this._elseView.render());
-        this._elseView.setElement('[data-row="1"]');
-        this._elseView.bindDOM();
+        if(_this.model.get('else')) {
+          _this._elseView = new ElseView(_else.get('else'));
+          _this.$('[data-row="1"]').after(_this._elseView.render());
+          _this._elseView.setElement('[data-row="2"]');
+          _this._elseView.bindDOM();
+        }
       });
     },
 
@@ -82,7 +84,7 @@ define(function(require) {
           // and inputs. Otherwise some DOM bindings/event handling
           // will be wrong. We check that this is condition insertion from the `then`
           // dropdown by checking if inserting row is equals the `else` row minus 2
-          if(insertingRow !== _this.model.get('else').get('row')) {
+          if(_this.model.get('else') && insertingRow !== _this.model.get('else').get('row')) {
             _this.model.get('conditions').forEach(function(_condition) {
               var currentRow = _condition.get('row');
               if(currentRow >= insertingRow && condition.cid !== _condition.cid) {
@@ -224,8 +226,13 @@ define(function(require) {
      */
 
     _removeLastCondition : function() {
-      this.model.else.destroy();
-
+      this._conditionViews[0].remove();
+      this.model.get('else').destroy();
+      this._elseView.remove();
+      this._inputViews[0].model.destroy();
+      this._inputViews[0].remove();
+      this._inputViews.splice(0, 1);
+      this._inputViews[0].model.set('row', 0);
     },
 
     /**
@@ -388,8 +395,10 @@ define(function(require) {
         });
       }
       else {
-        new this.model.Else({ row : 2, parent : this.model });
-        var input = new this.model.Input({ value : '', row : 3, translation : this.model});
+        _.defer(function() {
+          new _this.model.Else({ row : 2, parent : _this.model });
+          var input = new _this.model.Input({ value : '', row : 3, translation : _this.model});
+        });
       }
 
       _.defer(function() {
