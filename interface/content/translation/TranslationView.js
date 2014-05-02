@@ -126,6 +126,7 @@ define(function(require) {
           view.firstOperandView.bindDOM();
           view.lastOperandView.setElement(conditionSelector + ' .condition-last-operand');
           view.lastOperandView.bindDOM();
+          _this._conditionViews.push(view);
         });
       });
     },
@@ -140,7 +141,44 @@ define(function(require) {
     _bindConditionRemoval : function() {
       var _this = this;
       this.model.on('remove:conditions', function(condition) {
+        var row = condition.get('row');
+        if(row === 0) {
+          return;
+        }
+        _this.model.get('conditions').some(function(_condition) {
+          if(_condition.get('row') === row - 1) {
+            _this._removeCondition(condition);
+            return true;
+          }
+          return false;
+        });
+        _this.model.get('inputs').some(function(input) {
+          if(input.get('row') === row - 1) {
 
+          }
+          return false;
+        });
+      });
+    },
+
+    /**
+     * Remove condition only. This method only removes the `condition` from
+     * the DOM by calling `Backbone.View.prototype.remove`.
+     *
+     * @return {void}
+     * @api private
+     */
+
+    _removeCondition : function(condition) {
+      var _this = this;
+      this._conditionViews.some(function(conditionView, index) {
+        if(conditionView.model === condition) {
+          conditionView.remove();
+          // We remove the view pointer from TranslatioView`
+          _this._conditionViews.splice(index, 1);
+          return true;
+        }
+        return false;
       });
     },
 

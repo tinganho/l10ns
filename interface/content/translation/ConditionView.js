@@ -113,7 +113,7 @@ define(function(require) {
         '_onOperatorChange',
         '_updateRow',
         '_addSubCondition',
-        '_remove',
+        '_removeCondition',
         '_setOperatorText'
       );
     },
@@ -130,7 +130,7 @@ define(function(require) {
       this.$el.on('mousedown', '.condition-operator', this._setOperator);
       this.$el.on('mousedown', '.condition-then', this._showThenDropDown);
       this.$el.on('mousedown', '.condition-comparator', this._addSubCondition);
-      this.$el.on('click', '.condition-exit', this._remove);
+      this.$el.on('click', '.condition-exit', this._removeCondition);
     },
 
     /**
@@ -248,14 +248,13 @@ define(function(require) {
     },
 
     /**
-     * Remove
+     * Remove condition
      *
      * @delegate
      */
 
-    _remove : function() {
-      var _this = this;
-      this.$el.remove();
+    _removeCondition : function() {
+      this.model.destroy();
     },
 
     /**
