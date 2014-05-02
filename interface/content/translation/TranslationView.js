@@ -143,18 +143,19 @@ define(function(require) {
       this.model.on('remove:conditions', function(condition) {
         var row = condition.get('row');
         if(row === 0) {
+          _this._removeConditionAndInputs(condition);
           return;
         }
         _this.model.get('conditions').some(function(_condition) {
           if(_condition.get('row') === row - 1) {
-            _this._removeCondition(condition);
+            _this._removeSingleCondition(condition);
             return true;
           }
           return false;
         });
         _this.model.get('inputs').some(function(input) {
           if(input.get('row') === row - 1) {
-
+            _this._removeConditionAndInputs(condition);
           }
           return false;
         });
@@ -169,17 +170,49 @@ define(function(require) {
      * @api private
      */
 
-    _removeCondition : function(condition) {
-      var _this = this;
-      this._conditionViews.some(function(conditionView, index) {
+    _removeSingleCondition : function(condition) {
+      var _this = this, removalIndex, removalRow;
+      this._conditionViews.forEach(function(conditionView, index) {
         if(conditionView.model === condition) {
           conditionView.remove();
           // We remove the view pointer from TranslatioView`
-          _this._conditionViews.splice(index, 1);
-          return true;
+          removalRow = conditionView.model.get('row');
+          removalIndex = index;
         }
-        return false;
+
+        // We must decrease the row index on all subsequent conditions
+        if(removalIndex && index > removalIndex) {
+          conditionView.model.set('row', conditionView.model.get('row') - 1);
+        }
       });
+
+      if(removalRow) {
+        this._inputViews.forEach(function(inputView) {
+          var row = inputView.model.get('row');
+          if(row > removalRow) {
+            inputView.model.set('row', row - 1);
+          }
+        });
+
+        if(this._elseView) {
+          this._elseView.model.set('row', this._elseView.model.get('row') - 1);
+        }
+
+        _this._conditionViews.splice(removalIndex, 1);
+      }
+    },
+
+    /**
+     * Remove condition only. This method only removes the `condition` from
+     * the DOM by calling `Backbone.View.prototype.remove`.
+     *
+     * @return {void}
+     * @api private
+     */
+
+    _removeConditionElseAndInputs : function() {
+      this.model.else.destroy();
+
     },
 
     /**
