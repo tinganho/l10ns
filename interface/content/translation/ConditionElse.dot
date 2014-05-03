@@ -7,9 +7,4 @@ Else
 
 <div class="condition condition-else" data-row="{{=it.row}}">
   <label class="condition-statement">else</label>
-  <div class="condition-exit">
-    <span class="condition-exit-background">
-      <i class="condition-exit-icon sp-default sp-default-exit"></i>
-    </span>
-  </div>
 </div>
