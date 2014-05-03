@@ -24,11 +24,13 @@ define(function(require) {
   }
 
   var Conditions = Collection.extend({
-    model : Condition
+    model : Condition,
+    comparator : 'row'
   });
 
   var Inputs = Collection.extend({
-    model : Input
+    model : Input,
+    comparator : 'row'
   });
 
   var Constructor = Model.extend({

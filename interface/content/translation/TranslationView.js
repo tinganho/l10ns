@@ -156,26 +156,90 @@ define(function(require) {
 
     _bindConditionRemoval : function() {
       var _this = this;
+
       this.model.on('remove:conditions', function(condition) {
-        var row = condition.get('row');
+        var row = condition.get('row')
+          , inputs = _this.model.get('inputs').sort()
+          , conditions = _this.model.get('conditions').sort()
+          , hasSubsequentCondition = false;
+
         if(row === 0) {
           _this._removeFirstCondition();
           return;
         }
-        _this.model.get('conditions').some(function(_condition) {
+        conditions.some(function(_condition) {
           if(_condition.get('row') === row - 1) {
             _this._removeSingleCondition(condition);
             return true;
           }
-          return false;
-        });
-        _this.model.get('inputs').some(function(input) {
-          if(input.get('row') === row - 1) {
-            _this._removeConditionAndInput(condition);
+          if(_condition.get('row') === row + 1) {
+            inputs.some(function(input) {
+              if(input.get('row') === row - 1) {
+                _this._removeConditionWithSubsequentCondition(condition);
+                hasSubsequentCondition = true;
+                return true;
+              }
+              return false;
+            });
+            return true;
           }
           return false;
         });
+        if(!hasSubsequentCondition) {
+          inputs.some(function(input, index) {
+            if(input.get('row') === row - 1) {
+              if(inputs.where({ row : row + 1}).length) {
+                _this._removeConditionAndInput(condition);
+                return true;
+              }
+            }
+            return false;
+          });
+        }
       });
+    },
+
+    /**
+     * Remove condition when an input is before and one condition after.
+     *
+     * @return {void}
+     * @api private
+     */
+
+    _removeConditionWithSubsequentCondition : function(condition) {
+      var _this = this, removalIndex, removalRow;
+      this._conditionViews.forEach(function(conditionView, index) {
+        if(conditionView.model === condition) {
+          conditionView.remove();
+          removalRow = conditionView.model.get('row');
+          removalIndex = index;
+        }
+
+        // We must decrease the row index on all subsequent conditions
+        if(removalIndex) {
+          if(index === removalIndex + 1) {
+            conditionView.model.set('statement', 'else if');
+          }
+          if(index > removalIndex) {
+            conditionView.model.set('row', conditionView.model.get('row') - 1);
+          }
+        }
+      });
+
+      if(removalRow) {
+        this._inputViews.forEach(function(inputView) {
+          var row = inputView.model.get('row');
+          if(row > removalRow) {
+            inputView.model.set('row', row - 1);
+          }
+        });
+
+        if(this._elseView) {
+          this._elseView.model.set('row', this._elseView.model.get('row') - 1);
+        }
+
+        this._conditionViews.splice(removalIndex, 1);
+      }
     },
 
     /**
@@ -191,7 +255,6 @@ define(function(require) {
       this._conditionViews.forEach(function(conditionView, index) {
         if(conditionView.model === condition) {
           conditionView.remove();
-          // We remove the view pointer from TranslatioView`
           removalRow = conditionView.model.get('row');
           removalIndex = index;
         }
@@ -214,7 +277,7 @@ define(function(require) {
           this._elseView.model.set('row', this._elseView.model.get('row') - 1);
         }
 
-        _this._conditionViews.splice(removalIndex, 1);
+        this._conditionViews.splice(removalIndex, 1);
       }
     },
 
@@ -232,9 +295,17 @@ define(function(require) {
       var elseRow = this.model.get('else').get('row');
       this._conditionViews[0].remove();
       this._conditionViews.splice(0, 1);
-      this._inputViews[0].model.destroy();
-      this._inputViews[0].remove();
-      this._inputViews.splice(0, 1);
+
+      var inputs = this.model.get('inputs').sort()
+        , conditions = this.model.get('conditions').sort()
+        , removedElements = 1;
+
+      if(!conditions.where({ row : 1 }).length) {
+        this._inputViews[0].model.destroy();
+        this._inputViews[0].remove();
+        this._inputViews.splice(0, 1);
+        removedElements++;
+      }
 
       if(elseRow === 2) {
         this._elseView.model.destroy();
@@ -244,19 +315,19 @@ define(function(require) {
       }
       else {
         var first = true;
-        this.model.get('conditions').forEach(function(condition) {
-          condition.set('row', condition.get('row') - 2);
+        conditions.forEach(function(condition) {
+          condition.set('row', condition.get('row') - removedElements);
           if(first) {
             condition.set('statement', 'if');
             first = false;
           }
         });
-        this.model.get('inputs').forEach(function(input) {
-          input.set('row', input.get('row') - 2);
+        inputs.sort().forEach(function(input) {
+          input.set('row', input.get('row') - removedElements);
         });
 
         var _else = this.model.get('else');
-        _else.set('row', _else.get('row') - 2);
+        _else.set('row', _else.get('row') - removedElements);
       }
     },
 
@@ -270,7 +341,40 @@ define(function(require) {
      */
 
     _removeConditionAndInput : function(condition) {
+      var _this = this, conditionRemovalIndex, removalRow;
+      this._conditionViews.forEach(function(conditionView, index) {
+        if(conditionView.model === condition) {
+          conditionView.remove();
+          // We remove the view pointer from TranslatioView`
+          removalRow = conditionView.model.get('row');
+          conditionRemovalIndex = index;
+        }
 
+        // We must decrease the row index on all subsequent conditions
+        if(conditionRemovalIndex && index > conditionRemovalIndex) {
+          conditionView.model.set('row', conditionView.model.get('row') - 2);
+        }
+      });
+
+      var inputRemovalIndex;
+      this._inputViews.forEach(function(inputView, index) {
+        var row = inputView.model.get('row');
+        if(row == removalRow + 1) {
+          inputView.model.destroy();
+          inputView.remove();
+          inputRemovalIndex = index;
+        }
+        else if(row > inputRemovalIndex) {
+          inputView.model.set('row', row - 2);
+        }
+      });
+
+      if(this._elseView) {
+        this._elseView.model.set('row', this._elseView.model.get('row') - 2);
+      }
+
+      this._inputViews.splice(inputRemovalIndex, 1);
+      this._conditionViews.splice(conditionRemovalIndex, 1);
     },
 
     /**
