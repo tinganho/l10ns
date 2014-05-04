@@ -87,9 +87,10 @@ define(function(require) {
           translation : this
         });
       }
+      var row = 0;
       for(var i = 0; i<values.length; i++) {
         if(values[i].length > 2) {
-          var y = 0, row = 0;
+          var y = 0;
           while(typeof values[i][y] !== 'undefined') {
             new Condition({
               statement : values[i][y],
