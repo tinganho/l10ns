@@ -221,6 +221,24 @@ module.exports = function() {
       });
     });
 
+
+    describe('#writeSingleLocaleTranslations', function() {
+      it('should not make a folder for locales storage if it does exists', function() {
+        var localesFolder = 'test-folder/en-US.locale';
+        var fsStub = {
+          existsSync : sinon.stub().withArgs(localesFolder).returns(true),
+          mkdirSync : sinon.spy(),
+          unlinkSync : function() {}
+        };
+        var File = proxyquire('../lib/file', { fs : fsStub }).File;
+        var file = new File();
+        file.locales = {};
+        file.localesFolder = localesFolder;
+        file.writeSingleLocaleTranslations({}, 'en-US');
+        fsStub.mkdirSync.should.not.have.been.calledOnce;
+      });
+    });
+
     describe('#readSearchTranslations', function() {
       it('should read files from cache/latestSearch.json', function() {
         var deferStub = { promise : null, resolve : sinon.spy(), reject : sinon.spy() };
