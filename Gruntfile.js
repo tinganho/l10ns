@@ -169,6 +169,12 @@ module.exports = function(grunt) {
       }
     },
 
+    mocha: {
+      test: {
+        src: ['interface/specifications/*.html']
+      },
+    },
+
     watch: {
       templates: {
         files: [
@@ -251,5 +257,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-dot-compiler');
   grunt.loadNpmTasks('grunt-modernizr');
+  grunt.loadNpmTasks('grunt-mocha');
 
 };

@@ -28,7 +28,7 @@
     "node": "*"
   },
   "scripts": {
-    "test": "bin/test"
+    "test": "bin/test && grunt mocha:test"
   },
   "dependencies": {
     "grunt": "~0.4.2",
@@ -74,7 +74,8 @@
     "chai-as-promised": "~4.1.0",
     "chai": "~1.8.1",
     "grunt-dot-compiler": "~0.5.12",
-    "grunt-modernizr": "~0.5.1"
+    "grunt-modernizr": "~0.5.1",
+    "grunt-mocha": "~0.4.10"
   },
   "keywords": [
     "gruntplugin"

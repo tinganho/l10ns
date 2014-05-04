@@ -62,7 +62,7 @@ requirejs.config({
 
   waitSeconds : 90,
 
-  baseUrl : '/'
+  baseUrl : '../'
 });
 
 define('modernizr', function() {
