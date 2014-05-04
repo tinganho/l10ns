@@ -28,9 +28,7 @@
     "node": "*"
   },
   "scripts": {
-    "test": "bin/test && grunt mocha:test",
-    "preinstall": "bower install",
-    "postinstall": "grunt dot"
+    "test": "bin/test && grunt mocha:test"
   },
   "dependencies": {
     "grunt": "~0.4.2",
