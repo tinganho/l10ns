@@ -25,8 +25,8 @@ module.exports = function(app) {
       }
     });
 
-    file.writeTranslations(translations, function() {
-      res.json(translation)
+    file.writeSingleLocaleTranslation(translations, locale, function() {
+      res.json(translation);
     });
   });
 };
