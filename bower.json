@@ -10,5 +10,12 @@
     "url-parser": "~2.2.1",
     "jquery": "~2.1.0",
     "backbone-relational": "~0.8.8"
+  },
+  "devDependencies": {
+    "mocha": "~1.18.2",
+    "chai": "~1.9.1",
+    "squire": "~0.2.0",
+    "sinonjs": "~1.9.1",
+    "sinon-chai": "~2.5.0"
   }
 }
