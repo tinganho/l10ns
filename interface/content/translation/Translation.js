@@ -192,7 +192,11 @@ define(function(require) {
      */
 
     sync : function(method, model, opts, req) {
-      var _this = this;
+      var _this = this, id;
+
+      if(inClient) {
+        id = window.location.pathname.split('/')[2];
+      }
 
       if(method === 'read') {
         if(inServer) {
@@ -204,15 +208,14 @@ define(function(require) {
           return opts.success();
         }
         else {
-          // Parse bootstrapped data
           var $json = $('.js-json-translation');
+
           if($json.length) {
             this._parse(JSON.parse($json.html()));
             $json.remove();
             opts.success();
             return;
           }
-          var id = window.location.pathname.split('/')[2];
           var translation = app.models.translations.get(id);
           if(translation) {
             translation = translation.toJSON();
@@ -235,6 +238,12 @@ define(function(require) {
       }
       else if(method === 'update') {
         var json = this.toGTStandardJSON();
+        request
+          .put('/api/t/' + id)
+          .send(json)
+          .end(function() {
+
+          });
       }
     },
 
@@ -324,8 +333,14 @@ define(function(require) {
       delete json.i18n_save;
       delete json.i18n_translation;
       delete json.i18n_variables;
+      delete json.conditions;
+      delete json.inputs;
+      delete json.else;
 
-      return secondValues;
+      // Override current values
+      json.values = secondValues;
+
+      return json;
     }
   });
 

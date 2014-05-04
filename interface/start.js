@@ -143,16 +143,16 @@ GLOBAL.app = require('./core/app');
 helmet.defaults(app, { xframe: false, csp: false });
 
 /**
- * Autoroute.
- */
-
-autoroute(autoroutes, app);
-
-/**
  * App configuration.
  */
 
 configure(app);
+
+/**
+ * Autoroute.
+ */
+
+autoroute(autoroutes, app);
 
 /**
  * Server start.
