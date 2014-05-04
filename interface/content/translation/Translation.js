@@ -226,7 +226,7 @@ define(function(require) {
             return;
           }
           request
-            .get('/translations/' + id)
+            .get('/api/t/' + id)
             .end(function(err, res) {
               var translation = res.body;
               _this._parse(translation);
