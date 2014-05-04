@@ -223,6 +223,21 @@ module.exports = function() {
 
 
     describe('#writeSingleLocaleTranslations', function() {
+      it('should make a folder for locales storage if it does not exists', function() {
+        var localesFolder = 'test-folder';
+        var fsStub = {
+          existsSync : sinon.stub().withArgs(localesFolder).returns(false),
+          mkdirSync : sinon.spy()
+        };
+        var File = proxyquire('../lib/file', { fs : fsStub }).File;
+        var file = new File();
+        file.locales = {};
+        file.localesFolder = localesFolder;
+        file.writeTranslations();
+        fsStub.mkdirSync.should.have.been.calledOnce;
+        fsStub.mkdirSync.should.have.been.calledWith(localesFolder);
+      });
+
       it('should not make a folder for locales storage if it does exists', function() {
         var localesFolder = 'test-folder/en-US.locale';
         var fsStub = {
@@ -236,6 +251,60 @@ module.exports = function() {
         file.localesFolder = localesFolder;
         file.writeSingleLocaleTranslations({}, 'en-US');
         fsStub.mkdirSync.should.not.have.been.calledOnce;
+      });
+
+      it('should check if a current locale file exists', function() {
+        var localesFolder = 'test-folder';
+        var p = localesFolder + '/en-US.locale';
+        var stub = sinon.stub();
+        stub.withArgs(localesFolder).returns(true);
+        stub.withArgs(p).returns(false);
+        var fsStub = {
+          existsSync : stub
+        };
+        var File = proxyquire('../lib/file', { fs : fsStub }).File;
+        var file = new File();
+        file.locales =  { 'en-US' : 'English' };
+        file.localesFolder = localesFolder;
+        file.writeTranslations({ 'en-US': {} });
+        fsStub.existsSync.calledWith(p);
+      });
+
+      it('should unlink existing localization files', function() {
+        var localesFolder = 'test-folder';
+        var p = localesFolder + '/en-US.locale';
+        var stub = sinon.stub();
+        stub.withArgs(localesFolder).returns(true);
+        stub.withArgs(p).returns(false);
+        var fsStub = {
+          existsSync : stub
+        };
+        var File = proxyquire('../lib/file', { fs : fsStub }).File;
+        var file = new File();
+        file.locales =  { 'en-US' : 'English' };
+        file.localesFolder = localesFolder;
+        file.writeTranslations({ 'en-US': {} });
+        fsStub.existsSync.calledWith(p);
+      });
+
+      it('should append translation(JSON content) to localization file', function() {
+        var localesFolder = 'test-folder';
+        var p = localesFolder + '/en-US.locale';
+        var existsSyncStub = sinon.stub();
+        existsSyncStub.withArgs(localesFolder).returns(true);
+        existsSyncStub.withArgs(p).returns(false);
+        var fsStub = {
+          existsSync : existsSyncStub,
+          appendFileSync : sinon.spy()
+        };
+        var File = proxyquire('../lib/file', { fs : fsStub }).File;
+        var file = new File();
+        file.locales =  { 'en-US' : 'English' };
+        file.localesFolder = localesFolder;
+        var obj = [{}, {}, {}];
+        file.writeTranslations(obj, 'en-US');
+        fsStub.appendFileSync.calledWith(p);
+        fsStub.appendFileSync.calledWith(JSON.stringify(obj[0]) + '\n');
       });
     });
 
