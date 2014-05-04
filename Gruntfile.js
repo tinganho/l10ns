@@ -171,7 +171,10 @@ module.exports = function(grunt) {
 
     mocha: {
       test: {
-        src: ['interface/specifications/*.html']
+        src: ['interface/specifications/*.html'],
+        options: {
+          run: false
+        }
       },
     },
 
