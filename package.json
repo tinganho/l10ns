@@ -28,7 +28,7 @@
     "node": "*"
   },
   "scripts": {
-    "test": "bin/test && grunt mocha:test"
+    "test": "bin/test && grunt dot && grunt mocha:test"
   },
   "dependencies": {
     "grunt": "~0.4.2",
