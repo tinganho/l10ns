@@ -28,7 +28,7 @@
     "node": "*"
   },
   "scripts": {
-    "test": "bin/test && grunt mocha:test"
+    "test": "bin/test && grunt mocha:test",
     "preinstall": "bower install",
     "postinstall": "grunt dot"
   },
