@@ -173,7 +173,8 @@ module.exports = function(grunt) {
       test: {
         src: ['interface/specifications/*.html'],
         options: {
-          run: false
+          run: false,
+          reporter: './node_modules/mocha/lib/reporters/spec.js'
         }
       },
     },
