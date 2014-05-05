@@ -22,13 +22,13 @@
   ],
   "main": "Gruntfile.js",
   "bin": {
-    "gt": "./bin/gt"
+    "gt": "./binaries/gt"
   },
   "engines": {
     "node": "*"
   },
   "scripts": {
-    "test": "bin/test && grunt mocha:test"
+    "test": "binaries/test && grunt mocha:test"
   },
   "dependencies": {
     "grunt": "~0.4.2",

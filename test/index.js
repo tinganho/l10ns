@@ -3,7 +3,7 @@
  * Sets global vars pcf and cf
  */
 
-require('../bin/gt');
+require('../binaries/gt');
 
 /**
  * Globalize convenient functions

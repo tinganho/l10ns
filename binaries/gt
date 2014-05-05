@@ -14,7 +14,7 @@ var program = require('commander')
   , gtPath = findup('gt.json')
   , root = path.dirname(gtPath)
   , cf = require(gtPath)
-  , pcf = require('../conf/programConfigs')
+  , pcf = require('../configurations/programConfigs')
   , log = require('../libraries/_log');
 
 /**

@@ -24,7 +24,7 @@ else if(!/development|staging|production/.test(process.env.NODE_ENV)) {
  */
 
 if(typeof fromBin === 'undefined') {
-  require('../bin/gt');
+  require('../binaries/gt');
 }
 
 /**
