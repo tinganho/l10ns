@@ -11,7 +11,7 @@ module.exports = function() {
   describe('javascript compiler', function() {
     it('should get the right translations', function() {
       var fileStub = {};
-      var Compiler = proxyquire('../plugins/javascript/compiler', { '../../lib/file' : fileStub});
+      var Compiler = proxyquire('../plugins/javascript/compiler', { '../../libraries/file' : fileStub});
       fileStub.readTranslations = sinon.stub().returns(fixtures.basicTranslation);
       var compiler = new Compiler();
       var translations = compiler._getTranslations('en-US');

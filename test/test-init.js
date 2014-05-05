@@ -3,7 +3,7 @@
  * Module dependencies
  */
 
-var Init = require('../lib/init').Init
+var Init = require('../libraries/init').Init
   , Q = require('q')
   , _ = require('underscore');
 
@@ -224,7 +224,7 @@ module.exports = function() {
       it('should create a readline interface', function() {
         var readlineStub = { createInterface : sinon.spy() };
         var arg = { input: process.stdin, output: process.stdout, terminal : false };
-        var Init = proxyquire('../lib/init', { readline : readlineStub }).Init;
+        var Init = proxyquire('../libraries/init', { readline : readlineStub }).Init;
         var init = new Init;
         init._createReadlineInterface();
         // Twice because we are exporting an instance too
@@ -257,7 +257,7 @@ module.exports = function() {
         var question = 'Please add at least one locale to your project';
         var deferredStub = { resolve : sinon.spy() };
         var qStub = { defer : sinon.stub().returns(deferredStub) };
-        var Init = proxyquire('../lib/init', { q : qStub }).Init
+        var Init = proxyquire('../libraries/init', { q : qStub }).Init
         var init = new Init;
         init.rl = { question : sinon.stub().callsArgWith(1, 'en-US:English (US)') };
         init._getLocales();
@@ -268,7 +268,7 @@ module.exports = function() {
         var question = 'Please add at least one locale to your project';
         var deferredStub = { resolve : sinon.spy() };
         var qStub = { defer : sinon.stub().returns(deferredStub) };
-        var Init = proxyquire('../lib/init', { q : qStub }).Init
+        var Init = proxyquire('../libraries/init', { q : qStub }).Init
         var init = new Init;
         init.rl = { question : sinon.stub().callsArgWith(1, 'en-US:English (US),zh-CN:Chinese') };
         init._getLocales();
@@ -279,7 +279,7 @@ module.exports = function() {
         var question = 'Please add at least one locale to your project';
         var deferredStub = { resolve : sinon.spy() };
         var qStub = { defer : sinon.stub().returns(deferredStub) };
-        var Init = proxyquire('../lib/init', { q : qStub }).Init
+        var Init = proxyquire('../libraries/init', { q : qStub }).Init
         var init = new Init;
         init.rl = { question : sinon.stub().callsArgWith(1, '') };
         init._getLocales();
@@ -291,7 +291,7 @@ module.exports = function() {
       it('should ask the question again if user provides wrong syntax', function(done) {
         var deferredStub = { resolve : sinon.spy() };
         var qStub = { defer : sinon.stub().returns(deferredStub) };
-        var Init = proxyquire('../lib/init', { q : qStub }).Init
+        var Init = proxyquire('../libraries/init', { q : qStub }).Init
         var init = new Init;
         var n = 0;
         init.rl = { question : function(question, callback) {
@@ -310,7 +310,7 @@ module.exports = function() {
       it('should set the default locale to the provided locales if the locales is only one locale', function() {
         var deferredStub = { resolve : sinon.spy() };
         var qStub = { defer : sinon.stub().returns(deferredStub) };
-        var Init = proxyquire('../lib/init', { q : qStub }).Init;
+        var Init = proxyquire('../libraries/init', { q : qStub }).Init;
         var init = new Init;
         init._getDefaultLocale({ 'en-US' : 'English (US)' });
         deferredStub.resolve.should.have.been.calledWith('en-US');
@@ -319,7 +319,7 @@ module.exports = function() {
       it('should ask to choose locale if two locales have been set to the project', function() {
         var deferredStub = { resolve : sinon.spy() };
         var qStub = { defer : sinon.stub().returns(deferredStub) };
-        var Init = proxyquire('../lib/init', { q : qStub }).Init;
+        var Init = proxyquire('../libraries/init', { q : qStub }).Init;
         var init = new Init;
         init.rl = { question : sinon.spy() };
         init._getDefaultLocale({ 'en-US' : 'English (US)', 'zh-CN' : 'Chinese' });
@@ -329,7 +329,7 @@ module.exports = function() {
       it('should map the user selected option to the correct locale', function() {
         var deferredStub = { resolve : sinon.spy() };
         var qStub = { defer : sinon.stub().returns(deferredStub) };
-        var Init = proxyquire('../lib/init', { q : qStub }).Init;
+        var Init = proxyquire('../libraries/init', { q : qStub }).Init;
         var init = new Init;
         init.rl = { question : sinon.stub().callsArgWith(1, '1') };
         init._getDefaultLocale({ 'en-US' : 'English (US)', 'zh-CN' : 'Chinese' });
@@ -339,7 +339,7 @@ module.exports = function() {
       it('should ask the user again if wrong option is provided', function(done) {
         var deferredStub = { resolve : sinon.spy() };
         var qStub = { defer : sinon.stub().returns(deferredStub) };
-        var Init = proxyquire('../lib/init', { q : qStub }).Init;
+        var Init = proxyquire('../libraries/init', { q : qStub }).Init;
         var init = new Init;
         var n = 0;
         init.rl = { question : function(question, callback) {
@@ -365,7 +365,7 @@ module.exports = function() {
       it('should map the user chosen option with the available programming languages', function() {
         var deferredStub = { resolve : sinon.spy() };
         var qStub = { defer : sinon.stub().returns(deferredStub) };
-        var Init = proxyquire('../lib/init', { q : qStub }).Init;
+        var Init = proxyquire('../libraries/init', { q : qStub }).Init;
         var init = new Init;
         init.rl = { question : sinon.stub().callsArgWith(1, 1) };
         init._getDefaultProgrammingLanguage();
@@ -395,7 +395,7 @@ module.exports = function() {
         var deferredStub = { resolve : sinon.spy() };
         var qStub = { defer : sinon.stub().returns(deferredStub) };
         var fsStub = { existsSync : sinon.stub().returns(false) };
-        var Init = proxyquire('../lib/init', { fs : fsStub, q : qStub }).Init;
+        var Init = proxyquire('../libraries/init', { fs : fsStub, q : qStub }).Init;
         var init = new Init;
         init.rl = { question : sinon.stub().callsArgWith(1, '') };
         init._setDefaultOutput();
@@ -406,7 +406,7 @@ module.exports = function() {
         var deferredStub = { resolve : sinon.spy() };
         var qStub = { defer : sinon.stub().returns(deferredStub) };
         var fsStub = { existsSync : sinon.stub().returns(true) };
-        var Init = proxyquire('../lib/init', { fs : fsStub, q : qStub }).Init;
+        var Init = proxyquire('../libraries/init', { fs : fsStub, q : qStub }).Init;
         var init = new Init;
         init.rl = { question : sinon.stub().callsArgWith(1, '') };
         init._setDefaultOutput();
@@ -429,7 +429,7 @@ module.exports = function() {
         existsSyncStub.onCall(0).returns(false);
         existsSyncStub.onCall(1).returns(true);
         var fsStub = { existsSync : existsSyncStub, writeFile : sinon.spy() };
-        var Init = proxyquire('../lib/init', { fs : fsStub }).Init;
+        var Init = proxyquire('../libraries/init', { fs : fsStub }).Init;
         var init = new Init;
         init.json = JSON.stringify({});
         init._writeProject();
@@ -441,7 +441,7 @@ module.exports = function() {
         existsSyncStub.onCall(0).returns(true);
         existsSyncStub.onCall(1).returns(false);
         var fsStub = { existsSync : existsSyncStub, mkdir : sinon.spy() };
-        var Init = proxyquire('../lib/init', { fs : fsStub }).Init;
+        var Init = proxyquire('../libraries/init', { fs : fsStub }).Init;
         var init = new Init;
         init._writeProject();
         fsStub.mkdir.should.have.been.calledOnce;

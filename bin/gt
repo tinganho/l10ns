@@ -15,7 +15,7 @@ var program = require('commander')
   , root = path.dirname(gtPath)
   , cf = require(gtPath)
   , pcf = require('../conf/programConfigs')
-  , log = require('../lib/_log');
+  , log = require('../libraries/_log');
 
 /**
  * Add terminal colors
@@ -100,7 +100,7 @@ if(typeof cf.locales === 'locales') {
   process.exit();
 }
 
-var gt = require('../lib');
+var gt = require('../libraries');
 
 program
   .version(pjson.version)

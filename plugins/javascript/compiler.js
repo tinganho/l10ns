@@ -7,8 +7,8 @@ var fs = require('fs')
   , path = require('path')
   , syntax = require('./syntax')
   , tmpl = require('./templates/build/tmpl')
-  , file = require('../../lib/file')
-  , log = require('../../lib/_log');
+  , file = require('../../libraries/file')
+  , log = require('../../libraries/_log');
 
 /**
  * Add terminal colors

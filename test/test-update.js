@@ -1,7 +1,7 @@
 
 var jsonFixtures = require('./fixtures/json')
   , fixtures = require('./fixtures/update')
-  , Update = require('../lib/update').Update;
+  , Update = require('../libraries/update').Update;
 
 module.exports = function() {
   describe('update', function() {
@@ -19,7 +19,7 @@ module.exports = function() {
           return 'gt(\'test\');';
         }
       };
-      var Update = proxyquire('../lib/update', { fs : fsStub }).Update
+      var Update = proxyquire('../libraries/update', { fs : fsStub }).Update
       var update = new Update();
       update.src = ['test/test.js'];
       var translation = update._getSourceKeys();
@@ -36,7 +36,7 @@ module.exports = function() {
           localesFolder : cf.localesFolder,
           readTranslations : sinon.stub().returns(jsonFixtures.oldBasicTranslation)
         };
-        var File = proxyquire('../lib/update', { file : fileStub }).Update
+        var File = proxyquire('../libraries/update', { file : fileStub }).Update
         var update = new Update();
         update.locales = {'en-US' : 'English'};
         update._mergeUserInputs = function(_newTranslations, oldTranslations, callback) {
@@ -164,7 +164,7 @@ module.exports = function() {
     describe('#_getUserInputKey', function() {
       it('should be able to handle one to many options', function() {
         var readlineStub = {};
-        var Update = proxyquire('../lib/update', { readline : readlineStub }).Update;
+        var Update = proxyquire('../libraries/update', { readline : readlineStub }).Update;
         readlineStub.createInterface = sinon.stub().returns({
           question : sinon.stub().callsArgWith(1, '1'),
           on : sinon.spy()
@@ -184,7 +184,7 @@ module.exports = function() {
 
       it('should have one delete option', function() {
         var readlineStub = {};
-        var Update = proxyquire('../lib/update', { readline : readlineStub }).Update;
+        var Update = proxyquire('../libraries/update', { readline : readlineStub }).Update;
         readlineStub.createInterface = sinon.stub().returns({
           question : sinon.stub().callsArgWith(1, 'd'),
           on : sinon.spy()

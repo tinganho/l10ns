@@ -9,7 +9,7 @@ var path = require('path');
  * Import Parser constructor
  */
 
-var Parser = require('../lib/parser').Parser;
+var Parser = require('../libraries/parser').Parser;
 
 module.exports = function() {
   describe('Parser', function() {

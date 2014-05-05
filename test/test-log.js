@@ -4,7 +4,7 @@
  */
 
 var fixtures = require('./fixtures/json')
-  , Log = require('../lib/log').Log;
+  , Log = require('../libraries/log').Log;
 
 module.exports = function() {
   describe('Log', function() {
@@ -19,7 +19,7 @@ module.exports = function() {
 
       it('should set the default locale if no locale is added', function() {
         var fileStub = { readTranslations : sinon.spy() };
-        var Log = proxyquire('../lib/log', { './file' : fileStub }).Log;
+        var Log = proxyquire('../libraries/log', { './file' : fileStub }).Log;
         var log = new Log;
         log.defaultLocale = 'en-US';
         log._getLatestUpdates();
@@ -28,7 +28,7 @@ module.exports = function() {
 
       it('should set the default locale if no locale is added', function() {
         var fileStub = { readTranslations : sinon.stub().returns(fixtures.readTranslationJSON['en-US']) };
-        var Log = proxyquire('../lib/log', { './file' : fileStub }).Log;
+        var Log = proxyquire('../libraries/log', { './file' : fileStub }).Log;
         var log = new Log;
         var translations = log._getLatestUpdates('en-US');
         expect(translations).to.eql(fixtures.readTranslationJSON['en-US']);
@@ -38,7 +38,7 @@ module.exports = function() {
     describe('#outputLog', function() {
       it('should use the default locale whenever a locale parameter is not provided', function() {
         var logStub = { log : sinon.spy() };
-        var Log = proxyquire('../lib/log', { './_log' : logStub }).Log;
+        var Log = proxyquire('../libraries/log', { './_log' : logStub }).Log;
         var log = new Log;
         log.defaultLocale = 'en-US';
         log._getLatestUpdates = sinon.stub().returns([]);
@@ -49,7 +49,7 @@ module.exports = function() {
       it('should output no translation whenever there is no translations', function() {
         var arg = 'No translations';
         var logStub = { log : sinon.spy() };
-        var Log = proxyquire('../lib/log', { './_log' : logStub }).Log;
+        var Log = proxyquire('../libraries/log', { './_log' : logStub }).Log;
         var log = new Log;
         log._getLatestUpdates = sinon.stub().returns([]);
         log.defaultLocale = 'en-US';
@@ -59,7 +59,7 @@ module.exports = function() {
 
       it('should output translation log whenever there is translations', function() {
         var logStub = { log : sinon.spy() };
-        var Log = proxyquire('../lib/log', { './_log' : logStub }).Log;
+        var Log = proxyquire('../libraries/log', { './_log' : logStub }).Log;
         var log = new Log;
         log._getLatestUpdates = sinon.stub().returns(fixtures.readTranslationArray['en-US']);
         log.defaultLocale = 'en-US';
@@ -69,7 +69,7 @@ module.exports = function() {
 
       it('should output translation log of maxium length equal to ' + cf.LOG_LENGTH, function() {
         var logStub = { log : sinon.spy() };
-        var Log = proxyquire('../lib/log', { './_log' : logStub }).Log;
+        var Log = proxyquire('../libraries/log', { './_log' : logStub }).Log;
         var log = new Log;
         log._getLatestUpdates = sinon.stub().returns(fixtures.readTranslationArray_long['en-US']);
         log.defaultLocale = 'en-US';

@@ -3,7 +3,7 @@
  * Module dependencies
  */
 
-var Edit = require('../lib/edit').Edit
+var Edit = require('../libraries/edit').Edit
   , Q = require('q');
 
 module.exports = function() {
@@ -23,7 +23,7 @@ module.exports = function() {
     describe('#edit', function() {
       it('should show an error if first parameter is not of type string', function() {
         var logStub = { error : sinon.spy() };
-        var Edit = proxyquire('../lib/edit', { './_log' : logStub }).Edit;
+        var Edit = proxyquire('../libraries/edit', { './_log' : logStub }).Edit;
         var edit = new Edit;
         edit.edit(1);
         logStub.error.should.have.been.calledOnce;
@@ -32,7 +32,7 @@ module.exports = function() {
 
       it('should show an error if second parameter is not of type string', function() {
         var logStub = { error : sinon.spy() };
-        var Edit = proxyquire('../lib/edit', { './_log' : logStub }).Edit;
+        var Edit = proxyquire('../libraries/edit', { './_log' : logStub }).Edit;
         var edit = new Edit;
         edit.edit('test', 1);
         logStub.error.should.have.been.calledOnce;
@@ -41,7 +41,7 @@ module.exports = function() {
 
       it('should show an error if third parameter locale is not in global config', function() {
         var logStub = { error : sinon.spy() };
-        var Edit = proxyquire('../lib/edit', { './_log' : logStub }).Edit;
+        var Edit = proxyquire('../libraries/edit', { './_log' : logStub }).Edit;
         var edit = new Edit;
         edit.locales = { 'en-US' : 'English' };
         edit.edit('test', 'wef', 'zh-CN');
@@ -52,7 +52,7 @@ module.exports = function() {
       it('should write the translaton on edit', function(done) {
         var logStub = { success : sinon.spy() };
         var fileStub = { writeTranslations : sinon.stub().callsArg(1) };
-        var Edit = proxyquire('../lib/edit', {  './file' : fileStub, './_log' : logStub }).Edit;
+        var Edit = proxyquire('../libraries/edit', {  './file' : fileStub, './_log' : logStub }).Edit;
         var edit = new Edit;
         edit._getKey = sinon.stub().returns(Q.resolve('tewefwst'));
         edit._replace = sinon.stub().returns({});
@@ -67,7 +67,7 @@ module.exports = function() {
       it('should show succes text', function(done) {
         var logStub = { success : sinon.spy() };
         var fileStub = { writeTranslations : sinon.stub().callsArg(1) };
-        var Edit = proxyquire('../lib/edit', {  './file' : fileStub, './_log' : logStub }).Edit;
+        var Edit = proxyquire('../libraries/edit', {  './file' : fileStub, './_log' : logStub }).Edit;
         var edit = new Edit;
         edit._getKey = sinon.stub().returns(Q.resolve('tewefwst'));
         edit._replace = sinon.stub().returns({});
@@ -81,7 +81,7 @@ module.exports = function() {
 
       it('should show error if get key fails', function(done) {
         var logStub = { error : sinon.spy() };
-        var Edit = proxyquire('../lib/edit', { './_log' : logStub }).Edit;
+        var Edit = proxyquire('../libraries/edit', { './_log' : logStub }).Edit;
         var edit = new Edit;
         var err = new TypeError;
         edit._getKey = sinon.stub().returns(Q.reject(err));
@@ -139,7 +139,7 @@ module.exports = function() {
         var fileStub = { readSearchTranslations : sinon.stub().returns(Q.resolve([{
           ref : 'test'
         }]))};
-        var Edit = proxyquire('../lib/edit', { './file' : fileStub }).Edit;
+        var Edit = proxyquire('../libraries/edit', { './file' : fileStub }).Edit;
         var edit = new Edit;
         edit._getKeyFromLatestSearch('1').should.eventually.equal('test').notify(done);
       });
@@ -148,7 +148,7 @@ module.exports = function() {
         var fileStub = { readSearchTranslations : sinon.stub().returns(Q.resolve([{
           ref : 'test'
         }]))};
-        var Edit = proxyquire('../lib/edit', { './file' : fileStub }).Edit;
+        var Edit = proxyquire('../libraries/edit', { './file' : fileStub }).Edit;
         var edit = new Edit;
         edit._getKeyFromLatestSearch(1).should.eventually.equal('test').notify(done);
       });
@@ -157,7 +157,7 @@ module.exports = function() {
         var fileStub = { readSearchTranslations : sinon.stub().returns(Q.resolve([{
           ref : 'test'
         }]))};
-        var Edit = proxyquire('../lib/edit', { './file' : fileStub }).Edit;
+        var Edit = proxyquire('../libraries/edit', { './file' : fileStub }).Edit;
         var edit = new Edit;
         edit._getKeyFromLatestSearch(0).should.be.rejectedWith(TypeError, /ref is out of index/).notify(done);
       });
@@ -166,7 +166,7 @@ module.exports = function() {
         var fileStub = { readSearchTranslations : sinon.stub().returns(Q.resolve([{
           ref : 'test'
         }]))};
-        var Edit = proxyquire('../lib/edit', { './file' : fileStub }).Edit;
+        var Edit = proxyquire('../libraries/edit', { './file' : fileStub }).Edit;
         var edit = new Edit;
         edit._getKeyFromLatestSearch(2).should.be.rejectedWith(TypeError, /ref is out of index/).notify(done);
       });
@@ -175,28 +175,28 @@ module.exports = function() {
     describe('#_getKeyFromLatestTranslations', function() {
       it('should reject if ref is smaller than 1', function(done) {
         var fileStub = { readTranslations : sinon.stub().returns([]) };
-        var Edit = proxyquire('../lib/edit', { './file' : fileStub }).Edit;
+        var Edit = proxyquire('../libraries/edit', { './file' : fileStub }).Edit;
         var edit = new Edit;
         edit._getKeyFromLatestTranslations(0).should.be.rejectedWith(TypeError, /ref is out of index/).notify(done);
       });
 
       it('should reject if ref is out of index in translations', function(done) {
         var fileStub = { readTranslations : sinon.stub().returns([{}, {}]) };
-        var Edit = proxyquire('../lib/edit', { './file' : fileStub }).Edit;
+        var Edit = proxyquire('../libraries/edit', { './file' : fileStub }).Edit;
         var edit = new Edit;
         edit._getKeyFromLatestTranslations(-3).should.be.rejectedWith(TypeError, /ref is out of index/).notify(done);
       });
 
       it('should reject if ref is out of index in translations', function(done) {
         var fileStub = { readTranslations : sinon.stub().returns([{}, {}]) };
-        var Edit = proxyquire('../lib/edit', { './file' : fileStub }).Edit;
+        var Edit = proxyquire('../libraries/edit', { './file' : fileStub }).Edit;
         var edit = new Edit;
         edit._getKeyFromLatestTranslations(-3).should.be.rejectedWith(TypeError, /ref is out of index/).notify(done);
       });
 
       it('should return key', function(done) {
         var fileStub = { readTranslations : sinon.stub().returns({ 'en-US' : [{ key : 'test' }] }) };
-        var Edit = proxyquire('../lib/edit', { './file' : fileStub }).Edit;
+        var Edit = proxyquire('../libraries/edit', { './file' : fileStub }).Edit;
         var edit = new Edit;
         edit._getKeyFromLatestTranslations(1).should.become('test').notify(done);
       });
@@ -205,7 +205,7 @@ module.exports = function() {
     describe('#_replace', function() {
       it('should set the default locale if no locale is specified', function() {
         var fileStub = { readTranslations : sinon.stub().returns({ 'en-US' : { 'test' : { value : [], text : '' }}}) };
-        var Edit = proxyquire('../lib/edit', { './file' : fileStub }).Edit;
+        var Edit = proxyquire('../libraries/edit', { './file' : fileStub }).Edit;
         var edit = new Edit;
         var res = edit._replace('test', 'test');
         expect(res[cf.defaultLocale]['test'].value).to.equal('test');
@@ -215,7 +215,7 @@ module.exports = function() {
       it('should show an error if locale is not translations', function() {
         var logStub = { error : sinon.spy() };
         var fileStub = { readTranslations : sinon.stub().returns({ 'en-US' : { 'test' : { value : [], text : '' }}}) };
-        var Edit = proxyquire('../lib/edit', { './file' : fileStub, './_log' : logStub }).Edit;
+        var Edit = proxyquire('../libraries/edit', { './file' : fileStub, './_log' : logStub }).Edit;
         var edit = new Edit;
         var res = edit._replace('test', 'test', 'zh-CN');
         logStub.error.should.have.been.calledWithMatch('is not in current translations');
@@ -224,7 +224,7 @@ module.exports = function() {
       it('should show an error if key is not translations', function() {
         var logStub = { error : sinon.spy() };
         var fileStub = { readTranslations : sinon.stub().returns({ 'en-US' : { 'test' : { value : [], text : '' }}}) };
-        var Edit = proxyquire('../lib/edit', { './file' : fileStub, './_log' : logStub }).Edit;
+        var Edit = proxyquire('../libraries/edit', { './file' : fileStub, './_log' : logStub }).Edit;
         var edit = new Edit;
         var res = edit._replace('test2', 'test', 'en-US');
         logStub.error.should.have.been.calledWithMatch('is not in current translations');
@@ -232,7 +232,7 @@ module.exports = function() {
 
       it('should edit value and text', function() {
         var fileStub = { readTranslations : sinon.stub().returns({ 'en-US' : { 'test' : { value : [], text : '' }}}) };
-        var Edit = proxyquire('../lib/edit', { './file' : fileStub }).Edit;
+        var Edit = proxyquire('../libraries/edit', { './file' : fileStub }).Edit;
         var edit = new Edit;
         var res = edit._replace('test', 'test');
         expect(res[cf.defaultLocale]['test'].value).to.equal('test');

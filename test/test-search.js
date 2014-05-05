@@ -9,7 +9,7 @@ var path = require('path');
  * Import Parser constructor
  */
 
-var Search = _Search = require('../lib/search').Search;
+var Search = _Search = require('../libraries/search').Search;
 
 module.exports = function() {
   describe('Search', function() {
@@ -54,7 +54,7 @@ module.exports = function() {
 
       it('should call the EventEmitter constructor', function() {
         var eventsStub = { EventEmitter : sinon.spy() };
-        var _Search = proxyquire('../lib/search', { events : eventsStub }).Search
+        var _Search = proxyquire('../libraries/search', { events : eventsStub }).Search
         _Search.prototype._createIndex = sinon.spy();
         var search = new _Search;
         eventsStub.EventEmitter.should.have.been.calledOnce;
@@ -86,7 +86,7 @@ module.exports = function() {
     describe('#readTranslations', function() {
       it('should get translations from File#readTranslations', function() {
         var fileStub = { readTranslations : sinon.stub().returns({ 'en-US' : {} }) };
-        var Search = proxyquire('../lib/search', { './file' : fileStub }).Search;
+        var Search = proxyquire('../libraries/search', { './file' : fileStub }).Search;
         var search = new Search;
         search.defaultLocale = 'en-US';
         search.readTranslations();
@@ -104,7 +104,7 @@ module.exports = function() {
               }
             })
         };
-        var Search = proxyquire('../lib/search', { './file' : fileStub }).Search;
+        var Search = proxyquire('../libraries/search', { './file' : fileStub }).Search;
         var search = new Search;
         search.index.add = sinon.spy();
         search.readTranslations();
@@ -127,7 +127,7 @@ module.exports = function() {
               }
             })
         };
-        var Search = proxyquire('../lib/search', { './file' : fileStub }).Search;
+        var Search = proxyquire('../libraries/search', { './file' : fileStub }).Search;
         var search = new Search;
         search.emit = sinon.spy();
         search.readTranslations();
@@ -140,7 +140,7 @@ module.exports = function() {
       it('should output `No results found` when nu results are found in search', function() {
         var logStub = { log : sinon.spy() };
         var fsStub = { writeFile : sinon.spy() };
-        var Search = proxyquire('../lib/search', { fs : fsStub, './_log' : logStub }).Search;
+        var Search = proxyquire('../libraries/search', { fs : fsStub, './_log' : logStub }).Search;
         var search = new Search;
         search.index.add({ id : 'test-id', text : 'test-text', key : 'test-key' });
         var res = search.query('nottest');
@@ -150,7 +150,7 @@ module.exports = function() {
       it('should slice the search result if the search result is over this.logLength', function() {
         var logStub = { log : sinon.spy() };
         var fsStub = { writeFile : sinon.spy() };
-        var Search = proxyquire('../lib/search', { fs : fsStub, './_log' : logStub }).Search;
+        var Search = proxyquire('../libraries/search', { fs : fsStub, './_log' : logStub }).Search;
         var search = new Search;
         search.logLength = 1;
         search.docs = { 'test-ref1' : { key : 'test-key' }};
@@ -170,7 +170,7 @@ module.exports = function() {
       + ' and double digit don\'t have any space before tag', function() {
         var logStub = { log : sinon.spy() };
         var fsStub = { writeFile : sinon.spy() };
-        var Search = proxyquire('../lib/search', {
+        var Search = proxyquire('../libraries/search', {
           fs : fsStub,
           './_log' : logStub
         }).Search;
@@ -243,7 +243,7 @@ module.exports = function() {
       it('should get the search result by mapping the .ref with this.docs', function() {
         var logStub = { log : sinon.spy() };
         var fsStub = { writeFile : sinon.spy() };
-        var Search = proxyquire('../lib/search', {
+        var Search = proxyquire('../libraries/search', {
           fs : fsStub,
           './_log' : logStub
         }).Search;
@@ -268,7 +268,7 @@ module.exports = function() {
       it('should write a cache of latest search', function() {
         var logStub = { log : sinon.spy() };
         var fsStub = { writeFile : sinon.spy() };
-        var Search = proxyquire('../lib/search', {
+        var Search = proxyquire('../libraries/search', {
           fs : fsStub,
           './_log' : logStub
         }).Search;
@@ -293,7 +293,7 @@ module.exports = function() {
       it('should emit `queryend` event when query has ended', function() {
         var logStub = { log : sinon.spy() };
         var fsStub = { writeFile : function(path, content, callback) { callback(); } };
-        var Search = proxyquire('../lib/search', {
+        var Search = proxyquire('../libraries/search', {
           fs : fsStub,
           './_log' : logStub
         }).Search;

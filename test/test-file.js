@@ -5,7 +5,7 @@
 
 var jsonFixtures = require('./fixtures/json')
   , fixtures = require('./fixtures/update')
-  , File = require('../lib/file').File;
+  , File = require('../libraries/file').File;
 
 module.exports = function() {
   describe('File', function() {
@@ -38,7 +38,7 @@ module.exports = function() {
         var pathStub = {
           join : sinon.stub().returns('en-US.locale')
         };
-        var File = proxyquire('../lib/file', { glob : globStub, fs : fsStub, path : pathStub }).File
+        var File = proxyquire('../libraries/file', { glob : globStub, fs : fsStub, path : pathStub }).File
         var file = new File();
         file._getHashMapTranslations = sinon.spy();
         file._getArrayTranslations = sinon.spy();
@@ -59,7 +59,7 @@ module.exports = function() {
         var pathStub = {
           join : sinon.stub().returns('en-US.locale')
         };
-        var File = proxyquire('../lib/file', { glob : globStub, fs : fsStub, path : pathStub }).File
+        var File = proxyquire('../libraries/file', { glob : globStub, fs : fsStub, path : pathStub }).File
         var file = new File();
         file.localesFolder = cf.localesFolder;
         file.locales = locales;
@@ -79,7 +79,7 @@ module.exports = function() {
         var pathStub = {
           join : sinon.stub().returns('en-US.locale')
         };
-        var File = proxyquire('../lib/file', { glob : globStub, fs : fsStub, path : pathStub }).File
+        var File = proxyquire('../libraries/file', { glob : globStub, fs : fsStub, path : pathStub }).File
         var file = new File();
         file.localesFolder = cf.localesFolder;
         file.locales = locales;
@@ -98,7 +98,7 @@ module.exports = function() {
         var pathStub = {
           join : sinon.stub().returns('en-US.locale')
         };
-        var File = proxyquire('../lib/file', { glob : globStub, fs : fsStub, path : pathStub }).File
+        var File = proxyquire('../libraries/file', { glob : globStub, fs : fsStub, path : pathStub }).File
         var file = new File();
         file.localesFolder = cf.localesFolder;
         file.locales = locales;
@@ -117,7 +117,7 @@ module.exports = function() {
         var pathStub = {
           join : sinon.stub().returns('en-US.locale')
         };
-        var File = proxyquire('../lib/file', { glob : globStub, fs : fsStub, path : pathStub }).File
+        var File = proxyquire('../libraries/file', { glob : globStub, fs : fsStub, path : pathStub }).File
         var file = new File();
         file.localesFolder = cf.localesFolder;
         file.locales = locales;
@@ -132,7 +132,7 @@ module.exports = function() {
           existsSync : sinon.stub().withArgs(localesFolder).returns(true),
           mkdirSync : sinon.spy()
         };
-        var File = proxyquire('../lib/file', { fs : fsStub }).File;
+        var File = proxyquire('../libraries/file', { fs : fsStub }).File;
         var file = new File();
         file.locales = {};
         file.localesFolder = localesFolder;
@@ -157,7 +157,7 @@ module.exports = function() {
           existsSync : sinon.stub().withArgs(localesFolder).returns(false),
           mkdirSync : sinon.spy()
         };
-        var File = proxyquire('../lib/file', { fs : fsStub }).File;
+        var File = proxyquire('../libraries/file', { fs : fsStub }).File;
         var file = new File();
         file.locales = {};
         file.localesFolder = localesFolder;
@@ -175,7 +175,7 @@ module.exports = function() {
         var fsStub = {
           existsSync : stub
         };
-        var File = proxyquire('../lib/file', { fs : fsStub }).File;
+        var File = proxyquire('../libraries/file', { fs : fsStub }).File;
         var file = new File();
         file.locales =  { 'en-US' : 'English' };
         file.localesFolder = localesFolder;
@@ -192,7 +192,7 @@ module.exports = function() {
         var fsStub = {
           existsSync : stub
         };
-        var File = proxyquire('../lib/file', { fs : fsStub }).File;
+        var File = proxyquire('../libraries/file', { fs : fsStub }).File;
         var file = new File();
         file.locales =  { 'en-US' : 'English' };
         file.localesFolder = localesFolder;
@@ -210,7 +210,7 @@ module.exports = function() {
           existsSync : existsSyncStub,
           appendFileSync : sinon.spy()
         };
-        var File = proxyquire('../lib/file', { fs : fsStub }).File;
+        var File = proxyquire('../libraries/file', { fs : fsStub }).File;
         var file = new File();
         file.locales =  { 'en-US' : 'English' };
         file.localesFolder = localesFolder;
@@ -229,7 +229,7 @@ module.exports = function() {
           existsSync : sinon.stub().withArgs(localesFolder).returns(false),
           mkdirSync : sinon.spy()
         };
-        var File = proxyquire('../lib/file', { fs : fsStub }).File;
+        var File = proxyquire('../libraries/file', { fs : fsStub }).File;
         var file = new File();
         file.locales = {};
         file.localesFolder = localesFolder;
@@ -245,7 +245,7 @@ module.exports = function() {
           mkdirSync : sinon.spy(),
           unlinkSync : function() {}
         };
-        var File = proxyquire('../lib/file', { fs : fsStub }).File;
+        var File = proxyquire('../libraries/file', { fs : fsStub }).File;
         var file = new File();
         file.locales = {};
         file.localesFolder = localesFolder;
@@ -262,7 +262,7 @@ module.exports = function() {
         var fsStub = {
           existsSync : stub
         };
-        var File = proxyquire('../lib/file', { fs : fsStub }).File;
+        var File = proxyquire('../libraries/file', { fs : fsStub }).File;
         var file = new File();
         file.locales =  { 'en-US' : 'English' };
         file.localesFolder = localesFolder;
@@ -279,7 +279,7 @@ module.exports = function() {
         var fsStub = {
           existsSync : stub
         };
-        var File = proxyquire('../lib/file', { fs : fsStub }).File;
+        var File = proxyquire('../libraries/file', { fs : fsStub }).File;
         var file = new File();
         file.locales =  { 'en-US' : 'English' };
         file.localesFolder = localesFolder;
@@ -297,7 +297,7 @@ module.exports = function() {
           existsSync : existsSyncStub,
           appendFileSync : sinon.spy()
         };
-        var File = proxyquire('../lib/file', { fs : fsStub }).File;
+        var File = proxyquire('../libraries/file', { fs : fsStub }).File;
         var file = new File();
         file.locales =  { 'en-US' : 'English' };
         file.localesFolder = localesFolder;
@@ -313,7 +313,7 @@ module.exports = function() {
         var deferStub = { promise : null, resolve : sinon.spy(), reject : sinon.spy() };
         var qStub = { defer : sinon.stub().returns(deferStub) };
         var fsStub = { readFile : sinon.stub().callsArg(2) };
-        var File = proxyquire('../lib/file', { q : qStub, fs : fsStub }).File;
+        var File = proxyquire('../libraries/file', { q : qStub, fs : fsStub }).File;
         var file = new File;
         file.readSearchTranslations();
         expect(fsStub.readFile.args[0][0]).to.contain('cache/latestSearch.json');
@@ -323,7 +323,7 @@ module.exports = function() {
         var deferStub = { promise : null, resolve : sinon.spy(), reject : sinon.spy() };
         var qStub = { defer : sinon.stub().returns(deferStub) };
         var fsStub = { readFile : sinon.stub().callsArg(2) };
-        var File = proxyquire('../lib/file', { q : qStub, fs : fsStub }).File;
+        var File = proxyquire('../libraries/file', { q : qStub, fs : fsStub }).File;
         var file = new File;
         file.readSearchTranslations();
         expect(fsStub.readFile.args[0][1]).to.eql({ encoding : 'utf-8' });
@@ -334,7 +334,7 @@ module.exports = function() {
         var qStub = { defer : sinon.stub().returns(deferStub) };
         var err = new TypeError;
         var fsStub = { readFile : sinon.stub().callsArgWith(2, err) };
-        var File = proxyquire('../lib/file', { q : qStub, fs : fsStub }).File;
+        var File = proxyquire('../libraries/file', { q : qStub, fs : fsStub }).File;
         var file = new File;
         file.readSearchTranslations();
         deferStub.reject.should.have.been.calledOnce;
@@ -346,7 +346,7 @@ module.exports = function() {
         var qStub = { defer : sinon.stub().returns(deferStub) };
         var data = JSON.stringify({ 'test' : null });
         var fsStub = { readFile : sinon.stub().callsArgWith(2, null, data) };
-        var File = proxyquire('../lib/file', { q : qStub, fs : fsStub }).File;
+        var File = proxyquire('../libraries/file', { q : qStub, fs : fsStub }).File;
         var file = new File;
         file.readSearchTranslations();
         deferStub.resolve.should.have.been.calledOnce;

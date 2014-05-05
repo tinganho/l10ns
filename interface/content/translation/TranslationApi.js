@@ -1,5 +1,5 @@
 module.exports = function(app) {
-  var file = require('../../../lib/file')
+  var file = require('../../../libraries/file')
     , _ = require('underscore');
 
   app.get('/api/t/:id', function(req, res) {

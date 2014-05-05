@@ -3,7 +3,7 @@ if(typeof define !== 'function') {
   var define = require('amdefine')(module);
 }
 if(inServer) {
-  var file = require('../../../lib/file');
+  var file = require('../../../libraries/file');
 }
 
 define(function(require) {

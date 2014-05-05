@@ -4,7 +4,7 @@
  */
 
 var fixtures = require('./fixtures/json')
-  , Syntax = require('../lib/syntax').Syntax;
+  , Syntax = require('../libraries/syntax').Syntax;
 
 module.exports = function() {
   describe('Syntax', function() {

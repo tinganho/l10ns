@@ -4,7 +4,7 @@
  */
 
 var fixtures = require('./fixtures/json')
-  , Merger = require('../lib/merger').Merger;
+  , Merger = require('../libraries/merger').Merger;
 
 module.exports = function() {
   describe('Merger', function() {
