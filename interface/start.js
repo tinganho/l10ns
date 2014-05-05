@@ -102,6 +102,7 @@ GLOBAL.content_appTmpls = requirejs('./public/templates/content/app');
 /**
  * Globals.
  */
+
 GLOBAL.cf = scf;
 
 
