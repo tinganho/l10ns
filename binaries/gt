@@ -14,7 +14,7 @@ var program = require('commander')
   , gtPath = findup('gt.json')
   , root = path.dirname(gtPath)
   , cf = require(gtPath)
-  , pcf = require('../configurations/programConfigs')
+  , pcf = require('../configurations/program')
   , log = require('../libraries/_log');
 
 /**
@@ -27,7 +27,7 @@ require('terminal-colors');
  * Set default configs
  */
 
-var defaultConfigs = {
+var defaultConfigurations = {
   folder : pcf.DEFAULT_FOLDER,
   requirejs : pcf.DEFAULT_REQUIREJS,
   translationFunction : pcf.DEFAULT_TRANSLATION_FUNCTION,
@@ -36,9 +36,9 @@ var defaultConfigs = {
   autoOpen : pcf.DEFAULT_AUTO_OPEN,
   root : root
 };
-// Merge with programConfigs
-defaultConfigs = _.extend(defaultConfigs, pcf);
-cf = _.defaults(cf, defaultConfigs);
+// Merge with programm configs
+defaultConfigurations = _.extend(defaultConfigurations, pcf);
+cf = _.defaults(cf, defaultConfigurations);
 
 /**
  * Set short-cuts configs
