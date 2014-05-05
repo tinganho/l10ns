@@ -159,7 +159,7 @@ autoroute(autoroutes, app);
  * Server start.
  */
 
-require('./pages/translations')(page);
+require('./pages/index')(page);
 require('./pages/translation')(page);
 createCompositeRouter();
 

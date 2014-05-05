@@ -53,14 +53,27 @@ function Page(url) {
  * @api public
  */
 
-Page.prototype.document = function(name, props) {
+Page.prototype.hasDocument = function(name, props) {
   if(typeof this._documentTmpls[name] === 'undefined') {
     throw new TypeError('document ' + name + ' does not exist');
   }
 
   this._documentTmpl = this._documentTmpls[name];
 
-  this._documentProps = requirejs('documents/' + name + 'Props')(this._url);
+  return this;
+};
+
+/**
+ * Set document
+ *
+ * @param {String} name
+ * @param {Object} opts
+ * @return {Page}
+ * @api public
+ */
+
+Page.prototype.withProperties = function(properties) {
+  this._documentProps = properties;
 
   return this;
 };
@@ -73,7 +86,7 @@ Page.prototype.document = function(name, props) {
  * @api public
  */
 
-Page.prototype.layout = function(name) {
+Page.prototype.hasLayout = function(name) {
   if(typeof this._layoutTmpls[name] === 'undefined') {
     throw new TypeError(name + ' layout doesn\'t exists');
   }
@@ -93,9 +106,10 @@ Page.prototype.layout = function(name) {
  * @api public
  */
 
-Page.prototype.content = function(content) {
-  this.content = content;
+Page.prototype.withRegions = function(regions) {
+  this.regions = regions;
   this._serve();
+
   return this;
 };
 
@@ -107,23 +121,23 @@ Page.prototype.content = function(content) {
  * @api private
  */
 
-Page.prototype._getContent = function(callback, req) {
-  var n = 0, content = {}, _this = this, size = _.size(this.content)
+Page.prototype._getRegions = function(callback, req) {
+  var n = 0, regions = {}, _this = this, size = _.size(this.regions)
     , jsonScripts = '';
 
-  for(var name in this.content) {
-    if(!this.content[name].model) {
+  for(var name in this.regions) {
+    if(!this.regions[name].model) {
       throw new TypeError('name `' + name + '` doesn\'t have a model');
     }
-    if(!this.content[name].view) {
+    if(!this.regions[name].view) {
       throw new TypeError('name `' + name + '` doesn\'t have a view');
     }
 
-    var Model = require('../' + this.content[name].model)
-      , View = require('../' + this.content[name].view);
+    var Model = require('../' + this.regions[name].model)
+      , View = require('../' + this.regions[name].view);
 
     if(!Model.prototype.fetch) {
-      throw new TypeError(this.content[name].model + ' is not an instance of Model or Collection');
+      throw new TypeError(this.regions[name].model + ' is not an instance of Model or Collection');
     }
 
     var model = new Model
@@ -137,7 +151,7 @@ Page.prototype._getContent = function(callback, req) {
       model.fetch({
         success : function() {
           view = new View(model)
-          content[name] = view.render();
+          regions[name] = view.render();
 
           if(typeof model.page.title === 'string' && model.page.title.length > 0) {
             _this._documentProps.title = model.page.title;
@@ -148,13 +162,13 @@ Page.prototype._getContent = function(callback, req) {
 
           // Push json scripts
           jsonScripts += coreTmpls.jsonScript({
-            name : _this.content[name].model.split('/')[2].toLowerCase(),
+            name : _this.regions[name].model.split('/')[2].toLowerCase(),
             json : JSON.stringify(model.toJSON())
           });
 
           n++;
           if(n === size) {
-            callback(content, jsonScripts);
+            callback(regions, jsonScripts);
           }
         },
         error : this.fail
@@ -162,10 +176,10 @@ Page.prototype._getContent = function(callback, req) {
     }
     catch(err) {
       if(err.message === 'A "url" property or function must be specified') {
-        content[name] = view.render();
+        regions[name] = view.render();
         n++;
         if(n === size) {
-          callback(content, jsonScripts);
+          callback(regions, jsonScripts);
         }
       }
       else {
@@ -181,8 +195,8 @@ Page.prototype._getContent = function(callback, req) {
  * @callback
  */
 
-Page.prototype.fail = function(callback) {
-  this.fail = callback;
+Page.prototype.handleErrorsUsing = function(callback) {
+  this.error = callback;
 };
 
 /**
@@ -206,7 +220,7 @@ Page.prototype._serve = function() {
 Page.prototype._next = function(req, res) {
   var _this = this;
 
-  this._getContent(function(content, jsonScripts) {
+  this._getRegions(function(regions, jsonScripts) {
     var html = _this._documentTmpl({
       title : _this._documentProps.title,
       description : _this._documentProps.description,
@@ -215,7 +229,7 @@ Page.prototype._next = function(req, res) {
       styles : _this._documentProps.styles,
       main : _this._documentProps.main,
       jsonScripts : jsonScripts,
-      layout : _this._layoutTmpl(content),
+      layout : _this._layoutTmpl(regions),
       modernizr : cf.MODERNIZR,
       requirejs : cf.REQUIREJS,
       cf : cf.CLIENT_CONF_BUILD + '/cf.js'
@@ -245,9 +259,9 @@ Page.prototype._getConstructorName = function(path) {
  */
 
 Page.prototype._addContent = function() {
-  for(var i in this.content) {
-    var content = this.content[i];
-    var name = this._getConstructorName(content.model);
+  for(var i in this.regions) {
+    var region = this.regions[i];
+    var name = this._getConstructorName(region.model);
 
     // If content have been stored continue the loop
     if(importNames.indexOf(name) !== -1) {
@@ -257,11 +271,11 @@ Page.prototype._addContent = function() {
     var _import = {
       model : {
         name : name,
-        path : content.model
+        path : region.model
       },
       view : {
-        name : this._getConstructorName(content.view),
-        path : content.view
+        name : this._getConstructorName(region.view),
+        path : region.view
       }
     }
     imports.push(_import);
@@ -283,20 +297,20 @@ Page.prototype._addPages = function() {
     path : path,
     layout : this._layout
   };
-  var contents = [], views = [];
-  for(var region in this.content) {
+  var regions = [], views = [];
+  for(var name in this.regions) {
     var map = {};
-    var model = this._getConstructorName(this.content[region].model);
+    var model = this._getConstructorName(this.regions[name].model);
     map['model'] = model;
-    map['view'] = this._getConstructorName(this.content[region].view);
-    map['region'] = region;
+    map['view'] = this._getConstructorName(this.regions[name].view);
+    map['region'] = name;
     map['path'] = path;
     views.push(model.toLowerCase());
-    contents.push(map);
+    regions.push(map);
   }
-  page.contentScript = coreTmpls['contentScript'](contents);
-  page.renderScript = coreTmpls['renderScript'](contents);
-  page.mapScript = coreTmpls['mapScript'](contents);
+  page.contentScript = coreTmpls['contentScript'](regions);
+  page.renderScript = coreTmpls['renderScript'](regions);
+  page.mapScript = coreTmpls['mapScript'](regions);
   page.noViewsScript = coreTmpls['noViewsScript'](views);
   pages.push(page);
 };
