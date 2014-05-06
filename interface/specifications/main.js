@@ -47,16 +47,16 @@ requirejs.config({
 
   map : {
     '*': {
-      'View' : 'lib/View',
-      'Collection' : 'lib/Collection',
-      'Model' : 'lib/Model',
-      'contentTmpls' : 'public/templates/content/app',
+      'View' : 'libraries/View',
+      'Collection' : 'libraries/Collection',
+      'Model' : 'libraries/Model',
+      'contentTemplates' : 'public/templates/content/app',
 
       'CompositeRouter' : 'public/scripts/routers/composer',
-      'request' : 'client-lib/request',
-      'Document' : 'lib/Document',
-      'DocumentView' : 'lib/DocumentView',
-      'layoutTmpls' : 'public/templates/layouts/tmpl'
+      'request' : 'libraries/client/request',
+      'Document' : 'libraries/Document',
+      'DocumentView' : 'libraries/DocumentView',
+      'layoutTemplates' : 'public/templates/layouts/templates'
     }
   },
 

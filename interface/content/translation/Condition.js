@@ -4,7 +4,7 @@ if(typeof define !== 'function') {
 }
 
 define(function(require) {
-  var Model = inServer ? require('../../lib/Model') : require('Model')
+  var Model = inServer ? require('../../libraries/Model') : require('Model')
     , Operand = require('./ConditionOperand')
     , OperandView = require('./ConditionOperandView')
     , FirstOperand = Operand.extend()

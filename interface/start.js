@@ -3,8 +3,8 @@
  * Set inServer and inClient globals
  */
 
-GLOBAL.inServer = true;
-GLOBAL.inClient = false;
+global.inServer = true;
+global.inClient = false;
 
 /**
  * Environmental vars dependencies
@@ -51,7 +51,16 @@ global.ENV = ENV;
 /**
  * Module dependencies.
  */
-GLOBAL.requirejs = require('requirejs');
+global.requirejs = require('requirejs');
+
+/**
+ * RequireJS config.
+ */
+
+requirejs.config({
+  baseUrl: __dirname,
+  nodeRequire: require
+});
 
 var fs = require('fs')
   , http = require('http')
@@ -59,11 +68,17 @@ var fs = require('fs')
   , cluster = require('cluster')
   /*jshint unused:false */
   , helmet = require('helmet')
-  , scf = require('./conf/core')
-  , autoroute = require('autoroute')
-  , config = require('./core/config')
-  , configure = require('./conf/app')
-  , autoroutes = require('./conf/autoroutes');
+  , autoRoute = require('autoroute')
+  , configuration = require('./core/configuration')
+  , configure = require('./configurations/app')
+  , autoRoutes = require('./configurations/autoRoutes');
+
+
+/**
+ * Globals.
+ */
+
+global.cf = require('./configurations/server');
 
 /**
  * We want to extend String object to provide a first letter
@@ -79,38 +94,23 @@ if(typeof String.prototype.toFirstLetterUpperCase === 'undefined') {
   };
 }
 
-/**
- * RequireJS config.
- */
-
-requirejs.config({
-  baseUrl: __dirname,
-  nodeRequire: require
-});
-
-
 var page = require('./core/page')
-  , readTmpls = page.readTmpls
+  , readTemplates = page.readTemplates
   , createCompositeRouter = page.createCompositeRouter;
 
 /**
  * Content templates
  */
 
-GLOBAL.content_appTmpls = requirejs('./public/templates/content/app');
+global.content_appTemplates = requirejs('./public/templates/content/app');
 
-/**
- * Globals.
- */
-
-GLOBAL.cf = scf;
 
 
 /**
  * Read document and layout templates
  */
 
-readTmpls();
+readTemplates();
 
 /**
  * Create necessary folders
@@ -129,13 +129,13 @@ if(!fs.existsSync(tmpFolderPath)) {
  * Write client config file
  */
 
-config.writeClientConfigs();
+configuration.writeClientConfigurations();
 
 /**
  * App namespace.
  */
 
-GLOBAL.app = require('./core/app');
+global.app = require('./core/app');
 
 /**
  * Add default security
@@ -153,7 +153,7 @@ configure(app);
  * Autoroute.
  */
 
-autoroute(autoroutes, app);
+autoRoute(autoRoutes, app);
 
 /**
  * Server start.

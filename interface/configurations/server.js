@@ -3,7 +3,7 @@
  * Module dependencies
  */
 
-var config = require('../core/config')
+var configuration = require('../core/configuration')
   , path = require('path')
   , glob = require('glob')
   , corePath = require('../core/path');
@@ -23,7 +23,7 @@ var config = require('../core/config')
  *     PROD__X_REQUESTED_BY : '1',
  */
 
-var configs = {
+var configurations = {
 
   /**
    * Default user agent string in all outgoing requests
@@ -101,7 +101,7 @@ var configs = {
    * @type {String}
    */
 
-  CLIENT_CONF_GLOB : 'client-conf/*.js',
+  CLIENT_CONFIGURATIONS_GLOB : 'configurations/client/*.js',
 
   /**
    * We write all client configuration files written in nodejs to client
@@ -111,7 +111,7 @@ var configs = {
    * @type {String}
    */
 
-  CLIENT_CONF_BUILD : '/public/scripts/conf',
+  CLIENT_CONFIGURATIONS_BUILD : '/public/scripts/configurations',
 
   /**
    * Path to the default favicon for your website
@@ -184,7 +184,7 @@ var configs = {
    * @type {String}
    */
 
-  DOCUMENT_TEMPLATES : 'public/templates/documents/tmpl',
+  DOCUMENT_TEMPLATES : 'public/templates/documents/templates',
 
   /**
    * Layout built templates path
@@ -192,7 +192,7 @@ var configs = {
    * @type {String}
    */
 
-  LAYOUT_TEMPLATES : 'public/templates/layouts/tmpl',
+  LAYOUT_TEMPLATES : 'public/templates/layouts/templates',
 
   /**
    * Layout built templates path
@@ -200,7 +200,7 @@ var configs = {
    * @type {String}
    */
 
-  CORE_TEMPLATES : 'public/templates/core/tmpl',
+  CORE_TEMPLATES : 'public/templates/core/templates',
 
   /**
    * Requirejs path
@@ -253,7 +253,7 @@ var configs = {
    * @type {String}
    */
 
-  COMPOSITE_ROUTER_PATH : 'public/scripts/routers/composer.js',
+  COMPOSER_BUILD_PATH : 'public/scripts/routers/composer.js',
 
   /**
    * Operators used for comparing operands in translation interface.
@@ -285,16 +285,16 @@ var configs = {
  * Remove environmental prefixes
  */
 
-configs = config.formatConfigs(configs);
+configurations = configuration.formatConfigurations(configurations);
 
 /**
  * Merge external configs
  */
 
-configs = config.mergeExternalConfigs(configs, process.env.EXTERNAL_CORE_CONF);
+configurations = configuration.mergeExternalConfigurations(configurations, process.env.EXTERNAL_CORE_CONFIGURATIONS);
 
 /**
  * Export configs
  */
 
-module.exports = configs;
+module.exports = configurations;

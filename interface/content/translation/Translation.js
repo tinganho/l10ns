@@ -8,8 +8,8 @@ if(inServer) {
 
 define(function(require) {
   var Backbone
-    , Model = inServer ? require('../../lib/Model') : require('Model')
-    , Collection = inServer ? require('../../lib/Collection') : require('Collection')
+    , Model = inServer ? require('../../libraries/Model') : require('Model')
+    , Collection = inServer ? require('../../libraries/Collection') : require('Collection')
     , _ = require('underscore')
     , Condition = require('./Condition')
     , Input = require('./Input')

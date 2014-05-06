@@ -9,7 +9,7 @@
  * Module dependencies
  */
 
-var config = require('../core/config');
+var configuration = require('../../core/configuration');
 
 /**
  * Core client configs for your app. Use DEV__, STAG__, PROD__ prefixes
@@ -26,7 +26,7 @@ var config = require('../core/config');
  *     PROD__X_REQUESTED_BY : '1',
  */
 
-var configs = {
+var configurations = {
 
   /**
    * We will have a compiler the compiles this object and namespace the file
@@ -36,7 +36,7 @@ var configs = {
    * @type {String}
    */
 
-  NAMESPACE : 'cf',
+  NAME_SPACE : 'cf',
 
   /**
    * Minimum page load time for a client request. If the developer don't want
@@ -114,16 +114,16 @@ var configs = {
  * Remove environmental prefixes
  */
 
-configs = config.formatConfigs(configs);
+configurations = configuration.formatConfigurations(configurations);
 
 /**
  * Merge external configs
  */
 
-configs = config.mergeExternalConfigs(configs, process.env.EXTERNAL_CLIENT_CORE_CONF);
+configurations = configuration.mergeExternalConfigurations(configurations, process.env.EXTERNAL_CLIENT_CORE_CONFIGURATIONS);
 
 /**
  * Export config
  */
 
-module.exports = configs;
+module.exports = configurations;

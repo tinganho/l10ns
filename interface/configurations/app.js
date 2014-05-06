@@ -44,9 +44,7 @@ module.exports = function(app) {
    * Production configurations
    */
 
-  app.configure('production', function() {
-
-  });
+  app.configure('production', function() {});
 
    /**
    * General configurations

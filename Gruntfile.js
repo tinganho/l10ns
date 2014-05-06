@@ -121,7 +121,7 @@ module.exports = function(grunt) {
           node : true
         },
         src : ['interface/core/**/*.dot'],
-        dest : 'interface/public/templates/core/tmpl.js'
+        dest : 'interface/public/templates/core/templates.js'
       },
 
       documents : {
@@ -131,7 +131,7 @@ module.exports = function(grunt) {
           node : true
         },
         src : ['interface/documents/**/*.dot'],
-        dest : 'interface/public/templates/documents/tmpl.js'
+        dest : 'interface/public/templates/documents/templates.js'
       },
 
       layouts : {
@@ -141,7 +141,7 @@ module.exports = function(grunt) {
           node : true
         },
         src : ['interface/layouts/**/*.dot'],
-        dest : 'interface/public/templates/layouts/tmpl.js'
+        dest : 'interface/public/templates/layouts/templates.js'
       },
 
       content_app : {
@@ -165,7 +165,7 @@ module.exports = function(grunt) {
           node : true
         },
         src : ['plugins/javascript/templates/*.{dot,part}'],
-        dest : 'plugins/javascript/templates/build/tmpl.js'
+        dest : 'plugins/javascript/templates/build/templates.js'
       }
     },
 

@@ -31,7 +31,7 @@ function Config() {
  * @api public
  */
 
-Config.prototype.formatConfigs = function(configs) {
+Config.prototype.formatConfigurations = function(configs) {
   if(typeof configs !== 'object') {
     throw new TypeError('first parameter must be of type object');
   }
@@ -58,19 +58,19 @@ Config.prototype.formatConfigs = function(configs) {
  * @api public
  */
 
-Config.prototype.mergeExternalConfigs = function(configs) {
-  if(typeof configs !== 'object') {
+Config.prototype.mergeExternalConfigurations = function(configurations) {
+  if(typeof configurations !== 'object') {
     throw new TypeError('first parameter must be of type object');
   }
-  if(fs.existsSync(process.env.EXTERNAL_CORE_CONF)) {
-    var globalConfig = require(process.env.EXTERNAL_CORE_CONF);
+  if(fs.existsSync(process.env.EXTERNAL_CORE_CONFIGURATIONS)) {
+    var globalConfig = require(process.env.EXTERNAL_CORE_CONFIGURATIONS);
     for(var key in globalConfig) {
-      delete configs[key];
-      configs[key] = globalConfig[key];
+      delete configurations[key];
+      configurations[key] = globalConfig[key];
     }
   }
 
-  return configs;
+  return configurations;
 };
 
 /**
@@ -82,17 +82,17 @@ Config.prototype.mergeExternalConfigs = function(configs) {
  * @api public
  */
 
-Config.prototype.writeClientConfigs = function() {
-  var confPath = cf.ROOT_FOLDER + cf.CLIENT_CONF_BUILD;
-  if(!fs.existsSync(confPath)) {
-    fs.mkdirSync(confPath);
+Config.prototype.writeClientConfigurations = function() {
+  var configurationPath = cf.ROOT_FOLDER + cf.CLIENT_CONFIGURATIONS_BUILD;
+  if(!fs.existsSync(configurationPath)) {
+    fs.mkdirSync(configurationPath);
   }
-  var files = glob.sync(cf.CLIENT_CONF_BUILD + '/*.js', { cwd : cf.ROOT_FOLDER });
-  files.forEach(function(file) {
+  var files = glob.sync(cf.CLIENT_CONFIGURATIONS_BUILD + '/*.js', { cwd : cf.ROOT_FOLDER });
+  files.forEach(function(file) {
     fs.unlinkSync(cf.ROOT_FOLDER + file);
   });
 
-  glob(cf.CLIENT_CONF_GLOB, { cwd : cf.ROOT_FOLDER }, function(err, matches) {
+  glob(cf.CLIENT_CONFIGURATIONS_GLOB, { cwd : cf.ROOT_FOLDER }, function(err, matches) {
     for(var i = 0; i < matches.length; i++) {
       var configurations = require(cf.ROOT_FOLDER + matches[i]);
 
@@ -102,7 +102,7 @@ Config.prototype.writeClientConfigs = function() {
         , endWrap    = 'return configs; })();';
 
       var str = startWrap + body + makeRegExp + endWrap;
-      fs.writeFileSync(cf.ROOT_FOLDER + cf.CLIENT_CONF_BUILD + '/' + configurations.NAMESPACE + '.js', str);
+      fs.writeFileSync(cf.ROOT_FOLDER + cf.CLIENT_CONFIGURATIONS_BUILD + '/' + configurations.NAMES_PACE + '.js', str);
     }
   });
 };

@@ -4,11 +4,11 @@ if(typeof define !== 'function') {
 }
 
 define(function(require) {
-  var View = inServer ? require('../../lib/View') : require('View')
+  var View = inServer ? require('../../libraries/View') : require('View')
     , ConditionView = require('./ConditionView')
     , InputView = require('./InputView')
     , ElseView = require('./ElseView')
-    , template = inServer ? content_appTmpls : require('contentTmpls')
+    , template = inServer ? content_appTemplates : require('contentTemplates')
     , _ = require('underscore');
 
   return View.extend({

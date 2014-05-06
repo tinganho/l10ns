@@ -6,10 +6,10 @@
 var _ = require('underscore')
   , fs = require('fs')
   , path = require('path')
-  , _Model = requirejs('lib/Model')
-  , _Collection = requirejs('lib/Collection')
+  , _Model = requirejs('libraries/Model')
+  , _Collection = requirejs('libraries/Collection')
   , glob = require('glob')
-  , isArray = require('../lib/isArray')
+  , isArray = require('../libraries/isArray')
   , importNames = []
   , imports = []
   , pages = [];
@@ -224,7 +224,6 @@ Page.prototype._next = function(req, res) {
     var html = _this._documentTmpl({
       title : _this._documentProps.title,
       description : _this._documentProps.description,
-      noScroll : _this._documentProps.noScroll,
       locale : _this._documentProps.locale,
       styles : _this._documentProps.styles,
       main : _this._documentProps.main,
@@ -232,7 +231,7 @@ Page.prototype._next = function(req, res) {
       layout : _this._layoutTmpl(regions),
       modernizr : cf.MODERNIZR,
       requirejs : cf.REQUIREJS,
-      cf : cf.CLIENT_CONF_BUILD + '/cf.js'
+      cf : cf.CLIENT_CONFIGURATIONS_BUILD + '/cf.js'
     });
 
     res.send(html);
@@ -326,7 +325,7 @@ module.exports = function(url) {
 
 module.exports.createCompositeRouter = function() {
   var router = coreTmpls['compositeRouter']({ pages : pages, imports : imports });
-  fs.writeFileSync(cf.ROOT_FOLDER + cf.COMPOSITE_ROUTER_PATH, router);
+  fs.writeFileSync(cf.ROOT_FOLDER + cf.COMPOSER_BUILD_PATH, router);
 };
 
 /**
@@ -336,7 +335,7 @@ module.exports.createCompositeRouter = function() {
  * @return {void}
  */
 
-module.exports.readTmpls = function() {
+module.exports.readTemplates = function() {
   if(!fs.existsSync(path.join(__dirname, '../', cf.DOCUMENT_TEMPLATES + '.js'))) {
     console.log('[:(]'.red + ' Have you built your document templates yet?');
     process.exit();
