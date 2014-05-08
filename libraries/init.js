@@ -1,7 +1,8 @@
 var readline = require('readline')
   , Q = require('q')
   , fs = require('fs')
-  , path = require('path');
+  , path = require('path')
+  , findup = require('findup-sync');
 
 /**
  * Project initializer
@@ -38,6 +39,10 @@ function Init() {
 
 Init.prototype.init = function() {
   var _this = this;
+  if(findup('gt.json') || fs.existsSync(process.cwd() + '/gt.json')) {
+    console.log(cf.PROJECT_ALREADY_INITIATED);
+    process.exit();
+  }
   this._createReadlineInterface();
   this._outputIntroduction();
   this._getLocales()
@@ -56,6 +61,7 @@ Init.prototype.init = function() {
   .then(function() {
     _this._setDefaultSrc();
     _this._writeProject();
+    process.exit();
   })
   .fail(function(err) {
     if(err) console.log(err);
@@ -238,6 +244,9 @@ Init.prototype._setDefaultOutput = function() {
   if(fs.existsSync(process.cwd() + '/app')) {
     defaultOutput = 'app/' + this.defaultOutputFolder;
   }
+  else if(fs.existsSync(process.cwd() + '/application')) {
+    defaultOutput = 'application/' + this.defaultOutputFolder;
+  }
   else {
     defaultOutput = this.defaultOutputFolder;
   }
@@ -292,11 +301,17 @@ Init.prototype._writeProject = function() {
     , file = cwd + '/gt.json'
     , folder = cwd + '/.gt';
 
-  if(!fs.existsSync(file))
-    fs.writeFile(file, JSON.stringify(this.json, null, 2));
+  console.log(this.json);
 
-  if(!fs.existsSync(folder))
-    fs.mkdir(folder);
+  if(!fs.existsSync(file)) {
+    fs.writeFileSync(file, JSON.stringify(this.json, null, 2));
+  }
+
+
+  if(!fs.existsSync(folder)) {
+    fs.mkdirSync(folder);
+  }
+
 };
 
 /**

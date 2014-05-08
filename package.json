@@ -22,7 +22,7 @@
   ],
   "main": "Gruntfile.js",
   "bin": {
-    "gt": "./binaries/gt"
+    "gtt": "./binaries/gt"
   },
   "engines": {
     "node": "*"
@@ -75,7 +75,8 @@
     "chai": "~1.8.1",
     "grunt-dot-compiler": "~0.5.12",
     "grunt-modernizr": "~0.5.1",
-    "grunt-mocha": "~0.4.10"
+    "grunt-mocha": "~0.4.10",
+    "connect-modrewrite": "~0.7.0"
   },
   "keywords": [
     "gruntplugin"
