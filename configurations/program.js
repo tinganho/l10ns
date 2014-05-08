@@ -87,10 +87,7 @@ module.exports = {
 
   PROGRAMMING_LANGUAGUE_TO_DEFAULT_SRC_MAP : {
     'javascript' : [
-      '**/*.js',
-      '!node_modules/**',
-      '!bower_components/**',
-      '!**/vendor/**'
+      '!node_modules/**'
     ]
   },
 
@@ -110,3 +107,5 @@ module.exports = {
 
   DEFAULT_OUTPUT_FOLDER_WRONG_ANSWER : '\nFailed to resolve path. Please try again.\n'
 };
+
+
