@@ -7,4 +7,4 @@ Non-translated function body
 
 !-->
 
-return 'KEY_NOT_TRANSLATED: ' + '{{=it.key}}' + ';';
+return 'KEY_NOT_TRANSLATED: ' + '{{=it.key}}';

@@ -29,6 +29,6 @@ var out='var t = {'+(it.body)+'};';return out;
 var out='return \''+(it.string)+'\';';return out;
 };
   tmpl['nonTranslatedFunctionBody']=function anonymous(it) {
-var out='return \'KEY_NOT_TRANSLATED: \' + \''+(it.key)+'\' + \';\';';return out;
+var out='return \'KEY_NOT_TRANSLATED: \' + \''+(it.key)+'\';';return out;
 };
 module.exports = tmpl;

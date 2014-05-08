@@ -80,7 +80,7 @@ module.exports = {
 
   DEFAULT_LOCALE_WRONG_ANSWER : '\nYour option didn\'t match any of the locales you provided.\n'.red,
 
-  PROGRAMMING_LANGUAGUES : ['javascript', 'go'],
+  PROGRAMMING_LANGUAGUES : ['javascript'],
 
   CHOOSE_PROGRAMMING_LANGUAGE_PROMPT : 'Choose one of the following programming languagues:\n',
   CHOOSE_PROGRAMMING_LANGUAGE_WRONG_ANSWER : '\nUnrecognized programming language. Please try again.'.red + '\n\n',
@@ -110,5 +110,3 @@ module.exports = {
 
   DEFAULT_OUTPUT_FOLDER_WRONG_ANSWER : '\nFailed to resolve path. Please try again.\n'
 };
-
-
