@@ -56,10 +56,11 @@ Init.prototype.init = function() {
   })
   .then(function(programmingLanguage) {
     _this.json.programmingLanguage = programmingLanguage;
-    return _this._setDefaultOutput();
+    return _this._getStorageFolder();
   })
-  .then(function(output) {
-    _this.json.output = output;
+  .then(function(folder) {
+    _this.json.store = folder;
+    _this.json.output = folder + 'output/'
     _this._setDefaultSrc();
     _this._writeProject();
     process.exit();
@@ -235,7 +236,7 @@ Init.prototype._getDefaultProgrammingLanguage = function() {
  * @api private
  */
 
-Init.prototype._setDefaultOutput = function() {
+Init.prototype._getStorageFolder = function() {
   var _this = this;
 
   var deferred = Q.defer()

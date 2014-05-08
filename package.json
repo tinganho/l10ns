@@ -60,7 +60,8 @@
     "backbone": "~1.1.2",
     "superagent": "~0.17.0",
     "grunt-contrib-clean": "~0.5.0",
-    "backbone-relational": "~0.8.6"
+    "backbone-relational": "~0.8.6",
+    "mkdirp": "~0.5.0"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.1.0",

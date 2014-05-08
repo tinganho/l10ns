@@ -95,6 +95,9 @@ Update.prototype._stripInnerFunctionCalls = function(content) {
 Update.prototype._getSourceKeys = function() {
   var _this = this, newTranslations = {};
   this.src.forEach(function(file) {
+    if(fs.lstatSync(file).isDirectory()) {
+      return;
+    }
     var content = _this._stripInnerFunctionCalls(fs.readFileSync(file, 'utf8'));
     // Match all gt() calls
     var calls = content.match(_this.functionCallRegex);
@@ -106,6 +109,7 @@ Update.prototype._getSourceKeys = function() {
           newTranslations[key] = {};
           newTranslations[key].key = key;
           newTranslations[key].vars = vars;
+          newTranslations[key].text = key;
           newTranslations[key].files = [file];
         }
         else {
