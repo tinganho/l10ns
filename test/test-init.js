@@ -115,12 +115,18 @@ module.exports = function() {
 
     describe('#init', function() {
       it('should create a readline interface', function() {
-        var init = new Init;
+        sinon.stub(process, 'exit');
+        var fsStub = { existsSync : sinon.stub().returns(false) };
+        var Init = proxyquire('../libraries/init', {
+          'findup-sync' : sinon.stub().returns(false),
+          fs : fsStub
+        }).Init;
         init._createReadlineInterface = sinon.spy();
         init._outputIntroduction = sinon.spy();
         init._getLocales = sinon.stub().returns(Q.reject());
         init.init();
         init._createReadlineInterface.should.have.been.calledOnce;
+        process.exit.restore();
       });
 
       it('should output an introduction', function() {

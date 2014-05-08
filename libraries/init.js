@@ -58,7 +58,8 @@ Init.prototype.init = function() {
     _this.json.programmingLanguage = programmingLanguage;
     return _this._setDefaultOutput();
   })
-  .then(function() {
+  .then(function(output) {
+    _this.json.output = output;
     _this._setDefaultSrc();
     _this._writeProject();
     process.exit();
@@ -301,12 +302,11 @@ Init.prototype._writeProject = function() {
     , file = cwd + '/gt.json'
     , folder = cwd + '/.gt';
 
-  console.log(this.json);
+  console.log('\n' + this.json);
 
   if(!fs.existsSync(file)) {
     fs.writeFileSync(file, JSON.stringify(this.json, null, 2));
   }
-
 
   if(!fs.existsSync(folder)) {
     fs.mkdirSync(folder);

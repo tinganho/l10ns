@@ -1,16 +1,1 @@
-{
-  "folder": "./test/translations",
-  "programmingLanguage": "javascript",
-  "locales": {
-    "en-US": "English",
-    "zh-CN": "Chinese"
-  },
-  "quiet" : false,
-  "defaultLocale": "en-US",
-  "output": "test/translations/output",
-  "src": ["test/example/**/*.js"],
-  "interface" : {
-    "autoOpenBrowser": false,
-    "port": 3000
-  }
-}
+"{}"

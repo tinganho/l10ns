@@ -11,11 +11,21 @@ var program = require('commander')
   , pjson = require('../package.json')
   , _ = require('underscore')
   , glob = require('glob')
-  , gtPath = findup('gt.json')
-  , root = path.dirname(gtPath)
-  , cf = require(gtPath)
   , pcf = require('../configurations/program')
   , log = require('../libraries/_log');
+
+var gtPath = findup('gt.json')
+  , root
+  , cf;
+
+if(gtPath) {
+  root = path.dirname(gtPath);
+  cf = require(gtPath);
+}
+else {
+  root = process.cwd();
+  cf = {};
+}
 
 /**
  * Add terminal colors
@@ -43,7 +53,6 @@ cf = _.defaults(cf, defaultConfigurations);
 /**
  * Set short-cuts configs
  */
-
 cf.localesFolder = path.join(cf.root, cf.folder, pcf.LOCALES_FOLDER);
 cf.deleteLog = cf.folder + pcf.DELETE_LOG_FILE;
 cf.latestSearchFile = cf.folder + pcf.LATEST_SEARCH_CACHE_FILE;
@@ -64,13 +73,13 @@ if(typeof lcf.quiet === 'undefined') {
  * Get all source files.
  */
 
-var src = [], _files, add, removes;
+var src = [], _files, adds, removes;
 for(var i = 0; i < cf.src.length; i++) {
   if(cf.src[i].substr(0, 1) !== '!') {
     adds = glob.sync(cf.src[i], { cwd: root });
     src = src.concat(adds);
   } else {
-    removes = glob.sync(files[i].substr(1), { cwd: root });
+    removes = glob.sync(cf.src[i], { cwd: root });
     src = src.filter(function(file) {
       return removes.indexOf(file) === -1;
     });
@@ -87,18 +96,7 @@ GLOBAL.pcf = pcf;
 GLOBAL.lcf = lcf;
 GLOBAL.fromBin = true;
 
-/**
- * Check minimum configs.
- */
 
-if(typeof cf.defaultLocale === 'undefined') {
-  console.error('You must define defaultLocale in gt.json');
-  process.exit();
-}
-if(typeof cf.locales === 'locales') {
-  console.error('You must define your locales in ' + cf.folder + '/locales.json');
-  process.exit();
-}
 
 var gt = require('../libraries');
 

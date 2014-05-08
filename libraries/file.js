@@ -15,7 +15,6 @@ var fs = require('fs')
  */
 
 function File() {
-  this.localesFolder = cf.localesFolder;
   this.locales = cf.locales;
   this.newline = '\n';
 }
@@ -30,13 +29,13 @@ function File() {
  */
 
 File.prototype.writeTranslations = function(newTranslations, callback) {
-  if(!fs.existsSync(this.localesFolder)) {
-    fs.mkdirSync(this.localesFolder);
+  if(!fs.existsSync(cf.output)) {
+    fs.mkdirSync(cf.output);
   }
 
   var translations = this._sortMaptoArray(newTranslations);
   for(var locale in this.locales) {
-    var p = this.localesFolder + '/' + locale + '.locale';
+    var p = cf.output + '/' + locale + '.locale';
     if(fs.existsSync(p)) {
       fs.unlinkSync(p);
     }
@@ -60,11 +59,11 @@ File.prototype.writeTranslations = function(newTranslations, callback) {
  */
 
 File.prototype.writeSingleLocaleTranslations = function(newTranslations, locale, callback) {
-  if(!fs.existsSync(this.localesFolder)) {
-    fs.mkdirSync(this.localesFolder);
+  if(!fs.existsSync(cf.output)) {
+    fs.mkdirSync(cf.output);
   }
 
-  var p = this.localesFolder + '/' + locale + '.locale';
+  var p = cf.output + '/' + locale + '.locale';
   if(fs.existsSync(p)) {
     fs.unlinkSync(p);
   }
@@ -151,7 +150,7 @@ File.prototype.readTranslations = function(locale, opts) {
 
   var _this = this;
 
-  var files = glob.sync('./*.locale', { cwd: this.localesFolder });
+  var files = glob.sync('./*.locale', { cwd: cf.output });
   var translations = {};
   files.forEach(function(file) {
     if(opts.returnType === 'json') {
@@ -190,7 +189,7 @@ File.prototype.readTranslations = function(locale, opts) {
  */
 
 File.prototype._getArrayTranslations = function(file) {
-  var content = fs.readFileSync(path.join(this.localesFolder, file), 'utf-8');
+  var content = fs.readFileSync(path.join(cf.output, file), 'utf-8');
   content = content
     // Replace all double new lines with comma and double new lines
     .replace(/\}\n+\{/g, '},{');
