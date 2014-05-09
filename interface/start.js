@@ -104,26 +104,11 @@ var page = require('./core/page')
 
 global.content_appTemplates = requirejs('./public/templates/content/app');
 
-
-
 /**
  * Read document and layout templates
  */
 
 readTemplates();
-
-/**
- * Create necessary folders
- */
-
-var uploadFolderPath = cf.ROOT_FOLDER + cf.UPLOAD_FOLDER;
-if(!fs.existsSync(uploadFolderPath)) {
-  fs.mkdirSync(uploadFolderPath);
-}
-var tmpFolderPath = cf.ROOT_FOLDER + cf.TMP_FOLDER;
-if(!fs.existsSync(tmpFolderPath)) {
-  fs.mkdirSync(tmpFolderPath);
-}
 
 /**
  * Write client config file
