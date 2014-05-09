@@ -9,7 +9,9 @@ var fs = require('fs')
   , _ = require('underscore')
   , merger = require('./merger')
   , readline = require('readline')
-  , file = require('./file');
+  , file = require('./file')
+  , Hashids = require('hashids')
+  , hashids = new Hashids(pcf.TRANSLATION_ID_HASH_SECRET, pcf.TRANSLATION_ID_CHAR_LENGTH);
 
 /**
  * Add terminal colors
@@ -93,7 +95,10 @@ Update.prototype._stripInnerFunctionCalls = function(content) {
  */
 
 Update.prototype._getSourceKeys = function() {
-  var _this = this, newTranslations = {};
+  var now = parseInt(Date.now() / 1000, 10)
+    , _this = this, newTranslations = {}
+    , counter = 0;
+
   this.src.forEach(function(file) {
     if(fs.lstatSync(file).isDirectory()) {
       return;
@@ -107,10 +112,12 @@ Update.prototype._getSourceKeys = function() {
           , vars = parser.getVars(call);
         if(!(key in newTranslations)) {
           newTranslations[key] = {};
+          newTranslations[key].id = hashids.encrypt(now, counter);
           newTranslations[key].key = key;
           newTranslations[key].vars = vars;
           newTranslations[key].text = key;
           newTranslations[key].files = [file];
+          counter++;
         }
         else {
           if(syntax.hasErrorDuplicate(newTranslations, key, vars)) {

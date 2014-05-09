@@ -49,7 +49,7 @@ define(function(require) {
       if(method === 'read') {
         if(inServer) {
           var translations = file.readTranslations(pcf.DEFAULT_LOCALE_CODE, { returnType : 'array' }).slice(0, cf.TRANSLATION_ITEMS_PER_PAGE);
-          collection.add(translations);
+          collection.add(translations, { merge: true });
 
           if(/^\/t/.test(req.url)) {
             this.setMeta('revealed', false);
