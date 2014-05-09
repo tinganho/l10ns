@@ -58,9 +58,7 @@ define(function(require) {
       this.$('.checked').removeClass('checked');
       if(this.model.get('vars').indexOf(this.model.get('value')) !== -1) {
         var selector = '.condition-variable-operand[data-value="' + this.model.get('value') + '"]';
-        this.el
-          .querySelector(selector)
-          .classList.add('checked');
+        this.el.querySelector(selector).classList.add('checked');
         this.$customVarInput.val('');
       }
       else {
@@ -194,6 +192,7 @@ define(function(require) {
       if(event.keyCode === 13) {
         this.model.set('value', this.$customVarInput.val());
         this._hideDropDown();
+        event.preventDefault();
       }
     },
 
