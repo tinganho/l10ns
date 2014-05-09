@@ -65,7 +65,7 @@ File.prototype.writeSingleLocaleTranslations = function(newTranslations, locale,
     mkdirp.sync(pcf.output);
   }
 
-  var p = pcf.output + '/' + locale + '.locale';
+  var p = pcf.store + '/' + locale + '.locale';
   if(fs.existsSync(p)) {
     fs.unlinkSync(p);
   }
