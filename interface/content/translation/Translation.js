@@ -323,6 +323,7 @@ define(function(require) {
         }
       });
 
+      // We want [[value]] to be just [value]
       if(secondValues.length === 1 && secondValues[0].length === 1) {
         secondValues = [secondValues[0][0]];
       }
