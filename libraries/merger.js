@@ -9,7 +9,8 @@
  */
 
 var Hashids = require('hashids')
-  , hashids = new Hashids(pcf.TRANSLATION_ID_HASH_SECRET, pcf.TRANSLATION_ID_CHAR_LENGTH);
+  , hashids = new Hashids(pcf.TRANSLATION_ID_HASH_SECRET, pcf.TRANSLATION_ID_CHAR_LENGTH)
+  , _ = require('underscore');
 
 /**
  * We merge source keys with old translations. A class Merge is used for this and it
@@ -83,11 +84,14 @@ Merger.prototype.mergeId = function(newTranslations, oldTranslations, key) {
 Merger.prototype.mergeTranslations = function(newTranslations, oldTranslations, key) {
   if(key in oldTranslations && 'values' in oldTranslations[key]) {
     newTranslations[key].values = oldTranslations[key].values;
-    if(typeof oldTranslations[key].values.length === 1) {
-      newTranslations[key].text = oldTranslations[key].values;
+    if(_.isArray(oldTranslations[key].values) && oldTranslations[key].values.length === 1) {
+      newTranslations[key].text = oldTranslations[key].values[0];
     }
     else {
-      newTranslations[key].text = key;
+      var values = oldTranslations[key].values.map(function(value) {
+        return _.last(value);
+      });
+      newTranslations[key].text = values.join('\n');
     }
   }
   else {

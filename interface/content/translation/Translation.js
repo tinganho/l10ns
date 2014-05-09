@@ -326,6 +326,13 @@ define(function(require) {
       // We want [[value]] to be just [value]
       if(secondValues.length === 1 && secondValues[0].length === 1) {
         secondValues = [secondValues[0][0]];
+        json.text = secondValues[0][0];
+      }
+      else {
+        var values = secondValues.map(function(value) {
+          return _.last(value);
+        });
+        json.text = values.join('\n');
       }
 
       json.values = secondValues;
