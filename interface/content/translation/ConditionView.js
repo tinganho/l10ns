@@ -249,7 +249,7 @@ define(function(require) {
           operator : '==',
           lastOperand : 'value2',
           vars : this.model.get('vars'),
-          operators : cf.OPERATORS,
+          operators : cfg.OPERATORS,
           additionalCompairOperators : cf.ADDITIONAL_COMPAIR_OPERATORS,
           row : this.model.get('row') + 1,
           translation : app.models.translation

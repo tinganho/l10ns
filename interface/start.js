@@ -71,7 +71,8 @@ var fs = require('fs')
   , autoRoute = require('autoroute')
   , configuration = require('./core/configuration')
   , configure = require('./configurations/app')
-  , autoRoutes = require('./configurations/autoRoutes');
+  , autoRoutes = require('./configurations/autoRoutes')
+  , globallyInstalled = /^\/usr\/local\/lib/.test(__dirname);
 
 
 /**
@@ -113,8 +114,9 @@ readTemplates();
 /**
  * Write client config file
  */
-
-configuration.writeClientConfigurations();
+if(!globallyInstalled) {
+  configuration.writeClientConfigurations();
+}
 
 /**
  * App namespace.
@@ -143,13 +145,14 @@ autoRoute(autoRoutes, app);
 require('./pages/index')(page);
 require('./pages/translation')(page);
 
-if(!/^\/usr\/local\/lib/.test(__dirname)) {
-  createCompositeRouter();
-}
-
 /**
  * Server start.
  */
+
+if(!globallyInstalled) {
+  createCompositeRouter();
+}
+
 
 http.createServer(app).listen(app.get('port'), function() {
   console.log('[%s] Express app listening on port ' + app.get('port'), process.pid);
@@ -159,7 +162,7 @@ http.createServer(app).listen(app.get('port'), function() {
  * Set process title
  */
 
-process.title = cf.PROCESS_TITLE;
+process.title = cfg.PROCESS_TITLE;
 
 /**
  * Export app.

@@ -16,8 +16,8 @@ var file = require('./file')
  */
 
 function Edit() {
-  this.defaultLocale = cf.defaultLocale;
-  this.locales = cf.locales;
+  this.defaultLocale = cfg.defaultLocale;
+  this.locales = cfg.locales;
 }
 
 /**
@@ -191,7 +191,7 @@ Edit.prototype._replace = function(key, value, locale) {
   }
 
   // Save value
-  translations[locale][key].value = value;
+  translations[locale][key].values = [value];
   translations[locale][key].text = value;
 
   return translations;

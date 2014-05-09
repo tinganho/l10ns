@@ -12,7 +12,7 @@ module.exports = function(app) {
 
   app.put('/api/t/:id', function(req, res) {
     var id = req.param('id')
-      , locale = req.cookies.gt_locale || cf.DEFAULT_LOCALE
+      , locale = req.cookies.gt_locale || cfg.DEFAULT_LOCALE
       , translations = file.readTranslations(locale, { returnType : 'array' })
       , translation = req.body;
 

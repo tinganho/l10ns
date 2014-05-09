@@ -90,8 +90,7 @@ cf.src = src;
 /**
  * Set cf as global.
  */
-
-GLOBAL.cf = cf;
+GLOBAL.cfg = cf;
 GLOBAL.pcf = pcf;
 GLOBAL.lcf = lcf;
 GLOBAL.fromBin = true;

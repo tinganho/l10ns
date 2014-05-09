@@ -1,51 +1,65 @@
 
-/**
- * Moduel dependencies
- */
+var modrewrite = require('connect-modrewrite')
+  , modrewrites = require('./modrewrites')
+  , path = require('path')
+  , helmet = require('helmet')
+  , express = require('express')
+  , path = require('path');
 
-var express = require('express')
-  , app = express();
+module.exports = function(app) {
 
-/**
- * To prevent JSON hijacking, we prepend something that throws
- * en error on JS. Because of performance we don't want to write
- * a middleware that extends the response object. That would mean
- * that every request needs an extension. Instead of extending
- * on every HTTP request we can just extend it once after the
- * express app is instantiated.
- *
- * @param {Object} obj
- * @return {ExpressApp}
- * @api public
- */
+  /**
+   * Development configurations
+   */
 
-app.response.__proto__.json = function(obj){
-  // allow status / body
-  if (2 == arguments.length) {
-    // res.json(body, status) backwards compat
-    if ('number' == typeof arguments[1]) {
-      this.statusCode = arguments[1];
-    } else {
-      this.statusCode = obj;
-      obj = arguments[1];
-    }
-  }
+  app.configure('development', function() {
+    app.use(express.static(path.join(__dirname, '../')));
+  });
 
-  // settings
-  var app = this.app;
-  var replacer = app.get('json replacer');
-  var spaces = app.get('json spaces');
-  var body = cf.JSON_HIJACK_PREFIX + JSON.stringify(obj, replacer, spaces);
+  /**
+   * Development and staging configurations
+   */
 
-  // content-type
-  this.charset = this.charset || 'utf-8';
-  this.get('Content-Type') || this.set('Content-Type', 'text/plain');
+  app.configure('development', 'staging', function() {
+    app.use(express.logger('dev'));
+  });
 
-  return this.send(body);
+  /**
+   * Staging and production configurations
+   */
+
+  app.configure('staging', 'production', function() {
+    app.use(function(req, res, next) {
+      if(/^\/public/.test(req.url)) {
+        res.setHeader('Cache-Control', 'public, max-age=' + cf.LONG_TIME_CACHE_LIFE_TIME/1000);
+        res.setHeader('Expires', new Date(Date.now() + cf.LONG_TIME_CACHE_LIFE_TIME).toUTCString());
+      }
+      next();
+    });
+    app.use('/public', express.static(path.join(__dirname, 'public'), { maxAge: cf.LONG_TIME_CACHE_LIFE_TIME }));
+    app.use('/vendor', express.static(path.join(__dirname, 'vendor'), { maxAge: cf.LONG_TIME_CACHE_LIFE_TIME }));
+  });
+
+  /**
+   * Production configurations
+   */
+
+  app.configure('production', function() {});
+
+   /**
+   * General configurations
+   */
+
+  app.configure(function() {
+    app.use(express.query());
+    app.use(express.compress());
+    app.set('port', process.env.PORT || cf.DEFAULT_PORT);
+    app.set('dist', path.dirname(__dirname) === 'dist');
+    app.use(helmet.xframe('SAMEORIGIN'));
+    app.use(modrewrite(modrewrites));
+    app.use(express.errorHandler());
+    app.use(express.cookieParser());
+    app.use(express.bodyParser({ uploadDir: __dirname + cf.UPLOAD_FOLDER }));
+    app.use(app.router);
+  });
 };
-
-/**
- * Export instance
- */
-
-module.exports = app;

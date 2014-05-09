@@ -29,10 +29,10 @@ var Search = function() {
   EventEmitter.call(this);
 
   this.translations = null;
-  this.folder = cf.folder;
-  this.logLength = cf.LOG_LENGTH;
+  this.folder = cfg.folder;
+  this.logLength = cfg.LOG_LENGTH;
   this.index = null;
-  this.defaultLocale = cf.defaultLocale;
+  this.defaultLocale = cfg.defaultLocale;
   this._createIndex();
 };
 
