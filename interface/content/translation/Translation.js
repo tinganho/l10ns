@@ -323,6 +323,10 @@ define(function(require) {
         }
       });
 
+      if(secondValues.length === 1 && secondValues[0].length === 1) {
+        secondValues = [secondValues[0][0]];
+      }
+
       json.values = secondValues;
 
       // Delete translation. It is unnecessary that these travels

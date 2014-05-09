@@ -24,7 +24,7 @@ require('terminal-colors');
 
 var Compiler = function() {
   // set default translation function
-  this.defaultTranslationFunction = cf.DEFAULT_TRANSLATION_FUNCTION;
+  this.defaultTranslationFunction = pcf.DEFAULT_TRANSLATION_FUNCTION;
   // languague wrapper
   this.wrap = null;
   // default namespace
@@ -46,7 +46,7 @@ var Compiler = function() {
   // Quiet
   this.quiet = lcf.quiet;
   // Set locales
-  this.locales = cf.locales;
+  this.locales = pcf.locales;
 };
 
 /**
@@ -62,7 +62,7 @@ Compiler.prototype.compile = function() {
       variable : this.defaultTranslationFunction,
       translationMap : this._getTranslationMap(locale)
     });
-    fs.writeFileSync(cf.output + '/' + locale + '.js', content);
+    fs.writeFileSync(pcf.output + '/' + locale + '.js', content);
   }
 };
 

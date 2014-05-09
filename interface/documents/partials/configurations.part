@@ -1,0 +1,10 @@
+
+<!--
+
+Client configurations
+
+!-->
+
+{{~it.configurations :configuration:index}}
+  <script src="{{=configuration}}"></script>
+{{~}}
