@@ -401,6 +401,7 @@ Update.prototype._executeUserInputStream = function(newTranslations, oldTranslat
 Update.prototype._setOldTranslation = function(newKey, oldKey, newTranslations, oldTranslations) {
   for(var locale in this.locales) {
     newTranslations[locale][newKey] = oldTranslations[locale][oldKey];
+    newTranslations[locale][newKey].key = newKey;
   }
   return newTranslations;
 };
