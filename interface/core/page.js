@@ -73,8 +73,10 @@ Page.prototype.hasDocument = function(name, props) {
  */
 
 Page.prototype.withProperties = function(properties) {
+  properties.configurations = properties.configurations.map(function(configuration) {
+    return cf.CLIENT_CONFIGURATIONS_BUILD + '/'  + cf.CLIENT_CONFIGURATIONS_MAP[configuration] + '.js';
+  });
   this._documentProps = properties;
-
   return this;
 };
 
@@ -226,12 +228,12 @@ Page.prototype._next = function(req, res) {
       description : _this._documentProps.description,
       locale : _this._documentProps.locale,
       styles : _this._documentProps.styles,
+      configurations : _this._documentProps.configurations,
       main : _this._documentProps.main,
       jsonScripts : jsonScripts,
       layout : _this._layoutTmpl(regions),
       modernizr : cf.MODERNIZR,
-      requirejs : cf.REQUIREJS,
-      cf : cf.CLIENT_CONFIGURATIONS_BUILD + '/cf.js'
+      requirejs : cf.REQUIREJS
     });
 
     res.send(html);

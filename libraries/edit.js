@@ -16,8 +16,8 @@ var file = require('./file')
  */
 
 function Edit() {
-  this.defaultLocale = cfg.defaultLocale;
-  this.locales = cfg.locales;
+  this.defaultLocale = pcf.defaultLocale;
+  this.locales = pcf.locales;
 }
 
 /**

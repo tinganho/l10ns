@@ -16,6 +16,7 @@ The default document
 {{##def.title : load('./partials/title.part') #}}
 {{##def.features : load('./partials/features.part') #}}
 {{##def.styles : load('./partials/styles.part') #}}
+{{##def.configurations : load('./partials/configurations.part') #}}
 {{##def.scripts : load('./partials/scripts.part') #}}
 {{##def.globals : load('./partials/globals.part') #}}
 
@@ -23,7 +24,6 @@ The default document
 <html lang="{{=it.locale}}" class="locale-{{=it.locale}}">
   <head>
     <script src="{{=it.modernizr}}"></script>
-    <script src="{{=it.cf}}"></script>
 
     {{#def.metas}}
     {{#def.favicon}}
@@ -35,6 +35,7 @@ The default document
   </head>
   <body>
 
+    {{#def.configurations}}
     {{#def.scripts}}
     {{=it.layout}}
     {{=it.jsonScripts}}

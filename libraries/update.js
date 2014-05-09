@@ -32,13 +32,13 @@ function Update() {
   // readline interface
   this.rl;
   // file sources
-  this.src = cfg.src;
+  this.src = pcf.src;
   // locales
-  this.locales = cfg.locales;
+  this.locales = pcf.locales;
   // default locale
-  this.defaultLocale = cfg.defaultLocale;
+  this.defaultLocale = pcf.defaultLocale;
   // locales folder
-  this.localesFolder = cfg.localesFolder;
+  this.localesFolder = pcf.localesFolder;
   // new line
   this.newline = '\n';
 }

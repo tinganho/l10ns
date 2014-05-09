@@ -96,9 +96,9 @@ define(function(require) {
               statement : values[i][y],
               firstOperand : values[i][y + 1],
               operator : values[i][y + 2],
-              operators : cfg.OPERATORS,
+              operators : cf.OPERATORS,
               lastOperand : values[i][y + 3],
-              additionalCompairOperators : cfg.ADDITIONAL_COMPAIR_OPERATORS,
+              additionalCompairOperators : cf.ADDITIONAL_COMPAIR_OPERATORS,
               vars : vars,
               row : row,
               translation : this
@@ -201,7 +201,7 @@ define(function(require) {
 
       if(method === 'read') {
         if(inServer) {
-          var translations = file.readTranslations(cfg.DEFAULT_LOCALE, { returnType : 'array' }).slice(0, cf.TRANSLATION_ITEMS_PER_PAGE);
+          var translations = file.readTranslations(pcf.DEFAULT_LOCALE_CODE, { returnType : 'array' });
           var translation = _.findWhere(translations, { id : req.param('id') });
           this._parse(translation);
           this.setPageTitle(translation.key);
@@ -210,7 +210,6 @@ define(function(require) {
         }
         else {
           var $json = $('.js-json-translation');
-
           if($json.length) {
             this._parse(JSON.parse($json.html()));
             $json.remove();

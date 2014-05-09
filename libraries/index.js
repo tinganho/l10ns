@@ -8,7 +8,7 @@ var Log = require('./log').Log
   , edit = require('./edit')
   , Search = require('./search')
   , update = require('./update')
-  , Compiler = require('../plugins/' + cfg.programmingLanguage + '/compiler');
+  , Compiler = require('../plugins/' + pcf.programmingLanguage + '/compiler');
 
 /**
  * Initialize a new `GetTranslation`

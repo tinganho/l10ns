@@ -278,7 +278,16 @@ var configurations = {
   ADDITIONAL_COMPAIR_OPERATORS : {
     'and' : '&&',
     'or' : '||'
-  }
+  },
+
+  /**
+   * Client configuration map. name to alias mapping.
+   *
+   * @type {Map}
+   */
+
+  CLIENT_CONFIGURATIONS_MAP : {}
+
 };
 
 /**

@@ -12,22 +12,22 @@ var readline = require('readline')
 
 function Init() {
   this.rl = null;
-  this.json = cfg.DEFAULT_CONFIGS;
-  this.initIntro = cfg.INIT_INTRO;
-  this.localesSyntax = cfg.LOCALES_SYNTAX;
-  this.localesWrongAnswer = cfg.LOCALES_WRONG_ANSWER;
-  this.localesDescription = cfg.LOCALES_DESCRIPTION;
-  this.defaultLocaleCode = cfg.DEFAULT_LOCALE_CODE;
-  this.defaultLocaleName = cfg.DEFAULT_LOCALE_NAME;
-  this.defaultLocaleQuestion = cfg.DEFAULT_LOCALE_QUESTION;
-  this.defaultLocaleWrongAnswer = cfg.DEFAULT_LOCALE_WRONG_ANSWER;
-  this.programmingLanguages = cfg.PROGRAMMING_LANGUAGUES;
-  this.chooseProgrammingLanguagePrompt = cfg.CHOOSE_PROGRAMMING_LANGUAGE_PROMPT;
-  this.chooseProgrammingLanguageWrongAnswer = cfg.CHOOSE_PROGRAMMING_LANGUAGE_WRONG_ANSWER;
-  this.programmingLanguageToDefaultSrcMap = cfg.PROGRAMMING_LANGUAGUE_TO_DEFAULT_SRC_MAP;
-  this.defaultOutputFolder = cfg.DEFAULT_OUTPUT_FOLDER;
-  this.defaultOutputFolderPrompt = cfg.DEFAULT_OUTPUT_FOLDER_PROMPT;
-  this.defaultOutputFolderWrongAnswer = cfg.DEFAULT_OUTPUT_FOLDER_WRONG_ANSWER;
+  this.json = pcf.DEFAULT_CONFIGS;
+  this.initIntro = pcf.INIT_INTRO;
+  this.localesSyntax = pcf.LOCALES_SYNTAX;
+  this.localesWrongAnswer = pcf.LOCALES_WRONG_ANSWER;
+  this.localesDescription = pcf.LOCALES_DESCRIPTION;
+  this.defaultLocaleCode = pcf.DEFAULT_LOCALE_CODE;
+  this.defaultLocaleName = pcf.DEFAULT_LOCALE_NAME;
+  this.defaultLocaleQuestion = pcf.DEFAULT_LOCALE_QUESTION;
+  this.defaultLocaleWrongAnswer = pcf.DEFAULT_LOCALE_WRONG_ANSWER;
+  this.programmingLanguages = pcf.PROGRAMMING_LANGUAGUES;
+  this.chooseProgrammingLanguagePrompt = pcf.CHOOSE_PROGRAMMING_LANGUAGE_PROMPT;
+  this.chooseProgrammingLanguageWrongAnswer = pcf.CHOOSE_PROGRAMMING_LANGUAGE_WRONG_ANSWER;
+  this.programmingLanguageToDefaultSrcMap = pcf.PROGRAMMING_LANGUAGUE_TO_DEFAULT_SRC_MAP;
+  this.defaultOutputFolder = pcf.DEFAULT_OUTPUT_FOLDER;
+  this.defaultOutputFolderPrompt = pcf.DEFAULT_OUTPUT_FOLDER_PROMPT;
+  this.defaultOutputFolderWrongAnswer = pcf.DEFAULT_OUTPUT_FOLDER_WRONG_ANSWER;
 }
 
 /**
@@ -40,7 +40,7 @@ function Init() {
 Init.prototype.init = function() {
   var _this = this;
   if(findup('gt.json') || fs.existsSync(process.cwd() + '/gt.json')) {
-    console.log(cfg.PROJECT_ALREADY_INITIATED);
+    console.log(pcf.PROJECT_ALREADY_INITIATED);
     process.exit();
   }
   this._createReadlineInterface();

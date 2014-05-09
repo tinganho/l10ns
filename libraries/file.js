@@ -16,8 +16,8 @@ var fs = require('fs')
  */
 
 function File() {
-  this.localesFolder = cfg.localesFolder;
-  this.locales = cfg.locales;
+  this.localesFolder = pcf.localesFolder;
+  this.locales = pcf.locales;
   this.newline = '\n';
 }
 
@@ -31,13 +31,13 @@ function File() {
  */
 
 File.prototype.writeTranslations = function(newTranslations, callback) {
-  if(!fs.existsSync(cfg.output)) {
-    mkdirp.sync(cfg.output);
+  if(!fs.existsSync(pcf.output)) {
+    mkdirp.sync(pcf.output);
   }
 
   var translations = this._sortMaptoArray(newTranslations);
   for(var locale in this.locales) {
-    var p = path.dirname(cfg.output) + '/' + locale + '.locale';
+    var p = path.dirname(pcf.output) + '/' + locale + '.locale';
     if(fs.existsSync(p)) {
       fs.unlinkSync(p);
     }
@@ -61,11 +61,11 @@ File.prototype.writeTranslations = function(newTranslations, callback) {
  */
 
 File.prototype.writeSingleLocaleTranslations = function(newTranslations, locale, callback) {
-  if(!fs.existsSync(cfg.output)) {
-    mkdirp.sync(cfg.output);
+  if(!fs.existsSync(pcf.output)) {
+    mkdirp.sync(pcf.output);
   }
 
-  var p = cfg.output + '/' + locale + '.locale';
+  var p = pcf.output + '/' + locale + '.locale';
   if(fs.existsSync(p)) {
     fs.unlinkSync(p);
   }
@@ -142,7 +142,7 @@ File.prototype.readTranslations = function(locale, opts) {
     throw new TypeError('second parameter must have type object or undefined');
   }
 
-  locale = locale || cfg.DEFAULT_LOCALE;
+  locale = locale || pcf.DEFAULT_LOCALE;
 
   opts = opts || {};
 
@@ -152,7 +152,7 @@ File.prototype.readTranslations = function(locale, opts) {
 
   var _this = this;
 
-  var files = glob.sync('./*.locale', { cwd: path.dirname(cfg.output) });
+  var files = glob.sync('./*.locale', { cwd: path.dirname(pcf.output) });
   var translations = {};
   files.forEach(function(file) {
     if(opts.returnType === 'json') {
@@ -192,7 +192,7 @@ File.prototype.readTranslations = function(locale, opts) {
  */
 
 File.prototype._getArrayTranslations = function(file) {
-  var content = fs.readFileSync(path.join(path.dirname(cfg.output), file), 'utf-8');
+  var content = fs.readFileSync(path.join(path.dirname(pcf.output), file), 'utf-8');
   content = content
     // Replace all double new lines with comma and double new lines
     .replace(/\}\n+\{/g, '},{');

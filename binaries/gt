@@ -20,11 +20,11 @@ var gtPath = findup('gt.json')
 
 if(gtPath) {
   root = path.dirname(gtPath);
-  cf = require(gtPath);
+  userConfigurations = require(gtPath);
 }
 else {
   root = process.cwd();
-  cf = {};
+  userConfigurations = {};
 }
 
 /**
@@ -48,24 +48,24 @@ var defaultConfigurations = {
 };
 // Merge with programm configs
 defaultConfigurations = _.extend(defaultConfigurations, pcf);
-cf = _.defaults(cf, defaultConfigurations);
+pcf = _.defaults(userConfigurations, defaultConfigurations);
 
 /**
  * Set short-cuts configs
  */
 
-cf.localesFolder = path.join(cf.root, cf.folder, pcf.LOCALES_FOLDER);
-cf.deleteLog = cf.folder + pcf.DELETE_LOG_FILE;
-cf.latestSearchFile = cf.folder + pcf.LATEST_SEARCH_CACHE_FILE;
-cf.programmingLanguage = cf.programmingLanguage || pcf.DEFAULT_PROGAMMING_LANGUAGE;
-if(typeof cf.output === 'undefined') {
-  cf.output = path.join(cf.folder, pcf.DEFAULT_OUTPUT);
+pcf.localesFolder = path.join(pcf.root, pcf.folder, pcf.LOCALES_FOLDER);
+pcf.deleteLog = pcf.folder + pcf.DELETE_LOG_FILE;
+pcf.latestSearchFile = pcf.folder + pcf.LATEST_SEARCH_CACHE_FILE;
+pcf.programmingLanguage = pcf.programmingLanguage || pcf.DEFAULT_PROGAMMING_LANGUAGE;
+if(typeof pcf.output === 'undefined') {
+  pcf.output = path.join(pcf.folder, pcf.DEFAULT_OUTPUT);
 }
 else {
-  cf.output = path.join(cf.root, cf.output);
+  pcf.output = path.join(pcf.root, pcf.output);
 }
 
-lcf = require('../plugins/' + cf.programmingLanguage + '/parseConfigs');
+lcf = require('../plugins/' + pcf.programmingLanguage + '/parseConfigs');
 if(typeof lcf.quiet === 'undefined') {
   lcf.quiet = pcf.DEFAULT_QUIET;
 }
@@ -75,26 +75,36 @@ if(typeof lcf.quiet === 'undefined') {
  */
 
 var src = [], _files, adds, removes;
-for(var i = 0; i < cf.src.length; i++) {
-  if(cf.src[i].substr(0, 1) !== '!') {
-    adds = glob.sync(cf.src[i], { cwd: root });
+for(var i = 0; i < pcf.src.length; i++) {
+  if(pcf.src[i].substr(0, 1) !== '!') {
+    adds = glob.sync(pcf.src[i], { cwd: root });
     src = src.concat(adds);
   } else {
-    removes = glob.sync(cf.src[i], { cwd: root });
+    removes = glob.sync(pcf.src[i], { cwd: root });
     src = src.filter(function(file) {
       return removes.indexOf(file) === -1;
     });
   }
 }
-cf.src = src;
+pcf.src = src;
 
 /**
- * Set cf as global.
+ * Global configurations
  */
-GLOBAL.cfg = cf;
-GLOBAL.pcf = pcf;
-GLOBAL.lcf = lcf;
-GLOBAL.fromBin = true;
+
+global.pcf = pcf;
+
+/**
+ * Languague configurations
+ */
+
+global.lcf = lcf;
+
+/**
+ * Set from binary to true. To indicate that the binary have been run
+ */
+
+global.fromBinary = true;
 
 
 
@@ -102,14 +112,14 @@ var gt = require('../libraries');
 
 program
   .version(pjson.version)
-  .option('-l, --locale <locale>', 'specify locale', String, cf.defaultLocale)
-  .option('-ls, --locales <locales>', 'specify locales', String, cf.defaultLocales)
-  .option('-p, --port <port>', 'specify the port [\'' + cf.port + '\']', Number, cf.port)
-  .option('-f, --folder <folder>', 'specify folder', String, cf.folder)
-  .option('-o, --output <output>', 'specify output', String, cf.output)
-  .option('-s, --source <source>', 'specify source', String, cf.src)
-  .option('-dl, --default-locale <default-locale>', 'specify default locale', String, cf.defaultLocale)
-  .option('-pl, --programming-languague <programming-languague>', 'specify programming languague', String, cf.programmingLanguague)
+  .option('-l, --locale <locale>', 'specify locale', String, pcf.defaultLocale)
+  .option('-ls, --locales <locales>', 'specify locales', String, pcf.defaultLocales)
+  .option('-p, --port <port>', 'specify the port [\'' + pcf.port + '\']', Number, pcf.port)
+  .option('-f, --folder <folder>', 'specify folder', String, pcf.folder)
+  .option('-o, --output <output>', 'specify output', String, pcf.output)
+  .option('-s, --source <source>', 'specify source', String, pcf.src)
+  .option('-dl, --default-locale <default-locale>', 'specify default locale', String, pcf.defaultLocale)
+  .option('-pl, --programming-languague <programming-languague>', 'specify programming languague', String, pcf.programmingLanguague)
 
 program
   .command('init')

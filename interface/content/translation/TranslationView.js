@@ -522,8 +522,8 @@ define(function(require) {
         operator : '==',
         lastOperand : 'value2',
         vars : this.model.get('vars'),
-        operators : cfg.OPERATORS,
-        additionalCompairOperators : cfg.ADDITIONAL_COMPAIR_OPERATORS,
+        operators : cf.OPERATORS,
+        additionalCompairOperators : cf.ADDITIONAL_COMPAIR_OPERATORS,
         row : row,
         translation : this.model
       };

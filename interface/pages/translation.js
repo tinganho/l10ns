@@ -5,6 +5,7 @@ module.exports = function(page) {
       .withProperties({
         title : null,
         description : null,
+        configurations : ['default'],
         locale : 'en',
         styles : [
           '/public/styles/documents/default.css',

@@ -4,15 +4,16 @@ module.exports = function(app) {
 
   app.get('/api/t/:id', function(req, res) {
     var id = req.param('id')
-      , locale = req.param('l')
+      , locale = req.cookies.gt_locale || pcf.DEFAULT_LOCALE_CODE
       , translations = file.readTranslations(locale, { returnType : 'array' })
       , translation = _.findWhere(translations, { id : id })
+
     res.json(translation);
   });
 
   app.put('/api/t/:id', function(req, res) {
     var id = req.param('id')
-      , locale = req.cookies.gt_locale || cfg.DEFAULT_LOCALE
+      , locale = req.cookies.gt_locale || pcf.DEFAULT_LOCALE_CODE
       , translations = file.readTranslations(locale, { returnType : 'array' })
       , translation = req.body;
 

@@ -23,7 +23,7 @@ else if(!/development|staging|production/.test(process.env.NODE_ENV)) {
  * Sets global vars pcf and cf
  */
 
-if(typeof fromBin === 'undefined') {
+if(typeof fromBinary === 'undefined') {
   require('../binaries/gt');
 }
 
@@ -119,6 +119,12 @@ if(!globallyInstalled) {
 }
 
 /**
+ * Set client configurations mapping
+ */
+
+configuration.setClientConfigurationMappings();
+
+/**
  * App namespace.
  */
 
@@ -162,7 +168,7 @@ http.createServer(app).listen(app.get('port'), function() {
  * Set process title
  */
 
-process.title = cfg.PROCESS_TITLE;
+process.title = pcf.PROCESS_TITLE;
 
 /**
  * Export app.

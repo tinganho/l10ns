@@ -36,7 +36,7 @@ var configurations = {
    * @type {String}
    */
 
-  NAME_SPACE : 'cfg',
+  NAME_SPACE : 'cf',
 
   /**
    * Minimum page load time for a client request. If the developer don't want

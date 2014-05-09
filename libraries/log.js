@@ -15,9 +15,9 @@ require('terminal-colors');
  */
 
 function Log() {
-  this.defaultLocale = cfg.defaultLocale;
-  this.locales = cfg.locales;
-  this._length = cfg.LOG_LENGTH;
+  this.defaultLocale = pcf.defaultLocale;
+  this.locales = pcf.locales;
+  this._length = pcf.LOG_LENGTH;
 }
 
 
