@@ -140,13 +140,16 @@ configure(app);
 
 autoRoute(autoRoutes, app);
 
+require('./pages/index')(page);
+require('./pages/translation')(page);
+
+if(!/^\/usr\/local\/lib/.test(__dirname)) {
+  createCompositeRouter();
+}
+
 /**
  * Server start.
  */
-
-require('./pages/index')(page);
-require('./pages/translation')(page);
-createCompositeRouter();
 
 http.createServer(app).listen(app.get('port'), function() {
   console.log('[%s] Express app listening on port ' + app.get('port'), process.pid);
