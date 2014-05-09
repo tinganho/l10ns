@@ -10,7 +10,7 @@
     {{~it :translation:index}}
       <tr class="translation" data-id="{{=translation.id}}">
         <td class="translation-col translation-key">{{=translation.key}}</td>
-        <td class="translation-col translation-value">{{=translation.text}}</td>
+        <td class="translation-col translation-value">{{=translation.text.replace('\n', '<br>')}}</td>
       </tr>
     {{~}}
   </tbody>
