@@ -176,10 +176,10 @@ program
   });
 
 program
-  .command('edit [ref] [value]')
+  .command('set [reference] [value]')
   .description('Edit a translation')
-  .action(function(ref, value) {
-    gt.edit(ref, value, this.locale);
+  .action(function(reference, value) {
+    gt.edit(reference, value, this.locale);
   });
 
 program
