@@ -22,7 +22,6 @@ module.exports = {
   LOG_LENGTH : 10,
 
   // Default values
-  DEFAULT_SRC                  : ['**/*'],
   DEFAULT_TRANSLATION_FUNCTION : 'gt',
   DEFAULT_REQUIREJS            : true,
   DEFAULT_FOLDER               : 'translations',

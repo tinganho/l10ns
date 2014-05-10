@@ -15,11 +15,20 @@ var program = require('commander')
   , log = require('../libraries/_log')
   , utilities = require('../libraries/utilities');
 
+/**
+ * Project paths
+ */
+
 var gtPath = findup('gt.json')
   , projectConfigurations
   , _projectConfigurations
   , root
   , cf;
+
+if(!gtPath) {
+  console.log('Not in a gt project (or any of the parent directories):');
+  return;
+}
 
 if(gtPath) {
   root = path.dirname(gtPath);
@@ -29,6 +38,7 @@ else {
   root = process.cwd();
   projectConfigurations = {};
 }
+
 
 /**
  * Copy for use in showing configs
@@ -50,7 +60,6 @@ var defaultConfigurations = {
   folder : pcf.DEFAULT_FOLDER,
   requirejs : pcf.DEFAULT_REQUIREJS,
   translationFunction : pcf.DEFAULT_TRANSLATION_FUNCTION,
-  src : pcf.DEFAULT_SRC,
   port : pcf.DEFAULT_PORT,
   autoOpen : pcf.DEFAULT_AUTO_OPEN,
   root : root
@@ -79,11 +88,22 @@ if(typeof lcf.quiet === 'undefined') {
   lcf.quiet = pcf.DEFAULT_QUIET;
 }
 
+
 /**
  * Get all source files.
  */
 
 var src = [], _files, adds, removes;
+
+/**
+ * Check if source is defined
+ */
+
+if(!pcf.src) {
+  console.log('You must define your source files on a glob pattern your gt.json file.')
+  return;
+}
+
 for(var i = 0; i < pcf.src.length; i++) {
   if(pcf.src[i].substr(0, 1) !== '!') {
     adds = glob.sync(pcf.src[i], { cwd: root });
