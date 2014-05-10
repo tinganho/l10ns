@@ -48,6 +48,7 @@ define(function(require) {
     sync : function(method, collection, opts, req) {
       if(method === 'read') {
         if(inServer) {
+          collection.reset();
           var translations = file.readTranslations(pcf.DEFAULT_LOCALE_CODE, { returnType : 'array' }).slice(0, cf.TRANSLATION_ITEMS_PER_PAGE);
           collection.add(translations, { merge: true });
 

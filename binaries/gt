@@ -15,17 +15,25 @@ var program = require('commander')
   , log = require('../libraries/_log');
 
 var gtPath = findup('gt.json')
+  , projectConfigurations
+  , _projectConfigurations
   , root
   , cf;
 
 if(gtPath) {
   root = path.dirname(gtPath);
-  userConfigurations = require(gtPath);
+  projectConfigurations = require(gtPath);
 }
 else {
   root = process.cwd();
-  userConfigurations = {};
+  projectConfigurations = {};
 }
+
+/**
+ * Copy for use in showing configs
+ */
+
+_projectConfigurations = _.clone(projectConfigurations);
 
 /**
  * Add terminal colors
@@ -48,7 +56,7 @@ var defaultConfigurations = {
 };
 // Merge with programm configs
 defaultConfigurations = _.extend(defaultConfigurations, pcf);
-pcf = _.defaults(userConfigurations, defaultConfigurations);
+pcf = _.defaults(projectConfigurations, defaultConfigurations);
 
 /**
  * Set short-cuts configs
@@ -169,9 +177,16 @@ program
 
 program
   .command('edit [ref] [value]')
-  .description('Edit transations')
+  .description('Edit a translation')
   .action(function(ref, value) {
     gt.edit(ref, value, this.locale);
+  });
+
+program
+  .command('configs')
+  .description('Show configurations')
+  .action(function() {
+    console.log(_projectConfigurations);
   });
 
 program.parse(process.argv);
