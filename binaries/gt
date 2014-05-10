@@ -12,7 +12,8 @@ var program = require('commander')
   , _ = require('underscore')
   , glob = require('glob')
   , pcf = require('../configurations/program')
-  , log = require('../libraries/_log');
+  , log = require('../libraries/_log')
+  , utilities = require('../libraries/utilities');
 
 var gtPath = findup('gt.json')
   , projectConfigurations
@@ -140,6 +141,9 @@ program
   .command('interface')
   .description('Starts the translation interface')
   .action(function() {
+    if(!utilities.initiatedProject()) {
+      return console.log('You haven\'t initialized a project yet');
+    }
     require('../interface/start');
   });
 
@@ -147,6 +151,9 @@ program
   .command('search [q]')
   .description('Search translation keys and values')
   .action(function(q) {
+    if(!utilities.initiatedProject()) {
+      return console.log('You haven\'t initialized a project yet');
+    }
     if(typeof q === 'undefined') {
       log.error('You need to provide a query in your search. E.g. gt search "some query"');
       return false;
@@ -158,6 +165,9 @@ program
   .command('log')
   .description('Get the latest translations')
   .action(function() {
+    if(!utilities.initiatedProject()) {
+      return console.log('You haven\'t initialized a project yet');
+    }
     gt.log(this.locale);
   });
 
@@ -165,6 +175,9 @@ program
   .command('update')
   .description('Update translation keys from source')
   .action(function() {
+    if(!utilities.initiatedProject()) {
+      return console.log('You haven\'t initialized a project yet');
+    }
     gt.update();
   });
 
@@ -172,6 +185,9 @@ program
   .command('compile')
   .description('Compile transations')
   .action(function() {
+    if(!utilities.initiatedProject()) {
+      return console.log('You haven\'t initialized a project yet');
+    }
     gt.compile();
   });
 
@@ -179,6 +195,9 @@ program
   .command('set [reference] [value]')
   .description('Edit a translation')
   .action(function(reference, value) {
+    if(!utilities.initiatedProject()) {
+      return console.log('You haven\'t initialized a project yet');
+    }
     gt.edit(reference, value, this.locale);
   });
 
@@ -186,6 +205,9 @@ program
   .command('configs')
   .description('Show configurations')
   .action(function() {
+    if(!utilities.initiatedProject()) {
+      return console.log('You haven\'t initialized a project yet');
+    }
     console.log(_projectConfigurations);
   });
 
