@@ -64,9 +64,6 @@ Log.prototype._getLatestUpdates = function(locale) {
   if(locale && typeof locale !== 'string') {
     throw new TypeError('first parameter must contain a locale string');
   }
-  else {
-    locale = this.defaultLocale;
-  }
 
   var translations = file.readTranslations(locale, { returnType : 'array' });
 
