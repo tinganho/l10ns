@@ -1,3 +1,0 @@
-#!/usr/bin/env sh
-
-./node_modules/mocha/bin/mocha ./test/index.js --ignore-leaks --reporter spec

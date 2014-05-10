@@ -1,8 +1,0 @@
-
-<!--
-
-Script use for providing data to the client through the html
-
-!-->
-
-<script type="application/json" class="js-json-{{=it.name}}">{{=it.json}}</script>

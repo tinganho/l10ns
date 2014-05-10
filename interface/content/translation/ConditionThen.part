@@ -1,9 +1,0 @@
-
-<div class="condition-then condition-item">
-  then
-  <ul class="condition-comparators condition-dropdown">
-    {{ for(var prop in it.additionalCompairOperators) { }}
-    <li class="condition-comparator condition-dropdown-list-item" data-value="{{=it.additionalCompairOperators[prop]}}">{{=prop}}</li>
-    {{ } }}
-  </ul>
-</div>
