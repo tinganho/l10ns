@@ -303,7 +303,7 @@ Init.prototype._writeProject = function() {
     , file = cwd + '/gt.json'
     , folder = cwd + '/.gt';
 
-  console.log('\n' + this.json);
+  console.log(this.json);
 
   if(!fs.existsSync(file)) {
     fs.writeFileSync(file, JSON.stringify(this.json, null, 2));

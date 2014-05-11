@@ -104,7 +104,9 @@ module.exports = {
 
   DEFAULT_OUTPUT_FOLDER : 'l10n/',
 
-  DEFAULT_OUTPUT_FOLDER_WRONG_ANSWER : '\nFailed to resolve path. Please try again.\n'
+  DEFAULT_OUTPUT_FOLDER_WRONG_ANSWER : '\nFailed to resolve path. Please try again.\n',
+
+  PROJECT_ALREADY_INITIATED : 'Project already initiated'
 };
 
 

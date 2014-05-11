@@ -98,24 +98,30 @@ var src = [], _files, adds, removes;
 /**
  * Check if source is defined
  */
-
-if(!pcf.src) {
-  console.log('You must define your source files on a glob pattern your gt.json file.')
-  return;
-}
-
-for(var i = 0; i < pcf.src.length; i++) {
-  if(pcf.src[i].substr(0, 1) !== '!') {
-    adds = glob.sync(pcf.src[i], { cwd: root });
-    src = src.concat(adds);
-  } else {
-    removes = glob.sync(pcf.src[i], { cwd: root });
-    src = src.filter(function(file) {
-      return removes.indexOf(file) === -1;
-    });
+if(process.argv.length > 2 && process.argv[2] !== 'init') {
+  if(!pcf.src) {
+    console.log('You must define your source files on a glob pattern your gt.json file.')
+    return;
   }
+
+  for(var i = 0; i < pcf.src.length; i++) {
+    if(pcf.src[i].substr(0, 1) !== '!') {
+      adds = glob.sync(pcf.src[i], { cwd: root });
+      src = src.concat(adds);
+    } else {
+      removes = glob.sync(pcf.src[i], { cwd: root });
+      src = src.filter(function(file) {
+        return removes.indexOf(file) === -1;
+      });
+    }
+  }
+  if(!src.length) {
+    console.log('Please update your gt.json to include your source files');
+    return;
+  }
+  pcf.src = src;
 }
-pcf.src = src;
+
 
 /**
  * Global configurations
