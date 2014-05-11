@@ -25,7 +25,7 @@ var gtPath = findup('gt.json')
   , root
   , cf;
 
-if(!gtPath) {
+if((process.argv.length > 2 && process.argv[2] !== 'init') && !gtPath) {
   console.log('Not in a gt project (or any of the parent directories):');
   return;
 }
