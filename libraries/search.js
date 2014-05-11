@@ -29,10 +29,10 @@ var Search = function() {
   EventEmitter.call(this);
 
   this.translations = null;
-  this.folder = cfg.folder;
-  this.logLength = cfg.LOG_LENGTH;
+  this.store = pcf.store;
+  this.logLength = pcf.LOG_LENGTH;
   this.index = null;
-  this.defaultLocale = cfg.defaultLocale;
+  this.defaultLocale = pcf.defaultLocale;
   this._createIndex();
 };
 
@@ -117,7 +117,7 @@ Search.prototype.query = function(q) {
 
   // Store as cache
   fs.writeFile(
-    _this.folder + '/cache/latestSearch.json',
+    _this.store + '/cache/latestSearch.json',
     JSON.stringify(cache, null, 2),
     function() {
       _this.emit('queryend', res);

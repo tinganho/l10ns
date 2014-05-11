@@ -84,15 +84,7 @@ Merger.prototype.mergeId = function(newTranslations, oldTranslations, key) {
 Merger.prototype.mergeTranslations = function(newTranslations, oldTranslations, key) {
   if(key in oldTranslations && 'values' in oldTranslations[key]) {
     newTranslations[key].values = oldTranslations[key].values;
-    if(_.isArray(oldTranslations[key].values) && oldTranslations[key].values.length === 1) {
-      newTranslations[key].text = oldTranslations[key].values[0];
-    }
-    else {
-      var values = oldTranslations[key].values.map(function(value) {
-        return _.last(value);
-      });
-      newTranslations[key].text = values.join('\n');
-    }
+    newTranslations[key].text = oldTranslations[key].text;
   }
   else {
     newTranslations[key].values = [];
