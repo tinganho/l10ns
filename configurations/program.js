@@ -85,9 +85,7 @@ module.exports = {
   CHOOSE_PROGRAMMING_LANGUAGE_WRONG_ANSWER : '\nUnrecognized programming language. Please try again.'.red + '\n\n',
 
   PROGRAMMING_LANGUAGUE_TO_DEFAULT_SRC_MAP : {
-    'javascript' : [
-      '!node_modules/**'
-    ]
+    'javascript' : []
   },
 
   DEFAULT_CONFIGS : {
