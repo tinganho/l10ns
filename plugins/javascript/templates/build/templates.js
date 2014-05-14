@@ -17,10 +17,10 @@ var out=') {return \''+(it.string)+'\';}';return out;
 var out='else {return \''+(it.string)+'\';}';return out;
 };
   tmpl['function']=function anonymous(it) {
-var out='function gt(key) {if(!(key in t)) {return \'KEY_NOT_IN_SOURCE: \' + key;}return t[key].apply(undefined, arguments[1]);};';return out;
+var out='function gt(key) {if(!(key in t)) {return \'KEY_NOT_IN_SOURCE: \' + key;}return t[key].call(undefined, arguments[1]);};';return out;
 };
   tmpl['javascriptWrapper']=function anonymous(it) {
-var out=';(function() {'+(it.translationMap)+'function gt(key) { if(!(key in t)) { return \'KEY_NOT_IN_SOURCE: \' + key; } return t[key].apply(undefined, arguments[1]);};if(typeof require === "function" && typeof exports === \'object\' && typeof module === \'object\') {module.exports = gt;}else if (typeof define === "function" && define.amd) {define(function () {return gt;});}else {window.'+(it.variable)+' = gt;}})();';return out;
+var out=';(function() {'+(it.translationMap)+'function gt(key) { if(!(key in t)) { return \'KEY_NOT_IN_SOURCE: \' + key; } return t[key].call(undefined, arguments[1]);};if(typeof require === "function" && typeof exports === \'object\' && typeof module === \'object\') {module.exports = gt;}else if (typeof define === "function" && define.amd) {define(function () {return gt;});}else {window.'+(it.variable)+' = gt;}})();';return out;
 };
   tmpl['mapDeclaration']=function anonymous(it) {
 var out='var t = {'+(it.body)+'};';return out;

@@ -6,7 +6,7 @@
 var fs = require('fs')
   , path = require('path')
   , syntax = require('./syntax')
-  , tmpl = require('./templates/build/template')
+  , tmpl = require('./templates/build/templates')
   , file = require('../../libraries/file')
   , log = require('../../libraries/_log');
 
