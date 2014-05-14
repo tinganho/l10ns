@@ -72,8 +72,8 @@ Edit.prototype._getKey = function(ref) {
   }
 
   var key = ref;
-  if(/^#\d+$/.test(ref)) {
-    ref = /^#(\d+)$/.exec(ref)[1];
+  if(/^@\d+$/.test(ref)) {
+    ref = /^@(\d+)$/.exec(ref)[1];
     this._getKeyFromLatestTranslations(parseInt(ref, 10))
     .then(function(key) {
       deferred.resolve(key);
@@ -82,8 +82,8 @@ Edit.prototype._getKey = function(ref) {
       deferred.reject(err);
     });
   }
-  else if(/^@\d+$/.test(ref)) {
-    ref = /^@(\d+)$/.exec(ref)[1];
+  else if(/^%\d+$/.test(ref)) {
+    ref = /^%(\d+)$/.exec(ref)[1];
     key = this._getKeyFromLatestSearch(ref)
     .then(function(key) {
       deferred.resolve(key);
