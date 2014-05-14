@@ -210,7 +210,7 @@ Compiler.prototype._getConditionsString = function(conditions, vars) {
       str += this._getAdditionalConditionString(condition, vars);
     }
     else {
-      str += this.space + this._getElseStatementString(condition[1]);
+      str += this.space + this._getElseStatementString(condition[1], vars);
     }
   }, this);
 
@@ -307,7 +307,8 @@ Compiler.prototype._getConditionBodyString = function(string) {
  * @api private
  */
 
-Compiler.prototype._getElseStatementString = function(string) {
+Compiler.prototype._getElseStatementString = function(string, vars) {
+  string = this._getFormatedTranslatedText(string, vars);
   return tmpl.elseStatement({ string : string });
 };
 

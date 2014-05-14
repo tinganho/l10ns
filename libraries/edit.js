@@ -47,7 +47,7 @@ Edit.prototype.edit = function(ref, value, locale) {
   .then(function(key) {
     var translations = _this._replace(key, value, locale);
     file.writeTranslations(translations, function() {
-      log.success('Edited key: ' + key.yellow + ' successfully!');
+      log.success('Updated key ' + key.yellow + ' in ' + locale.yellow + ' to ' + value.yellow);
     });
   })
   .fail(function() {
