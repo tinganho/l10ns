@@ -11,3 +11,10 @@ function gt(key) {
   }
   return t[key].call(undefined, arguments[1]);
 };
+
+function lni(operand1, operand2) {
+  operand1 = operand1 + '';
+  operand2 = value2 + '';
+  operand1LastNumber = operand1.substr(-1,1);
+  return operand1LastNumber === operand2;
+};

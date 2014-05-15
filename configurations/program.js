@@ -52,7 +52,7 @@ module.exports = {
   ADDITIONAL_CONDITION_AND : '&&',
   ADDITIONAL_CONDITION_OR  : '||',
 
-  OPERATORS : ['<', '<=', '==', '===', '>', '>='],
+  OPERATORS : ['<', '<=', '==', '===', '>', '>=', 'lni'],
 
   INIT_INTRO :
   'This utility will walk you through creating a get-transltion project.\n' +

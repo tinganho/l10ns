@@ -266,7 +266,8 @@ var configurations = {
     'Smaller than' : '<',
     'Bigger than' : '>',
     'Smaller and equal' : '<=',
-    'Bigger and equal' : '>='
+    'Bigger and equal' : '>=',
+    'Last number is' : 'lni'
   },
 
   /**

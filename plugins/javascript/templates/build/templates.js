@@ -7,20 +7,26 @@ var out='\''+(it.key)+'\' : '+(it.functionString);return out;
   tmpl['additionalCondition']=function anonymous(it) {
 var out=''+(it.additionalCondition)+' '+(it.operand1)+' '+(it.operator)+' '+(it.operand2);return out;
 };
+  tmpl['additionalConditionFunction']=function anonymous(it) {
+var out=''+(it.additionalCondition)+' '+(it.function)+'('+(it.operand1)+', '+(it.operand2)+')';return out;
+};
   tmpl['condition']=function anonymous(it) {
 var out=''+(it.condition)+'('+(it.operand1)+' '+(it.operator)+' '+(it.operand2);return out;
 };
   tmpl['conditionBody']=function anonymous(it) {
 var out=') {return \''+(it.string)+'\';}';return out;
 };
+  tmpl['conditionFunction']=function anonymous(it) {
+var out=''+(it.condition)+'('+(it.function)+'('+(it.operand1)+', '+(it.operand2)+')';return out;
+};
   tmpl['elseStatement']=function anonymous(it) {
 var out='else {return \''+(it.string)+'\';}';return out;
 };
   tmpl['function']=function anonymous(it) {
-var out='function gt(key) {if(!(key in t)) {return \'KEY_NOT_IN_SOURCE: \' + key;}return t[key].call(undefined, arguments[1]);};';return out;
+var out='function gt(key) {if(!(key in t)) {return \'KEY_NOT_IN_SOURCE: \' + key;}return t[key].call(undefined, arguments[1]);};function lni(operand1, operand2) {operand1 = operand1 + \'\';operand2 = value2 + \'\';operand1LastNumber = operand1.substr(-1,1);return operand1LastNumber === operand2;};';return out;
 };
   tmpl['javascriptWrapper']=function anonymous(it) {
-var out=';(function() {'+(it.translationMap)+'function gt(key) { if(!(key in t)) { return \'KEY_NOT_IN_SOURCE: \' + key; } return t[key].call(undefined, arguments[1]);};if(typeof require === "function" && typeof exports === \'object\' && typeof module === \'object\') {module.exports = gt;}else if (typeof define === "function" && define.amd) {define(function () {return gt;});}else {window.'+(it.variable)+' = gt;}})();';return out;
+var out=';(function() {'+(it.translationMap)+'function gt(key) { if(!(key in t)) { return \'KEY_NOT_IN_SOURCE: \' + key; } return t[key].call(undefined, arguments[1]);};function lni(operand1, operand2) { operand1 = operand1 + \'\'; operand2 = value2 + \'\'; operand1LastNumber = operand1.substr(-1,1); return operand1LastNumber === operand2;};if(typeof require === "function" && typeof exports === \'object\' && typeof module === \'object\') {module.exports = gt;}else if (typeof define === "function" && define.amd) {define(function () {return gt;});}else {window.'+(it.variable)+' = gt;}})();';return out;
 };
   tmpl['mapDeclaration']=function anonymous(it) {
 var out='var t = {'+(it.body)+'};';return out;

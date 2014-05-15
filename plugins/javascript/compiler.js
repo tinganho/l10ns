@@ -237,12 +237,24 @@ Compiler.prototype._getConditionString = function(conditions, vars) {
     throw new TypeError('string does not represent a condition');
   }
 
-  return tmpl.condition({
-    condition : _condition,
-    operand1  : operand1,
-    operator  : operator,
-    operand2  : operand2
-  });
+  if(operator !== 'lni') {
+    return tmpl.condition({
+      condition : _condition,
+      operand1  : operand1,
+      operator  : operator,
+      operand2  : operand2
+    });
+  }
+  else {
+    return tmpl.conditionFunction({
+      condition : _condition,
+      operand1  : operand1,
+      function  : operator,
+      operand2  : operand2
+    });
+  }
+
+
 };
 
 /**
@@ -271,12 +283,22 @@ Compiler.prototype._getAdditionalConditionString = function(conditions, vars) {
       throw new TypeError('string does not represent a condition');
     }
 
-    str += this.space + tmpl.additionalCondition({
-      additionalCondition : additionalCondition,
-      operand1            : operand1,
-      operator            : operator,
-      operand2            : operand2
-    });
+    if(operator !== 'lni') {
+      str += this.space + tmpl.additionalCondition({
+        additionalCondition: additionalCondition,
+        operand1: operand1,
+        operator: operator,
+        operand2: operand2
+      });
+    }
+    else {
+      str += this.space + tmpl.additionalConditionFunction({
+        additionalCondition: additionalCondition,
+        operand1: operand1,
+        function: operator,
+        operand2: operand2
+      });
+    }
 
     index += 4;
   }

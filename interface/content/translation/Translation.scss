@@ -8,7 +8,7 @@ $padding: 40px;
   width: calc(720px - #{2 * $padding});
   margin: auto;
   background-color: #cbcbcb;
-  padding: $padding;
+  padding: $padding $padding 0 $padding;
 }
 
 .translation-title {
@@ -40,6 +40,7 @@ $padding: 40px;
 .translation-inputs {
   width: calc(73.33% - 2px);
   float: left;
+  padding-bottom: 40px;
 
   .translation-sub-title {
     margin-left: 2px;
