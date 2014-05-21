@@ -85,6 +85,29 @@ module.exports = function(grunt) {
       }
     },
 
+    rev: {
+      options: {
+        algorithm: 'sha1',
+        length: 8
+      },
+      files: {
+        src: [
+          'dist/public/styles/**/*.css',
+          'dist/public/conf/**/*.js',
+          'dist/public/scripts/**/*.js',
+          'dist/vendor/modernizr/modernizr.js',
+          'dist/vendor/requirejs/require.js',
+          'dist/modules/device/features.js',
+          'dist/public/images/**/*.{png,jpg}',
+          '!dist/public/images/main/**/*',
+          '!dist/public/images/main2x/**/*',
+          '!dist/public/images/flags/**/*',
+          '!dist/public/images/flags2x/**/*',
+          'dist/public/images-webp/**/*.webp',
+        ]
+      }
+    },
+
     modernizr : {
       dist : {
         devFile : 'interface/vendor/modernizr/modernizr.js',
@@ -259,6 +282,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-webp');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-rev');
   grunt.loadNpmTasks('grunt-dot-compiler');
   grunt.loadNpmTasks('grunt-modernizr');
   grunt.loadNpmTasks('grunt-mocha');

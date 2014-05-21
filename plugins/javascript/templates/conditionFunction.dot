@@ -1,0 +1,13 @@
+
+<!--
+
+Condition last number is string
+
+@param {string} condition
+@param {string} operand1
+@param {string} operator
+@param {string} operand2
+
+!-->
+
+{{=it.condition}}({{=it.function}}({{=it.operand1}}, {{=it.operand2}})
