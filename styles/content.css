@@ -1,0 +1,40 @@
+
+.top-bar {
+  width: 800px;
+  color: #ffffff;
+  margin: 0 auto;
+  border-bottom: 1px solid #ffffff;
+  padding: 14px 0;
+}
+
+.logo {
+  font-size: 24px;
+}
+
+.hero {
+  margin-top: 110px;
+  width: 800px;
+  margin: 0 auto;
+  color: #ffffff;
+  overflow: hidden;
+  margin: 100px auto 0px;
+}
+
+.hero-title,
+.hero-description {
+  text-align: center;
+}
+
+.hero-install {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.hero-install-text {
+  font-size: 24px;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 15px 20px;
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  display: inline-block;
+}
