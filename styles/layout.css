@@ -6,3 +6,7 @@ body {
   height: 770px;
   background-color: #fb6c6c;
 }
+
+.hero-section {
+  min-height: 300px;
+}
