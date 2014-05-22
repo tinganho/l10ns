@@ -41,3 +41,8 @@
   display: inline-block;
   line-height: 24px;
 }
+
+.hero-image {
+  margin-top: 50px;
+  text-align: center;
+}
