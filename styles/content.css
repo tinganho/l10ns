@@ -9,7 +9,7 @@
 }
 
 .logo {
-  font-size: 24px;
+  font-size: 18px;
   float: left;
 }
 
@@ -39,4 +39,5 @@
   border-radius: 5px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   display: inline-block;
+  line-height: 24px;
 }

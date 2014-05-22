@@ -23,12 +23,17 @@ h2 {
   line-height: 30px;
 }
 
+a {
+  text-decoration: none;
+  color: #ffffff;
+}
+
 .menu {
   float: right;
-  font-size: 24px;
+  font-size: 18px;
+  line-height: 18px;
   padding: 0;
   margin: 0;
-  line-height: 24px;
 }
 
 .menu-item {
