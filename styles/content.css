@@ -32,7 +32,7 @@
   margin-top: 50px;
 }
 
-.hero-install-text {
+.hero-install-red-text {
   font-size: 24px;
   background-color: rgba(255, 255, 255, 0.1);
   padding: 15px 20px;
@@ -42,12 +42,23 @@
   line-height: 24px;
 }
 
+.hero-install-gray-text {
+  font-size: 24px;
+  background-color: #eee;
+  padding: 15px 20px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  display: inline-block;
+  line-height: 24px;
+}
+
+
 .hero-image {
   margin-top: 50px;
   text-align: center;
 }
 
-.worflow-section-title {
+.workflow-section-title {
   margin-top: 100px;
   text-align: center;
 }
