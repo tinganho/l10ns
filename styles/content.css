@@ -51,3 +51,56 @@
   margin-top: 100px;
   text-align: center;
 }
+
+.workflow-timeline {
+  position: absolute;
+  top: 100px;
+  left: 50%;
+  margin-left: -1.5px;
+  background-color: #d0d0d0;
+  width: 3px;
+  height: 800px;
+}
+
+.workflow-step {
+  position: relative;
+  width: 800px;
+  margin: 0 auto;
+  display: table;
+}
+
+.description {
+  display: table-cell;
+  vertical-align: middle;
+  width: calc(800px / 2 - 40px);
+}
+
+.description-left {
+  text-align: right;
+}
+
+.description-right {
+  text-align: left;
+}
+
+.code-container {
+  display: table-cell;
+  vertical-align: middle;
+  width: calc(800px / 2 - 40px);
+}
+
+.code {
+  padding: 15px 40px;
+  color: #ffffff;
+  display: block;
+  background-color: #333333;
+  border-radius: 10px;
+}
+
+.code-right {
+  margin: 40px 40px 40px 0;
+}
+
+.code-left {
+  margin: 40px 0 40px 40px;
+}

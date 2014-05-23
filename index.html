@@ -27,7 +27,7 @@
       <h1 class="hero-title">Effective translation workflow</h1>
       <h2 class="hero-description">CLI tool for effectively update translation keys<br>edit translations and open a translation interface.</h2>
       <div class="hero-install">
-        <div class="hero-install-text">$ npm install get-translation -g</div>
+        <div class="hero-install-text">npm install get-translation -g</div>
       </div>
       <div class="hero-image">
         <img src="images/cli-and-editor.png">
@@ -37,7 +37,83 @@
 
   <section class="hero-section white-section">
     <h1 class="worflow-section-title">Workflow timeline</h1>
-  </section>
+    <div class="workflow-timeline"></div>
+    <section class="workflow-step">
+      <div class="description description-left">
+        <h2 class="workflow-step-description description-text">Write your source code</h2>
+      </div>
+      <div class="timeline-pin-container">
+        <div class="timeline-pin"></div>
+      </div>
+      <div class="code-container">
+        <code class="code code-right">
+        <span class="blue">var</span> properties <span class="red">=</span> {<br>
+        <span class="tab"></span>title: gt(<span class="yellow">’LANDING_TITLE’</span>)<br>
+        };
+        </code>
+      </div>
+    </section>
 
+    <section class="workflow-step">
+      <div class="code-container">
+        <code class="code code-left">
+          <span class="blue">$ </span>gt update
+        </code>
+      </div>
+      <div class="timeline-pin-container">
+        <div class="timeline-pin"></div>
+      </div>
+      <div class="description description-right">
+        <h2 class="workflow-step-description description-text">Update translation keys</h2>
+      </div>
+    </section>
+
+    <section class="workflow-step">
+      <div class="description description-left">
+        <h2 class="workflow-step-description description-text">Get latest translation keys</h2>
+      </div>
+      <div class="timeline-pin-container">
+        <div class="timeline-pin"></div>
+      </div>
+      <div class="code-container">
+        <code class="code code-right">
+          <span class="blue">$ </span> gt log<br>
+          <span class="yellow">@1 </span>LANDING__TITLE | <span class="green">The bes...</span><br>
+          <span class="yellow">@2 </span>LANDING__DESCRIPTION | <span class="green">H...</span><br>
+          <span class="yellow">@3 </span>BASE__LOG_OUT | <span class="green">Log out</span><br>
+          <span class="yellow">@4 </span>BASE__SIGN_IN | <span class="green">Sign in</span><br>
+          ...
+        </code>
+      </div>
+    </section>
+
+    <section class="workflow-step">
+      <div class="code-container">
+        <code class="code code-left">
+          <span class="blue">$ </span>gt set @1 “Some title”
+        </code>
+      </div>
+      <div class="timeline-pin-container">
+        <div class="timeline-pin"></div>
+      </div>
+      <div class="description description-right">
+        <h2 class="workflow-step-description description-text">Edit translations</h2>
+      </div>
+    </section>
+
+    <section class="workflow-step">
+      <div class="description description-left">
+        <h2 class="workflow-step-description description-text">Compile translations</h2>
+      </div>
+      <div class="timeline-pin-container">
+        <div class="timeline-pin"></div>
+      </div>
+      <div class="code-container">
+        <code class="code code-right">
+          <span class="blue">$ </span> gt compile
+        </code>
+      </div>
+    </section>
+  </section>
 </body>
 </html>

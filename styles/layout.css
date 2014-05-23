@@ -8,5 +8,6 @@ body {
 }
 
 .hero-section {
+  position: relative;
   min-height: 300px;
 }

@@ -40,3 +40,38 @@ a {
   float: left;
   margin-left: 22px;
 }
+
+.timeline-pin-container {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.timeline-pin {
+  width: 15px;
+  height: 15px;
+  border-radius: 1000px;
+  background-color: #ffffff;
+  border: 3px solid #d0d0d0;
+  display: inline-block;
+}
+
+code .blue {
+  color: #62beff;
+}
+
+code .red {
+  color: #ed515c;
+}
+
+code .yellow {
+  color: #dde171;
+}
+
+code .green {
+  color: #77a565;
+}
+
+code .tab {
+  margin-left: 20px;
+}
