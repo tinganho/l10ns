@@ -58,6 +58,10 @@
   text-align: center;
 }
 
+.hero-image img {
+  width: 717px;
+}
+
 .workflow-section-title {
   margin-top: 100px;
   text-align: center;
