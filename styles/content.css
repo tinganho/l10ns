@@ -8,6 +8,13 @@
   overflow: hidden;
 }
 
+@media(max-width: 800px) {
+  .top-bar {
+    width: calc(100% - 20px);
+    margin: 0 10px;
+  }
+}
+
 .logo {
   font-size: 18px;
   float: left;
@@ -22,10 +29,29 @@
   margin: 100px auto 0px;
 }
 
+@media(max-width: 800px) {
+  .hero {
+    margin-top: 40px;
+    width: 100%;
+  }
+}
+
 .hero-title,
 .hero-description {
   text-align: center;
 }
+
+@media(max-width: 800px) {
+  .hero-title,
+  .hero-description {
+    margin: 40px 20px;
+  }
+
+  .hero-description br {
+    display: none;
+  }
+}
+
 
 .hero-install {
   text-align: center;
@@ -62,6 +88,12 @@
   width: 717px;
 }
 
+@media(max-width: 800px) {
+  .hero-image img {
+    width: 100%;
+  }
+}
+
 .workflow-section-title {
   margin-top: 100px;
   text-align: center;
@@ -82,6 +114,16 @@
   width: 800px;
   margin: 0 auto;
   display: table;
+}
+
+@media(max-width: 800px) {
+  .workflow-steps {
+    display: none;
+  }
+
+  .workflow-timeline {
+    display: none;
+  }
 }
 
 .description {
@@ -118,4 +160,8 @@
 
 .code-left {
   margin: 40px 0 40px 40px;
+}
+
+.hero-complex-translation {
+  margin-top: 70px;
 }
