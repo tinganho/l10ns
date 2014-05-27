@@ -102,6 +102,8 @@
 .workflow-section-title {
   margin-top: 100px;
   text-align: center;
+  margin-left: 40px;
+  margin-right: 40px;
 }
 
 .workflow-timeline {
@@ -173,6 +175,7 @@
   .code {
     padding: 10px 20px;
     font-size: 12px;
+    margin: 40px 0;
   }
 }
 
