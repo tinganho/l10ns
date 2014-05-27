@@ -56,10 +56,16 @@
 .hero-install {
   text-align: center;
   margin-top: 50px;
+  font-size: 24px;
+}
+
+@media(max-width: 300px) {
+  .hero-install {
+    font-size: 18px;
+  }
 }
 
 .hero-install-red-text {
-  font-size: 24px;
   background-color: rgba(255, 255, 255, 0.1);
   padding: 15px 20px;
   border-radius: 5px;
@@ -69,7 +75,6 @@
 }
 
 .hero-install-gray-text {
-  font-size: 24px;
   background-color: #eee;
   padding: 15px 20px;
   border-radius: 5px;
@@ -116,8 +121,18 @@
   display: table;
 }
 
+.workflow-steps-mobile {
+  margin: 0 40px;
+}
+
+@media(min-width: 800px) {
+  .workflow-steps-mobile {
+    display: none;
+  }
+}
+
 @media(max-width: 800px) {
-  .workflow-steps {
+  .workflow-steps-desktop {
     display: none;
   }
 
@@ -152,6 +167,13 @@
   display: block;
   background-color: #333333;
   border-radius: 10px;
+}
+
+@media(max-width: 500px) {
+  .code {
+    padding: 10px 20px;
+    font-size: 12px;
+  }
 }
 
 .code-right {

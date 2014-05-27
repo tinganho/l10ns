@@ -40,7 +40,49 @@
   <section class="hero-section white-section">
     <h1 class="workflow-section-title">Workflow timeline</h1>
     <div class="workflow-timeline"></div>
+    <div class="workflow-steps-mobile">
+      <div class="description-mobile">
+        <h2 class="workflow-step-description description-text">Write your source code</h2>
+      </div>
+      <code class="code code-right">
+        <span class="blue">var</span> properties <span class="red">=</span> {<br>
+        <span class="tab"></span>title: gt(<span class="yellow">’LANDING_TITLE’</span>)<br>
+        };
+      </code>
 
+      <div class="description-mobile">
+        <h2 class="workflow-step-description description-text">Update translation keys</h2>
+      </div>
+      <code class="code code-right">
+        <span class="blue">$ </span>gt update
+      </code>
+
+      <div class="description-mobile">
+        <h2 class="workflow-step-description description-text">Get latest translation keys</h2>
+      </div>
+      <code class="code code-right">
+        <span class="blue">$ </span> gt log<br>
+        <span class="yellow">@1 </span>LANDING__TITLE | <span class="green">The bes...</span><br>
+        <span class="yellow">@2 </span>LANDING__DESCRIPTION | <span class="green">H...</span><br>
+        <span class="yellow">@3 </span>BASE__LOG_OUT | <span class="green">Log out</span><br>
+        <span class="yellow">@4 </span>BASE__SIGN_IN | <span class="green">Sign in</span><br>
+        ...
+      </code>
+
+      <div class="description-mobile">
+        <h2 class="workflow-step-description description-text">Edit translations</h2>
+      </div>
+      <code class="code code-right">
+        <span class="blue">$ </span>gt set @1 “Some title”
+      </code>
+
+      <div class="description-mobile">
+        <h2 class="workflow-step-description description-text">Compile translations</h2>
+      </div>
+      <code class="code code-right">
+        <span class="blue">$ </span> gt compile
+      </code>
+    </div>
     <div class="workflow-steps-desktop">
       <section class="workflow-step">
         <div class="description description-left">
@@ -51,9 +93,9 @@
         </div>
         <div class="code-container">
           <code class="code code-right">
-          <span class="blue">var</span> properties <span class="red">=</span> {<br>
-          <span class="tab"></span>title: gt(<span class="yellow">’LANDING_TITLE’</span>)<br>
-          };
+            <span class="blue">var</span> properties <span class="red">=</span> {<br>
+            <span class="tab"></span>title: gt(<span class="yellow">’LANDING_TITLE’</span>)<br>
+            };
           </code>
         </div>
       </section>
