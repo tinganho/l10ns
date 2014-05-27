@@ -3,6 +3,10 @@ html {
   font: 100 14px/18px "Helvetica Neue", Arial, sans-serif;
 }
 
+body {
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+
 ul {
   list-style: none;
 }
@@ -17,15 +21,38 @@ h1 {
   line-height: 58px;
 }
 
+@media(max-width: 500px) {
+  h1 {
+    font-size: 32px;
+    line-height: 34px;
+    font-weight: 200;
+  }
+}
+
 h2 {
   font-size: 24px;
   font-weight: 100;
   line-height: 30px;
 }
 
+@media(max-width: 500px) {
+  h2 {
+    font-size: 18px;
+    line-height: 22px;
+    font-weight: 200;
+  }
+}
+
+
 a {
   text-decoration: none;
   color: #ffffff;
+}
+
+@media(max-width: 800px) {
+  a {
+    font-weight: 200;
+  }
 }
 
 .menu {

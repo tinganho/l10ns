@@ -1,10 +1,13 @@
 
-body {
-}
-
 .red-section {
   height: 770px;
   background-color: #fb6c6c;
+}
+
+@media(max-width: 500px) {
+  .red-section {
+    height: 600px;
+  }
 }
 
 .hero-section {
@@ -14,4 +17,10 @@ body {
 
 .complex-translation-section {
   height: 806px;
+}
+
+@media(max-width: 500px) {
+  .complex-translation-section {
+    height: 550px;
+  }
 }

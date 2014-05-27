@@ -20,6 +20,14 @@
   float: left;
 }
 
+
+
+@media(max-width: 800px) {
+  .logo {
+    font-weight: 200;
+  }
+}
+
 .hero {
   margin-top: 110px;
   width: 800px;
@@ -59,9 +67,10 @@
   font-size: 24px;
 }
 
-@media(max-width: 300px) {
+@media(max-width: 350px) {
   .hero-install {
     font-size: 18px;
+    font-weight: 200;
   }
 }
 
@@ -100,10 +109,8 @@
 }
 
 .workflow-section-title {
-  margin-top: 100px;
   text-align: center;
-  margin-left: 40px;
-  margin-right: 40px;
+  margin: 100px 40px 40px 40px;
 }
 
 .workflow-timeline {
