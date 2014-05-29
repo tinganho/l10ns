@@ -48,6 +48,15 @@ module.exports = function(app) {
    */
 
   app.configure(function() {
+    app.use(function(request, response, next) {
+      if(request.url === '/') {
+        response.redirect('/' + cf.DEFAULT_LOCALE + '/');
+        return;
+      }
+      else {
+        next();
+      }
+    });
     app.use(express.query());
     app.use(express.compress());
     app.set('port', process.env.PORT || cf.DEFAULT_PORT);

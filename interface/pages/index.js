@@ -1,6 +1,6 @@
 
 module.exports = function(page) {
-  page('/')
+  page('/:locale/')
     .hasDocument('default')
       .withProperties({
         title : 'Translations',
