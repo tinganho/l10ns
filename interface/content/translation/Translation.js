@@ -243,7 +243,7 @@ define(function(require) {
           .send(json)
           .end(function(error, response) {
             if(!error) {
-              app.models.translations.get(json.id).set({ text: json.text });
+              app.models.translations.get(json.id).set(json);
             }
             else {
               alert('Couldn\'t update translation.');

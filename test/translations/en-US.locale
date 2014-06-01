@@ -1,4 +1,4 @@
-{"key":"efwedwefdefddqwdedwwedwecdsdewefdwfew","values":["fuhh"],"vars":[],"text":"fuhh","timestamp":1390884520167,"_new":false,"variables":null,"files":["test/example/example.js"],"id":"kz7LRLLMtax","value":[]}
+{"key":"efwedwefdefddqwdedwwedwecdsdewefdwfew","values":["wefefw"],"vars":[],"text":"wefefw","timestamp":1390884520167,"_new":false,"variables":null,"files":["test/example/example.js"],"id":"kz7LRLLMtax","value":[]}
 {"key":"It can have an if and else statement","values":[["if","${test}","lni","1","it works"],["else if","value1","==","value2","else works"],["else","wrffweef"]],"vars":["${test}"],"text":"it works\nelse works\nwrffweef","timestamp":1390715987508,"_new":false,"variables":null,"files":["test/example/example.js"],"id":"7KgrjaqMtk"}
 {"key":"wef","values":["wefewffew"],"vars":[],"text":"wef","timestamp":1390715987508,"_new":false,"variables":null,"files":["test/example/example.js"],"id":"g5kxkzzXHaK"}
 {"key":"It can have %%","vars":[],"files":["test/example/example.js"],"values":[],"text":"It can have %%","timestamp":1390375479349,"_new":false,"id":"8dkB4g9xs4"}
