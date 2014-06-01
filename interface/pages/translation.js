@@ -1,6 +1,6 @@
 
 module.exports = function(page) {
-  page('/:locale/t/:id')
+  page('/:locale/:id')
     .hasDocument('default')
       .withProperties({
         title : null,

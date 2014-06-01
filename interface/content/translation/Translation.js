@@ -196,7 +196,7 @@ define(function(require) {
       var _this = this, id;
 
       if(inClient) {
-        id = window.location.pathname.split('/')[3];
+        id = window.location.pathname.split('/')[2];
       }
 
       if(method === 'read') {
