@@ -226,7 +226,7 @@ define(function(require) {
             return;
           }
           request
-            .get('/api/t/' + id)
+            .get('/api/' + app.locale + '/t/' + id)
             .end(function(err, res) {
               var translation = res.body;
               _this._parse(translation);
@@ -239,7 +239,7 @@ define(function(require) {
       else if(method === 'update') {
         var json = this.toGTStandardJSON();
         request
-          .put('/api/t/' + id)
+          .put('/api/' + app.locale + '/t/' + id)
           .send(json)
           .end(function() {
 

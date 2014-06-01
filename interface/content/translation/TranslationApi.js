@@ -2,18 +2,18 @@ module.exports = function(app) {
   var file = require('../../../libraries/file')
     , _ = require('underscore');
 
-  app.get('/api/t/:id', function(req, res) {
+  app.get('/api/:locale/t/:id', function(req, res) {
     var id = req.param('id')
-      , locale = req.cookies.gt_locale || pcf.DEFAULT_LOCALE_CODE
+      , locale = req.param('locale')
       , translations = file.readTranslations(locale, { returnType : 'array' })
       , translation = _.findWhere(translations, { id : id })
 
     res.json(translation);
   });
 
-  app.put('/api/t/:id', function(req, res) {
+  app.put('/api/:locale/t/:id', function(req, res) {
     var id = req.param('id')
-      , locale = req.cookies.gt_locale || pcf.DEFAULT_LOCALE_CODE
+      , locale = req.param('locale')
       , translations = file.readTranslations(locale, { returnType : 'array' })
       , translation = req.body;
 
