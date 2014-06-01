@@ -241,8 +241,13 @@ define(function(require) {
         request
           .put('/api/' + app.locale + '/t/' + id)
           .send(json)
-          .end(function() {
-
+          .end(function(error, response) {
+            if(!error) {
+              app.models.translations.get(json.id).set({ text: json.text });
+            }
+            else {
+              alert('Couldn\'t update translation.');
+            }
           });
       }
     },
@@ -255,7 +260,7 @@ define(function(require) {
      */
 
     onHistoryChange : function(path) {
-      if(/^\/t\//.test(path)) {
+      if(/^[a-z]{2}\-[A-Z]{2}\/t\//.test(path)) {
         this.setMeta('revealed', true);
         this.setPageTitle('Translations')
         this.setPageDescription('Edit translations');

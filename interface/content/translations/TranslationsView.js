@@ -17,8 +17,8 @@ define(function(require) {
      * @api public
      */
 
-    initialize : function(model) {
-      this._model = model;
+    constructor: function(model) {
+      this.model = model;
       if(inClient) {
         this._bindMethods();
       }
@@ -31,7 +31,7 @@ define(function(require) {
      * @api public
      */
 
-    _setElements : function() {
+    _setElements: function() {
       this.$region = $('[data-region=body]');
     },
 
@@ -42,11 +42,18 @@ define(function(require) {
      * @api private
      */
 
-    _bindMethods : function() {
+    _bindMethods: function() {
       _.bindAll(this,
         '_showTranslation',
         '_updateMeta'
       );
+    },
+
+    bindModel: function() {
+      var _this = this;
+      this.model.on('change', function(translation) {
+        _this.$('.translation[data-id="kz7LRLLMtax"] .translation-value').html(translation.get('text'));
+      });
     },
 
     /**
@@ -56,7 +63,7 @@ define(function(require) {
      * @api public
      */
 
-    bindDOM : function() {
+    bindDOM: function() {
       this._setElements();
       this._addMouseInteractions();
       this.boundDOM = true;
@@ -71,7 +78,7 @@ define(function(require) {
 
     _addMouseInteractions: function() {
       this.$el.on('click', '.translation', this._showTranslation);
-      this._model.on('metachange', this._updateMeta, this);
+      this.model.on('metachange', this._updateMeta, this);
     },
 
     /**
@@ -82,7 +89,7 @@ define(function(require) {
      */
 
     _updateMeta : function() {
-      if(this._model.getMeta('revealed')) {
+      if(this.model.getMeta('revealed')) {
         this.$region.removeClass('hidden');
       }
       else {
@@ -97,7 +104,7 @@ define(function(require) {
      * @api private
      */
 
-    _showTranslation : function(event) {
+    _showTranslation: function(event) {
       var id = event.currentTarget.getAttribute('data-id')
         , key = encodeURI(event.currentTarget.getAttribute('data-key').replace(/\s/g, '-'));
 
@@ -111,8 +118,8 @@ define(function(require) {
      * @api public
      */
 
-    render : function() {
-      return this.template(this._model.toJSON());
+    render: function() {
+      return this.template(this.model.toJSON());
     },
 
     /**

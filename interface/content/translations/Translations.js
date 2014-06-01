@@ -45,7 +45,7 @@ define(function(require) {
      * @overried sync
      */
 
-    sync : function(method, collection, opts, req) {
+    sync : function(method, collection, options, req) {
       if(method === 'read') {
         if(inServer) {
           collection.reset();
@@ -58,20 +58,15 @@ define(function(require) {
           else {
             this.setMeta('revealed', true);
           }
-          opts.success(collection.toJSON());
+          options.success(collection.toJSON());
         }
         else {
           var $json = $('.js-json-translations');
           if($json.length) {
-            this.add(JSON.parse($json.html()));
             $json.remove();
-            opts.success();
+            options.success(JSON.parse($json.html()));
             return;
           }
-          request
-            .get('/translations')
-            .end(function(err, data) {
-            })
         }
       }
     },

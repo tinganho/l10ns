@@ -94,7 +94,6 @@ require([
   window.app = {
     routers: {},
     models: {},
-    collections: {},
     views: {},
     components: {},
     document: new Document,
