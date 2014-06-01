@@ -92,20 +92,21 @@ require([
 
   // App
   window.app = {
-    routers : {},
-    models : {},
-    collections : {},
-    views : {},
-    components : {},
-    document : new Document,
-    $document : $(document),
-    layoutTemplates : layoutTemplates,
-    initialPageLoad : true,
-    $body : $body,
-    $layout : $body.find('[data-layout]'),
-    navigate : function(path) {
+    routers: {},
+    models: {},
+    collections: {},
+    views: {},
+    components: {},
+    document: new Document,
+    $document: $(document),
+    layoutTemplates: layoutTemplates,
+    initialPageLoad: true,
+    $body: $body,
+    $layout: $body.find('[data-layout]'),
+    navigate: function(path) {
       Backbone.Router.prototype.navigate(path, { trigger : true });
-    }
+    },
+    locale: window.location.pathname.split('/')[1]
   };
 
   /**

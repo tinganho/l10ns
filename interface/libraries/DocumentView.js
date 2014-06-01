@@ -84,24 +84,6 @@ define(function(require) {
 
     updateDescription : function() {
       this.$description.setAttribute('content', this._model.get('description'));
-    },
-
-    /**
-     * Update description
-     *
-     * @delegate
-     */
-
-    updateScroll : function() {
-      var classList = document.documentElement.classList;
-      if(this._model.get('noScroll')) {
-        _.defer(function() {
-          classList.add('no-scroll');
-        });
-      }
-      else {
-        classList.remove('no-scroll');
-      }
     }
   });
 });

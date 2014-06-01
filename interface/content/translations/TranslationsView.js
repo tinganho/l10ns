@@ -99,7 +99,7 @@ define(function(require) {
 
     _showTranslation : function(event) {
       var id = event.currentTarget.getAttribute('data-id');
-      app.navigate('/t/' + id);
+      app.navigate('/' + app.locale + '/t/' + id);
     },
 
     /**

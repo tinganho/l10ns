@@ -84,7 +84,7 @@ define(function(require) {
      */
 
     onHistoryChange : function(path) {
-      if(path === '') {
+      if(/^[a-z]{2}\-[A-Z]{2}\/$/.test(path)) {
         this.setMeta('revealed', true);
         this.setPageTitle('Translations')
         this.setPageDescription('Latest translations');
