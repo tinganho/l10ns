@@ -98,8 +98,10 @@ define(function(require) {
      */
 
     _showTranslation : function(event) {
-      var id = event.currentTarget.getAttribute('data-id');
-      app.navigate('/' + app.locale + '/' + id);
+      var id = event.currentTarget.getAttribute('data-id')
+        , key = encodeURI(event.currentTarget.getAttribute('data-key').replace(/\s/g, '-'));
+
+      app.navigate('/' + app.locale + '/t/' + id + '/' + key);
     },
 
     /**

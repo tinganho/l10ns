@@ -50,7 +50,7 @@ module.exports = function(app) {
   app.configure(function() {
     app.use(function(request, response, next) {
       if(request.url === '/') {
-        response.redirect('/' + cf.DEFAULT_LOCALE + '/');
+        response.redirect('/' + cf.DEFAULT_LOCALE + '/translations');
         return;
       }
       else {
@@ -74,11 +74,12 @@ module.exports = function(app) {
    * Production configurations
    */
 
-  app.configure('development', function() {
+  app.configure('production', function() {
     app.use(function(req, res, next) {
       res.send('404', { status: 404, url: req.url });
     });
     app.use(function(err, req, res, next) {
+      console.error(err.message);
       res.send('500', {
           status: err.status || 500
         , error: err

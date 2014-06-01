@@ -8,7 +8,7 @@
   </thead>
   <tbody>
     {{~it :translation:index}}
-      <tr class="translation" data-id="{{=translation.id}}">
+      <tr class="translation" data-id="{{=translation.id}}" data-key="{{=translation.key}}">
         <td class="translation-col translation-key">{{=translation.key}}</td>
         <td class="translation-col translation-value">{{=translation.text.replace('\n', '<br>')}}</td>
       </tr>
