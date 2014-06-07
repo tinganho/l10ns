@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/tinganho/get-translation.png?label=ready&title=Ready)](https://waffle.io/tinganho/get-translation)
 (WIP) get-translation [![Build Status](https://travis-ci.org/tinganho/get-translation.png)](https://travis-ci.org/tinganho/get-translation)
 ==============
 Effective translation workflow. 
