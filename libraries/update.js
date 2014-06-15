@@ -117,6 +117,7 @@ Update.prototype._getSourceKeys = function() {
           newTranslations[key].vars = vars;
           newTranslations[key].text = key;
           newTranslations[key].files = [file];
+          console.log('[added]'.green + key);
           counter++;
         }
         else {
