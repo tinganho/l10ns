@@ -49,7 +49,7 @@ requirejs.config({
       'View' : 'libraries/View',
       'Collection' : 'libraries/Collection',
       'Model' : 'libraries/Model',
-      'contentTemplates' : 'public/templates/content/app',
+      'contentTemplates' : 'public/templates/contents/templates',
 
       'CompositeRouter' : 'public/scripts/routers/composer',
       'request' : 'libraries/client/request',

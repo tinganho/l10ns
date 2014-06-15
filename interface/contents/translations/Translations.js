@@ -8,7 +8,7 @@ if(inServer) {
 
 define(function(require) {
   var Collection = inServer ? require('../../libraries/Collection') : require('Collection')
-    , Translation = inServer ? require('./Translation') : require('content/translations/Translation')
+    , Translation = require('./Translation')
     , _ = require('underscore')
 
   if(inClient) {

@@ -153,7 +153,7 @@ Page.prototype._getRegions = function(callback, req) {
       model.fetch({
         success : function() {
           view = new View(model)
-          regions[name] = view.render();
+          regions[name] = view.toHTML();
 
           if(typeof model.page.title === 'string' && model.page.title.length > 0) {
             _this._documentProps.title = model.page.title;
@@ -178,7 +178,7 @@ Page.prototype._getRegions = function(callback, req) {
     }
     catch(err) {
       if(err.message === 'A "url" property or function must be specified') {
-        regions[name] = view.render();
+        regions[name] = view.toHTML();
         n++;
         if(n === size) {
           callback(regions, jsonScripts);

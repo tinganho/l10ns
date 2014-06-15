@@ -71,13 +71,13 @@ define(function(require) {
     },
 
     /**
-     * Render view
+     * To HTML
      *
      * @return {void}
      * @api public
      */
 
-    render : function() {
+    toHTML: function() {
       return this.template(this.model.toJSON());
     },
 

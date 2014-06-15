@@ -17,16 +17,20 @@ module.exports = function(page) {
     .hasLayout('app')
       .withRegions({
         search : {
-          model : 'content/search/Search',
-          view : 'content/search/SearchView'
+          model : 'contents/search/Search',
+          view : 'contents/search/SearchView'
+        },
+        locales: {
+          model: 'contents/locales/Locales',
+          view: 'contents/locales/LocalesView'
         },
         body : {
-          model : 'content/translations/Translations',
-          view : 'content/translations/TranslationsView'
+          model : 'contents/translations/Translations',
+          view : 'contents/translations/TranslationsView'
         },
         translation : {
-          model : 'content/translation/Translation',
-          view : 'content/translation/TranslationView'
+          model : 'contents/translation/Translation',
+          view : 'contents/translation/TranslationView'
         }
       })
     .handleErrorsUsing(function(err) {});

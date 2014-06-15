@@ -563,13 +563,13 @@ define(function(require) {
     },
 
     /**
-     * Render view
+     * To HTML
      *
      * @return {void}
      * @api public
      */
 
-    render : function() {
+    toHTML : function() {
       var _this = this
         , html = '', values = []
         , json = this.model.toJSON()

@@ -75,7 +75,7 @@ module.exports = function(grunt) {
       content : {
         options : {
           require : compassRequires,
-          sassDir : 'interface/content/styles',
+          sassDir : 'interface/contents/styles',
           cssDir : 'interface/public/styles/content',
           debugInfo : true,
           noLineComments : true,
@@ -174,11 +174,11 @@ module.exports = function(grunt) {
           node : true
         },
         src : [
-          'interface/content/translations/**/*.dot',
-          'interface/content/search/**/*.dot',
-          'interface/content/translation/**/*.dot'
+          'interface/contents/translations/**/*.dot',
+          'interface/contents/search/**/*.dot',
+          'interface/contents/translation/**/*.dot'
         ],
-        dest : 'interface/public/templates/content/app.js'
+        dest : 'interface/public/templates/contents/templates.js'
       },
 
       jsPlugin : {
@@ -233,10 +233,10 @@ module.exports = function(grunt) {
 
       styles_content_app : {
         files : [
-          'interface/content/styles/app.scss',
-          'interface/content/translations/**/*.scss',
-          'interface/content/search/**/*.scss',
-          'interface/content/edit/**/*.scss'
+          'interface/contents/styles/app.scss',
+          'interface/contents/translations/**/*.scss',
+          'interface/contents/search/**/*.scss',
+          'interface/contents/edit/**/*.scss'
         ],
         tasks : ['compass:content']
       }

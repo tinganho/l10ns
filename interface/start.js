@@ -103,7 +103,7 @@ var page = require('./core/page')
  * Content templates
  */
 
-global.content_appTemplates = requirejs('./public/templates/content/app');
+global.content_appTemplates = requirejs('./public/templates/contents/templates');
 
 /**
  * Read document and layout templates
