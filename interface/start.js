@@ -1,4 +1,6 @@
 
+require('../binaries/gt');
+
 /**
  * Set inServer and inClient globals
  */

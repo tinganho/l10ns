@@ -1,3 +1,14 @@
 
 <div class="locales" data-content="locales">
+  <div class="locales-button">
+    <i class="locales-button-icon sp-default sp-default-globe"></i>
+    <span class="locales-button-text">{{=it.currentLocale}}</span>
+  </div>
+  <ul class="locales-dropdown">
+    {{ for(var locale in it.locales) { }}
+      <li class="locale">
+        <a class="locale-anchor">{{=locale}}</a>
+      </li>
+    {{ } }}
+  </ul>
 </div>

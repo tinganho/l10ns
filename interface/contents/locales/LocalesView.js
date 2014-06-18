@@ -28,7 +28,7 @@ define(function(require) {
      */
 
     toHTML: function() {
-      return '';
+      return template['Locales']({ currentLocale: this.model.get('locale'), locales: cf.LOCALES });
     }
   });
 });

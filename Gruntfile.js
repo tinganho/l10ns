@@ -174,9 +174,7 @@ module.exports = function(grunt) {
           node : true
         },
         src : [
-          'interface/contents/translations/**/*.dot',
-          'interface/contents/search/**/*.dot',
-          'interface/contents/translation/**/*.dot'
+          'interface/contents/**/*.dot'
         ],
         dest : 'interface/public/templates/contents/templates.js'
       },
@@ -233,10 +231,7 @@ module.exports = function(grunt) {
 
       styles_content_app : {
         files : [
-          'interface/contents/styles/app.scss',
-          'interface/contents/translations/**/*.scss',
-          'interface/contents/search/**/*.scss',
-          'interface/contents/edit/**/*.scss'
+          'interface/contents/**/*.scss'
         ],
         tasks : ['compass:content']
       }

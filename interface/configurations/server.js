@@ -136,7 +136,7 @@ var configurations = {
    * @type {Array.<String>}
    */
 
-  LOCALES : ['en-US'],
+  LOCALES : pcf.locales,
 
   /**
    * The default locale used for the website. Recommend use locale name.

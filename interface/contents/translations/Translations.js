@@ -45,14 +45,14 @@ define(function(require) {
      * @overried sync
      */
 
-    sync : function(method, collection, options, req) {
+    sync : function(method, collection, options, request) {
       if(method === 'read') {
         if(inServer) {
           collection.reset();
-          var translations = file.readTranslations(pcf.DEFAULT_LOCALE_CODE, { returnType : 'array' }).slice(0, cf.TRANSLATION_ITEMS_PER_PAGE);
+          var translations = file.readTranslations(request.param('locale'), { returnType : 'array' }).slice(0, cf.TRANSLATION_ITEMS_PER_PAGE);
           collection.add(translations, { merge: true });
 
-          if(/^\/t/.test(req.url)) {
+          if(/^\/t/.test(request.url)) {
             this.setMeta('revealed', false);
           }
           else {
