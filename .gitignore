@@ -6,6 +6,7 @@ test/translations/delete.log
 .gt/
 docs/
 interface/public/images/default-*
+interface/public/images/default2x-*
 interface/public/images-webp/
 interface/public/styles/
 interface/public/scripts/
