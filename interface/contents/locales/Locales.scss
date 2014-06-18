@@ -1,0 +1,23 @@
+
+.locales {
+  position: absolute;
+  top: 0;
+  right: 40px;
+  color: #fff;
+  height: 40px;
+  line-height: 40px;
+  overflow: hidden;
+}
+
+.locales-button {
+  cursor: pointer;
+}
+
+.locales-button-icon {
+  margin-top: -6px;
+}
+
+.locales-button-text {
+  margin-left: 8px;
+  font-weight: 300;
+}
