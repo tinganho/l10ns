@@ -97,7 +97,21 @@ File.prototype._sortMaptoArray = function(newTranslations) {
     }
 
     translations[locale] = translations[locale].sort(function(a, b) {
-      return b.timestamp - a.timestamp;
+      if(b.timestamp > a.timestamp) {
+        return 1;
+      }
+      else if(b.timestamp < a.timestamp) {
+        return -1;
+      }
+      else if(b.key > a.key) {
+        return 1;
+      }
+      else if(b.key < a.key) {
+        return -1;
+      }
+      else {
+        return 0;
+      }
     });
   }
 
