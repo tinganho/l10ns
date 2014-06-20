@@ -103,10 +103,10 @@ File.prototype._sortMaptoArray = function(newTranslations) {
       else if(b.timestamp < a.timestamp) {
         return -1;
       }
-      else if(b.key > a.key) {
+      else if(a.key > b.key) {
         return 1;
       }
-      else if(b.key < a.key) {
+      else if(a.key < b.key) {
         return -1;
       }
       else {
