@@ -107,7 +107,7 @@ Compiler.prototype._getTranslationMap = function(locale) {
     body += field;
 
     if(!this.quiet && locale === pcf.defaultLocale) {
-      console.log('[success] '.green + this._normalizeText(key));
+      console.log('[compiled] '.green + this._normalizeText(key));
     }
 
     n++;
