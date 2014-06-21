@@ -150,7 +150,8 @@ Update.prototype._mergeTranslations = function(newTranslations, callback) {
   for(var locale in this.locales) {
     _newTranslations[locale] = JSON.parse(JSON.stringify(newTranslations));
     for(var key in _newTranslations[locale]) {
-      if(typeof oldTranslations[locale][key] !== 'undefined') {
+      if(typeof oldTranslations[locale] !== 'undefined'
+      && typeof oldTranslations[locale][key] !== 'undefined') {
         var _new = _newTranslations[locale]
           , old  = oldTranslations[locale];
         // Assign translation

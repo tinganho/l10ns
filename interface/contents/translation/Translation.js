@@ -201,7 +201,7 @@ define(function(require) {
 
       if(method === 'read') {
         if(inServer) {
-          var translations = file.readTranslations(pcf.DEFAULT_LOCALE_CODE, { returnType : 'array' });
+          var translations = file.readTranslations(req.param('locale'), { returnType : 'array' });
           var translation = _.findWhere(translations, { id : req.param('id') });
           this._parse(translation);
           this.setPageTitle(translation.key);

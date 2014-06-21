@@ -6,7 +6,12 @@
   color: #fff;
   height: 40px;
   line-height: 40px;
-  overflow: hidden;
+  opacity: 0.7;
+
+  &:hover,
+  &.is-active {
+    opacity: 1;
+  }
 }
 
 .locales-button {
@@ -20,4 +25,68 @@
 .locales-button-text {
   margin-left: 8px;
   font-weight: 300;
+}
+
+.locales-dropdown {
+  position: absolute;
+  top: 42px;
+  right: -10px;
+  width: 100px;
+  background-color: #fff;
+  color: #000;
+  font-weight: 300;
+  border-radius: 2px;
+  padding: 10px 0;
+  display: none;
+  @include box-shadow(1px 1px 2px rgba(0, 0, 0, 0.3));
+
+  .is-active & {
+    display: block;
+  }
+}
+
+.locales-dropdown-caret {
+  position: absolute;
+  top: -8px;
+  left: 11px;
+
+  .caret-outer {
+    position: absolute;
+    border-bottom: 8px solid #8899a6;
+    border-bottom-color: rgba(0,0,0,0.1);
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    height: auto;
+    left: 0;
+    top: 0;
+    width: auto;
+  }
+
+  .caret-inner {
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-bottom: 7px solid #fff;
+    border-bottom-color: rgba(255,255,255,0.98);
+    z-index: 100;
+  }
+}
+
+.locale {
+  height: 30px;
+  padding: 0 10px;
+  cursor: pointer;
+  font-size: 15px;
+
+  &:hover {
+    color: #fff;
+    background-color: #ff5757;
+  }
+}
+
+.locale-anchor {
+  line-height: 30px;
+  display: block;
 }
