@@ -117,7 +117,6 @@ Update.prototype._getSourceKeys = function() {
           newTranslations[key].vars = vars;
           newTranslations[key].text = key;
           newTranslations[key].files = [file];
-          console.log('[added]'.green + ' ' + key);
           counter++;
         }
         else {
@@ -151,7 +150,7 @@ Update.prototype._mergeTranslations = function(newTranslations, callback) {
   for(var locale in this.locales) {
     _newTranslations[locale] = JSON.parse(JSON.stringify(newTranslations));
     for(var key in _newTranslations[locale]) {
-      if(typeof oldTranslations[locale] !== 'undefined') {
+      if(typeof oldTranslations[locale][key] !== 'undefined') {
         var _new = _newTranslations[locale]
           , old  = oldTranslations[locale];
         // Assign translation
@@ -164,6 +163,10 @@ Update.prototype._mergeTranslations = function(newTranslations, callback) {
       else {
         _newTranslations[locale][key].values = [];
         _newTranslations[locale][key].timestamp = now;
+
+        if(locale === pcf.defaultLocale) {
+          console.log('[added]'.green + ' ' + key);
+        }
       }
     }
   }
