@@ -38,7 +38,7 @@ Log.prototype._brackets = function(type) {
  */
 
 Log.prototype.error = function(message) {
-  console.error(this._brackets('ERROR').red + this.space + message);
+  console.error(this._brackets('error').red + this.space + message);
 };
 
 /**
@@ -50,7 +50,7 @@ Log.prototype.error = function(message) {
  */
 
 Log.prototype.success = function(message) {
-  console.log(this._brackets('SUCCESS').green + this.space + message);
+  console.log(this._brackets('success').green + this.space + message);
 };
 
 /**
@@ -62,7 +62,7 @@ Log.prototype.success = function(message) {
  */
 
 Log.prototype.warn = function(message) {
-  console.warn(this._brackets('WARNING').yellow + this.space + message);
+  console.warn(this._brackets('warning').yellow + this.space + message);
 };
 
 /**
