@@ -77,6 +77,13 @@ Page.prototype.withProperties = function(properties) {
     return cf.CLIENT_CONFIGURATIONS_BUILD + '/'  + cf.CLIENT_CONFIGURATIONS_MAP[configuration] + '.js';
   });
   this._documentProps = properties;
+
+  if(typeof properties.title === 'string') {
+    this._documentProps.renderedTitle = properties.title;
+  }
+  if(typeof properties.description === 'string') {
+    this._documentProps.renderedTitle = properties.description;
+  }
   return this;
 };
 
@@ -155,11 +162,15 @@ Page.prototype._getRegions = function(callback, req) {
           view = new View(model)
           regions[name] = view.toHTML();
 
-          if(typeof model.page.title === 'string' && model.page.title.length > 0) {
-            _this._documentProps.title = model.page.title;
+          if(typeof model.page.title === 'string'
+          && model.page.title.length > 0
+          && typeof _this._documentProps.title !== 'string') {
+            _this._documentProps.renderedTitle = model.page.title;
           }
-          if(typeof model.page.description === 'string' && model.page.description.length > 0) {
-            _this._documentProps.description = model.page.description;
+          if(typeof model.page.description === 'string'
+          && model.page.description.length > 0
+          && typeof _this._documentProps.description !== 'string') {
+            _this._documentProps.renderedDescription = model.page.description;
           }
 
           // Push json scripts
@@ -224,8 +235,8 @@ Page.prototype._next = function(req, res) {
 
   this._getRegions(function(regions, jsonScripts) {
     var html = _this._documentTmpl({
-      title : _this._documentProps.title,
-      description : _this._documentProps.description,
+      title : _this._documentProps.renderedTitle,
+      description : _this._documentProps.renderedDescription,
       locale : _this._documentProps.locale,
       styles : _this._documentProps.styles,
       configurations : _this._documentProps.configurations,
