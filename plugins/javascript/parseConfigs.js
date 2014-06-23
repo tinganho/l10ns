@@ -26,7 +26,7 @@ module.exports = {
   //   'test' : 'test'
   // });]]
   //
-  TRANSLATION_FUNCTION_CALL_REGEX : /gt\(['|"](.*)['|"]\s*(\,\s*\{\s*((.*?)|(\s*?))+?\s*\})??\s*\)/g,
+  TRANSLATION_FUNCTION_CALL_REGEX : /gt\(['|"](.*?)['|"]\s*(\,\s*\{\s*((.*?)|(\s*?))+?\s*\})??\s*\)/g,
 
   // Translation key regex should capture a match
   // of the translation key in the second index
