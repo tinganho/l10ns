@@ -43,6 +43,8 @@ Edit.prototype.edit = function(ref, value, locale) {
     return log.error('locale is not defined');
   }
 
+  value = this._removeEscapes(value);
+
   this._getKey(ref)
   .then(function(key) {
     var translations = _this._replace(key, value, locale);
@@ -53,6 +55,18 @@ Edit.prototype.edit = function(ref, value, locale) {
   .fail(function() {
     log.error('Couldn\'t edit your translations');
   });
+};
+
+/**
+ * Remove escaped characters
+ *
+ * @param {String} value
+ * @return {String}
+ * @api private
+ */
+
+Edit.prototype._removeEscapes = function(value) {
+  return value.replace('\\!', '!');
 };
 
 /**
