@@ -1,0 +1,5 @@
+
+<tr class="translation" data-id="{{=it.id}}" data-key="{{=it.key}}">
+  <td class="translation-col translation-key">{{=it.key}}</td>
+  <td class="translation-col translation-value">{{=it.text.replace('\n', '<br>')}}</td>
+</tr>

@@ -13,5 +13,12 @@
         <td class="translation-col translation-value">{{=translation.text.replace('\n', '<br>')}}</td>
       </tr>
     {{~}}
+    {{?it.length === cf.TRANSLATION_ITEMS_PER_PAGE}}
+      <tr class="translations-load">
+        <td class="translation-load-cell">
+          <a class="translation-load-anchor">{{=it.metas.l10n_loadMore}}</a>
+        </td>
+      </tr>
+    {{?}}
   </tbody>
 </table>

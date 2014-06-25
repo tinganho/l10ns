@@ -33,6 +33,7 @@ define(function(require) {
 
     _setElements: function() {
       this.$region = $('[data-region=body]');
+      this.$loadMore = $('.translations-load');
     },
 
     /**
@@ -45,14 +46,31 @@ define(function(require) {
     _bindMethods: function() {
       _.bindAll(this,
         '_showTranslation',
-        '_updateMeta'
+        '_updateMeta',
+        '_nextPage'
       );
     },
 
+    /**
+     * Bind model
+     *
+     * @return {void}
+     * @api public
+     */
+
     bindModel: function() {
       var _this = this;
+
       this.model.on('change', function(translation) {
         _this.$('.translation[data-id="kz7LRLLMtax"] .translation-value').html(translation.get('text'));
+      });
+
+      this.model.on('add', function(translation) {
+        _this.$loadMore.before(template['TranslationItem'](translation.toJSON()));
+      });
+
+      this.model.on('meta:change:empty', function() {
+        _this.$loadMore.remove();
       });
     },
 
@@ -78,7 +96,8 @@ define(function(require) {
 
     _addMouseInteractions: function() {
       this.$el.on('click', '.translation', this._showTranslation);
-      this.model.on('metachange', this._updateMeta, this);
+      this.$el.on('click', '.translation-load-anchor', this._nextPage);
+      this.model.on('meta:change:revealed', this._updateMeta, this);
     },
 
     /**
@@ -109,6 +128,17 @@ define(function(require) {
         , key = encodeURI(event.currentTarget.getAttribute('data-key').replace(/\s/g, '-'));
 
       app.navigate('/' + app.locale + '/t/' + id + '/' + key);
+    },
+
+    /**
+     * Show next page
+     *
+     * @return {void}
+     * @api private
+     */
+
+    _nextPage: function() {
+      this.model.fetchNextPage();
     },
 
     /**

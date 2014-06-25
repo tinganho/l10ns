@@ -35,13 +35,14 @@ define(function(require) {
     setMeta : function(prop, value) {
       var eventName = '';
       if(typeof this.metas[prop] === 'undefined') {
-        eventName = 'metaadd';
+        eventName = 'meta:add';
       }
       else {
-        eventName = 'metachange';
+        eventName = 'meta:change';
       }
       this.metas[prop] = value;
       this.trigger(eventName);
+      this.trigger(eventName + ':' + prop);
 
       return this;
     },

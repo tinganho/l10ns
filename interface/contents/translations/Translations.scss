@@ -3,7 +3,7 @@ $padding-left: 40px;
 $padding-right: 20px;
 
 .translations {
-  padding: $padding-left 0;
+  padding: $padding-left 0 0;
   background-color: #e2e2e2;
   overflow: hidden;
 
@@ -32,10 +32,29 @@ $padding-right: 20px;
   }
 }
 
+.translation:last-child {
+  margin-bottom: 40px;
+}
+
 .translation-col {
   float: left;
   width: calc(50% - #{$padding-left + $padding-right});
   padding-left: $padding-left;
   padding-right: $padding-right;
   word-wrap: break-word;
+}
+
+.translation-load-anchor {
+  height: 60px;
+  display: block;
+  line-height: 60px;
+  text-align: center;
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.05);
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 300;
+
+  &:hover {
+    color: #fff;
+  }
 }

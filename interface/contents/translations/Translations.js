@@ -9,7 +9,7 @@ if(inServer) {
 define(function(require) {
   var Collection = inServer ? require('../../libraries/Collection') : require('Collection')
     , Translation = require('./Translation')
-    , _ = require('underscore')
+    , _ = require('underscore');
 
   if(inClient) {
     var request = require('request');
@@ -23,11 +23,16 @@ define(function(require) {
      * @api public
      */
 
-    initialize : function() {
+    initialize: function() {
       this.metas = _.defaults(this.metas, {
-        l10n_keys : 'Keys',
-        l10n_values : 'Values',
-        revealed : true
+        l10n_keys: 'Keys',
+        l10n_values: 'Values',
+        l10n_loadMore: 'Load more',
+
+        page: 0,
+        pageLength: cf.TRANSLATION_ITEMS_PER_PAGE,
+        revealed: true,
+        empty: false
       });
     },
 
@@ -37,7 +42,7 @@ define(function(require) {
      * @type {Translation}
      */
 
-    model : Translation,
+    model: Translation,
 
     /**
      * We overried default Model sync
@@ -45,7 +50,7 @@ define(function(require) {
      * @overried sync
      */
 
-    sync : function(method, collection, options, request) {
+    sync: function(method, collection, options, request) {
       if(method === 'read') {
         if(inServer) {
           collection.reset();
@@ -78,7 +83,7 @@ define(function(require) {
      * @delegate
      */
 
-    onHistoryChange : function(path) {
+    onHistoryChange: function(path) {
       if(/^[a-z]{2}\-[A-Z]{2}\/translations$/.test(path)) {
         this.setMeta('revealed', true);
         this.setPageTitle('Translations')
@@ -87,6 +92,37 @@ define(function(require) {
       else {
         this.setMeta('revealed', false);
       }
+    },
+
+    /**
+     * Get the next page
+     *
+     * @return {void}
+     * @api public
+     */
+
+    fetchNextPage: function() {
+      var _this = this, nextPage = this.getMeta('page') + 1;
+
+      request
+        .get('/translations')
+        .query({ page: nextPage, locale: app.locale })
+        .end(function(response) {
+          try {
+            response.body.forEach(function(translation) {
+              _this.add(translation);
+            });
+
+            if(response.body.length < 20) {
+              _this.setMeta('empty', true);
+            }
+
+            _this.setMeta('page', nextPage);
+          }
+          catch(error) {
+
+          }
+        });
     }
   });
 });

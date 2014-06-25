@@ -18,9 +18,9 @@ var configuration = require('../core/configuration')
  *
  *   Example:
  *
- *     DEV__X_REQUESTED_BY : '1',
- *     STAG__X_REQUESTED_BY : '1',
- *     PROD__X_REQUESTED_BY : '1',
+ *     DEV__X_REQUESTED_BY: '1',
+ *     STAG__X_REQUESTED_BY: '1',
+ *     PROD__X_REQUESTED_BY: '1',
  */
 
 var configurations = {
@@ -31,7 +31,7 @@ var configurations = {
    * @type {String}
    */
 
-  USER_AGENT : 'mantis-server',
+  USER_AGENT: 'mantis-server',
 
   /**
    * Default port for express server
@@ -39,7 +39,7 @@ var configurations = {
    * @type {Number}
    */
 
-  DEFAULT_PORT : 3000,
+  DEFAULT_PORT: 3000,
 
   /**
    * Long time cache life time. Convenient configuration for
@@ -48,7 +48,7 @@ var configurations = {
    * @type {Number}
    */
 
-  LONG_TIME_CACHE_LIFE_TIME  : 6*30*24*3600,
+  LONG_TIME_CACHE_LIFE_TIME : 6*30*24*3600,
 
   /**
    * Short time cache life time. Convenient configuration for
@@ -57,7 +57,7 @@ var configurations = {
    * @type {Number}
    */
 
-  SHORT_TIME_CACHE_LIFE_TIME : 24*3600,
+  SHORT_TIME_CACHE_LIFE_TIME: 24*3600,
 
   /**
    * Default content type for all request
@@ -65,7 +65,7 @@ var configurations = {
    * @type {String}
    */
 
-  DEFAULT_CONTENT_TYPE : 'application/json',
+  DEFAULT_CONTENT_TYPE: 'application/json',
 
   /**
    * Root folder. Is just a convenient constant. It should not be
@@ -75,7 +75,7 @@ var configurations = {
    * @type {String}
    */
 
-  ROOT_FOLDER : path.join(__dirname, '../'),
+  ROOT_FOLDER: path.join(__dirname, '../'),
 
   /**
    * Temporary folder
@@ -83,7 +83,7 @@ var configurations = {
    * @type {String}
    */
 
-  TMP_FOLDER : 'public/tmp',
+  TMP_FOLDER: 'public/tmp',
 
   /**
    * All uploads will be stored on this folder
@@ -91,7 +91,7 @@ var configurations = {
    * @type {String}
    */
 
-  UPLOAD_FOLDER : 'public/uploads',
+  UPLOAD_FOLDER: 'public/uploads',
 
   /**
    * We write all client configuration files written in nodejs to client
@@ -101,7 +101,7 @@ var configurations = {
    * @type {String}
    */
 
-  CLIENT_CONFIGURATIONS_GLOB : 'configurations/client/*.js',
+  CLIENT_CONFIGURATIONS_GLOB: 'configurations/client/*.js',
 
   /**
    * We write all client configuration files written in nodejs to client
@@ -111,7 +111,7 @@ var configurations = {
    * @type {String}
    */
 
-  CLIENT_CONFIGURATIONS_BUILD : '/public/scripts/configurations',
+  CLIENT_CONFIGURATIONS_BUILD: '/public/scripts/configurations',
 
   /**
    * Path to the default favicon for your website
@@ -119,7 +119,7 @@ var configurations = {
    * @type {String}
    */
 
-  FAVICON : 'public/images/favicon.ico',
+  FAVICON: 'public/images/favicon.ico',
 
   /**
    * Locales for your website. You could define it any format you want
@@ -136,7 +136,7 @@ var configurations = {
    * @type {Array.<String>}
    */
 
-  LOCALES : pcf.locales,
+  LOCALES: pcf.locales,
 
   /**
    * The default locale used for the website. Recommend use locale name.
@@ -145,7 +145,7 @@ var configurations = {
    * @type {Array.<String>}
    */
 
-  DEFAULT_LOCALE : 'en-US',
+  DEFAULT_LOCALE: 'en-US',
 
   /**
    * Maximum number of sockets.
@@ -153,7 +153,7 @@ var configurations = {
    * @type {Number}
    */
 
-  MAX_SOCKETS : 1024,
+  MAX_SOCKETS: 1024,
 
   /**
    * We want to prevent people from JSON hijacking. Other site can include
@@ -166,7 +166,7 @@ var configurations = {
    * @type {String}
    */
 
-  JSON_HIJACKING_PREFIX : 'while(1);',
+  JSON_HIJACKING_PREFIX: 'while(1);',
 
   /**
    * X-Request-By header for protecting against CSRF attacks.
@@ -176,7 +176,7 @@ var configurations = {
    * @type {String}
    */
 
-  X_REQUESTED_BY : '1',
+  X_REQUESTED_BY: '1',
 
   /**
    * Document built templates path
@@ -184,7 +184,7 @@ var configurations = {
    * @type {String}
    */
 
-  DOCUMENT_TEMPLATES : 'public/templates/documents/templates',
+  DOCUMENT_TEMPLATES: 'public/templates/documents/templates',
 
   /**
    * Layout built templates path
@@ -192,7 +192,7 @@ var configurations = {
    * @type {String}
    */
 
-  LAYOUT_TEMPLATES : 'public/templates/layouts/templates',
+  LAYOUT_TEMPLATES: 'public/templates/layouts/templates',
 
   /**
    * Layout built templates path
@@ -200,7 +200,7 @@ var configurations = {
    * @type {String}
    */
 
-  CORE_TEMPLATES : 'public/templates/core/templates',
+  CORE_TEMPLATES: 'public/templates/core/templates',
 
   /**
    * Requirejs path
@@ -208,7 +208,7 @@ var configurations = {
    * @type {String}
    */
 
-  REQUIREJS : corePath.requirejs(),
+  REQUIREJS: corePath.requirejs(),
 
   /**
    * Modernizr path
@@ -216,7 +216,7 @@ var configurations = {
    * @type {String}
    */
 
-  MODERNIZR : corePath.modernizr(),
+  MODERNIZR: corePath.modernizr(),
 
   /**
    * Default main path
@@ -224,7 +224,7 @@ var configurations = {
    * @type {String}
    */
 
-  DEFAULT_MAIN : 'mains/default',
+  DEFAULT_MAIN: 'mains/default',
 
   /**
    * Translation items per page. Used for pagination.
@@ -232,7 +232,7 @@ var configurations = {
    * @type {Number}
    */
 
-  TRANSLATION_ITEMS_PER_PAGE : 20,
+  TRANSLATION_ITEMS_PER_PAGE: 20,
 
   /**
    * We want to prevent people from JSON hijacking. Other site can include
@@ -245,7 +245,7 @@ var configurations = {
    * @type {String}
    */
 
-  JSON_HIJACK_PREFIX : 'while(1);',
+  JSON_HIJACK_PREFIX: 'while(1);',
 
   /**
    * Path of composite router
@@ -253,7 +253,7 @@ var configurations = {
    * @type {String}
    */
 
-  COMPOSER_BUILD_PATH : 'public/scripts/routers/composer.js',
+  COMPOSER_BUILD_PATH: 'public/scripts/routers/composer.js',
 
   /**
    * Operators used for comparing operands in translation interface.
@@ -261,13 +261,13 @@ var configurations = {
    * @type {Object}
    */
 
-  OPERATORS : {
-    'Equals' : '==',
-    'Smaller than' : '<',
-    'Bigger than' : '>',
-    'Smaller and equal' : '<=',
-    'Bigger and equal' : '>=',
-    'Last number is' : 'lni'
+  OPERATORS: {
+    'Equals': '==',
+    'Smaller than': '<',
+    'Bigger than': '>',
+    'Smaller and equal': '<=',
+    'Bigger and equal': '>=',
+    'Last number is': 'lni'
   },
 
   /**
@@ -276,9 +276,9 @@ var configurations = {
    * @type {Array}
    */
 
-  ADDITIONAL_COMPAIR_OPERATORS : {
-    'and' : '&&',
-    'or' : '||'
+  ADDITIONAL_COMPAIR_OPERATORS: {
+    'and': '&&',
+    'or': '||'
   },
 
   /**
@@ -287,7 +287,7 @@ var configurations = {
    * @type {Map}
    */
 
-  CLIENT_CONFIGURATIONS_MAP : {}
+  CLIENT_CONFIGURATIONS_MAP: {}
 
 };
 
