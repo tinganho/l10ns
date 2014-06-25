@@ -53,6 +53,10 @@ module.exports = function(app) {
         response.redirect('/' + cf.DEFAULT_LOCALE + '/translations');
         return;
       }
+      else if(/^\/[a-z]{2}\-[A-Z]{2}\/?$/.test(request.url)) {
+        response.redirect(path.normalize(request.url + '/translations'));
+        return;
+      }
       else {
         next();
       }
