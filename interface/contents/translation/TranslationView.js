@@ -633,7 +633,6 @@ define(function(require) {
      */
 
     should: function(path) {
-      console.log(path);
       return 'update';
     }
   });

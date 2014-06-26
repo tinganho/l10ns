@@ -41,6 +41,7 @@ define(function(require) {
         '_setActiveResult',
         '_setIndex',
         '_showTranslation',
+        '_removeSearchResult',
         '_preventCursorMove');
     },
 
@@ -54,6 +55,7 @@ define(function(require) {
     _setElements: function() {
       this.setElement('[data-content=search]')
       this.$input = this.$('.search');
+      this.$document = $(document);
     },
 
     /**
@@ -207,10 +209,32 @@ define(function(require) {
      */
 
     _renderSearchResult: function(result) {
+      var _this = this;
+
       this.$el.find('.search-results').remove();
       if(result.length > 0) {
         this.$el.append(template['SearchResults'](result));
+        _.defer(function() {
+          _this.$document.on('click', _this._removeSearchResult);
+        });
       }
+    },
+
+    /**
+     * Remove search result
+     *
+     * @return {void}
+     * @api private
+     */
+
+    _removeSearchResult: function(event) {
+      if($(event.target).parents('.search-results').length === 1
+      || $(event.target).hasClass('search')) {
+        return;
+      }
+
+      this.$el.find('.search-results').remove();
+      this.$document.off('click', this._removeSearchResult);
     },
 
     /**
