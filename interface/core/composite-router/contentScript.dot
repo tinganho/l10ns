@@ -13,8 +13,20 @@
 
 !-->
 
+this.should = {};
 {{~it :content:index}}
-  if(typeof app.models.{{=content.model.toLowerCase()}} === 'undefined' || typeof app.views.{{=content.model.toLowerCase()}} === 'undefined') {
+  if(typeof app.views.{{=content.model.toLowerCase()}} === 'undefined' || app.views.{{=content.model.toLowerCase()}}.should('{{=content.path}}') === 'update') {
+    if(typeof app.views.{{=content.model.toLowerCase()}} === 'undefined') {
+      if(!document.querySelector('[data-content="{{=content.model.toLowerCase()}}"]')) {
+        this.should['{{=content.model.toLowerCase()}}'] = 'update';
+      }
+      else {
+        this.should['{{=content.model.toLowerCase()}}'] = 'keep';
+      }
+    }
+    else {
+      this.should['{{=content.model.toLowerCase()}}'] = app.views.{{=content.model.toLowerCase()}}.should('{{=content.path}}');
+    }
     app.models.{{=content.model.toLowerCase()}} = new {{=content.model}};
     app.views.{{=content.model.toLowerCase()}} = new {{=content.view}}(app.models.{{=content.model.toLowerCase()}});
       incorrectRegions++;
@@ -49,8 +61,10 @@
         }
       }, 0);
   }
-  else {
-    app.models.{{=content.model.toLowerCase()}}.onHistoryChange(window.location.pathname.substr(1));
-    app.views.{{=content.model.toLowerCase()}}.onHistoryChange(window.location.pathname.substr(1));
+  else if(app.views.{{=content.model.toLowerCase()}}.should('{{=content.path}}') === 'remove') {
+    app.views.{{=content.model.toLowerCase()}}.remove();
+  }
+  else {
+    app.views.{{=content.model.toLowerCase()}}.show();
   }
 {{~}}

@@ -51,6 +51,7 @@ util.inherits(Search, EventEmitter);
 
 Search.prototype._createIndex = function() {
   this.index = lunr(function() {
+    this.ref('id');
     this.field('key', { boost: 10});
     this.field('text', { boost: 10});
   });
@@ -98,7 +99,7 @@ Search.prototype.readTranslations = function() {
  * @api public
  */
 
-Search.prototype.query = function(q) {
+Search.prototype.queryOutput = function(q) {
   var _this = this;
 
   var res = this.index.search(q).slice(0, this.logLength);
@@ -123,6 +124,26 @@ Search.prototype.query = function(q) {
       _this.emit('queryend', res);
     }
   );
+};
+
+/**
+ * Query translations
+ *
+ * @param {String} q
+ * @return {void}
+ * @api public
+ */
+
+Search.prototype.query = function(q) {
+  var _this = this;
+
+  return this.index.search(q).slice(0, this.logLength).map(function(result) {
+    return {
+      id: _this.translations[result.ref].id,
+      key: result.ref,
+      value: _this.translations[result.ref].text
+    };
+  });
 };
 
 /**

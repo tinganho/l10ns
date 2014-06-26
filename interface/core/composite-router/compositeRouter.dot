@@ -49,7 +49,7 @@ define([
     },
 
     {{~it.pages :page:index}}
-      'compose {{=page.path}}' : function() {
+      'compose {{=page.path}}': function() {
         var _this = this
           , incorrectRegions = 0
           , n = 0;
@@ -71,7 +71,7 @@ define([
     {{~}}
 
     {{~it.pages :page:index}}
-    'render {{=page.path}}' : function() {
+    'render {{=page.path}}': function() {
       app.document.trigger('renderstart');
       if(document.querySelectorAll('[data-layout={{=page.layout}}]').length) {
         {{=page.renderScript}}

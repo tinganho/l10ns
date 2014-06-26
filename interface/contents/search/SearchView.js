@@ -4,8 +4,8 @@ if(typeof define !== 'function') {
 }
 
 define(function(require) {
-  var View = inServer ? require('../../libraries/View') : require('View')
-    , template = inServer ? content_appTemplates : require('contentTemplates')
+  var View = inServer ? require('../../libraries/View'): require('View')
+    , template = inServer ? content_appTemplates: require('contentTemplates')
     , _ = require('underscore');
 
   return View.extend({
@@ -17,12 +17,13 @@ define(function(require) {
      * @api public
      */
 
-    initialize : function(model) {
+    initialize: function(model) {
       this.model = model;
       if(inClient) {
         this._bindElements();
         this._setElements();
-        this._addDesktopListeners();
+        this._addDesktopInteractions();
+        this._bindModel();
       }
     },
 
@@ -33,8 +34,14 @@ define(function(require) {
      * @api private
      */
 
-    _bindElements : function() {
-      _.bindAll(this, 'render', '_search');
+    _bindElements: function() {
+      _.bindAll(this,
+        'render',
+        '_search',
+        '_setActiveResult',
+        '_setIndex',
+        '_showTranslation',
+        '_preventCursorMove');
     },
 
     /**
@@ -44,8 +51,33 @@ define(function(require) {
      * @api private
      */
 
-    _setElements : function() {
-      this.$input = this.$('.js-search-input');
+    _setElements: function() {
+      this.setElement('[data-content=search]')
+      this.$input = this.$('.search');
+    },
+
+    /**
+     * Bind model
+     *
+     * @return {void}
+     * @api private
+     */
+
+    _bindModel: function() {
+      this.model.on('change:resultIndex', this._setActiveResult);
+    },
+
+    /**
+     * Set active result
+     *
+     * @return {void}
+     * @api private
+     * @handler
+     */
+
+    _setActiveResult: function() {
+      this.$('.search-result.active').removeClass('active');
+      this.$('.search-result:eq(' + this.model.get('resultIndex') + ')').addClass('active');
     },
 
     /**
@@ -55,8 +87,85 @@ define(function(require) {
      * @api private
      */
 
-    _addDesktopListeners : function() {
+    _addDesktopInteractions: function() {
+      this.$input.on('keydown', this._preventCursorMove);
       this.$input.on('keyup', this._search);
+      this.$el.on('mouseover', '.search-result', this._setIndex);
+      this.$el.on('click', '.search-result', this._showTranslation);
+    },
+
+    /**
+     * Set resultIndex from mouseover
+     *
+     * @return {void}
+     * @api private
+     * @handler
+     */
+
+    _setIndex: function(event) {
+      var index = event.currentTarget.getAttribute('data-index');
+      this.model.set('resultIndex', index);
+    },
+
+    /**
+     * Show translation
+     *
+     * @return {void}
+     * @api private
+     */
+
+    _showTranslation: function() {
+      var translation = this.model.get('results')[this.model.get('resultIndex')];
+
+      this.$el.find('.search-results').remove();
+
+      if(typeof app.models.translation !== 'undefined'
+      && typeof app.models.translation.id !== 'undefined'
+      && app.models.translation.id === translation.id) {
+        return;
+      }
+
+      Backbone.Relational.store.reset();
+
+      this.$input.blur();
+
+      app.navigate('/' + app.locale + '/t/' + translation.id + '/' + translation.key);
+    },
+
+    /**
+     * Prevent cursor movement
+     *
+     * @return {void}
+     * @api private
+     * @handler
+     */
+
+    _preventCursorMove: function() {
+      switch(event.keyCode) {
+        case 13:
+          this._showTranslation();
+          return;
+        case 38:
+          event.preventDefault();
+          var resultIndex = this.model.get('resultIndex');
+          if(resultIndex - 1 < 0) {
+            this.model.set('resultIndex', this.model.get('results').length - 1);
+          }
+          else {
+            this.model.set('resultIndex', resultIndex - 1);
+          }
+          return;
+        case 40:
+          event.preventDefault();
+          var resultIndex = this.model.get('resultIndex');
+          if(resultIndex + 1 > this.model.get('results').length  - 1) {
+            this.model.set('resultIndex', 0);
+          }
+          else {
+            this.model.set('resultIndex', resultIndex + 1);
+          }
+          return;
+      }
     },
 
     /**
@@ -64,10 +173,43 @@ define(function(require) {
      *
      * @return {void}
      * @api private
+     * @handler
      */
 
-    _search : function() {
-      console.log(this.$input.val());
+    _search: function(event) {
+      var _this = this;
+
+      switch(event.keyCode) {
+        case 13:
+        case 38:
+        case 40:
+          event.preventDefault();
+          return;
+      }
+
+      var query = this.$input.val();
+      this.model.search(query)
+        .then(function(result) {
+          _this._renderSearchResult(result);
+        })
+        .fail(function(error) {
+
+        });
+    },
+
+    /**
+     * Render search result
+     *
+     * @param {Array.<Object>} result
+     * @return {void}
+     * @api private
+     */
+
+    _renderSearchResult: function(result) {
+      this.$el.find('.search-results').remove();
+      if(result.length > 0) {
+        this.$el.append(template['SearchResults'](result));
+      }
     },
 
     /**
@@ -78,15 +220,19 @@ define(function(require) {
      */
 
     toHTML: function() {
-      return this.template(this.model.toJSON());
+      return template['Search'](this.model.toJSON());
     },
 
     /**
-     * Template
+     * Determine whether to render or not
      *
-     * @type {Function}
+     * @return {String}
+     * @api public
+     * @autocalled
      */
 
-    template : template['Search']
+    should: function() {
+      return 'keep';
+    }
   });
 });

@@ -76,7 +76,7 @@ GetTranslation.prototype.log = function(locale) {
 GetTranslation.prototype.search = function(q) {
   var search = new Search();
   search.readTranslations();
-  search.query(q);
+  search.queryOutput(q);
 };
 
 /**

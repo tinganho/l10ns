@@ -609,9 +609,32 @@ define(function(require) {
      * @delegate
      */
 
-    remove : function() {
-      View.prototype.remove.call(this);
-      this.$region[0].classList.add('hidden');
+    remove: function() {
+      this.$region.addClass('hidden');
+      this.$region.empty();
+    },
+
+    /**
+     * Remove
+     *
+     * @delegate
+     */
+
+    show: function() {
+      this.$region.removeClass('hidden');
+    },
+
+    /**
+     * Determine whether to render or not
+     *
+     * @return {String}
+     * @api public
+     * @autocalled
+     */
+
+    should: function(path) {
+      console.log(path);
+      return 'update';
     }
   });
 });

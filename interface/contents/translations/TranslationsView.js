@@ -46,7 +46,6 @@ define(function(require) {
     _bindMethods: function() {
       _.bindAll(this,
         '_showTranslation',
-        '_updateMeta',
         '_nextPage'
       );
     },
@@ -62,7 +61,7 @@ define(function(require) {
       var _this = this;
 
       this.model.on('change', function(translation) {
-        _this.$('.translation[data-id="kz7LRLLMtax"] .translation-value').html(translation.get('text'));
+        _this.$('.translation[data-id="' + translation.id + '"] .translation-value').html(translation.get('text'));
       });
 
       this.model.on('add', function(translation) {
@@ -97,23 +96,6 @@ define(function(require) {
     _addMouseInteractions: function() {
       this.$el.on('click', '.translation', this._showTranslation);
       this.$el.on('click', '.translation-load-anchor', this._nextPage);
-      this.model.on('meta:change:revealed', this._updateMeta, this);
-    },
-
-    /**
-     * Update meta.
-     *
-     * @return {void}
-     * @api private
-     */
-
-    _updateMeta : function() {
-      if(this.model.getMeta('revealed')) {
-        this.$region.removeClass('hidden');
-      }
-      else {
-        this.$region.addClass('hidden');
-      }
     },
 
     /**
@@ -149,15 +131,42 @@ define(function(require) {
      */
 
     toHTML: function() {
-      return this.template(this.model.toJSON());
+      return template['Translations'](this.model.toJSON());
+    },
+
+
+    /**
+     * Determine whether to render or not
+     *
+     * @return {String}
+     * @api public
+     * @autocalled
+     */
+
+    should: function(path) {
+      if(path === ':locale/translations') {
+        return 'keep';
+      }
+      else {
+        return 'remove'
+      }
     },
 
     /**
-     * Template.
+     * Remove/hide the view
      *
-     * @type {Function}
+     * @return {void}
+     * @api public
+     * @autocalled
      */
 
-    template : template['Translations']
+    remove: function() {
+      this.$region.addClass('hidden');
+    },
+
+
+    show: function() {
+      this.$region.removeClass('hidden');
+    }
   });
 });

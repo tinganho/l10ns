@@ -16,7 +16,7 @@
 {{~it :content:index}}
     app.document.trigger('render{{=content.model.toLowerCase()}}start');
     try {
-      if(!document.querySelector('[data-content="{{=content.model.toLowerCase()}}"]')) {
+      if(this.should['{{=content.model.toLowerCase()}}'] === 'update') {
         var $region = document.querySelector('[data-region="{{=content.region}}"]');
         $region.innerHTML = this.content['{{=content.region}}'];
         $region.classList.remove('hidden');

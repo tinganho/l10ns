@@ -67,13 +67,13 @@ define(function(require) {
     onHistoryChange : function(path) {},
 
     /**
-     * Render noop.
+     * To HTML
      *
      * @return {void}
      * @api public
      */
 
-    render : function() {},
+    toHTML : function() {},
 
     /**
      * Bind DOM. This function is automatically called be the `Composer`
@@ -87,13 +87,45 @@ define(function(require) {
     bindDOM : function() {},
 
     /**
-     * Property for checking if the DOME have been bound
+     * Property for checking if the DOM have been bound
      *
      * @type {Boolean}
      */
 
-    boundDOM : false
+    boundDOM : false,
 
+    /**
+     * Remove is called by the composer if `should()` returns 'remove'.
+     *
+     * @return {void}
+     * @api public
+     * @autocalled
+     */
+
+    remove: function() {},
+
+    /**
+     * Show is called by the composer if `should()` returns 'keep'.
+     *
+     * @return {void}
+     * @api public
+     * @autocalled
+     */
+
+    show: function() {},
+
+    /**
+     * A method for deciding if a view should render, keep or remove itself.
+     * The composer object
+     *
+     * @return {String} (keep|update|remove)
+     * @api public
+     * @autocalled
+     */
+
+    should: function() {
+      return 'keep';
+    }
   });
 
   /**
