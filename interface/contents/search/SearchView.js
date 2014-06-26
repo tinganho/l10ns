@@ -90,6 +90,7 @@ define(function(require) {
     _addDesktopInteractions: function() {
       this.$input.on('keydown', this._preventCursorMove);
       this.$input.on('keyup', this._search);
+      this.$input.on('focus', this._search);
       this.$el.on('mouseover', '.search-result', this._setIndex);
       this.$el.on('click', '.search-result', this._showTranslation);
     },
