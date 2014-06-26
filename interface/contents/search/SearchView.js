@@ -128,8 +128,6 @@ define(function(require) {
         return;
       }
 
-      Backbone.Relational.store.reset();
-
       this.$input.blur();
 
       app.navigate('/' + app.locale + '/t/' + translation.id + '/' + translation.key);

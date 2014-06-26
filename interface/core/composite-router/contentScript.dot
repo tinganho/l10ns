@@ -26,6 +26,7 @@ this.should = {};
     }
     else {
       this.should['{{=content.model.toLowerCase()}}'] = app.views.{{=content.model.toLowerCase()}}.should('{{=content.path}}');
+      Backbone.Relational.store.unregister(app.models.{{=content.model.toLowerCase()}});
     }
     app.models.{{=content.model.toLowerCase()}} = new {{=content.model}};
     app.views.{{=content.model.toLowerCase()}} = new {{=content.view}}(app.models.{{=content.model.toLowerCase()}});
