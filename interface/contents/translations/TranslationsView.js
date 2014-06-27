@@ -165,6 +165,14 @@ define(function(require) {
     },
 
 
+    /**
+     * Show the view
+     *
+     * @return {void}
+     * @api public
+     * @autocalled
+     */
+
     show: function() {
       this.$region.removeClass('hidden');
     }

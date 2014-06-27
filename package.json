@@ -34,7 +34,7 @@
     "amdefine": "^0.1.0",
     "autoroute": "~0.2.1",
     "backbone": "~1.1.2",
-    "backbone-relational": "~0.8.6",
+    "backbone-relational": "0.8.6",
     "backbone.paginator": "^2.0.0",
     "commander": "~2.0.0",
     "connect-modrewrite": "^0.6.0",

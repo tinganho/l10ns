@@ -63,7 +63,7 @@ this.should = {};
       }, 0);
   }
   else if(app.views.{{=content.model.toLowerCase()}}.should('{{=content.path}}') === 'remove') {
-    app.views.{{=content.model.toLowerCase()}}.remove();
+    app.views.{{=content.model.toLowerCase()}}.hide();
   }
   else {
     app.views.{{=content.model.toLowerCase()}}.show();
