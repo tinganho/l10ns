@@ -312,7 +312,6 @@ Init.prototype._writeProject = function() {
   if(!fs.existsSync(folder)) {
     fs.mkdirSync(folder);
   }
-
 };
 
 /**

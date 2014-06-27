@@ -11,7 +11,7 @@
   "output": "test/translations/output",
   "src": ["test/example/**/*.js"],
   "interface" : {
-    "autoOpenBrowser": false,
-    "port": 3000
+    "autoOpen": false,
+    "port": 3004
   }
 }

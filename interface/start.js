@@ -1,6 +1,8 @@
 
 require('../binaries/gt');
 
+var open = require('open');
+
 /**
  * Set inServer and inClient globals
  */
@@ -161,9 +163,16 @@ if(!globallyInstalled) {
   createCompositeRouter();
 }
 
-
 http.createServer(app).listen(pcf.port, function() {
-  console.log('[%s] Express app listening on port ' + pcf.port, process.pid);
+  var url = 'http://localhost:' + pcf.port;
+  console.log('translation interface is now available in ' + url.green);
+  console.log('close the interface using CTRL + C');
+  if(pcf.autoOpen) {
+    console.log('opening web browser...');
+    setTimeout(function() {
+      open(url);
+    }, 1000);
+  }
 });
 
 /**

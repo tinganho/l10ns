@@ -89,10 +89,9 @@ module.exports = {
   },
 
   DEFAULT_CONFIGS : {
-    quiet : false,
-    interface : {
-      autoOpenBrowser: false,
-      port : 3000
+    interface: {
+      autoOpen: true,
+      port: 3001
     }
   },
 
