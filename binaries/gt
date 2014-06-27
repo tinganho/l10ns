@@ -174,7 +174,7 @@ program
   .version(pjson.version)
   .option('-l, --locale <locale>', 'specify locale', String, pcf.defaultLocale)
   .option('-p, --port <port>', 'specify the port [\'' + pcf.port + '\']', Number, pcf.port)
-  .option('-ao, --autoOpen <port>', 'auto open interface', Boolean, true)
+  .option('-o, --open', 'open interface in browser')
 
 program
   .command('init')
@@ -191,7 +191,7 @@ program
       return console.log('You haven\'t initialized a project yet');
     }
     pcf.port = program.port || pcf.interface.port;
-    pcf.autoOpen = program.autoOpen || pcf.interface.autoOpen
+    pcf.autoOpen = program.open || pcf.interface.autoOpen
     require('../interface/start');
   });
 
