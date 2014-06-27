@@ -118,7 +118,7 @@ Search.prototype.queryOutput = function(q) {
 
   // Store as cache
   fs.writeFile(
-    _this.store + '/cache/latestSearch.json',
+    pcf.searchFile,
     JSON.stringify(cache, null, 2),
     function() {
       _this.emit('queryend', res);

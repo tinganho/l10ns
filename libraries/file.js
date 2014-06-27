@@ -251,7 +251,7 @@ File.prototype._getHashMapTranslations = function(file) {
 
 File.prototype.readSearchTranslations = function() {
   var deferred = Q.defer();
-  fs.readFile(this.folder + '/cache/latestSearch.json',
+  fs.readFile(pcf.searchFile,
   { encoding : 'utf-8' },
   function(err, data) {
     if(err) return deferred.reject(err);

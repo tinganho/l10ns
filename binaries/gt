@@ -13,6 +13,7 @@ var program = require('commander')
   , glob = require('glob')
   , pcf = require('../configurations/program')
   , log = require('../libraries/_log')
+  , fs = require('fs')
   , utilities = require('../libraries/utilities');
 
 /**
@@ -57,12 +58,14 @@ require('terminal-colors');
  */
 
 var defaultConfigurations = {
-  folder : pcf.DEFAULT_FOLDER,
-  requirejs : pcf.DEFAULT_REQUIREJS,
-  translationFunction : pcf.DEFAULT_TRANSLATION_FUNCTION,
-  port : pcf.DEFAULT_PORT,
-  autoOpen : pcf.DEFAULT_AUTO_OPEN,
-  root : root
+  folder: pcf.DEFAULT_FOLDER,
+  requirejs: pcf.DEFAULT_REQUIREJS,
+  translationFunction: pcf.DEFAULT_TRANSLATION_FUNCTION,
+  port: pcf.DEFAULT_PORT,
+  autoOpen: pcf.DEFAULT_AUTO_OPEN,
+  root: root,
+  storageFolder: root + '/.gt',
+  searchFile: root + '/.gt/search.json'
 };
 // Merge with programm configs
 defaultConfigurations = _.extend(defaultConfigurations, pcf);
@@ -88,6 +91,9 @@ if(typeof lcf.quiet === 'undefined') {
   lcf.quiet = pcf.DEFAULT_QUIET;
 }
 
+if(!fs.existsSync(pcf.storageFolder)) {
+  fs.mkdirSync(pcf.storageFolder);
+}
 
 /**
  * Get all source files.

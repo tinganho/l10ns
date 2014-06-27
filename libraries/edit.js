@@ -52,7 +52,8 @@ Edit.prototype.edit = function(ref, value, locale) {
       log.success('Updated key ' + key.yellow + ' in ' + locale.yellow + ' to ' + value.yellow);
     });
   })
-  .fail(function() {
+  .fail(function(err) {
+    console.log(err);
     log.error('Couldn\'t edit your translations');
   });
 };
