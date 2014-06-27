@@ -20,7 +20,7 @@ define(function(require) {
      * @api public
      */
 
-    initialize : function(model) {
+    initialize: function(model) {
       this.model = model;
       this._conditionViews = [];
       this._inputViews = [];
@@ -36,7 +36,7 @@ define(function(require) {
      * @api public
      */
 
-    bindModel : function() {
+    bindModel: function() {
       this._bindConditionsAddition();
       this._bindConditionRemoval();
       this._bindInputAddition();
@@ -50,7 +50,7 @@ define(function(require) {
      * @api private
      */
 
-    _bindElseAddition : function() {
+    _bindElseAddition: function() {
       var _this = this;
       this.model.on('change:else', function(_else) {
         if(_this.model.get('else')) {
@@ -70,7 +70,7 @@ define(function(require) {
      * @api private
      */
 
-    _bindConditionsAddition : function() {
+    _bindConditionsAddition: function() {
       var _this = this;
       this.model.on('add:conditions', function(condition) {
         var view = new ConditionView(condition)
@@ -154,7 +154,7 @@ define(function(require) {
      * @api private
      */
 
-    _bindConditionRemoval : function() {
+    _bindConditionRemoval: function() {
       var _this = this;
 
       this.model.on('remove:conditions', function(condition) {
@@ -167,6 +167,7 @@ define(function(require) {
           _this._removeFirstCondition();
           return;
         }
+
         conditions.some(function(_condition) {
           if(_condition.get('row') === row - 1) {
             _this._removeSingleCondition(condition);
@@ -206,7 +207,7 @@ define(function(require) {
      * @api private
      */
 
-    _removeConditionWithSubsequentCondition : function(condition) {
+    _removeConditionWithSubsequentCondition: function(condition) {
       var _this = this, removalIndex, removalRow;
       this._conditionViews.forEach(function(conditionView, index) {
         if(conditionView.model === condition) {
@@ -250,7 +251,7 @@ define(function(require) {
      * @api private
      */
 
-    _removeSingleCondition : function(condition) {
+    _removeSingleCondition: function(condition) {
       var _this = this, removalIndex, removalRow;
       this._conditionViews.forEach(function(conditionView, index) {
         if(conditionView.model === condition) {
@@ -291,7 +292,7 @@ define(function(require) {
      * @api private
      */
 
-    _removeFirstCondition : function() {
+    _removeFirstCondition: function() {
       var elseRow = this.model.get('else').get('row');
       this._conditionViews[0].remove();
       this._conditionViews.splice(0, 1);
@@ -340,7 +341,7 @@ define(function(require) {
      * @api private
      */
 
-    _removeConditionAndInput : function(condition) {
+    _removeConditionAndInput: function(condition) {
       var _this = this, conditionRemovalIndex, removalRow;
       this._conditionViews.forEach(function(conditionView, index) {
         if(conditionView.model === condition) {
@@ -384,7 +385,7 @@ define(function(require) {
      * @api private
      */
 
-    _bindInputAddition : function() {
+    _bindInputAddition: function() {
       var _this = this;
       this.model.on('add:inputs', function(input) {
         var row = input.get('row')
@@ -405,7 +406,7 @@ define(function(require) {
      * @api private
      */
 
-    _bindInputRemoval : function() {
+    _bindInputRemoval: function() {
       var _this = this;
       this.model.on('remove:inputs', function(input) {
 
@@ -419,7 +420,7 @@ define(function(require) {
      * @api private
      */
 
-    bindDOM : function() {
+    bindDOM: function() {
       if(!has.touch) {
         this._addMouseInteractions();
       }
@@ -456,7 +457,7 @@ define(function(require) {
      * @api private
      */
 
-    _bindMethods : function() {
+    _bindMethods: function() {
       _.bindAll(
         this,
         '_addCondition',
@@ -471,7 +472,7 @@ define(function(require) {
      * @api private
      */
 
-    _addMouseInteractions : function() {
+    _addMouseInteractions: function() {
       this.$('[disabled]').removeAttr('disabled');
       this.$el.on('click', '.add-condition', this._addCondition);
       this.$el.on('click', '.save', this._save);
@@ -484,7 +485,7 @@ define(function(require) {
      * @api private
      */
 
-    _setElements : function() {
+    _setElements: function() {
       this.$region = $('[data-region=translation]');
     },
 
@@ -494,7 +495,7 @@ define(function(require) {
      * @delegate
      */
 
-    _addCondition : function(event) {
+    _addCondition: function(event) {
       var _this = this;
 
       event.preventDefault();
@@ -557,7 +558,7 @@ define(function(require) {
      * @delegate
      */
 
-    _save : function(event) {
+    _save: function(event) {
       event.preventDefault();
       this.model.save();
     },
@@ -569,7 +570,7 @@ define(function(require) {
      * @api public
      */
 
-    toHTML : function() {
+    toHTML: function() {
       var _this = this
         , html = '', values = []
         , json = this.model.toJSON()
@@ -609,7 +610,7 @@ define(function(require) {
      * @delegate
      */
 
-    remove: function() {
+    hide: function() {
       this.$region.addClass('hidden');
       this.$region.empty();
     },

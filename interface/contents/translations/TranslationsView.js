@@ -153,14 +153,14 @@ define(function(require) {
     },
 
     /**
-     * Remove/hide the view
+     * Hide the view
      *
      * @return {void}
      * @api public
      * @autocalled
      */
 
-    remove: function() {
+    hide: function() {
       this.$region.addClass('hidden');
     },
 

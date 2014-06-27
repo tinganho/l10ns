@@ -102,7 +102,7 @@ define(function(require) {
      * @autocalled
      */
 
-    remove: function() {},
+    hide: function() {},
 
     /**
      * Show is called by the composer if `should()` returns 'keep'.

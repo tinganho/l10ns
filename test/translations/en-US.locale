@@ -13,7 +13,7 @@
 {"id":"B5joBjzxHL","key":"wopefkwpofek22","vars":[],"text":"wopefkwpofek22","files":["test/example/example.js"],"values":[],"timestamp":1403485173804}
 {"id":"RrGMpGedHz","key":"wopefkwpofek23","vars":[],"text":"wopefkwpofek23","files":["test/example/example.js"],"values":[],"timestamp":1403485173804}
 {"id":"E5dgGd4aHr","key":"wopefkwpofek24","vars":[],"text":"wopefkwpofek24","files":["test/example/example.js"],"values":[],"timestamp":1403485173804}
-{"id":"7Kg98g5dHG","key":"wopefkwpofek25","vars":[],"text":"wopefkwpofek25","files":["test/example/example.js"],"values":[],"timestamp":1403485173804}
+{"key":"wopefkwpofek25","values":[["if","value1","==","value2","||","value1","==","value2","&&","value1","==","value2","&&","value1","==","value2","||","value1","==","value2",""],["else if","value1","==","value2","&&","value1","==","value2","&&","value1","==","value2",""],["else",""]],"vars":[],"text":"\n\n","timestamp":1403485173804,"_new":false,"variables":null,"id":"7Kg98g5dHG","files":["test/example/example.js"],"value":[]}
 {"id":"oxrG4BBjFE","key":"wopefkwpofek1","vars":[],"text":"wopefkwpofek1","files":["test/example/example.js"],"values":[],"timestamp":1403441372806,"_new":false}
 {"id":"y4G5rkk6Fy","key":"wopefkwpofek2","vars":[],"text":"wopefkwpofek2","files":["test/example/example.js"],"values":[],"timestamp":1403441372806,"_new":false}
 {"id":"nErj955ph9","key":"wopefkwpofek3","vars":[],"text":"wopefkwpofek3","files":["test/example/example.js"],"values":[],"timestamp":1403441372806,"_new":false}
