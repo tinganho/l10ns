@@ -22,7 +22,7 @@
   ],
   "main": "Gruntfile.js",
   "bin": {
-    "gtt": "./binaries/gt"
+    "gt": "./binaries/gt"
   },
   "engines": {
     "node": "*"
