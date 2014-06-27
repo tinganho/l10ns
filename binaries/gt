@@ -173,7 +173,7 @@ var gt = require('../libraries');
 program
   .version(pjson.version)
   .option('-l, --locale <locale>', 'specify locale', String, pcf.defaultLocale)
-  .option('-p, --port <port>', 'specify the port [\'' + pcf.port + '\']', Number, pcf.port)
+  .option('-p, --port <port>', 'specify port for interface', Number, pcf.port)
   .option('-o, --open', 'open interface in browser')
 
 program
