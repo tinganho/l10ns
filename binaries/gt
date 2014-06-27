@@ -26,7 +26,15 @@ var gtPath = findup('gt.json')
   , root
   , cf;
 
-if((process.argv.length > 2 && process.argv[2] !== 'init') && !gtPath) {
+if(typeof process.argv[2] === 'undefined') {
+  process.argv[2] = '--help';
+}
+
+if(process.argv.length > 2
+  && (process.argv[2] !== 'init'
+    && process.argv[2] !== '--help'
+    &&  process.argv[2] !== '-h')
+  && !gtPath) {
   console.log('Not in a gt project (or any of the parent directories):');
   return;
 }
@@ -104,7 +112,12 @@ var src = [], _files, adds, removes;
 /**
  * Check if source is defined
  */
-if(process.argv.length > 2 && process.argv[2] !== 'init') {
+if(process.argv.length > 2
+  && (process.argv[2] !== 'init'
+    && process.argv[2] !== '--help'
+    &&  process.argv[2] !== '-h')
+  && !gtPath) {
+
   if(!pcf.src) {
     console.log('You must define your source files on a glob pattern your gt.json file.')
     return;
@@ -154,13 +167,7 @@ var gt = require('../libraries');
 program
   .version(pjson.version)
   .option('-l, --locale <locale>', 'specify locale', String, pcf.defaultLocale)
-  .option('-ls, --locales <locales>', 'specify locales', String, pcf.defaultLocales)
   .option('-p, --port <port>', 'specify the port [\'' + pcf.port + '\']', Number, pcf.port)
-  .option('-f, --folder <folder>', 'specify folder', String, pcf.folder)
-  .option('-o, --output <output>', 'specify output', String, pcf.output)
-  .option('-s, --source <source>', 'specify source', String, pcf.src)
-  .option('-dl, --default-locale <default-locale>', 'specify default locale', String, pcf.defaultLocale)
-  .option('-pl, --programming-languague <programming-languague>', 'specify programming languague', String, pcf.programmingLanguague)
 
 program
   .command('init')
@@ -176,6 +183,7 @@ program
     if(!utilities.initiatedProject()) {
       return console.log('You haven\'t initialized a project yet');
     }
+    pcf.port = program.port || pcf.port;
     require('../interface/start');
   });
 
