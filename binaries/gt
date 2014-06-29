@@ -30,11 +30,9 @@ if(typeof process.argv[2] === 'undefined') {
   process.argv[2] = '--help';
 }
 
-if(process.argv.length > 2
-  && (process.argv[2] !== 'init'
-    && process.argv[2] !== '--help'
-    &&  process.argv[2] !== '-h')
-  && !gtPath) {
+var processRequest = (process.argv.length >= 2 && process.argv[2] !== 'init' && process.argv[2] !== '--help' &&  process.argv[2] !== '-h');
+
+if(processRequest && !gtPath) {
   console.log('Not in a gt project (or any of the parent directories):');
   return;
 }
@@ -118,12 +116,8 @@ var src = [], _files, adds, removes;
 /**
  * Check if source is defined
  */
-if(process.argv.length > 2
-  && (process.argv[2] !== 'init'
-    && process.argv[2] !== '--help'
-    &&  process.argv[2] !== '-h')
-  && !gtPath) {
 
+if(processRequest) {
   if(!pcf.src) {
     console.log('You must define your source files on a glob pattern your gt.json file.')
     return;
