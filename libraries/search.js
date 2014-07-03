@@ -111,7 +111,7 @@ Search.prototype.queryOutput = function(q) {
   var n = 1;
   var cache = [];
   for(var i in res) {
-    log.log((n === 10 ? '%' + n : ' %' + n).yellow + ' ' + this.docs[res[i].ref].key);
+    log.log((n === 10 ? '%' + n : ' %' + n).yellow + ' ' + this.docs[res[i].ref].key + ' | '  + this.docs[res[i].ref].text.green);
     cache.push(res[i]);
     n++;
   }
