@@ -1,4 +1,8 @@
 
+{{##def.spinner: load('interface/components/spinner.part', {
+  componentClass: 'save-spinner'
+}); #}}
+
 <div class="translation" data-content="translation">
   <h1 class="translation-title">{{=it.key}}</h1>
   <form class="translation-form">
@@ -20,7 +24,10 @@
         {{=it.values}}
       </div>
       <div class="translation-actions">
-        <button class="save button" type="submit" disabled>{{=it.i18n_save}}</button>
+        <div class="save-button-container">
+          <button class="save button" type="submit" disabled>{{=it.i18n_save}}</button>
+          {{#def.spinner}}
+        </div>
         <button class="add-condition button" type="button" disabled>{{=it.i18n_addCondition}}</button>
       </div>
     </div>

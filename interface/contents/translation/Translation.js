@@ -192,7 +192,7 @@ define(function(require) {
      * @delegate
      */
 
-    sync : function(method, model, opts, req) {
+    sync : function(method, model, options, req) {
       var _this = this, id;
 
       if(inClient) {
@@ -206,14 +206,14 @@ define(function(require) {
           this._parse(translation);
           this.setPageTitle(translation.key);
           this.setPageDescription('Edit: ' + translation.key);
-          return opts.success();
+          return options.success();
         }
         else {
           var $json = $('.js-json-translation');
           if($json.length) {
             this._parse(JSON.parse($json.html()));
             $json.remove();
-            opts.success();
+            options.success();
             return;
           }
           var translation = app.models.translations.get(id);
@@ -222,7 +222,7 @@ define(function(require) {
             this._parse(translation);
             app.document.set('title', translation.key);
             app.document.set('description', 'Edit: ' + translation.key);
-            opts.success();
+            options.success();
             return;
           }
           request
@@ -232,7 +232,7 @@ define(function(require) {
               _this._parse(translation);
               app.document.set('title', translation.key);
               app.document.set('description', 'Edit: ' + translation.key);
-              opts.success();
+              options.success();
             });
         }
       }
@@ -244,9 +244,12 @@ define(function(require) {
           .end(function(error, response) {
             if(!error) {
               app.models.translations.get(json.id).set(json);
+              if(typeof options.success === 'function') {
+                options.success();
+              }
             }
             else {
-              alert('Couldn\'t update translation.');
+              options.error(error);
             }
           });
       }

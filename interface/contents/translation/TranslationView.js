@@ -11,6 +11,10 @@ define(function(require) {
     , template = inServer ? content_appTemplates : require('contentTemplates')
     , _ = require('underscore');
 
+  if(inClient) {
+    var minTimer = require('minTimer');
+  }
+
   return View.extend({
 
     /**
@@ -487,6 +491,9 @@ define(function(require) {
 
     _setElements: function() {
       this.$region = $('[data-region=translation]');
+      this.$saveButton = $('.save');
+      this.$saveSpinner = $('.save-spinner');
+      this.$saveButtonContainer = $('.save-button-container');
     },
 
     /**
@@ -559,8 +566,31 @@ define(function(require) {
      */
 
     _save: function(event) {
+      var _this = this;
+
       event.preventDefault();
-      this.model.save();
+      this.$saveSpinner.show();
+      this.$saveButtonContainer.removeClass('is-waiting').addClass('is-loading');
+      minTimer.start(1000);
+      this.model.save(null, {
+        success: function(model, response, options) {
+          minTimer.end(function() {
+            _this.$saveButtonContainer.removeClass('is-loading').addClass('is-waiting');
+            setTimeout(function() {
+              _this.$saveSpinner.hide();
+            }, 300);
+          });
+        },
+        error: function() {
+          minTimer.end(function() {
+            _this.$saveButtonContainer.removeClass('is-loading').addClass('is-waiting');
+            setTimeout(function() {
+              _this.$saveSpinner.hide();
+              alert('Couldn\'t save your translation, please try again later.');
+            }, 300);
+          });
+        }
+      });
     },
 
     /**

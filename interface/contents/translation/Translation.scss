@@ -55,6 +55,34 @@ $padding: 40px;
   width: 100%;
 }
 
-.save {
+.save-button-container {
+  position: relative;
+  display: inline-block;
   float: right;
+}
+
+.save-spinner {
+  @include transition(transform 0.2s);
+  top: 4px !important;
+
+  .is-waiting & {
+    @include transform(scale(0, 0));
+  }
+
+  .is-loading & {
+    @include transform(scale(1, 1));
+  }
+}
+
+.save {
+  @include transition(transform 0.2s);
+  float: right;
+
+  .is-waiting & {
+    @include transform(scale(1, 1));
+  }
+
+  .is-loading & {
+    @include transform(scale(0, 0));
+  }
 }
