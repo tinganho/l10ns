@@ -50,6 +50,10 @@ Log.prototype.outputLog = function(locale, type) {
         n++;
       }
     }
+
+    if(n === 1) {
+      log.log('No non-translated translations for locale ' + locale.yellow);
+    }
   }
   else {
     var n = 1;
@@ -63,6 +67,10 @@ Log.prototype.outputLog = function(locale, type) {
       }
       log.log((tag).yellow + ' ' + translations[i].key + ' | ' + translations[i].text.green);
       n++;
+    }
+
+    if(n === 1) {
+      log.log('No translations updated from source. Please update with `gt update`');
     }
   }
 };
