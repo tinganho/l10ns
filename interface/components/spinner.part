@@ -1,0 +1,2 @@
+
+<i class="com-spinner {{$componentClass}} sp-default sp-default-spinner" style="display: none;"></i>

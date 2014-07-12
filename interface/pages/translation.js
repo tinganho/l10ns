@@ -16,6 +16,10 @@ module.exports = function(page) {
       })
     .hasLayout('app')
       .withRegions({
+        home: {
+          model: 'contents/home/Home',
+          view: 'contents/home/HomeView'
+        },
         search: {
           model: 'contents/search/Search',
           view: 'contents/search/SearchView'

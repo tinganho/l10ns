@@ -1,0 +1,5 @@
+
+<a class="home" data-content="home">
+  <i class="home-icon sp-default sp-default-home"></i>
+  <span class="home-text">{{=it.title}}</span>
+</a>

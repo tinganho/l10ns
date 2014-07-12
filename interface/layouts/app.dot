@@ -1,6 +1,7 @@
 
 <div class="app" data-layout="app">
   <header class="app-header">
+    <div class="app-home" data-region="home">{{=it.home}}</div>
     <div class="app-search" data-region="search">{{=it.search}}</div>
     <div class="app-locales" data-region="locales">{{=it.locales}}</div>
   </header>
