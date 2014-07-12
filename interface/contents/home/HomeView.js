@@ -89,7 +89,7 @@ define(function(require) {
      */
 
     _navigateHome: function() {
-      app.navigate('/' + window.location.pathname.split('/')[1] + '/translations');
+      app.navigate('/' + app.locale + '/translations');
     }
   });
 });
