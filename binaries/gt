@@ -33,7 +33,7 @@ if(typeof process.argv[2] === 'undefined') {
 var processRequest = (process.argv.length >= 2 && process.argv[2] !== 'init' && process.argv[2] !== '--help' &&  process.argv[2] !== '-h');
 
 if(processRequest && !gtPath) {
-  console.log('Not inside a gt project. Please create one with `gt init`');
+  console.log('You are not inside a gt project. Please create one with `gt init`.');
   return;
 }
 
@@ -119,7 +119,7 @@ var src = [], _files, adds, removes;
 
 if(processRequest) {
   if(!pcf.src) {
-    console.log('You must define your source files on a glob pattern your gt.json file.')
+    console.log('You must define your source files using a glob pattern in your gt.json file.')
     return;
   }
 
@@ -135,7 +135,7 @@ if(processRequest) {
     }
   }
   if(!src.length) {
-    console.log('Please update your gt.json to include your source files');
+    console.log('Please update your gt.json to include your source files.');
     return;
   }
   pcf.src = src;
@@ -224,7 +224,7 @@ program
   .description('Update translation keys from source')
   .action(function() {
     if(!utilities.initiatedProject()) {
-      return console.log('You haven\'t initialized a project yet');
+      return console.log('You haven\'t initialized a project yet.');
     }
     gt.update();
   });
@@ -234,7 +234,7 @@ program
   .description('Compile transations')
   .action(function() {
     if(!utilities.initiatedProject()) {
-      return console.log('You haven\'t initialized a project yet');
+      return console.log('You haven\'t initialized a project yet.');
     }
     gt.compile();
   });
@@ -244,7 +244,7 @@ program
   .description('Edit a translation')
   .action(function(reference, value) {
     if(!utilities.initiatedProject()) {
-      return console.log('You haven\'t initialized a project yet');
+      return console.log('You haven\'t initialized a project yet.');
     }
     gt.edit(reference, value, this.locale);
   });
@@ -254,7 +254,7 @@ program
   .description('Show configurations')
   .action(function() {
     if(!utilities.initiatedProject()) {
-      return console.log('You haven\'t initialized a project yet');
+      return console.log('You haven\'t initialized a project yet.');
     }
     console.log(_projectConfigurations);
   });

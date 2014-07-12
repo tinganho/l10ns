@@ -165,8 +165,8 @@ if(!globallyInstalled) {
 
 http.createServer(app).listen(pcf.port, function() {
   var url = 'http://localhost:' + pcf.port;
-  console.log('Translation interface is now available in ' + url.green);
-  console.log('Close the interface using CTRL + C');
+  console.log('Translation interface is now available in ' + url.green + '.');
+  console.log('Close the interface using CTRL + C.');
   if(pcf.autoOpen) {
     console.log('opening web browser...');
     setTimeout(function() {
