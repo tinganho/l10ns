@@ -34,13 +34,13 @@ Edit.prototype.edit = function(ref, value, locale) {
   var _this = this;
 
   if(typeof ref !== 'string') {
-    return log.error('ref must be of type string');
+    return log.error('You must reference a translation. Either using a translation key or tag.');
   }
   if(typeof value !== 'string') {
-    return log.error('value must be of type string');
+    return log.error('You must specify a value for the translation');
   }
   if(!(locale in this.locales)) {
-    return log.error('locale is not defined');
+    return log.error('locale ' + locale.yellow + ' is not defined');
   }
 
   value = this._removeEscapes(value);

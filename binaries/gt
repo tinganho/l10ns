@@ -259,4 +259,8 @@ program
     console.log(_projectConfigurations);
   });
 
+if(process.argv.length >= 3 && ['init', 'interface', 'search', 'log', 'update', 'compile', 'set', 'configs'].indexOf(process.argv[2]) === -1) {
+  process.argv[2] = '--help';
+}
+
 program.parse(process.argv);
