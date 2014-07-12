@@ -62,9 +62,9 @@ define([
           if({{=page.noViewsScript}}) {
             app.views[view].remove();
             delete app.views[view];
-            delete app.models[view];
             if(typeof app.models[view] !== 'undefined') {
               Backbone.Relational.store.unregister(app.models[view]);
+              delete app.models[view];
             }
           }
         }
