@@ -1,7 +1,7 @@
 {
   "name": "get-translation",
   "description": "Effective translation workflow",
-  "version": "0.11.10",
+  "version": "0.11.11",
   "homepage": "https://github.com/tinganho/get-translation",
   "author": {
     "name": "Tingan Ho",
@@ -9,18 +9,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/tinganho/grunt-translate.git"
+    "url": "git://github.com/tinganho/get-translation.git"
   },
   "bugs": {
-    "url": "https://github.com/tinganho/grunt-translate/issues"
+    "url": "https://github.com/tinganho/get-translation/issues"
   },
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/tinganho/grunt-translate/blob/master/LICENSE-MIT"
+      "url": "https://github.com/tinganho/get-translation/blob/master/LICENSE-MIT"
     }
   ],
-  "main": "Gruntfile.js",
   "bin": {
     "gt": "./binaries/gt"
   },
@@ -80,6 +79,9 @@
     "sinon-chai": "~2.5.0"
   },
   "keywords": [
-    "gruntplugin"
+    "i18n",
+    "l10n",
+    "translation",
+    "cli"
   ]
 }
