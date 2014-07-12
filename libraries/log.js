@@ -34,7 +34,7 @@ Log.prototype.outputLog = function(locale, type) {
   var translations = this._getLatestUpdates(locale).slice(0, pcf.LOG_LENGTH);
 
   if(!translations.length) {
-    return log.log('No translations');
+    return log.log('No translations.');
   }
 
   if(type === 'no-values') {
@@ -52,7 +52,7 @@ Log.prototype.outputLog = function(locale, type) {
     }
 
     if(n === 1) {
-      log.log('No non-translated translations for locale ' + locale.yellow);
+      log.log('No non-translated translations for locale ' + locale.yellow + '.');
     }
   }
   else {
@@ -70,7 +70,7 @@ Log.prototype.outputLog = function(locale, type) {
     }
 
     if(n === 1) {
-      log.log('No translations updated from source. Please update with `gt update`');
+      log.log('No translations updated from source. Please update with `gt update`.');
     }
   }
 };

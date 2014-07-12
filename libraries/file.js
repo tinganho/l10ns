@@ -177,6 +177,14 @@ File.prototype.readTranslations = function(locale, opts) {
     }
   });
 
+  if(Object.keys(translations).length === 0) {
+    if(opts.returnType === 'json') {
+      return {};
+    }
+    else {
+      return [];
+    }
+  }
 
   if(locale) {
     return translations[locale];
