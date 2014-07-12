@@ -169,6 +169,7 @@ program
   .option('-l, --locale <locale>', 'specify locale', String, pcf.defaultLocale)
   .option('-p, --port <port>', 'specify port for interface', Number, pcf.port)
   .option('-o, --open', 'open interface in browser')
+  .option('--no-values', 'show only non translated keys', Boolean, false)
 
 program
   .command('init')
@@ -205,12 +206,17 @@ program
 
 program
   .command('log')
-  .description('Get the latest translations')
+  .description('Show translation log')
   .action(function() {
     if(!utilities.initiatedProject()) {
       return console.log('You haven\'t initialized a project yet');
     }
-    gt.log(this.locale);
+    if(program.values) {//no-values option
+      gt.log(this.locale, 'regular');
+    }
+    else {
+      gt.log(this.locale, 'no-values');
+    }
   });
 
 program

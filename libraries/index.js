@@ -61,9 +61,9 @@ GetTranslation.prototype.update = function() {
  * @api public
  */
 
-GetTranslation.prototype.log = function(locale) {
+GetTranslation.prototype.log = function(locale, type) {
   var log = new Log();
-  return log.outputLog(locale);
+  return log.outputLog(locale, type);
 };
 
 /**

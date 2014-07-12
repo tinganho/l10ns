@@ -17,7 +17,6 @@ require('terminal-colors');
 function Log() {
   this.defaultLocale = pcf.defaultLocale;
   this.locales = pcf.locales;
-  this._length = pcf.LOG_LENGTH;
 }
 
 
@@ -29,26 +28,42 @@ function Log() {
  * @api private
  */
 
-Log.prototype.outputLog = function(locale) {
+Log.prototype.outputLog = function(locale, type) {
   locale = locale || this.defaultLocale;
 
-  var translations = this._getLatestUpdates(locale).slice(0, this._length);
+  var translations = this._getLatestUpdates(locale).slice(0, pcf.LOG_LENGTH);
 
   if(!translations.length) {
     return log.log('No translations');
   }
 
-  var n = 1;
-  for(var i in translations) {
-    var tag;
-    if((n+'').length < 2) {
-      tag = ' @' + n;
+  if(type === 'no-values') {
+    var n = 1;
+    for(var i in translations) {
+      if(translations[i].values.length === 0) {
+        if(n <= pcf.LOG_LENGTH) {
+          log.log(translations[i].key + ' | ' + translations[i].text.green);
+        }
+        else {
+          break;
+        }
+        n++;
+      }
     }
-    else {
-      tag = '@' + n;
+  }
+  else {
+    var n = 1;
+    for(var i in translations) {
+      var tag;
+      if((n+'').length < 2) {
+        tag = ' @' + n;
+      }
+      else {
+        tag = '@' + n;
+      }
+      log.log((tag).yellow + ' ' + translations[i].key + ' | ' + translations[i].text.green);
+      n++;
     }
-    log.log((tag).yellow + ' ' + translations[i].key + ' | ' + translations[i].text.green);
-    n++;
   }
 };
 
