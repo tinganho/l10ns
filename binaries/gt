@@ -135,7 +135,7 @@ if(processRequest) {
     }
   }
   if(!src.length) {
-    console.log('Please update your gt.json to include your source files.');
+    console.log('No files found. \n(Have you updated your gt.json to include your source file and ran `gt update` yet?)');
     return;
   }
   pcf.src = src;
