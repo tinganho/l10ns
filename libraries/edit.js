@@ -178,7 +178,7 @@ Edit.prototype._getKeyFromLatestTranslations = function(reference) {
     deferred.resolve(translations[this.defaultLocale][reference].key);
   }
   catch(err) {
-    deferred.reject(err);
+    deferred.reject(new TypeError('Reference is not indexed.'));
   }
 
   return deferred.promise;
