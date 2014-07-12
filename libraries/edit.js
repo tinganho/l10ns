@@ -37,10 +37,10 @@ Edit.prototype.edit = function(ref, value, locale) {
     return log.error('You must reference a translation. Either using a translation key or tag.');
   }
   if(typeof value !== 'string') {
-    return log.error('You must specify a value for the translation');
+    return log.error('You must specify a value for the translation.');
   }
   if(!(locale in this.locales)) {
-    return log.error('locale ' + locale.yellow + ' is not defined');
+    return log.error('Locale ' + locale.yellow + ' is not defined.');
   }
 
   value = this._removeEscapes(value);
@@ -49,12 +49,12 @@ Edit.prototype.edit = function(ref, value, locale) {
   .then(function(key) {
     var translations = _this._replace(key, value, locale);
     file.writeTranslations(translations, function() {
-      log.success('Updated key ' + key.yellow + ' in ' + locale.yellow + ' to ' + value.yellow);
+      log.success('Updated key ' + key.yellow + ' in ' + locale.yellow + ' to ' + value.yellow + '.');
     });
   })
   .fail(function(err) {
-    console.log(err);
-    log.error('Couldn\'t edit your translations');
+    log.error(err.message);
+    log.error('Could not edit your translations.');
   });
 };
 
@@ -82,7 +82,7 @@ Edit.prototype._getKey = function(ref) {
   var deferred = Q.defer();
 
   if(typeof ref !== 'string') {
-    deferred.reject(new TypeError('first parameter is not of type string'));
+    deferred.reject(new TypeError('First parameter is not of type string.'));
     return deferred.promise;
   }
 
@@ -117,35 +117,35 @@ Edit.prototype._getKey = function(ref) {
 /**
  * Get key from latest search
  *
- * @param {Number|(number castable)String} ref
+ * @param {Number|(number castable)String} reference
  * @return {Promise}
  * @api private
  */
 
-Edit.prototype._getKeyFromLatestSearch = function(ref) {
+Edit.prototype._getKeyFromLatestSearch = function(reference) {
   var deferred = Q.defer();
 
-  ref = parseInt(ref, 10);
+  reference = parseInt(reference, 10);
 
-  if(isNaN(ref)) {
-    deferred.reject(new TypeError('first parameter is not a number nor a number castable string'));
+  if(isNaN(reference)) {
+    deferred.reject(new TypeError('First parameter is not a number nor a number castable string.'));
     return deferred.promise;
   }
 
-  // Decrease ref with one;
-  ref--;
+  // Decrease reference with one;
+  reference--;
 
-  if(ref < 0) {
-    deferred.reject(new TypeError('ref is out of index'));
+  if(reference < 0) {
+    deferred.reject(new TypeError('Reference is not indexed.'));
     return deferred.promise;
   }
 
   file.readSearchTranslations()
   .then(function(data) {
-    if(ref > data.length - 1) {
-      return deferred.reject(new TypeError('ref is out of index'));
+    if(reference > data.length - 1) {
+      return deferred.reject(new TypeError('Reference is not indexed.'));
     }
-    deferred.resolve(data[ref].ref);
+    deferred.resolve(data[reference].ref);
   })
   .fail(function(err) {
     deferred.reject(err);
@@ -162,20 +162,20 @@ Edit.prototype._getKeyFromLatestSearch = function(ref) {
  * @api private
  */
 
-Edit.prototype._getKeyFromLatestTranslations = function(ref) {
+Edit.prototype._getKeyFromLatestTranslations = function(reference) {
   var deferred = Q.defer();
 
-  ref = Math.abs(ref) - 1;
+  reference = Math.abs(reference) - 1;
 
   var translations = file.readTranslations(null, { returnType : 'array' });
 
-  if(ref < 0 || ref > translations.length - 1) {
-    deferred.reject(new TypeError('ref is out of index'));
+  if(reference < 0 || reference > translations.length - 1) {
+    deferred.reject(new TypeError('Reference is not indexed.'));
     return deferred.promise;
   }
 
   try {
-    deferred.resolve(translations[this.defaultLocale][ref].key);
+    deferred.resolve(translations[this.defaultLocale][reference].key);
   }
   catch(err) {
     deferred.reject(err);
@@ -199,10 +199,10 @@ Edit.prototype._replace = function(key, value, locale) {
   var translations = file.readTranslations();
 
   if(!(locale in translations)) {
-    return log.error('Locale: ' + locale.yellow + ' is not in current translations');
+    return log.error('Locale: ' + locale.yellow + ' is not in current translations.');
   }
   if(!(key in translations[locale])) {
-    return log.error('Key: ' + key.yellow + ' is not in current translations');
+    return log.error('Key: ' + key.yellow + ' is not in current translations.');
   }
 
   // Save value
