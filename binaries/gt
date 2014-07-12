@@ -33,7 +33,7 @@ if(typeof process.argv[2] === 'undefined') {
 var processRequest = (process.argv.length >= 2 && process.argv[2] !== 'init' && process.argv[2] !== '--help' &&  process.argv[2] !== '-h');
 
 if(processRequest && !gtPath) {
-  console.log('Not in a gt project (or any of the parent directories):');
+  console.log('Not inside a gt project. Please create one with `gt init`');
   return;
 }
 
