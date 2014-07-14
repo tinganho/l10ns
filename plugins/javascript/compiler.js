@@ -130,7 +130,7 @@ Compiler.prototype._getTranslationMap = function(locale) {
 Compiler.prototype._normalizeText = function(text) {
   return text
     .replace('\\', 'ESCAPE_CHAR')
-    .replace(/'/, '\\\'')
+    .replace(/'/g, '\\\'')
     .replace(/[^\\]ESCAPE_CHAR/g, function(m) {
       return m.replace('ESCAPE_CHAR', '\\\\');
     });
