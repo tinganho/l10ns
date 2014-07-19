@@ -10,10 +10,10 @@ module.exports = {
   // Example match (double hard brackets mean match):
   //
   // gt('SOME_TRANSLATION_KEY', {
-  //   'test' : [[test()]]
+  //   'test': [[test()]]
   // });
   //
-  TRANSLATION_INNER_FUNCTION_CALL_REGEX : /\s+(?!gt)[.|\w]+?\((.*?\s*?)*?\)/g,
+  TRANSLATION_INNER_FUNCTION_CALL_REGEX: /\s+(?!gt)[.|\w]+?\((.*?\s*?)*?\)/g,
 
   // Translation vars regex should capture a match
   // of the whole translation var object literal in
@@ -23,10 +23,10 @@ module.exports = {
   // Example match (double hard brackets mean match):
   //
   // [[gt('SOME_TRANSLATION_KEY', {
-  //   'test' : 'test'
+  //   'test': 'test'
   // });]]
   //
-  TRANSLATION_FUNCTION_CALL_REGEX : /gt\(['|"](.*?)['|"]\s*(\,\s*\{\s*((.*?)|(\s*?))+?\s*\})??\s*\)/g,
+  TRANSLATION_FUNCTION_CALL_REGEX: /gt\(['|"](.*?)['|"]\s*(\,\s*\{\s*((.*?)|(\s*?))+?\s*\})??\s*\)/g,
 
   // Translation key regex should capture a match
   // of the translation key in the second index
@@ -35,10 +35,10 @@ module.exports = {
   // Example match (double hard brackets mean match):
   //
   // gt([['SOME_TRANSLATION_KEY']], {
-  //   'test' : 'test'
+  //   'test': 'test'
   // });
   //
-  TRANSLATION_KEY : /gt\((['|"])(.*?)\1/,
+  TRANSLATION_KEY: /gt\((['|"])(.*?)\1/,
 
   // Translation vars regex should capture a match
   // of the whole translation var object literal in
@@ -49,10 +49,10 @@ module.exports = {
   // Example match (double hard brackets mean match):
   //
   // gt('SOME_TRANSLATION_KEY', [[{
-  //   'test' : 'test'
+  //   'test': 'test'
   // }]]);
   //
-  TRANSLATION_VARS : /(\{(.|\s)*?\})/g,
+  TRANSLATION_VARS: /(\{(.|\s)*?\})/g,
 
   // Translation var regex should capture a match
   // of one line of the translation var key including
@@ -61,9 +61,9 @@ module.exports = {
   // Example match (double hard brackets mean match):
   //
   // {
-  //   [['test1' :]] 'test',
-  //   [['test2' :]] 'test',
+  //   [['test1':]] 'test',
+  //   [['test2':]] 'test',
   // };
   //
-  TRANSLATION_VAR : /\s*(['|"])?\w+\1?\s*\:/g
+  TRANSLATION_VAR: /\s*(['|"])?\w+\1?\s*\:/g
 };
