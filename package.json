@@ -27,7 +27,7 @@
     "node": "*"
   },
   "scripts": {
-    "test": "binaries/test && grunt mocha:test"
+    "test": "binaries/spec"
   },
   "dependencies": {
     "amdefine": "^0.1.0",
