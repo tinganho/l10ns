@@ -1,6 +1,7 @@
 
 global.lcf = {
-  TRANSLATION_FUNCTION_CALL_REGEX: /gt\(['|"](.*?)['|"]\s*(\,\s*\{\s*((.*?)|(\s*?))+?\s*\})??\s*\)/g
+  TRANSLATION_FUNCTION_CALL_REGEX: /gt\(['|"](.*?)['|"]\s*(\,\s*\{\s*((.*?)|(\s*?))+?\s*\})??\s*\)/g,
+  TRANSLATION_INNER_FUNCTION_CALL_REGEX: /\s+(?!gt)[.|\w]+?\((.*?\s*?)*?\)/g
 };
 
 global.pcf = {
@@ -56,6 +57,22 @@ describe('update', function() {
       update.update();
       dependencies['./_log'].error.should.have.been.calledOnce;
       dependencies['./_log'].error.should.have.been.calledWith('Translation update failed');
+    });
+  });
+
+  describe('#_stripInnerFunctionCalls', function() {
+    it('should remove inner function calls', function() {
+      var callString = 'gt(\'TRANSLATION_KEY\', { innerFunction: innerFunction() });';
+      var resultString = 'gt(\'TRANSLATION_KEY\', { innerFunction: });';
+      var method = proxyquire('../libraries/update', dependencies).Update.prototype._stripInnerFunctionCalls;
+      expect(method(callString)).to.equal(resultString);
+    });
+
+    it('should not remove inner gt function calls', function() {
+      var callString = 'gt(\'TRANSLATION_KEY\', { innerFunction: gt() });';
+      var resultString = 'gt(\'TRANSLATION_KEY\', { innerFunction: gt() });';
+      var method = proxyquire('../libraries/update', dependencies).Update.prototype._stripInnerFunctionCalls;
+      expect(method(callString)).to.equal(resultString);
     });
   });
 });
