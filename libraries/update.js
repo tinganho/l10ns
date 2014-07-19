@@ -10,6 +10,7 @@ var fs = require('fs')
   , merger = require('./merger')
   , readline = require('readline')
   , file = require('./file')
+  , log = require('./_log')
   , Hashids = require('hashids')
   , hashids = new Hashids(pcf.TRANSLATION_ID_HASH_SECRET, pcf.TRANSLATION_ID_CHAR_LENGTH);
 
@@ -58,7 +59,7 @@ Update.prototype.update = function() {
     if(!err) {
       return file.writeTranslations(_newTranslations);
     }
-    console.error('Translation update failed');
+    log.error('Translation update failed');
   });
 };
 
