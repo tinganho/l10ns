@@ -20,7 +20,7 @@ var dependencies = {
   './_log': {}
 };
 
-describe('update', function() {
+describe('Update', function() {
   describe('#update', function() {
     it('should get the source keys', function() {
       var update = new (proxyquire('../libraries/update', dependencies).Update);
@@ -73,6 +73,140 @@ describe('update', function() {
       var resultString = 'gt(\'TRANSLATION_KEY\', { innerFunction: gt() });';
       var method = proxyquire('../libraries/update', dependencies).Update.prototype._stripInnerFunctionCalls;
       expect(method(callString)).to.equal(resultString);
+    });
+  });
+
+  describe('#_getSourceKeys', function() {
+    describe('should loop through each file path and...', function() {
+      it('check if the file path is a directory', function() {
+        pcf.src = ['./file.js'];
+        dependencies['fs'].lstatSync = sinon.stub().returns({
+          isDirectory: sinon.stub().returns(true)
+        });
+        var update = new (proxyquire('../libraries/update', dependencies).Update);
+        update._getSourceKeys();
+        dependencies['fs'].lstatSync.should.have.been.calledOnce;
+      });
+
+      it('read the file', function() {
+        pcf.src = ['./file.js'];
+        dependencies['fs'].lstatSync = sinon.stub().returns({
+          isDirectory: sinon.stub().returns(false)
+        });
+        dependencies['fs'].readFileSync = sinon.spy();
+        var update = new (proxyquire('../libraries/update', dependencies).Update);
+        update._stripInnerFunctionCalls = sinon.stub().returns({ match: sinon.stub().returns(null) });
+        update._getSourceKeys();
+        dependencies['fs'].readFileSync.should.have.been.calledOnce;
+        dependencies['fs'].readFileSync.should.have.been.calledWith(pcf.src[0]);
+      });
+
+      it('strip inner function calls', function() {
+        pcf.src = ['./file.js'];
+        dependencies['fs'].lstatSync = sinon.stub().returns({
+          isDirectory: sinon.stub().returns(false)
+        });
+        dependencies['fs'].readFileSync = function() {};
+        var update = new (proxyquire('../libraries/update', dependencies).Update);
+        update._stripInnerFunctionCalls = sinon.stub().returns({ match: sinon.stub().returns(null) });
+        update._getSourceKeys();
+        update._stripInnerFunctionCalls.should.have.been.calledOnce;
+      });
+
+      it('find all gt() function call strings', function() {
+        pcf.src = ['./file.js'];
+        dependencies['fs'].lstatSync = sinon.stub().returns({
+          isDirectory: sinon.stub().returns(false)
+        });
+        dependencies['fs'].readFileSync = function() {};
+        var update = new (proxyquire('../libraries/update', dependencies).Update);
+        var innerFunctionCallResultObject = { match: sinon.stub().returns(null) };
+        update._stripInnerFunctionCalls = sinon.stub().returns(innerFunctionCallResultObject);
+        update._getSourceKeys();
+        innerFunctionCallResultObject.match.should.have.been.calledOnce;
+      });
+
+      it('get the key and variables on each gt() call strings', function() {
+        pcf.src = ['./file.js'];
+        dependencies['fs'].lstatSync = sinon.stub().returns({
+          isDirectory: sinon.stub().returns(false)
+        });
+        dependencies['fs'].readFileSync = function() {};
+        dependencies['./parser'].getKey = sinon.stub().returns('SOME_KEY');
+        dependencies['./parser'].getVars = sinon.stub().returns(['test1', 'test2']);
+        var Hashids = function() {}
+        Hashids.prototype.encrypt = function() {};
+        dependencies['hashids'] = Hashids;
+        var update = new (proxyquire('../libraries/update', dependencies).Update);
+        var innerFunctionCallResultObject = { match: sinon.stub().returns(['gt(\'SOME_KEY\')']) };
+        update._stripInnerFunctionCalls = sinon.stub().returns(innerFunctionCallResultObject);
+        update._getSourceKeys();
+        dependencies['./parser'].getKey.should.have.been.calledOnce;
+        dependencies['./parser'].getKey.should.have.been.calledWith('gt(\'SOME_KEY\')');
+        dependencies['./parser'].getVars.should.have.been.calledOnce;
+        dependencies['./parser'].getVars.should.have.been.calledWith('gt(\'SOME_KEY\')');
+      });
+
+      it('set id, key, vars, text, files', function() {
+        pcf.src = ['./file.js'];
+        dependencies['fs'].lstatSync = sinon.stub().returns({
+          isDirectory: sinon.stub().returns(false)
+        });
+        dependencies['fs'].readFileSync = function() {};
+        dependencies['./parser'].getKey = sinon.stub().returns('SOME_KEY');
+        dependencies['./parser'].getVars = sinon.stub().returns(['test1', 'test2']);
+        var Hashids = function() {}
+        Hashids.prototype.encrypt = sinon.stub().returns('id');
+        dependencies['hashids'] = Hashids;
+        var update = new (proxyquire('../libraries/update', dependencies).Update);
+        var innerFunctionCallResultObject = { match: sinon.stub().returns(['gt(\'SOME_KEY\')']) };
+        update._stripInnerFunctionCalls = sinon.stub().returns(innerFunctionCallResultObject);
+        var result = update._getSourceKeys();
+        expect(result['SOME_KEY'].id).to.equal('id');
+        expect(result['SOME_KEY'].text).to.equal('SOME_KEY');
+        expect(result['SOME_KEY'].vars).to.eql(['test1', 'test2']);
+        expect(result['SOME_KEY'].files).to.eql(pcf.src);
+      });
+
+      it('append file path if a translation key already exist on a different file', function() {
+        pcf.src = ['./file1.js', './file2.js'];
+        dependencies['fs'].lstatSync = sinon.stub().returns({
+          isDirectory: sinon.stub().returns(false)
+        });
+        dependencies['fs'].readFileSync = function() {};
+        dependencies['./parser'].getKey = sinon.stub().returns('SOME_KEY');
+        dependencies['./parser'].getVars = sinon.stub().returns(['test1', 'test2']);
+        dependencies['./syntax'].hasErrorDuplicate = sinon.stub().returns(false);
+        var Hashids = function() {}
+        Hashids.prototype.encrypt = sinon.stub().returns('id');
+        dependencies['hashids'] = Hashids;
+        var update = new (proxyquire('../libraries/update', dependencies).Update);
+        var innerFunctionCallResultObject = { match: sinon.stub().returns(['gt(\'SOME_KEY\')']) };
+        update._stripInnerFunctionCalls = sinon.stub().returns(innerFunctionCallResultObject);
+        var result = update._getSourceKeys();
+        expect(result['SOME_KEY'].files).to.eql(pcf.src);
+      });
+
+      it('if a function call have two different varriable set it should throw an error', function() {
+        pcf.src = ['./file.js'];
+        dependencies['fs'].lstatSync = sinon.stub().returns({
+          isDirectory: sinon.stub().returns(false)
+        });
+        dependencies['fs'].readFileSync = function() {};
+        dependencies['./parser'].getKey = sinon.stub().returns('SOME_KEY');
+        dependencies['./parser'].getVars = sinon.stub();
+        dependencies['./parser'].getVars.onCall(0).returns(['test1']);
+        dependencies['./parser'].getVars.onCall(1).returns(['test1', 'test2']);
+        dependencies['./syntax'].hasErrorDuplicate = sinon.stub().returns(true);
+        var Hashids = function() {}
+        Hashids.prototype.encrypt = sinon.stub().returns('id');
+        dependencies['hashids'] = Hashids;
+        var update = new (proxyquire('../libraries/update', dependencies).Update);
+        var innerFunctionCallResultObject = { match: sinon.stub().returns(['gt(\'SOME_KEY\')', 'gt(\'SOME_KEY\')']) };
+        update._stripInnerFunctionCalls = sinon.stub().returns(innerFunctionCallResultObject);
+        var result = function() { update._getSourceKeys() };
+        expect(result).to.throw(TypeError, 'You have defined a translation key (SOME_KEY) with different');
+      });
     });
   });
 });

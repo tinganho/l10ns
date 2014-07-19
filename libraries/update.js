@@ -27,15 +27,12 @@ require('terminal-colors');
  */
 
 function Update() {
-  this.functionCallRegex = lcf.TRANSLATION_FUNCTION_CALL_REGEX;
   this.isWaitingUserInput = false;
   this.deletedKeys = [];
   this.addedKeys = [];
   this.migratedKeys = [];
   // readline interface
   this.rl;
-  // file sources
-  this.src = pcf.src;
   // locales
   this.locales = pcf.locales;
   // default locale
@@ -100,13 +97,13 @@ Update.prototype._getSourceKeys = function() {
     , _this = this, newTranslations = {}
     , counter = 0;
 
-  this.src.forEach(function(file) {
+  pcf.src.forEach(function(file) {
     if(fs.lstatSync(file).isDirectory()) {
       return;
     }
     var content = _this._stripInnerFunctionCalls(fs.readFileSync(file, 'utf8'));
     // Match all gt() calls
-    var calls = content.match(_this.functionCallRegex);
+    var calls = content.match(lcf.TRANSLATION_FUNCTION_CALL_REGEX);
     if(calls !== null) {
       calls.forEach(function(call) {
         var key  = parser.getKey(call)
