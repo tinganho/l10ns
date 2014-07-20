@@ -21,7 +21,7 @@ var dependencies = {
 };
 
 describe('Update', function() {
-  describe('#update', function() {
+  describe('#update()', function() {
     it('should get the source keys', function() {
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       update._getSourceKeys = sinon.spy();
@@ -60,7 +60,7 @@ describe('Update', function() {
     });
   });
 
-  describe('#_stripInnerFunctionCalls', function() {
+  describe('#_stripInnerFunctionCalls()', function() {
     it('should remove inner function calls', function() {
       var callString = 'gt(\'TRANSLATION_KEY\', { innerFunction: innerFunction() });';
       var resultString = 'gt(\'TRANSLATION_KEY\', { innerFunction: });';
@@ -76,7 +76,7 @@ describe('Update', function() {
     });
   });
 
-  describe('#_getSourceKeys', function() {
+  describe('#_getSourceKeys()', function() {
     describe('should loop through each file path and...', function() {
       it('check if the file path is a directory', function() {
         pcf.src = ['./file.js'];
@@ -210,7 +210,7 @@ describe('Update', function() {
     });
   });
 
-  describe('#_mergeTranslations', function() {
+  describe('#_mergeTranslations()', function() {
     it('should read old translations', function() {
       dependencies['./file'].readTranslations = sinon.spy();
       var update = new (proxyquire('../libraries/update', dependencies).Update);
@@ -315,5 +315,9 @@ describe('Update', function() {
 
       callback.should.have.been.calledWith({ error: 'other-error' });
     });
+  });
+
+  describe('#_getDeletedTranslations()', function() {
+
   });
 });
