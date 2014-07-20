@@ -209,4 +209,111 @@ describe('Update', function() {
       });
     });
   });
+
+  describe('#_mergeTranslations', function() {
+    it('should read old translations', function() {
+      dependencies['./file'].readTranslations = sinon.spy();
+      var update = new (proxyquire('../libraries/update', dependencies).Update);
+      pcf.locales = {};
+      update._mergeUserInputs = function() {};
+      update._mergeTranslations();
+      dependencies['./file'].readTranslations.should.have.been.calledOnce;
+    });
+
+    it('if an old translation exists, it should merge with new translations', function() {
+      dependencies['./file'].readTranslations = sinon.stub().returns({
+        'en-US': {
+          'key1': {}
+        }
+      });
+      dependencies['./merger'].mergeTranslations = sinon.spy();
+      dependencies['./merger'].mergeTimeStamp = sinon.spy();
+      dependencies['./merger'].mergeId = sinon.spy();
+      pcf.locales = { 'en-US': 'English (US)' };
+      var update = new (proxyquire('../libraries/update', dependencies).Update);
+      update._mergeUserInputs = function() {};
+      update._mergeTranslations({
+        'key1': {}
+      });
+
+      dependencies['./merger'].mergeTranslations.should.have.been.calledOnce;
+      dependencies['./merger'].mergeTimeStamp.should.have.been.calledOnce;
+      dependencies['./merger'].mergeId.should.have.been.calledOnce;
+    });
+
+    it('if an old translation does not exists, it should create a new translation', function() {
+      dependencies['./file'].readTranslations = sinon.stub().returns({
+        'en-US': {}
+      });
+      pcf.locales = { 'en-US': 'English (US)' };
+      var update = new (proxyquire('../libraries/update', dependencies).Update);
+      update._mergeUserInputs = sinon.spy();
+      update._mergeTranslations({
+        'key1': {}
+      });
+
+      expect(update._mergeUserInputs.args[0][0]['en-US']['key1']).to.contain.keys('values', 'timestamp');
+      expect(update._mergeUserInputs.args[0][0]['en-US']['key1'].values).to.eql([]);
+    });
+
+    it('should merge with user input option', function() {
+      dependencies['./file'].readTranslations = sinon.stub().returns({
+        'en-US': {}
+      });
+      dependencies['./merger'].mergeTimeStamp = sinon.stub().returns(0);
+      pcf.locales = { 'en-US': 'English (US)' };
+      var update = new (proxyquire('../libraries/update', dependencies).Update);
+      update._mergeUserInputs = sinon.spy();
+      update._mergeTranslations({
+        'key1': {}
+      });
+
+      update._mergeUserInputs.should.have.been.calledOnce;
+    });
+
+    it('if merging of user inputs is without errors, it should callback with newTranslations', function() {
+      dependencies['./file'].readTranslations = sinon.stub().returns({
+        'en-US': {}
+      });
+      pcf.locales = { 'en-US': 'English (US)' };
+      var update = new (proxyquire('../libraries/update', dependencies).Update);
+      update._mergeUserInputs = sinon.stub().callsArgWith(2, null, { 'new-translation': {} });
+      var callback = sinon.spy();
+      update._mergeTranslations({
+        'key1': {}
+      }, callback);
+
+      callback.should.have.been.calledWith(null, { 'new-translation': {} });
+    });
+
+    it('if merging of user inputs is with a SIGINT error, it should callback with oldTranslations', function() {
+      dependencies['./file'].readTranslations = sinon.stub().returns({
+        'en-US': {}
+      });
+      pcf.locales = { 'en-US': 'English (US)' };
+      var update = new (proxyquire('../libraries/update', dependencies).Update);
+      update._mergeUserInputs = sinon.stub().callsArgWith(2, { error: 'SIGINT' }, { 'new-translation': {} });
+      var callback = sinon.spy();
+      update._mergeTranslations({
+        'key1': {}
+      }, callback);
+
+      callback.should.have.been.calledWith(null, { 'en-US': {} });
+    });
+
+    it('if merging of user inputs is with an error, it should callback with the error', function() {
+      dependencies['./file'].readTranslations = sinon.stub().returns({
+        'en-US': {}
+      });
+      pcf.locales = { 'en-US': 'English (US)' };
+      var update = new (proxyquire('../libraries/update', dependencies).Update);
+      update._mergeUserInputs = sinon.stub().callsArgWith(2, { error: 'other-error' }, { 'new-translation': {} });
+      var callback = sinon.spy();
+      update._mergeTranslations({
+        'key1': {}
+      }, callback);
+
+      callback.should.have.been.calledWith({ error: 'other-error' });
+    });
+  });
 });
