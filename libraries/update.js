@@ -33,8 +33,6 @@ function Update() {
   this.migratedKeys = [];
   // readline interface
   this.rl;
-  // locales
-  this.locales = pcf.locales;
   // default locale
   this.defaultLocale = pcf.defaultLocale;
   // locales folder
@@ -145,7 +143,7 @@ Update.prototype._mergeTranslations = function(newTranslations, callback) {
     , _newTranslations = {}
     , now = Date.now();
 
-  for(var locale in this.locales) {
+  for(var locale in pcf.locales) {
     _newTranslations[locale] = JSON.parse(JSON.stringify(newTranslations));
     for(var key in _newTranslations[locale]) {
       if(typeof oldTranslations[locale] !== 'undefined'

@@ -87,8 +87,7 @@ Merger.prototype.mergeTranslations = function(newTranslations, oldTranslations, 
     newTranslations[key].text = oldTranslations[key].text;
   }
   else {
-    newTranslations[key].values = [];
-    newTranslations[key].text = key;
+    throw new TypeError('Key does not exits in oldTranslations.');
   }
 
   return newTranslations;
