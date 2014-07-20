@@ -147,7 +147,7 @@ describe('Update', function() {
         dependencies['./parser'].getVars.should.have.been.calledWith('gt(\'SOME_KEY\')');
       });
 
-      it('set id, key, vars, text, files', function() {
+      it('set properties id, key, vars, text, files', function() {
         pcf.src = ['./file.js'];
         dependencies['fs'].lstatSync = sinon.stub().returns({
           isDirectory: sinon.stub().returns(false)
@@ -318,6 +318,20 @@ describe('Update', function() {
   });
 
   describe('#_getDeletedTranslations()', function() {
+    it('should return deleted translations keys', function() {
+      pcf.locales = { 'en-US': 'English (US)' };
+      var update = new (proxyquire('../libraries/update', dependencies).Update);
+      var oldTranslations = { 'en-US': { 'key1': {}}};
+      var newTranslations = { 'en-US': { 'key2': {}}};
+      expect(update._getDeletedTranslations(newTranslations, oldTranslations)).to.have.keys('key1');
+    });
 
+    it('should add deleted locales, timestamp and files', function() {
+      pcf.locales = { 'en-US': 'English (US)', 'zh-CN': 'Chinese (Simplified)' };
+      var update = new (proxyquire('../libraries/update', dependencies).Update);
+      var oldTranslations = { 'en-US': { 'key1': { files: ['file1'] }}, 'zh-CN': { 'key1': { files: ['file1'] }}};
+      var newTranslations = { 'en-US': { 'key2': {}}, 'zh-CN': { 'key2': {}}};
+      expect(update._getDeletedTranslations(newTranslations, oldTranslations)['key1']).to.have.keys('en-US', 'zh-CN', 'timestamp', 'files');
+    });
   });
 });

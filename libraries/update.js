@@ -201,7 +201,7 @@ Update.prototype._mergeTranslations = function(newTranslations, callback) {
  *          timestamp : TIMESTAMP,
  *          files : [FILE1, FILE2, ...]
  *       },
- *       TRANSLATION_KEY1 : {
+ *       TRANSLATION_KEY2 : {
  *          LOCALE1 : {
  *
  *          },
@@ -220,17 +220,13 @@ Update.prototype._mergeTranslations = function(newTranslations, callback) {
 
 Update.prototype._getDeletedTranslations = function(newTranslations, oldTranslations) {
   var now = Date.now(), deletedTranslations = {};
-  for(var locale in this.locales) {
+  for(var locale in pcf.locales) {
     for(var key in oldTranslations[locale]) {
       if(!(key in newTranslations[locale])) {
         if(!(key in deletedTranslations)){
           deletedTranslations[key] = {};
         }
-        if('values' in oldTranslations[locale][key]) {
-          deletedTranslations[key][locale] = oldTranslations[locale][key];
-        } else {
-          deletedTranslations[key][locale] = [];
-        }
+        deletedTranslations[key][locale] = oldTranslations[locale][key];
         deletedTranslations[key].timestamp = now;
         deletedTranslations[key].files = oldTranslations[locale][key].files;
       }
