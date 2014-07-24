@@ -455,4 +455,114 @@ describe('Update', function() {
       expect(update.addedKeys).to.eql([['added-key']]);
     });
   });
+
+  describe('#_executeUserInputStream()', function() {
+    it('if deleted and added keys is empty it should callback with new translations', function() {
+      var update = new (proxyquire('../libraries/update', dependencies).Update);
+      var callback = sinon.spy();
+      update.deletedKeys = [];
+      update.addedKeys = [];
+      update._executeUserInputStream({}, {}, callback);
+      callback.should.have.been.calledOnce;
+      callback.should.have.been.calledWith(null, {});
+    });
+
+    it('if deleted keys length is not equal to added keys length it should throw an error', function() {
+      var update = new (proxyquire('../libraries/update', dependencies).Update);
+      var callback = sinon.spy();
+      update.deletedKeys = ['key1'];
+      update.addedKeys = ['key2', 'key3'];
+      var method = function() {
+        update._executeUserInputStream({}, {}, callback);
+      };
+      expect(method).to.throw(TypeError, /Deleted keys must have same array length as added keys length/);
+    });
+
+    it('should callback with error if user input key sens an error', function() {
+      var update = new (proxyquire('../libraries/update', dependencies).Update);
+      var callback = sinon.spy();
+      update.deletedKeys = ['key1'];
+      update.addedKeys = ['key2'];
+      update._getUserInputKey = sinon.stub();
+      update._getUserInputKey.callsArgWith(2, 'error');
+      update._executeUserInputStream({}, {}, callback);
+      callback.should.have.been.calledOnce;
+      callback.should.have.been.calledWith('error');
+    });
+
+    it('should callback with error if user input key sens an error', function() {
+      var update = new (proxyquire('../libraries/update', dependencies).Update);
+      var callback = sinon.spy();
+      update.deletedKeys = ['key1'];
+      update.addedKeys = ['key2'];
+      update._getUserInputKey = sinon.stub();
+      update._getUserInputKey.callsArgWith(2, 'error');
+      update._executeUserInputStream({}, {}, callback);
+      callback.should.have.been.calledOnce;
+      callback.should.have.been.calledWith('error');
+    });
+
+    it('should callback with merged translation from user input ' +
+       'if the user have chose the option delete', function() {
+      var update = new (proxyquire('../libraries/update', dependencies).Update);
+      var callback = sinon.spy();
+      update.deletedKeys = ['key1'];
+      update.addedKeys = ['key2'];
+      update.rl = { close: sinon.spy() };
+      update._getUserInputKey = sinon.stub();
+      update._getUserInputKey.callsArgWith(2, null, 'DELETE');
+      update._executeUserInputStream({}, {}, callback);
+      callback.should.have.been.calledOnce;
+      callback.should.have.been.calledWith(null, {});
+      update.rl.close.should.have.been.calledOnce;
+    });
+
+    it('should migrate old translation', function() {
+      var update = new (proxyquire('../libraries/update', dependencies).Update);
+      var callback = sinon.spy();
+      update.deletedKeys = ['key1'];
+      update.addedKeys = ['key2'];
+      update.rl = { close: sinon.spy() };
+      update._getUserInputKey = sinon.stub();
+      update._getUserInputKey.callsArgWith(2, null, 'key3', 'key1');
+      update._setOldTranslation = sinon.stub().returns('merged-translation');
+      update._executeUserInputStream({}, {}, callback);
+      update._setOldTranslation.should.have.been.calledOnce;
+      update._setOldTranslation.should.have.been.calledWith('key3', 'key1', {}, {});
+      update.rl.close.should.have.been.calledOnce;
+      callback.should.have.been.calledOnce;
+      callback.should.have.been.calledWith(null, 'merged-translation');
+    });
+
+    it('should recurse on migration option if deleted keys still exists', function() {
+      var update = new (proxyquire('../libraries/update', dependencies).Update);
+      var callback = sinon.spy();
+      update.deletedKeys = ['key1', 'key2'];
+      update.addedKeys = ['key3', 'key4'];
+      update.rl = { close: sinon.spy() };
+      update._getUserInputKey = sinon.stub();
+      update._getUserInputKey.callsArgWith(2, null, 'key3', 'key1');
+      update._setOldTranslation = sinon.stub().returns('merged-translation');
+      update._executeUserInputStream({}, {}, callback);
+      update._setOldTranslation.should.have.callCount(2);
+      update._setOldTranslation.should.have.been.calledWith('key3', 'key1', {}, {});
+      update.rl.close.should.have.been.calledOnce;
+      callback.should.have.been.calledOnce;
+      callback.should.have.been.calledWith(null, 'merged-translation');
+    });
+
+    it('should recurse on delete option if deleted keys still exists', function() {
+      var update = new (proxyquire('../libraries/update', dependencies).Update);
+      var callback = sinon.spy();
+      update.deletedKeys = ['key1', 'key2'];
+      update.addedKeys = ['key3', 'key4'];
+      update.rl = { close: sinon.spy() };
+      update._getUserInputKey = sinon.stub();
+      update._getUserInputKey.callsArgWith(2, null, 'DELETE');
+      update._executeUserInputStream({}, {}, callback);
+      update.rl.close.should.have.been.calledOnce;
+      callback.should.have.been.calledOnce;
+      callback.should.have.been.calledWith(null, {});
+    });
+  });
 });
