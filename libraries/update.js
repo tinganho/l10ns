@@ -33,8 +33,6 @@ function Update() {
   this.migratedKeys = [];
   // readline interface
   this.rl;
-  // locales folder
-  this.localesFolder = pcf.localesFolder;
   // new line
   this.newline = '\n';
 }
@@ -276,7 +274,8 @@ Update.prototype._getUpdatedFiles = function(newTranslations, oldTranslations) {
 };
 
 /**
- * Merge user inputs.
+ * Merge user inputs. It will only ask for user inputs if any of the deleted translation's
+ * files paths exists on the updated translation's file paths.
  *
  * @param {Object} newTranslations
  * @param {Object} oldTranslations
@@ -295,12 +294,12 @@ Update.prototype._mergeUserInputs = function(newTranslations, oldTranslations, c
 
   // Push to user input stream
   for(var key in deletedTranslations) {
-    for(var file in deletedTranslations[key].files) {
-      if(!_.has(updatedFiles, deletedTranslations[key].files[file])) {
+    for(var index in deletedTranslations[key].files) {
+      if(!updatedFiles.hasOwnProperty(deletedTranslations[key].files[index])) {
         continue;
       }
       // Add deleted key and added keys for the file
-      this._pushToUserInputStream(key, updatedFiles[deletedTranslations[key].files[file]]);
+      this._pushToUserInputStream(key, updatedFiles[deletedTranslations[key].files[index]]);
     }
   }
 
