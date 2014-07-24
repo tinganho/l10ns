@@ -11,7 +11,6 @@ global.pcf = {
 var dependencies = {
   'fs': {},
   'readline': {},
-  'underscore': {},
   'path': {},
   './parser': {},
   './syntax': {},
@@ -368,6 +367,83 @@ describe('Update', function() {
   });
 
   describe('#_mergeUserInputs()', function() {
+    it('should get deleted translations', function() {
+      var update = new (proxyquire('../libraries/update', dependencies).Update);
+      update._getDeletedTranslations = sinon.stub().returns({});
+      var oldTranslations = {};
+      var newTranslations = {};
+      var callback = function() {};
+      update._mergeUserInputs(newTranslations, oldTranslations, callback);
+      update._getDeletedTranslations.should.have.been.calledOnce;
+    });
 
+    it('should callback if there is no deleted translations', function() {
+      var update = new (proxyquire('../libraries/update', dependencies).Update);
+      update._getDeletedTranslations = sinon.stub().returns({});
+      update._executeUserInputStream = function() {};
+      var oldTranslations = {};
+      var newTranslations = {};
+      var callback = sinon.spy();
+      update._mergeUserInputs(newTranslations, oldTranslations, callback);
+      callback.should.have.been.calledOnce;
+      callback.should.have.been.calledWith(null, {});
+    });
+
+    it('should get updated files', function() {
+      var update = new (proxyquire('../libraries/update', dependencies).Update);
+      update._getDeletedTranslations = sinon.stub().returns({ 'file2': ['key3'] });
+      update._pushToUserInputStream = function() {};
+      update._executeUserInputStream = function() {};
+      update._getUpdatedFiles = sinon.spy();
+      var oldTranslations = { 'key1': { files: ['file1'] }};
+      var newTranslations = { 'key2': { files: ['file1'] }};
+      var callback = function() {};
+      update._mergeUserInputs(newTranslations, oldTranslations, callback);
+      update._getUpdatedFiles.should.have.been.calledOnce;
+    });
+
+    it('should ask for user input if a key have been renamed', function() {
+      var update = new (proxyquire('../libraries/update', dependencies).Update);
+      update._getDeletedTranslations = sinon.stub().returns({ 'key3': { files: ['file1'] }});
+      update._pushToUserInputStream = sinon.spy();
+      update._executeUserInputStream = function() {};
+      update._getUpdatedFiles = sinon.stub().returns({'file1': ['key4']});
+      var oldTranslations = { 'key1': { files: ['file1'] }};
+      var newTranslations = { 'key2': { files: ['file1'] }};
+      var callback = function() {};
+      update._mergeUserInputs(newTranslations, oldTranslations, callback);
+      update._pushToUserInputStream.should.have.been.calledOnce;
+      update._pushToUserInputStream.should.have.been.calledWith('key3', ['key4']);
+    });
+
+    it('should callback with merged user input translation if user have been asked for input', function() {
+      var update = new (proxyquire('../libraries/update', dependencies).Update);
+      update._getDeletedTranslations = sinon.stub().returns({ 'key3': { files: ['file1'] }});
+      update._pushToUserInputStream = function() {};
+      update._executeUserInputStream = sinon.stub();
+      update._executeUserInputStream.callsArgWith(2, null, 'merged-translation');
+      update._getUpdatedFiles = sinon.stub().returns({'file1': ['key4']});
+      var oldTranslations = { 'key1': { files: ['file1'] }};
+      var newTranslations = { 'key2': { files: ['file1'] }};
+      var callback = sinon.spy();
+      update._mergeUserInputs(newTranslations, oldTranslations, callback);
+      callback.should.have.been.calledOnce;
+      callback.should.have.been.calledWith(null, 'merged-translation')
+    });
+
+    it('should callback with error if a merge error have been occurred', function() {
+      var update = new (proxyquire('../libraries/update', dependencies).Update);
+      update._getDeletedTranslations = sinon.stub().returns({ 'key3': { files: ['file1'] }});
+      update._pushToUserInputStream = function() {};
+      update._executeUserInputStream = sinon.stub();
+      update._executeUserInputStream.callsArgWith(2, 'error');
+      update._getUpdatedFiles = sinon.stub().returns({'file1': ['key4']});
+      var oldTranslations = { 'key1': { files: ['file1'] }};
+      var newTranslations = { 'key2': { files: ['file1'] }};
+      var callback = sinon.spy();
+      update._mergeUserInputs(newTranslations, oldTranslations, callback);
+      callback.should.have.been.calledOnce;
+      callback.should.have.been.calledWith('error');
+    });
   });
 });
