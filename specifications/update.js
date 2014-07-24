@@ -334,4 +334,40 @@ describe('Update', function() {
       expect(update._getDeletedTranslations(newTranslations, oldTranslations)['key1']).to.have.keys('en-US', 'zh-CN', 'timestamp', 'files');
     });
   });
+
+  describe('#_getUpdatedFiles()', function() {
+    it('should return updated files', function() {
+      pcf.locales = { 'en-US': 'English (US)' };
+      pcf.defaultLocale = 'en-US';
+      var update = new (proxyquire('../libraries/update', dependencies).Update);
+      var oldTranslations = { 'en-US': { 'key1': { files: ['file1'] }}};
+      var newTranslations = { 'en-US': { 'key2': { files: ['file1', 'file2'] }}};
+      expect(update._getUpdatedFiles(newTranslations, oldTranslations)).to.have.keys('file1', 'file2');
+    });
+
+    it('should return updated translation key(single) mapped to each file', function() {
+      pcf.locales = { 'en-US': 'English (US)' };
+      pcf.defaultLocale = 'en-US';
+      var update = new (proxyquire('../libraries/update', dependencies).Update);
+      var oldTranslations = { 'en-US': { 'key1': { files: ['file1'] }}};
+      var newTranslations = { 'en-US': { 'key2': { files: ['file1', 'file2'] }}};
+      expect(update._getUpdatedFiles(newTranslations, oldTranslations)['file1']).to.eql(['key2']);
+      expect(update._getUpdatedFiles(newTranslations, oldTranslations)['file2']).to.eql(['key2']);
+    });
+
+    it('should return updated translation keys(multiple) mapped to each file', function() {
+      pcf.locales = { 'en-US': 'English (US)' };
+      pcf.defaultLocale = 'en-US';
+      var update = new (proxyquire('../libraries/update', dependencies).Update);
+      var oldTranslations = { 'en-US': { 'key1': { files: ['file1'] }}};
+      var newTranslations = { 'en-US': { 'key2': { files: ['file1', 'file2'] }, 'key3': { files: ['file1'] }}};
+      expect(update._getUpdatedFiles(newTranslations, oldTranslations)).to.have.keys('file1', 'file2');
+      expect(update._getUpdatedFiles(newTranslations, oldTranslations)['file1']).to.eql(['key2', 'key3']);
+      expect(update._getUpdatedFiles(newTranslations, oldTranslations)['file2']).to.eql(['key2']);
+    });
+  });
+
+  describe('#_mergeUserInputs()', function() {
+
+  });
 });

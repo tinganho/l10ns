@@ -33,8 +33,6 @@ function Update() {
   this.migratedKeys = [];
   // readline interface
   this.rl;
-  // default locale
-  this.defaultLocale = pcf.defaultLocale;
   // locales folder
   this.localesFolder = pcf.localesFolder;
   // new line
@@ -260,9 +258,9 @@ Update.prototype._getDeletedTranslations = function(newTranslations, oldTranslat
 
 Update.prototype._getUpdatedFiles = function(newTranslations, oldTranslations) {
   var files = {};
-  for(var key in newTranslations[this.defaultLocale]) {
-    if(!(key in oldTranslations[this.defaultLocale])) {
-      var translationFiles = newTranslations[this.defaultLocale][key].files;
+  for(var key in newTranslations[pcf.defaultLocale]) {
+    if(!(key in oldTranslations[pcf.defaultLocale])) {
+      var translationFiles = newTranslations[pcf.defaultLocale][key].files;
       for(var file in translationFiles) {
         if(!(translationFiles[file] in files)) {
           files[translationFiles[file]] = [key];
