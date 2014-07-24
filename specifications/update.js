@@ -446,4 +446,13 @@ describe('Update', function() {
       callback.should.have.been.calledWith('error');
     });
   });
+
+  describe('#_pushToUserInputStream()', function() {
+    it('should push to deleted and added keys queue', function() {
+      var update = new (proxyquire('../libraries/update', dependencies).Update);
+      update._pushToUserInputStream('deleted-key', ['added-key']);
+      expect(update.deletedKeys).to.eql(['deleted-key']);
+      expect(update.addedKeys).to.eql([['added-key']]);
+    });
+  });
 });
