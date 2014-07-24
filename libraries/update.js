@@ -322,12 +322,6 @@ Update.prototype._mergeUserInputs = function(newTranslations, oldTranslations, c
  */
 
 Update.prototype._pushToUserInputStream = function(deletedKey, addedKeys) {
-  if(typeof deletedKey !== 'string') {
-    throw new TypeError('First parameter must be a string');
-  }
-  if(!_.isArray(addedKeys)) {
-    throw new TypeError('Second parameter must be an array, containing translation keys');
-  }
   this.deletedKeys.push(deletedKey);
   this.addedKeys.push(addedKeys);
 };
