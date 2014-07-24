@@ -20,6 +20,38 @@ var dependencies = {
 };
 
 describe('Update', function() {
+  describe('#constructor', function() {
+    it('should set this.isWaitingUserInput to false', function() {
+      var update = new (proxyquire('../libraries/update', dependencies).Update);
+      expect(update.isWaitingUserInput).to.be.false;
+    });
+
+    it('should set this.deletedKeys to empty array', function() {
+      var update = new (proxyquire('../libraries/update', dependencies).Update);
+      expect(update.deletedKeys).to.eql([]);
+    });
+
+    it('should set this.addedKeys to empty array', function() {
+      var update = new (proxyquire('../libraries/update', dependencies).Update);
+      expect(update.addedKeys).to.eql([]);
+    });
+
+    it('should set this.migratedKeys to empty array', function() {
+      var update = new (proxyquire('../libraries/update', dependencies).Update);
+      expect(update.migratedKeys).to.eql([]);
+    });
+
+    it('should set this.rl', function() {
+      var update = new (proxyquire('../libraries/update', dependencies).Update);
+      expect(update.rl).to.eql(undefined);
+    });
+
+    it('should set this.newline to \\n', function() {
+      var update = new (proxyquire('../libraries/update', dependencies).Update);
+      expect(update.newline).to.eql('\n');
+    });
+  });
+
   describe('#update()', function() {
     it('should get the source keys', function() {
       var update = new (proxyquire('../libraries/update', dependencies).Update);
