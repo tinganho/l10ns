@@ -1,13 +1,4 @@
 
-global.lcf = {
-  TRANSLATION_FUNCTION_CALL_REGEX: /gt\(['|"](.*?)['|"]\s*(\,\s*\{\s*((.*?)|(\s*?))+?\s*\})??\s*\)/g,
-  TRANSLATION_INNER_FUNCTION_CALL_REGEX: /\s+(?!gt)[.|\w]+?\((.*?\s*?)*?\)/g
-};
-
-global.pcf = {
-
-};
-
 var dependencies = {
   'fs': {},
   'path': {},
