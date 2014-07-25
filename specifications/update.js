@@ -510,19 +510,7 @@ describe('Update', function() {
       expect(method).to.throw(TypeError, /Deleted keys must have same array length as added keys length/);
     });
 
-    it('should callback with error if user input key sens an error', function() {
-      var update = new (proxyquire('../libraries/update', dependencies).Update);
-      var callback = sinon.spy();
-      update.deletedKeys = ['key1'];
-      update.addedKeys = ['key2'];
-      update._getUserInputKey = sinon.stub();
-      update._getUserInputKey.callsArgWith(2, 'error');
-      update._executeUserInputStream({}, {}, callback);
-      callback.should.have.been.calledOnce;
-      callback.should.have.been.calledWith('error');
-    });
-
-    it('should callback with error if user input key sens an error', function() {
+    it('should callback with error if user input key sends an error', function() {
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       var callback = sinon.spy();
       update.deletedKeys = ['key1'];
