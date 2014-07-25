@@ -301,7 +301,7 @@ describe('Update', function() {
       update._mergeUserInputs.should.have.been.calledOnce;
     });
 
-    it('if merging of user inputs is without errors, it should callback with newTranslations', function() {
+    it('if merging of user inputs is without errors, it should callback with new translations', function() {
       dependencies['./file'].readTranslations = sinon.stub().returns({
         'en-US': {}
       });
@@ -316,7 +316,7 @@ describe('Update', function() {
       callback.should.have.been.calledWith(null, { 'new-translation': {} });
     });
 
-    it('if merging of user inputs is with a SIGINT error, it should callback with oldTranslations', function() {
+    it('if merging of user inputs is with a SIGINT error, it should callback with old translations', function() {
       dependencies['./file'].readTranslations = sinon.stub().returns({
         'en-US': {}
       });
