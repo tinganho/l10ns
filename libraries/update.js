@@ -367,7 +367,7 @@ Update.prototype._executeUserInputStream = function(newTranslations, oldTranslat
         if(_this.rl) _this.rl.close();
         return callback(null, newTranslations);
       }
-      newTranslations = _this._setOldTranslation(newKey, oldKey, newTranslations, oldTranslations);
+      newTranslations = _this._migrateTranslation(newKey, oldKey, newTranslations, oldTranslations);
       if(_this.deletedKeys.length !== 0) {
         return recurse();
       }
@@ -393,8 +393,8 @@ Update.prototype._executeUserInputStream = function(newTranslations, oldTranslat
  * @api private
  */
 
-Update.prototype._setOldTranslation = function(newKey, oldKey, newTranslations, oldTranslations) {
-  for(var locale in this.locales) {
+Update.prototype._migrateTranslation = function(newKey, oldKey, newTranslations, oldTranslations) {
+  for(var locale in pcf.locales) {
     newTranslations[locale][newKey] = oldTranslations[locale][oldKey];
     newTranslations[locale][newKey].key = newKey;
   }
