@@ -545,10 +545,10 @@ describe('Update', function() {
       update.rl = { close: sinon.spy() };
       update._getUserInputKey = sinon.stub();
       update._getUserInputKey.callsArgWith(2, null, 'key3', 'key1');
-      update._setOldTranslation = sinon.stub().returns('merged-translation');
+      update._migrateTranslation = sinon.stub().returns('merged-translation');
       update._executeUserInputStream({}, {}, callback);
-      update._setOldTranslation.should.have.been.calledOnce;
-      update._setOldTranslation.should.have.been.calledWith('key3', 'key1', {}, {});
+      update._migrateTranslation.should.have.been.calledOnce;
+      update._migrateTranslation.should.have.been.calledWith('key3', 'key1', {}, {});
       update.rl.close.should.have.been.calledOnce;
       callback.should.have.been.calledOnce;
       callback.should.have.been.calledWith(null, 'merged-translation');
@@ -562,10 +562,10 @@ describe('Update', function() {
       update.rl = { close: sinon.spy() };
       update._getUserInputKey = sinon.stub();
       update._getUserInputKey.callsArgWith(2, null, 'key3', 'key1');
-      update._setOldTranslation = sinon.stub().returns('merged-translation');
+      update._migrateTranslation = sinon.stub().returns('merged-translation');
       update._executeUserInputStream({}, {}, callback);
-      update._setOldTranslation.should.have.callCount(2);
-      update._setOldTranslation.should.have.been.calledWith('key3', 'key1', {}, {});
+      update._migrateTranslation.should.have.callCount(2);
+      update._migrateTranslation.should.have.been.calledWith('key3', 'key1', {}, {});
       update.rl.close.should.have.been.calledOnce;
       callback.should.have.been.calledOnce;
       callback.should.have.been.calledWith(null, 'merged-translation');
@@ -583,6 +583,16 @@ describe('Update', function() {
       update.rl.close.should.have.been.calledOnce;
       callback.should.have.been.calledOnce;
       callback.should.have.been.calledWith(null, {});
+    });
+  });
+
+  describe('#_migrateTranslation()', function() {
+    it('should migrate old translation', function() {
+      pcf.locales = { 'en-US': 'English (US' };
+      var oldTranslations = {'en-US': { 'key1': 'old-translation' }};
+      var newTranslations = {'en-US': { 'key2': 'new-translation' }};
+      var update = new (proxyquire('../libraries/update', dependencies).Update);
+      expect(update._migrateTranslation('key2', 'key1', newTranslations, oldTranslations)).to.eql({ 'en-US': { 'key2': 'old-translation'}})
     });
   });
 });
