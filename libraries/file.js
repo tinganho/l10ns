@@ -16,8 +16,6 @@ var fs = require('fs')
  */
 
 function File() {
-  this.localesFolder = pcf.localesFolder;
-  this.locales = pcf.locales;
   this.newline = '\n';
 }
 
@@ -36,7 +34,7 @@ File.prototype.writeTranslations = function(newTranslations, callback) {
   }
 
   var translations = this._sortMaptoArray(newTranslations);
-  for(var locale in this.locales) {
+  for(var locale in pcf.locales) {
     var p = path.dirname(pcf.output) + '/' + locale + '.locale';
     if(fs.existsSync(p)) {
       fs.unlinkSync(p);
@@ -90,7 +88,7 @@ File.prototype.writeSingleLocaleTranslations = function(newTranslations, locale,
 File.prototype._sortMaptoArray = function(newTranslations) {
   var translations = {};
 
-  for(var locale in this.locales) {
+  for(var locale in pcf.locales) {
     translations[locale] = [];
     for(var key in newTranslations[locale]) {
       translations[locale].push(newTranslations[locale][key]);
