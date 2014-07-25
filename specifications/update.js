@@ -586,7 +586,7 @@ describe('Update', function() {
     });
   });
 
-  describe('#_getUserInputKey', function() {
+  describe('#_getUserInputKey()', function() {
     it('if added keys\'s length is zero it should callback with \'DELETE\'', function() {
       var callback = sinon.spy();
       var update = new (proxyquire('../libraries/update', dependencies).Update);
