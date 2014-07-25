@@ -10,7 +10,6 @@ global.pcf = {
 
 var dependencies = {
   'fs': {},
-  'readline': {},
   'path': {},
   './parser': {},
   './syntax': {},
@@ -593,6 +592,54 @@ describe('Update', function() {
       var newTranslations = {'en-US': { 'key2': 'new-translation' }};
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       expect(update._migrateTranslation('key2', 'key1', newTranslations, oldTranslations)).to.eql({ 'en-US': { 'key2': 'old-translation'}})
+    });
+  });
+
+  describe('#_getUserInputKey', function() {
+    it('if added keys\'s length is zero it should callback with \'DELETE\'', function() {
+      var callback = sinon.spy();
+      var update = new (proxyquire('../libraries/update', dependencies).Update);
+      update._getUserInputKey([], [], callback);
+      callback.should.have.been.calledOnce;
+      callback.should.have.been.calledWith(null, 'DELETE');
+    });
+
+    it('if user inputs a added key option it should migrate', function() {
+      var callback = sinon.spy();
+      var update = new (proxyquire('../libraries/update', dependencies).Update);
+      update.rl = {};
+      update.rl.on = function() {};
+      update.rl.question = sinon.stub();
+      update.rl.question.callsArgWith(1, '1');
+      update._getUserInputKey('key1', ['key2'], callback);
+      callback.should.have.been.calledOnce;
+      callback.should.have.been.calledWith(null, 'key2', 'key1');
+    });
+
+    it('if user inputs delete option it should delete', function() {
+      var callback = sinon.spy();
+      var update = new (proxyquire('../libraries/update', dependencies).Update);
+      update.rl = {};
+      update.rl.on = function() {};
+      update.rl.question = sinon.stub();
+      update.rl.question.callsArgWith(1, 'd');
+      update._getUserInputKey('key1', ['key2'], callback);
+      callback.should.have.been.calledOnce;
+      callback.should.have.been.calledWith(null, 'DELETE');
+    });
+
+    it('should bind to SIGINT event and close readline interface', function() {
+      var callback = sinon.spy();
+      var update = new (proxyquire('../libraries/update', dependencies).Update);
+      update.rl = {};
+      update.rl.on = sinon.stub();
+      update.rl.on.callsArg(1);
+      update.rl.close = sinon.spy();
+      update.rl.question = function() {};
+      update._getUserInputKey('key1', ['key2'], callback);
+      update.rl.close.should.have.been.calledOnce;
+      callback.should.have.been.calledOnce;
+      callback.should.have.been.calledWith({ error: 'SIGINT' });
     });
   });
 });
