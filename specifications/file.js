@@ -46,7 +46,7 @@ describe('File', function() {
       dependencies.fs.appendFileSync.should.have.been.calledWith('output-folder/en-US.locale', JSON.stringify({ 'key1': {}}) + '\n');
     });
 
-    it('if a callback is provided it should callback with after write operation is done', function() {
+    it('if a callback is provided it should callback after write operation is done', function() {
       pcf.locales = { 'en-US': 'English (US)' };
       pcf.output = 'output-folder';
       dependencies.fs.existsSync = sinon.stub()
