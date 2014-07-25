@@ -8,14 +8,14 @@ var dependencies = {
 };
 
 describe('File', function() {
-  describe('#constructor', function() {
+  describe('#constructor()', function() {
     it('should set this.newline to \\n', function() {
       var file = new (proxyquire('../libraries/file', dependencies).File);
       expect(file.newline).to.eql('\n');
     });
   });
 
-  describe('#writeTranslations', function() {
+  describe('#writeTranslations()', function() {
     it('should create a translation folder if it does not exists', function() {
       pcf.locales = {};
       pcf.output = 'output-folder';
@@ -61,5 +61,9 @@ describe('File', function() {
       file.writeTranslations({ 'en-US': { 'key1': {}}}, callback);
       callback.should.have.been.calledOnce;
     });
+  });
+
+  describe('#writeSingleLocaleTranslations()', function() {
+
   });
 });
