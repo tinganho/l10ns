@@ -1,5 +1,5 @@
 {
-  "name": "get-translation",
+  "name": "localizations",
   "description": "Effective translation workflow",
   "version": "0.13.8",
   "homepage": "https://github.com/tinganho/get-translation",
@@ -21,7 +21,7 @@
     }
   ],
   "bin": {
-    "gt": "./binaries/gt"
+    "l": "./binaries/l"
   },
   "engines": {
     "node": "*"

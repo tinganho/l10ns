@@ -7,9 +7,9 @@
   },
   "quiet" : false,
   "defaultLocale": "en-US",
-  "store": "test/translations",
-  "output": "test/translations/output",
-  "src": ["test/example/**/*.js"],
+  "store": "example/localizations",
+  "output": "example/output",
+  "src": ["example/**/*.js"],
   "interface" : {
     "autoOpen": false,
     "port": 3004

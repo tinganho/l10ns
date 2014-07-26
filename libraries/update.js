@@ -4,6 +4,7 @@
  */
 
 var fs = require('fs')
+  , Q = require('q')
   , parser = require('./parser')
   , syntax = require('./syntax')
   , _ = require('underscore')
@@ -31,10 +32,7 @@ function Update() {
   this.deletedKeys = [];
   this.addedKeys = [];
   this.migratedKeys = [];
-  // readline interface
-  this.rl;
-  // new line
-  this.newline = '\n';
+  this.rl = null;
 }
 
 /**
@@ -45,13 +43,19 @@ function Update() {
  */
 
 Update.prototype.update = function() {
-  var newTranslations = this._getSourceKeys();
-  this._mergeTranslations(newTranslations, function(err, _newTranslations) {
-    if(!err) {
-      return file.writeTranslations(_newTranslations);
-    }
-    log.error('Translation update failed');
-  });
+  var _this = this;
+
+  this.getNewLocalizations()
+    .then(function(newLocalizations) {
+      return _this._mergeWithOldLocalizations(newLocalizations);
+    })
+    .then(function(mergedLocalizations) {
+      return file.writeLocalizations(mergedLocalizations)
+    })
+    .fail(function(error) {
+      console.log(error);
+      log.error('Localization update failed');
+    });
 };
 
 /**
@@ -82,106 +86,133 @@ Update.prototype._stripInnerFunctionCalls = function(content) {
 /**
  * Get translation function calls form source
  *
- * @return {Object} newTranslations
+ * @return {Object} newLocalizations
  * @api private
  */
 
-Update.prototype._getSourceKeys = function() {
-  var now = parseInt(Date.now() / 1000, 10)
-    , _this = this, newTranslations = {}
-    , counter = 0;
+Update.prototype.getNewLocalizations = function() {
+  var _this = this
+    , deferred = Q.defer()
+    , now = parseInt(Date.now() / 1000, 10)
+    , newLocalizations = {}
+    , hashCount = 0
+    , fileCount = 0;
 
   pcf.src.forEach(function(file) {
+    fileCount++;
+
     if(fs.lstatSync(file).isDirectory()) {
       return;
     }
-    var content = _this._stripInnerFunctionCalls(fs.readFileSync(file, 'utf8'));
-    // Match all gt() calls
-    var calls = content.match(lcf.TRANSLATION_FUNCTION_CALL_REGEX);
-    if(calls !== null) {
-      calls.forEach(function(call) {
-        var key  = parser.getKey(call)
-          , vars = parser.getVars(call);
-        if(!(key in newTranslations)) {
-          newTranslations[key] = {};
-          newTranslations[key].id = hashids.encrypt(now, counter);
-          newTranslations[key].key = key;
-          newTranslations[key].vars = vars;
-          newTranslations[key].text = key;
-          newTranslations[key].files = [file];
-          counter++;
+
+    fs.readFile(file, 'utf8', function(error, content) {
+        if(error) {
+          return deferred.reject(error);
         }
-        else {
-          if(syntax.hasErrorDuplicate(newTranslations, key, vars)) {
-            throw new TypeError('You have defined a translation key ('
-              + key + ') with different vars.\n In file:' + file);
-          }
-          newTranslations[key].files.push(file);
+
+        content = _this._stripInnerFunctionCalls(content);
+        // Match all gt() calls
+        var calls = content.match(lcf.TRANSLATION_FUNCTION_CALL_REGEX);
+        if(calls !== null) {
+          calls.forEach(function(call) {
+            var key  = parser.getKey(call)
+              , vars = parser.getVars(call);
+            if(!(key in newLocalizations)) {
+              newLocalizations[key] = {};
+              newLocalizations[key].id = hashids.encrypt(now, hashCount);
+              newLocalizations[key].key = key;
+              newLocalizations[key].vars = vars;
+              newLocalizations[key].text = key;
+              newLocalizations[key].files = [file];
+              hashCount++;
+            }
+            else {
+              if(syntax.hasErrorDuplicate(newLocalizations, key, vars)) {
+                throw new TypeError('You have defined a localization key ('
+                  + key + ') with different vars.\n In file:' + file);
+              }
+              newLocalizations[key].files.push(file);
+            }
+          });
+        }
+
+        if(fileCount === pcf.src.length) {
+          deferred.resolve(newLocalizations);
         }
       });
-    }
+
   });
 
-  return newTranslations;
+  return deferred.promise;
 };
 
 /**
  * Merge new translations with old translations
  *
- * @param {Object} newTranslations
- * @param {function} callback
- * @return newTranslations {Object}
+ * @param {Object} newLocalizations
+ * @return {Promise}
  * @api private
  */
 
-Update.prototype._mergeTranslations = function(newTranslations, callback) {
-  var oldTranslations = file.readTranslations()
-    , _newTranslations = {}
-    , now = Date.now();
+Update.prototype._mergeWithOldLocalizations = function(newLocalizations) {
+  var _this = this
+    , deferred = Q.defer();
 
-  for(var locale in pcf.locales) {
-    _newTranslations[locale] = JSON.parse(JSON.stringify(newTranslations));
-    for(var key in _newTranslations[locale]) {
-      if(typeof oldTranslations[locale] !== 'undefined'
-      && typeof oldTranslations[locale][key] !== 'undefined') {
-        var _new = _newTranslations[locale]
-          , old  = oldTranslations[locale];
-        // Assign translation
-        _newTranslations[locale] = merger.mergeTranslations(_new, old, key);
-        // Set timestamp
-        _newTranslations[locale] = merger.mergeTimeStamp(_new, old, key);
-        // Assign id
-        _newTranslations[locale] = merger.mergeId(_new, old, key);
-      }
-      else {
-        _newTranslations[locale][key].values = [];
-        _newTranslations[locale][key].timestamp = now;
+  file.readLocalizations()
+    .then(function(oldLocalizations) {
+      var newLocalizationsCopy = {}
+        , now = Date.now();
 
-        if(locale === pcf.defaultLocale) {
-          console.log('[added]'.green + ' ' + key);
+      for(var locale in pcf.locales) {
+        newLocalizationsCopy[locale] = JSON.parse(JSON.stringify(newLocalizations));
+        for(var key in newLocalizationsCopy[locale]) {
+          if(typeof oldLocalizations[locale] !== 'undefined'
+          && typeof oldLocalizations[locale][key] !== 'undefined') {
+            var _new = newLocalizationsCopy[locale]
+              , old  = oldLocalizations[locale];
+            // Assign translation
+            newLocalizationsCopy[locale] = merger.mergeTranslations(_new, old, key);
+            // Set timestamp
+            newLocalizationsCopy[locale] = merger.mergeTimeStamp(_new, old, key);
+            // Assign id
+            newLocalizationsCopy[locale] = merger.mergeId(_new, old, key);
+          }
+          else {
+            newLocalizationsCopy[locale][key].values = [];
+            newLocalizationsCopy[locale][key].timestamp = now;
+
+            if(locale === pcf.defaultLocale) {
+              console.log('[added]'.green + ' ' + key);
+            }
+          }
         }
       }
-    }
-  }
 
-  this._mergeUserInputs(_newTranslations, oldTranslations, function(err, _newTranslations) {
-    if(!err) {
-      return callback(null, _newTranslations);
-    }
-    if(err.error === 'SIGINT') {
-      return callback(null, oldTranslations);
-    }
-    callback(err);
-  });
+      _this._mergeUserInputs(newLocalizationsCopy, oldLocalizations, function(error, mergedLocalizations) {
+        if(!error) {
+          return deferred.resolve(mergedLocalizations);
+        }
+        if(error.error === 'SIGINT') {
+          return deferred.resolve(oldLocalizations);
+        }
+        deferred.reject(error);
+      });
+
+    })
+    .fail(function(error) {
+      deferred.reject(error);
+    });
+
+  return deferred.promise;
 };
 
 /**
  * Get deleted translations. This method returns deleted translations
- * by looking at the source updated translations (newTranslations)
- * and the current stored translations (oldTranslations)
+ * by looking at the source updated translations (newLocalizations)
+ * and the current stored translations (oldLocalizations)
  *
- * @param {Object} newTranslations
- * @param {Object} oldTranslations
+ * @param {Object} newLocalizations
+ * @param {Object} oldLocalizations
  * @return deletedTranslations {Object}
  *
  *   Returns:
@@ -214,17 +245,17 @@ Update.prototype._mergeTranslations = function(newTranslations, callback) {
  * @api private
  */
 
-Update.prototype._getDeletedTranslations = function(newTranslations, oldTranslations) {
+Update.prototype._getDeletedLocalizations = function(newLocalizations, oldLocalizations) {
   var now = Date.now(), deletedTranslations = {};
   for(var locale in pcf.locales) {
-    for(var key in oldTranslations[locale]) {
-      if(!(key in newTranslations[locale])) {
+    for(var key in oldLocalizations[locale]) {
+      if(!(key in newLocalizations[locale])) {
         if(!(key in deletedTranslations)){
           deletedTranslations[key] = {};
         }
-        deletedTranslations[key][locale] = oldTranslations[locale][key];
+        deletedTranslations[key][locale] = oldLocalizations[locale][key];
         deletedTranslations[key].timestamp = now;
-        deletedTranslations[key].files = oldTranslations[locale][key].files;
+        deletedTranslations[key].files = oldLocalizations[locale][key].files;
       }
     }
   }
@@ -240,8 +271,8 @@ Update.prototype._getDeletedTranslations = function(newTranslations, oldTranslat
  * check which other keys is existing in that newly added key's file.
  * So smart updating of keys without losing stored values can be achieved.
  *
- * @param {Object} newTranslations
- * @param {Object} oldTranslations
+ * @param {Object} newLocalizations
+ * @param {Object} oldLocalizations
  * @return {Object} files
  *
  *   Returns:
@@ -254,11 +285,11 @@ Update.prototype._getDeletedTranslations = function(newTranslations, oldTranslat
  * @api private
  */
 
-Update.prototype._getUpdatedFiles = function(newTranslations, oldTranslations) {
+Update.prototype._getUpdatedFiles = function(newLocalizations, oldLocalizations) {
   var files = {};
-  for(var key in newTranslations[pcf.defaultLocale]) {
-    if(!(key in oldTranslations[pcf.defaultLocale])) {
-      var translationFiles = newTranslations[pcf.defaultLocale][key].files;
+  for(var key in newLocalizations[pcf.defaultLocale]) {
+    if(!(key in oldLocalizations[pcf.defaultLocale])) {
+      var translationFiles = newLocalizations[pcf.defaultLocale][key].files;
       for(var file in translationFiles) {
         if(!(translationFiles[file] in files)) {
           files[translationFiles[file]] = [key];
@@ -277,20 +308,20 @@ Update.prototype._getUpdatedFiles = function(newTranslations, oldTranslations) {
  * Merge user inputs. It will only ask for user inputs if any of the deleted translation's
  * files paths exists on the updated translation's file paths.
  *
- * @param {Object} newTranslations
- * @param {Object} oldTranslations
+ * @param {Object} newLocalizations
+ * @param {Object} oldLocalizations
  * @param {Function} callback
  * @return {void}
  * @api private
  */
 
-Update.prototype._mergeUserInputs = function(newTranslations, oldTranslations, callback) {
-  var deletedTranslations = this._getDeletedTranslations(newTranslations, oldTranslations);
+Update.prototype._mergeUserInputs = function(newLocalizations, oldLocalizations, callback) {
+  var deletedTranslations = this._getDeletedLocalizations(newLocalizations, oldLocalizations);
   if(_.size(deletedTranslations) === 0) {
-    return callback(null, newTranslations);
+    return callback(null, newLocalizations);
   }
 
-  var updatedFiles = this._getUpdatedFiles(newTranslations, oldTranslations);
+  var updatedFiles = this._getUpdatedFiles(newLocalizations, oldLocalizations);
 
   // Push to user input stream
   for(var key in deletedTranslations) {
@@ -303,9 +334,9 @@ Update.prototype._mergeUserInputs = function(newTranslations, oldTranslations, c
     }
   }
 
-  this._executeUserInputStream(newTranslations, oldTranslations, function(err, _newTranslations) {
+  this._executeUserInputStream(newLocalizations, oldLocalizations, function(err, _newLocalizations) {
     if(!err) {
-      return callback(null, _newTranslations);
+      return callback(null, _newLocalizations);
     }
     callback(err);
   });
@@ -329,19 +360,19 @@ Update.prototype._pushToUserInputStream = function(deletedKey, addedKeys) {
 /**
  * Execute user input stream
  *
- * @param {Object} newTranslations
- * @param {Object} oldTranslations
+ * @param {Object} newLocalizations
+ * @param {Object} oldLocalizations
  * @param {Function} callback
  * @return {void}
  * @api private
  */
 
-Update.prototype._executeUserInputStream = function(newTranslations, oldTranslations, callback) {
+Update.prototype._executeUserInputStream = function(newLocalizations, oldLocalizations, callback) {
   var _this = this;
 
   if(this.deletedKeys.length === 0
   || this.addedKeys.length === 0) {
-    return callback(null, newTranslations);
+    return callback(null, newLocalizations);
   }
 
   // Error handling
@@ -365,15 +396,15 @@ Update.prototype._executeUserInputStream = function(newTranslations, oldTranslat
       }
       else if(newKey === 'DELETE') {
         if(_this.rl) _this.rl.close();
-        return callback(null, newTranslations);
+        return callback(null, newLocalizations);
       }
-      newTranslations = _this._migrateTranslation(newKey, oldKey, newTranslations, oldTranslations);
+      newLocalizations = _this._migrateLocalization(newKey, oldKey, newLocalizations, oldLocalizations);
       if(_this.deletedKeys.length !== 0) {
         return recurse();
       }
       else {
         _this.rl.close();
-        callback(null, newTranslations);
+        callback(null, newLocalizations);
       }
     });
   }
@@ -393,12 +424,12 @@ Update.prototype._executeUserInputStream = function(newTranslations, oldTranslat
  * @api private
  */
 
-Update.prototype._migrateTranslation = function(newKey, oldKey, newTranslations, oldTranslations) {
+Update.prototype._migrateLocalization = function(newKey, oldKey, newLocalizations, oldLocalizations) {
   for(var locale in pcf.locales) {
-    newTranslations[locale][newKey] = oldTranslations[locale][oldKey];
-    newTranslations[locale][newKey].key = newKey;
+    newLocalizations[locale][newKey] = oldLocalizations[locale][oldKey];
+    newLocalizations[locale][newKey].key = newKey;
   }
-  return newTranslations;
+  return newLocalizations;
 };
 
 /**
