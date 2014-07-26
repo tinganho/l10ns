@@ -9,7 +9,7 @@ var dependencies = {
   './_log': {}
 };
 
-describe('Update', function() {
+describe('Update', function() {
   describe('#constructor', function() {
     it('should set this.isWaitingUserInput to false', function() {
       var update = new (proxyquire('../libraries/update', dependencies).Update);
@@ -33,48 +33,43 @@ describe('Update', function() {
 
     it('should set this.rl', function() {
       var update = new (proxyquire('../libraries/update', dependencies).Update);
-      expect(update.rl).to.eql(undefined);
-    });
-
-    it('should set this.newline to \\n', function() {
-      var update = new (proxyquire('../libraries/update', dependencies).Update);
-      expect(update.newline).to.eql('\n');
+      expect(update.rl).to.eql(null);
     });
   });
 
   describe('#update()', function() {
-    it('should get the source keys', function() {
+    it('should get new localizations', function() {
       var update = new (proxyquire('../libraries/update', dependencies).Update);
-      update._getSourceKeys = sinon.spy();
-      update._mergeTranslations = function() {};
+      update.getNewLocalizations = sinon.spy();
+      update._mergeWithOldLocalizations = function() {};
       update.update();
-      update._getSourceKeys.should.have.been.calledOnce;
+      update.getNewLocalizations.should.have.been.calledOnce;
     });
 
-    it('should merge source keys with old translations', function() {
-      var update = new (proxyquire('../libraries/update', dependencies).Update);
-      update._getSourceKeys = function() {};
-      update._mergeTranslations = sinon.spy();
-      update.update();
-      update._mergeTranslations.should.have.been.calledOnce;
-    });
-
-    it('should write all the translation to storage', function() {
-      dependencies['./file'].writeTranslations = sinon.spy();
+    it('should merge source keys with old localizations', function() {
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       update._getSourceKeys = function() {};
-      update._mergeTranslations = sinon.stub().callsArgWith(1, null, {});
+      update._mergeLocalizations = sinon.spy();
       update.update();
-      dependencies['./file'].writeTranslations.should.have.been.calledOnce;
-      dependencies['./file'].writeTranslations.should.have.been.calledWith({});
+      update._mergeLocalizations.should.have.been.calledOnce;
     });
 
-    it('should log an error if merge translations have been failed', function() {
-      dependencies['./file'].writeTranslations = function() {};
+    it('should write all the localization to storage', function() {
+      dependencies['./file'].writeLocalizations = sinon.spy();
+      var update = new (proxyquire('../libraries/update', dependencies).Update);
+      update._getSourceKeys = function() {};
+      update._mergeLocalizations = sinon.stub().callsArgWith(1, null, {});
+      update.update();
+      dependencies['./file'].writeLocalizations.should.have.been.calledOnce;
+      dependencies['./file'].writeLocalizations.should.have.been.calledWith({});
+    });
+
+    it('should log an error if merge localizations have been failed', function() {
+      dependencies['./file'].writeLocalizations = function() {};
       dependencies['./_log'].error = sinon.spy();
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       update._getSourceKeys = function() {};
-      update._mergeTranslations = sinon.stub().callsArgWith(1, new Error('test'), {});
+      update._mergeLocalizations = sinon.stub().callsArgWith(1, new Error('test'), {});
       update.update();
       dependencies['./_log'].error.should.have.been.calledOnce;
       dependencies['./_log'].error.should.have.been.calledWith('Translation update failed');
@@ -189,7 +184,7 @@ describe('Update', function() {
         expect(result['SOME_KEY'].files).to.eql(pcf.src);
       });
 
-      it('append file path if a translation key already exist on a different file', function() {
+      it('append file path if a localization key already exist on a different file', function() {
         pcf.src = ['./file1.js', './file2.js'];
         dependencies['fs'].lstatSync = sinon.stub().returns({
           isDirectory: sinon.stub().returns(false)
@@ -226,23 +221,23 @@ describe('Update', function() {
         var innerFunctionCallResultObject = { match: sinon.stub().returns(['gt(\'SOME_KEY\')', 'gt(\'SOME_KEY\')']) };
         update._stripInnerFunctionCalls = sinon.stub().returns(innerFunctionCallResultObject);
         var result = function() { update._getSourceKeys() };
-        expect(result).to.throw(TypeError, 'You have defined a translation key (SOME_KEY) with different');
+        expect(result).to.throw(TypeError, 'You have defined a localization key (SOME_KEY) with different');
       });
     });
   });
 
-  describe('#_mergeTranslations()', function() {
-    it('should read old translations', function() {
-      dependencies['./file'].readTranslations = sinon.spy();
+  describe('#_mergeLocalizations()', function() {
+    it('should read old localizations', function() {
+      dependencies['./file'].readLocalizations = sinon.spy();
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       pcf.locales = {};
       update._mergeUserInputs = function() {};
-      update._mergeTranslations();
-      dependencies['./file'].readTranslations.should.have.been.calledOnce;
+      update._mergeLocalizations();
+      dependencies['./file'].readLocalizations.should.have.been.calledOnce;
     });
 
-    it('if an old translation exists, it should merge with new translations', function() {
-      dependencies['./file'].readTranslations = sinon.stub().returns({
+    it('if an old localization exists, it should merge with new localizations', function() {
+      dependencies['./file'].readLocalizations = sinon.stub().returns({
         'en-US': {
           'key1': {}
         }
@@ -253,7 +248,7 @@ describe('Update', function() {
       pcf.locales = { 'en-US': 'English (US)' };
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       update._mergeUserInputs = function() {};
-      update._mergeTranslations({
+      update._mergeLocalizations({
         'key1': {}
       });
 
@@ -262,14 +257,14 @@ describe('Update', function() {
       dependencies['./merger'].mergeId.should.have.been.calledOnce;
     });
 
-    it('if an old translation does not exists, it should create a new translation', function() {
-      dependencies['./file'].readTranslations = sinon.stub().returns({
+    it('if an old localization does not exists, it should create a new localization', function() {
+      dependencies['./file'].readLocalizations = sinon.stub().returns({
         'en-US': {}
       });
       pcf.locales = { 'en-US': 'English (US)' };
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       update._mergeUserInputs = sinon.spy();
-      update._mergeTranslations({
+      update._mergeLocalizations({
         'key1': {}
       });
 
@@ -278,44 +273,44 @@ describe('Update', function() {
     });
 
     it('should merge with user input option', function() {
-      dependencies['./file'].readTranslations = sinon.stub().returns({
+      dependencies['./file'].readLocalizations = sinon.stub().returns({
         'en-US': {}
       });
       dependencies['./merger'].mergeTimeStamp = sinon.stub().returns(0);
       pcf.locales = { 'en-US': 'English (US)' };
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       update._mergeUserInputs = sinon.spy();
-      update._mergeTranslations({
+      update._mergeLocalizations({
         'key1': {}
       });
 
       update._mergeUserInputs.should.have.been.calledOnce;
     });
 
-    it('if merging of user inputs is without errors, it should callback with new translations', function() {
-      dependencies['./file'].readTranslations = sinon.stub().returns({
+    it('if merging of user inputs is without errors, it should callback with new localizations', function() {
+      dependencies['./file'].readLocalizations = sinon.stub().returns({
         'en-US': {}
       });
       pcf.locales = { 'en-US': 'English (US)' };
       var update = new (proxyquire('../libraries/update', dependencies).Update);
-      update._mergeUserInputs = sinon.stub().callsArgWith(2, null, { 'new-translation': {} });
+      update._mergeUserInputs = sinon.stub().callsArgWith(2, null, { 'new-localization': {} });
       var callback = sinon.spy();
-      update._mergeTranslations({
+      update._mergeLocalizations({
         'key1': {}
       }, callback);
 
-      callback.should.have.been.calledWith(null, { 'new-translation': {} });
+      callback.should.have.been.calledWith(null, { 'new-localization': {} });
     });
 
-    it('if merging of user inputs is with a SIGINT error, it should callback with old translations', function() {
-      dependencies['./file'].readTranslations = sinon.stub().returns({
+    it('if merging of user inputs is with a SIGINT error, it should callback with old localizations', function() {
+      dependencies['./file'].readLocalizations = sinon.stub().returns({
         'en-US': {}
       });
       pcf.locales = { 'en-US': 'English (US)' };
       var update = new (proxyquire('../libraries/update', dependencies).Update);
-      update._mergeUserInputs = sinon.stub().callsArgWith(2, { error: 'SIGINT' }, { 'new-translation': {} });
+      update._mergeUserInputs = sinon.stub().callsArgWith(2, { error: 'SIGINT' }, { 'new-localization': {} });
       var callback = sinon.spy();
-      update._mergeTranslations({
+      update._mergeLocalizations({
         'key1': {}
       }, callback);
 
@@ -323,14 +318,14 @@ describe('Update', function() {
     });
 
     it('if merging of user inputs is with an error, it should callback with the error', function() {
-      dependencies['./file'].readTranslations = sinon.stub().returns({
+      dependencies['./file'].readLocalizations = sinon.stub().returns({
         'en-US': {}
       });
       pcf.locales = { 'en-US': 'English (US)' };
       var update = new (proxyquire('../libraries/update', dependencies).Update);
-      update._mergeUserInputs = sinon.stub().callsArgWith(2, { error: 'other-error' }, { 'new-translation': {} });
+      update._mergeUserInputs = sinon.stub().callsArgWith(2, { error: 'other-error' }, { 'new-localization': {} });
       var callback = sinon.spy();
-      update._mergeTranslations({
+      update._mergeLocalizations({
         'key1': {}
       }, callback);
 
@@ -338,21 +333,21 @@ describe('Update', function() {
     });
   });
 
-  describe('#_getDeletedTranslations()', function() {
-    it('should return deleted translations keys', function() {
+  describe('#_getDeletedLocalizations()', function() {
+    it('should return deleted localizations keys', function() {
       pcf.locales = { 'en-US': 'English (US)' };
       var update = new (proxyquire('../libraries/update', dependencies).Update);
-      var oldTranslations = { 'en-US': { 'key1': {}}};
-      var newTranslations = { 'en-US': { 'key2': {}}};
-      expect(update._getDeletedTranslations(newTranslations, oldTranslations)).to.have.keys('key1');
+      var oldLocalizations = { 'en-US': { 'key1': {}}};
+      var newLocalizations = { 'en-US': { 'key2': {}}};
+      expect(update._getDeletedLocalizations(newLocalizations, oldLocalizations)).to.have.keys('key1');
     });
 
     it('should add deleted locales, timestamp and files', function() {
       pcf.locales = { 'en-US': 'English (US)', 'zh-CN': 'Chinese (Simplified)' };
       var update = new (proxyquire('../libraries/update', dependencies).Update);
-      var oldTranslations = { 'en-US': { 'key1': { files: ['file1'] }}, 'zh-CN': { 'key1': { files: ['file1'] }}};
-      var newTranslations = { 'en-US': { 'key2': {}}, 'zh-CN': { 'key2': {}}};
-      expect(update._getDeletedTranslations(newTranslations, oldTranslations)['key1']).to.have.keys('en-US', 'zh-CN', 'timestamp', 'files');
+      var oldLocalizations = { 'en-US': { 'key1': { files: ['file1'] }}, 'zh-CN': { 'key1': { files: ['file1'] }}};
+      var newLocalizations = { 'en-US': { 'key2': {}}, 'zh-CN': { 'key2': {}}};
+      expect(update._getDeletedLocalizations(newLocalizations, oldLocalizations)['key1']).to.have.keys('en-US', 'zh-CN', 'timestamp', 'files');
     });
   });
 
@@ -361,109 +356,109 @@ describe('Update', function() {
       pcf.locales = { 'en-US': 'English (US)' };
       pcf.defaultLocale = 'en-US';
       var update = new (proxyquire('../libraries/update', dependencies).Update);
-      var oldTranslations = { 'en-US': { 'key1': { files: ['file1'] }}};
-      var newTranslations = { 'en-US': { 'key2': { files: ['file1', 'file2'] }}};
-      expect(update._getUpdatedFiles(newTranslations, oldTranslations)).to.have.keys('file1', 'file2');
+      var oldLocalizations = { 'en-US': { 'key1': { files: ['file1'] }}};
+      var newLocalizations = { 'en-US': { 'key2': { files: ['file1', 'file2'] }}};
+      expect(update._getUpdatedFiles(newLocalizations, oldLocalizations)).to.have.keys('file1', 'file2');
     });
 
-    it('should return updated translation key(single) mapped to each file', function() {
+    it('should return updated localization key(single) mapped to each file', function() {
       pcf.locales = { 'en-US': 'English (US)' };
       pcf.defaultLocale = 'en-US';
       var update = new (proxyquire('../libraries/update', dependencies).Update);
-      var oldTranslations = { 'en-US': { 'key1': { files: ['file1'] }}};
-      var newTranslations = { 'en-US': { 'key2': { files: ['file1', 'file2'] }}};
-      expect(update._getUpdatedFiles(newTranslations, oldTranslations)['file1']).to.eql(['key2']);
-      expect(update._getUpdatedFiles(newTranslations, oldTranslations)['file2']).to.eql(['key2']);
+      var oldLocalizations = { 'en-US': { 'key1': { files: ['file1'] }}};
+      var newLocalizations = { 'en-US': { 'key2': { files: ['file1', 'file2'] }}};
+      expect(update._getUpdatedFiles(newLocalizations, oldLocalizations)['file1']).to.eql(['key2']);
+      expect(update._getUpdatedFiles(newLocalizations, oldLocalizations)['file2']).to.eql(['key2']);
     });
 
-    it('should return updated translation keys(multiple) mapped to each file', function() {
+    it('should return updated localization keys(multiple) mapped to each file', function() {
       pcf.locales = { 'en-US': 'English (US)' };
       pcf.defaultLocale = 'en-US';
       var update = new (proxyquire('../libraries/update', dependencies).Update);
-      var oldTranslations = { 'en-US': { 'key1': { files: ['file1'] }}};
-      var newTranslations = { 'en-US': { 'key2': { files: ['file1', 'file2'] }, 'key3': { files: ['file1'] }}};
-      expect(update._getUpdatedFiles(newTranslations, oldTranslations)).to.have.keys('file1', 'file2');
-      expect(update._getUpdatedFiles(newTranslations, oldTranslations)['file1']).to.eql(['key2', 'key3']);
-      expect(update._getUpdatedFiles(newTranslations, oldTranslations)['file2']).to.eql(['key2']);
+      var oldLocalizations = { 'en-US': { 'key1': { files: ['file1'] }}};
+      var newLocalizations = { 'en-US': { 'key2': { files: ['file1', 'file2'] }, 'key3': { files: ['file1'] }}};
+      expect(update._getUpdatedFiles(newLocalizations, oldLocalizations)).to.have.keys('file1', 'file2');
+      expect(update._getUpdatedFiles(newLocalizations, oldLocalizations)['file1']).to.eql(['key2', 'key3']);
+      expect(update._getUpdatedFiles(newLocalizations, oldLocalizations)['file2']).to.eql(['key2']);
     });
   });
 
   describe('#_mergeUserInputs()', function() {
-    it('should get deleted translations', function() {
+    it('should get deleted localizations', function() {
       var update = new (proxyquire('../libraries/update', dependencies).Update);
-      update._getDeletedTranslations = sinon.stub().returns({});
-      var oldTranslations = {};
-      var newTranslations = {};
+      update._getDeletedLocalizations = sinon.stub().returns({});
+      var oldLocalizations = {};
+      var newLocalizations = {};
       var callback = function() {};
-      update._mergeUserInputs(newTranslations, oldTranslations, callback);
-      update._getDeletedTranslations.should.have.been.calledOnce;
+      update._mergeUserInputs(newLocalizations, oldLocalizations, callback);
+      update._getDeletedLocalizations.should.have.been.calledOnce;
     });
 
-    it('should callback if there is no deleted translations', function() {
+    it('should callback if there is no deleted localizations', function() {
       var update = new (proxyquire('../libraries/update', dependencies).Update);
-      update._getDeletedTranslations = sinon.stub().returns({});
+      update._getDeletedLocalizations = sinon.stub().returns({});
       update._executeUserInputStream = function() {};
-      var oldTranslations = {};
-      var newTranslations = {};
+      var oldLocalizations = {};
+      var newLocalizations = {};
       var callback = sinon.spy();
-      update._mergeUserInputs(newTranslations, oldTranslations, callback);
+      update._mergeUserInputs(newLocalizations, oldLocalizations, callback);
       callback.should.have.been.calledOnce;
       callback.should.have.been.calledWith(null, {});
     });
 
     it('should get updated files', function() {
       var update = new (proxyquire('../libraries/update', dependencies).Update);
-      update._getDeletedTranslations = sinon.stub().returns({ 'file2': ['key3'] });
+      update._getDeletedLocalizations = sinon.stub().returns({ 'file2': ['key3'] });
       update._pushToUserInputStream = function() {};
       update._executeUserInputStream = function() {};
       update._getUpdatedFiles = sinon.spy();
-      var oldTranslations = { 'key1': { files: ['file1'] }};
-      var newTranslations = { 'key2': { files: ['file1'] }};
+      var oldLocalizations = { 'key1': { files: ['file1'] }};
+      var newLocalizations = { 'key2': { files: ['file1'] }};
       var callback = function() {};
-      update._mergeUserInputs(newTranslations, oldTranslations, callback);
+      update._mergeUserInputs(newLocalizations, oldLocalizations, callback);
       update._getUpdatedFiles.should.have.been.calledOnce;
     });
 
     it('should ask for user input if a key have been renamed', function() {
       var update = new (proxyquire('../libraries/update', dependencies).Update);
-      update._getDeletedTranslations = sinon.stub().returns({ 'key3': { files: ['file1'] }});
+      update._getDeletedLocalizations = sinon.stub().returns({ 'key3': { files: ['file1'] }});
       update._pushToUserInputStream = sinon.spy();
       update._executeUserInputStream = function() {};
       update._getUpdatedFiles = sinon.stub().returns({'file1': ['key4']});
-      var oldTranslations = { 'key1': { files: ['file1'] }};
-      var newTranslations = { 'key2': { files: ['file1'] }};
+      var oldLocalizations = { 'key1': { files: ['file1'] }};
+      var newLocalizations = { 'key2': { files: ['file1'] }};
       var callback = function() {};
-      update._mergeUserInputs(newTranslations, oldTranslations, callback);
+      update._mergeUserInputs(newLocalizations, oldLocalizations, callback);
       update._pushToUserInputStream.should.have.been.calledOnce;
       update._pushToUserInputStream.should.have.been.calledWith('key3', ['key4']);
     });
 
-    it('should callback with merged user input translation if user have been asked for input', function() {
+    it('should callback with merged user input localization if user have been asked for input', function() {
       var update = new (proxyquire('../libraries/update', dependencies).Update);
-      update._getDeletedTranslations = sinon.stub().returns({ 'key3': { files: ['file1'] }});
+      update._getDeletedLocalizations = sinon.stub().returns({ 'key3': { files: ['file1'] }});
       update._pushToUserInputStream = function() {};
       update._executeUserInputStream = sinon.stub();
-      update._executeUserInputStream.callsArgWith(2, null, 'merged-translation');
+      update._executeUserInputStream.callsArgWith(2, null, 'merged-localization');
       update._getUpdatedFiles = sinon.stub().returns({'file1': ['key4']});
-      var oldTranslations = { 'key1': { files: ['file1'] }};
-      var newTranslations = { 'key2': { files: ['file1'] }};
+      var oldLocalizations = { 'key1': { files: ['file1'] }};
+      var newLocalizations = { 'key2': { files: ['file1'] }};
       var callback = sinon.spy();
-      update._mergeUserInputs(newTranslations, oldTranslations, callback);
+      update._mergeUserInputs(newLocalizations, oldLocalizations, callback);
       callback.should.have.been.calledOnce;
-      callback.should.have.been.calledWith(null, 'merged-translation')
+      callback.should.have.been.calledWith(null, 'merged-localization')
     });
 
     it('should callback with error if a merge error have been occurred', function() {
       var update = new (proxyquire('../libraries/update', dependencies).Update);
-      update._getDeletedTranslations = sinon.stub().returns({ 'key3': { files: ['file1'] }});
+      update._getDeletedLocalizations = sinon.stub().returns({ 'key3': { files: ['file1'] }});
       update._pushToUserInputStream = function() {};
       update._executeUserInputStream = sinon.stub();
       update._executeUserInputStream.callsArgWith(2, 'error');
       update._getUpdatedFiles = sinon.stub().returns({'file1': ['key4']});
-      var oldTranslations = { 'key1': { files: ['file1'] }};
-      var newTranslations = { 'key2': { files: ['file1'] }};
+      var oldLocalizations = { 'key1': { files: ['file1'] }};
+      var newLocalizations = { 'key2': { files: ['file1'] }};
       var callback = sinon.spy();
-      update._mergeUserInputs(newTranslations, oldTranslations, callback);
+      update._mergeUserInputs(newLocalizations, oldLocalizations, callback);
       callback.should.have.been.calledOnce;
       callback.should.have.been.calledWith('error');
     });
@@ -479,7 +474,7 @@ describe('Update', function() {
   });
 
   describe('#_executeUserInputStream()', function() {
-    it('if deleted and added keys is empty it should callback with new translations', function() {
+    it('if deleted and added keys is empty it should callback with new localizations', function() {
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       var callback = sinon.spy();
       update.deletedKeys = [];
@@ -512,7 +507,7 @@ describe('Update', function() {
       callback.should.have.been.calledWith('error');
     });
 
-    it('should callback with merged translation from user input ' +
+    it('should callback with merged localization from user input ' +
        'if the user have chose the option delete', function() {
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       var callback = sinon.spy();
@@ -527,7 +522,7 @@ describe('Update', function() {
       update.rl.close.should.have.been.calledOnce;
     });
 
-    it('should migrate old translation', function() {
+    it('should migrate old localization', function() {
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       var callback = sinon.spy();
       update.deletedKeys = ['key1'];
@@ -535,13 +530,13 @@ describe('Update', function() {
       update.rl = { close: sinon.spy() };
       update._getUserInputKey = sinon.stub();
       update._getUserInputKey.callsArgWith(2, null, 'key3', 'key1');
-      update._migrateTranslation = sinon.stub().returns('merged-translation');
+      update._migrateLocalization = sinon.stub().returns('merged-localization');
       update._executeUserInputStream({}, {}, callback);
-      update._migrateTranslation.should.have.been.calledOnce;
-      update._migrateTranslation.should.have.been.calledWith('key3', 'key1', {}, {});
+      update._migrateLocalization.should.have.been.calledOnce;
+      update._migrateLocalization.should.have.been.calledWith('key3', 'key1', {}, {});
       update.rl.close.should.have.been.calledOnce;
       callback.should.have.been.calledOnce;
-      callback.should.have.been.calledWith(null, 'merged-translation');
+      callback.should.have.been.calledWith(null, 'merged-localization');
     });
 
     it('should recurse on migration option if deleted keys still exists', function() {
@@ -552,13 +547,13 @@ describe('Update', function() {
       update.rl = { close: sinon.spy() };
       update._getUserInputKey = sinon.stub();
       update._getUserInputKey.callsArgWith(2, null, 'key3', 'key1');
-      update._migrateTranslation = sinon.stub().returns('merged-translation');
+      update._migrateLocalization = sinon.stub().returns('merged-localization');
       update._executeUserInputStream({}, {}, callback);
-      update._migrateTranslation.should.have.callCount(2);
-      update._migrateTranslation.should.have.been.calledWith('key3', 'key1', {}, {});
+      update._migrateLocalization.should.have.callCount(2);
+      update._migrateLocalization.should.have.been.calledWith('key3', 'key1', {}, {});
       update.rl.close.should.have.been.calledOnce;
       callback.should.have.been.calledOnce;
-      callback.should.have.been.calledWith(null, 'merged-translation');
+      callback.should.have.been.calledWith(null, 'merged-localization');
     });
 
     it('should recurse on delete option if deleted keys still exists', function() {
@@ -576,13 +571,13 @@ describe('Update', function() {
     });
   });
 
-  describe('#_migrateTranslation()', function() {
-    it('should migrate old translation', function() {
+  describe('#_migrateLocalization()', function() {
+    it('should migrate old localization', function() {
       pcf.locales = { 'en-US': 'English (US' };
-      var oldTranslations = {'en-US': { 'key1': 'old-translation' }};
-      var newTranslations = {'en-US': { 'key2': 'new-translation' }};
+      var oldLocalizations = {'en-US': { 'key1': 'old-localization' }};
+      var newLocalizations = {'en-US': { 'key2': 'new-localization' }};
       var update = new (proxyquire('../libraries/update', dependencies).Update);
-      expect(update._migrateTranslation('key2', 'key1', newTranslations, oldTranslations)).to.eql({ 'en-US': { 'key2': 'old-translation'}})
+      expect(update._migrateLocalization('key2', 'key1', newLocalizations, oldLocalizations)).to.eql({ 'en-US': { 'key2': 'old-localization'}})
     });
   });
 

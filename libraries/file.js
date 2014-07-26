@@ -7,7 +7,8 @@ var fs = require('fs')
   , path = require('path')
   , glob = require('glob')
   , Q = require('q')
-  , mkdirp = require('mkdirp');
+  , mkdirp = require('mkdirp')
+  , _ = require('underscore');
 
 /**
  * File
@@ -16,180 +17,162 @@ var fs = require('fs')
  */
 
 function File() {
-  this.newline = '\n';
+  this.linefeed = '\n';
+  this.outputFolderExists = true;
 }
 
 /**
- * Write new translations to files.
+ * Write localizations.
  *
- * @param {Object} newTranslations
+ * @param {Object} localizations
  * @param {Function} callback
  * @return {void}
  * @api private
  */
 
-File.prototype.writeTranslations = function(newTranslations, callback) {
-  if(!fs.existsSync(pcf.output)) {
-    mkdirp.sync(pcf.output);
-  }
+File.prototype.writeLocalizations = function(localizations) {
+  var deferred = Q.defer()
+    , localizations = this.localizationMaptoArray(localizations)
+    , count = 0
+    , endCount = pcf.locales.length;
 
-  var translations = this._sortMaptoArray(newTranslations);
   for(var locale in pcf.locales) {
-    var p = path.dirname(pcf.output) + '/' + locale + '.locale';
-    if(fs.existsSync(p)) {
-      fs.unlinkSync(p);
-    }
+    this.writeLocalization(localizations, locale)
+      .then(function() {
+        count++;
+        if(count == endCount) {
+          deferred.resolve();
+        }
+      })
+      .fail(function(error) {
+        deferred.reject(error);
+      });
+  }
 
-    for(var i = 0; i < translations[locale].length; i++) {
-      fs.appendFileSync(p, JSON.stringify(translations[locale][i]) + this.newline);
-    }
-  }
-  if(typeof callback === 'function') {
-    callback();
-  }
+  return deferred.promise;
 };
 
 /**
- * Write new translations to files.
+ * Write localization.
  *
- * @param {Object} newTranslations
- * @param {Function} callback
- * @return {void}
+ * @param {Object} localizations
+ * @param {String} locale
+ * @return {Promise}
  * @api private
  */
 
-File.prototype.writeSingleLocaleTranslations = function(newTranslations, locale, callback) {
-  if(!fs.existsSync(pcf.output)) {
-    mkdirp.sync(pcf.output);
+File.prototype.writeLocalization = function(localizations, locale) {
+  var _this = this
+    , deferred = Q.defer();
+
+  if(!this.outputFolderExists || !fs.existsSync(pcf.store)) {
+    mkdirp.sync(pcf.store);
+    this.outputFolderExists = true;
   }
 
   var p = pcf.store + '/' + locale + '.locale';
-  if(fs.existsSync(p)) {
-    fs.unlinkSync(p);
-  }
+  fs.unlink(p, function(error) {
+      if(error && error.code !== 'ENOENT') {
+        return deferred.reject(error);
+      }
 
-  for(var i = 0; i < newTranslations.length; i++) {
-    fs.appendFileSync(p, JSON.stringify(newTranslations[i]) + this.newline);
-  }
+      var localizationString = '';
 
-  if(typeof callback === 'function') {
-    callback();
-  }
+      for(var index = 0; index < localizations[locale].length; index++) {
+        localizationString += JSON.stringify(localizations[locale][index]) + _this.linefeed;
+      }
+      fs.appendFile(p, localizationString, function(error) {
+          if(error) {
+            deferred.reject(error);
+          }
+
+          deferred.resolve();
+        });
+    });
+
+  return deferred.promise;
 };
 
 /**
- * Sort translation map to an array
+ * Sort localization map to an localization array.
  *
- * @param {Object} newTranslations
+ * @param {Object} localizations
  * @return {Object}
  * @api private
  */
 
-File.prototype._sortMaptoArray = function(newTranslations) {
-  var translations = {};
+File.prototype.localizationMaptoArray = function(localizations) {
+  var result = {};
 
   for(var locale in pcf.locales) {
-    translations[locale] = [];
-    for(var key in newTranslations[locale]) {
-      translations[locale].push(newTranslations[locale][key]);
+    result[locale] = [];
+    for(var key in localizations[locale]) {
+      result[locale].push(localizations[locale][key]);
     }
 
-    translations[locale] = translations[locale].sort(function(a, b) {
-      if(b.timestamp > a.timestamp) {
-        return 1;
-      }
-      else if(b.timestamp < a.timestamp) {
-        return -1;
-      }
-      else if(a.key > b.key) {
-        return 1;
-      }
-      else if(a.key < b.key) {
-        return -1;
-      }
-      else {
-        return 0;
-      }
-    });
+    result[locale] = result[locale].sort(function(a, b) {
+        if(b.timestamp > a.timestamp) {
+          return 1;
+        }
+        else if(b.timestamp < a.timestamp) {
+          return -1;
+        }
+        else if(a.key > b.key) {
+          return 1;
+        }
+        else if(a.key < b.key) {
+          return -1;
+        }
+        else {
+          return 0;
+        }
+      });
   }
 
-  return translations;
+  return result;
 };
 
 /**
- * Get all translations. If locale parameter is provided
- * than only the locales translations is provided. Otherwise
- * all languages is included in the translation object.
+ * Read localizations from disk. The promise returns a localization map
+ * for other methods to consume.
  *
- * @param {=String} locale
- * @param {?Object} opts (opts.returnType) Specify the return
- * type for the object. Could be either `array` or `json`
- * @return {Object|Array} translations
- *
- *   Example:
- *   {
- *      'en-US': {
- *          ...
- *      },
- *      'zh-ZN': {
- *          ...
- *       }
- *   }
- *
- *   Or..
- *
- *   Example:
- *   {
- *      ...
- *   }
- *
+ * @param {String} locale
+ * @return {Promise}
  * @api public
  */
 
-File.prototype.readTranslations = function(locale, opts) {
-  if(locale && typeof locale !== 'string') {
-    throw new TypeError('first parameter must have type string or undefined');
-  }
-  if(opts && typeof opts !== 'object') {
-    throw new TypeError('second parameter must have type object or undefined');
-  }
+File.prototype.readLocalizations = function(locale) {
+  var _this = this
+    , deferred = Q.defer()
+    , files = glob.sync(pcf.store + '/*.locale')
+    , localizations = {}
+    , count = 0
+    , endCount = files.length - 1;
 
-  locale = locale || pcf.DEFAULT_LOCALE;
-
-  opts = opts || {};
-
-  if(!opts.returnType) {
-    opts.returnType = 'json';
+  if(files.length === 0) {
+    _.defer(function() {
+      deferred.resolve({});
+    });
   }
 
-  var _this = this;
-
-  var files = glob.sync('./*.locale', { cwd: path.dirname(pcf.output) });
-  var translations = {};
   files.forEach(function(file) {
-    if(opts.returnType === 'json') {
-      translations[path.basename(file, '.locale')] = _this._getHashMapTranslations(file);
-    }
-    else {
-      translations[path.basename(file, '.locale')] = _this._getArrayTranslations(file);
-    }
+    _this.readLocalizationMap(file) 
+      .then(function(_localizations) {
+        localizations[path.basename(file, '.locale')] = _localizations;
+        count++;
+        if(count === endCount) {
+          if(locale) {
+            return deferred.resolve(localizations[locale]);
+          }
+          return deferred.resolve(localizations);
+        }
+      })
+      .fail(function(error) {
+        deferred.reject(error);
+      });
   });
 
-  if(Object.keys(translations).length === 0) {
-    if(opts.returnType === 'json') {
-      return {};
-    }
-    else {
-      return [];
-    }
-  }
-
-  if(locale) {
-    return translations[locale];
-  }
-  else {
-    return translations;
-  }
+  return deferred.promise;
 };
 
 /**
@@ -208,21 +191,27 @@ File.prototype.readTranslations = function(locale, opts) {
  *     ...
  *   ]
  *
- * @api private
+ * @api public
  */
 
-File.prototype._getArrayTranslations = function(file) {
-  var content = fs.readFileSync(path.join(path.dirname(pcf.output), file), 'utf-8');
-  content = content
-    // Replace all double new lines with comma and double new lines
-    .replace(/\}\n+\{/g, '},{');
+File.prototype.readLocalizationArray = function(file) {
+  var deferred = Q.defer();
 
-  // Wrap in hard brackets to represent a JSON Array
-  return JSON.parse('[' + content + ']');
+  fs.readFile(file
+    , { encoding : 'utf-8' }
+    , function(error, content) {
+      if(error) {
+        return deferred.reject(error);
+      }
+
+      deferred.resolve(JSON.parse('[' + content.replace(/\}\n+\{/g, '},{') + ']'));
+    });
+
+  return deferred.promise;
 };
 
 /**
- * Get hash map translation
+ * Get locallization map.
  *
  * @param {String} file
  * @return {Object} translations
@@ -233,19 +222,25 @@ File.prototype._getArrayTranslations = function(file) {
  *      ...
  *   }
  *
- * @api private
+ * @api public
  */
 
-File.prototype._getHashMapTranslations = function(file) {
-  var translations = this._getArrayTranslations(file);
+File.prototype.readLocalizationMap = function(file) {
+  var deferred = Q.defer(), result = {};
 
-  var _translations = {};
-  for(var i in translations) {
-    var translation = translations[i];
-    _translations[translation.key] = translations[i];
-  }
+  this.readLocalizationArray(file)
+    .then(function(localizations) {
+      for(var index in localizations) {
+        result[localizations[index].key] = localizations[index];
+      }
 
-  return _translations;
+      deferred.resolve(result);
+    })
+    .fail(function(error) {
+      deferred.reject(error);
+    });
+
+  return deferred.promise;
 };
 
 /**
@@ -255,20 +250,24 @@ File.prototype._getHashMapTranslations = function(file) {
  * @api public
  */
 
-File.prototype.readSearchTranslations = function() {
+File.prototype.readSearchLocalizations = function() {
   var deferred = Q.defer();
+
   fs.readFile(pcf.searchFile,
-  { encoding : 'utf-8' },
-  function(err, data) {
-    if(err) return deferred.reject(err);
-    try {
-      var search = JSON.parse(data);
-      deferred.resolve(search);
-    }
-    catch(err) {
-      deferred.reject(err);
-    }
-  });
+    { encoding : 'utf-8' },
+    function(error, data) {
+      if(error) {
+        return deferred.reject(error);
+      }
+
+      try {
+        var search = JSON.parse(data);
+        deferred.resolve(search);
+      }
+      catch(error) {
+        deferred.reject(error);
+      }
+    });
 
   return deferred.promise;
 };
