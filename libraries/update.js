@@ -53,8 +53,8 @@ Update.prototype.update = function() {
       return file.writeLocalizations(mergedLocalizations)
     })
     .fail(function(error) {
-      console.log(error);
-      log.error('Localization update failed');
+      log.error('Localizations update failed');
+      throw error;
     });
 };
 
@@ -96,17 +96,24 @@ Update.prototype.getNewLocalizations = function() {
     , now = parseInt(Date.now() / 1000, 10)
     , newLocalizations = {}
     , hashCount = 0
-    , fileCount = 0;
+    , fileCount = 0
+    , rejected = false;
 
   pcf.src.forEach(function(file) {
-    fileCount++;
-
     if(fs.lstatSync(file).isDirectory()) {
+      fileCount++;
       return;
     }
 
     fs.readFile(file, 'utf8', function(error, content) {
+        fileCount++;
+
+        if(rejected) {
+          return;
+        }
+
         if(error) {
+          rejected = true;
           return deferred.reject(error);
         }
 
@@ -128,15 +135,16 @@ Update.prototype.getNewLocalizations = function() {
             }
             else {
               if(syntax.hasErrorDuplicate(newLocalizations, key, vars)) {
-                throw new TypeError('You have defined a localization key ('
-                  + key + ') with different vars.\n In file:' + file);
+                rejected = true;
+                return deferred.reject(new TypeError('You have defined a localization key ('
+                  + key + ') with different vars.\n In file:' + file));
               }
               newLocalizations[key].files.push(file);
             }
           });
         }
 
-        if(fileCount === pcf.src.length) {
+        if(fileCount === pcf.src.length && !rejected) {
           deferred.resolve(newLocalizations);
         }
       });
@@ -195,6 +203,7 @@ Update.prototype._mergeWithOldLocalizations = function(newLocalizations) {
         if(error.error === 'SIGINT') {
           return deferred.resolve(oldLocalizations);
         }
+
         deferred.reject(error);
       });
 
