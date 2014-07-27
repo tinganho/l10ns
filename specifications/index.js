@@ -8,6 +8,8 @@ global.chai = require('chai');
 global.expect = require('chai').expect;
 global.proxyquire = require('proxyquire');
 global.path = require('path');
+global.Q = require('q');
+global.eventually = require('underscore').defer;
 
 /**
  * Plugins

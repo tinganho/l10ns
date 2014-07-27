@@ -39,40 +39,50 @@ describe('Update', function() {
 
   describe('#update()', function() {
     it('should get new localizations', function() {
+      dependencies['./file'].writeLocalizations = sinon.stub().returns(Q.resolve());
       var update = new (proxyquire('../libraries/update', dependencies).Update);
-      update.getNewLocalizations = sinon.spy();
-      update._mergeWithOldLocalizations = function() {};
+      update.getNewLocalizations = sinon.stub().returns(Q.resolve());
+      update._mergeWithOldLocalizations = sinon.stub().returns(Q.resolve());
       update.update();
       update.getNewLocalizations.should.have.been.calledOnce;
     });
 
-    it('should merge source keys with old localizations', function() {
+    it('should merge source keys with old localizations', function(done) {
+      dependencies['./file'].writeLocalizations = sinon.stub().returns(Q.resolve());
       var update = new (proxyquire('../libraries/update', dependencies).Update);
-      update._getSourceKeys = function() {};
-      update._mergeLocalizations = sinon.spy();
+      update.getNewLocalizations = sinon.stub().returns(Q.resolve());
+      update._mergeWithOldLocalizations = sinon.stub().returns(Q.resolve());
       update.update();
-      update._mergeLocalizations.should.have.been.calledOnce;
+      eventually(function() {
+        update._mergeWithOldLocalizations.should.have.been.calledOnce;
+        done();
+      });
     });
 
-    it('should write all the localization to storage', function() {
-      dependencies['./file'].writeLocalizations = sinon.spy();
+    it('should write all the localization to storage', function(done) {
+      dependencies['./file'].writeLocalizations = sinon.stub().returns(Q.resolve());
       var update = new (proxyquire('../libraries/update', dependencies).Update);
-      update._getSourceKeys = function() {};
-      update._mergeLocalizations = sinon.stub().callsArgWith(1, null, {});
+      update.getNewLocalizations = sinon.stub().returns(Q.resolve());
+      update._mergeWithOldLocalizations = sinon.stub().returns(Q.resolve());
       update.update();
-      dependencies['./file'].writeLocalizations.should.have.been.calledOnce;
-      dependencies['./file'].writeLocalizations.should.have.been.calledWith({});
+      eventually(function() {
+        dependencies['./file'].writeLocalizations.should.have.been.calledOnce;
+        done();
+      });
     });
 
-    it('should log an error if merge localizations have been failed', function() {
-      dependencies['./file'].writeLocalizations = function() {};
+    it('should log an error if merge localizations have been failed', function(done) {
+      // Reject on second promise
       dependencies['./_log'].error = sinon.spy();
       var update = new (proxyquire('../libraries/update', dependencies).Update);
-      update._getSourceKeys = function() {};
-      update._mergeLocalizations = sinon.stub().callsArgWith(1, new Error('test'), {});
+      update.getNewLocalizations = sinon.stub().returns(Q.resolve());
+      update._mergeWithOldLocalizations = sinon.stub().returns(Q.reject());
       update.update();
-      dependencies['./_log'].error.should.have.been.calledOnce;
-      dependencies['./_log'].error.should.have.been.calledWith('Translation update failed');
+      eventually(function() {
+        dependencies['./_log'].error.should.have.been.calledOnce;
+        dependencies['./_log'].error.should.have.been.calledWith('Localizations update failed');
+        done();
+      });
     });
   });
 
@@ -92,62 +102,87 @@ describe('Update', function() {
     });
   });
 
-  describe('#_getSourceKeys()', function() {
+  describe('#getNewLocalizations()', function() {
     describe('should loop through each file path and...', function() {
       it('check if the file path is a directory', function() {
-        pcf.src = ['./file.js'];
+        pcf.src = ['file1'];
         dependencies['fs'].lstatSync = sinon.stub().returns({
           isDirectory: sinon.stub().returns(true)
         });
         var update = new (proxyquire('../libraries/update', dependencies).Update);
-        update._getSourceKeys();
+        update.getNewLocalizations();
         dependencies['fs'].lstatSync.should.have.been.calledOnce;
       });
 
-      it('read the file', function() {
-        pcf.src = ['./file.js'];
+      it('should eventually reject if the file reading is sending an error', function(done) {
+        pcf.src = ['file1'];
+        var deferred = {};
+        deferred.reject = sinon.spy();
+        dependencies.q = {};
+        dependencies.q.defer = sinon.stub().returns(deferred);
         dependencies['fs'].lstatSync = sinon.stub().returns({
           isDirectory: sinon.stub().returns(false)
         });
-        dependencies['fs'].readFileSync = sinon.spy();
+        dependencies['fs'].readFile = sinon.stub();
+        dependencies['fs'].readFile.callsArgWith(2, 'error');
         var update = new (proxyquire('../libraries/update', dependencies).Update);
         update._stripInnerFunctionCalls = sinon.stub().returns({ match: sinon.stub().returns(null) });
-        update._getSourceKeys();
-        dependencies['fs'].readFileSync.should.have.been.calledOnce;
-        dependencies['fs'].readFileSync.should.have.been.calledWith(pcf.src[0]);
+        update.getNewLocalizations();
+        eventually(function() {
+          deferred.reject.should.have.been.calledOnce;
+          done();
+        });
       });
 
-      it('strip inner function calls', function() {
-        pcf.src = ['./file.js'];
+      it('strip inner function calls', function(done) {
+        pcf.src = ['file1'];
+        var deferred = {};
+        deferred.resolve = function() {};
+        dependencies.q = {};
+        dependencies.q.defer = sinon.stub().returns(deferred);
         dependencies['fs'].lstatSync = sinon.stub().returns({
           isDirectory: sinon.stub().returns(false)
         });
-        dependencies['fs'].readFileSync = function() {};
+        dependencies['fs'].readFile = sinon.stub();
+        dependencies['fs'].readFile.callsArgWith(2, null, '');
         var update = new (proxyquire('../libraries/update', dependencies).Update);
         update._stripInnerFunctionCalls = sinon.stub().returns({ match: sinon.stub().returns(null) });
-        update._getSourceKeys();
-        update._stripInnerFunctionCalls.should.have.been.calledOnce;
+        update.getNewLocalizations();
+        eventually(function() {
+          update._stripInnerFunctionCalls.should.have.been.calledOnce;
+          done();
+        });
       });
 
       it('find all gt() function call strings', function() {
-        pcf.src = ['./file.js'];
+        pcf.src = ['file1'];
+        var deferred = {};
+        deferred.resolve = function() {};
+        dependencies.q = {};
+        dependencies.q.defer = sinon.stub().returns(deferred);
         dependencies['fs'].lstatSync = sinon.stub().returns({
           isDirectory: sinon.stub().returns(false)
         });
-        dependencies['fs'].readFileSync = function() {};
+        dependencies['fs'].readFile = sinon.stub();
+        dependencies['fs'].readFile.callsArgWith(2, null, '');
         var update = new (proxyquire('../libraries/update', dependencies).Update);
         var innerFunctionCallResultObject = { match: sinon.stub().returns(null) };
         update._stripInnerFunctionCalls = sinon.stub().returns(innerFunctionCallResultObject);
-        update._getSourceKeys();
+        update.getNewLocalizations();
         innerFunctionCallResultObject.match.should.have.been.calledOnce;
       });
 
-      it('get the key and variables on each gt() call strings', function() {
-        pcf.src = ['./file.js'];
+      it('get the key and variables on each gt() call strings', function(done) {
+        pcf.src = ['file1'];
+        var deferred = {};
+        deferred.resolve = function() {};
+        dependencies.q = {};
+        dependencies.q.defer = sinon.stub().returns(deferred);
         dependencies['fs'].lstatSync = sinon.stub().returns({
           isDirectory: sinon.stub().returns(false)
         });
-        dependencies['fs'].readFileSync = function() {};
+        dependencies['fs'].readFile = sinon.stub();
+        dependencies['fs'].readFile.callsArgWith(2, null, '');
         dependencies['./parser'].getKey = sinon.stub().returns('SOME_KEY');
         dependencies['./parser'].getVars = sinon.stub().returns(['test1', 'test2']);
         var Hashids = function() {}
@@ -156,19 +191,27 @@ describe('Update', function() {
         var update = new (proxyquire('../libraries/update', dependencies).Update);
         var innerFunctionCallResultObject = { match: sinon.stub().returns(['gt(\'SOME_KEY\')']) };
         update._stripInnerFunctionCalls = sinon.stub().returns(innerFunctionCallResultObject);
-        update._getSourceKeys();
-        dependencies['./parser'].getKey.should.have.been.calledOnce;
-        dependencies['./parser'].getKey.should.have.been.calledWith('gt(\'SOME_KEY\')');
-        dependencies['./parser'].getVars.should.have.been.calledOnce;
-        dependencies['./parser'].getVars.should.have.been.calledWith('gt(\'SOME_KEY\')');
+        update.getNewLocalizations();
+        eventually(function() {
+          dependencies['./parser'].getKey.should.have.been.calledOnce;
+          dependencies['./parser'].getKey.should.have.been.calledWith('gt(\'SOME_KEY\')');
+          dependencies['./parser'].getVars.should.have.been.calledOnce;
+          dependencies['./parser'].getVars.should.have.been.calledWith('gt(\'SOME_KEY\')');
+          done();
+        });
       });
 
-      it('set properties id, key, vars, text, files', function() {
-        pcf.src = ['./file.js'];
+      it('set properties id, key, vars, text, files', function(done) {
+        pcf.src = ['file1'];
+        var deferred = {};
+        deferred.resolve = sinon.spy();
+        dependencies.q = {};
+        dependencies.q.defer = sinon.stub().returns(deferred);
         dependencies['fs'].lstatSync = sinon.stub().returns({
           isDirectory: sinon.stub().returns(false)
         });
-        dependencies['fs'].readFileSync = function() {};
+        dependencies['fs'].readFile = sinon.stub();
+        dependencies['fs'].readFile.callsArgWith(2, null, '');
         dependencies['./parser'].getKey = sinon.stub().returns('SOME_KEY');
         dependencies['./parser'].getVars = sinon.stub().returns(['test1', 'test2']);
         var Hashids = function() {}
@@ -177,15 +220,25 @@ describe('Update', function() {
         var update = new (proxyquire('../libraries/update', dependencies).Update);
         var innerFunctionCallResultObject = { match: sinon.stub().returns(['gt(\'SOME_KEY\')']) };
         update._stripInnerFunctionCalls = sinon.stub().returns(innerFunctionCallResultObject);
-        var result = update._getSourceKeys();
-        expect(result['SOME_KEY'].id).to.equal('id');
-        expect(result['SOME_KEY'].text).to.equal('SOME_KEY');
-        expect(result['SOME_KEY'].vars).to.eql(['test1', 'test2']);
-        expect(result['SOME_KEY'].files).to.eql(pcf.src);
+        update.getNewLocalizations();
+        eventually(function() {
+          deferred.resolve.should.have.been.calledOnce;
+          deferred.resolve.should.have.been.calledWith({ SOME_KEY: {
+            id: 'id',
+            key: 'SOME_KEY',
+            vars: ['test1', 'test2'],
+            text: 'SOME_KEY',
+            files: ['file1'] }});
+          done();
+        });
       });
 
-      it('append file path if a localization key already exist on a different file', function() {
-        pcf.src = ['./file1.js', './file2.js'];
+      it('append file path if a localization key already exist on a different file', function(done) {
+        pcf.src = ['file1', 'file2'];
+        var deferred = {};
+        deferred.resolve = sinon.spy();
+        dependencies.q = {};
+        dependencies.q.defer = sinon.stub().returns(deferred);
         dependencies['fs'].lstatSync = sinon.stub().returns({
           isDirectory: sinon.stub().returns(false)
         });
@@ -199,12 +252,25 @@ describe('Update', function() {
         var update = new (proxyquire('../libraries/update', dependencies).Update);
         var innerFunctionCallResultObject = { match: sinon.stub().returns(['gt(\'SOME_KEY\')']) };
         update._stripInnerFunctionCalls = sinon.stub().returns(innerFunctionCallResultObject);
-        var result = update._getSourceKeys();
-        expect(result['SOME_KEY'].files).to.eql(pcf.src);
+        update.getNewLocalizations();
+        eventually(function() {
+          deferred.resolve.should.have.been.calledOnce;
+          deferred.resolve.should.have.been.calledWith({ SOME_KEY: {
+            id: 'id',
+            key: 'SOME_KEY',
+            vars: ['test1', 'test2'],
+            text: 'SOME_KEY',
+            files: ['file1', 'file2'] }});
+          done();
+        });
       });
 
-      it('if a function call have two different varriable set it should throw an error', function() {
-        pcf.src = ['./file.js'];
+      it('should reject if a function call have two different variable set', function(done) {
+        pcf.src = ['file1'];
+        var deferred = {};
+        deferred.reject = sinon.spy();
+        dependencies.q = {};
+        dependencies.q.defer = sinon.stub().returns(deferred);
         dependencies['fs'].lstatSync = sinon.stub().returns({
           isDirectory: sinon.stub().returns(false)
         });
@@ -220,116 +286,148 @@ describe('Update', function() {
         var update = new (proxyquire('../libraries/update', dependencies).Update);
         var innerFunctionCallResultObject = { match: sinon.stub().returns(['gt(\'SOME_KEY\')', 'gt(\'SOME_KEY\')']) };
         update._stripInnerFunctionCalls = sinon.stub().returns(innerFunctionCallResultObject);
-        var result = function() { update._getSourceKeys() };
-        expect(result).to.throw(TypeError, 'You have defined a localization key (SOME_KEY) with different');
+        update.getNewLocalizations();
+        eventually(function() {
+          deferred.reject.should.have.been.calledOnce;
+          expect(deferred.reject.args[0][0].message).to.contain('You have defined a localization key (SOME_KEY) with different vars');
+          done();
+        });
       });
     });
   });
 
-  describe('#_mergeLocalizations()', function() {
-    it('should read old localizations', function() {
-      dependencies['./file'].readLocalizations = sinon.spy();
+  describe('#_mergeWithOldLocalizations()', function() {
+    it('should read old localizations', function(done) {
+      pcf.locales = {};
+      dependencies['./file'].readLocalizations = sinon.stub().returns(Q.resolve());
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       pcf.locales = {};
       update._mergeUserInputs = function() {};
-      update._mergeLocalizations();
-      dependencies['./file'].readLocalizations.should.have.been.calledOnce;
+      update._mergeWithOldLocalizations();
+      eventually(function() {
+        dependencies['./file'].readLocalizations.should.have.been.calledOnce;
+        done();
+      });
     });
 
-    it('if an old localization exists, it should merge with new localizations', function() {
-      dependencies['./file'].readLocalizations = sinon.stub().returns({
+    it('if an old localization exists, it should merge with new localizations', function(done) {
+      dependencies['./file'].readLocalizations = sinon.stub().returns(Q.resolve({
         'en-US': {
           'key1': {}
         }
-      });
+      }));
       dependencies['./merger'].mergeTranslations = sinon.spy();
       dependencies['./merger'].mergeTimeStamp = sinon.spy();
       dependencies['./merger'].mergeId = sinon.spy();
       pcf.locales = { 'en-US': 'English (US)' };
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       update._mergeUserInputs = function() {};
-      update._mergeLocalizations({
+      update._mergeWithOldLocalizations({
         'key1': {}
       });
-
-      dependencies['./merger'].mergeTranslations.should.have.been.calledOnce;
-      dependencies['./merger'].mergeTimeStamp.should.have.been.calledOnce;
-      dependencies['./merger'].mergeId.should.have.been.calledOnce;
+      eventually(function() {
+        dependencies['./merger'].mergeTranslations.should.have.been.calledOnce;
+        dependencies['./merger'].mergeTimeStamp.should.have.been.calledOnce;
+        dependencies['./merger'].mergeId.should.have.been.calledOnce;
+        done();
+      });
     });
 
-    it('if an old localization does not exists, it should create a new localization', function() {
-      dependencies['./file'].readLocalizations = sinon.stub().returns({
+    it('if an old localization does not exists, it should create a new localization', function(done) {
+      dependencies['./file'].readLocalizations = sinon.stub().returns(Q.resolve({
         'en-US': {}
-      });
+      }));
       pcf.locales = { 'en-US': 'English (US)' };
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       update._mergeUserInputs = sinon.spy();
-      update._mergeLocalizations({
+      update._mergeWithOldLocalizations({
         'key1': {}
       });
-
-      expect(update._mergeUserInputs.args[0][0]['en-US']['key1']).to.contain.keys('values', 'timestamp');
-      expect(update._mergeUserInputs.args[0][0]['en-US']['key1'].values).to.eql([]);
+      eventually(function() {
+        expect(update._mergeUserInputs.args[0][0]['en-US']['key1']).to.contain.keys('values', 'timestamp');
+        expect(update._mergeUserInputs.args[0][0]['en-US']['key1'].values).to.eql([]);
+        done();
+      });
     });
 
-    it('should merge with user input option', function() {
-      dependencies['./file'].readLocalizations = sinon.stub().returns({
+    it('should merge with user input option', function(done) {
+      dependencies['./file'].readLocalizations = sinon.stub().returns(Q.resolve({
         'en-US': {}
-      });
+      }));
       dependencies['./merger'].mergeTimeStamp = sinon.stub().returns(0);
       pcf.locales = { 'en-US': 'English (US)' };
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       update._mergeUserInputs = sinon.spy();
-      update._mergeLocalizations({
+      update._mergeWithOldLocalizations({
         'key1': {}
       });
-
-      update._mergeUserInputs.should.have.been.calledOnce;
+      eventually(function() {
+        update._mergeUserInputs.should.have.been.calledOnce;
+        done();
+      });
     });
 
-    it('if merging of user inputs is without errors, it should callback with new localizations', function() {
-      dependencies['./file'].readLocalizations = sinon.stub().returns({
+    it('if merging of user inputs is without errors, it should resolve with new localizations', function(done) {
+      dependencies['./file'].readLocalizations = sinon.stub().returns(Q.resolve({
         'en-US': {}
-      });
+      }));
+      var deferred = {};
+      deferred.resolve = sinon.spy();
+      dependencies.q = {};
+      dependencies.q.defer = sinon.stub().returns(deferred);
       pcf.locales = { 'en-US': 'English (US)' };
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       update._mergeUserInputs = sinon.stub().callsArgWith(2, null, { 'new-localization': {} });
-      var callback = sinon.spy();
-      update._mergeLocalizations({
+      update._mergeWithOldLocalizations({
         'key1': {}
-      }, callback);
-
-      callback.should.have.been.calledWith(null, { 'new-localization': {} });
+      });
+      eventually(function() {
+        deferred.resolve.should.have.been.calledOnce;
+        deferred.resolve.should.have.been.calledWith({ 'new-localization': {} });
+        done();
+      });
     });
 
-    it('if merging of user inputs is with a SIGINT error, it should callback with old localizations', function() {
-      dependencies['./file'].readLocalizations = sinon.stub().returns({
+    it('if merging of user inputs is with a SIGINT error, it should callback with old localizations', function(done) {
+      dependencies['./file'].readLocalizations = sinon.stub().returns(Q.resolve({
         'en-US': {}
-      });
+      }));
+      var deferred = {};
+      deferred.resolve = sinon.spy();
+      dependencies.q = {};
+      dependencies.q.defer = sinon.stub().returns(deferred);
       pcf.locales = { 'en-US': 'English (US)' };
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       update._mergeUserInputs = sinon.stub().callsArgWith(2, { error: 'SIGINT' }, { 'new-localization': {} });
-      var callback = sinon.spy();
-      update._mergeLocalizations({
+      update._mergeWithOldLocalizations({
         'key1': {}
-      }, callback);
-
-      callback.should.have.been.calledWith(null, { 'en-US': {} });
+      });
+      eventually(function() {
+        deferred.resolve.should.have.been.calledOnce;
+        deferred.resolve.should.have.been.calledWith({ 'en-US': {} });
+        done();
+      });
     });
 
-    it('if merging of user inputs is with an error, it should callback with the error', function() {
-      dependencies['./file'].readLocalizations = sinon.stub().returns({
+    it('if merging of user inputs is with an error, it should callback with the error', function(done) {
+      dependencies['./file'].readLocalizations = sinon.stub().returns(Q.resolve({
         'en-US': {}
-      });
+      }));
+      var deferred = {};
+      deferred.reject = sinon.spy();
+      dependencies.q = {};
+      dependencies.q.defer = sinon.stub().returns(deferred);
       pcf.locales = { 'en-US': 'English (US)' };
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       update._mergeUserInputs = sinon.stub().callsArgWith(2, { error: 'other-error' }, { 'new-localization': {} });
-      var callback = sinon.spy();
-      update._mergeLocalizations({
+      update._mergeWithOldLocalizations({
         'key1': {}
-      }, callback);
-
-      callback.should.have.been.calledWith({ error: 'other-error' });
+      });
+      eventually(function() {
+        deferred.reject.should.have.been.calledOnce;
+        deferred.reject.should.have.been.calledWith({ error: 'other-error' });
+        done();
+      });
     });
   });
 
