@@ -39,7 +39,7 @@ function Init() {
 
 Init.prototype.init = function() {
   var _this = this;
-  if(findup('gt.json') || fs.existsSync(process.cwd() + '/gt.json')) {
+  if(findup('l10ns.json') || fs.existsSync(process.cwd() + '/l10ns.json')) {
     console.log(pcf.PROJECT_ALREADY_INITIATED);
     process.exit();
   }
@@ -300,7 +300,7 @@ Init.prototype._setDefaultSrc = function() {
 
 Init.prototype._writeProject = function() {
   var cwd = process.cwd()
-    , file = cwd + '/gt.json'
+    , file = cwd + '/l10ns.json'
     , folder = cwd + '/.gt';
 
   console.log(this.json);

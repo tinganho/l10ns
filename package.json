@@ -1,5 +1,5 @@
 {
-  "name": "localizations",
+  "name": "l10ns",
   "description": "Effective translation workflow",
   "version": "0.13.8",
   "homepage": "https://github.com/tinganho/get-translation",
@@ -21,13 +21,13 @@
     }
   ],
   "bin": {
-    "l": "./binaries/l"
+    "l10ns": "./binaries/l10ns"
   },
   "engines": {
     "node": "*"
   },
   "scripts": {
-    "test": "binaries/spec"
+    "test": "binaries/test"
   },
   "dependencies": {
     "amdefine": "^0.1.0",

@@ -296,6 +296,7 @@ Update.prototype._getDeletedLocalizations = function(newLocalizations, oldLocali
 
 Update.prototype._getUpdatedFiles = function(newLocalizations, oldLocalizations) {
   var files = {};
+
   for(var key in newLocalizations[pcf.defaultLocale]) {
     if(!(key in oldLocalizations[pcf.defaultLocale])) {
       var translationFiles = newLocalizations[pcf.defaultLocale][key].files;

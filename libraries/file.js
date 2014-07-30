@@ -26,7 +26,7 @@ function File() {
  *
  * @param {Object} localizations
  * @param {Function} callback
- * @return {void}
+ * @return {Promise}
  * @api private
  */
 
@@ -34,13 +34,13 @@ File.prototype.writeLocalizations = function(localizations) {
   var deferred = Q.defer()
     , localizations = this.localizationMaptoArray(localizations)
     , count = 0
-    , endCount = pcf.locales.length;
+    , endCount = _.size(pcf.locales);
 
   for(var locale in pcf.locales) {
     this.writeLocalization(localizations, locale)
       .then(function() {
         count++;
-        if(count == endCount) {
+        if(count === endCount) {
           deferred.resolve();
         }
       })
@@ -83,7 +83,7 @@ File.prototype.writeLocalization = function(localizations, locale) {
       }
       fs.appendFile(p, localizationString, function(error) {
           if(error) {
-            deferred.reject(error);
+            return deferred.reject(error);
           }
 
           deferred.resolve();
