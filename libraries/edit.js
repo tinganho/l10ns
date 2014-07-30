@@ -141,15 +141,15 @@ Edit.prototype._getKeyFromLatestSearch = function(reference) {
   }
 
   file.readSearchTranslations()
-  .then(function(data) {
-    if(reference > data.length - 1) {
-      return deferred.reject(new TypeError('Reference is not indexed.'));
-    }
-    deferred.resolve(data[reference].ref);
-  })
-  .fail(function(err) {
-    deferred.reject(err);
-  });
+    .then(function(data) {
+      if(reference > data.length - 1) {
+        return deferred.reject(new TypeError('Reference is not indexed.'));
+      }
+      deferred.resolve(data[reference].ref);
+    })
+    .fail(function(err) {
+      deferred.reject(err);
+    });
 
   return deferred.promise;
 };

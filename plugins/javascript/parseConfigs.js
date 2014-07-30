@@ -13,7 +13,7 @@ module.exports = {
   //   'test': [[test()]]
   // });
   //
-  TRANSLATION_INNER_FUNCTION_CALL_REGEX: /\s+(?!gt)[.|\w]+?\((.*?\s*?)*?\)/g,
+  TRANSLATION_INNER_FUNCTION_CALL_REGEX: /\s+(?!l)[.|\w]+?\((.*?\s*?)*?\)/g,
 
   // Translation vars regex should capture a match
   // of the whole translation var object literal in
@@ -26,7 +26,7 @@ module.exports = {
   //   'test': 'test'
   // });]]
   //
-  TRANSLATION_FUNCTION_CALL_REGEX: /gt\(['|"](.*?)['|"]\s*(\,\s*\{\s*((.*?)|(\s*?))+?\s*\})??\s*\)/g,
+  TRANSLATION_FUNCTION_CALL_REGEX: /l\(['|"](.*?)['|"]\s*(\,\s*\{\s*((.*?)|(\s*?))+?\s*\})??\s*\)/g,
 
   // Translation key regex should capture a match
   // of the translation key in the second index
@@ -38,7 +38,7 @@ module.exports = {
   //   'test': 'test'
   // });
   //
-  TRANSLATION_KEY: /gt\((['|"])(.*?)\1/,
+  TRANSLATION_KEY: /l\((['|"])(.*?)\1/,
 
   // Translation vars regex should capture a match
   // of the whole translation var object literal in

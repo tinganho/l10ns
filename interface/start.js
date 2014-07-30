@@ -1,5 +1,5 @@
 
-require('../binaries/gt');
+require('../binaries/l');
 
 var open = require('open');
 
