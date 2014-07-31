@@ -265,14 +265,15 @@ describe('File', function() {
       dependencies.fs.readFile
         .withArgs('storage-folder/locale1.locale', { encoding: 'utf-8' })
         .callsArgWith(2, null, '{ "key1": {}}\n{ "key2": {}}\n');
-
+      var file = new (proxyquire('../libraries/file', dependencies).File);
+      file.readLocalizationArray('storage-folder/locale1.locale');
       eventually(function() {
         deferred.resolve.should.have.been.calledOnce;
         deferred.resolve.should.have.been.calledWith([{ 'key1': {}}, {'key2': {}}]);
       });
     });
 
-    it('should reject if reading of an storage files sends an error', function() {
+    it('should reject if reading of a storage file sends an error', function(done) {
       var deferred = { reject: sinon.spy() };
       dependencies.q.defer = sinon.stub().returns(deferred);
       dependencies.fs.readFile = sinon.stub();
@@ -280,9 +281,51 @@ describe('File', function() {
         .withArgs('storage-folder/locale1.locale', { encoding: 'utf-8' })
         .callsArgWith(2, 'error');
 
+      var file = new (proxyquire('../libraries/file', dependencies).File);
+      file.readLocalizationArray('storage-folder/locale1.locale');
       eventually(function() {
         deferred.reject.should.have.been.calledOnce;
         deferred.reject.should.have.been.calledWith('error');
+        done();
+      });
+    });
+  });
+
+  describe('#readLocalizationMap()', function() {
+    it('should return a promise', function() {
+      var deferred = { promise: 'promise', reject: function() {} };
+      dependencies.q.defer = sinon.stub().returns(deferred);
+      var file = new (proxyquire('../libraries/file', dependencies).File);
+      file.readLocalizationArray = sinon.stub().returns(Q.reject());
+      expect(file.readLocalizationMap('storage-folder/locale1.locale')).to.equal('promise');
+    });
+
+    it('should transform localization array to a map', function(done) {
+      var deferred = { resolve: sinon.spy() };
+      dependencies.q.defer = sinon.stub().returns(deferred);
+      var file = new (proxyquire('../libraries/file', dependencies).File);
+      var localizations = [{ key: 'key1' }, { key: 'key2'}];
+      file.readLocalizationArray = sinon.stub()
+        .withArgs('storage-folder/locale1.locale')
+        .returns(Q.resolve(localizations));
+      file.readLocalizationMap('storage-folder/locale1.locale');
+      eventually(function() {
+        deferred.resolve.should.have.been.calledOnce;
+        deferred.resolve.should.have.been.calledWith({ 'key1': { key: 'key1' }, 'key2': { key: 'key2' }});
+        done();
+      });
+    });
+
+    it('should reject if reading of localization array rejects', function(done) {
+      var deferred = { reject: sinon.spy() };
+      dependencies.q.defer = sinon.stub().returns(deferred);
+      var file = new (proxyquire('../libraries/file', dependencies).File);
+      file.readLocalizationArray = sinon.stub().returns(Q.reject('error'));
+      file.readLocalizationMap('storage-folder/locale1.locale');
+      eventually(function() {
+        deferred.reject.should.have.been.calledOnce;
+        deferred.reject.should.have.been.calledWith('error');
+        done();
       });
     });
   });
