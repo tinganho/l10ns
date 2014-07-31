@@ -57,16 +57,16 @@ describe('File', function() {
     it('should return a promise', function() {
       pcf.store = 'storage-folder';
       dependencies.q.defer = sinon.stub().returns({ promise: 'promise' });
+      dependencies.fs.existsSync = sinon.stub().withArgs(pcf.store).returns(true);
       dependencies.fs.unlink = function() {};
       var file = new (proxyquire('../libraries/file', dependencies).File);
-      file.outputFolderExists = false;
+      file.outputFolderExists = true;
       expect(file.writeLocalization('localizations', 'en-US')).to.eql('promise');
     });
 
     it('should create a folder if a storage folder does not exists', function() {
       pcf.store = 'storage-folder';
       dependencies.mkdirp.sync = sinon.spy();
-      dependencies.fs.existsSync = sinon.stub().withArgs(pcf.store).returns(false);
       dependencies.fs.unlink = function() {};
       var file = new (proxyquire('../libraries/file', dependencies).File);
       file.outputFolderExists = false;
@@ -80,6 +80,7 @@ describe('File', function() {
       pcf.store = 'storage-folder';
       dependencies.q.defer = sinon.stub().returns({});
       dependencies.fs.unlink = sinon.stub();
+      dependencies.fs.existsSync = sinon.stub().withArgs(pcf.store).returns(true);
       var file = new (proxyquire('../libraries/file', dependencies).File);
       file.outputFolderExists = true;
       file.writeLocalization('localizations', 'en-US');
@@ -103,7 +104,7 @@ describe('File', function() {
       pcf.store = 'storage-folder';
       var deferred = { resolve: sinon.spy() };
       dependencies.q.defer = sinon.stub().returns(deferred);
-      dependencies.fs.existsSync = sinon.stub().withArgs(pcf.store).returns(false);
+      dependencies.fs.existsSync = sinon.stub().withArgs(pcf.store).returns(true);
       dependencies.fs.appendFile = sinon.stub();
       dependencies.fs.appendFile.callsArgWith(2, null);
       dependencies.fs.unlink = sinon.stub();
@@ -120,7 +121,7 @@ describe('File', function() {
       pcf.store = 'storage-folder';
       var deferred = { reject: sinon.spy() };
       dependencies.q.defer = sinon.stub().returns(deferred);
-      dependencies.fs.existsSync = sinon.stub().withArgs(pcf.store).returns(false);
+      dependencies.fs.existsSync = sinon.stub().withArgs(pcf.store).returns(true);
       dependencies.fs.appendFile = sinon.stub();
       dependencies.fs.appendFile.callsArgWith(2, 'error');
       dependencies.fs.unlink = sinon.stub();
