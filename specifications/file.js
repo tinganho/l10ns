@@ -212,7 +212,7 @@ describe('File', function() {
       });
     });
 
-    it('should reject if a locale is provided but there is not storage file for that locale', function(done) {
+    it('should reject if a locale is provided, but there is no storage file for that locale', function(done) {
       var deferred = { reject: sinon.spy() };
       dependencies.q.defer = sinon.stub().returns(deferred);
       dependencies.glob.sync = sinon.stub().withArgs(pcf.store + '/*.locale').returns(['locale1.locale', 'locale2.locale']);
@@ -327,6 +327,51 @@ describe('File', function() {
         deferred.reject.should.have.been.calledWith('error');
         done();
       });
+    });
+  });
+
+  describe('#readSearchLocalizations()', function() {
+    it('should return a promise', function() {
+      var deferred = { promise: 'promise' };
+      dependencies.q.defer = sinon.stub().returns(deferred);
+      dependencies.fs.readFile = function() {};
+      var file = new (proxyquire('../libraries/file', dependencies).File);
+      expect(file.readSearchLocalizations('storage-folder/locale1.locale')).to.equal('promise');
+    });
+
+    it('should json parse cache', function() {
+      pcf.searchFile = 'search-file';
+      var deferred = { resolve: sinon.spy() };
+      dependencies.q.defer = sinon.stub().returns(deferred);
+      dependencies.fs.readFile = sinon.stub();
+      dependencies.fs.readFile.withArgs(pcf.searchFile).callsArgWith(2, null, '{}');
+      var file = new (proxyquire('../libraries/file', dependencies).File);
+      file.readSearchLocalizations();
+      deferred.resolve.should.have.been.calledOnce;
+      deferred.resolve.should.have.been.calledWith({});
+    });
+
+    it('should reject if search file is not represent JSON', function() {
+      pcf.searchFile = 'search-file';
+      var deferred = { reject: sinon.spy() };
+      dependencies.q.defer = sinon.stub().returns(deferred);
+      dependencies.fs.readFile = sinon.stub();
+      dependencies.fs.readFile.withArgs(pcf.searchFile).callsArgWith(2, null, '{}error');
+      var file = new (proxyquire('../libraries/file', dependencies).File);
+      file.readSearchLocalizations();
+      deferred.reject.should.have.been.calledOnce;
+    });
+
+    it('should reject if reading file from storage sends an error', function() {
+      pcf.searchFile = 'search-file';
+      var deferred = { reject: sinon.spy() };
+      dependencies.q.defer = sinon.stub().returns(deferred);
+      dependencies.fs.readFile = sinon.stub();
+      dependencies.fs.readFile.withArgs(pcf.searchFile).callsArgWith(2, 'error');
+      var file = new (proxyquire('../libraries/file', dependencies).File);
+      file.readSearchLocalizations();
+      deferred.reject.should.have.been.calledOnce;
+      deferred.reject.should.have.been.calledWith('error');
     });
   });
 });
