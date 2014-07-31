@@ -181,6 +181,7 @@ File.prototype.readLocalizations = function(locale) {
         if(rejected) {
           return;
         }
+
         deferred.reject(error);
         rejected = true;
       });
@@ -190,14 +191,12 @@ File.prototype.readLocalizations = function(locale) {
 };
 
 /**
- * We are haveing a different format in our localization files. We need to format
- * them into JSON object. So we just append commas in each object and wrap the file
- * content in hard brackets to create a JSON array of translation
+ * Read localization as an array from storage.
  *
  * @param {String} file
- * @return {Array} translations
+ * @return {Promise}
+ * @resolves
  *
- *   Example:
  *   [
  *     {
  *       key: 'key1',
@@ -228,15 +227,20 @@ File.prototype.readLocalizationArray = function(file) {
 };
 
 /**
- * Get locallization map.
+ * Read localization map from storage.
  *
  * @param {String} file
- * @return {Object} translations
+ * @return {Promise}
+ * @resolves
  *
- *   Example:
  *   {
- *     'TRANSLATION_KEY'
- *      ...
+ *     'key1': {
+ *       key: 'key1',
+ *       values: [],
+ *       timestamp: 827387234324,
+ *       ...
+ *     },
+ *     ...
  *   }
  *
  * @api public
@@ -246,11 +250,10 @@ File.prototype.readLocalizationMap = function(file) {
   var deferred = Q.defer(), result = {};
 
   this.readLocalizationArray(file)
-    .then(function(localizations) {
+    .then(function(localizations) {
       for(var index in localizations) {
         result[localizations[index].key] = localizations[index];
       }
-
       deferred.resolve(result);
     })
     .fail(function(error) {
@@ -261,7 +264,7 @@ File.prototype.readLocalizationMap = function(file) {
 };
 
 /**
- * Read latest search translations saved on disk
+ * Read latest search translations saved on disk.
  *
  * @return {Promise}
  * @api public
