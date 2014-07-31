@@ -1,0 +1,268 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies
+ */
+
+var program = require('commander')
+  , findup = require('findup-sync')
+  , path = require('path')
+  , open = require('open')
+  , pjson = require('../package.json')
+  , _ = require('underscore')
+  , glob = require('glob')
+  , pcf = require('../configurations/program')
+  , log = require('../libraries/_log')
+  , fs = require('fs')
+  , utilities = require('../libraries/utilities');
+
+/**
+ * Project paths
+ */
+
+var gtPath = findup('l10ns.json')
+  , projectConfigurations
+  , _projectConfigurations
+  , root
+  , cf;
+
+if(typeof process.argv[2] === 'undefined') {
+  process.argv[2] = '--help';
+}
+
+var processRequest = (process.argv.length >= 2 && process.argv[2] !== 'init' && process.argv[2] !== '--help' &&  process.argv[2] !== '-h');
+
+if(processRequest && !gtPath) {
+  console.log('You are not inside a gt project. Please create one with `gt init`.');
+  return;
+}
+
+if(gtPath) {
+  root = path.dirname(gtPath);
+  projectConfigurations = require(gtPath);
+}
+else {
+  root = process.cwd();
+  projectConfigurations = {};
+}
+
+
+/**
+ * Copy for use in showing configs
+ */
+
+_projectConfigurations = _.clone(projectConfigurations);
+
+/**
+ * Add terminal colors
+ */
+
+require('terminal-colors');
+
+/**
+ * Set default configs
+ */
+
+var defaultConfigurations = {
+  folder: pcf.DEFAULT_FOLDER,
+  requirejs: pcf.DEFAULT_REQUIREJS,
+  translationFunction: pcf.DEFAULT_TRANSLATION_FUNCTION,
+  port: pcf.DEFAULT_PORT,
+  autoOpen: pcf.DEFAULT_AUTO_OPEN,
+  root: root,
+  storageFolder: root + '/.gt',
+  searchFile: root + '/.gt/search.json'
+};
+// Merge with programm configs
+defaultConfigurations = _.extend(defaultConfigurations, pcf);
+pcf = _.defaults(projectConfigurations, defaultConfigurations);
+
+if(typeof pcf.interface !== 'undefined' && typeof pcf.interface.port === 'number') {
+  pcf.port = pcf.interface.port;
+}
+if(typeof pcf.interface !== 'undefined' && typeof pcf.interface.autoOpen === 'boolean') {
+  pcf.autoOpen = pcf.interface.autoOpen;
+}
+
+/**
+ * Set short-cuts configs
+ */
+
+pcf.localesFolder = path.join(pcf.root, pcf.folder, pcf.LOCALES_FOLDER);
+pcf.deleteLog = pcf.folder + pcf.DELETE_LOG_FILE;
+pcf.programmingLanguage = pcf.programmingLanguage || pcf.DEFAULT_PROGAMMING_LANGUAGE;
+if(typeof pcf.output === 'undefined') {
+  pcf.output = path.join(pcf.folder, pcf.DEFAULT_OUTPUT);
+}
+else {
+  pcf.output = path.join(pcf.root, pcf.output);
+}
+if(!/^\//.test(pcf.store)) {
+  pcf.store = path.join(pcf.root, pcf.store);
+}
+lcf = require('../plugins/' + pcf.programmingLanguage + '/parseConfigs');
+if(typeof lcf.quiet === 'undefined') {
+  lcf.quiet = pcf.DEFAULT_QUIET;
+}
+
+if(!fs.existsSync(pcf.storageFolder)) {
+  fs.mkdirSync(pcf.storageFolder);
+}
+
+/**
+ * Get all source files.
+ */
+
+var src = [], _files, adds, removes;
+
+/**
+ * Check if source is defined
+ */
+
+if(processRequest) {
+  if(!pcf.src) {
+    console.log('You must define your source files using a glob pattern in your l10ns.json file.')
+    return;
+  }
+
+  for(var i = 0; i < pcf.src.length; i++) {
+    if(pcf.src[i].substr(0, 1) !== '!') {
+      adds = glob.sync(pcf.src[i], { cwd: root });
+      src = src.concat(adds);
+    } else {
+      removes = glob.sync(pcf.src[i], { cwd: root });
+      src = src.filter(function(file) {
+        return removes.indexOf(file) === -1;
+      });
+    }
+  }
+  if(!src.length) {
+    console.log('No files found. \n(Have you updated your l10ns.json to include your source file and ran `gt update` yet?)');
+    return;
+  }
+  pcf.src = src;
+}
+
+
+/**
+ * Global configurations
+ */
+
+global.pcf = pcf;
+
+/**
+ * Languague configurations
+ */
+
+global.lcf = lcf;
+
+/**
+ * Set from binary to true. To indicate that the binary have been run
+ */
+
+global.fromBinary = true;
+
+
+
+var gt = require('../libraries');
+
+program
+  .version(pjson.version)
+  .option('-l, --locale <locale>', 'specify locale', String, pcf.defaultLocale)
+  .option('-p, --port <port>', 'specify port for interface', Number, pcf.port)
+  .option('-o, --open', 'open interface in browser')
+  .option('--no-values', 'show only non translated keys', Boolean, false)
+
+program
+  .command('init')
+  .description('Initialize a new GetTranslation project')
+  .action(function() {
+    gt.init();
+  });
+
+program
+  .command('interface')
+  .description('Starts the translation interface')
+  .action(function() {
+    if(!utilities.initiatedProject()) {
+      return console.log('You haven\'t initialized a project yet');
+    }
+    pcf.port = program.port || pcf.interface.port;
+    pcf.autoOpen = program.open || pcf.interface.autoOpen
+    require('../interface/start');
+  });
+
+program
+  .command('search [q]')
+  .description('Search translation keys and values')
+  .action(function(q) {
+    if(!utilities.initiatedProject()) {
+      return console.log('You haven\'t initialized a project yet');
+    }
+    if(typeof q === 'undefined') {
+      log.error('You need to provide a query in your search. E.g. gt search "some query"');
+      return false;
+    }
+    gt.search(q);
+  });
+
+program
+  .command('log')
+  .description('Show translation log')
+  .action(function() {
+    if(!utilities.initiatedProject()) {
+      return console.log('You haven\'t initialized a project yet');
+    }
+    if(program.values) {//no-values option
+      gt.log(this.locale, 'regular');
+    }
+    else {
+      gt.log(this.locale, 'no-values');
+    }
+  });
+
+program
+  .command('update')
+  .description('Update translation keys from source')
+  .action(function() {
+    if(!utilities.initiatedProject()) {
+      return console.log('You haven\'t initialized a project yet.');
+    }
+    gt.update();
+  });
+
+program
+  .command('compile')
+  .description('Compile transations')
+  .action(function() {
+    if(!utilities.initiatedProject()) {
+      return console.log('You haven\'t initialized a project yet.');
+    }
+    gt.compile();
+  });
+
+program
+  .command('set [reference] [value]')
+  .description('Edit a translation')
+  .action(function(reference, value) {
+    if(!utilities.initiatedProject()) {
+      return console.log('You haven\'t initialized a project yet.');
+    }
+    gt.edit(reference, value, this.locale);
+  });
+
+program
+  .command('configs')
+  .description('Show configurations')
+  .action(function() {
+    if(!utilities.initiatedProject()) {
+      return console.log('You haven\'t initialized a project yet.');
+    }
+    console.log(_projectConfigurations);
+  });
+
+if(process.argv.length >= 3 && ['init', 'interface', 'search', 'log', 'update', 'compile', 'set', 'configs'].indexOf(process.argv[2]) === -1) {
+  process.argv[2] = '--help';
+}
+
+program.parse(process.argv);
