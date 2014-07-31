@@ -200,7 +200,10 @@ File.prototype.readLocalizations = function(locale) {
  *   Example:
  *   [
  *     {
- *      ...
+ *       key: 'key1',
+ *       values: [],
+ *       timestamp: 38734782834,
+ *       ...
  *     },
  *     ...
  *   ]
