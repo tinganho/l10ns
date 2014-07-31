@@ -147,7 +147,8 @@ File.prototype.readLocalizations = function(locale) {
     , files = glob.sync(pcf.store + '/*.locale')
     , localizations = {}
     , count = 0
-    , endCount = files.length - 1;
+    , endCount = files.length
+    , rejected = false;
 
   if(files.length === 0) {
     _.defer(function() {
@@ -156,19 +157,32 @@ File.prototype.readLocalizations = function(locale) {
   }
 
   files.forEach(function(file) {
-    _this.readLocalizationMap(file) 
+    _this.readLocalizationMap(file)
       .then(function(_localizations) {
+        if(rejected) {
+          return;
+        }
+
         localizations[path.basename(file, '.locale')] = _localizations;
         count++;
         if(count === endCount) {
           if(locale) {
+            if(typeof localizations[locale] === 'undefined') {
+              rejected = true;
+              return deferred.reject(
+                new TypeError('The file ' + locale + '.locale does not exists.'));
+            }
             return deferred.resolve(localizations[locale]);
           }
           return deferred.resolve(localizations);
         }
       })
       .fail(function(error) {
+        if(rejected) {
+          return;
+        }
         deferred.reject(error);
+        rejected = true;
       });
   });
 

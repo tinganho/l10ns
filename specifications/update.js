@@ -31,7 +31,7 @@ describe('Update', function() {
       expect(update.migratedKeys).to.eql([]);
     });
 
-    it('should set this.rl', function() {
+    it('should set this.rl to null', function() {
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       expect(update.rl).to.eql(null);
     });
