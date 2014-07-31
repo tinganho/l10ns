@@ -14,7 +14,7 @@ describe('File', function() {
       expect(file.linefeed).to.eql('\n');
     });
 
-    it('should set this.outputFolderExists to \\n', function() {
+    it('should set this.outputFolderExists to true', function() {
       var file = new (proxyquire('../libraries/file', dependencies).File);
       expect(file.outputFolderExists).to.be.true;
     });
@@ -87,7 +87,7 @@ describe('File', function() {
       dependencies.fs.unlink.should.have.been.calledWith(pcf.store + '/en-US.locale');
     });
 
-    it('if unlinking returns an error(no ENOENT) it should reject', function() {
+    it('if unlinking returns an error(none ENOENT) it should reject', function() {
       pcf.store = 'storage-folder';
       var deferred = { reject: sinon.spy() };
       dependencies.q.defer = sinon.stub().returns(deferred);
@@ -130,6 +130,24 @@ describe('File', function() {
       file.writeLocalization(localizations, 'en-US');
       deferred.reject.should.have.been.calledOnce;
       deferred.reject.should.have.been.calledWith('error');
+    });
+  });
+
+  describe('#localizationMaptoArray()', function() {
+    it('should sort after timestamp and return an array', function() {
+      pcf.locales = { 'en-US': 'English (US)' };
+      var file = new (proxyquire('../libraries/file', dependencies).File);
+      var localizations = { 'en-US': [{ key: 'key1', timestamp: 1 }, { key: 'key2', timestamp: 2 }] };
+      expect(file.localizationMaptoArray(localizations)).to.eql(
+        { 'en-US': [{ key: 'key2', timestamp: 2 }, { key: 'key1', timestamp: 1 }]});
+    });
+
+    it('should sort after translation key if timestamp is the same and return an array', function() {
+      pcf.locales = { 'en-US': 'English (US)' };
+      var file = new (proxyquire('../libraries/file', dependencies).File);
+      var localizations = { 'en-US': [{ key: 'key1', timestamp: 2 }, { key: 'key2', timestamp: 2 }] };
+      expect(file.localizationMaptoArray(localizations)).to.eql(
+        { 'en-US': [{ key: 'key1', timestamp: 2 }, { key: 'key2', timestamp: 2 }]});
     });
   });
 });
