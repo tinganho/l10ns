@@ -165,4 +165,16 @@ describe('Init', function() {
       dependencies.readline.createInterface.should.have.been.calledOnce;
     });
   });
+
+  describe('#_outputIntroduction()', function() {
+    it('should write introduction to output', function() {
+      pcf.INIT_INTRODUCTION = 'introduction';
+      var stdoutWrite = sinon.stub(process.stdout, 'write');
+      var init = new (proxyquire('../libraries/init', dependencies).Init);
+      init._outputIntroduction();
+      stdoutWrite.should.have.been.calledOnce;
+      stdoutWrite.should.have.been.calledWith(pcf.INIT_INTRODUCTION);
+      stdoutWrite.restore();
+    });
+  });
 });

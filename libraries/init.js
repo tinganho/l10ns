@@ -13,7 +13,6 @@ var readline = require('readline')
 function Init() {
   this.rl = null;
   this.json = pcf.DEFAULT_CONFIGURATIONS;
-  this.initIntro = pcf.INIT_INTRO;
   this.localesSyntax = pcf.LOCALES_SYNTAX;
   this.localesWrongAnswer = pcf.LOCALES_WRONG_ANSWER;
   this.localesDescription = pcf.LOCALES_DESCRIPTION;
@@ -93,7 +92,7 @@ Init.prototype._createReadlineInterface = function() {
  */
 
 Init.prototype._outputIntroduction = function() {
-  process.stdout.write(this.initIntro);
+  process.stdout.write(pcf.INIT_INTRODUCTION);
 };
 
 /**

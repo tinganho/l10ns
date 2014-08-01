@@ -54,7 +54,7 @@ module.exports = {
 
   OPERATORS: ['<', '<=', '==', '===', '>', '>=', 'lni'],
 
-  INIT_INTRO:
+  INIT_INTRODUCTION:
   'This utility will walk you through creating a get-transltion project.\n' +
   'It only covers the most common items, and tries to guess sane defaults.\n' +
   '\n' +
