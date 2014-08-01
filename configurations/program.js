@@ -88,7 +88,7 @@ module.exports = {
     'javascript': []
   },
 
-  DEFAULT_CONFIGS: {
+  DEFAULT_CONFIGURATIONS: {
     interface: {
       autoOpen: true,
       port: 3001
