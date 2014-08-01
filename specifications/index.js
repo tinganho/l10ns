@@ -39,3 +39,4 @@ global.pcf = {};
 
 require('./update');
 require('./file');
+require('./init');

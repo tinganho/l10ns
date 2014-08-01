@@ -12,7 +12,7 @@ var readline = require('readline')
 
 function Init() {
   this.rl = null;
-  this.json = pcf.DEFAULT_CONFIGS;
+  this.json = pcf.DEFAULT_CONFIGURATIONS;
   this.initIntro = pcf.INIT_INTRO;
   this.localesSyntax = pcf.LOCALES_SYNTAX;
   this.localesWrongAnswer = pcf.LOCALES_WRONG_ANSWER;
@@ -52,7 +52,7 @@ Init.prototype.init = function() {
   })
   .then(function(locale) {
     _this.json.defaultLocale = locale;
-    return _this._getDefaultProgrammingLanguage();
+    return _this._getProgrammingLanguage();
   })
   .then(function(programmingLanguage) {
     _this.json.programmingLanguage = programmingLanguage;
@@ -192,7 +192,7 @@ Init.prototype._getDefaultLocale = function(locales) {
  * @api private
  */
 
-Init.prototype._getDefaultProgrammingLanguage = function() {
+Init.prototype._getProgrammingLanguage = function() {
   var _this = this;
 
   var deferred = Q.defer(), answeredWrong = false
@@ -301,9 +301,7 @@ Init.prototype._setDefaultSrc = function() {
 Init.prototype._writeProject = function() {
   var cwd = process.cwd()
     , file = cwd + '/l10ns.json'
-    , folder = cwd + '/.gt';
-
-  console.log(this.json);
+    , folder = cwd + '/.l10ns';
 
   if(!fs.existsSync(file)) {
     fs.writeFileSync(file, JSON.stringify(this.json, null, 2));
