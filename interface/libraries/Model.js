@@ -10,14 +10,14 @@ define(function(require) {
     Backbone = require('backbone');
   }
   else if(inServer) {
-    Backbone = require('backbone-relational');
+    Backbone = require('backbone');
+    require('backbone-relational');
     // We override `Backbone.Relational.store.checkId`, because
     // we don't need to check the id of a model in the server.
     // `Backbone.Relational.store.checkId` also throws an error
     // on the server, because the `Page` object sets the same id
     // on the same page request. So when a user request the same
     // page twice an error will be thrown.
-    Backbone.Relational.store.checkId = function(model, id) {};
   }
 
   /**

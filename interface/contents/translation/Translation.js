@@ -8,8 +8,8 @@ if(inServer) {
 
 define(function(require) {
   var Backbone
-    , Model = inServer ? require('../../libraries/Model') : require('Model')
-    , Collection = inServer ? require('../../libraries/Collection') : require('Collection')
+    , Model = inServer ? require('../../libraries/Model'): require('Model')
+    , Collection = inServer ? require('../../libraries/Collection'): require('Collection')
     , _ = require('underscore')
     , Condition = require('./Condition')
     , Input = require('./Input')
@@ -24,13 +24,13 @@ define(function(require) {
   }
 
   var Conditions = Collection.extend({
-    model : Condition,
-    comparator : 'row'
+    model: Condition,
+    comparator: 'row'
   });
 
   var Inputs = Collection.extend({
-    model : Input,
-    comparator : 'row'
+    model: Input,
+    comparator: 'row'
   });
 
   var Constructor = Model.extend({
@@ -41,7 +41,7 @@ define(function(require) {
      * @type {Object}
      */
 
-    relations : [{
+    relations: [{
       type: 'HasMany',
       key: 'conditions',
       relatedModel: Condition,
@@ -56,7 +56,7 @@ define(function(require) {
       key: 'else',
       relatedModel: Else,
       reverseRelation: {
-        key: 'parent', // Bug can't set `translation`
+        key: 'translation',
         includeInJSON: 'id'
       }
     },
@@ -79,12 +79,12 @@ define(function(require) {
      * @api private
      */
 
-    _parseValues : function(values, vars) {
+    _parseValues: function(values, vars) {
       if(values.length <= 1) {
         return new Input({
-          value : values.length ? values[0] : '',
-          row : 0,
-          translation : this
+          value: values.length ? values[0]: '',
+          row: 0,
+          translation: this
         });
       }
       var row = 0;
@@ -93,15 +93,15 @@ define(function(require) {
           var y = 0;
           while(typeof values[i][y] !== 'undefined') {
             new Condition({
-              statement : values[i][y],
-              firstOperand : values[i][y + 1],
-              operator : values[i][y + 2],
-              operators : cf.OPERATORS,
-              lastOperand : values[i][y + 3],
-              additionalCompairOperators : cf.ADDITIONAL_COMPAIR_OPERATORS,
-              vars : vars,
-              row : row,
-              translation : this
+              statement: values[i][y],
+              firstOperand: values[i][y + 1],
+              operator: values[i][y + 2],
+              operators: cf.OPERATORS,
+              lastOperand: values[i][y + 3],
+              additionalCompairOperators: cf.ADDITIONAL_COMPAIR_OPERATORS,
+              vars: vars,
+              row: row,
+              translation: this
             });
 
             row++;
@@ -115,9 +115,9 @@ define(function(require) {
 
             // Initialize input
             new Input({
-              value : values[i][y + 4],
-              row : row,
-              translation : this
+              value: values[i][y + 4],
+              row: row,
+              translation: this
             });
 
             y += 5;
@@ -127,14 +127,14 @@ define(function(require) {
         }
         else {
           new Else({
-            row : row,
-            parent : this
+            row: row,
+            translation: this
           });
 
           new Input({
-            value : values[i][1],
-            row : row + 1,
-            translation : this
+            value: values[i][1],
+            row: row + 1,
+            translation: this
           });
         }
       }
@@ -148,7 +148,7 @@ define(function(require) {
      * @api private
      */
 
-    _parse : function(json) {
+    _parse: function(json) {
       this._parseValues(json.values, json.vars);
 
       // Delete relations while parsing. Otherwise it will
@@ -170,20 +170,20 @@ define(function(require) {
      * @type {Object}
      */
 
-    defaults : {
-      key : null,
-      values : [],
-      vars : [],
-      text : '',
-      timestamp : null,
-      _new : false,
+    defaults: {
+      key: null,
+      values: [],
+      vars: [],
+      text: '',
+      timestamp: null,
+      _new: false,
 
-      i18n_variables : 'VARIABLES',
-      i18n_translation : 'TRANSLATION',
-      i18n_none : 'None',
-      i18n_save : 'Save',
-      i18n_addCondition : 'Add condition',
-      variables : null
+      i18n_variables: 'VARIABLES',
+      i18n_translation: 'TRANSLATION',
+      i18n_none: 'None',
+      i18n_save: 'Save',
+      i18n_addCondition: 'Add condition',
+      variables: null
     },
 
     /**
@@ -192,7 +192,7 @@ define(function(require) {
      * @delegate
      */
 
-    sync : function(method, model, options, req) {
+    sync: function(method, model, options, req) {
       var _this = this, id;
 
       if(inClient) {
@@ -201,8 +201,8 @@ define(function(require) {
 
       if(method === 'read') {
         if(inServer) {
-          var translations = file.readTranslations(req.param('locale'), { returnType : 'array' });
-          var translation = _.findWhere(translations, { id : req.param('id') });
+          var translations = file.readTranslations(req.param('locale'), { returnType: 'array' });
+          var translation = _.findWhere(translations, { id: req.param('id') });
           this._parse(translation);
           this.setPageTitle(translation.key);
           this.setPageDescription('Edit: ' + translation.key);
@@ -262,7 +262,7 @@ define(function(require) {
      * @delegate
      */
 
-    onHistoryChange : function(path) {
+    onHistoryChange: function(path) {
       if(/^[a-z]{2}\-[A-Z]{2}\/t\//.test(path)) {
         this.setMeta('revealed', true);
         this.setPageTitle('Translations')
@@ -282,7 +282,7 @@ define(function(require) {
      * @override
      */
 
-    toGTStandardJSON : function() {
+    toGTStandardJSON: function() {
       var json = Model.prototype.toJSON.call(this);
 
       // First step: We store an array representation of the objects.

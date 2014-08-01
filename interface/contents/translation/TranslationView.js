@@ -4,11 +4,11 @@ if(typeof define !== 'function') {
 }
 
 define(function(require) {
-  var View = inServer ? require('../../libraries/View') : require('View')
+  var View = inServer ? require('../../libraries/View'): require('View')
     , ConditionView = require('./ConditionView')
     , InputView = require('./InputView')
     , ElseView = require('./ElseView')
-    , template = inServer ? content_appTemplates : require('contentTemplates')
+    , template = inServer ? content_appTemplates: require('contentTemplates')
     , _ = require('underscore');
 
   if(inClient) {
@@ -193,7 +193,7 @@ define(function(require) {
         if(!hasSubsequentCondition) {
           inputs.some(function(input, index) {
             if(input.get('row') === row - 1) {
-              if(inputs.where({ row : row + 1}).length) {
+              if(inputs.where({ row: row + 1}).length) {
                 _this._removeConditionAndInput(condition);
                 return true;
               }
@@ -305,7 +305,7 @@ define(function(require) {
         , conditions = this.model.get('conditions').sort()
         , removedElements = 1;
 
-      if(!conditions.where({ row : 1 }).length) {
+      if(!conditions.where({ row: 1 }).length) {
         this._inputViews[0].model.destroy();
         this._inputViews[0].remove();
         this._inputViews.splice(0, 1);
@@ -525,15 +525,15 @@ define(function(require) {
         .addClass('invisible');
 
       var data = {
-        statement : row === 0 ? 'if' : 'else if',
-        firstOperand : 'value1',
-        operator : '==',
-        lastOperand : 'value2',
-        vars : this.model.get('vars'),
-        operators : cf.OPERATORS,
-        additionalCompairOperators : cf.ADDITIONAL_COMPAIR_OPERATORS,
-        row : row,
-        translation : this.model
+        statement: row === 0 ? 'if': 'else if',
+        firstOperand: 'value1',
+        operator: '==',
+        lastOperand: 'value2',
+        vars: this.model.get('vars'),
+        operators: cf.OPERATORS,
+        additionalCompairOperators: cf.ADDITIONAL_COMPAIR_OPERATORS,
+        row: row,
+        translation: this.model
       };
 
       new this.model.Condition(data);
@@ -541,13 +541,13 @@ define(function(require) {
       if(_else) {
         _.defer(function() {
           _else.set('row', elseRow);
-          new _this.model.Input({ value : '', row : inputRow, translation : _this.model});
+          new _this.model.Input({ value: '', row: inputRow, translation: _this.model});
         });
       }
       else {
         _.defer(function() {
-          new _this.model.Else({ row : 2, parent : _this.model });
-          var input = new _this.model.Input({ value : '', row : 3, translation : _this.model});
+          new _this.model.Else({ row: 2, translation: _this.model });
+          var input = new _this.model.Input({ value: '', row: 3, translation: _this.model});
         });
       }
 

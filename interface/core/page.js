@@ -7,12 +7,16 @@ var _ = require('underscore')
   , fs = require('fs')
   , path = require('path')
   , _Model = requirejs('libraries/Model')
+  , Backbone = require('backbone')
   , _Collection = requirejs('libraries/Collection')
   , glob = require('glob')
   , isArray = require('../libraries/isArray')
   , importNames = []
   , imports = []
   , pages = [];
+
+
+require('backbone-relational');
 
 /**
  * Add terminal colors
@@ -148,6 +152,8 @@ Page.prototype._getRegions = function(callback, req) {
     if(!Model.prototype.fetch) {
       throw new TypeError(this.regions[name].model + ' is not an instance of Model or Collection');
     }
+
+    Backbone.Relational.store.reset();
 
     var model = new Model
       , view = new View(model);

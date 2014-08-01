@@ -10,8 +10,8 @@ define(function(require) {
     Backbone = require('backbone');
   }
   else if(inServer) {
-    Backbone = require('backbone-relational');
-    Backbone.Relational.store.checkId = function(model, id) {};
+    require('backbone-relational');
+    Backbone = require('backbone');
   }
 
   /**
