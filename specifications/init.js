@@ -177,4 +177,13 @@ describe('Init', function() {
       stdoutWrite.restore();
     });
   });
+
+  describe('#_getLocales()', function() {
+    it('should return a promise', function() {
+      dependencies.q.defer = sinon.stub().returns({ promise: 'promise' });
+      var init = new (proxyquire('../libraries/init', dependencies).Init);
+      init.rl =  { question: function() {} };
+      expect(init._getLocales()).to.equal('promise');
+    });
+  });
 });

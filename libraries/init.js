@@ -14,10 +14,6 @@ function Init() {
   this.rl = null;
   this.json = pcf.DEFAULT_CONFIGURATIONS;
   this.localesSyntax = pcf.LOCALES_SYNTAX;
-  this.localesWrongAnswer = pcf.LOCALES_WRONG_ANSWER;
-  this.localesDescription = pcf.LOCALES_DESCRIPTION;
-  this.defaultLocaleCode = pcf.DEFAULT_LOCALE_CODE;
-  this.defaultLocaleName = pcf.DEFAULT_LOCALE_NAME;
   this.defaultLocaleQuestion = pcf.DEFAULT_LOCALE_QUESTION;
   this.defaultLocaleWrongAnswer = pcf.DEFAULT_LOCALE_WRONG_ANSWER;
   this.programmingLanguages = pcf.PROGRAMMING_LANGUAGUES;
@@ -106,9 +102,9 @@ Init.prototype._getLocales = function() {
   var deferred = Q.defer();
   var _this = this;
   var question =
-  this.localesDescription + 'locales: (' +
-  this.defaultLocaleCode + ':' + this.defaultLocaleName + ') ';
-  var wrongAnswer = _this.localesWrongAnswer + question;
+  pcf.LOCALES_DESCRIPTION + 'locales: (' +
+  pcf.DEFAULT_LOCALE_CODE + ':' + pcf.DEFAULT_LOCALE_NAME; + ') ';
+  var wrongAnswer = pcf.LOCALES_WRONG_ANSWER + question;
   var answeredWrong = false;
   (function ask() {
     if(answeredWrong) {
