@@ -187,8 +187,14 @@ Init.prototype._getDefaultLocale = function(locales) {
  */
 
 Init.prototype._getProgrammingLanguage = function() {
+<<<<<<< HEAD
   var _this = this
     , deferred = Q.defer(), answeredWrong = false
+=======
+  var _this = this;
+
+  var deferred = Q.defer(), answeredWrong = false
+>>>>>>> fb4c4c06a9f9a5bd936afb295ad7b491e0b13cc0
     , question = this.chooseProgrammingLanguagePrompt
     , options = '[', optionsEndWrap = '] '
     , n = 1;
