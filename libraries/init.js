@@ -13,8 +13,6 @@ var readline = require('readline')
 function Init() {
   this.rl = null;
   this.json = pcf.DEFAULT_CONFIGURATIONS;
-  this.defaultLocaleQuestion = pcf.DEFAULT_LOCALE_QUESTION;
-  this.defaultLocaleWrongAnswer = pcf.DEFAULT_LOCALE_WRONG_ANSWER;
   this.programmingLanguages = pcf.PROGRAMMING_LANGUAGUES;
   this.chooseProgrammingLanguagePrompt = pcf.CHOOSE_PROGRAMMING_LANGUAGE_PROMPT;
   this.chooseProgrammingLanguageWrongAnswer = pcf.CHOOSE_PROGRAMMING_LANGUAGE_WRONG_ANSWER;
@@ -140,7 +138,8 @@ Init.prototype._getLocales = function() {
  */
 
 Init.prototype._getDefaultLocale = function(locales) {
-  var deferred = Q.defer()
+  var  _this = this
+    , deferred = Q.defer()
     , codes = Object.keys(locales)
     , size = codes.length;
 
@@ -149,16 +148,20 @@ Init.prototype._getDefaultLocale = function(locales) {
     return deferred.promise;
   }
 
-  var options = '[', optionsEndWrap = '] ', answeredWrong = false
-    , question = this.defaultLocaleQuestion, n = 1, _this = this;
+  var options = '[', optionsEndWrap = '] '
+    , answeredWrong = false
+    , question = pcf.DEFAULT_LOCALE_QUESTION
+    , n = 1;
+
   for(var code in locales) {
     question += ('[' + n + ']').lightBlue + ' - ' + locales[code] + '\n';
     options += n + ',';
     n++;
   }
+
   options = options.slice(0, -1) + optionsEndWrap;
   question = question.slice(0, -1) + '\n' + options.lightBlue;
-  var wrongAnswer = this.defaultLocaleWrongAnswer + question;
+  var wrongAnswer = pcf.DEFAULT_LOCALE_WRONG_ANSWER + question;
   (function ask() {
     if(answeredWrong) {
       question = wrongAnswer;

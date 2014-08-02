@@ -216,7 +216,7 @@ describe('Init', function() {
       deferred.resolve.should.have.been.calledOnce;
     });
 
-    it('should resolve to a syntax wrong-free option', function() {
+    it('should resolve to a syntax wrong-free locale(single) option', function() {
       var deferred = { resolve: sinon.spy() };
       dependencies.q.defer = sinon.stub().returns(deferred);
       var init = new (proxyquire('../libraries/init', dependencies).Init);
@@ -227,6 +227,19 @@ describe('Init', function() {
       init._getLocales();
       deferred.resolve.should.have.been.calledOnce;
       deferred.resolve.should.have.been.calledWith({ 'en-US': 'English (US)' });
+    });
+
+    it('should resolve to a syntax wrong-free locales(multiple) option', function() {
+      var deferred = { resolve: sinon.spy() };
+      dependencies.q.defer = sinon.stub().returns(deferred);
+      var init = new (proxyquire('../libraries/init', dependencies).Init);
+      pcf.LOCALES_SYNTAX = { test: sinon.stub().returns(true) };
+      init.rl = {};
+      init.rl.question = sinon.stub()
+      init.rl.question.onCall(0).callsArgWith(1, 'en-US:English (US),zh-CN:Chinese');
+      init._getLocales();
+      deferred.resolve.should.have.been.calledOnce;
+      deferred.resolve.should.have.been.calledWith({ 'en-US': 'English (US)', 'zh-CN':'Chinese' });
     });
   });
 });
