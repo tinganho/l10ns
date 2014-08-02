@@ -13,7 +13,6 @@ var readline = require('readline')
 function Init() {
   this.rl = null;
   this.json = pcf.DEFAULT_CONFIGURATIONS;
-  this.localesSyntax = pcf.LOCALES_SYNTAX;
   this.defaultLocaleQuestion = pcf.DEFAULT_LOCALE_QUESTION;
   this.defaultLocaleWrongAnswer = pcf.DEFAULT_LOCALE_WRONG_ANSWER;
   this.programmingLanguages = pcf.PROGRAMMING_LANGUAGUES;
@@ -99,33 +98,33 @@ Init.prototype._outputIntroduction = function() {
  */
 
 Init.prototype._getLocales = function() {
-  var deferred = Q.defer();
-  var _this = this;
-  var question =
-  pcf.LOCALES_DESCRIPTION + 'locales: (' +
-  pcf.DEFAULT_LOCALE_CODE + ':' + pcf.DEFAULT_LOCALE_NAME; + ') ';
-  var wrongAnswer = pcf.LOCALES_WRONG_ANSWER + question;
-  var answeredWrong = false;
+  var _this = this
+    , deferred = Q.defer()
+    , question = pcf.LOCALES_DESCRIPTION + 'locales: (' +
+      pcf.DEFAULT_LOCALE_CODE + ':' + pcf.DEFAULT_LOCALE_NAME + ') '
+    , wrongAnswer = pcf.LOCALES_WRONG_ANSWER + question
+    , answeredWrong = false;
+
   (function ask() {
     if(answeredWrong) {
       question = wrongAnswer;
     }
     _this.rl.question(question, function(locales) {
-      var res = {};
+      var result = {};
       if(locales === '') {
-        res[_this.defaultLocaleCode] = _this.defaultLocaleName;
-        return deferred.resolve(res);
+        result[pcf.DEFAULT_LOCALE_CODE] = pcf.DEFAULT_LOCALE_NAME;
+        return deferred.resolve(result);
       }
-      if(!_this.localesSyntax.test(locales)) {
+      if(!pcf.LOCALES_SYNTAX.test(locales)) {
         answeredWrong = true;
         return ask();
       }
       locales.split(',').forEach(function(locale) {
         locale = locale.split(':');
-        res[locale[0]] = locale[1];
+        result[locale[0]] = locale[1];
       });
 
-      deferred.resolve(res);
+      deferred.resolve(result);
     });
   })();
 
@@ -188,9 +187,8 @@ Init.prototype._getDefaultLocale = function(locales) {
  */
 
 Init.prototype._getProgrammingLanguage = function() {
-  var _this = this;
-
-  var deferred = Q.defer(), answeredWrong = false
+  var _this = this
+    , deferred = Q.defer(), answeredWrong = false
     , question = this.chooseProgrammingLanguagePrompt
     , options = '[', optionsEndWrap = '] '
     , n = 1;
@@ -232,9 +230,8 @@ Init.prototype._getProgrammingLanguage = function() {
  */
 
 Init.prototype._getStorageFolder = function() {
-  var _this = this;
-
-  var deferred = Q.defer()
+  var _this = this
+    , deferred = Q.defer()
     , defaultOutput, question
     , answeredWrong = false;
 

@@ -6,8 +6,8 @@
 var _ = require('underscore')
   , fs = require('fs')
   , path = require('path')
-  , _Model = requirejs('libraries/Model')
   , Backbone = require('backbone')
+  , _Model = requirejs('libraries/Model')
   , _Collection = requirejs('libraries/Collection')
   , glob = require('glob')
   , isArray = require('../libraries/isArray')
@@ -15,6 +15,9 @@ var _ = require('underscore')
   , imports = []
   , pages = [];
 
+/**
+ * Add backbone relational
+ */
 
 require('backbone-relational');
 

@@ -185,5 +185,48 @@ describe('Init', function() {
       init.rl =  { question: function() {} };
       expect(init._getLocales()).to.equal('promise');
     });
+
+    it('should resolve to default locale if empty option is choosed', function() {
+      pcf.DEFAULT_LOCALE_CODE = 'default-locale-code';
+      pcf.DEFAULT_LOCALE_NAME = 'default-lcoale-name';
+      var deferred = { resolve: sinon.spy() };
+      dependencies.q.defer = sinon.stub().returns(deferred);
+      var init = new (proxyquire('../libraries/init', dependencies).Init);
+      init.rl = {};
+      init.rl.question = sinon.stub().callsArgWith(1, '');
+      init._getLocales();
+      var res = {};
+      res[pcf.DEFAULT_LOCALE_CODE] = pcf.DEFAULT_LOCALE_NAME;
+      deferred.resolve.should.have.been.calledOnce;
+      deferred.resolve.should.have.been.calledWith(res);
+    });
+
+    it('if option has syntax wrong, it should ask again', function() {
+      var deferred = { resolve: sinon.spy() };
+      dependencies.q.defer = sinon.stub().returns(deferred);
+      var init = new (proxyquire('../libraries/init', dependencies).Init);
+      pcf.LOCALES_SYNTAX = { test: sinon.stub().returns(false) };
+      init.rl = {};
+      init.rl.question = sinon.stub()
+      init.rl.question.onCall(0).callsArgWith(1, 'syntax-wrong');
+      init.rl.question.onCall(1).callsArgWith(1, '');
+      init._getLocales();
+      pcf.LOCALES_SYNTAX.test.should.have.been.calledOnce;
+      pcf.LOCALES_SYNTAX.test.should.have.been.calledWith('syntax-wrong');
+      deferred.resolve.should.have.been.calledOnce;
+    });
+
+    it('should resolve to a syntax wrong-free option', function() {
+      var deferred = { resolve: sinon.spy() };
+      dependencies.q.defer = sinon.stub().returns(deferred);
+      var init = new (proxyquire('../libraries/init', dependencies).Init);
+      pcf.LOCALES_SYNTAX = { test: sinon.stub().returns(true) };
+      init.rl = {};
+      init.rl.question = sinon.stub()
+      init.rl.question.onCall(0).callsArgWith(1, 'en-US:English (US)');
+      init._getLocales();
+      deferred.resolve.should.have.been.calledOnce;
+      deferred.resolve.should.have.been.calledWith({ 'en-US': 'English (US)' });
+    });
   });
 });

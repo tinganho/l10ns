@@ -1,5 +1,5 @@
 
 var localizations = {
-  'locale1': gt('locale1'),
-  'locale2': gt('locale2')
+  'locale1': l('locale1'),
+  'locale2': l('locale2')
 };
