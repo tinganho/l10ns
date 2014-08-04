@@ -10,6 +10,8 @@ global.proxyquire = require('proxyquire');
 global.path = require('path');
 global.Q = require('q');
 global.eventually = require('underscore').defer;
+global.spy = sinon.spy;
+global.stub = sinon.stub;
 
 /**
  * Plugins

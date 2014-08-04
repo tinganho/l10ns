@@ -13,13 +13,6 @@ var readline = require('readline')
 function Init() {
   this.rl = null;
   this.json = pcf.DEFAULT_CONFIGURATIONS;
-  this.programmingLanguages = pcf.PROGRAMMING_LANGUAGUES;
-  this.chooseProgrammingLanguagePrompt = pcf.CHOOSE_PROGRAMMING_LANGUAGE_PROMPT;
-  this.chooseProgrammingLanguageWrongAnswer = pcf.CHOOSE_PROGRAMMING_LANGUAGE_WRONG_ANSWER;
-  this.programmingLanguageToDefaultSrcMap = pcf.PROGRAMMING_LANGUAGUE_TO_DEFAULT_SRC_MAP;
-  this.defaultOutputFolder = pcf.DEFAULT_OUTPUT_FOLDER;
-  this.defaultOutputFolderPrompt = pcf.DEFAULT_OUTPUT_FOLDER_PROMPT;
-  this.defaultOutputFolderWrongAnswer = pcf.DEFAULT_OUTPUT_FOLDER_WRONG_ANSWER;
 }
 
 /**
@@ -191,20 +184,22 @@ Init.prototype._getDefaultLocale = function(locales) {
 
 Init.prototype._getProgrammingLanguage = function() {
   var _this = this
-    , deferred = Q.defer(), answeredWrong = false
-    , question = this.chooseProgrammingLanguagePrompt
-    , options = '[', optionsEndWrap = '] '
+    , deferred = Q.defer()
+    , answeredWrong = false
+    , question = pcf.CHOOSE_PROGRAMMING_LANGUAGE_QUESTION
+    , options = '['
+    , optionsEndWrap = '] '
     , n = 1;
 
-  for(var i = 0; i < this.programmingLanguages.length; i++) {
-    question +=  ('[' + n + ']').lightBlue + ' - ' + this.programmingLanguages[i] + '\n';
+  for(var i = 0; i < pcf.PROGRAMMING_LANGUAGUES.length; i++) {
+    question +=  ('[' + n + ']').lightBlue + ' - ' + pcf.PROGRAMMING_LANGUAGUES[i] + '\n';
     options += n + ',';
     n++;
   }
   options = options.slice(0, -1) + optionsEndWrap;
   question = question + options.lightBlue;
 
-  var wrongAnswer = this.chooseProgrammingLanguageWrongAnswer + question;
+  var wrongAnswer = pcf.CHOOSE_PROGRAMMING_LANGUAGE_WRONG_ANSWER + question;
 
   (function ask() {
     if(answeredWrong) {
@@ -213,8 +208,8 @@ Init.prototype._getProgrammingLanguage = function() {
     _this.rl.question(question, function(option) {
       if(/^\d+$/.test(option)) {
         option = parseInt(option, 10) - 1;
-        if(_this.programmingLanguages[option]) {
-          return deferred.resolve(_this.programmingLanguages[option]);
+        if(pcf.PROGRAMMING_LANGUAGUES[option]) {
+          return deferred.resolve(pcf.PROGRAMMING_LANGUAGUES[option]);
         }
       }
       answeredWrong = true;
@@ -235,20 +230,21 @@ Init.prototype._getProgrammingLanguage = function() {
 Init.prototype._getStorageFolder = function() {
   var _this = this
     , deferred = Q.defer()
-    , defaultOutput, question
+    , defaultOutput
+    , question
     , answeredWrong = false;
 
   if(fs.existsSync(process.cwd() + '/app')) {
-    defaultOutput = 'app/' + this.defaultOutputFolder;
+    defaultOutput = 'app/' + pcf.DEFAULT_OUTPUT_FOLDER;;
   }
   else if(fs.existsSync(process.cwd() + '/application')) {
-    defaultOutput = 'application/' + this.defaultOutputFolder;
+    defaultOutput = 'application/' + pcf.DEFAULT_OUTPUT_FOLDER;;
   }
   else {
-    defaultOutput = this.defaultOutputFolder;
+    defaultOutput = pcf.DEFAULT_OUTPUT_FOLDER;;
   }
-  question = this.defaultOutputFolderPrompt + 'output: (' + defaultOutput + ') ';
-  var wrongAnswer = this.defaultOutputFolderWrongAnswer + question;
+  question = pcf.DEFAULT_OUTPUT_FOLDER_PROMPT + 'output: (' + defaultOutput + ') ';
+  var wrongAnswer = pcf.DEFAULT_OUTPUT_FOLDER_WRONG_ANSWER + question;
   (function ask() {
     if(answeredWrong) {
       question = wrongAnswer;
@@ -280,8 +276,7 @@ Init.prototype._getStorageFolder = function() {
  */
 
 Init.prototype._setDefaultSrc = function() {
-  this.json.src =
-  this.programmingLanguageToDefaultSrcMap[
+  this.json.src = pcf.PROGRAMMING_LANGUAGUE_TO_DEFAULT_SRC_MAP[
     this.json.programmingLanguage
   ];
 };

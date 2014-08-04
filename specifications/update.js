@@ -39,19 +39,19 @@ describe('Update', function() {
 
   describe('#update()', function() {
     it('should get new localizations', function() {
-      dependencies['./file'].writeLocalizations = sinon.stub().returns(Q.resolve());
+      dependencies['./file'].writeLocalizations = stub().returns(Q.resolve());
       var update = new (proxyquire('../libraries/update', dependencies).Update);
-      update.getNewLocalizations = sinon.stub().returns(Q.resolve());
-      update._mergeWithOldLocalizations = sinon.stub().returns(Q.resolve());
+      update.getNewLocalizations = stub().returns(Q.resolve());
+      update._mergeWithOldLocalizations = stub().returns(Q.resolve());
       update.update();
       update.getNewLocalizations.should.have.been.calledOnce;
     });
 
     it('should merge source keys with old localizations', function(done) {
-      dependencies['./file'].writeLocalizations = sinon.stub().returns(Q.resolve());
+      dependencies['./file'].writeLocalizations = stub().returns(Q.resolve());
       var update = new (proxyquire('../libraries/update', dependencies).Update);
-      update.getNewLocalizations = sinon.stub().returns(Q.resolve());
-      update._mergeWithOldLocalizations = sinon.stub().returns(Q.resolve());
+      update.getNewLocalizations = stub().returns(Q.resolve());
+      update._mergeWithOldLocalizations = stub().returns(Q.resolve());
       update.update();
       eventually(function() {
         update._mergeWithOldLocalizations.should.have.been.calledOnce;
@@ -60,10 +60,10 @@ describe('Update', function() {
     });
 
     it('should write all the localization to storage', function(done) {
-      dependencies['./file'].writeLocalizations = sinon.stub().returns(Q.resolve());
+      dependencies['./file'].writeLocalizations = stub().returns(Q.resolve());
       var update = new (proxyquire('../libraries/update', dependencies).Update);
-      update.getNewLocalizations = sinon.stub().returns(Q.resolve());
-      update._mergeWithOldLocalizations = sinon.stub().returns(Q.resolve());
+      update.getNewLocalizations = stub().returns(Q.resolve());
+      update._mergeWithOldLocalizations = stub().returns(Q.resolve());
       update.update();
       eventually(function() {
         dependencies['./file'].writeLocalizations.should.have.been.calledOnce;
@@ -73,10 +73,10 @@ describe('Update', function() {
 
     it('should log an error if merge localizations have been failed', function(done) {
       // Reject on second promise
-      dependencies['./_log'].error = sinon.spy();
+      dependencies['./_log'].error = spy();
       var update = new (proxyquire('../libraries/update', dependencies).Update);
-      update.getNewLocalizations = sinon.stub().returns(Q.resolve());
-      update._mergeWithOldLocalizations = sinon.stub().returns(Q.reject());
+      update.getNewLocalizations = stub().returns(Q.resolve());
+      update._mergeWithOldLocalizations = stub().returns(Q.reject());
       update.update();
       eventually(function() {
         dependencies['./_log'].error.should.have.been.calledOnce;
@@ -106,8 +106,8 @@ describe('Update', function() {
     describe('should loop through each file path and...', function() {
       it('check if the file path is a directory', function() {
         pcf.src = ['file1'];
-        dependencies['fs'].lstatSync = sinon.stub().returns({
-          isDirectory: sinon.stub().returns(true)
+        dependencies['fs'].lstatSync = stub().returns({
+          isDirectory: stub().returns(true)
         });
         var update = new (proxyquire('../libraries/update', dependencies).Update);
         update.getNewLocalizations();
@@ -117,16 +117,16 @@ describe('Update', function() {
       it('should eventually reject if the file reading is sending an error', function(done) {
         pcf.src = ['file1'];
         var deferred = {};
-        deferred.reject = sinon.spy();
+        deferred.reject = spy();
         dependencies.q = {};
-        dependencies.q.defer = sinon.stub().returns(deferred);
-        dependencies['fs'].lstatSync = sinon.stub().returns({
-          isDirectory: sinon.stub().returns(false)
+        dependencies.q.defer = stub().returns(deferred);
+        dependencies['fs'].lstatSync = stub().returns({
+          isDirectory: stub().returns(false)
         });
-        dependencies['fs'].readFile = sinon.stub();
+        dependencies['fs'].readFile = stub();
         dependencies['fs'].readFile.callsArgWith(2, 'error');
         var update = new (proxyquire('../libraries/update', dependencies).Update);
-        update._stripInnerFunctionCalls = sinon.stub().returns({ match: sinon.stub().returns(null) });
+        update._stripInnerFunctionCalls = stub().returns({ match: stub().returns(null) });
         update.getNewLocalizations();
         eventually(function() {
           deferred.reject.should.have.been.calledOnce;
@@ -139,14 +139,14 @@ describe('Update', function() {
         var deferred = {};
         deferred.resolve = function() {};
         dependencies.q = {};
-        dependencies.q.defer = sinon.stub().returns(deferred);
-        dependencies['fs'].lstatSync = sinon.stub().returns({
-          isDirectory: sinon.stub().returns(false)
+        dependencies.q.defer = stub().returns(deferred);
+        dependencies['fs'].lstatSync = stub().returns({
+          isDirectory: stub().returns(false)
         });
-        dependencies['fs'].readFile = sinon.stub();
+        dependencies['fs'].readFile = stub();
         dependencies['fs'].readFile.callsArgWith(2, null, '');
         var update = new (proxyquire('../libraries/update', dependencies).Update);
-        update._stripInnerFunctionCalls = sinon.stub().returns({ match: sinon.stub().returns(null) });
+        update._stripInnerFunctionCalls = stub().returns({ match: stub().returns(null) });
         update.getNewLocalizations();
         eventually(function() {
           update._stripInnerFunctionCalls.should.have.been.calledOnce;
@@ -159,15 +159,15 @@ describe('Update', function() {
         var deferred = {};
         deferred.resolve = function() {};
         dependencies.q = {};
-        dependencies.q.defer = sinon.stub().returns(deferred);
-        dependencies['fs'].lstatSync = sinon.stub().returns({
-          isDirectory: sinon.stub().returns(false)
+        dependencies.q.defer = stub().returns(deferred);
+        dependencies['fs'].lstatSync = stub().returns({
+          isDirectory: stub().returns(false)
         });
-        dependencies['fs'].readFile = sinon.stub();
+        dependencies['fs'].readFile = stub();
         dependencies['fs'].readFile.callsArgWith(2, null, '');
         var update = new (proxyquire('../libraries/update', dependencies).Update);
-        var innerFunctionCallResultObject = { match: sinon.stub().returns(null) };
-        update._stripInnerFunctionCalls = sinon.stub().returns(innerFunctionCallResultObject);
+        var innerFunctionCallResultObject = { match: stub().returns(null) };
+        update._stripInnerFunctionCalls = stub().returns(innerFunctionCallResultObject);
         update.getNewLocalizations();
         innerFunctionCallResultObject.match.should.have.been.calledOnce;
       });
@@ -177,20 +177,20 @@ describe('Update', function() {
         var deferred = {};
         deferred.resolve = function() {};
         dependencies.q = {};
-        dependencies.q.defer = sinon.stub().returns(deferred);
-        dependencies['fs'].lstatSync = sinon.stub().returns({
-          isDirectory: sinon.stub().returns(false)
+        dependencies.q.defer = stub().returns(deferred);
+        dependencies['fs'].lstatSync = stub().returns({
+          isDirectory: stub().returns(false)
         });
-        dependencies['fs'].readFile = sinon.stub();
+        dependencies['fs'].readFile = stub();
         dependencies['fs'].readFile.callsArgWith(2, null, '');
-        dependencies['./parser'].getKey = sinon.stub().returns('SOME_KEY');
-        dependencies['./parser'].getVars = sinon.stub().returns(['test1', 'test2']);
+        dependencies['./parser'].getKey = stub().returns('SOME_KEY');
+        dependencies['./parser'].getVars = stub().returns(['test1', 'test2']);
         var Hashids = function() {}
         Hashids.prototype.encrypt = function() {};
         dependencies['hashids'] = Hashids;
         var update = new (proxyquire('../libraries/update', dependencies).Update);
-        var innerFunctionCallResultObject = { match: sinon.stub().returns(['gt(\'SOME_KEY\')']) };
-        update._stripInnerFunctionCalls = sinon.stub().returns(innerFunctionCallResultObject);
+        var innerFunctionCallResultObject = { match: stub().returns(['gt(\'SOME_KEY\')']) };
+        update._stripInnerFunctionCalls = stub().returns(innerFunctionCallResultObject);
         update.getNewLocalizations();
         eventually(function() {
           dependencies['./parser'].getKey.should.have.been.calledOnce;
@@ -204,22 +204,22 @@ describe('Update', function() {
       it('set properties id, key, vars, text, files', function(done) {
         pcf.src = ['file1'];
         var deferred = {};
-        deferred.resolve = sinon.spy();
+        deferred.resolve = spy();
         dependencies.q = {};
-        dependencies.q.defer = sinon.stub().returns(deferred);
-        dependencies['fs'].lstatSync = sinon.stub().returns({
-          isDirectory: sinon.stub().returns(false)
+        dependencies.q.defer = stub().returns(deferred);
+        dependencies['fs'].lstatSync = stub().returns({
+          isDirectory: stub().returns(false)
         });
-        dependencies['fs'].readFile = sinon.stub();
+        dependencies['fs'].readFile = stub();
         dependencies['fs'].readFile.callsArgWith(2, null, '');
-        dependencies['./parser'].getKey = sinon.stub().returns('SOME_KEY');
-        dependencies['./parser'].getVars = sinon.stub().returns(['test1', 'test2']);
+        dependencies['./parser'].getKey = stub().returns('SOME_KEY');
+        dependencies['./parser'].getVars = stub().returns(['test1', 'test2']);
         var Hashids = function() {}
-        Hashids.prototype.encrypt = sinon.stub().returns('id');
+        Hashids.prototype.encrypt = stub().returns('id');
         dependencies['hashids'] = Hashids;
         var update = new (proxyquire('../libraries/update', dependencies).Update);
-        var innerFunctionCallResultObject = { match: sinon.stub().returns(['gt(\'SOME_KEY\')']) };
-        update._stripInnerFunctionCalls = sinon.stub().returns(innerFunctionCallResultObject);
+        var innerFunctionCallResultObject = { match: stub().returns(['gt(\'SOME_KEY\')']) };
+        update._stripInnerFunctionCalls = stub().returns(innerFunctionCallResultObject);
         update.getNewLocalizations();
         eventually(function() {
           deferred.resolve.should.have.been.calledOnce;
@@ -236,22 +236,22 @@ describe('Update', function() {
       it('append file path if a localization key already exist on a different file', function(done) {
         pcf.src = ['file1', 'file2'];
         var deferred = {};
-        deferred.resolve = sinon.spy();
+        deferred.resolve = spy();
         dependencies.q = {};
-        dependencies.q.defer = sinon.stub().returns(deferred);
-        dependencies['fs'].lstatSync = sinon.stub().returns({
-          isDirectory: sinon.stub().returns(false)
+        dependencies.q.defer = stub().returns(deferred);
+        dependencies['fs'].lstatSync = stub().returns({
+          isDirectory: stub().returns(false)
         });
         dependencies['fs'].readFileSync = function() {};
-        dependencies['./parser'].getKey = sinon.stub().returns('SOME_KEY');
-        dependencies['./parser'].getVars = sinon.stub().returns(['test1', 'test2']);
-        dependencies['./syntax'].hasErrorDuplicate = sinon.stub().returns(false);
+        dependencies['./parser'].getKey = stub().returns('SOME_KEY');
+        dependencies['./parser'].getVars = stub().returns(['test1', 'test2']);
+        dependencies['./syntax'].hasErrorDuplicate = stub().returns(false);
         var Hashids = function() {}
-        Hashids.prototype.encrypt = sinon.stub().returns('id');
+        Hashids.prototype.encrypt = stub().returns('id');
         dependencies['hashids'] = Hashids;
         var update = new (proxyquire('../libraries/update', dependencies).Update);
-        var innerFunctionCallResultObject = { match: sinon.stub().returns(['gt(\'SOME_KEY\')']) };
-        update._stripInnerFunctionCalls = sinon.stub().returns(innerFunctionCallResultObject);
+        var innerFunctionCallResultObject = { match: stub().returns(['gt(\'SOME_KEY\')']) };
+        update._stripInnerFunctionCalls = stub().returns(innerFunctionCallResultObject);
         update.getNewLocalizations();
         eventually(function() {
           deferred.resolve.should.have.been.calledOnce;
@@ -268,24 +268,24 @@ describe('Update', function() {
       it('should reject if a function call have two different variable set', function(done) {
         pcf.src = ['file1'];
         var deferred = {};
-        deferred.reject = sinon.spy();
+        deferred.reject = spy();
         dependencies.q = {};
-        dependencies.q.defer = sinon.stub().returns(deferred);
-        dependencies['fs'].lstatSync = sinon.stub().returns({
-          isDirectory: sinon.stub().returns(false)
+        dependencies.q.defer = stub().returns(deferred);
+        dependencies['fs'].lstatSync = stub().returns({
+          isDirectory: stub().returns(false)
         });
         dependencies['fs'].readFileSync = function() {};
-        dependencies['./parser'].getKey = sinon.stub().returns('SOME_KEY');
-        dependencies['./parser'].getVars = sinon.stub();
+        dependencies['./parser'].getKey = stub().returns('SOME_KEY');
+        dependencies['./parser'].getVars = stub();
         dependencies['./parser'].getVars.onCall(0).returns(['test1']);
         dependencies['./parser'].getVars.onCall(1).returns(['test1', 'test2']);
-        dependencies['./syntax'].hasErrorDuplicate = sinon.stub().returns(true);
+        dependencies['./syntax'].hasErrorDuplicate = stub().returns(true);
         var Hashids = function() {}
-        Hashids.prototype.encrypt = sinon.stub().returns('id');
+        Hashids.prototype.encrypt = stub().returns('id');
         dependencies['hashids'] = Hashids;
         var update = new (proxyquire('../libraries/update', dependencies).Update);
-        var innerFunctionCallResultObject = { match: sinon.stub().returns(['gt(\'SOME_KEY\')', 'gt(\'SOME_KEY\')']) };
-        update._stripInnerFunctionCalls = sinon.stub().returns(innerFunctionCallResultObject);
+        var innerFunctionCallResultObject = { match: stub().returns(['gt(\'SOME_KEY\')', 'gt(\'SOME_KEY\')']) };
+        update._stripInnerFunctionCalls = stub().returns(innerFunctionCallResultObject);
         update.getNewLocalizations();
         eventually(function() {
           deferred.reject.should.have.been.calledOnce;
@@ -299,7 +299,7 @@ describe('Update', function() {
   describe('#_mergeWithOldLocalizations()', function() {
     it('should read old localizations', function(done) {
       pcf.locales = {};
-      dependencies['./file'].readLocalizations = sinon.stub().returns(Q.resolve());
+      dependencies['./file'].readLocalizations = stub().returns(Q.resolve());
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       pcf.locales = {};
       update._mergeUserInputs = function() {};
@@ -311,14 +311,14 @@ describe('Update', function() {
     });
 
     it('if an old localization exists, it should merge with new localizations', function(done) {
-      dependencies['./file'].readLocalizations = sinon.stub().returns(Q.resolve({
+      dependencies['./file'].readLocalizations = stub().returns(Q.resolve({
         'en-US': {
           'key1': {}
         }
       }));
-      dependencies['./merger'].mergeTranslations = sinon.spy();
-      dependencies['./merger'].mergeTimeStamp = sinon.spy();
-      dependencies['./merger'].mergeId = sinon.spy();
+      dependencies['./merger'].mergeTranslations = spy();
+      dependencies['./merger'].mergeTimeStamp = spy();
+      dependencies['./merger'].mergeId = spy();
       pcf.locales = { 'en-US': 'English (US)' };
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       update._mergeUserInputs = function() {};
@@ -334,12 +334,12 @@ describe('Update', function() {
     });
 
     it('if an old localization does not exists, it should create a new localization', function(done) {
-      dependencies['./file'].readLocalizations = sinon.stub().returns(Q.resolve({
+      dependencies['./file'].readLocalizations = stub().returns(Q.resolve({
         'en-US': {}
       }));
       pcf.locales = { 'en-US': 'English (US)' };
       var update = new (proxyquire('../libraries/update', dependencies).Update);
-      update._mergeUserInputs = sinon.spy();
+      update._mergeUserInputs = spy();
       update._mergeWithOldLocalizations({
         'key1': {}
       });
@@ -351,13 +351,13 @@ describe('Update', function() {
     });
 
     it('should merge with user input option', function(done) {
-      dependencies['./file'].readLocalizations = sinon.stub().returns(Q.resolve({
+      dependencies['./file'].readLocalizations = stub().returns(Q.resolve({
         'en-US': {}
       }));
-      dependencies['./merger'].mergeTimeStamp = sinon.stub().returns(0);
+      dependencies['./merger'].mergeTimeStamp = stub().returns(0);
       pcf.locales = { 'en-US': 'English (US)' };
       var update = new (proxyquire('../libraries/update', dependencies).Update);
-      update._mergeUserInputs = sinon.spy();
+      update._mergeUserInputs = spy();
       update._mergeWithOldLocalizations({
         'key1': {}
       });
@@ -368,16 +368,16 @@ describe('Update', function() {
     });
 
     it('if merging of user inputs is without errors, it should resolve with new localizations', function(done) {
-      dependencies['./file'].readLocalizations = sinon.stub().returns(Q.resolve({
+      dependencies['./file'].readLocalizations = stub().returns(Q.resolve({
         'en-US': {}
       }));
       var deferred = {};
-      deferred.resolve = sinon.spy();
+      deferred.resolve = spy();
       dependencies.q = {};
-      dependencies.q.defer = sinon.stub().returns(deferred);
+      dependencies.q.defer = stub().returns(deferred);
       pcf.locales = { 'en-US': 'English (US)' };
       var update = new (proxyquire('../libraries/update', dependencies).Update);
-      update._mergeUserInputs = sinon.stub().callsArgWith(2, null, { 'new-localization': {} });
+      update._mergeUserInputs = stub().callsArgWith(2, null, { 'new-localization': {} });
       update._mergeWithOldLocalizations({
         'key1': {}
       });
@@ -389,16 +389,16 @@ describe('Update', function() {
     });
 
     it('if merging of user inputs is with a SIGINT error, it should callback with old localizations', function(done) {
-      dependencies['./file'].readLocalizations = sinon.stub().returns(Q.resolve({
+      dependencies['./file'].readLocalizations = stub().returns(Q.resolve({
         'en-US': {}
       }));
       var deferred = {};
-      deferred.resolve = sinon.spy();
+      deferred.resolve = spy();
       dependencies.q = {};
-      dependencies.q.defer = sinon.stub().returns(deferred);
+      dependencies.q.defer = stub().returns(deferred);
       pcf.locales = { 'en-US': 'English (US)' };
       var update = new (proxyquire('../libraries/update', dependencies).Update);
-      update._mergeUserInputs = sinon.stub().callsArgWith(2, { error: 'SIGINT' }, { 'new-localization': {} });
+      update._mergeUserInputs = stub().callsArgWith(2, { error: 'SIGINT' }, { 'new-localization': {} });
       update._mergeWithOldLocalizations({
         'key1': {}
       });
@@ -410,16 +410,16 @@ describe('Update', function() {
     });
 
     it('if merging of user inputs is with an error, it should callback with the error', function(done) {
-      dependencies['./file'].readLocalizations = sinon.stub().returns(Q.resolve({
+      dependencies['./file'].readLocalizations = stub().returns(Q.resolve({
         'en-US': {}
       }));
       var deferred = {};
-      deferred.reject = sinon.spy();
+      deferred.reject = spy();
       dependencies.q = {};
-      dependencies.q.defer = sinon.stub().returns(deferred);
+      dependencies.q.defer = stub().returns(deferred);
       pcf.locales = { 'en-US': 'English (US)' };
       var update = new (proxyquire('../libraries/update', dependencies).Update);
-      update._mergeUserInputs = sinon.stub().callsArgWith(2, { error: 'other-error' }, { 'new-localization': {} });
+      update._mergeUserInputs = stub().callsArgWith(2, { error: 'other-error' }, { 'new-localization': {} });
       update._mergeWithOldLocalizations({
         'key1': {}
       });
@@ -484,7 +484,7 @@ describe('Update', function() {
   describe('#_mergeUserInputs()', function() {
     it('should get deleted localizations', function() {
       var update = new (proxyquire('../libraries/update', dependencies).Update);
-      update._getDeletedLocalizations = sinon.stub().returns({});
+      update._getDeletedLocalizations = stub().returns({});
       var oldLocalizations = {};
       var newLocalizations = {};
       var callback = function() {};
@@ -494,11 +494,11 @@ describe('Update', function() {
 
     it('should callback if there is no deleted localizations', function() {
       var update = new (proxyquire('../libraries/update', dependencies).Update);
-      update._getDeletedLocalizations = sinon.stub().returns({});
+      update._getDeletedLocalizations = stub().returns({});
       update._executeUserInputStream = function() {};
       var oldLocalizations = {};
       var newLocalizations = {};
-      var callback = sinon.spy();
+      var callback = spy();
       update._mergeUserInputs(newLocalizations, oldLocalizations, callback);
       callback.should.have.been.calledOnce;
       callback.should.have.been.calledWith(null, {});
@@ -506,10 +506,10 @@ describe('Update', function() {
 
     it('should get updated files', function() {
       var update = new (proxyquire('../libraries/update', dependencies).Update);
-      update._getDeletedLocalizations = sinon.stub().returns({ 'file2': ['key3'] });
+      update._getDeletedLocalizations = stub().returns({ 'file2': ['key3'] });
       update._pushToUserInputStream = function() {};
       update._executeUserInputStream = function() {};
-      update._getUpdatedFiles = sinon.spy();
+      update._getUpdatedFiles = spy();
       var oldLocalizations = { 'key1': { files: ['file1'] }};
       var newLocalizations = { 'key2': { files: ['file1'] }};
       var callback = function() {};
@@ -519,10 +519,10 @@ describe('Update', function() {
 
     it('should ask for user input if a key have been renamed', function() {
       var update = new (proxyquire('../libraries/update', dependencies).Update);
-      update._getDeletedLocalizations = sinon.stub().returns({ 'key3': { files: ['file1'] }});
-      update._pushToUserInputStream = sinon.spy();
+      update._getDeletedLocalizations = stub().returns({ 'key3': { files: ['file1'] }});
+      update._pushToUserInputStream = spy();
       update._executeUserInputStream = function() {};
-      update._getUpdatedFiles = sinon.stub().returns({'file1': ['key4']});
+      update._getUpdatedFiles = stub().returns({'file1': ['key4']});
       var oldLocalizations = { 'key1': { files: ['file1'] }};
       var newLocalizations = { 'key2': { files: ['file1'] }};
       var callback = function() {};
@@ -533,14 +533,14 @@ describe('Update', function() {
 
     it('should callback with merged user input localization if user have been asked for input', function() {
       var update = new (proxyquire('../libraries/update', dependencies).Update);
-      update._getDeletedLocalizations = sinon.stub().returns({ 'key3': { files: ['file1'] }});
+      update._getDeletedLocalizations = stub().returns({ 'key3': { files: ['file1'] }});
       update._pushToUserInputStream = function() {};
-      update._executeUserInputStream = sinon.stub();
+      update._executeUserInputStream = stub();
       update._executeUserInputStream.callsArgWith(2, null, 'merged-localization');
-      update._getUpdatedFiles = sinon.stub().returns({'file1': ['key4']});
+      update._getUpdatedFiles = stub().returns({'file1': ['key4']});
       var oldLocalizations = { 'key1': { files: ['file1'] }};
       var newLocalizations = { 'key2': { files: ['file1'] }};
-      var callback = sinon.spy();
+      var callback = spy();
       update._mergeUserInputs(newLocalizations, oldLocalizations, callback);
       callback.should.have.been.calledOnce;
       callback.should.have.been.calledWith(null, 'merged-localization')
@@ -548,14 +548,14 @@ describe('Update', function() {
 
     it('should callback with error if a merge error have been occurred', function() {
       var update = new (proxyquire('../libraries/update', dependencies).Update);
-      update._getDeletedLocalizations = sinon.stub().returns({ 'key3': { files: ['file1'] }});
+      update._getDeletedLocalizations = stub().returns({ 'key3': { files: ['file1'] }});
       update._pushToUserInputStream = function() {};
-      update._executeUserInputStream = sinon.stub();
+      update._executeUserInputStream = stub();
       update._executeUserInputStream.callsArgWith(2, 'error');
-      update._getUpdatedFiles = sinon.stub().returns({'file1': ['key4']});
+      update._getUpdatedFiles = stub().returns({'file1': ['key4']});
       var oldLocalizations = { 'key1': { files: ['file1'] }};
       var newLocalizations = { 'key2': { files: ['file1'] }};
-      var callback = sinon.spy();
+      var callback = spy();
       update._mergeUserInputs(newLocalizations, oldLocalizations, callback);
       callback.should.have.been.calledOnce;
       callback.should.have.been.calledWith('error');
@@ -574,7 +574,7 @@ describe('Update', function() {
   describe('#_executeUserInputStream()', function() {
     it('if deleted and added keys is empty it should callback with new localizations', function() {
       var update = new (proxyquire('../libraries/update', dependencies).Update);
-      var callback = sinon.spy();
+      var callback = spy();
       update.deletedKeys = [];
       update.addedKeys = [];
       update._executeUserInputStream({}, {}, callback);
@@ -584,7 +584,7 @@ describe('Update', function() {
 
     it('if deleted keys length is not equal to added keys length it should throw an error', function() {
       var update = new (proxyquire('../libraries/update', dependencies).Update);
-      var callback = sinon.spy();
+      var callback = spy();
       update.deletedKeys = ['key1'];
       update.addedKeys = ['key2', 'key3'];
       var method = function() {
@@ -595,10 +595,10 @@ describe('Update', function() {
 
     it('should callback with error if user input key sends an error', function() {
       var update = new (proxyquire('../libraries/update', dependencies).Update);
-      var callback = sinon.spy();
+      var callback = spy();
       update.deletedKeys = ['key1'];
       update.addedKeys = ['key2'];
-      update._getUserInputKey = sinon.stub();
+      update._getUserInputKey = stub();
       update._getUserInputKey.callsArgWith(2, 'error');
       update._executeUserInputStream({}, {}, callback);
       callback.should.have.been.calledOnce;
@@ -608,11 +608,11 @@ describe('Update', function() {
     it('should callback with merged localization from user input ' +
        'if the user have chose the option delete', function() {
       var update = new (proxyquire('../libraries/update', dependencies).Update);
-      var callback = sinon.spy();
+      var callback = spy();
       update.deletedKeys = ['key1'];
       update.addedKeys = ['key2'];
-      update.rl = { close: sinon.spy() };
-      update._getUserInputKey = sinon.stub();
+      update.rl = { close: spy() };
+      update._getUserInputKey = stub();
       update._getUserInputKey.callsArgWith(2, null, 'DELETE');
       update._executeUserInputStream({}, {}, callback);
       callback.should.have.been.calledOnce;
@@ -622,13 +622,13 @@ describe('Update', function() {
 
     it('should migrate old localization', function() {
       var update = new (proxyquire('../libraries/update', dependencies).Update);
-      var callback = sinon.spy();
+      var callback = spy();
       update.deletedKeys = ['key1'];
       update.addedKeys = ['key2'];
-      update.rl = { close: sinon.spy() };
-      update._getUserInputKey = sinon.stub();
+      update.rl = { close: spy() };
+      update._getUserInputKey = stub();
       update._getUserInputKey.callsArgWith(2, null, 'key3', 'key1');
-      update._migrateLocalization = sinon.stub().returns('merged-localization');
+      update._migrateLocalization = stub().returns('merged-localization');
       update._executeUserInputStream({}, {}, callback);
       update._migrateLocalization.should.have.been.calledOnce;
       update._migrateLocalization.should.have.been.calledWith('key3', 'key1', {}, {});
@@ -639,13 +639,13 @@ describe('Update', function() {
 
     it('should recurse on migration option if deleted keys still exists', function() {
       var update = new (proxyquire('../libraries/update', dependencies).Update);
-      var callback = sinon.spy();
+      var callback = spy();
       update.deletedKeys = ['key1', 'key2'];
       update.addedKeys = ['key3', 'key4'];
-      update.rl = { close: sinon.spy() };
-      update._getUserInputKey = sinon.stub();
+      update.rl = { close: spy() };
+      update._getUserInputKey = stub();
       update._getUserInputKey.callsArgWith(2, null, 'key3', 'key1');
-      update._migrateLocalization = sinon.stub().returns('merged-localization');
+      update._migrateLocalization = stub().returns('merged-localization');
       update._executeUserInputStream({}, {}, callback);
       update._migrateLocalization.should.have.callCount(2);
       update._migrateLocalization.should.have.been.calledWith('key3', 'key1', {}, {});
@@ -656,11 +656,11 @@ describe('Update', function() {
 
     it('should recurse on delete option if deleted keys still exists', function() {
       var update = new (proxyquire('../libraries/update', dependencies).Update);
-      var callback = sinon.spy();
+      var callback = spy();
       update.deletedKeys = ['key1', 'key2'];
       update.addedKeys = ['key3', 'key4'];
-      update.rl = { close: sinon.spy() };
-      update._getUserInputKey = sinon.stub();
+      update.rl = { close: spy() };
+      update._getUserInputKey = stub();
       update._getUserInputKey.callsArgWith(2, null, 'DELETE');
       update._executeUserInputStream({}, {}, callback);
       update.rl.close.should.have.been.calledOnce;
@@ -681,7 +681,7 @@ describe('Update', function() {
 
   describe('#_getUserInputKey()', function() {
     it('if added keys\'s length is zero it should callback with \'DELETE\'', function() {
-      var callback = sinon.spy();
+      var callback = spy();
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       update._getUserInputKey([], [], callback);
       callback.should.have.been.calledOnce;
@@ -689,11 +689,11 @@ describe('Update', function() {
     });
 
     it('if user inputs a added key option it should migrate', function() {
-      var callback = sinon.spy();
+      var callback = spy();
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       update.rl = {};
       update.rl.on = function() {};
-      update.rl.question = sinon.stub();
+      update.rl.question = stub();
       update.rl.question.callsArgWith(1, '1');
       update._getUserInputKey('key1', ['key2'], callback);
       callback.should.have.been.calledOnce;
@@ -701,11 +701,11 @@ describe('Update', function() {
     });
 
     it('if user inputs delete option it should delete', function() {
-      var callback = sinon.spy();
+      var callback = spy();
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       update.rl = {};
       update.rl.on = function() {};
-      update.rl.question = sinon.stub();
+      update.rl.question = stub();
       update.rl.question.callsArgWith(1, 'd');
       update._getUserInputKey('key1', ['key2'], callback);
       callback.should.have.been.calledOnce;
@@ -713,12 +713,12 @@ describe('Update', function() {
     });
 
     it('should bind to SIGINT event and close readline interface', function() {
-      var callback = sinon.spy();
+      var callback = spy();
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       update.rl = {};
-      update.rl.on = sinon.stub();
+      update.rl.on = stub();
       update.rl.on.callsArg(1);
-      update.rl.close = sinon.spy();
+      update.rl.close = spy();
       update.rl.question = function() {};
       update._getUserInputKey('key1', ['key2'], callback);
       update.rl.close.should.have.been.calledOnce;

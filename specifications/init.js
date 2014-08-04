@@ -26,15 +26,15 @@ describe('Init', function() {
   describe('#init()', function() {
     it('if project already exists it should send an message and exit process', function() {
       pcf.PROJECT_ALREADY_INITIATED = 'project-already-initiated';
-      var cwdStub = sinon.stub(process, 'cwd');
+      var cwdStub = stub(process, 'cwd');
       cwdStub.returns('current-working-directory');
-      var exitStub = sinon.stub(process, 'exit');
-      var consoleStub = sinon.stub(console, 'log');
-      dependencies.fs.existsSync = sinon.stub().withArgs('current-working-directory/l10ns.json').returns(true);
+      var exitStub = stub(process, 'exit');
+      var consoleStub = stub(console, 'log');
+      dependencies.fs.existsSync = stub().withArgs('current-working-directory/l10ns.json').returns(true);
       var init = new (proxyquire('../libraries/init', dependencies).Init);
       init._createReadlineInterface = function() {};
       init._outputIntroduction = function() {};
-      init._getLocales = sinon.stub().returns(Q.reject());
+      init._getLocales = stub().returns(Q.reject());
       init.init();
       exitStub.should.have.been.calledOnce;
       consoleStub.should.have.been.calledOnce;
@@ -45,12 +45,12 @@ describe('Init', function() {
     });
 
     it('should create a readline interface, output introduction and get locales', function() {
-      dependencies.fs.existsSync = sinon.stub().returns(false);
-      dependencies['findup-sync'] = sinon.stub().returns(false);
+      dependencies.fs.existsSync = stub().returns(false);
+      dependencies['findup-sync'] = stub().returns(false);
       var init = new (proxyquire('../libraries/init', dependencies).Init);
-      init._createReadlineInterface = sinon.spy();
-      init._outputIntroduction = sinon.spy();
-      init._getLocales = sinon.stub().returns(Q.reject());
+      init._createReadlineInterface = spy();
+      init._outputIntroduction = spy();
+      init._getLocales = stub().returns(Q.reject());
       init.init();
       init._createReadlineInterface.should.have.been.calledOnce;
       init._outputIntroduction.should.have.been.calledOnce;
@@ -59,13 +59,13 @@ describe('Init', function() {
 
     it('after getting locales it should set it and then ask for default locale', function(done) {
       pcf.DEFAULT_CONFIGURATIONS = {};
-      dependencies.fs.existsSync = sinon.stub().returns(false);
-      dependencies['findup-sync'] = sinon.stub().returns(false);
+      dependencies.fs.existsSync = stub().returns(false);
+      dependencies['findup-sync'] = stub().returns(false);
       var init = new (proxyquire('../libraries/init', dependencies).Init);
       init._createReadlineInterface = function() {};
       init._outputIntroduction = function() {};
-      init._getLocales = sinon.stub().returns(Q.resolve({ 'locale1': 'locale1-title' }));
-      init._getDefaultLocale = sinon.stub().returns(Q.reject());
+      init._getLocales = stub().returns(Q.resolve({ 'locale1': 'locale1-title' }));
+      init._getDefaultLocale = stub().returns(Q.reject());
       init.init();
       eventually(function() {
         expect(init.json.locales).to.eql({ 'locale1': 'locale1-title' });
@@ -77,14 +77,14 @@ describe('Init', function() {
 
     it('after getting default locale, it should set it and then ask for programming languague', function(done) {
       pcf.DEFAULT_CONFIGURATIONS = {};
-      dependencies.fs.existsSync = sinon.stub().returns(false);
-      dependencies['findup-sync'] = sinon.stub().returns(false);
+      dependencies.fs.existsSync = stub().returns(false);
+      dependencies['findup-sync'] = stub().returns(false);
       var init = new (proxyquire('../libraries/init', dependencies).Init);
       init._createReadlineInterface = function() {};
       init._outputIntroduction = function() {};
-      init._getLocales = sinon.stub().returns(Q.resolve({ 'locale1': 'locale1-title' }));
-      init._getDefaultLocale = sinon.stub().returns(Q.resolve('locale1'));
-      init._getProgrammingLanguage = sinon.stub().returns(Q.reject());
+      init._getLocales = stub().returns(Q.resolve({ 'locale1': 'locale1-title' }));
+      init._getDefaultLocale = stub().returns(Q.resolve('locale1'));
+      init._getProgrammingLanguage = stub().returns(Q.reject());
       init.init();
       eventually(function() {
         expect(init.json.defaultLocale).to.eql('locale1');
@@ -95,15 +95,15 @@ describe('Init', function() {
 
     it('after getting programming language, it should set it and then ask for storage folder', function(done) {
       pcf.DEFAULT_CONFIGURATIONS = {};
-      dependencies.fs.existsSync = sinon.stub().returns(false);
-      dependencies['findup-sync'] = sinon.stub().returns(false);
+      dependencies.fs.existsSync = stub().returns(false);
+      dependencies['findup-sync'] = stub().returns(false);
       var init = new (proxyquire('../libraries/init', dependencies).Init);
       init._createReadlineInterface = function() {};
       init._outputIntroduction = function() {};
-      init._getLocales = sinon.stub().returns(Q.resolve({ 'locale1': 'locale1-title' }));
-      init._getDefaultLocale = sinon.stub().returns(Q.resolve('locale1'));
-      init._getProgrammingLanguage = sinon.stub().returns(Q.resolve('javascript'));
-      init._getStorageFolder = sinon.stub().returns(Q.reject());
+      init._getLocales = stub().returns(Q.resolve({ 'locale1': 'locale1-title' }));
+      init._getDefaultLocale = stub().returns(Q.resolve('locale1'));
+      init._getProgrammingLanguage = stub().returns(Q.resolve('javascript'));
+      init._getStorageFolder = stub().returns(Q.reject());
       init.init();
       eventually(function() {
         expect(init.json.programmingLanguage).to.eql('javascript');
@@ -114,18 +114,18 @@ describe('Init', function() {
 
     it('after getting storage folder, it should set it along with default values and write a configuration file', function(done) {
       pcf.DEFAULT_CONFIGURATIONS = {};
-      dependencies.fs.existsSync = sinon.stub().returns(false);
-      dependencies['findup-sync'] = sinon.stub().returns(false);
-      var exitStub = sinon.stub(process, 'exit');
+      dependencies.fs.existsSync = stub().returns(false);
+      dependencies['findup-sync'] = stub().returns(false);
+      var exitStub = stub(process, 'exit');
       var init = new (proxyquire('../libraries/init', dependencies).Init);
       init._createReadlineInterface = function() {};
       init._outputIntroduction = function() {};
-      init._getLocales = sinon.stub().returns(Q.resolve({ 'locale1': 'locale1-title' }));
-      init._getDefaultLocale = sinon.stub().returns(Q.resolve('locale1'));
-      init._getProgrammingLanguage = sinon.stub().returns(Q.resolve('javascript'));
-      init._getStorageFolder = sinon.stub().returns(Q.resolve('storage-folder/'));
-      init._setDefaultSrc = sinon.spy();
-      init._writeProject = sinon.spy();
+      init._getLocales = stub().returns(Q.resolve({ 'locale1': 'locale1-title' }));
+      init._getDefaultLocale = stub().returns(Q.resolve('locale1'));
+      init._getProgrammingLanguage = stub().returns(Q.resolve('javascript'));
+      init._getStorageFolder = stub().returns(Q.resolve('storage-folder/'));
+      init._setDefaultSrc = spy();
+      init._writeProject = spy();
       init.init();
       eventually(function() {
         expect(init.json.store).to.eql('storage-folder/');
@@ -140,13 +140,13 @@ describe('Init', function() {
 
     it('should log if any errors occurs', function(done) {
       pcf.DEFAULT_CONFIGURATIONS = {};
-      dependencies.fs.existsSync = sinon.stub().returns(false);
-      dependencies['findup-sync'] = sinon.stub().returns(false);
-      var consoleStub = sinon.stub(console, 'log');
+      dependencies.fs.existsSync = stub().returns(false);
+      dependencies['findup-sync'] = stub().returns(false);
+      var consoleStub = stub(console, 'log');
       var init = new (proxyquire('../libraries/init', dependencies).Init);
       init._createReadlineInterface = function() {};
       init._outputIntroduction = function() {};
-      init._getLocales = sinon.stub().returns(Q.reject('error'));
+      init._getLocales = stub().returns(Q.reject('error'));
       init.init();
       eventually(function() {
         consoleStub.should.have.been.calledOnce;
@@ -159,7 +159,7 @@ describe('Init', function() {
 
   describe('#_createReadlineInterface()', function() {
     it('should create a readline interface', function() {
-      dependencies.readline.createInterface = sinon.spy();
+      dependencies.readline.createInterface = spy();
       var init = new (proxyquire('../libraries/init', dependencies).Init);
       init._createReadlineInterface();
       dependencies.readline.createInterface.should.have.been.calledOnce;
@@ -169,7 +169,7 @@ describe('Init', function() {
   describe('#_outputIntroduction()', function() {
     it('should write introduction to output', function() {
       pcf.INIT_INTRODUCTION = 'introduction';
-      var stdoutWrite = sinon.stub(process.stdout, 'write');
+      var stdoutWrite = stub(process.stdout, 'write');
       var init = new (proxyquire('../libraries/init', dependencies).Init);
       init._outputIntroduction();
       stdoutWrite.should.have.been.calledOnce;
@@ -180,7 +180,7 @@ describe('Init', function() {
 
   describe('#_getLocales()', function() {
     it('should return a promise', function() {
-      dependencies.q.defer = sinon.stub().returns({ promise: 'promise' });
+      dependencies.q.defer = stub().returns({ promise: 'promise' });
       var init = new (proxyquire('../libraries/init', dependencies).Init);
       init.rl =  { question: function() {} };
       expect(init._getLocales()).to.equal('promise');
@@ -189,11 +189,11 @@ describe('Init', function() {
     it('should resolve to default locale if empty option is choosed', function() {
       pcf.DEFAULT_LOCALE_CODE = 'default-locale-code';
       pcf.DEFAULT_LOCALE_NAME = 'default-lcoale-name';
-      var deferred = { resolve: sinon.spy() };
-      dependencies.q.defer = sinon.stub().returns(deferred);
+      var deferred = { resolve: spy() };
+      dependencies.q.defer = stub().returns(deferred);
       var init = new (proxyquire('../libraries/init', dependencies).Init);
       init.rl = {};
-      init.rl.question = sinon.stub().callsArgWith(1, '');
+      init.rl.question = stub().callsArgWith(1, '');
       init._getLocales();
       var res = {};
       res[pcf.DEFAULT_LOCALE_CODE] = pcf.DEFAULT_LOCALE_NAME;
@@ -202,12 +202,12 @@ describe('Init', function() {
     });
 
     it('if option has syntax wrong, it should ask again', function() {
-      var deferred = { resolve: sinon.spy() };
-      dependencies.q.defer = sinon.stub().returns(deferred);
+      var deferred = { resolve: spy() };
+      dependencies.q.defer = stub().returns(deferred);
       var init = new (proxyquire('../libraries/init', dependencies).Init);
-      pcf.LOCALES_SYNTAX = { test: sinon.stub().returns(false) };
+      pcf.LOCALES_SYNTAX = { test: stub().returns(false) };
       init.rl = {};
-      init.rl.question = sinon.stub()
+      init.rl.question = stub()
       init.rl.question.onCall(0).callsArgWith(1, 'syntax-wrong');
       init.rl.question.onCall(1).callsArgWith(1, '');
       init._getLocales();
@@ -217,12 +217,12 @@ describe('Init', function() {
     });
 
     it('should resolve to a syntax wrong-free locale(single) option', function() {
-      var deferred = { resolve: sinon.spy() };
-      dependencies.q.defer = sinon.stub().returns(deferred);
+      var deferred = { resolve: spy() };
+      dependencies.q.defer = stub().returns(deferred);
       var init = new (proxyquire('../libraries/init', dependencies).Init);
-      pcf.LOCALES_SYNTAX = { test: sinon.stub().returns(true) };
+      pcf.LOCALES_SYNTAX = { test: stub().returns(true) };
       init.rl = {};
-      init.rl.question = sinon.stub()
+      init.rl.question = stub()
       init.rl.question.onCall(0).callsArgWith(1, 'en-US:English (US)');
       init._getLocales();
       deferred.resolve.should.have.been.calledOnce;
@@ -230,12 +230,12 @@ describe('Init', function() {
     });
 
     it('should resolve to a syntax wrong-free locales(multiple) option', function() {
-      var deferred = { resolve: sinon.spy() };
-      dependencies.q.defer = sinon.stub().returns(deferred);
+      var deferred = { resolve: spy() };
+      dependencies.q.defer = stub().returns(deferred);
       var init = new (proxyquire('../libraries/init', dependencies).Init);
-      pcf.LOCALES_SYNTAX = { test: sinon.stub().returns(true) };
+      pcf.LOCALES_SYNTAX = { test: stub().returns(true) };
       init.rl = {};
-      init.rl.question = sinon.stub()
+      init.rl.question = stub()
       init.rl.question.onCall(0).callsArgWith(1, 'en-US:English (US),zh-CN:Chinese');
       init._getLocales();
       deferred.resolve.should.have.been.calledOnce;
@@ -245,7 +245,7 @@ describe('Init', function() {
 
   describe('#_getDefaultLocale(locales)', function() {
     it('should return a promise', function() {
-      dependencies.q.defer = sinon.stub().returns({ promise: 'promise' });
+      dependencies.q.defer = stub().returns({ promise: 'promise' });
       var init = new (proxyquire('../libraries/init', dependencies).Init);
       init.rl =  { question: function() {} };
       var locales = { 'en-US': 'English (US)', 'zh-CN': 'Chinese' };
@@ -253,8 +253,8 @@ describe('Init', function() {
     });
 
     it('if there is only one locale it should return resolve to it', function() {
-      var deferred = { resolve: sinon.spy() };
-      dependencies.q.defer = sinon.stub().returns(deferred);
+      var deferred = { resolve: spy() };
+      dependencies.q.defer = stub().returns(deferred);
       var init = new (proxyquire('../libraries/init', dependencies).Init);
       init.rl =  { question: function() {} };
       var locales = { 'en-US': 'English (US)'};
@@ -263,10 +263,10 @@ describe('Init', function() {
       deferred.resolve.should.have.been.calledWith('en-US');
     });
 
-    it('should create a form qith question for default locale and several options to choose from', function() {
+    it('should create a form for choosing default locale', function() {
       pcf.DEFAULT_LOCALE_QUESTION = 'Default locale question';
       var init = new (proxyquire('../libraries/init', dependencies).Init);
-      init.rl =  { question: sinon.spy() };
+      init.rl =  { question: spy() };
       var locales = { 'en-US': 'English (US)', 'zh-CN': 'Chinese' };
       init._getDefaultLocale(locales);
       expect(init.rl.question.args[0][0]).to.contain(pcf.DEFAULT_LOCALE_QUESTION);
@@ -275,10 +275,10 @@ describe('Init', function() {
     });
 
     it('should resolve to a choosen locale', function(done) {
-      var deferred = { resolve: sinon.spy() };
-      dependencies.q.defer = sinon.stub().returns(deferred);
+      var deferred = { resolve: spy() };
+      dependencies.q.defer = stub().returns(deferred);
       var init = new (proxyquire('../libraries/init', dependencies).Init);
-      init.rl =  { question: sinon.stub().callsArgWith(1, '1') };
+      init.rl =  { question: stub().callsArgWith(1, '1') };
       var locales = { 'en-US': 'English (US)', 'zh-CN': 'Chinese' };
       init._getDefaultLocale(locales);
       eventually(function() {
@@ -289,10 +289,10 @@ describe('Init', function() {
     });
 
     it('should re-ask question of option input is not valid', function(done) {
-      var deferred = { resolve: sinon.spy() };
-      dependencies.q.defer = sinon.stub().returns(deferred);
+      var deferred = { resolve: spy() };
+      dependencies.q.defer = stub().returns(deferred);
       var init = new (proxyquire('../libraries/init', dependencies).Init);
-      init.rl =  { question: sinon.stub() };
+      init.rl =  { question: stub() };
       init.rl.question.onCall(0).callsArgWith(1, 'invalid-option');
       init.rl.question.onCall(1).callsArgWith(1, '1');
       var locales = { 'en-US': 'English (US)', 'zh-CN': 'Chinese' };
@@ -303,6 +303,33 @@ describe('Init', function() {
         deferred.resolve.should.have.been.calledWith('en-US');
         done();
       });
+    });
+  });
+
+  describe('#_getProgrammingLanguage()', function() {
+    it('should return a promise', function() {
+      pcf.PROGRAMMING_LANGUAGUES = ['javascript'];
+      dependencies.q.defer = stub().returns({ promise: 'promise' });
+      var init = new (proxyquire('../libraries/init', dependencies).Init);
+      init.rl =  { question: function() {} };
+      expect(init._getProgrammingLanguage()).to.equal('promise');
+    });
+
+    it('should create a form for choosing a programming language', function() {
+      pcf.CHOOSE_PROGRAMMING_LANGUAGE_QUESTION = 'programming-language-question';
+      var init = new (proxyquire('../libraries/init', dependencies).Init);
+      init.rl =  { question: spy() };
+      init._getProgrammingLanguage();
+      expect(init.rl.question.args[0][0]).to.contain(pcf.CHOOSE_PROGRAMMING_LANGUAGE_QUESTION);
+      expect(init.rl.question.args[0][0]).to.contain('javascript');
+    });
+
+    it('should resolve to a chosen programming language', function() {
+      var deferred = { resolve: spy() };
+      dependencies.q.defer = stub().returns(deferred);
+      var init = new (proxyquire('../libraries/init', dependencies).Init);
+      init.rl =  { question: spy() };
+      init._getProgrammingLanguage();
     });
   });
 });

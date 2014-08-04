@@ -81,7 +81,7 @@ module.exports = {
 
   PROGRAMMING_LANGUAGUES: ['javascript'],
 
-  CHOOSE_PROGRAMMING_LANGUAGE_PROMPT: 'Choose one of the following programming languagues:\n',
+  CHOOSE_PROGRAMMING_LANGUAGE_QUESTION: 'Choose one of the following programming languagues:\n',
   CHOOSE_PROGRAMMING_LANGUAGE_WRONG_ANSWER: '\nUnrecognized programming language. Please try again.'.red + '\n\n',
 
   PROGRAMMING_LANGUAGUE_TO_DEFAULT_SRC_MAP: {
