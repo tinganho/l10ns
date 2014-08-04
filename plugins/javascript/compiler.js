@@ -6,7 +6,7 @@
 var fs = require('fs')
   , path = require('path')
   , syntax = require('./syntax')
-  , tmpl = require('./templates/build/templates')
+  , template = require('./templates/build/templates')
   , file = require('../../libraries/file')
   , log = require('../../libraries/_log')
 
@@ -52,7 +52,7 @@ var Compiler = function() {
 
 Compiler.prototype.compile = function() {
   for(locale in project.locales) {
-    var content = tmpl.javascriptWrapper({
+    var content = template.javascriptWrapper({
       functionName : language.GET_LOCALIZATION_STRING_FUNCTION_NAME,
       translationMap : this._getTranslationMap(locale)
     });
@@ -93,7 +93,7 @@ Compiler.prototype._getTranslationMap = function(locale) {
       body += this.comma + this.newline;
     }
 
-    var field = tmpl.JSONTranslationFunctionField({
+    var field = template.JSONTranslationFunctionField({
       key : this._normalizeText(key),
       functionString : this._getFunctionBodyString(translations, key)
     });
@@ -108,7 +108,7 @@ Compiler.prototype._getTranslationMap = function(locale) {
   }
 
   // Store every function in a hash
-  return tmpl.mapDeclaration({
+  return template.mapDeclaration({
     body : body
   });
 
@@ -145,13 +145,13 @@ Compiler.prototype._getFunctionBodyString = function(translations, key) {
   } else if(translations[key].values[0][0] === program.CONDITION_IF) {
     str += this._getConditionsString(
       translations[key].values,
-      translations[key].vars
+      translations[key].variables
     );
   } else {
     str += this._getNonConditionsFunctionBodyString(
       this._getFormatedTranslatedText(
         translations[key].values[0],
-        translations[key].vars
+        translations[key].variables
       )
     );
   }
@@ -168,7 +168,7 @@ Compiler.prototype._getFunctionBodyString = function(translations, key) {
  */
 
 Compiler.prototype._getNonConditionsFunctionBodyString = function(string) {
-  return tmpl.nonConditionFunctionBody({
+  return template.nonConditionFunctionBody({
     string : string
   });
 };
@@ -182,7 +182,7 @@ Compiler.prototype._getNonConditionsFunctionBodyString = function(string) {
  */
 
 Compiler.prototype._getNonTranslatedFunctionBodyString = function(key) {
-  return tmpl.nonTranslatedFunctionBody({
+  return template.nonTranslatedFunctionBody({
     key : key
   });
 };
@@ -191,20 +191,20 @@ Compiler.prototype._getNonTranslatedFunctionBodyString = function(key) {
  * Get conditions string
  *
  * @param {Array} conditions
- * @param {Array} vars
+ * @param {Array} variables
  * @return {String}
  * @api private
  */
 
-Compiler.prototype._getConditionsString = function(conditions, vars) {
+Compiler.prototype._getConditionsString = function(conditions, variables) {
   var str = '';
   conditions.forEach(function(condition) {
     if(condition[0] !== program.CONDITION_ELSE) {
-      str += this._getConditionString(condition, vars);
-      str += this._getAdditionalConditionString(condition, vars);
+      str += this._getConditionString(condition, variables);
+      str += this._getAdditionalConditionString(condition, variables);
     }
     else {
-      str += this.space + this._getElseStatementString(condition[1], vars);
+      str += this.space + this._getElseStatementString(condition[1], variables);
     }
   }, this);
 
@@ -215,16 +215,16 @@ Compiler.prototype._getConditionsString = function(conditions, vars) {
  * Get condition string
  *
  * @param {Array} condition
- * @param {Array} vars
+ * @param {Array} variables
  * @return {String}
  * @api private
  */
 
-Compiler.prototype._getConditionString = function(conditions, vars) {
+Compiler.prototype._getConditionString = function(conditions, variables) {
   var _condition = conditions[0]
-    , operand1   = this._getFormatedOperandString(conditions[1], vars)
-    , operator   = conditions[2]
-    , operand2   = this._getFormatedOperandString(conditions[3], vars);
+    , operand1 = this._getFormatedOperandString(conditions[1], variables)
+    , operator = conditions[2]
+    , operand2 = this._getFormatedOperandString(conditions[3], variables);
 
   // Check if string represent a condition
   if(!syntax.stringIsCondition(operand1, operator, operand2)) {
@@ -232,7 +232,7 @@ Compiler.prototype._getConditionString = function(conditions, vars) {
   }
 
   if(operator !== 'lni') {
-    return tmpl.condition({
+    return template.condition({
       condition : _condition,
       operand1  : operand1,
       operator  : operator,
@@ -240,7 +240,7 @@ Compiler.prototype._getConditionString = function(conditions, vars) {
     });
   }
   else {
-    return tmpl.conditionFunction({
+    return template.conditionFunction({
       condition : _condition,
       operand1  : operand1,
       function  : operator,
@@ -259,7 +259,7 @@ Compiler.prototype._getConditionString = function(conditions, vars) {
  * @api private
  */
 
-Compiler.prototype._getAdditionalConditionString = function(conditions, vars) {
+Compiler.prototype._getAdditionalConditionString = function(conditions, variables) {
   var str = '', index = 4;
   while(conditions[index] === program.ADDITIONAL_CONDITION_AND ||
         conditions[index] === program.ADDITIONAL_CONDITION_OR) {
@@ -268,9 +268,9 @@ Compiler.prototype._getAdditionalConditionString = function(conditions, vars) {
     var additionalCondition = conditions[index];
 
     // Declare operators and operands
-    var operand1 = this._getFormatedOperandString(conditions[index + 1], vars)
+    var operand1 = this._getFormatedOperandString(conditions[index + 1], variables)
       , operator = conditions[index + 2]
-      , operand2 = this._getFormatedOperandString(conditions[index + 3], vars);
+      , operand2 = this._getFormatedOperandString(conditions[index + 3], variables);
 
     // Check if string represent a condition
     if(!syntax.stringIsCondition(operand1, operator, operand2)) {
@@ -278,7 +278,7 @@ Compiler.prototype._getAdditionalConditionString = function(conditions, vars) {
     }
 
     if(operator !== 'lni') {
-      str += this.space + tmpl.additionalCondition({
+      str += this.space + template.additionalCondition({
         additionalCondition: additionalCondition,
         operand1: operand1,
         operator: operator,
@@ -286,7 +286,7 @@ Compiler.prototype._getAdditionalConditionString = function(conditions, vars) {
       });
     }
     else {
-      str += this.space + tmpl.additionalConditionFunction({
+      str += this.space + template.additionalConditionFunction({
         additionalCondition: additionalCondition,
         operand1: operand1,
         function: operator,
@@ -298,8 +298,8 @@ Compiler.prototype._getAdditionalConditionString = function(conditions, vars) {
   }
 
   // append condition body
-  str += tmpl.conditionBody({
-    string : this._getFormatedTranslatedText(conditions[index], vars)
+  str += template.conditionBody({
+    string : this._getFormatedTranslatedText(conditions[index], variables)
   });
 
   return str;
@@ -313,7 +313,7 @@ Compiler.prototype._getAdditionalConditionString = function(conditions, vars) {
  */
 
 Compiler.prototype._getConditionBodyString = function(string) {
-  return tmpl.conditionBody({ string : string });
+  return template.conditionBody({ string : string });
 };
 
 /**
@@ -323,28 +323,28 @@ Compiler.prototype._getConditionBodyString = function(string) {
  * @api private
  */
 
-Compiler.prototype._getElseStatementString = function(string, vars) {
-  string = this._getFormatedTranslatedText(string, vars);
-  return tmpl.elseStatement({ string : string });
+Compiler.prototype._getElseStatementString = function(string, variables) {
+  string = this._getFormatedTranslatedText(string, variables);
+  return template.elseStatement({ string: string });
 };
 
 /**
  * Reformats a translation JSON variable to javascript string
  *
  * @param {String} operand
- * @param {Array} vars
+ * @param {Array} variables
  * @return {String}
  * @api private
  */
 
-Compiler.prototype._getFormatedOperandString = function(operand, vars) {
+Compiler.prototype._getFormatedOperandString = function(operand, variables) {
   program.SYNTAX_VARIABLE_MARKUP.lastIndex = 0;
   if(program.SYNTAX_VARIABLE_MARKUP.test(operand)) {
-    // Re-formats all vars
+    // Re-formats all variables
     if(/^\$\{\d/.test(operand)) {
       throw new TypeError('variable can\'t begin with an integer.');
     }
-    if(vars.indexOf(operand) === -1) {
+    if(variables.indexOf(operand) === -1) {
       log.error('You have used an undefined variable ' + operand.red
       + '.\n Please add the variable or remove the operand from your source.');
       process.exit();
@@ -366,13 +366,13 @@ Compiler.prototype._getFormatedOperandString = function(operand, vars) {
  * @api private
  */
 
-Compiler.prototype._getFormatedTranslatedText = function(text, vars) {
+Compiler.prototype._getFormatedTranslatedText = function(text, variables) {
   var _this = this;
   // Replace quotations
   text = this._normalizeText(text);
 
   return text.replace(program.SYNTAX_VARIABLE_MARKUP, function(match) {
-    if(vars.indexOf(match) === -1) {
+    if(variables.indexOf(match) === -1) {
       log.error('You have used an undefined variable ' + operand.red
       + '.\n Please add the variable or remove the operand from your source.');
       process.exit();
