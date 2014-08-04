@@ -192,11 +192,11 @@ commands
     if(!utilities.initiatedProject()) {
       return console.log('You haven\'t initialized a project yet');
     }
-    if(program.values) {//no-values option
+    if(commands.values) {//no-values option
       cli.log(this.locale, 'regular');
     }
     else {
-      cli.log(this.locale, 'no-values');
+      cli.log(this.locale, 'empty-values');
     }
   });
 
