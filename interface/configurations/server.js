@@ -267,7 +267,7 @@ var configurations = {
     'Bigger than': '>',
     'Smaller and equal': '<=',
     'Bigger and equal': '>=',
-    'Last number is': 'lni'
+    'Last character is': 'lci'
   },
 
   /**
@@ -288,7 +288,6 @@ var configurations = {
    */
 
   CLIENT_CONFIGURATIONS_MAP: {}
-
 };
 
 /**

@@ -446,7 +446,7 @@ describe('Init', function() {
 
   describe('#_setDefaultSrc()', function() {
     it('set default source map', function() {
-      pcf.PROGRAMMING_LANGUAGUE_TO_DEFAULT_SRC_MAP = { 'programming-language1': 'default-sources-for-programming-language1' }
+      pcf.DEFAULT_SOURCE_MAP = { 'programming-language1': 'default-sources-for-programming-language1' }
       var init = new (proxyquire('../libraries/init', dependencies).Init);
       init.json.programmingLanguage = 'programming-language1';
       init._setDefaultSrc();

@@ -13,7 +13,7 @@ var fs = require('fs')
   , file = require('./file')
   , log = require('./_log')
   , Hashids = require('hashids')
-  , hashids = new Hashids(pcf.TRANSLATION_ID_HASH_SECRET, pcf.TRANSLATION_ID_CHAR_LENGTH);
+  , hashids = new Hashids(pcf.LOCALIZATION_ID_HASH_SECRET, pcf.LOCALIZATION_ID_CHARACTER_LENGTH);
 
 /**
  * Add terminal colors

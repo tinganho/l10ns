@@ -1,92 +1,91 @@
 
 /**
- * Add terminal colors
- */
-
-require('terminal-colors');
-
-/**
- * Program configs
+ * Program configurations
  */
 
 module.exports = {
 
-  // Folders
-  LOCALES_FOLDER: 'locales',
+  /**
+   * Get localization string function name. Plugins might use this configuration
+   * to alter the behavior of updating keys and compiling.
+   *
+   * @value {String}
+   */
 
-  // Files
-  DELETE_LOG_FILE    : '/delete.log',
-  LATEST_SEARCH_CACHE: '/cache/latestSearch.json',
+  GET_LOCALIZATION_STRING_FUNCTION_NAME: 'l',
 
-  // Gt log length
-  LOG_LENGTH: 10,
+  /**
+   * Get localization string using variables function name. Plugins might use this
+   * configuration to alter the behavior of updating keys and compiling.
+   *
+   * @value {String}
+   */
 
-  // Default values
-  DEFAULT_TRANSLATION_FUNCTION: 'gt',
-  DEFAULT_REQUIREJS: true,
-  DEFAULT_FOLDER: 'translations',
-  DEFAULT_OUTPUT: 'output',
-  DEFAULT_POR: 3001,
+  GET_LOCALIZATION_STRING_USING_VARIABLES_FUNCTION_NAME: 'ld',
+
+  /**
+   * Default output folder
+   *
+   * @value {String} The output folder could either be absolute or relative to
+   * the project root path.
+   */
+
+  DEFAULT_OUTPUT_FOLDER: 'output',
+
+  /**
+   * Default port used for the translation interface.
+   *
+   * @value {Number}
+   */
+
+  DEFAULT_PORT: 3001,
+
+  /**
+   * Default behavior for the translation interface. Specify if it should auto
+   * open from your terminal or not.
+   *
+   * @value {Boolean}
+   */
+
   DEFAULT_AUTO_OPEN: true,
-  DEFAULT_QUIET: false,
 
-  NO_TRANSLATION: 'NO TRANSLATION',
+  /**
+   * Default locale code for uninitialized projects.
+   *
+   * @value {String}
+   */
 
-  TRANSLATION_ID_HASH_SECRET: 'gt',
-  TRANSLATION_ID_CHAR_LENGTH: 8,
+  DEFAULT_LOCALE_CODE: 'en-US',
+
+  /**
+   * Default locale name for uninitialized projects.
+   *
+   * @value {String}
+   */
+
+  DEFAULT_LOCALE_NAME: 'English (US)',
+
+  /**
+   * Default programming language for uninitialized projects.
+   *
+   * @value {String}
+   */
 
   DEFAULT_PROGAMMING_LANGUAGE: 'javascript',
 
-  // Syntaxes
-  SYNTAX_OPERAND: /^(it\.)?\w+$/,
-  SYNTAX_VARIABLE: /^[a-zA-Z][a-zA-Z0-9]+$/,
-  SYNTAX_VARIABLE_MARKUP: /\$\{[a-zA-Z0-9]+\}/g,
+  /**
+   * Specify default storage folder for uninitialized projects.
+   *
+   * @value {String}
+   */
 
-  // conditions
-  CONDITIONS: ['if', 'else', 'else if'],
-  CONDITION_IF    : 'if',
-  CONDITION_ELSE  : 'else',
-  CONDITION_ELSEIF: 'else if',
+  DEFAULT_STORAGE_FOLDER: 'localizations/',
 
-  ADDITIONAL_CONDITIONS: ['&&', '||'],
-  ADDITIONAL_CONDITION_AND: '&&',
-  ADDITIONAL_CONDITION_OR : '||',
-
-  OPERATORS: ['<', '<=', '==', '===', '>', '>=', 'lni'],
-
-  INIT_INTRODUCTION:
-  'This utility will walk you through creating a get-transltion project.\n' +
-  'It only covers the most common items, and tries to guess sane defaults.\n' +
-  '\n' +
-  'Press ^C at any time to quit.\n\n',
-
-  LOCALES_DESCRIPTION:
-  'Please add at least one locale to your project.\n' +
-  'The syntax should be a comma separated list of ' + 'LOCALE_CODE:LOCALE_NAME'.yellow + '\nformated strings.\n' +
-  '\n' +
-  '  Example:\n' +
-  '\n' +
-  '    en-US:English,zh-CN:Chinese\n\n',
-
-  LOCALES_WRONG_ANSWER: '\nUnrecognized string. Please add your locales again.'.red + '\n\n',
-
-  LOCALES_SYNTAX: /([\w\-]+:[\(\)\w\-\s]+,?)+/,
-
-  DEFAULT_LOCALE_CODE: 'en-US',
-  DEFAULT_LOCALE_NAME: 'English (US)',
-
-  DEFAULT_LOCALE_QUESTION: '\nPlease choose your default locale:\n',
-
-  DEFAULT_LOCALE_WRONG_ANSWER: '\nYour option didn\'t match any of the locales you provided.\n'.red,
-
-  PROGRAMMING_LANGUAGUES: ['javascript'],
-
-  CHOOSE_PROGRAMMING_LANGUAGE_QUESTION: 'Choose one of the following programming languagues:\n',
-  CHOOSE_PROGRAMMING_LANGUAGE_WRONG_ANSWER: '\nUnrecognized programming language. Please try again.'.red + '\n\n',
-
-  PROGRAMMING_LANGUAGUE_TO_DEFAULT_SRC_MAP: {
-    'javascript': []
-  },
+  /**
+   * Default configurations for uninitialized projects.
+   *
+   * @value {String} Set the value as an JSON docoument specified in l10ns
+   */
 
   DEFAULT_CONFIGURATIONS: {
     interface: {
@@ -95,13 +94,112 @@ module.exports = {
     }
   },
 
-  DEFAULT_STORAGE_FOLDER: 'localizations/',
+  /**
+   * Default source map for every programming language.
+   *
+   * @value {Object} a map with key a programming language
+   * and value an array of glob file patterns
+   */
 
-  DEFAULT_STORAGE_FOLDER_QUESTION:
-  '\nAll translations will be compiled to a single folder.\n' +
-  'Please specify which folder you want them to be compiled to.\n\n',
+  DEFAULT_SOURCE_MAP: {
+    'javascript': []
+  },
 
-  DEFAULT_STORAGE_FOLDER_WRONG_ANSWER: '\nFailed to resolve path. Please try again.\n',
+  /**
+   * Hash secret used for each localization's ID.
+   *
+   * @value {String}
+   */
 
-  PROJECT_ALREADY_INITIATED: 'Project already initiated'
+  LOCALIZATION_ID_HASH_SECRET: 'l10ns',
+
+  /**
+   * Character length used for each localization's ID.
+   *
+   * @value {String}
+   */
+
+  LOCALIZATION_ID_CHARACTER_LENGTH: 8,
+
+  /**
+   * Define variable markup should be used. Variable markup is a markup defined
+   * in the value string.
+   *
+   * @value {RegExp}
+   */
+
+  SYNTAX_VARIABLE_MARKUP: /\$\{[a-zA-Z0-9]+\}/g,
+
+  /**
+   * Specify string used for `if` statement.
+   *
+   * @value {String}
+   */
+
+  CONDITION_IF: 'if',
+
+  /**
+   * Specify string used for `else if` statement.
+   *
+   * @value {String}
+   */
+
+  CONDITION_ELSEIF: 'else if',
+
+  /**
+   * Specify string used for `else` statement.
+   *
+   * @value {String}
+   */
+
+  CONDITION_ELSE: 'else',
+
+  /**
+   * Specify string used for `and` operator.
+   *
+   * @value {String}
+   */
+
+  ADDITIONAL_CONDITION_AND: '&&',
+
+  /**
+   * Specify string used for `or` operator.
+   *
+   * @value {String}
+   */
+
+  ADDITIONAL_CONDITION_OR : '||',
+
+  /**
+   * Specify operators used in l10ns.
+   *
+   * @value {Array}
+   */
+
+  OPERATORS: ['<', '<=', '==', '===', '>', '>=', 'lci'],
+
+  /**
+   * Specify supported programming languages
+   *
+   * @value {Array} programming languages
+   */
+
+  PROGRAMMING_LANGUAGUES: ['javascript'],
+
+  /**
+   * Specify locales syntax. This configuration is used by Init class.
+   * To check if a certain given option is valid or not.
+   *
+   * @value {Array} programming languages
+   */
+
+  LOCALES_SYNTAX: /([\w\-]+:[\(\)\w\-\s]+,?)+/,
+
+  /**
+   * Default log length for logs outputted in the terminal.
+   *
+   * @value {Number}
+   */
+
+  DEFAULT_LOG_LENGTH: 10,
 };

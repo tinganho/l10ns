@@ -277,7 +277,7 @@ Init.prototype._getStorageFolder = function() {
  */
 
 Init.prototype._setDefaultSrc = function() {
-  this.json.src = pcf.PROGRAMMING_LANGUAGUE_TO_DEFAULT_SRC_MAP[
+  this.json.src = pcf.DEFAULT_SOURCE_MAP[
     this.json.programmingLanguage
   ];
 };
