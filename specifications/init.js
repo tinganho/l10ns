@@ -25,7 +25,7 @@ describe('Init', function() {
 
   describe('#init()', function() {
     it('if project already exists it should send an message and exit process', function() {
-      program.PROJECT_ALREADY_INITIATED = 'project-already-initiated';
+      text.PROJECT_ALREADY_INITIATED = 'project-already-initiated';
       var cwdStub = stub(process, 'cwd');
       cwdStub.returns('current-working-directory');
       var exitStub = stub(process, 'exit');
@@ -38,7 +38,7 @@ describe('Init', function() {
       init.init();
       exitStub.should.have.been.calledOnce;
       consoleStub.should.have.been.calledOnce;
-      consoleStub.should.have.been.calledWith(program.PROJECT_ALREADY_INITIATED);
+      consoleStub.should.have.been.calledWith(text.PROJECT_ALREADY_INITIATED);
       consoleStub.restore();
       exitStub.restore();
       cwdStub.restore();
@@ -168,12 +168,12 @@ describe('Init', function() {
 
   describe('#_outputIntroduction()', function() {
     it('should write introduction to output', function() {
-      program.INIT_INTRODUCTION = 'introduction';
+      text.INIT_INTRODUCTION = 'introduction';
       var stdoutWrite = stub(process.stdout, 'write');
       var init = new (proxyquire('../libraries/init', dependencies).Init);
       init._outputIntroduction();
       stdoutWrite.should.have.been.calledOnce;
-      stdoutWrite.should.have.been.calledWith(program.INIT_INTRODUCTION);
+      stdoutWrite.should.have.been.calledWith(text.INIT_INTRODUCTION);
       stdoutWrite.restore();
     });
   });
@@ -264,12 +264,12 @@ describe('Init', function() {
     });
 
     it('should create a form for choosing default locale', function() {
-      program.DEFAULT_LOCALE_QUESTION = 'Default locale question';
+      text.DEFAULT_LOCALE_QUESTION = 'Default locale question';
       var init = new (proxyquire('../libraries/init', dependencies).Init);
       init.rl =  { question: spy() };
       var locales = { 'en-US': 'English (US)', 'zh-CN': 'Chinese' };
       init._getDefaultLocale(locales);
-      expect(init.rl.question.args[0][0]).to.contain(program.DEFAULT_LOCALE_QUESTION);
+      expect(init.rl.question.args[0][0]).to.contain(text.DEFAULT_LOCALE_QUESTION);
       expect(init.rl.question.args[0][0]).to.contain('English (US)');
       expect(init.rl.question.args[0][0]).to.contain('Chinese');
     });
@@ -289,7 +289,7 @@ describe('Init', function() {
     });
 
     it('should re-ask if an invalid option is given', function(done) {
-      program.DEFAULT_LOCALE_WRONG_ANSWER = 'wrong-answer';
+      text.DEFAULT_LOCALE_WRONG_ANSWER = 'wrong-answer';
       var deferred = { resolve: spy() };
       dependencies.q.defer = stub().returns(deferred);
       var init = new (proxyquire('../libraries/init', dependencies).Init);
@@ -300,7 +300,7 @@ describe('Init', function() {
       init._getDefaultLocale(locales);
       eventually(function() {
         init.rl.question.should.have.been.calledTwice;
-        expect(init.rl.question.args[1][0]).to.contain(program.DEFAULT_LOCALE_WRONG_ANSWER);
+        expect(init.rl.question.args[1][0]).to.contain(text.DEFAULT_LOCALE_WRONG_ANSWER);
         deferred.resolve.should.have.been.calledOnce;
         deferred.resolve.should.have.been.calledWith('en-US');
         done();
@@ -318,11 +318,11 @@ describe('Init', function() {
     });
 
     it('should create a form for choosing a programming language', function() {
-      program.CHOOSE_PROGRAMMING_LANGUAGE_QUESTION = 'programming-language-question';
+      text.CHOOSE_PROGRAMMING_LANGUAGE_QUESTION = 'programming-language-question';
       var init = new (proxyquire('../libraries/init', dependencies).Init);
       init.rl =  { question: spy() };
       init._getProgrammingLanguage();
-      expect(init.rl.question.args[0][0]).to.contain(program.CHOOSE_PROGRAMMING_LANGUAGE_QUESTION);
+      expect(init.rl.question.args[0][0]).to.contain(text.CHOOSE_PROGRAMMING_LANGUAGE_QUESTION);
       expect(init.rl.question.args[0][0]).to.contain('javascript');
     });
 
@@ -339,7 +339,7 @@ describe('Init', function() {
 
     it('should re-ask if an invalid option is given', function() {
       program.PROGRAMMING_LANGUAGUES = ['javascript'];
-      program.CHOOSE_PROGRAMMING_LANGUAGE_WRONG_ANSWER = 'wrong-answer';
+      text.CHOOSE_PROGRAMMING_LANGUAGE_WRONG_ANSWER = 'wrong-answer';
       var deferred = { resolve: spy() };
       dependencies.q.defer = stub().returns(deferred);
       var init = new (proxyquire('../libraries/init', dependencies).Init);
@@ -349,7 +349,7 @@ describe('Init', function() {
       init._getProgrammingLanguage();
       eventually(function() {
         init.rl.question.should.have.been.calledTwice;
-        expect(init.rl.question.args[1][0]).to.contain(program.CHOOSE_PROGRAMMING_LANGUAGE_WRONG_ANSWER);
+        expect(init.rl.question.args[1][0]).to.contain(text.CHOOSE_PROGRAMMING_LANGUAGE_WRONG_ANSWER);
         expect(init.rl.question.args[1][0]).to.contain('javascript');
         deferred.resolve.should.have.been.calledOnce;
         deferred.resolve.should.have.been.calledWith('javascript');

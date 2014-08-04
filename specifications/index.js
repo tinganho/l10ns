@@ -29,12 +29,13 @@ chai.use(sinonChai);
  * Globals
  */
 
-global.lcf = {
-  TRANSLATION_FUNCTION_CALL_REGEX: /gt\(['|"](.*?)['|"]\s*(\,\s*\{\s*((.*?)|(\s*?))+?\s*\})??\s*\)/g,
-  TRANSLATION_INNER_FUNCTION_CALL_REGEX: /\s+(?!gt)[.|\w]+?\((.*?\s*?)*?\)/g
+global.language = {
+  GET_LOCALIZATION_FUNCTION_CALL_SYNTAX: /l\(['|"](.*?)['|"]\s*(\,\s*\{\s*((.*?)|(\s*?))+?\s*\})??\s*\)/g,
+  GET_LOCALIZATION_INNER_FUNCTION_CALL_SYNTAX: /\s+(?!l)[.|\w]+?\((.*?\s*?)*?\)/g
 };
-
-global.pcf = {};
+global.project = { cache: {}};
+global.program = {};
+global.text = {};
 
 /**
  * Specifications

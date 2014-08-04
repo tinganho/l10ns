@@ -277,7 +277,7 @@ Compiler.prototype._getAdditionalConditionString = function(conditions, variable
       throw new TypeError('string does not represent a condition');
     }
 
-    if(operator !== 'lni') {
+    if(operator !== 'lci') {
       str += this.space + template.additionalCondition({
         additionalCondition: additionalCondition,
         operand1: operand1,

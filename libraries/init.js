@@ -191,8 +191,8 @@ Init.prototype._getProgrammingLanguage = function() {
     , optionsEndWrap = '] '
     , n = 1;
 
-  for(var i = 0; i < text.PROGRAMMING_LANGUAGUES.length; i++) {
-    question +=  ('[' + n + ']').lightBlue + ' - ' + text.PROGRAMMING_LANGUAGUES[i] + '\n';
+  for(var i = 0; i < program.PROGRAMMING_LANGUAGUES.length; i++) {
+    question +=  ('[' + n + ']').lightBlue + ' - ' + program.PROGRAMMING_LANGUAGUES[i] + '\n';
     options += n + ',';
     n++;
   }
@@ -208,8 +208,8 @@ Init.prototype._getProgrammingLanguage = function() {
     _this.rl.question(question, function(option) {
       if(/^\d+$/.test(option)) {
         option = parseInt(option, 10) - 1;
-        if(text.PROGRAMMING_LANGUAGUES[option]) {
-          return deferred.resolve(text.PROGRAMMING_LANGUAGUES[option]);
+        if(program.PROGRAMMING_LANGUAGUES[option]) {
+          return deferred.resolve(program.PROGRAMMING_LANGUAGUES[option]);
         }
       }
       answeredWrong = true;
@@ -236,13 +236,13 @@ Init.prototype._getStorageFolder = function() {
     , answeredWrong = false;
 
   if(fs.existsSync(process.cwd() + '/app')) {
-    defaultOutput = 'app/' + text.DEFAULT_STORAGE_FOLDER;
+    defaultOutput = 'app/' + program.DEFAULT_STORAGE_FOLDER;
   }
   else if(fs.existsSync(process.cwd() + '/application')) {
-    defaultOutput = 'application/' + text.DEFAULT_STORAGE_FOLDER;
+    defaultOutput = 'application/' + program.DEFAULT_STORAGE_FOLDER;
   }
   else {
-    defaultOutput = text.DEFAULT_STORAGE_FOLDER;
+    defaultOutput = program.DEFAULT_STORAGE_FOLDER;
   }
   question = text.DEFAULT_STORAGE_FOLDER_QUESTION + 'storage: (' + defaultOutput + ') ';
   var wrongAnswer = text.DEFAULT_STORAGE_FOLDER_WRONG_ANSWER + question;

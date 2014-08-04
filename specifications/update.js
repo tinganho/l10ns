@@ -88,15 +88,15 @@ describe('Update', function() {
 
   describe('#_stripInnerFunctionCalls()', function() {
     it('should remove inner function calls', function() {
-      var callString = 'gt(\'TRANSLATION_KEY\', { innerFunction: innerFunction() });';
-      var resultString = 'gt(\'TRANSLATION_KEY\', { innerFunction: });';
+      var callString = 'l(\'TRANSLATION_KEY\', { innerFunction: innerFunction() });';
+      var resultString = 'l(\'TRANSLATION_KEY\', { innerFunction: });';
       var method = proxyquire('../libraries/update', dependencies).Update.prototype._stripInnerFunctionCalls;
       expect(method(callString)).to.equal(resultString);
     });
 
     it('should not remove inner gt function calls', function() {
-      var callString = 'gt(\'TRANSLATION_KEY\', { innerFunction: gt() });';
-      var resultString = 'gt(\'TRANSLATION_KEY\', { innerFunction: gt() });';
+      var callString = 'l(\'TRANSLATION_KEY\', { innerFunction: l() });';
+      var resultString = 'l(\'TRANSLATION_KEY\', { innerFunction: l() });';
       var method = proxyquire('../libraries/update', dependencies).Update.prototype._stripInnerFunctionCalls;
       expect(method(callString)).to.equal(resultString);
     });
