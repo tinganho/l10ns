@@ -12,6 +12,7 @@ global.Q = require('q');
 global.eventually = require('underscore').defer;
 global.spy = sinon.spy;
 global.stub = sinon.stub;
+global.noop = function() {};
 
 /**
  * Plugins

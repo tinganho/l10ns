@@ -236,16 +236,16 @@ Init.prototype._getStorageFolder = function() {
     , answeredWrong = false;
 
   if(fs.existsSync(process.cwd() + '/app')) {
-    defaultOutput = 'app/' + pcf.DEFAULT_OUTPUT_FOLDER;;
+    defaultOutput = 'app/' + pcf.DEFAULT_STORAGE_FOLDER;
   }
   else if(fs.existsSync(process.cwd() + '/application')) {
-    defaultOutput = 'application/' + pcf.DEFAULT_OUTPUT_FOLDER;;
+    defaultOutput = 'application/' + pcf.DEFAULT_STORAGE_FOLDER;
   }
   else {
-    defaultOutput = pcf.DEFAULT_OUTPUT_FOLDER;;
+    defaultOutput = pcf.DEFAULT_STORAGE_FOLDER;
   }
-  question = pcf.DEFAULT_OUTPUT_FOLDER_PROMPT + 'output: (' + defaultOutput + ') ';
-  var wrongAnswer = pcf.DEFAULT_OUTPUT_FOLDER_WRONG_ANSWER + question;
+  question = pcf.DEFAULT_STORAGE_FOLDER_QUESTION + 'storage: (' + defaultOutput + ') ';
+  var wrongAnswer = pcf.DEFAULT_STORAGE_FOLDER_WRONG_ANSWER + question;
   (function ask() {
     if(answeredWrong) {
       question = wrongAnswer;
@@ -256,8 +256,8 @@ Init.prototype._getStorageFolder = function() {
       }
       else {
         option = path.normalize(option);
-        if(path) {
-          return deferred.resolve(path);
+        if(option) {
+          return deferred.resolve(option);
         }
       }
       answeredWrong = true;

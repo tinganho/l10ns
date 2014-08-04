@@ -288,7 +288,7 @@ describe('Init', function() {
       });
     });
 
-    it('should re-ask if option is invalid', function(done) {
+    it('should re-ask if an invalid option is given', function(done) {
       pcf.DEFAULT_LOCALE_WRONG_ANSWER = 'wrong-answer';
       var deferred = { resolve: spy() };
       dependencies.q.defer = stub().returns(deferred);
@@ -337,7 +337,7 @@ describe('Init', function() {
       deferred.resolve.should.have.been.calledWith('javascript');
     });
 
-    it('should re-ask if option is invalid', function() {
+    it('should re-ask if an invalid option is given', function() {
       pcf.PROGRAMMING_LANGUAGUES = ['javascript'];
       pcf.CHOOSE_PROGRAMMING_LANGUAGE_WRONG_ANSWER = 'wrong-answer';
       var deferred = { resolve: spy() };
@@ -354,6 +354,93 @@ describe('Init', function() {
         deferred.resolve.should.have.been.calledOnce;
         deferred.resolve.should.have.been.calledWith('javascript');
       });
+    });
+  });
+
+  describe('#_getStorageFolder()', function() {
+    it('should return a promise', function() {
+      pcf.PROGRAMMING_LANGUAGUES = ['javascript'];
+      dependencies.q.defer = stub().returns({ promise: 'promise' });
+      dependencies.fs.existsSync = stub().returns(true);
+      var init = new (proxyquire('../libraries/init', dependencies).Init);
+      init.rl =  { question: function() {} };
+      expect(init._getStorageFolder()).to.equal('promise');
+    });
+
+    it('should default to localization/', function() {
+      pcf.DEFAULT_STORAGE_FOLDER = 'localizations';
+      var cwdStub = stub(process, 'cwd');
+      cwdStub.returns('current-working-directory');
+      dependencies.fs.existsSync = stub().returns(false);
+      var init = new (proxyquire('../libraries/init', dependencies).Init);
+      init.rl =  { question: spy() };
+      init._getStorageFolder();
+      expect(init.rl.question.args[0][0]).to.contain('localizations');
+      cwdStub.restore();
+    });
+
+    it('if an app/ folder exists, it should default to app/localizations', function() {
+      pcf.DEFAULT_STORAGE_FOLDER = 'localizations';
+      var cwdStub = stub(process, 'cwd');
+      cwdStub.returns('current-working-directory');
+      dependencies.fs.existsSync = stub();
+      dependencies.fs.existsSync.withArgs('current-working-directory/app').returns(true);
+      dependencies.fs.existsSync.returns(false);
+      var init = new (proxyquire('../libraries/init', dependencies).Init);
+      init.rl =  { question: spy() };
+      init._getStorageFolder();
+      expect(init.rl.question.args[0][0]).to.contain('app/localizations');
+      cwdStub.restore();
+    });
+
+    it('if an application/ folder exists, it should default to application/localizations', function() {
+      pcf.DEFAULT_STORAGE_FOLDER = 'localizations';
+      var cwdStub = stub(process, 'cwd');
+      cwdStub.returns('current-working-directory');
+      dependencies.fs.existsSync = stub();
+      dependencies.fs.existsSync.withArgs('current-working-directory/application').returns(true);
+      dependencies.fs.existsSync.returns(false);
+      var init = new (proxyquire('../libraries/init', dependencies).Init);
+      init.rl =  { question: spy() };
+      init._getStorageFolder();
+      expect(init.rl.question.args[0][0]).to.contain('application/localizations');
+      cwdStub.restore();
+    });
+
+    it('if empty option is provided it should resolve to default option', function(done) {
+      pcf.DEFAULT_STORAGE_FOLDER = 'localizations';
+      var deferred = { resolve: spy() };
+      dependencies.q.defer = stub().returns(deferred);
+      var cwdStub = stub(process, 'cwd');
+      cwdStub.returns('current-working-directory');
+      dependencies.fs.existsSync = stub().returns(false);
+      var init = new (proxyquire('../libraries/init', dependencies).Init);
+      init.rl =  { question: stub().callsArgWith(1, '') };
+      init._getStorageFolder();
+      eventually(function() {
+        deferred.resolve.should.have.been.calledOnce;
+        deferred.resolve.should.have.been.calledWith(pcf.DEFAULT_STORAGE_FOLDER);
+        done();
+      });
+      cwdStub.restore();
+    });
+
+    it('if a path is choosen, it should resolve to a normalized version of that path', function(done) {
+      pcf.DEFAULT_STORAGE_FOLDER = 'localizations';
+      var deferred = { resolve: spy() };
+      dependencies.q.defer = stub().returns(deferred);
+      var cwdStub = stub(process, 'cwd');
+      cwdStub.returns('current-working-directory');
+      dependencies.fs.existsSync = stub().returns(false);
+      var init = new (proxyquire('../libraries/init', dependencies).Init);
+      init.rl =  { question: stub().callsArgWith(1, 'path//') };
+      init._getStorageFolder();
+      eventually(function() {
+        deferred.resolve.should.have.been.calledOnce;
+        deferred.resolve.should.have.been.calledWith('path/');
+        done();
+      });
+      cwdStub.restore();
     });
   });
 });
