@@ -91,11 +91,11 @@ if(typeof pcf.interface !== 'undefined' && typeof pcf.interface.autoOpen === 'bo
 pcf.localesFolder = path.join(pcf.root, pcf.folder, pcf.LOCALES_FOLDER);
 pcf.deleteLog = pcf.folder + pcf.DELETE_LOG_FILE;
 pcf.programmingLanguage = pcf.programmingLanguage || pcf.DEFAULT_PROGAMMING_LANGUAGE;
-if(typeof pcf.output === 'undefined') {
-  pcf.output = path.join(pcf.folder, pcf.DEFAULT_OUTPUT);
+if(typeof pcf.store === 'undefined') {
+  pcf.store = path.join(pcf.folder, pcf.DEFAULT_OUTPUT);
 }
 else {
-  pcf.output = path.join(pcf.root, pcf.output);
+  pcf.store = path.join(pcf.root, pcf.store);
 }
 if(!/^\//.test(pcf.store)) {
   pcf.store = path.join(pcf.root, pcf.store);
