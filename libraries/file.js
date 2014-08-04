@@ -34,9 +34,9 @@ File.prototype.writeLocalizations = function(localizations) {
   var deferred = Q.defer()
     , localizations = this.localizationMaptoArray(localizations)
     , count = 0
-    , endCount = _.size(pcf.locales);
+    , endCount = _.size(project.locales);
 
-  for(var locale in pcf.locales) {
+  for(var locale in project.locales) {
     this.writeLocalization(localizations, locale)
       .then(function() {
         count++;
@@ -65,12 +65,12 @@ File.prototype.writeLocalization = function(localizations, locale) {
   var _this = this
     , deferred = Q.defer();
 
-  if(!this.outputFolderExists || !fs.existsSync(pcf.store)) {
-    mkdirp.sync(pcf.store);
+  if(!this.outputFolderExists || !fs.existsSync(project.store)) {
+    mkdirp.sync(project.store);
     this.outputFolderExists = true;
   }
 
-  var p = pcf.store + '/' + locale + '.locale';
+  var p = project.store + '/' + locale + '.locale';
   fs.unlink(p, function(error) {
       if(error && error.code !== 'ENOENT') {
         return deferred.reject(error);
@@ -104,7 +104,7 @@ File.prototype.writeLocalization = function(localizations, locale) {
 File.prototype.localizationMaptoArray = function(localizations) {
   var result = {};
 
-  for(var locale in pcf.locales) {
+  for(var locale in project.locales) {
     result[locale] = [];
     for(var key in localizations[locale]) {
       result[locale].push(localizations[locale][key]);
@@ -144,7 +144,7 @@ File.prototype.localizationMaptoArray = function(localizations) {
 File.prototype.readLocalizations = function(locale) {
   var _this = this
     , deferred = Q.defer()
-    , files = glob.sync(pcf.store + '/*.locale')
+    , files = glob.sync(project.store + '/*.locale')
     , localizations = {}
     , count = 0
     , endCount = files.length
@@ -273,7 +273,7 @@ File.prototype.readLocalizationMap = function(file) {
 File.prototype.readSearchLocalizations = function() {
   var deferred = Q.defer();
 
-  fs.readFile(pcf.searchFile,
+  fs.readFile(project.cache.search,
     { encoding : 'utf-8' },
     function(error, data) {
       if(error) {

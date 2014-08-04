@@ -6,11 +6,7 @@
  * @constructor Parser
  */
 
-function Parser() {
-  this.translationKeyRegex = lcf.TRANSLATION_KEY;
-  this.translationVarsRegex = lcf.TRANSLATION_VARS;
-  this.translationVarRegex = lcf.TRANSLATION_VAR;
-}
+function Parser() {}
 
 /**
  * Get the key from a function call string
@@ -25,7 +21,7 @@ function Parser() {
  */
 
 Parser.prototype.getKey = function(fn) {
-  return this.translationKeyRegex.exec(fn)[2];
+  return language.LOCALIZATION_KEY_SYNTAX.exec(fn)[2];
 };
 
 /**
@@ -37,13 +33,13 @@ Parser.prototype.getKey = function(fn) {
  */
 
 Parser.prototype.getVars = function(fn) {
-  this.translationVarsRegex.lastIndex = 0;
-  var obj = this.translationVarsRegex.exec(fn);
+  language.LOCALIZATION_VARIABLES_SYNTAX.lastIndex = 0;
+  var obj = language.LOCALIZATION_VARIABLES_SYNTAX.exec(fn);
 
   if(obj === null) {
     return [];
   }
-  obj = obj[1].match(this.translationVarRegex);
+  obj = obj[1].match(language.LOCALIZATION_VARIABLE_SYNTAX);
   for(var i = 0; i < obj.length; i++) {
     obj[i] = '${' + obj[i].replace(/\s+|:|'|"/g, '') + '}';
   }

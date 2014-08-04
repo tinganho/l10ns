@@ -9,7 +9,7 @@
  */
 
 var Hashids = require('hashids')
-  , hashids = new Hashids(pcf.TRANSLATION_ID_HASH_SECRET, pcf.TRANSLATION_ID_CHAR_LENGTH)
+  , hashids = new Hashids(program.TRANSLATION_ID_HASH_SECRET, program.TRANSLATION_ID_CHAR_LENGTH)
   , _ = require('underscore');
 
 /**

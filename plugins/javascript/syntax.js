@@ -5,9 +5,7 @@
  * @constructor
  */
 
-function Syntax() {
-  this.OPERATORS = pcf.OPERATORS;
-}
+function Syntax() {}
 
 /**
  * Checks if operands and operators has the correct syntax
@@ -25,7 +23,7 @@ Syntax.prototype.stringIsCondition = function(operand1, operator, operand2) {
     return false
   }
   // Validate operator
-  if(this.OPERATORS.indexOf(operator) === -1) {
+  if(program.OPERATORS.indexOf(operator) === -1) {
     return false;
   }
   return true;

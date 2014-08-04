@@ -11,13 +11,13 @@ var dependencies = {
 describe('Init', function() {
   describe('#constructor()', function() {
     it('should set this.json to default values', function() {
-      pcf.DEFAULT_CONFIGURATIONS = 'default-configurations';
+      program.DEFAULT_CONFIGURATIONS = 'default-configurations';
       var init = new (proxyquire('../libraries/init', dependencies).Init);
-      expect(init.json).to.eql(pcf.DEFAULT_CONFIGURATIONS);
+      expect(init.json).to.eql(program.DEFAULT_CONFIGURATIONS);
     });
 
     it('should set this.rl to null', function() {
-      pcf.DEFAULT_CONFIGURATIONS = 'default-configurations';
+      program.DEFAULT_CONFIGURATIONS = 'default-configurations';
       var init = new (proxyquire('../libraries/init', dependencies).Init);
       expect(init.rl).to.eql(null);
     });
@@ -25,7 +25,7 @@ describe('Init', function() {
 
   describe('#init()', function() {
     it('if project already exists it should send an message and exit process', function() {
-      pcf.PROJECT_ALREADY_INITIATED = 'project-already-initiated';
+      program.PROJECT_ALREADY_INITIATED = 'project-already-initiated';
       var cwdStub = stub(process, 'cwd');
       cwdStub.returns('current-working-directory');
       var exitStub = stub(process, 'exit');
@@ -38,7 +38,7 @@ describe('Init', function() {
       init.init();
       exitStub.should.have.been.calledOnce;
       consoleStub.should.have.been.calledOnce;
-      consoleStub.should.have.been.calledWith(pcf.PROJECT_ALREADY_INITIATED);
+      consoleStub.should.have.been.calledWith(program.PROJECT_ALREADY_INITIATED);
       consoleStub.restore();
       exitStub.restore();
       cwdStub.restore();
@@ -58,7 +58,7 @@ describe('Init', function() {
     });
 
     it('after getting locales it should set it and then ask for default locale', function(done) {
-      pcf.DEFAULT_CONFIGURATIONS = {};
+      program.DEFAULT_CONFIGURATIONS = {};
       dependencies.fs.existsSync = stub().returns(false);
       dependencies['findup-sync'] = stub().returns(false);
       var init = new (proxyquire('../libraries/init', dependencies).Init);
@@ -76,7 +76,7 @@ describe('Init', function() {
     });
 
     it('after getting default locale, it should set it and then ask for programming languague', function(done) {
-      pcf.DEFAULT_CONFIGURATIONS = {};
+      program.DEFAULT_CONFIGURATIONS = {};
       dependencies.fs.existsSync = stub().returns(false);
       dependencies['findup-sync'] = stub().returns(false);
       var init = new (proxyquire('../libraries/init', dependencies).Init);
@@ -94,7 +94,7 @@ describe('Init', function() {
     });
 
     it('after getting programming language, it should set it and then ask for storage folder', function(done) {
-      pcf.DEFAULT_CONFIGURATIONS = {};
+      program.DEFAULT_CONFIGURATIONS = {};
       dependencies.fs.existsSync = stub().returns(false);
       dependencies['findup-sync'] = stub().returns(false);
       var init = new (proxyquire('../libraries/init', dependencies).Init);
@@ -113,7 +113,7 @@ describe('Init', function() {
     });
 
     it('after getting storage folder, it should set it along with default values and write a configuration file', function(done) {
-      pcf.DEFAULT_CONFIGURATIONS = {};
+      program.DEFAULT_CONFIGURATIONS = {};
       dependencies.fs.existsSync = stub().returns(false);
       dependencies['findup-sync'] = stub().returns(false);
       var exitStub = stub(process, 'exit');
@@ -139,7 +139,7 @@ describe('Init', function() {
     });
 
     it('should log if any errors occurs', function(done) {
-      pcf.DEFAULT_CONFIGURATIONS = {};
+      program.DEFAULT_CONFIGURATIONS = {};
       dependencies.fs.existsSync = stub().returns(false);
       dependencies['findup-sync'] = stub().returns(false);
       var consoleStub = stub(console, 'log');
@@ -168,12 +168,12 @@ describe('Init', function() {
 
   describe('#_outputIntroduction()', function() {
     it('should write introduction to output', function() {
-      pcf.INIT_INTRODUCTION = 'introduction';
+      program.INIT_INTRODUCTION = 'introduction';
       var stdoutWrite = stub(process.stdout, 'write');
       var init = new (proxyquire('../libraries/init', dependencies).Init);
       init._outputIntroduction();
       stdoutWrite.should.have.been.calledOnce;
-      stdoutWrite.should.have.been.calledWith(pcf.INIT_INTRODUCTION);
+      stdoutWrite.should.have.been.calledWith(program.INIT_INTRODUCTION);
       stdoutWrite.restore();
     });
   });
@@ -187,8 +187,8 @@ describe('Init', function() {
     });
 
     it('should resolve to default locale if empty option is choosed', function() {
-      pcf.DEFAULT_LOCALE_CODE = 'default-locale-code';
-      pcf.DEFAULT_LOCALE_NAME = 'default-lcoale-name';
+      program.DEFAULT_LOCALE_CODE = 'default-locale-code';
+      program.DEFAULT_LOCALE_NAME = 'default-lcoale-name';
       var deferred = { resolve: spy() };
       dependencies.q.defer = stub().returns(deferred);
       var init = new (proxyquire('../libraries/init', dependencies).Init);
@@ -196,7 +196,7 @@ describe('Init', function() {
       init.rl.question = stub().callsArgWith(1, '');
       init._getLocales();
       var res = {};
-      res[pcf.DEFAULT_LOCALE_CODE] = pcf.DEFAULT_LOCALE_NAME;
+      res[program.DEFAULT_LOCALE_CODE] = program.DEFAULT_LOCALE_NAME;
       deferred.resolve.should.have.been.calledOnce;
       deferred.resolve.should.have.been.calledWith(res);
     });
@@ -205,14 +205,14 @@ describe('Init', function() {
       var deferred = { resolve: spy() };
       dependencies.q.defer = stub().returns(deferred);
       var init = new (proxyquire('../libraries/init', dependencies).Init);
-      pcf.LOCALES_SYNTAX = { test: stub().returns(false) };
+      program.LOCALES_SYNTAX = { test: stub().returns(false) };
       init.rl = {};
       init.rl.question = stub()
       init.rl.question.onCall(0).callsArgWith(1, 'syntax-wrong');
       init.rl.question.onCall(1).callsArgWith(1, '');
       init._getLocales();
-      pcf.LOCALES_SYNTAX.test.should.have.been.calledOnce;
-      pcf.LOCALES_SYNTAX.test.should.have.been.calledWith('syntax-wrong');
+      program.LOCALES_SYNTAX.test.should.have.been.calledOnce;
+      program.LOCALES_SYNTAX.test.should.have.been.calledWith('syntax-wrong');
       deferred.resolve.should.have.been.calledOnce;
     });
 
@@ -220,7 +220,7 @@ describe('Init', function() {
       var deferred = { resolve: spy() };
       dependencies.q.defer = stub().returns(deferred);
       var init = new (proxyquire('../libraries/init', dependencies).Init);
-      pcf.LOCALES_SYNTAX = { test: stub().returns(true) };
+      program.LOCALES_SYNTAX = { test: stub().returns(true) };
       init.rl = {};
       init.rl.question = stub()
       init.rl.question.onCall(0).callsArgWith(1, 'en-US:English (US)');
@@ -233,7 +233,7 @@ describe('Init', function() {
       var deferred = { resolve: spy() };
       dependencies.q.defer = stub().returns(deferred);
       var init = new (proxyquire('../libraries/init', dependencies).Init);
-      pcf.LOCALES_SYNTAX = { test: stub().returns(true) };
+      program.LOCALES_SYNTAX = { test: stub().returns(true) };
       init.rl = {};
       init.rl.question = stub()
       init.rl.question.onCall(0).callsArgWith(1, 'en-US:English (US),zh-CN:Chinese');
@@ -264,12 +264,12 @@ describe('Init', function() {
     });
 
     it('should create a form for choosing default locale', function() {
-      pcf.DEFAULT_LOCALE_QUESTION = 'Default locale question';
+      program.DEFAULT_LOCALE_QUESTION = 'Default locale question';
       var init = new (proxyquire('../libraries/init', dependencies).Init);
       init.rl =  { question: spy() };
       var locales = { 'en-US': 'English (US)', 'zh-CN': 'Chinese' };
       init._getDefaultLocale(locales);
-      expect(init.rl.question.args[0][0]).to.contain(pcf.DEFAULT_LOCALE_QUESTION);
+      expect(init.rl.question.args[0][0]).to.contain(program.DEFAULT_LOCALE_QUESTION);
       expect(init.rl.question.args[0][0]).to.contain('English (US)');
       expect(init.rl.question.args[0][0]).to.contain('Chinese');
     });
@@ -289,7 +289,7 @@ describe('Init', function() {
     });
 
     it('should re-ask if an invalid option is given', function(done) {
-      pcf.DEFAULT_LOCALE_WRONG_ANSWER = 'wrong-answer';
+      program.DEFAULT_LOCALE_WRONG_ANSWER = 'wrong-answer';
       var deferred = { resolve: spy() };
       dependencies.q.defer = stub().returns(deferred);
       var init = new (proxyquire('../libraries/init', dependencies).Init);
@@ -300,7 +300,7 @@ describe('Init', function() {
       init._getDefaultLocale(locales);
       eventually(function() {
         init.rl.question.should.have.been.calledTwice;
-        expect(init.rl.question.args[1][0]).to.contain(pcf.DEFAULT_LOCALE_WRONG_ANSWER);
+        expect(init.rl.question.args[1][0]).to.contain(program.DEFAULT_LOCALE_WRONG_ANSWER);
         deferred.resolve.should.have.been.calledOnce;
         deferred.resolve.should.have.been.calledWith('en-US');
         done();
@@ -310,7 +310,7 @@ describe('Init', function() {
 
   describe('#_getProgrammingLanguage()', function() {
     it('should return a promise', function() {
-      pcf.PROGRAMMING_LANGUAGUES = ['javascript'];
+      program.PROGRAMMING_LANGUAGUES = ['javascript'];
       dependencies.q.defer = stub().returns({ promise: 'promise' });
       var init = new (proxyquire('../libraries/init', dependencies).Init);
       init.rl =  { question: function() {} };
@@ -318,16 +318,16 @@ describe('Init', function() {
     });
 
     it('should create a form for choosing a programming language', function() {
-      pcf.CHOOSE_PROGRAMMING_LANGUAGE_QUESTION = 'programming-language-question';
+      program.CHOOSE_PROGRAMMING_LANGUAGE_QUESTION = 'programming-language-question';
       var init = new (proxyquire('../libraries/init', dependencies).Init);
       init.rl =  { question: spy() };
       init._getProgrammingLanguage();
-      expect(init.rl.question.args[0][0]).to.contain(pcf.CHOOSE_PROGRAMMING_LANGUAGE_QUESTION);
+      expect(init.rl.question.args[0][0]).to.contain(program.CHOOSE_PROGRAMMING_LANGUAGE_QUESTION);
       expect(init.rl.question.args[0][0]).to.contain('javascript');
     });
 
     it('should resolve to a choosen programming language', function() {
-      pcf.PROGRAMMING_LANGUAGUES = ['javascript'];
+      program.PROGRAMMING_LANGUAGUES = ['javascript'];
       var deferred = { resolve: spy() };
       dependencies.q.defer = stub().returns(deferred);
       var init = new (proxyquire('../libraries/init', dependencies).Init);
@@ -338,8 +338,8 @@ describe('Init', function() {
     });
 
     it('should re-ask if an invalid option is given', function() {
-      pcf.PROGRAMMING_LANGUAGUES = ['javascript'];
-      pcf.CHOOSE_PROGRAMMING_LANGUAGE_WRONG_ANSWER = 'wrong-answer';
+      program.PROGRAMMING_LANGUAGUES = ['javascript'];
+      program.CHOOSE_PROGRAMMING_LANGUAGE_WRONG_ANSWER = 'wrong-answer';
       var deferred = { resolve: spy() };
       dependencies.q.defer = stub().returns(deferred);
       var init = new (proxyquire('../libraries/init', dependencies).Init);
@@ -349,7 +349,7 @@ describe('Init', function() {
       init._getProgrammingLanguage();
       eventually(function() {
         init.rl.question.should.have.been.calledTwice;
-        expect(init.rl.question.args[1][0]).to.contain(pcf.CHOOSE_PROGRAMMING_LANGUAGE_WRONG_ANSWER);
+        expect(init.rl.question.args[1][0]).to.contain(program.CHOOSE_PROGRAMMING_LANGUAGE_WRONG_ANSWER);
         expect(init.rl.question.args[1][0]).to.contain('javascript');
         deferred.resolve.should.have.been.calledOnce;
         deferred.resolve.should.have.been.calledWith('javascript');
@@ -359,7 +359,7 @@ describe('Init', function() {
 
   describe('#_getStorageFolder()', function() {
     it('should return a promise', function() {
-      pcf.PROGRAMMING_LANGUAGUES = ['javascript'];
+      program.PROGRAMMING_LANGUAGUES = ['javascript'];
       dependencies.q.defer = stub().returns({ promise: 'promise' });
       dependencies.fs.existsSync = stub().returns(true);
       var init = new (proxyquire('../libraries/init', dependencies).Init);
@@ -368,7 +368,7 @@ describe('Init', function() {
     });
 
     it('should default to localization/', function() {
-      pcf.DEFAULT_STORAGE_FOLDER = 'localizations';
+      program.DEFAULT_STORAGE_FOLDER = 'localizations';
       var cwdStub = stub(process, 'cwd');
       cwdStub.returns('current-working-directory');
       dependencies.fs.existsSync = stub().returns(false);
@@ -380,7 +380,7 @@ describe('Init', function() {
     });
 
     it('if an app/ folder exists, it should default to app/localizations', function() {
-      pcf.DEFAULT_STORAGE_FOLDER = 'localizations';
+      program.DEFAULT_STORAGE_FOLDER = 'localizations';
       var cwdStub = stub(process, 'cwd');
       cwdStub.returns('current-working-directory');
       dependencies.fs.existsSync = stub();
@@ -394,7 +394,7 @@ describe('Init', function() {
     });
 
     it('if an application/ folder exists, it should default to application/localizations', function() {
-      pcf.DEFAULT_STORAGE_FOLDER = 'localizations';
+      program.DEFAULT_STORAGE_FOLDER = 'localizations';
       var cwdStub = stub(process, 'cwd');
       cwdStub.returns('current-working-directory');
       dependencies.fs.existsSync = stub();
@@ -408,7 +408,7 @@ describe('Init', function() {
     });
 
     it('if empty option is provided it should resolve to default option', function(done) {
-      pcf.DEFAULT_STORAGE_FOLDER = 'localizations';
+      program.DEFAULT_STORAGE_FOLDER = 'localizations';
       var deferred = { resolve: spy() };
       dependencies.q.defer = stub().returns(deferred);
       var cwdStub = stub(process, 'cwd');
@@ -419,14 +419,14 @@ describe('Init', function() {
       init._getStorageFolder();
       eventually(function() {
         deferred.resolve.should.have.been.calledOnce;
-        deferred.resolve.should.have.been.calledWith(pcf.DEFAULT_STORAGE_FOLDER);
+        deferred.resolve.should.have.been.calledWith(program.DEFAULT_STORAGE_FOLDER);
         done();
       });
       cwdStub.restore();
     });
 
     it('if a path is choosen, it should resolve to a normalized version of that path', function(done) {
-      pcf.DEFAULT_STORAGE_FOLDER = 'localizations';
+      program.DEFAULT_STORAGE_FOLDER = 'localizations';
       var deferred = { resolve: spy() };
       dependencies.q.defer = stub().returns(deferred);
       var cwdStub = stub(process, 'cwd');
@@ -446,7 +446,7 @@ describe('Init', function() {
 
   describe('#_setDefaultSrc()', function() {
     it('set default source map', function() {
-      pcf.DEFAULT_SOURCE_MAP = { 'programming-language1': 'default-sources-for-programming-language1' }
+      program.DEFAULT_SOURCE_MAP = { 'programming-language1': 'default-sources-for-programming-language1' }
       var init = new (proxyquire('../libraries/init', dependencies).Init);
       init.json.programmingLanguage = 'programming-language1';
       init._setDefaultSrc();

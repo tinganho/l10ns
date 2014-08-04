@@ -15,10 +15,7 @@ var file = require('./file')
  * @constructor Edit
  */
 
-function Edit() {
-  this.defaultLocale = pcf.defaultLocale;
-  this.locales = pcf.locales;
-}
+function Edit() {}
 
 /**
  * Edit current translations
@@ -175,7 +172,7 @@ Edit.prototype._getKeyFromLatestTranslations = function(reference) {
   }
 
   try {
-    deferred.resolve(translations[this.defaultLocale][reference].key);
+    deferred.resolve(translations[project.defaultLocale][reference].key);
   }
   catch(err) {
     deferred.reject(new TypeError('Reference is not indexed.'));

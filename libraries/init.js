@@ -12,7 +12,7 @@ var readline = require('readline')
 
 function Init() {
   this.rl = null;
-  this.json = pcf.DEFAULT_CONFIGURATIONS;
+  this.json = program.DEFAULT_CONFIGURATIONS;
 }
 
 /**
@@ -25,7 +25,7 @@ function Init() {
 Init.prototype.init = function() {
   var _this = this;
   if(findup('l10ns.json') || fs.existsSync(process.cwd() + '/l10ns.json')) {
-    console.log(pcf.PROJECT_ALREADY_INITIATED);
+    console.log(text.PROJECT_ALREADY_INITIATED);
     process.exit();
   }
   this._createReadlineInterface();
@@ -78,7 +78,7 @@ Init.prototype._createReadlineInterface = function() {
  */
 
 Init.prototype._outputIntroduction = function() {
-  process.stdout.write(pcf.INIT_INTRODUCTION);
+  process.stdout.write(text.INIT_INTRODUCTION);
 };
 
 /**
@@ -91,9 +91,9 @@ Init.prototype._outputIntroduction = function() {
 Init.prototype._getLocales = function() {
   var _this = this
     , deferred = Q.defer()
-    , question = pcf.LOCALES_DESCRIPTION + 'locales: (' +
-      pcf.DEFAULT_LOCALE_CODE + ':' + pcf.DEFAULT_LOCALE_NAME + ') '
-    , wrongAnswer = pcf.LOCALES_WRONG_ANSWER + question
+    , question = text.LOCALES_DESCRIPTION + 'locales: (' +
+      program.DEFAULT_LOCALE_CODE + ':' + program.DEFAULT_LOCALE_NAME + ') '
+    , wrongAnswer = text.LOCALES_WRONG_ANSWER + question
     , answeredWrong = false;
 
   (function ask() {
@@ -103,10 +103,10 @@ Init.prototype._getLocales = function() {
     _this.rl.question(question, function(locales) {
       var result = {};
       if(locales === '') {
-        result[pcf.DEFAULT_LOCALE_CODE] = pcf.DEFAULT_LOCALE_NAME;
+        result[program.DEFAULT_LOCALE_CODE] = program.DEFAULT_LOCALE_NAME;
         return deferred.resolve(result);
       }
-      if(!pcf.LOCALES_SYNTAX.test(locales)) {
+      if(!program.LOCALES_SYNTAX.test(locales)) {
         answeredWrong = true;
         return ask();
       }
@@ -143,7 +143,7 @@ Init.prototype._getDefaultLocale = function(locales) {
 
   var options = '[', optionsEndWrap = '] '
     , answeredWrong = false
-    , question = pcf.DEFAULT_LOCALE_QUESTION
+    , question = text.DEFAULT_LOCALE_QUESTION
     , n = 1;
 
   for(var code in locales) {
@@ -154,7 +154,7 @@ Init.prototype._getDefaultLocale = function(locales) {
 
   options = options.slice(0, -1) + optionsEndWrap;
   question = question.slice(0, -1) + '\n' + options.lightBlue;
-  var wrongAnswer = pcf.DEFAULT_LOCALE_WRONG_ANSWER + question;
+  var wrongAnswer = text.DEFAULT_LOCALE_WRONG_ANSWER + question;
   (function ask() {
     if(answeredWrong) {
       question = wrongAnswer;
@@ -186,20 +186,20 @@ Init.prototype._getProgrammingLanguage = function() {
   var _this = this
     , deferred = Q.defer()
     , answeredWrong = false
-    , question = pcf.CHOOSE_PROGRAMMING_LANGUAGE_QUESTION
+    , question = text.CHOOSE_PROGRAMMING_LANGUAGE_QUESTION
     , options = '['
     , optionsEndWrap = '] '
     , n = 1;
 
-  for(var i = 0; i < pcf.PROGRAMMING_LANGUAGUES.length; i++) {
-    question +=  ('[' + n + ']').lightBlue + ' - ' + pcf.PROGRAMMING_LANGUAGUES[i] + '\n';
+  for(var i = 0; i < text.PROGRAMMING_LANGUAGUES.length; i++) {
+    question +=  ('[' + n + ']').lightBlue + ' - ' + text.PROGRAMMING_LANGUAGUES[i] + '\n';
     options += n + ',';
     n++;
   }
   options = options.slice(0, -1) + optionsEndWrap;
   question = question + options.lightBlue;
 
-  var wrongAnswer = pcf.CHOOSE_PROGRAMMING_LANGUAGE_WRONG_ANSWER + question;
+  var wrongAnswer = text.CHOOSE_PROGRAMMING_LANGUAGE_WRONG_ANSWER + question;
 
   (function ask() {
     if(answeredWrong) {
@@ -208,8 +208,8 @@ Init.prototype._getProgrammingLanguage = function() {
     _this.rl.question(question, function(option) {
       if(/^\d+$/.test(option)) {
         option = parseInt(option, 10) - 1;
-        if(pcf.PROGRAMMING_LANGUAGUES[option]) {
-          return deferred.resolve(pcf.PROGRAMMING_LANGUAGUES[option]);
+        if(text.PROGRAMMING_LANGUAGUES[option]) {
+          return deferred.resolve(text.PROGRAMMING_LANGUAGUES[option]);
         }
       }
       answeredWrong = true;
@@ -236,16 +236,16 @@ Init.prototype._getStorageFolder = function() {
     , answeredWrong = false;
 
   if(fs.existsSync(process.cwd() + '/app')) {
-    defaultOutput = 'app/' + pcf.DEFAULT_STORAGE_FOLDER;
+    defaultOutput = 'app/' + text.DEFAULT_STORAGE_FOLDER;
   }
   else if(fs.existsSync(process.cwd() + '/application')) {
-    defaultOutput = 'application/' + pcf.DEFAULT_STORAGE_FOLDER;
+    defaultOutput = 'application/' + text.DEFAULT_STORAGE_FOLDER;
   }
   else {
-    defaultOutput = pcf.DEFAULT_STORAGE_FOLDER;
+    defaultOutput = text.DEFAULT_STORAGE_FOLDER;
   }
-  question = pcf.DEFAULT_STORAGE_FOLDER_QUESTION + 'storage: (' + defaultOutput + ') ';
-  var wrongAnswer = pcf.DEFAULT_STORAGE_FOLDER_WRONG_ANSWER + question;
+  question = text.DEFAULT_STORAGE_FOLDER_QUESTION + 'storage: (' + defaultOutput + ') ';
+  var wrongAnswer = text.DEFAULT_STORAGE_FOLDER_WRONG_ANSWER + question;
   (function ask() {
     if(answeredWrong) {
       question = wrongAnswer;
@@ -277,7 +277,7 @@ Init.prototype._getStorageFolder = function() {
  */
 
 Init.prototype._setDefaultSrc = function() {
-  this.json.src = pcf.DEFAULT_SOURCE_MAP[
+  this.json.src = program.DEFAULT_SOURCE_MAP[
     this.json.programmingLanguage
   ];
 };

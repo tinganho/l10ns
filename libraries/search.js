@@ -29,10 +29,7 @@ var Search = function() {
   EventEmitter.call(this);
 
   this.translations = null;
-  this.store = pcf.store;
-  this.logLength = pcf.LOG_LENGTH;
   this.index = null;
-  this.defaultLocale = pcf.defaultLocale;
   this._createIndex();
 };
 
@@ -73,7 +70,7 @@ Search.prototype.readTranslations = function() {
     throw new TypeError('Default locale is undefined');
   }
 
-  this.translations = this.translations[this.defaultLocale];
+  this.translations = this.translations[project.defaultLocale];
 
   for(var key in this.translations) {
     var translation = this.translations[key];
@@ -111,7 +108,9 @@ Search.prototype.queryOutput = function(q) {
   var n = 1;
   var cache = [];
   for(var i in res) {
-    log.log((n === 10 ? '%' + n : ' %' + n).yellow + ' ' + this.docs[res[i].ref].key + ' | '  + this.docs[res[i].ref].text.green);
+    log.log((n === 10 ? '%' + n : ' %' + n).yellow
+      + ' ' + this.docs[res[i].ref].key + ' | '
+      + this.docs[res[i].ref].text.green);
     cache.push(res[i]);
     n++;
   }
@@ -137,7 +136,7 @@ Search.prototype.queryOutput = function(q) {
 Search.prototype.query = function(q) {
   var _this = this;
 
-  return this.index.search(q).slice(0, this.logLength).map(function(result) {
+  return this.index.search(q).slice(0, program.LOG_LENGTH).map(function(result) {
     return {
       id: _this.translations[result.ref].id,
       key: result.ref,

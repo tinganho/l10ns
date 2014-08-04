@@ -9,7 +9,7 @@
   "defaultLocale": "en-US",
   "store": "example/localizations",
   "output": "example/output",
-  "src": ["example/**/*.js"],
+  "source": ["example/**/*.js"],
   "interface" : {
     "autoOpen": false,
     "port": 3004

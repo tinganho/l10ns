@@ -8,7 +8,7 @@ var Log = require('./log').Log
   , edit = require('./edit')
   , Search = require('./search')
   , update = require('./update')
-  , Compiler = require('../plugins/' + pcf.programmingLanguage + '/compiler');
+  , Compiler = require('../plugins/' + project.programmingLanguage + '/compiler');
 
 /**
  * Initialize a new `GetTranslation`
@@ -16,7 +16,7 @@ var Log = require('./log').Log
  * @constructor
  */
 
-var GetTranslation = function() {};
+var L10ns = function() {};
 
 /**
  * Initialize project
@@ -25,7 +25,7 @@ var GetTranslation = function() {};
  * @api public
  */
 
-GetTranslation.prototype.init = function() {
+L10ns.prototype.init = function() {
   init.init();
 };
 
@@ -39,7 +39,7 @@ GetTranslation.prototype.init = function() {
  * @api public
  */
 
-GetTranslation.prototype.edit = function(key, value, locale) {
+L10ns.prototype.edit = function(key, value, locale) {
   edit.edit(key, value, locale);
 };
 
@@ -50,7 +50,7 @@ GetTranslation.prototype.edit = function(key, value, locale) {
  * @api public
  */
 
-GetTranslation.prototype.update = function() {
+L10ns.prototype.update = function() {
   update.update();
 };
 
@@ -61,7 +61,7 @@ GetTranslation.prototype.update = function() {
  * @api public
  */
 
-GetTranslation.prototype.log = function(locale, type) {
+L10ns.prototype.log = function(locale, type) {
   var log = new Log();
   return log.outputLog(locale, type);
 };
@@ -73,7 +73,7 @@ GetTranslation.prototype.log = function(locale, type) {
  * @api public
  */
 
-GetTranslation.prototype.search = function(q) {
+L10ns.prototype.search = function(q) {
   var search = new Search();
   search.readTranslations();
   search.queryOutput(q);
@@ -86,7 +86,7 @@ GetTranslation.prototype.search = function(q) {
  * @api public
  */
 
-GetTranslation.prototype.interface = function() {
+L10ns.prototype.interface = function() {
   require('../app/server').server();
 };
 
@@ -97,7 +97,7 @@ GetTranslation.prototype.interface = function() {
  * @api public
  */
 
-GetTranslation.prototype.compile = function() {
+L10ns.prototype.compile = function() {
   if(!this.compiler) {
     this.compiler = new Compiler();
   }
@@ -108,4 +108,4 @@ GetTranslation.prototype.compile = function() {
  * Export gt instance
  */
 
-module.exports = new GetTranslation;
+module.exports = new L10ns;

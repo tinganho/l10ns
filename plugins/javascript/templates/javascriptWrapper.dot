@@ -11,20 +11,20 @@ Else statement
 
 ;(function() {
 
-  {{=it.translationMap}}
+  {{=it.localizationMap}}
 
   {{#def.function}}
 
   if(typeof require === "function" && typeof exports === 'object' && typeof module === 'object') {
-    module.exports = gt;
+    module.exports = l;
   }
   else if (typeof define === "function" && define.amd) {
     define(function () {
-      return gt;
+      return l;
     });
   }
   else {
-    window.{{=it.variable}} = gt;
+    window.{{=it.functionName}} = l;
   }
 
 })();

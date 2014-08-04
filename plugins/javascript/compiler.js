@@ -8,7 +8,7 @@ var fs = require('fs')
   , syntax = require('./syntax')
   , tmpl = require('./templates/build/templates')
   , file = require('../../libraries/file')
-  , log = require('../../libraries/_log');
+  , log = require('../../libraries/_log')
 
 /**
  * Add terminal colors
@@ -23,8 +23,6 @@ require('terminal-colors');
  */
 
 var Compiler = function() {
-  // set default translation function
-  this.defaultTranslationFunction = pcf.DEFAULT_TRANSLATION_FUNCTION;
   // languague wrapper
   this.wrap = null;
   // default namespace
@@ -43,10 +41,6 @@ var Compiler = function() {
   this.space = ' ';
   // quote
   this.quote = '\'';
-  // Quiet
-  this.quiet = lcf.quiet;
-  // Set locales
-  this.locales = pcf.locales;
 };
 
 /**
@@ -57,12 +51,12 @@ var Compiler = function() {
  */
 
 Compiler.prototype.compile = function() {
-  for(locale in this.locales) {
+  for(locale in project.locales) {
     var content = tmpl.javascriptWrapper({
-      variable : this.defaultTranslationFunction,
+      functionName : language.GET_LOCALIZATION_STRING_FUNCTION_NAME,
       translationMap : this._getTranslationMap(locale)
     });
-    fs.writeFileSync(pcf.output + '/' + locale + '.js', content);
+    fs.writeFileSync(project.output + '/' + locale + '.js', content);
   }
 };
 
@@ -106,7 +100,7 @@ Compiler.prototype._getTranslationMap = function(locale) {
 
     body += field;
 
-    if(!this.quiet && locale === pcf.defaultLocale) {
+    if(!this.quiet && locale === project.defaultLocale) {
       console.log('[compiled] '.green + this._normalizeText(key));
     }
 
@@ -148,7 +142,7 @@ Compiler.prototype._getFunctionBodyString = function(translations, key) {
   var str = '';
   if(translations[key].values.length === 0) {
     str += this._getNonTranslatedFunctionBodyString(this._normalizeText(key));
-  } else if(translations[key].values[0][0] === pcf.CONDITION_IF) {
+  } else if(translations[key].values[0][0] === program.CONDITION_IF) {
     str += this._getConditionsString(
       translations[key].values,
       translations[key].vars
@@ -205,7 +199,7 @@ Compiler.prototype._getNonTranslatedFunctionBodyString = function(key) {
 Compiler.prototype._getConditionsString = function(conditions, vars) {
   var str = '';
   conditions.forEach(function(condition) {
-    if(condition[0] !== pcf.CONDITION_ELSE) {
+    if(condition[0] !== program.CONDITION_ELSE) {
       str += this._getConditionString(condition, vars);
       str += this._getAdditionalConditionString(condition, vars);
     }
@@ -267,8 +261,8 @@ Compiler.prototype._getConditionString = function(conditions, vars) {
 
 Compiler.prototype._getAdditionalConditionString = function(conditions, vars) {
   var str = '', index = 4;
-  while(conditions[index] === pcf.ADDITIONAL_CONDITION_AND ||
-        conditions[index] === pcf.ADDITIONAL_CONDITION_OR) {
+  while(conditions[index] === program.ADDITIONAL_CONDITION_AND ||
+        conditions[index] === program.ADDITIONAL_CONDITION_OR) {
 
     // Declare additional condition
     var additionalCondition = conditions[index];
@@ -344,8 +338,8 @@ Compiler.prototype._getElseStatementString = function(string, vars) {
  */
 
 Compiler.prototype._getFormatedOperandString = function(operand, vars) {
-  pcf.SYNTAX_VARIABLE_MARKUP.lastIndex = 0;
-  if(pcf.SYNTAX_VARIABLE_MARKUP.test(operand)) {
+  program.SYNTAX_VARIABLE_MARKUP.lastIndex = 0;
+  if(program.SYNTAX_VARIABLE_MARKUP.test(operand)) {
     // Re-formats all vars
     if(/^\$\{\d/.test(operand)) {
       throw new TypeError('variable can\'t begin with an integer.');
@@ -377,7 +371,7 @@ Compiler.prototype._getFormatedTranslatedText = function(text, vars) {
   // Replace quotations
   text = this._normalizeText(text);
 
-  return text.replace(pcf.SYNTAX_VARIABLE_MARKUP, function(match) {
+  return text.replace(program.SYNTAX_VARIABLE_MARKUP, function(match) {
     if(vars.indexOf(match) === -1) {
       log.error('You have used an undefined variable ' + operand.red
       + '.\n Please add the variable or remove the operand from your source.');

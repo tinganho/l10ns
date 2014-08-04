@@ -13,7 +13,7 @@ var fs = require('fs')
   , file = require('./file')
   , log = require('./_log')
   , Hashids = require('hashids')
-  , hashids = new Hashids(pcf.LOCALIZATION_ID_HASH_SECRET, pcf.LOCALIZATION_ID_CHARACTER_LENGTH);
+  , hashids = new Hashids(program.LOCALIZATION_ID_HASH_SECRET, program.LOCALIZATION_ID_CHARACTER_LENGTH);
 
 /**
  * Add terminal colors
@@ -59,7 +59,7 @@ Update.prototype.update = function() {
 };
 
 /**
- * Strip inner functions calls. All function calls that is not gt()
+ * Strip inner functions calls. All function calls that is not from l10ns
  * needs to be removed. Because they can cause updating error
  * when they are defined inside vars like below
  *
@@ -74,9 +74,12 @@ Update.prototype.update = function() {
  */
 
 Update.prototype._stripInnerFunctionCalls = function(content) {
-  return content.replace(lcf.TRANSLATION_INNER_FUNCTION_CALL_REGEX, function(m) {
-    if(/gt\(/g.test(m)) {
-      return m;
+  var getLocalizationStringFunctionSyntax = new RegExp(language.GET_LOCALIZATION_STRING_FUNCTION_NAME + '\\(', 'g')
+    , getLocalizationStringUsingDataFunctionSyntax = new RegExp(language.GET_LOCALIZATION_STRING_USING_DATA_FUNCTION_NAME + '\\(', 'g');
+
+  return content.replace(language.GET_LOCALIZATION_INNER_FUNCTION_CALL_SYNTAX, function(match) {
+    if(getLocalizationStringFunctionSyntax.test(match) || getLocalizationStringUsingDataFunctionSyntax.test(match)) {
+      return match;
     } else {
       return '';
     }
@@ -99,7 +102,7 @@ Update.prototype.getNewLocalizations = function() {
     , fileCount = 0
     , rejected = false;
 
-  pcf.src.forEach(function(file) {
+  project.source.forEach(function(file) {
     if(fs.lstatSync(file).isDirectory()) {
       fileCount++;
       return;
@@ -119,7 +122,7 @@ Update.prototype.getNewLocalizations = function() {
 
         content = _this._stripInnerFunctionCalls(content);
         // Match all gt() calls
-        var calls = content.match(lcf.TRANSLATION_FUNCTION_CALL_REGEX);
+        var calls = content.match(language.GET_LOCALIZATION_FUNCTION_CALL_SYNTAX);
         if(calls !== null) {
           calls.forEach(function(call) {
             var key  = parser.getKey(call)
@@ -144,7 +147,7 @@ Update.prototype.getNewLocalizations = function() {
           });
         }
 
-        if(fileCount === pcf.src.length && !rejected) {
+        if(fileCount === project.source.length && !rejected) {
           deferred.resolve(newLocalizations);
         }
       });
@@ -171,7 +174,7 @@ Update.prototype._mergeWithOldLocalizations = function(newLocalizations) {
       var newLocalizationsCopy = {}
         , now = Date.now();
 
-      for(var locale in pcf.locales) {
+      for(var locale in project.locales) {
         newLocalizationsCopy[locale] = JSON.parse(JSON.stringify(newLocalizations));
         for(var key in newLocalizationsCopy[locale]) {
           if(typeof oldLocalizations[locale] !== 'undefined'
@@ -189,7 +192,7 @@ Update.prototype._mergeWithOldLocalizations = function(newLocalizations) {
             newLocalizationsCopy[locale][key].values = [];
             newLocalizationsCopy[locale][key].timestamp = now;
 
-            if(locale === pcf.defaultLocale) {
+            if(locale === project.defaultLocale) {
               console.log('[added]'.green + ' ' + key);
             }
           }
@@ -256,7 +259,7 @@ Update.prototype._mergeWithOldLocalizations = function(newLocalizations) {
 
 Update.prototype._getDeletedLocalizations = function(newLocalizations, oldLocalizations) {
   var now = Date.now(), deletedTranslations = {};
-  for(var locale in pcf.locales) {
+  for(var locale in project.locales) {
     for(var key in oldLocalizations[locale]) {
       if(!(key in newLocalizations[locale])) {
         if(!(key in deletedTranslations)){
@@ -297,9 +300,9 @@ Update.prototype._getDeletedLocalizations = function(newLocalizations, oldLocali
 Update.prototype._getUpdatedFiles = function(newLocalizations, oldLocalizations) {
   var files = {};
 
-  for(var key in newLocalizations[pcf.defaultLocale]) {
-    if(!(key in oldLocalizations[pcf.defaultLocale])) {
-      var translationFiles = newLocalizations[pcf.defaultLocale][key].files;
+  for(var key in newLocalizations[project.defaultLocale]) {
+    if(!(key in oldLocalizations[project.defaultLocale])) {
+      var translationFiles = newLocalizations[project.defaultLocale][key].files;
       for(var file in translationFiles) {
         if(!(translationFiles[file] in files)) {
           files[translationFiles[file]] = [key];
@@ -435,7 +438,7 @@ Update.prototype._executeUserInputStream = function(newLocalizations, oldLocaliz
  */
 
 Update.prototype._migrateLocalization = function(newKey, oldKey, newLocalizations, oldLocalizations) {
-  for(var locale in pcf.locales) {
+  for(var locale in project.locales) {
     newLocalizations[locale][newKey] = oldLocalizations[locale][oldKey];
     newLocalizations[locale][newKey].key = newKey;
   }
