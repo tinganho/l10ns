@@ -1,5 +1,5 @@
 
-require('../binaries/l');
+require('../binaries/l10ns');
 
 var open = require('open');
 

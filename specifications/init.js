@@ -243,7 +243,66 @@ describe('Init', function() {
     });
   });
 
-  describe('#_getDefaultLocale()', function() {
+  describe('#_getDefaultLocale(locales)', function() {
+    it('should return a promise', function() {
+      dependencies.q.defer = sinon.stub().returns({ promise: 'promise' });
+      var init = new (proxyquire('../libraries/init', dependencies).Init);
+      init.rl =  { question: function() {} };
+      var locales = { 'en-US': 'English (US)', 'zh-CN': 'Chinese' };
+      expect(init._getDefaultLocale(locales)).to.equal('promise');
+    });
 
+    it('if there is only one locale it should return resolve to it', function() {
+      var deferred = { resolve: sinon.spy() };
+      dependencies.q.defer = sinon.stub().returns(deferred);
+      var init = new (proxyquire('../libraries/init', dependencies).Init);
+      init.rl =  { question: function() {} };
+      var locales = { 'en-US': 'English (US)'};
+      init._getDefaultLocale(locales);
+      deferred.resolve.should.have.been.calledOnce;
+      deferred.resolve.should.have.been.calledWith('en-US');
+    });
+
+    it('should create a form qith question for default locale and several options to choose from', function() {
+      pcf.DEFAULT_LOCALE_QUESTION = 'Default locale question';
+      var init = new (proxyquire('../libraries/init', dependencies).Init);
+      init.rl =  { question: sinon.spy() };
+      var locales = { 'en-US': 'English (US)', 'zh-CN': 'Chinese' };
+      init._getDefaultLocale(locales);
+      expect(init.rl.question.args[0][0]).to.contain(pcf.DEFAULT_LOCALE_QUESTION);
+      expect(init.rl.question.args[0][0]).to.contain('English (US)');
+      expect(init.rl.question.args[0][0]).to.contain('Chinese');
+    });
+
+    it('should resolve to a choosen locale', function(done) {
+      var deferred = { resolve: sinon.spy() };
+      dependencies.q.defer = sinon.stub().returns(deferred);
+      var init = new (proxyquire('../libraries/init', dependencies).Init);
+      init.rl =  { question: sinon.stub().callsArgWith(1, '1') };
+      var locales = { 'en-US': 'English (US)', 'zh-CN': 'Chinese' };
+      init._getDefaultLocale(locales);
+      eventually(function() {
+        deferred.resolve.should.have.been.calledOnce;
+        deferred.resolve.should.have.been.calledWith('en-US');
+        done();
+      });
+    });
+
+    it('should re-ask question of option input is not valid', function(done) {
+      var deferred = { resolve: sinon.spy() };
+      dependencies.q.defer = sinon.stub().returns(deferred);
+      var init = new (proxyquire('../libraries/init', dependencies).Init);
+      init.rl =  { question: sinon.stub() };
+      init.rl.question.onCall(0).callsArgWith(1, 'invalid-option');
+      init.rl.question.onCall(1).callsArgWith(1, '1');
+      var locales = { 'en-US': 'English (US)', 'zh-CN': 'Chinese' };
+      init._getDefaultLocale(locales);
+      eventually(function() {
+        init.rl.question.should.have.been.calledTwice;
+        deferred.resolve.should.have.been.calledOnce;
+        deferred.resolve.should.have.been.calledWith('en-US');
+        done();
+      });
+    });
   });
 });
