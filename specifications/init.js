@@ -242,4 +242,8 @@ describe('Init', function() {
       deferred.resolve.should.have.been.calledWith({ 'en-US': 'English (US)', 'zh-CN':'Chinese' });
     });
   });
+
+  describe('#_getDefaultLocale()', function() {
+
+  });
 });

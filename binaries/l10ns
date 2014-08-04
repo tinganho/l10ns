@@ -20,7 +20,7 @@ var program = require('commander')
  * Project paths
  */
 
-var gtPath = findup('l10ns.json')
+var l10nsPath = findup('l10ns.json')
   , projectConfigurations
   , _projectConfigurations
   , root
@@ -32,14 +32,14 @@ if(typeof process.argv[2] === 'undefined') {
 
 var processRequest = (process.argv.length >= 2 && process.argv[2] !== 'init' && process.argv[2] !== '--help' &&  process.argv[2] !== '-h');
 
-if(processRequest && !gtPath) {
+if(processRequest && !l10nsPath) {
   console.log('You are not inside a gt project. Please create one with `gt init`.');
   return;
 }
 
-if(gtPath) {
-  root = path.dirname(gtPath);
-  projectConfigurations = require(gtPath);
+if(l10nsPath) {
+  root = path.dirname(l10nsPath);
+  projectConfigurations = require(l10nsPath);
 }
 else {
   root = process.cwd();
@@ -70,8 +70,8 @@ var defaultConfigurations = {
   port: pcf.DEFAULT_PORT,
   autoOpen: pcf.DEFAULT_AUTO_OPEN,
   root: root,
-  storageFolder: root + '/.gt',
-  searchFile: root + '/.gt/search.json'
+  storageFolder: root + '/.l10ns',
+  searchFile: root + '/.l10ns/search.json'
 };
 // Merge with programm configs
 defaultConfigurations = _.extend(defaultConfigurations, pcf);
@@ -162,9 +162,7 @@ global.lcf = lcf;
 
 global.fromBinary = true;
 
-
-
-var gt = require('../libraries');
+var cli = require('../libraries');
 
 program
   .version(pjson.version)
@@ -177,7 +175,7 @@ program
   .command('init')
   .description('Initialize a new GetTranslation project')
   .action(function() {
-    gt.init();
+    cli.init();
   });
 
 program
@@ -203,7 +201,7 @@ program
       log.error('You need to provide a query in your search. E.g. gt search "some query"');
       return false;
     }
-    gt.search(q);
+    cli.search(q);
   });
 
 program
@@ -214,10 +212,10 @@ program
       return console.log('You haven\'t initialized a project yet');
     }
     if(program.values) {//no-values option
-      gt.log(this.locale, 'regular');
+      cli.log(this.locale, 'regular');
     }
     else {
-      gt.log(this.locale, 'no-values');
+      cli.log(this.locale, 'no-values');
     }
   });
 
@@ -228,7 +226,7 @@ program
     if(!utilities.initiatedProject()) {
       return console.log('You haven\'t initialized a project yet.');
     }
-    gt.update();
+    cli.update();
   });
 
 program
@@ -238,7 +236,7 @@ program
     if(!utilities.initiatedProject()) {
       return console.log('You haven\'t initialized a project yet.');
     }
-    gt.compile();
+    cli.compile();
   });
 
 program
@@ -248,7 +246,7 @@ program
     if(!utilities.initiatedProject()) {
       return console.log('You haven\'t initialized a project yet.');
     }
-    gt.edit(reference, value, this.locale);
+    cli.edit(reference, value, this.locale);
   });
 
 program
