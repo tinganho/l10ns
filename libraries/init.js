@@ -22,7 +22,7 @@ function Init() {
  * @api public
  */
 
-Init.prototype.init = function() {
+Init.prototype.run = function() {
   var _this = this;
   if(findup('l10ns.json') || fs.existsSync(process.cwd() + '/l10ns.json')) {
     console.log(text.PROJECT_ALREADY_INITIATED);

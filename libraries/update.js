@@ -42,7 +42,7 @@ function Update() {
  * @api public
  */
 
-Update.prototype.update = function() {
+Update.prototype.run = function() {
   var _this = this;
 
   this.getNewLocalizations()

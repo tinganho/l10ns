@@ -26,7 +26,7 @@ var L10ns = function() {};
  */
 
 L10ns.prototype.init = function() {
-  init.init();
+  init.run();
 };
 
 /**
@@ -40,7 +40,7 @@ L10ns.prototype.init = function() {
  */
 
 L10ns.prototype.edit = function(key, value, locale) {
-  edit.edit(key, value, locale);
+  edit.run(key, value, locale);
 };
 
 /**
@@ -51,7 +51,7 @@ L10ns.prototype.edit = function(key, value, locale) {
  */
 
 L10ns.prototype.update = function() {
-  update.update();
+  update.run();
 };
 
 /**
@@ -63,7 +63,7 @@ L10ns.prototype.update = function() {
 
 L10ns.prototype.log = function(locale, type) {
   var log = new Log();
-  return log.outputLog(locale, type);
+  return log.run(locale, type);
 };
 
 /**

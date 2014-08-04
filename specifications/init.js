@@ -23,7 +23,7 @@ describe('Init', function() {
     });
   });
 
-  describe('#init()', function() {
+  describe('#run()', function() {
     it('if project already exists it should send an message and exit process', function() {
       text.PROJECT_ALREADY_INITIATED = 'project-already-initiated';
       var cwdStub = stub(process, 'cwd');
@@ -35,7 +35,7 @@ describe('Init', function() {
       init._createReadlineInterface = function() {};
       init._outputIntroduction = function() {};
       init._getLocales = stub().returns(Q.reject());
-      init.init();
+      init.run();
       exitStub.should.have.been.calledOnce;
       consoleStub.should.have.been.calledOnce;
       consoleStub.should.have.been.calledWith(text.PROJECT_ALREADY_INITIATED);
@@ -51,7 +51,7 @@ describe('Init', function() {
       init._createReadlineInterface = spy();
       init._outputIntroduction = spy();
       init._getLocales = stub().returns(Q.reject());
-      init.init();
+      init.run();
       init._createReadlineInterface.should.have.been.calledOnce;
       init._outputIntroduction.should.have.been.calledOnce;
       init._getLocales.should.have.been.calledOnce;
@@ -66,7 +66,7 @@ describe('Init', function() {
       init._outputIntroduction = function() {};
       init._getLocales = stub().returns(Q.resolve({ 'locale1': 'locale1-title' }));
       init._getDefaultLocale = stub().returns(Q.reject());
-      init.init();
+      init.run();
       eventually(function() {
         expect(init.json.locales).to.eql({ 'locale1': 'locale1-title' });
         init._getDefaultLocale.should.have.been.calledOnce;
@@ -85,7 +85,7 @@ describe('Init', function() {
       init._getLocales = stub().returns(Q.resolve({ 'locale1': 'locale1-title' }));
       init._getDefaultLocale = stub().returns(Q.resolve('locale1'));
       init._getProgrammingLanguage = stub().returns(Q.reject());
-      init.init();
+      init.run();
       eventually(function() {
         expect(init.json.defaultLocale).to.eql('locale1');
         init._getProgrammingLanguage.should.have.been.calledOnce;
@@ -104,7 +104,7 @@ describe('Init', function() {
       init._getDefaultLocale = stub().returns(Q.resolve('locale1'));
       init._getProgrammingLanguage = stub().returns(Q.resolve('javascript'));
       init._getStorageFolder = stub().returns(Q.reject());
-      init.init();
+      init.run();
       eventually(function() {
         expect(init.json.programmingLanguage).to.eql('javascript');
         init._getStorageFolder.should.have.been.calledOnce;
@@ -126,7 +126,7 @@ describe('Init', function() {
       init._getStorageFolder = stub().returns(Q.resolve('storage-folder/'));
       init._setDefaultSrc = spy();
       init._writeProject = spy();
-      init.init();
+      init.run();
       eventually(function() {
         expect(init.json.store).to.eql('storage-folder/');
         expect(init.json.output).to.eql('storage-folder/output/');
@@ -147,7 +147,7 @@ describe('Init', function() {
       init._createReadlineInterface = function() {};
       init._outputIntroduction = function() {};
       init._getLocales = stub().returns(Q.reject('error'));
-      init.init();
+      init.run();
       eventually(function() {
         consoleStub.should.have.been.calledOnce;
         consoleStub.should.have.been.calledWith('error');

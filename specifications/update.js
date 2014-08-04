@@ -37,13 +37,13 @@ describe('Update', function() {
     });
   });
 
-  describe('#update()', function() {
+  describe('#run()', function() {
     it('should get new localizations', function() {
       dependencies['./file'].writeLocalizations = stub().returns(Q.resolve());
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       update.getNewLocalizations = stub().returns(Q.resolve());
       update._mergeWithOldLocalizations = stub().returns(Q.resolve());
-      update.update();
+      update.run();
       update.getNewLocalizations.should.have.been.calledOnce;
     });
 
@@ -52,7 +52,7 @@ describe('Update', function() {
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       update.getNewLocalizations = stub().returns(Q.resolve());
       update._mergeWithOldLocalizations = stub().returns(Q.resolve());
-      update.update();
+      update.run();
       eventually(function() {
         update._mergeWithOldLocalizations.should.have.been.calledOnce;
         done();
@@ -64,7 +64,7 @@ describe('Update', function() {
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       update.getNewLocalizations = stub().returns(Q.resolve());
       update._mergeWithOldLocalizations = stub().returns(Q.resolve());
-      update.update();
+      update.run();
       eventually(function() {
         dependencies['./file'].writeLocalizations.should.have.been.calledOnce;
         done();
@@ -77,7 +77,7 @@ describe('Update', function() {
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       update.getNewLocalizations = stub().returns(Q.resolve());
       update._mergeWithOldLocalizations = stub().returns(Q.reject());
-      update.update();
+      update.run();
       eventually(function() {
         dependencies['./_log'].error.should.have.been.calledOnce;
         dependencies['./_log'].error.should.have.been.calledWith('Localizations update failed');
