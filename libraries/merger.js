@@ -59,11 +59,11 @@ Merger.prototype.mergeTimeStamp = function(newTranslations, oldTranslations, key
 Merger.prototype.mergeId = function(newTranslations, oldTranslations, key) {
   var now = parseInt(Date.now() / 1000, 10);
   if(key in oldTranslations && 'id' in oldTranslations[key]) {
-    newTranslations[key]._new = false;
+    newTranslations[key].new = false;
     newTranslations[key].id = oldTranslations[key].id;
   }
   else {
-    newTranslations[key]._new = true;
+    newTranslations[key].new = true;
     newTranslations[key].id = hashids.encrypt(now, this.counter);
   }
   this.counter++;
