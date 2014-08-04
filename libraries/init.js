@@ -216,6 +216,7 @@ Init.prototype._getProgrammingLanguage = function() {
       ask();
     });
   })();
+
   return deferred.promise;
 };
 

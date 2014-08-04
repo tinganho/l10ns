@@ -288,7 +288,8 @@ describe('Init', function() {
       });
     });
 
-    it('should re-ask question of option input is not valid', function(done) {
+    it('should re-ask if option is invalid', function(done) {
+      pcf.DEFAULT_LOCALE_WRONG_ANSWER = 'wrong-answer';
       var deferred = { resolve: spy() };
       dependencies.q.defer = stub().returns(deferred);
       var init = new (proxyquire('../libraries/init', dependencies).Init);
@@ -299,6 +300,7 @@ describe('Init', function() {
       init._getDefaultLocale(locales);
       eventually(function() {
         init.rl.question.should.have.been.calledTwice;
+        expect(init.rl.question.args[1][0]).to.contain(pcf.DEFAULT_LOCALE_WRONG_ANSWER);
         deferred.resolve.should.have.been.calledOnce;
         deferred.resolve.should.have.been.calledWith('en-US');
         done();
@@ -324,12 +326,34 @@ describe('Init', function() {
       expect(init.rl.question.args[0][0]).to.contain('javascript');
     });
 
-    it('should resolve to a chosen programming language', function() {
+    it('should resolve to a choosen programming language', function() {
+      pcf.PROGRAMMING_LANGUAGUES = ['javascript'];
       var deferred = { resolve: spy() };
       dependencies.q.defer = stub().returns(deferred);
       var init = new (proxyquire('../libraries/init', dependencies).Init);
-      init.rl =  { question: spy() };
+      init.rl =  { question: stub().callsArgWith(1, '1') };
       init._getProgrammingLanguage();
+      deferred.resolve.should.have.been.calledOnce;
+      deferred.resolve.should.have.been.calledWith('javascript');
+    });
+
+    it('should re-ask if option is invalid', function() {
+      pcf.PROGRAMMING_LANGUAGUES = ['javascript'];
+      pcf.CHOOSE_PROGRAMMING_LANGUAGE_WRONG_ANSWER = 'wrong-answer';
+      var deferred = { resolve: spy() };
+      dependencies.q.defer = stub().returns(deferred);
+      var init = new (proxyquire('../libraries/init', dependencies).Init);
+      init.rl =  { question: stub() };
+      init.rl.question.onCall(0).callsArgWith(1, 'invalid-option');
+      init.rl.question.onCall(1).callsArgWith(1, '1');
+      init._getProgrammingLanguage();
+      eventually(function() {
+        init.rl.question.should.have.been.calledTwice;
+        expect(init.rl.question.args[1][0]).to.contain(pcf.CHOOSE_PROGRAMMING_LANGUAGE_WRONG_ANSWER);
+        expect(init.rl.question.args[1][0]).to.contain('javascript');
+        deferred.resolve.should.have.been.calledOnce;
+        deferred.resolve.should.have.been.calledWith('javascript');
+      });
     });
   });
 });
