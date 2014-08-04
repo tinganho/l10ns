@@ -443,4 +443,72 @@ describe('Init', function() {
       cwdStub.restore();
     });
   });
+
+  describe('#_setDefaultSrc()', function() {
+    it('set default source map', function() {
+      pcf.PROGRAMMING_LANGUAGUE_TO_DEFAULT_SRC_MAP = { 'programming-language1': 'default-sources-for-programming-language1' }
+      var init = new (proxyquire('../libraries/init', dependencies).Init);
+      init.json.programmingLanguage = 'programming-language1';
+      init._setDefaultSrc();
+      expect(init.json.src).to.eql('default-sources-for-programming-language1');
+    });
+  });
+
+  describe('#_writeProject()', function() {
+    it('should write a project file if it does not exists', function() {
+      var cwdStub = stub(process, 'cwd');
+      cwdStub.returns('current-working-directory');
+      dependencies.fs.existsSync = stub();
+      dependencies.fs.existsSync.withArgs('current-working-directory/l10ns.json').returns(false);
+      dependencies.fs.existsSync.returns(true);
+      dependencies.fs.writeFileSync = spy();
+      var init = new (proxyquire('../libraries/init', dependencies).Init);
+      init.json = {};
+      init._writeProject();
+      dependencies.fs.writeFileSync.should.have.been.calledOnce;
+      dependencies.fs.writeFileSync.should.have.been.calledWith('current-working-directory/l10ns.json', '{}');
+      cwdStub.restore();
+    });
+
+    it('should not write a project file if it does exists', function() {
+      var cwdStub = stub(process, 'cwd');
+      cwdStub.returns('current-working-directory');
+      dependencies.fs.existsSync = stub();
+      dependencies.fs.existsSync.returns(true);
+      dependencies.fs.writeFileSync = spy();
+      var init = new (proxyquire('../libraries/init', dependencies).Init);
+      init.json = {};
+      init._writeProject();
+      dependencies.fs.writeFileSync.should.have.not.been.called;
+      cwdStub.restore();
+    });
+
+    it('should make cache folder if it does not exists', function() {
+      var cwdStub = stub(process, 'cwd');
+      cwdStub.returns('current-working-directory');
+      dependencies.fs.existsSync = stub();
+      dependencies.fs.existsSync.withArgs('current-working-directory/.l10ns').returns(false);
+      dependencies.fs.existsSync.returns(true);
+      dependencies.fs.mkdirSync = spy();
+      var init = new (proxyquire('../libraries/init', dependencies).Init);
+      init.json = {};
+      init._writeProject();
+      dependencies.fs.mkdirSync.should.have.been.calledOnce;
+      dependencies.fs.mkdirSync.should.have.been.calledWith('current-working-directory/.l10ns');
+      cwdStub.restore();
+    });
+
+    it('should not make cache folder if it does exists', function() {
+      var cwdStub = stub(process, 'cwd');
+      cwdStub.returns('current-working-directory');
+      dependencies.fs.existsSync = stub();
+      dependencies.fs.existsSync.returns(true);
+      dependencies.fs.mkdirSync = spy();
+      var init = new (proxyquire('../libraries/init', dependencies).Init);
+      init.json = {};
+      init._writeProject();
+      dependencies.fs.mkdirSync.should.have.not.been.called;
+      cwdStub.restore();
+    });
+  });
 });
