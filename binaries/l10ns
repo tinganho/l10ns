@@ -152,7 +152,7 @@ commands
   .option('-l, --locale <locale>', 'specify locale', String, project.defaultLocale)
   .option('-p, --port <port>', 'specify port for interface', Number, project.interface.port)
   .option('-o, --open', 'open interface in browser')
-  .option('--no-values', 'show only non translated keys', Boolean, false)
+  .option('--empty-values', 'show only non translated keys', Boolean, false)
 
 commands
   .command('init')

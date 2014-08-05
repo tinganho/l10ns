@@ -39,7 +39,7 @@ Log.prototype.run = function(locale, type) {
       }
 
       if(type === 'empty-values') {
-        _this.printEmptyValuesLog(localizations)
+        _this.printEmptyValuesLog(localizations, locale)
       }
       else {
         _this.printRegularLog(localizations);
@@ -59,7 +59,7 @@ Log.prototype.run = function(locale, type) {
  * @api public
  */
 
-Log.prototype.printEmptyValuesLog = function(localizations) {
+Log.prototype.printEmptyValuesLog = function(localizations, locale) {
   var n = 1;
   for(var i in localizations) {
     if(localizations[i].values.length === 0) {
@@ -74,7 +74,7 @@ Log.prototype.printEmptyValuesLog = function(localizations) {
   }
 
   if(n === 1) {
-    log.log('None empty-values for locale ' + locale.yellow + '.');
+    log.log('No empty-values for locale ' + locale.yellow + '.');
   }
 };
 
