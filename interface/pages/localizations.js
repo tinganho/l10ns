@@ -1,6 +1,6 @@
 
 module.exports = function(page) {
-  page('/:locale/t/:id/:key')
+  page('/:locale/l/:id/:key')
     .hasDocument('default')
       .withProperties({
         title: null,
@@ -29,12 +29,12 @@ module.exports = function(page) {
           view: 'contents/locales/LocalesView'
         },
         body: {
-          model: 'contents/translations/Translations',
-          view: 'contents/translations/TranslationsView'
+          model: 'contents/localizations/Localizations',
+          view: 'contents/localizations/LocalizationsView'
         },
-        translation: {
-          model: 'contents/translation/Translation',
-          view: 'contents/translation/TranslationView'
+        localization: {
+          model: 'contents/localization/Localization',
+          view: 'contents/localization/LocalizationView'
         }
       })
     .handleErrorsUsing(function(err) {});

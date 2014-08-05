@@ -47,7 +47,7 @@ define(function(require) {
       relatedModel: Condition,
       collectionType: Conditions,
       reverseRelation: {
-        key: 'translation',
+        key: 'localization',
         includeInJSON: 'id'
       }
     },
@@ -56,7 +56,7 @@ define(function(require) {
       key: 'else',
       relatedModel: Else,
       reverseRelation: {
-        key: 'translation',
+        key: 'localization',
         includeInJSON: 'id'
       }
     },
@@ -66,7 +66,7 @@ define(function(require) {
       relatedModel: Input,
       collectionType: Inputs,
       reverseRelation: {
-        key: 'translation',
+        key: 'localization',
         includeInJSON: 'id'
       }
     }],
@@ -84,7 +84,7 @@ define(function(require) {
         return new Input({
           value: values.length ? values[0]: '',
           row: 0,
-          translation: this
+          localization: this
         });
       }
       var row = 0;
@@ -101,7 +101,7 @@ define(function(require) {
               additionalCompairOperators: cf.ADDITIONAL_COMPAIR_OPERATORS,
               vars: vars,
               row: row,
-              translation: this
+              localization: this
             });
 
             row++;
@@ -117,7 +117,7 @@ define(function(require) {
             new Input({
               value: values[i][y + 4],
               row: row,
-              translation: this
+              localization: this
             });
 
             y += 5;
@@ -128,13 +128,13 @@ define(function(require) {
         else {
           new Else({
             row: row,
-            translation: this
+            localization: this
           });
 
           new Input({
             value: values[i][1],
             row: row + 1,
-            translation: this
+            localization: this
           });
         }
       }
@@ -179,7 +179,7 @@ define(function(require) {
       _new: false,
 
       i18n_variables: 'VARIABLES',
-      i18n_translation: 'TRANSLATION',
+      i18n_value: 'VALUE',
       i18n_none: 'None',
       i18n_save: 'Save',
       i18n_addCondition: 'Add condition',
@@ -201,37 +201,44 @@ define(function(require) {
 
       if(method === 'read') {
         if(inServer) {
-          var translations = file.readTranslations(req.param('locale'), { returnType: 'array' });
-          var translation = _.findWhere(translations, { id: req.param('id') });
-          this._parse(translation);
-          this.setPageTitle(translation.key);
-          this.setPageDescription('Edit: ' + translation.key);
-          return options.success();
+          file.readLocalizations()
+            .then(function(localizations) {
+              localizations = file.localizationMapToArray(localizations)[req.param('locale')];
+              var localization = _.findWhere(localizations, { id: req.param('id') });
+              _this._parse(localization);
+              _this.setPageTitle(localization.key);
+              _this.setPageDescription('Edit: ' + localization.key);
+              options.success();
+            })
+            .fail(function(error) {
+              console.log(error.stack)
+              options.error(error);
+            });
         }
         else {
-          var $json = $('.js-json-translation');
+          var $json = $('.js-json-localization');
           if($json.length) {
             this._parse(JSON.parse($json.html()));
             $json.remove();
             options.success();
             return;
           }
-          var translation = app.models.translations.get(id);
-          if(translation) {
-            translation = translation.toJSON();
-            this._parse(translation);
-            app.document.set('title', translation.key);
-            app.document.set('description', 'Edit: ' + translation.key);
+          var localization = app.models.localizations.get(id);
+          if(localization) {
+            localization = localization.toJSON();
+            this._parse(localization);
+            app.document.set('title', localization.key);
+            app.document.set('description', 'Edit: ' + localization.key);
             options.success();
             return;
           }
           request
-            .get('/api/' + app.locale + '/t/' + id)
+            .get('/api/' + app.locale + '/l/' + id)
             .end(function(err, res) {
-              var translation = res.body;
-              _this._parse(translation);
-              app.document.set('title', translation.key);
-              app.document.set('description', 'Edit: ' + translation.key);
+              var localization = res.body;
+              _this._parse(localization);
+              app.document.set('title', localization.key);
+              app.document.set('description', 'Edit: ' + localization.key);
               options.success();
             });
         }
@@ -239,11 +246,11 @@ define(function(require) {
       else if(method === 'update') {
         var json = this.toGTStandardJSON();
         request
-          .put('/api/' + app.locale + '/t/' + id)
+          .put('/api/' + app.locale + '/l/' + id)
           .send(json)
           .end(function(error, response) {
             if(!error) {
-              app.models.translations.get(json.id).set(json);
+              app.models.localizations.get(json.id).set(json);
               if(typeof options.success === 'function') {
                 options.success();
               }
@@ -265,8 +272,8 @@ define(function(require) {
     onHistoryChange: function(path) {
       if(/^[a-z]{2}\-[A-Z]{2}\/t\//.test(path)) {
         this.setMeta('revealed', true);
-        this.setPageTitle('Translations')
-        this.setPageDescription('Edit translations');
+        this.setPageTitle('Localization')
+        this.setPageDescription('Edit localization');
       }
       else {
         this.setMeta('revealed', false);
@@ -351,7 +358,7 @@ define(function(require) {
       delete json.i18n_addCondition;
       delete json.i18n_none;
       delete json.i18n_save;
-      delete json.i18n_translation;
+      delete json.i18n_value;
       delete json.i18n_variables;
       delete json.conditions;
       delete json.inputs;

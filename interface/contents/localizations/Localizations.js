@@ -8,7 +8,7 @@ if(inServer) {
 
 define(function(require) {
   var Collection = inServer ? require('../../libraries/Collection') : require('Collection')
-    , Translation = require('./Translation')
+    , Localization = require('./Localization')
     , _ = require('underscore');
 
   if(inClient) {
@@ -30,7 +30,7 @@ define(function(require) {
         l10n_loadMore: 'Load more',
 
         page: 0,
-        pageLength: cf.TRANSLATION_ITEMS_PER_PAGE,
+        pageLength: cf.ITEMS_PER_PAGE,
         revealed: true,
         empty: false
       });
@@ -42,7 +42,7 @@ define(function(require) {
      * @type {Translation}
      */
 
-    model: Translation,
+    model: Localization,
 
     /**
      * We overried default Model sync
@@ -51,22 +51,33 @@ define(function(require) {
      */
 
     sync: function(method, collection, options, request) {
+      var _this = this;
+
       if(method === 'read') {
         if(inServer) {
           collection.reset();
-          var translations = file.readTranslations(request.param('locale'), { returnType : 'array' }).slice(0, cf.TRANSLATION_ITEMS_PER_PAGE);
-          collection.add(translations, { merge: true });
+          file.readLocalizations()
+            .then(function(localizations) {
+              localizations = file.localizationMapToArray(localizations)[request.param('locale')]
+                .slice(0, cf.ITEMS_PER_PAGE);
 
-          if(/^\/t/.test(request.url)) {
-            this.setMeta('revealed', false);
-          }
-          else {
-            this.setMeta('revealed', true);
-          }
-          options.success(collection.toJSON());
+              collection.add(localizations, { merge: true });
+
+              if(/^\/t/.test(request.url)) {
+                _this.setMeta('revealed', false);
+              }
+              else {
+                _this.setMeta('revealed', true);
+              }
+              options.success(collection.toJSON());
+            })
+            .fail(function(error) {
+              console.log(error.stack)
+            });
+
         }
         else {
-          var $json = $('.js-json-translations');
+          var $json = $('.js-json-localizations');
           if($json.length) {
             $json.remove();
             options.success(JSON.parse($json.html()));
@@ -86,8 +97,8 @@ define(function(require) {
     onHistoryChange: function(path) {
       if(/^[a-z]{2}\-[A-Z]{2}\/translations$/.test(path)) {
         this.setMeta('revealed', true);
-        this.setPageTitle('Translations')
-        this.setPageDescription('Latest translations');
+        this.setPageTitle('Localizations')
+        this.setPageDescription('Latest localizations');
       }
       else {
         this.setMeta('revealed', false);
@@ -105,12 +116,12 @@ define(function(require) {
       var _this = this, nextPage = this.getMeta('page') + 1;
 
       request
-        .get('/translations')
+        .get('/localizations')
         .query({ page: nextPage, locale: app.locale })
         .end(function(response) {
           try {
-            response.body.forEach(function(translation) {
-              _this.add(translation);
+            response.body.forEach(function(localization) {
+              _this.add(localization);
             });
 
             if(response.body.length < 20) {

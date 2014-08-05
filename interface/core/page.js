@@ -140,7 +140,6 @@ Page.prototype.withRegions = function(regions) {
 Page.prototype._getRegions = function(callback, req) {
   var n = 0, regions = {}, _this = this, size = _.size(this.regions)
     , jsonScripts = '';
-
   for(var name in this.regions) {
     if(!this.regions[name].model) {
       throw new TypeError('name `' + name + '` doesn\'t have a model');
@@ -165,49 +164,53 @@ Page.prototype._getRegions = function(callback, req) {
       Model.prototype.sync.call(this, method, model, opts, req);
     };
 
-    try {
-      model.fetch({
-        success : function() {
-          view = new View(model)
+    (function(name, model, view, View) {
+
+      try {
+        model.fetch({
+          success : function() {
+            view = new View(model)
+            regions[name] = view.toHTML();
+
+            if(typeof model.page.title === 'string'
+            && model.page.title.length > 0
+            && typeof _this._documentProps.title !== 'string') {
+              _this._documentProps.renderedTitle = model.page.title;
+            }
+            if(typeof model.page.description === 'string'
+            && model.page.description.length > 0
+            && typeof _this._documentProps.description !== 'string') {
+              _this._documentProps.renderedDescription = model.page.description;
+            }
+
+            // Push json scripts
+            jsonScripts += coreTmpls.jsonScript({
+              name : _this.regions[name].model.split('/')[2].toLowerCase(),
+              json : JSON.stringify(model.toJSON())
+            });
+
+            n++;
+            if(n === size) {
+              callback(regions, jsonScripts);
+            }
+          },
+          error : this.fail
+        });
+      }
+      catch(err) {
+        if(err.message === 'A "url" property or function must be specified') {
           regions[name] = view.toHTML();
-
-          if(typeof model.page.title === 'string'
-          && model.page.title.length > 0
-          && typeof _this._documentProps.title !== 'string') {
-            _this._documentProps.renderedTitle = model.page.title;
-          }
-          if(typeof model.page.description === 'string'
-          && model.page.description.length > 0
-          && typeof _this._documentProps.description !== 'string') {
-            _this._documentProps.renderedDescription = model.page.description;
-          }
-
-          // Push json scripts
-          jsonScripts += coreTmpls.jsonScript({
-            name : _this.regions[name].model.split('/')[2].toLowerCase(),
-            json : JSON.stringify(model.toJSON())
-          });
-
           n++;
           if(n === size) {
             callback(regions, jsonScripts);
           }
-        },
-        error : this.fail
-      });
-    }
-    catch(err) {
-      if(err.message === 'A "url" property or function must be specified') {
-        regions[name] = view.toHTML();
-        n++;
-        if(n === size) {
-          callback(regions, jsonScripts);
+        }
+        else {
+          throw err;
         }
       }
-      else {
-        throw err;
-      }
-    }
+
+    })(name, model, view, View);
   }
 };
 

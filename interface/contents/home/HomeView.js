@@ -89,7 +89,7 @@ define(function(require) {
      */
 
     _navigateHome: function() {
-      app.navigate('/' + app.locale + '/translations');
+      app.navigate('/' + app.locale + '/localizations');
     }
   });
 });

@@ -134,12 +134,12 @@ describe('File', function() {
     });
   });
 
-  describe('#localizationMaptoArray()', function() {
+  describe('#localizationMapToArray()', function() {
     it('should sort after timestamp and return an array', function() {
       project.locales = { 'en-US': 'English (US)' };
       var file = new (proxyquire('../libraries/file', dependencies).File);
       var localizations = { 'en-US': [{ key: 'key1', timestamp: 1 }, { key: 'key2', timestamp: 2 }] };
-      expect(file.localizationMaptoArray(localizations)).to.eql(
+      expect(file.localizationMapToArray(localizations)).to.eql(
         { 'en-US': [{ key: 'key2', timestamp: 2 }, { key: 'key1', timestamp: 1 }]});
     });
 
@@ -147,7 +147,7 @@ describe('File', function() {
       project.locales = { 'en-US': 'English (US)' };
       var file = new (proxyquire('../libraries/file', dependencies).File);
       var localizations = { 'en-US': [{ key: 'key1', timestamp: 2 }, { key: 'key2', timestamp: 2 }] };
-      expect(file.localizationMaptoArray(localizations)).to.eql(
+      expect(file.localizationMapToArray(localizations)).to.eql(
         { 'en-US': [{ key: 'key1', timestamp: 2 }, { key: 'key2', timestamp: 2 }]});
     });
   });

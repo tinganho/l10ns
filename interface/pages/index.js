@@ -1,10 +1,10 @@
 
 module.exports = function(page) {
-  page('/:locale/translations')
+  page('/:locale/localizations')
     .hasDocument('default')
       .withProperties({
-        title: 'Translations',
-        description: 'Latest translations',
+        title: 'Localizations',
+        description: 'Latest localizations',
         configurations: ['default'],
         locale: 'en',
         styles: [
@@ -29,8 +29,8 @@ module.exports = function(page) {
           view: 'contents/locales/LocalesView'
         },
         body: {
-          model: 'contents/translations/Translations',
-          view: 'contents/translations/TranslationsView'
+          model: 'contents/localizations/Localizations',
+          view: 'contents/localizations/LocalizationsView'
         }
       })
     .handleErrorsUsing(function(err) {});

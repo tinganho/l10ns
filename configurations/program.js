@@ -6,6 +6,14 @@
 module.exports = {
 
   /**
+   * Specify name of this tool
+   *
+   * @value {String}
+   */
+
+  NAME: 'l10ns',
+
+  /**
    * Default output folder
    *
    * @value {String} The output folder could either be absolute or relative to
@@ -191,5 +199,5 @@ module.exports = {
    * @value {Number}
    */
 
-  DEFAULT_LOG_LENGTH: 10,
+  DEFAULT_LOG_LENGTH: 10
 };

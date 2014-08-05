@@ -40,7 +40,7 @@ define(function(require) {
         '_search',
         '_setActiveResult',
         '_setIndex',
-        '_showTranslation',
+        '_showLocalization',
         '_removeSearchResult',
         '_preventCursorMove');
     },
@@ -94,7 +94,7 @@ define(function(require) {
       this.$input.on('keyup', this._search);
       this.$input.on('focus', this._search);
       this.$el.on('mouseover', '.search-result', this._setIndex);
-      this.$el.on('click', '.search-result', this._showTranslation);
+      this.$el.on('click', '.search-result', this._showLocalization);
     },
 
     /**
@@ -111,26 +111,26 @@ define(function(require) {
     },
 
     /**
-     * Show translation
+     * Show localization
      *
      * @return {void}
      * @api private
      */
 
-    _showTranslation: function() {
-      var translation = this.model.get('results')[this.model.get('resultIndex')];
+    _showLocalization: function() {
+      var localization = this.model.get('results')[this.model.get('resultIndex')];
 
       this.$el.find('.search-results').remove();
 
-      if(typeof app.models.translation !== 'undefined'
-      && typeof app.models.translation.id !== 'undefined'
-      && app.models.translation.id === translation.id) {
+      if(typeof app.models.localization !== 'undefined'
+      && typeof app.models.localization.id !== 'undefined'
+      && app.models.localization.id === localization.id) {
         return;
       }
 
       this.$input.blur();
 
-      app.navigate('/' + app.locale + '/t/' + translation.id + '/' + translation.key);
+      app.navigate('/' + app.locale + '/l/' + localization.id + '/' + localization.key);
     },
 
     /**
@@ -144,7 +144,7 @@ define(function(require) {
     _preventCursorMove: function() {
       switch(event.keyCode) {
         case 13:
-          this._showTranslation();
+          this._showLocalization();
           return;
         case 38:
           event.preventDefault();

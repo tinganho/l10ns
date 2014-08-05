@@ -2,7 +2,7 @@
 $padding-left: 40px;
 $padding-right: 20px;
 
-.translations {
+.localizations {
   padding: $padding-left 0 0;
   background-color: #e2e2e2;
   overflow: hidden;
@@ -12,15 +12,15 @@ $padding-right: 20px;
   }
 }
 
-.translations-header {
+.localizations-header {
   font-weight: 100;
   margin-bottom: 40px;
   overflow: hidden;
   @include font-size(4.2);
 }
 
-.translations{
-  .translation {
+.localizations{
+  .localization {
     cursor: pointer;
     overflow: hidden;
     padding: 10px 0;
@@ -32,11 +32,11 @@ $padding-right: 20px;
   }
 }
 
-.translation:last-child {
+.localization:last-child {
   margin-bottom: 40px;
 }
 
-.translation-col {
+.localization-col {
   float: left;
   width: calc(50% - #{$padding-left + $padding-right});
   padding-left: $padding-left;
@@ -44,7 +44,7 @@ $padding-right: 20px;
   word-wrap: break-word;
 }
 
-.translation-load-anchor {
+.localization-load-anchor {
   height: 60px;
   display: block;
   line-height: 60px;

@@ -15,7 +15,7 @@ var file = require('./file')
  * @constructor Edit
  */
 
-function Edit() {}
+function Set() {}
 
 /**
  * Edit current translations
@@ -27,7 +27,7 @@ function Edit() {}
  * @api public
  */
 
-Edit.prototype.edit = function(ref, value, locale) {
+Set.prototype.run = function(ref, value, locale) {
   var _this = this;
 
   if(typeof ref !== 'string') {
@@ -63,7 +63,7 @@ Edit.prototype.edit = function(ref, value, locale) {
  * @api private
  */
 
-Edit.prototype._removeEscapes = function(value) {
+Set.prototype._removeEscapes = function(value) {
   return value.replace('\\!', '!');
 };
 
@@ -75,7 +75,7 @@ Edit.prototype._removeEscapes = function(value) {
  * @api public
  */
 
-Edit.prototype._getKey = function(ref) {
+Set.prototype._getKey = function(ref) {
   var deferred = Q.defer();
 
   if(typeof ref !== 'string') {
@@ -119,7 +119,7 @@ Edit.prototype._getKey = function(ref) {
  * @api private
  */
 
-Edit.prototype._getKeyFromLatestSearch = function(reference) {
+Set.prototype._getKeyFromLatestSearch = function(reference) {
   var deferred = Q.defer();
 
   reference = parseInt(reference, 10);
@@ -159,7 +159,7 @@ Edit.prototype._getKeyFromLatestSearch = function(reference) {
  * @api private
  */
 
-Edit.prototype._getKeyFromLatestTranslations = function(reference) {
+Set.prototype._getKeyFromLatestTranslations = function(reference) {
   var deferred = Q.defer();
 
   reference = Math.abs(reference) - 1;
@@ -190,7 +190,7 @@ Edit.prototype._getKeyFromLatestTranslations = function(reference) {
  * @api private
  */
 
-Edit.prototype._replace = function(key, value, locale) {
+Set.prototype._replace = function(key, value, locale) {
   locale = locale || this.defaultLocale;
 
   var translations = file.readTranslations();
@@ -213,10 +213,10 @@ Edit.prototype._replace = function(key, value, locale) {
  * Export instance
  */
 
-module.exports = new Edit;
+module.exports = new Set;
 
 /**
  * Export constructor
  */
 
-module.exports.Edit = Edit;
+module.exports.Set = Set;

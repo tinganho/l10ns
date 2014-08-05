@@ -8,7 +8,8 @@ var lunr = require('lunr')
   , log = require('./_log')
   , EventEmitter = require('events').EventEmitter
   , util = require('util')
-  , fs = require('fs');
+  , fs = require('fs')
+  , defer = require('q').defer;
 
 /**
  * Add terminal colors
@@ -24,11 +25,7 @@ require('terminal-colors');
  */
 
 var Search = function() {
-  if (!(this instanceof Search)) return new Search();
-
-  EventEmitter.call(this);
-
-  this.translations = null;
+  this.localizations = null;
   this.index = null;
   this._createIndex();
 };
@@ -62,30 +59,39 @@ Search.prototype._createIndex = function() {
  * @api public
  */
 
-Search.prototype.readTranslations = function() {
-  // Store translations for searching later
-  this.translations = file.readTranslations();
+Search.prototype.readLocalizations = function() {
+  var _this = this, deferred = defer();
 
-  if(typeof this.translations[this.defaultLocale] === 'undefined') {
-    throw new TypeError('Default locale is undefined');
-  }
+  file.readLocalizations()
+    .then(function(localizations) {
+      _this.localizations = localizations;
 
-  this.translations = this.translations[project.defaultLocale];
+      if(typeof _this.localizations[project.defaultLocale] === 'undefined') {
+        throw new TypeError('Default locale is undefined');
+      }
 
-  for(var key in this.translations) {
-    var translation = this.translations[key];
-    this.index.add({
-      id : translation.key,
-      text : translation.text,
-      // the key `BASE__EXIT_BUTTON` should be toknized as `base exit button`
-      key : translation.key.replace(/_+/g,  ' ').toLowerCase()
+      _this.localizations = _this.localizations[project.defaultLocale];
+
+      for(var key in _this.localizations) {
+        var localization = _this.localizations[key];
+        _this.index.add({
+          id : localization.key,
+          text : localization.text,
+          // the  `BASE__EXIT_BUTTON` should be toknized as `base exit button`
+          key : localization.key.replace(/_+/g,  ' ').toLowerCase()
+        });
+      }
+
+      // Save docs
+      _this.docs = _this.localizations;
+
+      deferred.resolve();
+    })
+    .fail(function(error) {
+      deferred.reject(error);
     });
-  }
 
-  // Save docs
-  this.docs = this.translations;
-
-  this.emit('readend');
+  return deferred.promise;
 };
 
 /**
@@ -117,7 +123,7 @@ Search.prototype.queryOutput = function(q) {
 
   // Store as cache
   fs.writeFile(
-    pcf.searchFile,
+    project.cache.search,
     JSON.stringify(cache, null, 2),
     function() {
       _this.emit('queryend', res);
@@ -138,9 +144,9 @@ Search.prototype.query = function(q) {
 
   return this.index.search(q).slice(0, program.LOG_LENGTH).map(function(result) {
     return {
-      id: _this.translations[result.ref].id,
+      id: _this.localizations[result.ref].id,
       key: result.ref,
-      value: _this.translations[result.ref].text
+      value: _this.localizations[result.ref].text
     };
   });
 };

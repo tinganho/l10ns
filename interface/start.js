@@ -153,7 +153,7 @@ configure(app);
 autoRoute(autoRoutes, app);
 
 require('./pages/index')(page);
-require('./pages/translation')(page);
+require('./pages/localizations')(page);
 
 /**
  * Server start.
@@ -163,11 +163,11 @@ if(!globallyInstalled) {
   createCompositeRouter();
 }
 
-http.createServer(app).listen(pcf.port, function() {
-  var url = 'http://localhost:' + pcf.port;
+http.createServer(app).listen(project.interface.port, function() {
+  var url = 'http://localhost:' + project.interface.port;
   console.log('Translation interface is now available in ' + url.green + '.');
   console.log('Close the interface using CTRL + C.');
-  if(pcf.autoOpen) {
+  if(project.interface.autoOpen) {
     console.log('opening web browser...');
     setTimeout(function() {
       open(url);
@@ -179,7 +179,7 @@ http.createServer(app).listen(pcf.port, function() {
  * Set process title
  */
 
-process.title = pcf.PROCESS_TITLE;
+process.title = program.NAME;
 
 /**
  * Export app.

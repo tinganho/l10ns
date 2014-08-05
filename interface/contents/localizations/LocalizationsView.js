@@ -45,7 +45,7 @@ define(function(require) {
 
     _bindMethods: function() {
       _.bindAll(this,
-        '_showTranslation',
+        '_showLocalization',
         '_nextPage'
       );
     },
@@ -60,12 +60,12 @@ define(function(require) {
     bindModel: function() {
       var _this = this;
 
-      this.model.on('change', function(translation) {
-        _this.$('.translation[data-id="' + translation.id + '"] .translation-value').html(translation.get('text'));
+      this.model.on('change', function(localization) {
+        _this.$('.localization[data-id="' + localization.id + '"] .localization-value').html(localization.get('text'));
       });
 
-      this.model.on('add', function(translation) {
-        _this.$loadMore.before(template['TranslationItem'](translation.toJSON()));
+      this.model.on('add', function(localization) {
+        _this.$loadMore.before(template['LocalizationItem'](localization.toJSON()));
       });
 
       this.model.on('meta:change:empty', function() {
@@ -94,8 +94,8 @@ define(function(require) {
      */
 
     _addMouseInteractions: function() {
-      this.$el.on('click', '.translation', this._showTranslation);
-      this.$el.on('click', '.translation-load-anchor', this._nextPage);
+      this.$el.on('click', '.localization', this._showLocalization);
+      this.$el.on('click', '.localization-load-anchor', this._nextPage);
     },
 
     /**
@@ -105,11 +105,11 @@ define(function(require) {
      * @api private
      */
 
-    _showTranslation: function(event) {
+    _showLocalization: function(event) {
       var id = event.currentTarget.getAttribute('data-id')
         , key = encodeURI(event.currentTarget.getAttribute('data-key').replace(/\s/g, '-'));
 
-      app.navigate('/' + app.locale + '/t/' + id + '/' + key);
+      app.navigate('/' + app.locale + '/l/' + id + '/' + key);
     },
 
     /**
@@ -131,7 +131,7 @@ define(function(require) {
      */
 
     toHTML: function() {
-      return template['Translations'](this.model.toJSON());
+      return template['Localizations'](this.model.toJSON());
     },
 
 
@@ -144,7 +144,7 @@ define(function(require) {
      */
 
     should: function(path) {
-      if(path === ':locale/translations') {
+      if(path === ':locale/localizations') {
         return 'keep';
       }
       else {

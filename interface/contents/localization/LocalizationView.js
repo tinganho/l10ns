@@ -350,7 +350,7 @@ define(function(require) {
       this._conditionViews.forEach(function(conditionView, index) {
         if(conditionView.model === condition) {
           conditionView.remove();
-          // We remove the view pointer from TranslatioView`
+          // We remove the view pointer from `LocalizationView`
           removalRow = conditionView.model.get('row');
           conditionRemovalIndex = index;
         }
@@ -490,7 +490,7 @@ define(function(require) {
      */
 
     _setElements: function() {
-      this.$region = $('[data-region=translation]');
+      this.$region = $('[data-region=localization]');
       this.$saveButton = $('.save');
       this.$saveSpinner = $('.save-spinner');
       this.$saveButtonContainer = $('.save-button-container');
@@ -533,7 +533,7 @@ define(function(require) {
         operators: cf.OPERATORS,
         additionalCompairOperators: cf.ADDITIONAL_COMPAIR_OPERATORS,
         row: row,
-        translation: this.model
+        localization: this.model
       };
 
       new this.model.Condition(data);
@@ -541,13 +541,13 @@ define(function(require) {
       if(_else) {
         _.defer(function() {
           _else.set('row', elseRow);
-          new _this.model.Input({ value: '', row: inputRow, translation: _this.model});
+          new _this.model.Input({ value: '', row: inputRow, localization: _this.model});
         });
       }
       else {
         _.defer(function() {
-          new _this.model.Else({ row: 2, translation: _this.model });
-          var input = new _this.model.Input({ value: '', row: 3, translation: _this.model});
+          new _this.model.Else({ row: 2, localization: _this.model });
+          var input = new _this.model.Input({ value: '', row: 3, localization: _this.model});
         });
       }
 
@@ -586,7 +586,7 @@ define(function(require) {
             _this.$saveButtonContainer.removeClass('is-loading').addClass('is-waiting');
             setTimeout(function() {
               _this.$saveSpinner.hide();
-              alert('Couldn\'t save your translation, please try again later.');
+              alert('Couldn\'t save your localization, please try again later.');
             }, 300);
           });
         }
@@ -620,7 +620,7 @@ define(function(require) {
         values[input.get('row')] = view.render();
       });
 
-      // `else` might be null if there is no conditions on translations
+      // `else` might be null if there is no conditions on localization
       var _else = this.model.get('else');
       if(_else) {
         this._elseView = new ElseView(_else);
@@ -629,7 +629,7 @@ define(function(require) {
 
       json.values = values.join('');
 
-      html += template['Translation'](json);
+      html += template['Localization'](json);
 
       return html;
     },

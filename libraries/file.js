@@ -101,7 +101,7 @@ File.prototype.writeLocalization = function(localizations, locale) {
  * @api private
  */
 
-File.prototype.localizationMaptoArray = function(localizations) {
+File.prototype.localizationMapToArray = function(localizations) {
   var result = {};
 
   for(var locale in project.locales) {

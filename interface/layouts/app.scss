@@ -31,13 +31,13 @@ body {
   display: table;
 }
 
-.app-translations {
+.app-localizations {
   width: 720px;
   margin: 100px auto;
   @include transform(translateZ(0));
 }
 
-.app-translation {
+.app-localization {
   margin-top: 125px;
   margin-bottom: 125px;
 }

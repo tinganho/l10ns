@@ -1,0 +1,35 @@
+
+{{##def.spinner: load('interface/components/spinner.part', {
+  componentClass: 'save-spinner'
+}); #}}
+
+<div class="localization" data-content="localization">
+  <h1 class="localization-title">{{=it.key}}</h1>
+  <form class="localization-form">
+    <div class="localization-variables">
+      <label class="localization-sub-title">{{=it.i18n_variables}}</label>
+      <ul class="localization-variables-list">
+      {{?it.vars.length > 0}}
+        {{~it.vars :variable:index}}
+          <li class="localization-variable">{{=variable}}</li>
+        {{~}}
+      {{??}}
+        <li class="localization-variable">{{=it.i18n_none}}</li>
+      {{?}}
+      </ul>
+    </div>
+    <div class="localization-inputs clearfix">
+      <label class="localization-sub-title">{{=it.i18n_value}}</label>
+      <div class="localization-values">
+        {{=it.values}}
+      </div>
+      <div class="localization-actions">
+        <div class="save-button-container">
+          <button class="save button" type="submit" disabled>{{=it.i18n_save}}</button>
+          {{#def.spinner}}
+        </div>
+        <button class="add-condition button" type="button" disabled>{{=it.i18n_addCondition}}</button>
+      </div>
+    </div>
+  </form>
+</div>

@@ -4,31 +4,31 @@
 
 $padding: 40px;
 
-[data-content=translation] {
+[data-content=localization] {
   width: calc(720px - #{2 * $padding});
   margin: auto;
   background-color: #cbcbcb;
   padding: $padding $padding 0 $padding;
 }
 
-.translation-title {
+.localization-title {
   color: #fff;
   font-size: 40px;
   margin-bottom: 40px;
   word-wrap: break-word;
 }
 
-.translation-form {
+.localization-form {
   overflow: hidden;
 }
 
-.translation-variables {
+.localization-variables {
   float: left;
   width: 20%;
   margin-right: 6.67%;
 }
 
-.translation-sub-title {
+.localization-sub-title {
   color: #fff;
   padding: 6px 0;
   border-bottom: 1px solid #acacac;
@@ -37,18 +37,18 @@ $padding: 40px;
   @include font-size(2);
 }
 
-.translation-inputs {
+.localization-inputs {
   width: calc(73.33% - 2px);
   float: left;
   padding-bottom: 40px;
 
-  .translation-sub-title {
+  .localization-sub-title {
     margin-left: 2px;
     margin-right: 2px
   }
 }
 
-.translation-actions {
+.localization-actions {
   float: right;
   overflow: hidden;
   margin-top: 10px;

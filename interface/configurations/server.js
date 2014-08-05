@@ -136,7 +136,7 @@ var configurations = {
    * @type {Array.<String>}
    */
 
-  LOCALES: pcf.locales,
+  LOCALES: project.locales,
 
   /**
    * The default locale used for the website. Recommend use locale name.
@@ -232,7 +232,7 @@ var configurations = {
    * @type {Number}
    */
 
-  TRANSLATION_ITEMS_PER_PAGE: 20,
+  ITEMS_PER_PAGE: 20,
 
   /**
    * We want to prevent people from JSON hijacking. Other site can include

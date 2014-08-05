@@ -26,7 +26,7 @@ var out='else {return \''+(it.string)+'\';}';return out;
 var out='function gt(key) {if(!(key in t)) {return \'KEY_NOT_IN_SOURCE: \' + key;}return t[key].call(undefined, arguments[1]);};function lni(operand1, operand2) {operand1 = operand1 + \'\';operand2 = operand2 + \'\';operand1LastNumber = operand1.substr(-1,1);return operand1LastNumber === operand2;};';return out;
 };
   tmpl['javascriptWrapper']=function anonymous(it) {
-var out=';(function() {'+(it.translationMap)+'function gt(key) { if(!(key in t)) { return \'KEY_NOT_IN_SOURCE: \' + key; } return t[key].call(undefined, arguments[1]);};function lni(operand1, operand2) { operand1 = operand1 + \'\'; operand2 = operand2 + \'\'; operand1LastNumber = operand1.substr(-1,1); return operand1LastNumber === operand2;};if(typeof require === "function" && typeof exports === \'object\' && typeof module === \'object\') {module.exports = gt;}else if (typeof define === "function" && define.amd) {define(function () {return gt;});}else {window.'+(it.variable)+' = gt;}})();';return out;
+var out=';(function() {'+(it.localizationMap)+'function gt(key) { if(!(key in t)) { return \'KEY_NOT_IN_SOURCE: \' + key; } return t[key].call(undefined, arguments[1]);};function lni(operand1, operand2) { operand1 = operand1 + \'\'; operand2 = operand2 + \'\'; operand1LastNumber = operand1.substr(-1,1); return operand1LastNumber === operand2;};if(typeof require === "function" && typeof exports === \'object\' && typeof module === \'object\') {module.exports = l;}else if (typeof define === "function" && define.amd) {define(function () {return l;});}else {window.'+(it.functionName)+' = l;}})();';return out;
 };
   tmpl['mapDeclaration']=function anonymous(it) {
 var out='var t = {'+(it.body)+'};';return out;
