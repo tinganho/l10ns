@@ -26,71 +26,71 @@ function Merger() {
 /**
  * Merge timestamps
  *
- * @param {Object} newTranslations
- * @param {Object} oldTranslations
+ * @param {Object} newLocalizations
+ * @param {Object} oldLocalizations
  * @param {String} key
  * @return {Object}
  * @api public
  */
 
-Merger.prototype.mergeTimeStamp = function(newTranslations, oldTranslations, key) {
+Merger.prototype.mergeTimeStamp = function(newLocalizations, oldLocalizations, key) {
   var now = Date.now();
 
-  if(key in oldTranslations && 'timestamp' in oldTranslations[key]) {
-    newTranslations[key].timestamp = oldTranslations[key].timestamp;
+  if(key in oldLocalizations && 'timestamp' in oldLocalizations[key]) {
+    newLocalizations[key].timestamp = oldLocalizations[key].timestamp;
   }
   else {
-    newTranslations[key].timestamp = now;
+    newLocalizations[key].timestamp = now;
   }
 
-  return newTranslations;
+  return newLocalizations;
 };
 
 /**
  * Merge id
  *
- * @param {Object} newTranslations
- * @param {Object} oldTranslations
+ * @param {Object} newLocalizations
+ * @param {Object} oldLocalizations
  * @param {String} key
  * @return {void}
  * @api public
  */
 
-Merger.prototype.mergeId = function(newTranslations, oldTranslations, key) {
+Merger.prototype.mergeId = function(newLocalizations, oldLocalizations, key) {
   var now = parseInt(Date.now() / 1000, 10);
-  if(key in oldTranslations && 'id' in oldTranslations[key]) {
-    newTranslations[key].new = false;
-    newTranslations[key].id = oldTranslations[key].id;
+  if(key in oldLocalizations && 'id' in oldLocalizations[key]) {
+    newLocalizations[key].new = false;
+    newLocalizations[key].id = oldLocalizations[key].id;
   }
   else {
-    newTranslations[key].new = true;
-    newTranslations[key].id = hashids.encrypt(now, this.counter);
+    newLocalizations[key].new = true;
+    newLocalizations[key].id = hashids.encrypt(now, this.counter);
   }
   this.counter++;
 
-  return newTranslations;
+  return newLocalizations;
 };
 
 /**
- * Merge translations
+ * Merge localizations.
  *
- * @param {Object} newTranslations
- * @param {Object} oldTranslations
+ * @param {Object} newLocalizations
+ * @param {Object} oldLocalizations
  * @param {String} key
  * @return {Object}
  * @api public
  */
 
-Merger.prototype.mergeTranslations = function(newTranslations, oldTranslations, key) {
-  if(key in oldTranslations && 'values' in oldTranslations[key]) {
-    newTranslations[key].values = oldTranslations[key].values;
-    newTranslations[key].text = oldTranslations[key].text;
+Merger.prototype.mergeLocalizations = function(newLocalizations, oldLocalizations, key) {
+  if(key in oldLocalizations && 'values' in oldLocalizations[key]) {
+    newLocalizations[key].values = oldLocalizations[key].values;
+    newLocalizations[key].text = oldLocalizations[key].text;
   }
   else {
-    throw new TypeError('Key does not exits in oldTranslations.');
+    throw new TypeError('Key does not exits in oldLocalizations.');
   }
 
-  return newTranslations;
+  return newLocalizations;
 };
 
 /**

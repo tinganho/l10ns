@@ -101,7 +101,7 @@ L10ns.prototype.compile = function() {
   if(!this.compiler) {
     this.compiler = new Compiler();
   }
-  this.compiler.compile();
+  this.compiler.run();
 };
 
 /**

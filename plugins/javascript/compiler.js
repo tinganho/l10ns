@@ -50,7 +50,7 @@ var Compiler = function() {
  * @api public
  */
 
-Compiler.prototype.compile = function() {
+Compiler.prototype.run = function() {
   for(locale in project.locales) {
     var content = template.javascriptWrapper({
       functionName : language.GET_LOCALIZATION_STRING_FUNCTION_NAME,

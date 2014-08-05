@@ -316,7 +316,7 @@ describe('Update', function() {
           'key1': {}
         }
       }));
-      dependencies['./merger'].mergeTranslations = spy();
+      dependencies['./merger'].mergeLocalizations = spy();
       dependencies['./merger'].mergeTimeStamp = spy();
       dependencies['./merger'].mergeId = spy();
       project.locales = { 'en-US': 'English (US)' };
@@ -326,7 +326,7 @@ describe('Update', function() {
         'key1': {}
       });
       eventually(function() {
-        dependencies['./merger'].mergeTranslations.should.have.been.calledOnce;
+        dependencies['./merger'].mergeLocalizations.should.have.been.calledOnce;
         dependencies['./merger'].mergeTimeStamp.should.have.been.calledOnce;
         dependencies['./merger'].mergeId.should.have.been.calledOnce;
         done();

@@ -182,7 +182,7 @@ Update.prototype._mergeWithOldLocalizations = function(newLocalizations) {
             var _new = newLocalizationsCopy[locale]
               , old  = oldLocalizations[locale];
             // Assign translation
-            newLocalizationsCopy[locale] = merger.mergeTranslations(_new, old, key);
+            newLocalizationsCopy[locale] = merger.mergeLocalizations(_new, old, key);
             // Set timestamp
             newLocalizationsCopy[locale] = merger.mergeTimeStamp(_new, old, key);
             // Assign id

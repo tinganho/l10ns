@@ -21,7 +21,7 @@ define(function(require) {
      * @overrides _ensureElement
      */
 
-    _ensureElement : function() {
+    _ensureElement: function() {
       if(inClient) {
         Backbone.View.prototype._ensureElement.call(this, arguments);
       }
@@ -37,7 +37,7 @@ define(function(require) {
      * @return {Boolean}
      */
 
-    fingerIsOutOfButtonRange : function(event) {
+    fingerIsOutOfButtonRange: function(event) {
       var isOutOfRange = false;
 
       if(typeof event !== 'undefined'
@@ -64,7 +64,7 @@ define(function(require) {
      * @api public
      */
 
-    onHistoryChange : function(path) {},
+    onHistoryChange: function(path) {},
 
     /**
      * To HTML
@@ -73,7 +73,7 @@ define(function(require) {
      * @api public
      */
 
-    toHTML : function() {},
+    toHTML: function() {},
 
     /**
      * Bind DOM. This function is automatically called be the `Composer`
@@ -84,7 +84,7 @@ define(function(require) {
      * @delegate
      */
 
-    bindDOM : function() {},
+    bindDOM: function() {},
 
     /**
      * Property for checking if the DOM have been bound
@@ -92,7 +92,7 @@ define(function(require) {
      * @type {Boolean}
      */
 
-    boundDOM : false,
+    boundDOM: false,
 
     /**
      * Remove is called by the composer if `should()` returns 'remove'.
