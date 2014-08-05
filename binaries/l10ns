@@ -227,7 +227,7 @@ commands
     if(!utilities.initiatedProject()) {
       return console.log('You haven\'t initialized a project yet.');
     }
-    cli.edit(reference, value, this.locale);
+    cli.set(reference, value, this.locale);
   });
 
 commands

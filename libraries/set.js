@@ -50,7 +50,7 @@ Edit.prototype.edit = function(ref, value, locale) {
     });
   })
   .fail(function(err) {
-    log.error(err.message);
+    console.log(err.stack);
     log.error('Could not edit your translations.');
   });
 };

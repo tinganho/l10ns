@@ -5,7 +5,7 @@
 
 var Log = require('./log').Log
   , init = require('./init')
-  , edit = require('./edit')
+  , set = require('./set')
   , Search = require('./search')
   , update = require('./update')
   , Compiler = require('../plugins/' + project.programmingLanguage + '/compiler');
@@ -39,8 +39,8 @@ L10ns.prototype.init = function() {
  * @api public
  */
 
-L10ns.prototype.edit = function(key, value, locale) {
-  edit.run(key, value, locale);
+L10ns.prototype.set = function(key, value, locale) {
+  set.run(key, value, locale);
 };
 
 /**
