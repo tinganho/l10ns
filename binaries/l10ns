@@ -151,19 +151,19 @@ commands
   .version(pjson.version)
   .option('-l, --locale <locale>', 'specify locale', String, project.defaultLocale)
   .option('-p, --port <port>', 'specify port for interface', Number, project.interface.port)
+  .option('-e, --empty', 'only empty localizations')
   .option('-o, --open', 'open interface in browser')
-  .option('--empty-values', 'show only non translated keys', Boolean, false)
 
 commands
   .command('init')
-  .description('Initialize a new GetTranslation project')
+  .description('Initialize project')
   .action(function() {
     cli.init();
   });
 
 commands
   .command('interface')
-  .description('Starts the translation interface')
+  .description('Starts web interface')
   .action(function() {
     if(!utilities.initiatedProject()) {
       return console.log('You haven\'t initialized a project yet');
@@ -173,7 +173,7 @@ commands
 
 commands
   .command('search [q]')
-  .description('Search translation keys and values')
+  .description('Search localizations')
   .action(function(q) {
     if(!utilities.initiatedProject()) {
       return console.log('You haven\'t initialized a project yet');
@@ -187,12 +187,13 @@ commands
 
 commands
   .command('log')
-  .description('Show translation log')
+  .description('Show log')
   .action(function() {
     if(!utilities.initiatedProject()) {
       return console.log('You haven\'t initialized a project yet');
     }
-    if(commands.values) {//no-values option
+
+    if(!commands.empty) {//no-values option
       cli.log(this.locale, 'regular');
     }
     else {
@@ -202,7 +203,7 @@ commands
 
 commands
   .command('update')
-  .description('Update translation keys from source')
+  .description('Update localization keys from source')
   .action(function() {
     if(!utilities.initiatedProject()) {
       return console.log('You haven\'t initialized a project yet.');
@@ -212,7 +213,7 @@ commands
 
 commands
   .command('compile')
-  .description('Compile transations')
+  .description('Compile localizations')
   .action(function() {
     if(!utilities.initiatedProject()) {
       return console.log('You haven\'t initialized a project yet.');
@@ -222,7 +223,7 @@ commands
 
 commands
   .command('set [reference] [value]')
-  .description('Edit a translation')
+  .description('Set localization')
   .action(function(reference, value) {
     if(!utilities.initiatedProject()) {
       return console.log('You haven\'t initialized a project yet.');

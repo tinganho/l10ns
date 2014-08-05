@@ -32,7 +32,7 @@ Log.prototype.run = function(locale, type) {
 
   file.readLocalizationArray(project.store + '/' + locale + '.locale')
     .then(function(localizations) {
-      localizations = localizations.slice(0, program.LOG_LENGTH);
+      localizations = localizations.slice(0, program.DEFAULT_LOG_LENGTH);
 
       if(!localizations.length) {
         return log.log('No localizations.');
@@ -63,7 +63,7 @@ Log.prototype.printEmptyValuesLog = function(localizations, locale) {
   var n = 1;
   for(var i in localizations) {
     if(localizations[i].values.length === 0) {
-      if(n <= program.LOG_LENGTH) {
+      if(n <= program.DEFAULT_LOG_LENGTH) {
         log.log(localizations[i].key);
       }
       else {

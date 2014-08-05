@@ -142,7 +142,7 @@ Search.prototype.queryOutput = function(q) {
 Search.prototype.query = function(q) {
   var _this = this;
 
-  return this.index.search(q).slice(0, program.LOG_LENGTH).map(function(result) {
+  return this.index.search(q).slice(0, program.DEFAULT_LOG_LENGTH).map(function(result) {
     return {
       id: _this.localizations[result.ref].id,
       key: result.ref,
