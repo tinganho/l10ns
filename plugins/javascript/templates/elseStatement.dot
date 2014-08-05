@@ -1,12 +1,3 @@
-
-<!--
-
-Else statement
-
-@param {string} string to return
-
-!-->
-
 else {
   return '{{=it.string}}';
 }

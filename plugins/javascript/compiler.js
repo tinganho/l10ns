@@ -9,6 +9,7 @@ var fs = require('fs')
   , template = require('./templates/build/templates')
   , file = require('../../libraries/file')
   , log = require('../../libraries/_log')
+  , defer = require('q').defer;
 
 /**
  * Add terminal colors
@@ -51,67 +52,94 @@ var Compiler = function() {
  */
 
 Compiler.prototype.run = function() {
+  var _this = this;
+
   for(locale in project.locales) {
-    var content = template.javascriptWrapper({
-      functionName : language.GET_LOCALIZATION_STRING_FUNCTION_NAME,
-      translationMap : this._getTranslationMap(locale)
-    });
-    fs.writeFileSync(project.output + '/' + locale + '.js', content);
+    (function(locale) {
+      _this._getLocalizationMap(locale)
+        .then(function(localizationMap) {
+          var content = template.javascriptWrapper({
+            functionName: language.GET_LOCALIZATION_STRING_FUNCTION_NAME,
+            localizationMap: localizationMap,
+            functions: _this.indentSpaces(2, template.functions())
+          });
+          fs.writeFileSync(project.output + '/' + locale + '.js', content);
+        })
+        .fail(function(error) {
+          console.log(error.stack);
+        });
+    })(locale);
   }
 };
 
 /**
- * Get translations
+ * Indent spaces
  *
- * @param {String} locale
- * @param {Object}
- * @api private
+ * @param {Number} spaces
+ * @param {String} string
+ * @return {String}
+ * @api public
  */
 
-Compiler.prototype._getTranslations = function(locale) {
-  var translations = file.readTranslations();
-  return translations[locale];
+Compiler.prototype.indentSpaces = function(spaces, string) {
+  for(var i = 0; i<spaces; i++) {
+    string = string.replace(/\n/g, '\n ');
+  }
+  if(/^[^\s]$/.test(string.charAt(0))) {
+    for(var i = 0; i<spaces; i++) {
+      string = ' ' + string;
+    }
+  }
+
+  return string;
 };
 
 /**
  * Get translation map
  *
  * @param {String} locale
- * @return {String} JS String representation fo translation map
+ * @return {Promise}
+ * @resolves {String} String representing a translation map
  * @api private
  */
 
-Compiler.prototype._getTranslationMap = function(locale) {
-  // Get translations
-  var translations = this._getTranslations(locale);
+Compiler.prototype._getLocalizationMap = function(locale) {
+  var _this = this, deferred = defer();
 
-  // Get Body string
-  var n = 0, body = '';
-  for(var key in translations) {
-    // Append a comma for previous hashes
-    if(n !== 0) {
-      body += this.comma + this.newline;
-    }
+  file.readLocalizations(locale)
+    .then(function(localizations) {
+      // Get Body string
+      var n = 0, body = '';
+      for(var key in localizations) {
+        // Append a comma for previous hashes
+        if(n !== 0) {
+          body += _this.comma + _this.newline;
+        }
 
-    var field = template.JSONTranslationFunctionField({
-      key : this._normalizeText(key),
-      functionString : this._getFunctionBodyString(translations, key)
+        var field = _this.indentSpaces(2, template.JSONTranslationFunctionField({
+          key: _this._normalizeText(key),
+          functionString: _this._getFunctionBodyString(localizations, key)
+        }));
+
+        body += field;
+
+        if(!this.quiet && locale === project.defaultLocale) {
+          console.log('[compiled] '.green + _this._normalizeText(key));
+        }
+
+        n++;
+      }
+
+      // Store every function in a hash
+      deferred.resolve(_this.indentSpaces(2, template.mapDeclaration({
+        body: body
+      })));
+    })
+    .fail(function(error) {
+      deferred.reject(error);
     });
 
-    body += field;
-
-    if(!this.quiet && locale === project.defaultLocale) {
-      console.log('[compiled] '.green + this._normalizeText(key));
-    }
-
-    n++;
-  }
-
-  // Store every function in a hash
-  return template.mapDeclaration({
-    body : body
-  });
-
+  return deferred.promise;
 };
 
 /**
@@ -138,20 +166,20 @@ Compiler.prototype._normalizeText = function(text) {
  * @api private
  */
 
-Compiler.prototype._getFunctionBodyString = function(translations, key) {
+Compiler.prototype._getFunctionBodyString = function(localizations, key) {
   var str = '';
-  if(translations[key].values.length === 0) {
-    str += this._getNonTranslatedFunctionBodyString(this._normalizeText(key));
-  } else if(translations[key].values[0][0] === program.CONDITION_IF) {
-    str += this._getConditionsString(
-      translations[key].values,
-      translations[key].variables
-    );
+  if(localizations[key].values.length === 0) {
+    str += this.indentSpaces(2, this._getNonTranslatedFunctionBodyString(this._normalizeText(key)));
+  } else if(localizations[key].values[0][0] === program.CONDITION_IF) {
+    str += this.indentSpaces(2, this._getConditionsString(
+      localizations[key].values,
+      localizations[key].variables
+    ));
   } else {
     str += this._getNonConditionsFunctionBodyString(
       this._getFormatedTranslatedText(
-        translations[key].values[0],
-        translations[key].variables
+        localizations[key].values[0],
+        localizations[key].variables
       )
     );
   }
@@ -169,7 +197,7 @@ Compiler.prototype._getFunctionBodyString = function(translations, key) {
 
 Compiler.prototype._getNonConditionsFunctionBodyString = function(string) {
   return template.nonConditionFunctionBody({
-    string : string
+    string: string
   });
 };
 
@@ -183,7 +211,7 @@ Compiler.prototype._getNonConditionsFunctionBodyString = function(string) {
 
 Compiler.prototype._getNonTranslatedFunctionBodyString = function(key) {
   return template.nonTranslatedFunctionBody({
-    key : key
+    key: key
   });
 };
 
@@ -231,20 +259,20 @@ Compiler.prototype._getConditionString = function(conditions, variables) {
     throw new TypeError('string does not represent a condition');
   }
 
-  if(operator !== 'lni') {
+  if(operator !== 'lci') {
     return template.condition({
-      condition : _condition,
-      operand1  : operand1,
-      operator  : operator,
-      operand2  : operand2
+      condition: _condition,
+      operand1: operand1,
+      operator: operator,
+      operand2: operand2
     });
   }
   else {
     return template.conditionFunction({
-      condition : _condition,
-      operand1  : operand1,
-      function  : operator,
-      operand2  : operand2
+      condition: _condition,
+      operand1: operand1,
+      function: operator,
+      operand2: operand2
     });
   }
 
@@ -276,7 +304,6 @@ Compiler.prototype._getAdditionalConditionString = function(conditions, variable
     if(!syntax.stringIsCondition(operand1, operator, operand2)) {
       throw new TypeError('string does not represent a condition');
     }
-
     if(operator !== 'lci') {
       str += this.space + template.additionalCondition({
         additionalCondition: additionalCondition,
@@ -299,7 +326,7 @@ Compiler.prototype._getAdditionalConditionString = function(conditions, variable
 
   // append condition body
   str += template.conditionBody({
-    string : this._getFormatedTranslatedText(conditions[index], variables)
+    string: this._getFormatedTranslatedText(conditions[index], variables)
   });
 
   return str;
@@ -313,7 +340,7 @@ Compiler.prototype._getAdditionalConditionString = function(conditions, variable
  */
 
 Compiler.prototype._getConditionBodyString = function(string) {
-  return template.conditionBody({ string : string });
+  return template.conditionBody({ string: string });
 };
 
 /**

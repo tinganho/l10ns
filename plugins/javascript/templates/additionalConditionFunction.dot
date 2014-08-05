@@ -1,13 +1,1 @@
-
-<!--
-
-Additional condition string
-
-@param {string} additionalCondition
-@param {string} operand1
-@param {string} operator
-@param {string} operand2
-
-!-->
-
 {{=it.additionalCondition}} {{=it.function}}({{=it.operand1}}, {{=it.operand2}})

@@ -75,8 +75,13 @@ L10ns.prototype.log = function(locale, type) {
 
 L10ns.prototype.search = function(q) {
   var search = new Search();
-  search.readTranslations();
-  search.queryOutput(q);
+  search.readLocalizations()
+    .then(function() {
+      search.queryOutput(q);
+    })
+    .fail(function(error) {
+      console.log(error.stack);
+    });
 };
 
 /**

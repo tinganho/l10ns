@@ -2,7 +2,7 @@ function encodeHTMLSource() {  var encodeHTMLRules = { "&": "&#38;", "<": "&#60;
 String.prototype.encodeHTML=encodeHTMLSource();
 var tmpl = {};
   tmpl['JSONTranslationFunctionField']=function anonymous(it) {
-var out='\''+(it.key)+'\' : '+(it.functionString);return out;
+var out='\''+(it.key)+'\': '+(it.functionString);return out;
 };
   tmpl['additionalCondition']=function anonymous(it) {
 var out=''+(it.additionalCondition)+' '+(it.operand1)+' '+(it.operator)+' '+(it.operand2);return out;
@@ -14,27 +14,27 @@ var out=''+(it.additionalCondition)+' '+(it.function)+'('+(it.operand1)+', '+(it
 var out=''+(it.condition)+'('+(it.operand1)+' '+(it.operator)+' '+(it.operand2);return out;
 };
   tmpl['conditionBody']=function anonymous(it) {
-var out=') {return \''+(it.string)+'\';}';return out;
+var out=') {\n  return \''+(it.string)+'\';\n}';return out;
 };
   tmpl['conditionFunction']=function anonymous(it) {
 var out=''+(it.condition)+'('+(it.function)+'('+(it.operand1)+', '+(it.operand2)+')';return out;
 };
   tmpl['elseStatement']=function anonymous(it) {
-var out='else {return \''+(it.string)+'\';}';return out;
+var out='else {\n  return \''+(it.string)+'\';\n}';return out;
 };
-  tmpl['function']=function anonymous(it) {
-var out='function gt(key) {if(!(key in t)) {return \'KEY_NOT_IN_SOURCE: \' + key;}return t[key].call(undefined, arguments[1]);};function lni(operand1, operand2) {operand1 = operand1 + \'\';operand2 = operand2 + \'\';operand1LastNumber = operand1.substr(-1,1);return operand1LastNumber === operand2;};';return out;
+  tmpl['functions']=function anonymous(it) {
+var out='function l(key) {\n  if(!(key in localizations)) {\n    return \'KEY_NOT_IN_SOURCE: \' + key;\n  }\n  return localizations[key].call(undefined, arguments[1]);\n};\n\nfunction lci(operand1, operand2) {\n  operand1 = operand1 + \'\';\n  operand2 = operand2 + \'\';\n  operand1LastNumber = operand1.substr(-1,1);\n  return operand1LastNumber === operand2;\n};';return out;
 };
   tmpl['javascriptWrapper']=function anonymous(it) {
-var out=';(function() {'+(it.localizationMap)+'function gt(key) { if(!(key in t)) { return \'KEY_NOT_IN_SOURCE: \' + key; } return t[key].call(undefined, arguments[1]);};function lni(operand1, operand2) { operand1 = operand1 + \'\'; operand2 = operand2 + \'\'; operand1LastNumber = operand1.substr(-1,1); return operand1LastNumber === operand2;};if(typeof require === "function" && typeof exports === \'object\' && typeof module === \'object\') {module.exports = l;}else if (typeof define === "function" && define.amd) {define(function () {return l;});}else {window.'+(it.functionName)+' = l;}})();';return out;
+var out=';(function() {\n'+(it.localizationMap)+'\n'+(it.functions)+'\n\n  if(typeof require === "function" && typeof exports === \'object\' && typeof module === \'object\') {\n    module.exports = l;\n  }\n  else if (typeof define === "function" && define.amd) {\n    define(function() {\n      return l;\n    });\n  }\n  else {\n    window.'+(it.functionName)+' = l;\n  }\n})();\n';return out;
 };
   tmpl['mapDeclaration']=function anonymous(it) {
-var out='var t = {'+(it.body)+'};';return out;
+var out='var localizations = {\n'+(it.body)+'\n};\n';return out;
 };
   tmpl['nonConditionFunctionBody']=function anonymous(it) {
 var out='return \''+(it.string)+'\';';return out;
 };
   tmpl['nonTranslatedFunctionBody']=function anonymous(it) {
-var out='return \'KEY_NOT_TRANSLATED: \' + \''+(it.key)+'\';';return out;
+var out='return \'KEY_NOT_TRANSLATED: '+(it.key)+'\';';return out;
 };
 module.exports = tmpl;

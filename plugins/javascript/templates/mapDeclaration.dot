@@ -1,12 +1,3 @@
-
-<!--
-
-Translation map declaration
-
-@param {string} body
-
-!-->
-
-var t = {
-  {{=it.body}}
+var localizations = {
+{{=it.body}}
 };

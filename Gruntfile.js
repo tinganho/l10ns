@@ -136,7 +136,7 @@ module.exports = function(grunt) {
       css: ['interface/public/styles/*']
     },
 
-    dot : {
+    dot: {
       core : {
         options : {
           variable : 'tmpl',
@@ -278,7 +278,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-webp');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-rev');
-  grunt.loadNpmTasks('grunt-dot-compiler');
+  grunt.loadNpmTasks('l10ns-template');
   grunt.loadNpmTasks('grunt-modernizr');
   grunt.loadNpmTasks('grunt-mocha');
 

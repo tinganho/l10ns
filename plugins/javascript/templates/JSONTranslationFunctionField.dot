@@ -1,11 +1,1 @@
-
-<!--
-
-JSON translation function field
-
-@param {string} key
-@param {string} functionString
-
-!-->
-
-'{{=it.key}}' : {{=it.functionString}}
+'{{=it.key}}': {{=it.functionString}}
