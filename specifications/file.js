@@ -25,7 +25,7 @@ describe('File', function() {
       project.locales = {};
       dependencies.q.defer = stub().returns({ promise: 'promise' });
       var file = new (proxyquire('../libraries/file', dependencies).File);
-      file.localizationMaptoArray = function() {};
+      file.localizationMapToArray = function() {};
       expect(file.writeLocalizations()).to.equal('promise');
     });
 
@@ -33,10 +33,10 @@ describe('File', function() {
       project.locales = {};
       dependencies.q.defer = stub().returns({ promise: 'promise' });
       var file = new (proxyquire('../libraries/file', dependencies).File);
-      file.localizationMaptoArray = spy();
+      file.localizationMapToArray = spy();
       file.writeLocalizations('localizations');
-      file.localizationMaptoArray.should.have.been.calledOnce;
-      file.localizationMaptoArray.should.have.been.calledWith('localizations');
+      file.localizationMapToArray.should.have.been.calledOnce;
+      file.localizationMapToArray.should.have.been.calledWith('localizations');
     });
 
     it('should on each localization write to storage', function(done) {

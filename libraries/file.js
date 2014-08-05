@@ -32,7 +32,7 @@ function File() {
 
 File.prototype.writeLocalizations = function(localizations) {
   var deferred = Q.defer()
-    , localizations = this.localizationMaptoArray(localizations)
+    , localizations = this.localizationMapToArray(localizations)
     , count = 0
     , endCount = _.size(project.locales);
 
