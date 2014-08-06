@@ -36,6 +36,7 @@ global.language = {
 global.project = { cache: {}};
 global.program = {};
 global.text = {};
+global.commands = {};
 
 /**
  * Specifications

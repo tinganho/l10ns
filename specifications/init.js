@@ -5,6 +5,7 @@ var dependencies = {
   'mkdirp': {},
   'glob': {},
   'readline': {},
+  './_log': {},
   'q': {},
 };
 
@@ -24,6 +25,10 @@ describe('Init', function() {
   });
 
   describe('#run()', function() {
+    beforeEach(function() {
+      dependencies['./_log'].error = noop;
+    });
+
     it('if project already exists it should send an message and exit process', function() {
       text.PROJECT_ALREADY_INITIATED = 'project-already-initiated';
       var cwdStub = stub(process, 'cwd');
@@ -139,6 +144,7 @@ describe('Init', function() {
     });
 
     it('should log if any errors occurs', function(done) {
+      dependencies['./_log'].error = spy();
       program.DEFAULT_CONFIGURATIONS = {};
       dependencies.fs.existsSync = stub().returns(false);
       dependencies['findup-sync'] = stub().returns(false);
@@ -149,8 +155,8 @@ describe('Init', function() {
       init._getLocales = stub().returns(Q.reject('error'));
       init.run();
       eventually(function() {
-        consoleStub.should.have.been.calledOnce;
-        consoleStub.should.have.been.calledWith('error');
+        dependencies['./_log'].error.should.have.been.calledOnce;
+        dependencies['./_log'].error.should.have.been.calledWith('Could not initialize project.');
         consoleStub.restore();
         done();
       });

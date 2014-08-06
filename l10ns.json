@@ -1,17 +1,22 @@
 {
-  "folder": "./test/translations",
-  "programmingLanguage": "javascript",
-  "locales": {
-    "en-US": "English",
-    "zh-CN": "Chinese"
+  "projects": {
+    "l10ns": {
+      "folder": "./test/translations",
+      "programmingLanguage": "javascript",
+      "locales": {
+        "en-US": "English",
+        "zh-CN": "Chinese"
+      },
+      "quiet" : false,
+      "defaultLocale": "en-US",
+      "store": "example/localizations",
+      "output": "example/output",
+      "source": ["example/**/*.js"],
+      "interface" : {
+        "autoOpen": false,
+        "port": 3004
+      }
+    }
   },
-  "quiet" : false,
-  "defaultLocale": "en-US",
-  "store": "example/localizations",
-  "output": "example/output",
-  "source": ["example/**/*.js"],
-  "interface" : {
-    "autoOpen": false,
-    "port": 3004
-  }
+  "defaultProject": "l10ns"
 }
