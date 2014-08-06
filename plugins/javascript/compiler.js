@@ -196,9 +196,9 @@ Compiler.prototype._getFunctionBodyString = function(localizations, key) {
  */
 
 Compiler.prototype._getNonConditionsFunctionBodyString = function(string) {
-  return template.nonConditionFunctionBody({
+  return this.indentSpaces(2, template.nonConditionFunctionBody({
     string: string
-  });
+  }));
 };
 
 /**
