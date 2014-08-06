@@ -59,7 +59,6 @@ require('terminal-colors');
  */
 
 var defaults = {
-  getLocalizationStringFunctionName: program.GET_LOCALIZATION_STRING_FUNCTION_NAME,
   port: program.DEFAULT_PORT,
   autoOpen: program.DEFAULT_AUTO_OPEN,
   root: root,
@@ -69,7 +68,6 @@ var defaults = {
   }
 };
 // Merge with programm configs
-defaults = _.extend(defaults, program);
 project = _.defaults(project, defaults);
 
 /**
