@@ -1,8 +1,9 @@
 var readline = require('readline')
-  , Q = require('q')
+  , defer = require('q').defer
   , fs = require('fs')
   , path = require('path')
   , log = require('./_log')
+  , _ = require('underscore')
   , findup = require('findup-sync');
 
 /**
@@ -13,6 +14,7 @@ var readline = require('readline')
 
 function Init() {
   this.rl = null;
+  this.projectName = '';
   this.json = program.DEFAULT_CONFIGURATIONS;
 }
 
@@ -31,7 +33,11 @@ Init.prototype.run = function() {
   }
   this._createReadlineInterface();
   this._outputIntroduction();
-  this._getLocales()
+  this._getProjectName()
+  .then(function(projectName) {
+    _this.projectName = projectName;
+    return _this._getLocales();
+  })
   .then(function(locales) {
     _this.json.locales = locales;
     return _this._getDefaultLocale(locales);
@@ -87,6 +93,36 @@ Init.prototype._outputIntroduction = function() {
 };
 
 /**
+ * Get project name
+ *
+ * @return {Promise}
+ * @api public
+ */
+
+Init.prototype._getProjectName = function() {
+  var _this = this
+    , deferred = defer()
+    , question = text.PROJECT_NAME_QUESTION;
+
+  var currentWorkingDirectory = _.last(process.cwd().split('/'));
+
+  question += '(' + currentWorkingDirectory + ')?';
+
+  this.rl.question(question, function(option) {
+    option = option.trim();
+
+    if(option === '') {
+      deferred.resolve(currentWorkingDirectory);
+    }
+    else {
+      deferred.resolve(option);
+    }
+  });
+
+  return deferred.promise;
+};
+
+/**
  * Get locales
  *
  * @return {Promise}
@@ -95,7 +131,7 @@ Init.prototype._outputIntroduction = function() {
 
 Init.prototype._getLocales = function() {
   var _this = this
-    , deferred = Q.defer()
+    , deferred = defer()
     , question = text.LOCALES_DESCRIPTION + 'locales: (' +
       program.DEFAULT_LOCALE_CODE + ':' + program.DEFAULT_LOCALE_NAME + ') '
     , wrongAnswer = text.LOCALES_WRONG_ANSWER + question
@@ -106,6 +142,8 @@ Init.prototype._getLocales = function() {
       question = wrongAnswer;
     }
     _this.rl.question(question, function(locales) {
+      locales = locales.trim();
+
       var result = {};
       if(locales === '') {
         result[program.DEFAULT_LOCALE_CODE] = program.DEFAULT_LOCALE_NAME;
@@ -137,7 +175,7 @@ Init.prototype._getLocales = function() {
 
 Init.prototype._getDefaultLocale = function(locales) {
   var  _this = this
-    , deferred = Q.defer()
+    , deferred = defer()
     , codes = Object.keys(locales)
     , size = codes.length;
 
@@ -189,7 +227,7 @@ Init.prototype._getDefaultLocale = function(locales) {
 
 Init.prototype._getProgrammingLanguage = function() {
   var _this = this
-    , deferred = Q.defer()
+    , deferred = defer()
     , answeredWrong = false
     , question = text.CHOOSE_PROGRAMMING_LANGUAGE_QUESTION
     , options = '['
@@ -235,7 +273,7 @@ Init.prototype._getProgrammingLanguage = function() {
 
 Init.prototype._getStorageFolder = function() {
   var _this = this
-    , deferred = Q.defer()
+    , deferred = defer()
     , defaultOutput
     , question
     , answeredWrong = false;
@@ -282,7 +320,7 @@ Init.prototype._getStorageFolder = function() {
  */
 
 Init.prototype._setDefaultSrc = function() {
-  this.json.src = program.DEFAULT_SOURCE_MAP[
+  this.json.source = program.DEFAULT_SOURCE_MAP[
     this.json.programmingLanguage
   ];
 };
@@ -300,7 +338,10 @@ Init.prototype._writeProject = function() {
     , folder = cwd + '/.l10ns';
 
   if(!fs.existsSync(file)) {
-    fs.writeFileSync(file, JSON.stringify(this.json, null, 2));
+    var projects = { defaultProject: this.projectName };
+    projects.projects = {};
+    projects.projects[this.projectName] = this.json;
+    fs.writeFileSync(file, JSON.stringify(projects, null, 2));
   }
 
   if(!fs.existsSync(folder)) {

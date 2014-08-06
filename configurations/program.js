@@ -199,5 +199,13 @@ module.exports = {
    * @value {Number}
    */
 
-  DEFAULT_LOG_LENGTH: 10
+  DEFAULT_LOG_LENGTH: 10,
+
+  /**
+   * Project name syntax
+   *
+   * @value {RegExp}
+   */
+
+  PROJECT_NAME_SYNTAX: /^[\w+-\.\/\\\?]+$/
 };

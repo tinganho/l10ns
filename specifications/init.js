@@ -22,6 +22,12 @@ describe('Init', function() {
       var init = new (proxyquire('../libraries/init', dependencies).Init);
       expect(init.rl).to.eql(null);
     });
+
+    it('should set this.projectName to empty string', function() {
+      program.DEFAULT_CONFIGURATIONS = 'default-configurations';
+      var init = new (proxyquire('../libraries/init', dependencies).Init);
+      expect(init.projectName).to.eql('');
+    });
   });
 
   describe('#run()', function() {
@@ -39,7 +45,7 @@ describe('Init', function() {
       var init = new (proxyquire('../libraries/init', dependencies).Init);
       init._createReadlineInterface = function() {};
       init._outputIntroduction = function() {};
-      init._getLocales = stub().returns(Q.reject());
+      init._getProjectName = stub().returns(Q.reject());
       init.run();
       exitStub.should.have.been.calledOnce;
       consoleStub.should.have.been.calledOnce;
@@ -49,17 +55,34 @@ describe('Init', function() {
       cwdStub.restore();
     });
 
-    it('should create a readline interface, output introduction and get locales', function() {
+    it('should create a readline interface, output introduction and get project name', function() {
       dependencies.fs.existsSync = stub().returns(false);
       dependencies['findup-sync'] = stub().returns(false);
       var init = new (proxyquire('../libraries/init', dependencies).Init);
       init._createReadlineInterface = spy();
       init._outputIntroduction = spy();
-      init._getLocales = stub().returns(Q.reject());
+      init._getProjectName = stub().returns(Q.reject());
       init.run();
       init._createReadlineInterface.should.have.been.calledOnce;
       init._outputIntroduction.should.have.been.calledOnce;
-      init._getLocales.should.have.been.calledOnce;
+      init._getProjectName.should.have.been.calledOnce;
+    });
+
+    it('after getting project name it should set it and then ask for locales', function(done) {
+      program.DEFAULT_CONFIGURATIONS = {};
+      dependencies.fs.existsSync = stub().returns(false);
+      dependencies['findup-sync'] = stub().returns(false);
+      var init = new (proxyquire('../libraries/init', dependencies).Init);
+      init._createReadlineInterface = function() {};
+      init._outputIntroduction = function() {};
+      init._getProjectName = stub().returns(Q.resolve('name'));
+      init._getLocales = stub().returns(Q.reject());
+      init.run();
+      eventually(function() {
+        expect(init.projectName).to.equal('name');
+        init._getLocales.should.have.been.calledOnce;
+        done();
+      });
     });
 
     it('after getting locales it should set it and then ask for default locale', function(done) {
@@ -69,6 +92,7 @@ describe('Init', function() {
       var init = new (proxyquire('../libraries/init', dependencies).Init);
       init._createReadlineInterface = function() {};
       init._outputIntroduction = function() {};
+      init._getProjectName = stub().returns(Q.resolve('name1'));
       init._getLocales = stub().returns(Q.resolve({ 'locale1': 'locale1-title' }));
       init._getDefaultLocale = stub().returns(Q.reject());
       init.run();
@@ -87,6 +111,7 @@ describe('Init', function() {
       var init = new (proxyquire('../libraries/init', dependencies).Init);
       init._createReadlineInterface = function() {};
       init._outputIntroduction = function() {};
+      init._getProjectName = stub().returns(Q.resolve('name1'));
       init._getLocales = stub().returns(Q.resolve({ 'locale1': 'locale1-title' }));
       init._getDefaultLocale = stub().returns(Q.resolve('locale1'));
       init._getProgrammingLanguage = stub().returns(Q.reject());
@@ -105,6 +130,7 @@ describe('Init', function() {
       var init = new (proxyquire('../libraries/init', dependencies).Init);
       init._createReadlineInterface = function() {};
       init._outputIntroduction = function() {};
+      init._getProjectName = stub().returns(Q.resolve('name1'));
       init._getLocales = stub().returns(Q.resolve({ 'locale1': 'locale1-title' }));
       init._getDefaultLocale = stub().returns(Q.resolve('locale1'));
       init._getProgrammingLanguage = stub().returns(Q.resolve('javascript'));
@@ -125,6 +151,7 @@ describe('Init', function() {
       var init = new (proxyquire('../libraries/init', dependencies).Init);
       init._createReadlineInterface = function() {};
       init._outputIntroduction = function() {};
+      init._getProjectName = stub().returns(Q.resolve('name1'));
       init._getLocales = stub().returns(Q.resolve({ 'locale1': 'locale1-title' }));
       init._getDefaultLocale = stub().returns(Q.resolve('locale1'));
       init._getProgrammingLanguage = stub().returns(Q.resolve('javascript'));
@@ -152,7 +179,7 @@ describe('Init', function() {
       var init = new (proxyquire('../libraries/init', dependencies).Init);
       init._createReadlineInterface = function() {};
       init._outputIntroduction = function() {};
-      init._getLocales = stub().returns(Q.reject('error'));
+      init._getProjectName = stub().returns(Q.reject('error'));
       init.run();
       eventually(function() {
         dependencies['./_log'].error.should.have.been.calledOnce;
@@ -452,11 +479,11 @@ describe('Init', function() {
 
   describe('#_setDefaultSrc()', function() {
     it('set default source map', function() {
-      program.DEFAULT_SOURCE_MAP = { 'programming-language1': 'default-sources-for-programming-language1' }
+      program.DEFAULT_SOURCE_MAP = { 'programming-language1': 'default-source-for-programming-language1' }
       var init = new (proxyquire('../libraries/init', dependencies).Init);
       init.json.programmingLanguage = 'programming-language1';
       init._setDefaultSrc();
-      expect(init.json.src).to.eql('default-sources-for-programming-language1');
+      expect(init.json.source).to.eql('default-source-for-programming-language1');
     });
   });
 
@@ -472,7 +499,7 @@ describe('Init', function() {
       init.json = {};
       init._writeProject();
       dependencies.fs.writeFileSync.should.have.been.calledOnce;
-      dependencies.fs.writeFileSync.should.have.been.calledWith('current-working-directory/l10ns.json', '{}');
+      dependencies.fs.writeFileSync.should.have.been.calledWith('current-working-directory/l10ns.json', '{\n  "defaultProject": "",\n  "projects": {\n    "": {}\n  }\n}');
       cwdStub.restore();
     });
 

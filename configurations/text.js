@@ -18,7 +18,7 @@ module.exports = {
    */
 
   INIT_INTRODUCTION:
-  'This utility will walk you through creating a get-transltion project.\n' +
+  'This tool will walk you through creating a l10ns project.\n' +
   'It only covers the most common items, and tries to guess sane defaults.\n' +
   '\n' +
   'Press ^C at any time to quit.\n\n',
@@ -101,12 +101,20 @@ module.exports = {
   '    en-US:English,zh-CN:Chinese\n\n',
 
   /**
-   * Specify text  for wrong option in locales question in CLI's init command.
+   * Specify text for wrong option in locales question in CLI's init command.
    *
    * @value {String}
    */
 
   LOCALES_WRONG_ANSWER: '\nUnrecognized string. Please add your locales again.'.red + '\n\n',
+
+  /**
+   * Specify project name question.
+   *
+   * @value {String}
+   */
+
+  PROJECT_NAME_QUESTION: 'Project name',
 
   /**
    * Specify text for empty localization values.

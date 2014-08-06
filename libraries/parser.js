@@ -33,6 +33,7 @@ Parser.prototype.getKey = function(fn) {
  */
 
 Parser.prototype.getVars = function(fn) {
+  console.log(fn);
   language.LOCALIZATION_VARIABLES_SYNTAX.lastIndex = 0;
   var obj = language.LOCALIZATION_VARIABLES_SYNTAX.exec(fn);
 

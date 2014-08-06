@@ -16,7 +16,6 @@ require('terminal-colors');
 
 function Log() {}
 
-
 /**
  * Get latest translation updates
  *
