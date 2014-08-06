@@ -285,7 +285,7 @@ describe('Init', function() {
       expect(init._getDefaultLocale(locales)).to.equal('promise');
     });
 
-    it('if there is only one locale it should return resolve to it', function() {
+    it('if there is only one locale it should resolve to it', function() {
       var deferred = { resolve: spy() };
       dependencies.q.defer = stub().returns(deferred);
       var init = new (proxyquire('../libraries/init', dependencies).Init);
