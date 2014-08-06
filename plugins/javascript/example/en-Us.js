@@ -1,14 +1,14 @@
 ;(function() {
   var localizations = {
     'locale1': function anonymous(it) {
-      if(lci('value1', 'value2')) {
-        return 'effwfeewfwef';
+      if(lci('variable1', '1')) {
+        return 'value1';
       } else {
-        return '';
+        return 'value2';
       }
     },
     'locale2': function anonymous(it) {
-    return 'efw';
+      return 'value3';
     }
   };
 
