@@ -1,2 +1,40 @@
-{"key":"locale1","values":[["if","value1","lci","value2","effwfeewfwef"],["else",""]],"vars":[],"text":"effwfeewfwef\n","timestamp":1407194816260,"_new":false,"variables":null,"id":"8EbbGX7eFn","files":["example/example.js"],"new":false,"value":[]}
-{"id":"ajzz9k4eSa","key":"locale2","vars":[],"text":"efw","files":["example/example.js"],"values":["efw"],"timestamp":1407194816260,"new":false}
+{
+  "id": "8EbbGX7eFn",
+  "key": "locale1",
+  "vars": [],
+  "text": "effwfeewfwef\n",
+  "files": [
+    "example/example.js"
+  ],
+  "values": [
+    [
+      "if",
+      "value1",
+      "lci",
+      "value2",
+      "effwfeewfwef"
+    ],
+    [
+      "else",
+      ""
+    ]
+  ],
+  "timestamp": 1407194816260,
+  "new": false
+}
+
+{
+  "id": "ajzz9k4eSa",
+  "key": "locale2",
+  "vars": [],
+  "text": "efw",
+  "files": [
+    "example/example.js"
+  ],
+  "values": [
+    "efw"
+  ],
+  "timestamp": 1407194816260,
+  "new": false
+}
+

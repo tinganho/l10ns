@@ -9,7 +9,13 @@ var Log = require('./log').Log
   , set = require('./set')
   , Search = require('./search')
   , update = require('./update')
-  , Compiler = require('../plugins/' + project.programmingLanguage + '/compiler');
+  , findup = require('findup-sync')
+  , _ = require('underscore')
+  , path = require('path')
+  , glob = require('glob')
+  , utilities = require('../libraries/utilities')
+  , fs = require('fs')
+  , defer = require('q').defer;
 
 /**
  * Initialize a new `GetTranslation`
@@ -17,7 +23,170 @@ var Log = require('./log').Log
  * @constructor
  */
 
-var L10ns = function() {};
+var CLI = function() {}
+
+/**
+ * Initialize CLI
+ *
+ * @return {Promise}
+ * @resolve {void}
+ * @api public
+ */
+
+CLI.prototype.initialize = function() {
+  var _this = this, deferred = defer();
+
+  this.requireProject()
+    .then(function(project) {
+      return _this._setDefaultProjectProperties(project);
+    })
+    .then(function(project) {
+      global.project = project;
+      global.language = require('../plugins/' + project.programmingLanguage + '/configurations');
+      _this.compiler = new (require('../plugins/' + project.programmingLanguage + '/compiler'));
+      _this.makeCacheDirectory();
+      deferred.resolve();
+    })
+    .fail(function(error) {
+      deferred.reject(error);
+    });
+
+  return deferred.promise;
+};
+
+/**
+ * Require project configurations
+ *
+ * @return {Promise}
+ * @resolves
+ * @api public
+ */
+
+CLI.prototype.requireProject = function() {
+  var deferred = defer()
+    , l10nsPath = findup('l10ns.json')
+    , configurations = require(l10nsPath)
+    , projects = configurations.projects
+    , defaultProject = configurations.defaultProject;
+
+  _.defer(function() {
+    if(commands.project) {
+      if(typeof projects[commands.project] === 'undefined') {
+        return deferred.reject(new TypeError('project ' + commands.project.yellow + ' is not defined.'));
+      }
+
+      deferred.resolve(projects[commands.project]);
+    }
+    else {
+      if(typeof projects[defaultProject] === 'undefined') {
+        return deferred.reject(new TypeError('Your default project is not defined.'));
+      }
+
+      deferred.resolve(projects[defaultProject]);
+    }
+  });
+
+  return deferred.promise;
+};
+
+/**
+ * Require project configurations
+ *
+ * @param {Object} project
+ * @return {Promise}
+ * @resolves
+ * @api public
+ */
+
+CLI.prototype._setDefaultProjectProperties = function(project) {
+  var root, deferred = defer()
+    , l10nsPath = findup('l10ns.json');
+
+  if(l10nsPath) {
+    root = path.dirname(l10nsPath);
+  }
+  else {
+    root = process.cwd();
+  }
+
+  var defaults = {
+    port: program.DEFAULT_PORT,
+    autoOpen: program.DEFAULT_AUTO_OPEN,
+    root: root,
+    cache: {
+      folder: root + '/.l10ns',
+      search: root + '/.l10ns/search.json'
+    }
+  };
+
+  // Merge with programm configs
+  project = _.defaults(project, defaults);
+
+  if(typeof project.store === 'undefined') {
+    project.store = path.join(project.root, program.DEFAULT_STORAGE_FOLDER);
+  }
+  else {
+    project.store = path.join(project.root, project.store);
+    if(!/^\//.test(project.store)) {
+      project.store = path.join(project.root, project.store);
+    }
+  }
+  if(process.argv.length >= 2 && process.argv[2] !== 'init' && process.argv[2] !== '--help' &&  process.argv[2] !== '-h') {
+    project = this._setProjectSource(project);
+  }
+
+  deferred.resolve(project);
+
+  return deferred.promise;
+};
+
+/**
+ * Set project source
+ *
+ * @param {Object} project
+ * @return {Object} project with source file property
+ * @api private
+ */
+
+CLI.prototype._setProjectSource = function(project) {
+  var source = [], _files, adds, removes;
+
+  if(!project.source) {
+    throw new TypeError('You must define your source files using a glob pattern in your l10ns.json file.');
+  }
+
+  for(var i = 0; i < project.source.length; i++) {
+    if(project.source[i].substr(0, 1) !== '!') {
+      adds = glob.sync(project.source[i], { cwd: project.root });
+      source = source.concat(adds);
+    } else {
+      removes = glob.sync(project.source[i], { cwd: project.root });
+      source = source.filter(function(file) {
+        return removes.indexOf(file) === -1;
+      });
+    }
+  }
+  if(!source.length) {
+    console.log('No files found. \n(Have you updated your l10ns.json to include your source file and ran `gt update` yet?)');
+  }
+
+  project.source = source;
+
+  return project
+};
+
+/**
+ * Make cache directory if it does not exists
+ *
+ * @return {void}
+ * @api private
+ */
+
+CLI.prototype.makeCacheDirectory = function() {
+  if(!fs.existsSync(project.cache.folder)) {
+    fs.mkdirSync(project.cache.folder);
+  }
+}
 
 /**
  * Initialize project
@@ -26,7 +195,7 @@ var L10ns = function() {};
  * @api public
  */
 
-L10ns.prototype.init = function() {
+CLI.prototype.init = function() {
   init.run();
 };
 
@@ -40,7 +209,7 @@ L10ns.prototype.init = function() {
  * @api public
  */
 
-L10ns.prototype.set = function(key, value, locale) {
+CLI.prototype.set = function(key, value, locale) {
   set.run(key, value, locale);
 };
 
@@ -51,7 +220,7 @@ L10ns.prototype.set = function(key, value, locale) {
  * @api public
  */
 
-L10ns.prototype.update = function() {
+CLI.prototype.update = function() {
   update.run();
 };
 
@@ -62,7 +231,7 @@ L10ns.prototype.update = function() {
  * @api public
  */
 
-L10ns.prototype.log = function(locale, type) {
+CLI.prototype.log = function(locale, type) {
   var log = new Log();
   return log.run(locale, type);
 };
@@ -74,7 +243,7 @@ L10ns.prototype.log = function(locale, type) {
  * @api public
  */
 
-L10ns.prototype.search = function(q) {
+CLI.prototype.search = function(q) {
   var search = new Search();
   search.readLocalizations()
     .then(function() {
@@ -96,7 +265,7 @@ L10ns.prototype.search = function(q) {
  * @api public
  */
 
-L10ns.prototype.interface = function() {
+CLI.prototype.interface = function() {
   require('../app/server').server();
 };
 
@@ -107,10 +276,7 @@ L10ns.prototype.interface = function() {
  * @api public
  */
 
-L10ns.prototype.compile = function() {
-  if(!this.compiler) {
-    this.compiler = new Compiler();
-  }
+CLI.prototype.compile = function() {
   this.compiler.run();
 };
 
@@ -118,4 +284,4 @@ L10ns.prototype.compile = function() {
  * Export gt instance
  */
 
-module.exports = new L10ns;
+module.exports = new CLI;

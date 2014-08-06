@@ -38,7 +38,7 @@ Log.prototype.run = function(locale, type) {
         return log.log('No localizations.');
       }
 
-      if(type === 'empty-values') {
+      if(type === 'empty') {
         _this.printEmptyValuesLog(localizations, locale)
       }
       else {

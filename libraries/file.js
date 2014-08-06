@@ -79,7 +79,7 @@ File.prototype.writeLocalization = function(localizations, locale) {
       var localizationString = '';
 
       for(var index = 0; index < localizations[locale].length; index++) {
-        localizationString += JSON.stringify(localizations[locale][index]) + _this.linefeed;
+        localizationString += JSON.stringify(localizations[locale][index], null, 2) + _this.linefeed + _this.linefeed;
       }
       fs.appendFile(p, localizationString, function(error) {
           if(error) {

@@ -10,22 +10,16 @@ var commands = require('commander')
   , open = require('open')
   , pjson = require('../package.json')
   , _ = require('underscore')
-  , glob = require('glob')
   , program = require('../configurations/program')
   , text = require('../configurations/text')
-  , log = require('../libraries/_log')
-  , fs = require('fs')
-  , utilities = require('../libraries/utilities');
+  , utilities = require('../libraries/utilities')
+  , log = require('../libraries/_log');
 
 /**
  * Project paths
  */
 
-var l10nsPath = findup('l10ns.json')
-  , projectConfigurations
-  , _projectConfigurations
-  , root
-  , cf;
+var l10nsPath = findup('l10ns.json');
 
 if(typeof process.argv[2] === 'undefined') {
   process.argv[2] = '--help';
@@ -34,19 +28,9 @@ if(typeof process.argv[2] === 'undefined') {
 var processRequest = (process.argv.length >= 2 && process.argv[2] !== 'init' && process.argv[2] !== '--help' &&  process.argv[2] !== '-h');
 
 if(processRequest && !l10nsPath) {
-  console.log('You are not inside a l10ns project. Please create one with `gt init`.');
+  console.log('You are not inside a l10ns project. Please create one with `l10ns init`.');
   return;
 }
-
-if(l10nsPath) {
-  root = path.dirname(l10nsPath);
-  project = require(l10nsPath);
-}
-else {
-  root = process.cwd();
-  project = {};
-}
-
 
 /**
  * Add terminal colors
@@ -55,85 +39,9 @@ else {
 require('terminal-colors');
 
 /**
- * Set default configs
- */
-
-var defaults = {
-  port: program.DEFAULT_PORT,
-  autoOpen: program.DEFAULT_AUTO_OPEN,
-  root: root,
-  cache: {
-    folder: root + '/.l10ns',
-    search: root + '/.l10ns/search.json'
-  }
-};
-// Merge with programm configs
-project = _.defaults(project, defaults);
-
-/**
- * Set short-cuts configs
- */
-
-if(typeof project.store === 'undefined') {
-  project.store = path.join(project.folder, program.DEFAULT_STORAGE_FOLDER);
-}
-else {
-  project.store = path.join(project.root, project.store);
-  if(!/^\//.test(project.store)) {
-    project.store = path.join(project.root, project.store);
-  }
-}
-
-language = require('../plugins/' + project.programmingLanguage + '/configurations');
-if(typeof language.quiet === 'undefined') {
-  language.quiet = program.DEFAULT_QUIET;
-}
-
-if(!fs.existsSync(project.cache.folder)) {
-  fs.mkdirSync(project.cache.folder);
-}
-
-/**
- * Get all source files.
- */
-
-var source = [], _files, adds, removes;
-
-/**
- * Check if source is defined
- */
-
-if(processRequest) {
-  if(!project.source) {
-    console.log('You must define your source files using a glob pattern in your l10ns.json file.')
-    return;
-  }
-
-  for(var i = 0; i < project.source.length; i++) {
-    if(project.source[i].substr(0, 1) !== '!') {
-      adds = glob.sync(project.source[i], { cwd: root });
-      source = source.concat(adds);
-    } else {
-      removes = glob.sync(project.source[i], { cwd: root });
-      source = source.filter(function(file) {
-        return removes.indexOf(file) === -1;
-      });
-    }
-  }
-  if(!source.length) {
-    console.log('No files found. \n(Have you updated your l10ns.json to include your source file and ran `gt update` yet?)');
-    return;
-  }
-  project.source = source;
-}
-
-
-/**
  * Global configurations
  */
 
-global.project = project;
-global.language = language;
 global.program = program;
 global.text = text;
 global.commands = commands;
@@ -148,16 +56,21 @@ var cli = require('../libraries');
 
 commands
   .version(pjson.version)
-  .option('-l, --locale <locale>', 'specify locale', String, project.defaultLocale)
-  .option('-p, --port <port>', 'specify port for interface', Number, project.interface.port)
+  .option('-l, --locale <locale>', 'specify locale')
+  .option('--port <port>', 'specify port for interface')
   .option('-e, --empty', 'only empty localizations')
   .option('-o, --open', 'open interface in browser')
   .option('--stack', 'with stack trace')
+  .option('-p, --project', 'specify project')
 
 commands
   .command('init')
   .description('Initialize project')
   .action(function() {
+    if(findup('l10ns.json')) {
+      return console.log('Project already initialized.');
+    }
+
     cli.init();
   });
 
@@ -169,7 +82,17 @@ commands
       return console.log('You haven\'t initialized a project yet');
     }
 
-    require('../interface/start');
+    cli.initialize()
+      .then(function() {
+        require('../interface/start');
+      })
+      .fail(function(error) {
+        if(commands.stack && error) {
+          console.log(error.stack);
+        }
+
+        console.log(error.message);
+      });
   });
 
 commands
@@ -183,7 +106,18 @@ commands
       log.error('You need to provide a query in your search. E.g. gt search "some query"');
       return false;
     }
-    cli.search(q);
+
+    cli.initialize()
+      .then(function() {
+        cli.search(q);
+      })
+      .fail(function(error) {
+        if(commands.stack && error) {
+          console.log(error.stack);
+        }
+
+        console.log(error.message);
+      });
   });
 
 commands
@@ -194,12 +128,22 @@ commands
       return console.log('You haven\'t initialized a project yet');
     }
 
-    if(!commands.empty) {
-      cli.log(this.locale, 'regular');
-    }
-    else {
-      cli.log(this.locale, 'empty-values');
-    }
+    cli.initialize()
+      .then(function() {
+        if(!this.empty) {
+          cli.log(this.locale, 'regular');
+        }
+        else {
+          cli.log(this.locale, 'regular');
+        }
+      })
+      .fail(function(error) {
+        if(commands.stack && error) {
+          console.log(error.stack);
+        }
+
+        log.error(error.message);
+      });
   });
 
 commands
@@ -209,7 +153,18 @@ commands
     if(!utilities.initiatedProject()) {
       return console.log('You haven\'t initialized a project yet.');
     }
-    cli.update();
+
+    cli.initialize()
+      .then(function() {
+        cli.update();
+      })
+      .fail(function(error) {
+        if(commands.stack && error) {
+          console.log(error.stack);
+        }
+
+        console.log(error.message);
+      });
   });
 
 commands
@@ -219,7 +174,18 @@ commands
     if(!utilities.initiatedProject()) {
       return console.log('You haven\'t initialized a project yet.');
     }
-    cli.compile();
+
+    cli.initialize()
+      .then(function() {
+        cli.compile();
+      })
+      .fail(function(error) {
+        if(commands.stack && error) {
+          console.log(error.stack);
+        }
+
+        console.log(error.message);
+      });
   });
 
 commands
@@ -229,7 +195,18 @@ commands
     if(!utilities.initiatedProject()) {
       return console.log('You haven\'t initialized a project yet.');
     }
-    cli.set(reference, value, this.locale);
+
+    cli.initialize()
+      .then(function() {
+        cli.set(reference, value, this.locale);
+      })
+      .fail(function(error) {
+        if(commands.stack && error) {
+          console.log(error.stack);
+        }
+
+        console.log(error.message);
+      });
   });
 
 commands
@@ -239,7 +216,18 @@ commands
     if(!utilities.initiatedProject()) {
       return console.log('You haven\'t initialized a project yet.');
     }
-    console.log(_.clone(project));
+
+    cli.initialize()
+      .then(function() {
+        console.log(_.clone(projects));
+      })
+      .fail(function(error) {
+        if(commands.stack && error) {
+          console.log(error.stack);
+        }
+
+        console.log(error.message);
+      });
   });
 
 if(process.argv.length >= 3 && ['init', 'interface', 'search', 'log', 'update', 'compile', 'set', 'configs'].indexOf(process.argv[2]) === -1) {
