@@ -1,7 +1,6 @@
 {
   "projects": {
-    "l10ns": {
-      "folder": "./test/translations",
+    "javascript": {
       "programmingLanguage": "javascript",
       "locales": {
         "en-US": "English",
@@ -9,14 +8,14 @@
       },
       "quiet" : false,
       "defaultLocale": "en-US",
-      "store": "example/localizations",
-      "output": "example/output",
-      "source": ["example/**/*.js"],
+      "store": "example/javascript/localizations",
+      "output": "example/javascript/output",
+      "source": ["example/javascript/**/*.js"],
       "interface" : {
         "autoOpen": false,
         "port": 3004
       }
     }
   },
-  "defaultProject": "l10ns"
+  "defaultProject": "javascript"
 }

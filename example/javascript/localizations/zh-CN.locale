@@ -4,7 +4,7 @@
   "vars": [],
   "text": "hore",
   "files": [
-    "example/example.js"
+    "example/javascript/example.js"
   ],
   "values": [
     "hore"
@@ -19,7 +19,7 @@
   "vars": [],
   "text": "locale2",
   "files": [
-    "example/example.js"
+    "example/javascript/example.js"
   ],
   "values": [],
   "timestamp": 1407194816260,
