@@ -75,11 +75,11 @@ describe('Init', function() {
       var init = new (proxyquire('../libraries/init', dependencies).Init);
       init._createReadlineInterface = function() {};
       init._outputIntroduction = function() {};
-      init._getProjectName = stub().returns(Q.resolve('name'));
+      init._getProjectName = stub().returns(Q.resolve('name1'));
       init._getLocales = stub().returns(Q.reject());
       init.run();
       eventually(function() {
-        expect(init.projectName).to.equal('name');
+        expect(init.projectName).to.equal('name1');
         init._getLocales.should.have.been.calledOnce;
         done();
       });
