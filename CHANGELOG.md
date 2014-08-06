@@ -1,13 +1,8 @@
-RELEASE LOG
+CHANGE LOG
 ===========
 
-## 0.1.1 (Work in progress)
-* Run update and compile from the `gt` command
-* Using the mocha as the testing framework
+## 0.14 (2014-08-01)
 
-## 0.0.1
-
-* Update from source
-* Timestamp
-* Basic compiling
-* Layout for the webapp
+* Adds support for multiple projects
+* Adds a different log output
+* Adds a total different user friendly interface
