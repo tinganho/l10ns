@@ -113,7 +113,7 @@ describe('File', function() {
       var localizations = { 'en-US': [{ key: 'key1'}] };
       file.writeLocalization(localizations, 'en-US');
       dependencies.fs.appendFile.should.have.been.calledOnce;
-      dependencies.fs.appendFile.should.have.been.calledWith('storage-folder/en-US.locale', '{"key":"key1"}\n');
+      dependencies.fs.appendFile.should.have.been.calledWith('storage-folder/en-US.locale', '{\n  "key": "key1"\n}\n\n');
       deferred.resolve.should.have.been.calledOnce;
     });
 
