@@ -1,2 +1,2 @@
 {"key":"locale1","values":[["if","value1","lci","value2","effwfeewfwef"],["else",""]],"vars":[],"text":"effwfeewfwef\n","timestamp":1407194816260,"_new":false,"variables":null,"id":"8EbbGX7eFn","files":["example/example.js"],"new":false,"value":[]}
-{"id":"ajzz9k4eSa","key":"locale2","vars":[],"text":"locale2","files":["example/example.js"],"values":[],"timestamp":1407194816260,"new":false}
+{"id":"ajzz9k4eSa","key":"locale2","vars":[],"text":"bajs","files":["example/example.js"],"values":["bajs"],"timestamp":1407194816260,"new":false}

@@ -153,6 +153,7 @@ commands
   .option('-p, --port <port>', 'specify port for interface', Number, project.interface.port)
   .option('-e, --empty', 'only empty localizations')
   .option('-o, --open', 'open interface in browser')
+  .option('--stack', 'with stack trace')
 
 commands
   .command('init')

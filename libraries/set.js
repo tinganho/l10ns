@@ -4,7 +4,7 @@
  */
 
 var file = require('./file')
-  , Q = require('q')
+  , defer = require('q').defer
   , log = require('./_log');
 
 /**
@@ -27,30 +27,34 @@ function Set() {}
  * @api public
  */
 
-Set.prototype.run = function(ref, value, locale) {
-  var _this = this;
+Set.prototype.run = function(reference, value, locale) {
+  var _this = this, key;
 
-  if(typeof ref !== 'string') {
+  if(typeof reference !== 'string') {
     return log.error('You must reference a translation. Either using a translation key or tag.');
   }
   if(typeof value !== 'string') {
     return log.error('You must specify a value for the translation.');
   }
-  if(!(locale in this.locales)) {
+  if(!(locale in project.locales)) {
     return log.error('Locale ' + locale.yellow + ' is not defined.');
   }
 
   value = this._removeEscapes(value);
 
-  this._getKey(ref)
-  .then(function(key) {
-    var translations = _this._replace(key, value, locale);
-    file.writeTranslations(translations, function() {
-      log.success('Updated key ' + key.yellow + ' in ' + locale.yellow + ' to ' + value.yellow + '.');
-    });
+  this._getKey(reference)
+  .then(function(_key) {
+    key = _key;
+    return _this._replace(key, value, locale);
   })
-  .fail(function(err) {
-    console.log(err.stack);
+  .then(function(localizations) {
+    return file.writeLocalizations(localizations);
+  })
+  .then(function() {
+    log.success('Updated key ' + key.yellow + ' in ' + locale.yellow + ' to ' + value.yellow + '.');
+  })
+  .fail(function(error) {
+    console.log(error.stack);
     log.error('Could not edit your translations.');
   });
 };
@@ -68,25 +72,27 @@ Set.prototype._removeEscapes = function(value) {
 };
 
 /**
- * Get key
+ * Get localization key using reference. End-users use a reference to a key.
+ * Could be latest localizations using "@" or latest search using "%". This
+ * method resolves back the key the reference is referencing.
  *
- * @param {String} ref
+ * @param {String} reference
  * @return {Promise}
  * @api public
  */
 
-Set.prototype._getKey = function(ref) {
-  var deferred = Q.defer();
+Set.prototype._getKey = function(reference) {
+  var deferred = defer();
 
-  if(typeof ref !== 'string') {
+  if(typeof reference !== 'string') {
     deferred.reject(new TypeError('First parameter is not of type string.'));
     return deferred.promise;
   }
 
-  var key = ref;
-  if(/^@\d+$/.test(ref)) {
-    ref = /^@(\d+)$/.exec(ref)[1];
-    this._getKeyFromLatestTranslations(parseInt(ref, 10))
+  var key = reference;
+  if(/^@\d+$/.test(reference)) {
+    reference = /^@(\d+)$/.exec(reference)[1];
+    this._getKeyFromLatestLocalizations(parseInt(reference, 10))
     .then(function(key) {
       deferred.resolve(key);
     })
@@ -94,9 +100,9 @@ Set.prototype._getKey = function(ref) {
       deferred.reject(err);
     });
   }
-  else if(/^%\d+$/.test(ref)) {
-    ref = /^%(\d+)$/.exec(ref)[1];
-    key = this._getKeyFromLatestSearch(ref)
+  else if(/^%\d+$/.test(reference)) {
+    reference = /^%(\d+)$/.exec(reference)[1];
+    key = this._getKeyFromLatestSearch(reference)
     .then(function(key) {
       deferred.resolve(key);
     })
@@ -120,7 +126,7 @@ Set.prototype._getKey = function(ref) {
  */
 
 Set.prototype._getKeyFromLatestSearch = function(reference) {
-  var deferred = Q.defer();
+  var deferred = defer();
 
   reference = parseInt(reference, 10);
 
@@ -142,10 +148,11 @@ Set.prototype._getKeyFromLatestSearch = function(reference) {
       if(reference > data.length - 1) {
         return deferred.reject(new TypeError('Reference is not indexed.'));
       }
+
       deferred.resolve(data[reference].ref);
     })
-    .fail(function(err) {
-      deferred.reject(err);
+    .fail(function(error) {
+      deferred.reject(error);
     });
 
   return deferred.promise;
@@ -159,24 +166,23 @@ Set.prototype._getKeyFromLatestSearch = function(reference) {
  * @api private
  */
 
-Set.prototype._getKeyFromLatestTranslations = function(reference) {
-  var deferred = Q.defer();
+Set.prototype._getKeyFromLatestLocalizations = function(reference) {
+  var deferred = defer();
 
   reference = Math.abs(reference) - 1;
 
-  var translations = file.readTranslations(null, { returnType : 'array' });
+  file.readLocalizations()
+    .then(function(localizations) {
+      localizations = file.localizationMapToArray(localizations);
+      if(reference < 0 || reference > localizations.length - 1) {
+        deferred.reject(new TypeError('Reference is not indexed.'));
+      }
 
-  if(reference < 0 || reference > translations.length - 1) {
-    deferred.reject(new TypeError('Reference is not indexed.'));
-    return deferred.promise;
-  }
-
-  try {
-    deferred.resolve(translations[project.defaultLocale][reference].key);
-  }
-  catch(err) {
-    deferred.reject(new TypeError('Reference is not indexed.'));
-  }
+      deferred.resolve(localizations[project.defaultLocale][reference].key);
+    })
+    .fail(function(error) {
+      deferred.reject(error);
+    });
 
   return deferred.promise;
 };
@@ -191,22 +197,29 @@ Set.prototype._getKeyFromLatestTranslations = function(reference) {
  */
 
 Set.prototype._replace = function(key, value, locale) {
-  locale = locale || this.defaultLocale;
+  var deferred = defer();
+  locale = locale || project.defaultLocale;
 
-  var translations = file.readTranslations();
+  file.readLocalizations()
+    .then(function(localizations) {
+      if(!(locale in localizations)) {
+        return log.error('Locale: ' + locale.yellow + ' is not in current localizations.');
+      }
+      if(!(key in localizations[locale])) {
+        return log.error('Key: ' + key.yellow + ' is not in current localizations.');
+      }
 
-  if(!(locale in translations)) {
-    return log.error('Locale: ' + locale.yellow + ' is not in current translations.');
-  }
-  if(!(key in translations[locale])) {
-    return log.error('Key: ' + key.yellow + ' is not in current translations.');
-  }
+      // Save value
+      localizations[locale][key].values = [value];
+      localizations[locale][key].text = value;
 
-  // Save value
-  translations[locale][key].values = [value];
-  translations[locale][key].text = value;
+      deferred.resolve(localizations);
+    })
+    .fail(function(error) {
+      deferred.reject(error);
+    });
 
-  return translations;
+  return deferred.promise;
 };
 
 /**
