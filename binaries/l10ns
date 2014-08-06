@@ -136,6 +136,7 @@ global.project = project;
 global.language = language;
 global.program = program;
 global.text = text;
+global.commands = commands;
 
 /**
  * Set from binary to true. To indicate that the binary have been run
@@ -192,7 +193,7 @@ commands
       return console.log('You haven\'t initialized a project yet');
     }
 
-    if(!commands.empty) {//no-values option
+    if(!commands.empty) {
       cli.log(this.locale, 'regular');
     }
     else {

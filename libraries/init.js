@@ -2,6 +2,7 @@ var readline = require('readline')
   , Q = require('q')
   , fs = require('fs')
   , path = require('path')
+  , log = require('./_log')
   , findup = require('findup-sync');
 
 /**
@@ -50,8 +51,12 @@ Init.prototype.run = function() {
     _this._writeProject();
     process.exit();
   })
-  .fail(function(err) {
-    if(err) console.log(err);
+  .fail(function(error) {
+    if(commands.stack && error) {
+      console.log(error.stack);
+    }
+
+    log.error('Could not initialize project.');
   });
 };
 

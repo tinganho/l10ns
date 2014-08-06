@@ -4,6 +4,7 @@
  */
 
 var Log = require('./log').Log
+  , log = require('./_log')
   , init = require('./init')
   , set = require('./set')
   , Search = require('./search')
@@ -80,7 +81,11 @@ L10ns.prototype.search = function(q) {
       search.queryOutput(q);
     })
     .fail(function(error) {
-      console.log(error.stack);
+      if(commands.stack && error) {
+        console.log(error.stack);
+      }
+
+      log.error('Could not search');
     });
 };
 

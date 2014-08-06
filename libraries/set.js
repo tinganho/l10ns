@@ -54,7 +54,10 @@ Set.prototype.run = function(reference, value, locale) {
     log.success('Updated key ' + key.yellow + ' in ' + locale.yellow + ' to ' + value.yellow + '.');
   })
   .fail(function(error) {
-    console.log(error.stack);
+    if(commands.stack) {
+      console.log(error.stack);
+    }
+
     log.error('Could not edit your translations.');
   });
 };

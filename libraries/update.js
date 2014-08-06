@@ -53,8 +53,11 @@ Update.prototype.run = function() {
       return file.writeLocalizations(mergedLocalizations)
     })
     .fail(function(error) {
+      if(commands.stack && error) {
+        console.log(error.stack);
+      }
+
       log.error('Localizations update failed');
-      throw error;
     });
 };
 

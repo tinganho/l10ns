@@ -31,12 +31,6 @@ var Search = function() {
 };
 
 /**
- * Inherit EventEmitter
- */
-
-util.inherits(Search, EventEmitter);
-
-/**
  * Create search index
  *
  * @return {void}
@@ -54,8 +48,7 @@ Search.prototype._createIndex = function() {
 /**
  * We need to read all translations and append translations to the index
  *
- * @return {void}
- * @emit `readend`
+ * @return {Promise}
  * @api public
  */
 
@@ -124,11 +117,7 @@ Search.prototype.queryOutput = function(q) {
   // Store as cache
   fs.writeFile(
     project.cache.search,
-    JSON.stringify(cache, null, 2),
-    function() {
-      _this.emit('queryend', res);
-    }
-  );
+    JSON.stringify(cache, null, 2));
 };
 
 /**
