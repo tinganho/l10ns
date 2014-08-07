@@ -8,7 +8,7 @@ var
  * @value {String}
  */
 
-GET_LOCALIZATION_STRING_FUNCTION_NAME = 'l',
+GET_LOCALIZATION_STRING_FUNCTION_NAME = project.function.name || 'l',
 
 /**
  * Get localization string using variables function name. Plugins might use this
@@ -17,7 +17,7 @@ GET_LOCALIZATION_STRING_FUNCTION_NAME = 'l',
  * @value {String}
  */
 
-GET_LOCALIZATION_STRING_USING_VARIABLES_FUNCTION_NAME = 'l';
+GET_LOCALIZATION_STRING_USING_VARIABLES_FUNCTION_NAME = project.function.nameUsingData || 'l';
 
 module.exports = {
 

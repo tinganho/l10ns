@@ -116,7 +116,8 @@ CLI.prototype._setDefaultProjectProperties = function(project) {
     cache: {
       folder: root + '/.l10ns',
       search: root + '/.l10ns/search.json'
-    }
+    },
+    function: {}
   };
 
   // Merge with programm configs

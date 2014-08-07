@@ -1,40 +1,24 @@
 {
-  "id": "8EbbGX7eFn",
+  "id": "6L99z4xjfg",
   "key": "locale1",
   "vars": [],
-  "text": "effwfeewfwef\n",
+  "text": "locale1",
   "files": [
     "example/javascript/example.js"
   ],
-  "values": [
-    [
-      "if",
-      "value1",
-      "lci",
-      "value2",
-      "effwfeewfwef"
-    ],
-    [
-      "else",
-      ""
-    ]
-  ],
-  "timestamp": 1407194816260,
-  "new": false
+  "values": [],
+  "timestamp": 1407380699963
 }
 
 {
-  "id": "ajzz9k4eSa",
+  "id": "ozKKb4L6sb",
   "key": "locale2",
   "vars": [],
-  "text": "efw",
+  "text": "locale2",
   "files": [
     "example/javascript/example.js"
   ],
-  "values": [
-    "efw"
-  ],
-  "timestamp": 1407194816260,
-  "new": false
+  "values": [],
+  "timestamp": 1407380699963
 }
 

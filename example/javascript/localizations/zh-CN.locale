@@ -1,20 +1,17 @@
 {
-  "id": "8EbbGX7eFn",
+  "id": "6L99z4xjfg",
   "key": "locale1",
   "vars": [],
-  "text": "hore",
+  "text": "locale1",
   "files": [
     "example/javascript/example.js"
   ],
-  "values": [
-    "hore"
-  ],
-  "timestamp": 1407194816260,
-  "new": false
+  "values": [],
+  "timestamp": 1407380699963
 }
 
 {
-  "id": "ajzz9k4eSa",
+  "id": "ozKKb4L6sb",
   "key": "locale2",
   "vars": [],
   "text": "locale2",
@@ -22,7 +19,6 @@
     "example/javascript/example.js"
   ],
   "values": [],
-  "timestamp": 1407194816260,
-  "new": false
+  "timestamp": 1407380699963
 }
 
