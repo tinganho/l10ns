@@ -1,7 +1,7 @@
 function encodeHTMLSource() {  var encodeHTMLRules = { "&": "&#38;", "<": "&#60;", ">": "&#62;", '"': '&#34;', "'": '&#39;', "/": '&#47;' },  matchHTML = /&(?!#?w+;)|<|>|"|'|\//g;  return function() {    return this ? this.replace(matchHTML, function(m) {return encodeHTMLRules[m] || m;}) : this;  };};
 String.prototype.encodeHTML=encodeHTMLSource();
 var tmpl = {};
-  tmpl['JSONTranslationFunctionField']=function anonymous(it) {
+  tmpl['JSONLocalizationFunctionField']=function anonymous(it) {
 var out='\''+(it.key)+'\': '+(it.functionString);return out;
 };
   tmpl['additionalCondition']=function anonymous(it) {
@@ -34,7 +34,7 @@ var out='var localizations = {\n'+(it.body)+'\n};\n';return out;
   tmpl['nonConditionFunctionBody']=function anonymous(it) {
 var out='return \''+(it.string)+'\';';return out;
 };
-  tmpl['nonTranslatedFunctionBody']=function anonymous(it) {
+  tmpl['nonLocalizedFunctionBody']=function anonymous(it) {
 var out='return \'KEY_NOT_TRANSLATED: '+(it.key)+'\';';return out;
 };
 module.exports = tmpl;

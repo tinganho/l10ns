@@ -97,11 +97,11 @@ Compiler.prototype.indentSpaces = function(spaces, string) {
 };
 
 /**
- * Get translation map
+ * Get localization map string.
  *
  * @param {String} locale
  * @return {Promise}
- * @resolves {String} String representing a translation map
+ * @resolves {String} String representing a localization map
  * @api private
  */
 
@@ -118,7 +118,7 @@ Compiler.prototype._getLocalizationMap = function(locale) {
           body += _this.comma + _this.linefeed;
         }
 
-        var field = _this.indentSpaces(2, template.JSONTranslationFunctionField({
+        var field = _this.indentSpaces(2, template.JSONLocalizationFunctionField({
           key: key,
           functionString: _this._getFunctionBodyString(localizations, key)
         }));
@@ -145,36 +145,28 @@ Compiler.prototype._getLocalizationMap = function(locale) {
 };
 
 /**
- * Normalize text, ' should be \'
- *
- * @param {String} text
- * @api private
- */
-
-Compiler.prototype._normalizeText = function(text) {
-  return text;
-};
-
-/**
  * Get function body string
  *
- * @param {Object} translation
+ * @param {Object} localizations
  * @return {String} function body string
  * @api private
  */
 
 Compiler.prototype._getFunctionBodyString = function(localizations, key) {
   var str = '';
+
   if(localizations[key].values.length === 0) {
-    str += this.indentSpaces(2, this._getNonTranslatedFunctionBodyString(key));
-  } else if(localizations[key].values[0][0] === program.CONDITION_IF) {
+    str += this.indentSpaces(2, this._getNonLocalizedFunctionBodyString(key));
+  }
+  else if(localizations[key].values[0][0] === program.CONDITION_IF) {
     str += this.indentSpaces(2, this._getConditionsString(
       localizations[key].values,
       localizations[key].variables
     ));
-  } else {
+  }
+  else {
     str += this._getNonConditionsFunctionBodyString(
-      this._getFormatedTranslatedText(
+      this._getFormatedLocalizedText(
         localizations[key].values[0],
         localizations[key].variables
       )
@@ -199,15 +191,15 @@ Compiler.prototype._getNonConditionsFunctionBodyString = function(string) {
 };
 
 /**
- * Get non-translated function body string
+ * Get non-localized function body string
  *
  * @param {String} key
  * @return {String}
  * @api private
  */
 
-Compiler.prototype._getNonTranslatedFunctionBodyString = function(key) {
-  return template.nonTranslatedFunctionBody({
+Compiler.prototype._getNonLocalizedFunctionBodyString = function(key) {
+  return template.nonLocalizedFunctionBody({
     key: key
   });
 };
@@ -323,7 +315,7 @@ Compiler.prototype._getAdditionalConditionString = function(conditions, variable
 
   // append condition body
   str += template.conditionBody({
-    string: this._getFormatedTranslatedText(conditions[index], variables)
+    string: this._getFormatedLocalizedText(conditions[index], variables)
   });
 
   return str;
@@ -353,7 +345,7 @@ Compiler.prototype._getElseStatementString = function(string, variables) {
 };
 
 /**
- * Reformats a translation JSON variable to javascript string
+ * Reformats a localization JSON variable to javascript string
  *
  * @param {String} operand
  * @param {Array} variables
@@ -383,14 +375,14 @@ Compiler.prototype._getFormatedOperandString = function(operand, variables) {
 };
 
 /**
- * Get formated translated text
+ * Get formated localized text
  *
  * @param {String} text
  * @return {String} formated text
  * @api private
  */
 
-Compiler.prototype._getFormatedTranslatedText = function(text, variables) {
+Compiler.prototype._getFormatedLocalizaedText = function(text, variables) {
   var _this = this;
 
   return text.replace(program.SYNTAX_VARIABLE_MARKUP, function(match) {

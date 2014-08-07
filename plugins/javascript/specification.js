@@ -133,7 +133,7 @@ describe('Compiler', function() {
       });
     });
 
-    describe('#_getLocalizationMap()', function() {
+    describe('#_getLocalizationMap(locale)', function() {
       it('should return a promise', function() {
         var deferred = { promise: 'promise', reject: noop };
         dependencies.q.defer = stub().returns(deferred);
@@ -176,6 +176,31 @@ describe('Compiler', function() {
           deferred.reject.should.have.been.calledWith('error');
           done();
         });
+      });
+    });
+
+    describe('#_getFunctionBodyString(localizations, key)', function() {
+      it('should return a function string that returns the key that is not localized', function() {
+        var compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor);
+        var localizations = { 'key1': { values: [] }};
+        expect(compiler._getFunctionBodyString(localizations, 'key1')).to.equal('function anonymous(it) {\n  return \'KEY_NOT_TRANSLATED: key1\';\n}');
+      });
+
+      it('should return a function string that has if/else if/else statement and returns a localization', function() {
+        program.CONDITION_IF = 'if';
+        var compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor);
+        var localizations = { 'key1': { values: [['if', '${variable1}', '==', '1', 'value1'], ['else', 'value2']], variables: ['variable1'] }};
+        compiler._getConditionsString = stub().withArgs(localizations.key1.values, localizations.key1.variables).returns('conditions');
+        expect(compiler._getFunctionBodyString(localizations, 'key1')).to.equal('function anonymous(it) {\n  conditions\n}');
+      });
+
+      it('should return a function that returns a localization', function() {
+        program.CONDITION_IF = 'if';
+        var compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor);
+        var localizations = { 'key1': { values: ['value1'] }};
+        compiler._getFormatedLocalizedText = stub().withArgs(localizations.key1.values, localizations.key1.variables).returns('formated-localized-text');
+        compiler._getNonConditionsFunctionBodyString = stub().withArgs('formated-localized-text').returns('nonConditionsFunctionBodyString');
+        expect(compiler._getFunctionBodyString(localizations, 'key1')).to.equal('function anonymous(it) {\nnonConditionsFunctionBodyString\n}');
       });
     });
   });
