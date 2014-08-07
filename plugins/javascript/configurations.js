@@ -104,7 +104,7 @@ module.exports = {
    * @value {RegExp}
    */
 
-  LOCALIZATION_VARIABLE_SYNTAX: /\s*(['|"])?\w+\1?\s*\:/g,
+  LOCALIZATION_VARIABLE_SYNTAX: /\s*('|")?\w+\1?\s*\:/g,
 
   /**
    * Imports of local variables

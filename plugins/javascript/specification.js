@@ -298,5 +298,41 @@ describe('Compiler', function() {
         expect(compiler._getElseStatementString('string', [])).to.equal('else {\n  return \'string\';\n}');
       });
     });
+
+    describe('#_getFormatedOperandString(operand, variables)', function() {
+      before(function() {
+        program.SYNTAX_VARIABLE_MARKUP = /\$\{([a-zA-Z0-9]+)\}/g;
+      });
+
+      it('should throw an error if variable begins with a number', function() {
+        var compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor)
+          , variables = ['1variable']
+          , method = function() { compiler._getFormatedOperandString('${1variable}', variables) };
+        expect(method).to.throw(TypeError, 'variable can\'t begin with an integer.');
+      });
+
+      it('should throw an error if variable string does not exists in provided variables', function() {
+        var compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor)
+          , variables = ['variable2']
+          , method = function() { compiler._getFormatedOperandString('${variable1}', variables) };
+        expect(method).to.throw(TypeError, /You have used an undefined variable/);
+      });
+
+      it('should return a string containing variable with a namespace', function() {
+        var compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor)
+          , variables = ['variable1'];
+        expect(compiler._getFormatedOperandString('${variable1}', variables)).to.equal('it.variable1');
+      });
+
+      it('if operand is a number string, it should return it', function() {
+        var compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor);
+        expect(compiler._getFormatedOperandString('1', [])).to.equal('1');
+      });
+
+      it('if operand is not a number string, it should return it in quotes', function() {
+        var compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor);
+        expect(compiler._getFormatedOperandString('string1', [])).to.equal('\'string1\'');
+      });
+    });
   });
 });

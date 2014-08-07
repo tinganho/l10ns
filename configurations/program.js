@@ -126,7 +126,7 @@ module.exports = {
    * @value {RegExp}
    */
 
-  SYNTAX_VARIABLE_MARKUP: /\$\{[a-zA-Z0-9]+\}/g,
+  SYNTAX_VARIABLE_MARKUP: /\$\{([a-zA-Z0-9]+)\}/g,
 
   /**
    * Specify string used for `if` statement.

@@ -357,16 +357,19 @@ Compiler.prototype._getElseStatementString = function(string, variables) {
 Compiler.prototype._getFormatedOperandString = function(operand, variables) {
   program.SYNTAX_VARIABLE_MARKUP.lastIndex = 0;
   if(program.SYNTAX_VARIABLE_MARKUP.test(operand)) {
+    program.SYNTAX_VARIABLE_MARKUP.lastIndex = 0;
     // Re-formats all variables
     if(/^\$\{\d/.test(operand)) {
       throw new TypeError('variable can\'t begin with an integer.');
     }
+
+    operand = program.SYNTAX_VARIABLE_MARKUP.exec(operand)[1];
+
     if(variables.indexOf(operand) === -1) {
-      log.error('You have used an undefined variable ' + operand.red
+      throw new TypeError('You have used an undefined variable ' + operand.red
       + '.\n Please add the variable or remove the operand from your source.');
-      process.exit();
     }
-    operand = this.namespace + this.dot + operand.substring(2, operand.length -1);
+    operand = this.namespace + this.dot + operand;
   }
   else if(!/^\d+$/.test(operand)) {
     operand = this.quote + operand + this.quote;
