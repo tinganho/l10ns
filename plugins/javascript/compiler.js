@@ -341,7 +341,7 @@ Compiler.prototype._getConditionBodyString = function(string) {
  */
 
 Compiler.prototype._getElseStatementString = function(string, variables) {
-  string = this._getFormatedTranslatedText(string, variables);
+  string = this._getFormatedLocalizedText(string, variables);
   return template.elseStatement({ string: string });
 };
 

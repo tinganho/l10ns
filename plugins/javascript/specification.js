@@ -283,5 +283,20 @@ describe('Compiler', function() {
         expect(compiler._getAdditionalConditionString(conditions, variables)).to.equal(' && lci(variable2, 1)) {\n  return \'value2\';\n}');
       });
     });
+
+    describe('#_getConditionBodyString(string)', function() {
+      it('should return condition body string', function() {
+        var compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor);
+        expect(compiler._getConditionBodyString('string')).to.equal(') {\n  return \'string\';\n}');
+      });
+    });
+
+    describe('#_getElseStatementString(string, variables)', function() {
+      it('should else statement string', function() {
+        var compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor);
+        compiler._getFormatedLocalizedText = stub().withArgs('string', []).returns('string');
+        expect(compiler._getElseStatementString('string', [])).to.equal('else {\n  return \'string\';\n}');
+      });
+    });
   });
 });
