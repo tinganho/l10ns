@@ -153,19 +153,19 @@ Compiler.prototype._getLocalizationMap = function(locale) {
  */
 
 Compiler.prototype._getFunctionBodyString = function(localizations, key) {
-  var str = '';
+  var string = '';
 
   if(localizations[key].values.length === 0) {
-    str += this.indentSpaces(2, this._getNonLocalizedFunctionBodyString(key));
+    string += this.indentSpaces(2, this._getNonLocalizedFunctionBodyString(key));
   }
   else if(localizations[key].values[0][0] === program.CONDITION_IF) {
-    str += this.indentSpaces(2, this._getConditionsString(
+    string += this.indentSpaces(2, this._getConditionsString(
       localizations[key].values,
       localizations[key].variables
     ));
   }
   else {
-    str += this._getNonConditionsFunctionBodyString(
+    string += this._getNonConditionsFunctionBodyString(
       this._getFormatedLocalizedText(
         localizations[key].values[0],
         localizations[key].variables
@@ -173,7 +173,7 @@ Compiler.prototype._getFunctionBodyString = function(localizations, key) {
     );
   }
 
-  return (new Function([this.namespace], str)).toString();
+  return (new Function([this.namespace], string)).toString();
 };
 
 /**
@@ -214,18 +214,19 @@ Compiler.prototype._getNonLocalizedFunctionBodyString = function(key) {
  */
 
 Compiler.prototype._getConditionsString = function(conditions, variables) {
-  var str = '';
+  var string = '';
+
   conditions.forEach(function(condition) {
     if(condition[0] !== program.CONDITION_ELSE) {
-      str += this._getConditionString(condition, variables);
-      str += this._getAdditionalConditionString(condition, variables);
+      string += this._getConditionString(condition, variables);
+      string += this._getAdditionalConditionString(condition, variables);
     }
     else {
-      str += this.space + this._getElseStatementString(condition[1], variables);
+      string += this.space + this._getElseStatementString(condition[1], variables);
     }
   }, this);
 
-  return str;
+  return string;
 };
 
 /**
@@ -237,11 +238,11 @@ Compiler.prototype._getConditionsString = function(conditions, variables) {
  * @api private
  */
 
-Compiler.prototype._getConditionString = function(conditions, variables) {
-  var _condition = conditions[0]
-    , operand1 = this._getFormatedOperandString(conditions[1], variables)
-    , operator = conditions[2]
-    , operand2 = this._getFormatedOperandString(conditions[3], variables);
+Compiler.prototype._getConditionString = function(condition, variables) {
+  var _condition = condition[0]
+    , operand1 = this._getFormatedOperandString(condition[1], variables)
+    , operator = condition[2]
+    , operand2 = this._getFormatedOperandString(condition[3], variables);
 
   // Check if string represent a condition
   if(!syntax.stringIsCondition(operand1, operator, operand2)) {

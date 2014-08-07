@@ -203,5 +203,56 @@ describe('Compiler', function() {
         expect(compiler._getFunctionBodyString(localizations, 'key1')).to.equal('function anonymous(it) {\nnonConditionsFunctionBodyString\n}');
       });
     });
+
+    describe('#_getNonConditionsFunctionBodyString(string)', function() {
+      it('should return a non-condition function body string', function() {
+        var compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor);
+        expect(compiler._getNonConditionsFunctionBodyString('value1')).to.equal('  return \'value1\';');
+      });
+    });
+
+    describe('#_getNonLocalizedFunctionBodyString(key)', function() {
+      it('should return a non-condition function body string', function() {
+        var compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor);
+        expect(compiler._getNonLocalizedFunctionBodyString('key1')).to.equal('return \'KEY_NOT_TRANSLATED: key1\';');
+      });
+    });
+
+    describe('#_getConditionsString(conditions, variables)', function() {
+      it('should return a condition string', function() {
+        program.CONDITION_ELSE = 'else';
+        var conditions = [['if', '${variable1}', '==', '1', 'value1'], ['else', 'value2']];
+        var variables = ['variable1'];
+        var compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor);
+        compiler._getConditionString = stub().withArgs(conditions[0], variables).returns('if( variable1 == 1');
+        compiler._getAdditionalConditionString = stub().withArgs(conditions[0], variables).returns(')\n{\n  return \'value1\'\n}');
+        compiler._getElseStatementString = stub().withArgs('else', variables).returns('else {\n  return \'value2\';\n}');
+        expect(compiler._getConditionsString(conditions, variables)).to.equal('if( variable1 == 1)\n{\n  return \'value1\'\n} else {\n  return \'value2\';\n}');
+      });
+    });
+
+    describe('#_getConditionString(condition, variables)', function() {
+      it('should return a condition string', function() {
+        dependencies['./syntax'].stringIsCondition = stub().withArgs('variable1', '==', '1').returns(true);
+        var condition = ['if', '${variable1}', '==', '1', 'value1'];
+        var variables = ['variable1'];
+        var compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor);
+        compiler._getFormatedOperandString = stub();
+        compiler._getFormatedOperandString.withArgs(condition[1], variables).returns('variable1');
+        compiler._getFormatedOperandString.withArgs(condition[3], variables).returns('1');
+        expect(compiler._getConditionString(condition,variables)).to.equal('if(variable1 == 1');
+      });
+
+      it('should return a condition string containing "last character is"-function', function() {
+        dependencies['./syntax'].stringIsCondition = stub().withArgs('variable1', '==', '1').returns(true);
+        var condition = ['if', '${variable1}', 'lci', '1', 'value1'];
+        var variables = ['variable1'];
+        var compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor);
+        compiler._getFormatedOperandString = stub();
+        compiler._getFormatedOperandString.withArgs(condition[1], variables).returns('variable1');
+        compiler._getFormatedOperandString.withArgs(condition[3], variables).returns('1');
+        expect(compiler._getConditionString(condition,variables)).to.equal('if(lci(variable1, 1)');
+      });
+    });
   });
 });
