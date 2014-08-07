@@ -1,4 +1,6 @@
 
+var
+
 /**
  * Get localization string function name. Plugins might use this configuration
  * to alter the behavior of updating keys and compiling.
@@ -6,7 +8,7 @@
  * @value {String}
  */
 
-var GET_LOCALIZATION_STRING_FUNCTION_NAME = 'l';
+GET_LOCALIZATION_STRING_FUNCTION_NAME = 'l',
 
 /**
  * Get localization string using variables function name. Plugins might use this
@@ -15,7 +17,7 @@ var GET_LOCALIZATION_STRING_FUNCTION_NAME = 'l';
  * @value {String}
  */
 
-var GET_LOCALIZATION_STRING_USING_VARIABLES_FUNCTION_NAME = 'l';
+GET_LOCALIZATION_STRING_USING_VARIABLES_FUNCTION_NAME = 'l';
 
 module.exports = {
 
