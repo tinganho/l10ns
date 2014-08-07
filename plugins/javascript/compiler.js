@@ -153,10 +153,10 @@ Compiler.prototype._getLocalizationMap = function(locale) {
 
 Compiler.prototype._normalizeText = function(text) {
   return text
-    .replace('\\', 'ESCAPE_CHAR')
+    .replace('\\', 'ESCAPE_CHARACTER')
     .replace(/'/g, '\\\'')
-    .replace(/[^\\]ESCAPE_CHAR/g, function(m) {
-      return m.replace('ESCAPE_CHAR', '\\\\');
+    .replace(/ESCAPE_CHARACTER/g, function(match) {
+      return match.replace('ESCAPE_CHARACTER', '\\\\');
     });
 };
 

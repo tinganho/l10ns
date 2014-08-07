@@ -178,5 +178,17 @@ describe('Compiler', function() {
         });
       });
     });
+
+    describe('#_normalizeText()', function() {
+      it('should turn single quote to \'\\\'\'', function() {
+        var compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor);
+        expect(compiler._normalizeText('\'')).to.equal('\\\'');
+      });
+
+      it('should turn escape character \\ to \'\\\\', function() {
+        var compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor);
+        expect(compiler._normalizeText('\\')).to.equal('\\\\');
+      });
+    });
   });
 });
