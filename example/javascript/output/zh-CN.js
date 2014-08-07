@@ -1,7 +1,7 @@
 ;(function() {
   var localizations = {
-    'locale1': function anonymous(it) {
-      return 'hore';
+    'lo\'\"cale1': function anonymous(it) {
+      return 'KEY_NOT_TRANSLATED: lo\'\"cale1';
     },
     'locale2': function anonymous(it) {
       return 'KEY_NOT_TRANSLATED: locale2';

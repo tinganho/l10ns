@@ -152,12 +152,7 @@ Compiler.prototype._getLocalizationMap = function(locale) {
  */
 
 Compiler.prototype._normalizeText = function(text) {
-  return text
-    .replace('\\', 'ESCAPE_CHARACTER')
-    .replace(/'/g, '\\\'')
-    .replace(/ESCAPE_CHARACTER/g, function(match) {
-      return match.replace('ESCAPE_CHARACTER', '\\\\');
-    });
+  return text.replace(/'/g, '\'');
 };
 
 /**

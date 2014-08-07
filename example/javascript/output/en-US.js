@@ -1,14 +1,10 @@
 ;(function() {
   var localizations = {
-    'locale1': function anonymous(it) {
-      if(lci('value1', 'value2')) {
-        return 'effwfeewfwef';
-      } else {
-        return '';
-      }
+    'lo\'\"cale1': function anonymous(it) {
+      return 'KEY_NOT_TRANSLATED: lo\'\"cale1';
     },
     'locale2': function anonymous(it) {
-      return 'efw';
+      return 'KEY_NOT_TRANSLATED: locale2';
     }
   };
   
