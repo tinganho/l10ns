@@ -21,7 +21,7 @@ function Parser() {}
  */
 
 Parser.prototype.getKey = function(fn) {
-  return language.LOCALIZATION_KEY_SYNTAX.exec(fn)[2];
+  return language.LOCALIZATION_KEY_SYNTAX.exec(fn)[3];
 };
 
 /**

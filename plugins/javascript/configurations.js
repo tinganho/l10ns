@@ -1,23 +1,23 @@
 
+/**
+ * Get localization string function name. Plugins might use this configuration
+ * to alter the behavior of updating keys and compiling.
+ *
+ * @value {String}
+ */
+
+var GET_LOCALIZATION_STRING_FUNCTION_NAME = 'l';
+
+/**
+ * Get localization string using variables function name. Plugins might use this
+ * configuration to alter the behavior of updating keys and compiling.
+ *
+ * @value {String}
+ */
+
+var GET_LOCALIZATION_STRING_USING_VARIABLES_FUNCTION_NAME = 'l';
+
 module.exports = {
-
-  /**
-   * Get localization string function name. Plugins might use this configuration
-   * to alter the behavior of updating keys and compiling.
-   *
-   * @value {String}
-   */
-
-  GET_LOCALIZATION_STRING_FUNCTION_NAME: 'l',
-
-  /**
-   * Get localization string using variables function name. Plugins might use this
-   * configuration to alter the behavior of updating keys and compiling.
-   *
-   * @value {String}
-   */
-
-  GET_LOCALIZATION_STRING_USING_VARIABLES_FUNCTION_NAME: 'l',
 
   /**
    * Translation inner function call regex should match
@@ -35,7 +35,7 @@ module.exports = {
    * @value {RegExp}
    */
 
-  GET_LOCALIZATION_INNER_FUNCTION_CALL_SYNTAX: /\s+(?!l)[.|\w]+?\((.*?\s*?)*?\)/g,
+  GET_LOCALIZATION_INNER_FUNCTION_CALL_SYNTAX: new RegExp('\\s+(?!(' + GET_LOCALIZATION_STRING_FUNCTION_NAME + '|' + GET_LOCALIZATION_STRING_USING_VARIABLES_FUNCTION_NAME + '))[.|\\w]+?\\((.*?\\s*?)*?\\)', 'g'),
 
   /** Translation vars regex should capture a match
    * of the whole translation var object literal in
@@ -51,7 +51,7 @@ module.exports = {
    * @value {RegExp}
    */
 
-  GET_LOCALIZATION_FUNCTION_CALL_SYNTAX: /\s+l\(['|"](.*?)['|"]\s*(\,\s*\{\s*((.*?)|(\s*?))+?\s*\})??\s*\)/g,
+  GET_LOCALIZATION_FUNCTION_CALL_SYNTAX: new RegExp('\\s+(' + GET_LOCALIZATION_STRING_FUNCTION_NAME + '|' + GET_LOCALIZATION_STRING_USING_VARIABLES_FUNCTION_NAME + ')\\([\'|"](.*?)[\'|"]\\s*(\\\,\\s*\\{\\s*((.*?)|(\\s*?))+?\\s*\\})??\\s*\\)', 'g'),
 
   /**
    * Translation key regex should capture a match
@@ -67,7 +67,7 @@ module.exports = {
    * @value {RegExp}
    */
 
-  LOCALIZATION_KEY_SYNTAX: /\s+l\((['|"])(.*?)\1/,
+  LOCALIZATION_KEY_SYNTAX: new RegExp('\\s+(' + GET_LOCALIZATION_STRING_FUNCTION_NAME + '|' + GET_LOCALIZATION_STRING_USING_VARIABLES_FUNCTION_NAME + ')\\(([\'|"])(.+?)\\2'),
 
   /**
    * Translation vars regex should capture a match
@@ -102,5 +102,12 @@ module.exports = {
    * @value {RegExp}
    */
 
-  LOCALIZATION_VARIABLE_SYNTAX: /\s*(['|"])?\w+\1?\s*\:/g
+  LOCALIZATION_VARIABLE_SYNTAX: /\s*(['|"])?\w+\1?\s*\:/g,
+
+  /**
+   * Imports of local variables
+   */
+
+  GET_LOCALIZATION_STRING_FUNCTION_NAME: GET_LOCALIZATION_STRING_FUNCTION_NAME,
+  GET_LOCALIZATION_STRING_USING_VARIABLES_FUNCTION_NAME: GET_LOCALIZATION_STRING_USING_VARIABLES_FUNCTION_NAME
 };
