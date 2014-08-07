@@ -278,7 +278,7 @@ Compiler.prototype._getConditionString = function(condition, variables) {
  */
 
 Compiler.prototype._getAdditionalConditionString = function(conditions, variables) {
-  var str = '', index = 4;
+  var string = '', index = 4;
   while(conditions[index] === program.ADDITIONAL_CONDITION_AND ||
         conditions[index] === program.ADDITIONAL_CONDITION_OR) {
 
@@ -295,7 +295,7 @@ Compiler.prototype._getAdditionalConditionString = function(conditions, variable
       throw new TypeError('string does not represent a condition');
     }
     if(operator !== 'lci') {
-      str += this.space + template.additionalCondition({
+      string += this.space + template.additionalCondition({
         additionalCondition: additionalCondition,
         operand1: operand1,
         operator: operator,
@@ -303,7 +303,7 @@ Compiler.prototype._getAdditionalConditionString = function(conditions, variable
       });
     }
     else {
-      str += this.space + template.additionalConditionFunction({
+      string += this.space + template.additionalConditionFunction({
         additionalCondition: additionalCondition,
         operand1: operand1,
         function: operator,
@@ -315,11 +315,11 @@ Compiler.prototype._getAdditionalConditionString = function(conditions, variable
   }
 
   // append condition body
-  str += template.conditionBody({
+  string += template.conditionBody({
     string: this._getFormatedLocalizedText(conditions[index], variables)
   });
 
-  return str;
+  return string;
 };
 
 /**

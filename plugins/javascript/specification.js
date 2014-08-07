@@ -181,23 +181,23 @@ describe('Compiler', function() {
 
     describe('#_getFunctionBodyString(localizations, key)', function() {
       it('should return a function string that returns the key that is not localized', function() {
-        var compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor);
-        var localizations = { 'key1': { values: [] }};
+        var compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor)
+          , localizations = { 'key1': { values: [] }};
         expect(compiler._getFunctionBodyString(localizations, 'key1')).to.equal('function anonymous(it) {\n  return \'KEY_NOT_TRANSLATED: key1\';\n}');
       });
 
       it('should return a function string that has if/else if/else statement and returns a localization', function() {
         program.CONDITION_IF = 'if';
-        var compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor);
-        var localizations = { 'key1': { values: [['if', '${variable1}', '==', '1', 'value1'], ['else', 'value2']], variables: ['variable1'] }};
+        var compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor)
+          , localizations = { 'key1': { values: [['if', '${variable1}', '==', '1', 'value1'], ['else', 'value2']], variables: ['variable1'] }};
         compiler._getConditionsString = stub().withArgs(localizations.key1.values, localizations.key1.variables).returns('conditions');
         expect(compiler._getFunctionBodyString(localizations, 'key1')).to.equal('function anonymous(it) {\n  conditions\n}');
       });
 
       it('should return a function that returns a localization', function() {
         program.CONDITION_IF = 'if';
-        var compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor);
-        var localizations = { 'key1': { values: ['value1'] }};
+        var compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor)
+          , localizations = { 'key1': { values: ['value1'] }};
         compiler._getFormatedLocalizedText = stub().withArgs(localizations.key1.values, localizations.key1.variables).returns('formated-localized-text');
         compiler._getNonConditionsFunctionBodyString = stub().withArgs('formated-localized-text').returns('nonConditionsFunctionBodyString');
         expect(compiler._getFunctionBodyString(localizations, 'key1')).to.equal('function anonymous(it) {\nnonConditionsFunctionBodyString\n}');
@@ -221,9 +221,9 @@ describe('Compiler', function() {
     describe('#_getConditionsString(conditions, variables)', function() {
       it('should return a condition string', function() {
         program.CONDITION_ELSE = 'else';
-        var conditions = [['if', '${variable1}', '==', '1', 'value1'], ['else', 'value2']];
-        var variables = ['variable1'];
-        var compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor);
+        var conditions = [['if', '${variable1}', '==', '1', 'value1'], ['else', 'value2']]
+          , variables = ['variable1']
+          , compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor);
         compiler._getConditionString = stub().withArgs(conditions[0], variables).returns('if( variable1 == 1');
         compiler._getAdditionalConditionString = stub().withArgs(conditions[0], variables).returns(')\n{\n  return \'value1\'\n}');
         compiler._getElseStatementString = stub().withArgs('else', variables).returns('else {\n  return \'value2\';\n}');
@@ -234,9 +234,9 @@ describe('Compiler', function() {
     describe('#_getConditionString(condition, variables)', function() {
       it('should return a condition string', function() {
         dependencies['./syntax'].stringIsCondition = stub().withArgs('variable1', '==', '1').returns(true);
-        var condition = ['if', '${variable1}', '==', '1', 'value1'];
-        var variables = ['variable1'];
-        var compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor);
+        var condition = ['if', '${variable1}', '==', '1', 'value1']
+          , variables = ['variable1']
+          , compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor);
         compiler._getFormatedOperandString = stub();
         compiler._getFormatedOperandString.withArgs(condition[1], variables).returns('variable1');
         compiler._getFormatedOperandString.withArgs(condition[3], variables).returns('1');
@@ -245,13 +245,42 @@ describe('Compiler', function() {
 
       it('should return a condition string containing "last character is"-function', function() {
         dependencies['./syntax'].stringIsCondition = stub().withArgs('variable1', '==', '1').returns(true);
-        var condition = ['if', '${variable1}', 'lci', '1', 'value1'];
-        var variables = ['variable1'];
-        var compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor);
+        var condition = ['if', '${variable1}', 'lci', '1', 'value1']
+          , variables = ['variable1']
+          , compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor);
         compiler._getFormatedOperandString = stub();
         compiler._getFormatedOperandString.withArgs(condition[1], variables).returns('variable1');
         compiler._getFormatedOperandString.withArgs(condition[3], variables).returns('1');
         expect(compiler._getConditionString(condition,variables)).to.equal('if(lci(variable1, 1)');
+      });
+    });
+
+    describe('#_getAdditionalConditionString(conditions, variables)', function() {
+      before(function() {
+        program.ADDITIONAL_CONDITION_AND = '&&';
+        program.ADDITIONAL_CONDITION_OR = '||';
+      });
+
+      it('should return a additional condition string', function() {
+        var compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor)
+          , conditions = ['if', '${variable1}', 'lci', '1', '&&', '${variable2}', '==', '1', 'value2']
+          , variables = ['variable1', 'variable2'];
+        compiler._getFormatedOperandString = stub();
+        compiler._getFormatedOperandString.withArgs(conditions[5], variables).returns('variable2');
+        compiler._getFormatedOperandString.withArgs(conditions[7], variables).returns('1');
+        compiler._getFormatedLocalizedText = stub().withArgs(conditions[8], variables).returns('value2');
+        expect(compiler._getAdditionalConditionString(conditions, variables)).to.equal(' && variable2 == 1) {\n  return \'value2\';\n}');
+      });
+
+      it('should return a additional condition string with "last character is"-function', function() {
+        var compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor)
+          , conditions = ['if', '${variable1}', 'lci', '1', '&&', '${variable2}', 'lci', '1', 'value2']
+          , variables = ['variable1', 'variable2'];
+        compiler._getFormatedOperandString = stub();
+        compiler._getFormatedOperandString.withArgs(conditions[5], variables).returns('variable2');
+        compiler._getFormatedOperandString.withArgs(conditions[7], variables).returns('1');
+        compiler._getFormatedLocalizedText = stub().withArgs(conditions[8], variables).returns('value2');
+        expect(compiler._getAdditionalConditionString(conditions, variables)).to.equal(' && lci(variable2, 1)) {\n  return \'value2\';\n}');
       });
     });
   });
