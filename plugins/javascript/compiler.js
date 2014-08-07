@@ -119,14 +119,14 @@ Compiler.prototype._getLocalizationMap = function(locale) {
         }
 
         var field = _this.indentSpaces(2, template.JSONTranslationFunctionField({
-          key: _this._normalizeText(key),
+          key: key,
           functionString: _this._getFunctionBodyString(localizations, key)
         }));
 
         body += field;
 
         if(!this.quiet && locale === project.defaultLocale) {
-          console.log('[compiled] '.green + _this._normalizeText(key));
+          console.log('[compiled] '.green + key);
         }
 
         n++;
@@ -152,7 +152,7 @@ Compiler.prototype._getLocalizationMap = function(locale) {
  */
 
 Compiler.prototype._normalizeText = function(text) {
-  return text.replace(/'/g, '\'');
+  return text;
 };
 
 /**
@@ -166,7 +166,7 @@ Compiler.prototype._normalizeText = function(text) {
 Compiler.prototype._getFunctionBodyString = function(localizations, key) {
   var str = '';
   if(localizations[key].values.length === 0) {
-    str += this.indentSpaces(2, this._getNonTranslatedFunctionBodyString(this._normalizeText(key)));
+    str += this.indentSpaces(2, this._getNonTranslatedFunctionBodyString(key));
   } else if(localizations[key].values[0][0] === program.CONDITION_IF) {
     str += this.indentSpaces(2, this._getConditionsString(
       localizations[key].values,
@@ -392,8 +392,6 @@ Compiler.prototype._getFormatedOperandString = function(operand, variables) {
 
 Compiler.prototype._getFormatedTranslatedText = function(text, variables) {
   var _this = this;
-  // Replace quotations
-  text = this._normalizeText(text);
 
   return text.replace(program.SYNTAX_VARIABLE_MARKUP, function(match) {
     if(variables.indexOf(match) === -1) {
