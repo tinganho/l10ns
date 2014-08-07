@@ -334,5 +334,20 @@ describe('Compiler', function() {
         expect(compiler._getFormatedOperandString('string1', [])).to.equal('\'string1\'');
       });
     });
+
+    describe('#_getFormatedLocalizedText(text, variables)', function() {
+      it('should return localized string with variable', function() {
+        var variables = ['variable1']
+          , compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor);
+        expect(compiler._getFormatedLocalizedText('text with ${variable1}', variables)).to.equal('text with \' + it.variable1 + \'');
+      });
+
+      it('should throw an error if variable in string is not provided in argument', function() {
+        var variables = ['variable1']
+          , compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor)
+          , method = function() { compiler._getFormatedLocalizedText('text with ${variable2}', variables); };
+        expect(method).to.throw(TypeError, /You have used an undefined variable/);
+      });
+    });
   });
 });

@@ -363,7 +363,7 @@ Compiler.prototype._getFormatedOperandString = function(operand, variables) {
       throw new TypeError('variable can\'t begin with an integer.');
     }
 
-    operand = program.SYNTAX_VARIABLE_MARKUP.exec(operand)[1];
+    operand = operand.substring(2, operand.length - 1);
 
     if(variables.indexOf(operand) === -1) {
       throw new TypeError('You have used an undefined variable ' + operand.red
@@ -386,16 +386,17 @@ Compiler.prototype._getFormatedOperandString = function(operand, variables) {
  * @api private
  */
 
-Compiler.prototype._getFormatedLocalizaedText = function(text, variables) {
+Compiler.prototype._getFormatedLocalizedText = function(text, variables) {
   var _this = this;
 
   return text.replace(program.SYNTAX_VARIABLE_MARKUP, function(match) {
-    if(variables.indexOf(match) === -1) {
-      log.error('You have used an undefined variable ' + operand.red
-      + '.\n Please add the variable or remove the operand from your source.');
-      process.exit();
-    }
     match = match.substring(2, match.length - 1);
+
+    if(variables.indexOf(match) === -1) {
+      throw new TypeError('You have used an undefined variable ' + match.red
+      + '.\n Please add the variable or remove the operand from your source.');
+    }
+
     return String.prototype.concat(
       _this.quote,
       _this.add,
