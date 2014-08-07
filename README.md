@@ -1,7 +1,7 @@
-[![Stories in Ready](https://badge.waffle.io/tinganho/get-translation.png?label=ready&title=Ready)](https://waffle.io/tinganho/get-translation)
-(WIP) get-translation [![Build Status](https://travis-ci.org/tinganho/get-translation.png)](https://travis-ci.org/tinganho/get-translation)
+[![Stories in Ready](https://badge.waffle.io/tinganho/l10ns.png?label=ready&title=Ready)](https://waffle.io/tinganho/l10ns)
+l10ns [![Build Status](https://travis-ci.org/tinganho/l10ns.png)](https://travis-ci.org/tinganho/l10ns)
 ==============
-Effective translation workflow. 
+Effective translation workflow.
 
 * Updated translation keys from source.
 * Intuitive web translation interface.
@@ -26,33 +26,33 @@ Examples:
 
 ## Getting started
 
-Install get-translation `npm install get-translation -g`
+Install l10ns `npm install l10ns -g`
 
 Create a new project folder `test` and initialize a new translation project. The initialization guide will guide you through creating a project.
 ```
 $ mkdir test
 $ cd test
-$ gt init
+$ l10ns init
 ```
 Now, create a source file `test.js` with (at least) the following code:
 ``` javascript
-var firstnameLabel = gt('FIRSTNAME')
-  , lastnameLabel = gt('LASTNAME')
+var firstnameLabel = l('FIRSTNAME')
+  , lastnameLabel = l('LASTNAME')
   // Pass in variables
   , age = 7
-  , yourAgeIsLabel = gt('YOUR_AGE_IS', { age : age });
+  , yourAgeIsLabel = l('YOUR_AGE_IS', { age : age });
   // Pass in multiple variables
   , cats = 2
   , dogs = 3
-  , catsAndDogsLabel = gt('YOU_HAVE_NUMBER_OF_CATS_AND_DOGS', { cats : cats, dogs : dogs});
+  , catsAndDogsLabel = l('YOU_HAVE_NUMBER_OF_CATS_AND_DOGS', { cats : cats, dogs : dogs});
 ```
 Now, lets update translation keys from source:
 ```
-$ gt update
+$ l10ns update
 ```
 Lets check which translation keys have been added:
 ```
-$ gt log
+$ l10ns log
 %1 FIRSTNAME | NO TRANSLATION
 %2 LASTNAME | NO TRANSLATION
 %3 YOUR_AGE | NO TRANSLATION
@@ -60,18 +60,17 @@ $ gt log
 ```
 Edit the last translation using `log reference`:
 ```
-$ gt edit %1 "Firstname" # using default langague
-$ gt edit %1 --locale=zh "名" # using chinese
+$ l10ns set %1 "Firstname" # using default langague
+$ l10ns set %1 --locale=zh "名" # using chinese
 ```
 Translation are now saved to a localization file. To compile to your source programming language:
 ```
-$ gt compile
+$ l10ns compile
 ```
 Lets set up a web interface for translator to use:
 ```
-$ gt interface
+$ l10ns interface
 ```
-![Imgur](http://i.imgur.com/nsWPunD.jpg)
 
 ## License
 Copyright (c) 2014 Tingan Ho
