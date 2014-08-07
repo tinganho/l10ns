@@ -43,7 +43,7 @@ CLI.prototype.initialize = function() {
     .then(function(project) {
       global.project = project;
       global.language = require('../plugins/' + project.programmingLanguage + '/configurations');
-      _this.compiler = new (require('../plugins/' + project.programmingLanguage + '/compiler'));
+      _this.compiler = new (require('../plugins/' + project.programmingLanguage + '/compiler').Constructor);
       _this.makeCacheDirectory();
       deferred.resolve();
     })

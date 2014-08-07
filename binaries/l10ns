@@ -180,11 +180,13 @@ commands
         cli.compile();
       })
       .fail(function(error) {
-        if(commands.stack && error) {
+        if(commands.stack && error && error.stack) {
           console.log(error.stack);
         }
 
-        console.log(error.message);
+        if(error && error.message) {
+          console.log(error.message);
+        }
       });
   });
 
