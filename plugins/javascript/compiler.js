@@ -24,12 +24,10 @@ require('terminal-colors');
  */
 
 var Compiler = function() {
-  // languague wrapper
-  this.wrap = null;
   // default namespace
   this.namespace = 'it';
   // new line
-  this.newline = '\n';
+  this.linefeed = '\n';
   // quote
   this.quote = '\'';
   // dot
@@ -40,8 +38,6 @@ var Compiler = function() {
   this.add = ' + ';
   // space
   this.space = ' ';
-  // quote
-  this.quote = '\'';
 };
 
 /**
@@ -66,7 +62,13 @@ Compiler.prototype.run = function() {
           fs.writeFileSync(project.output + '/' + locale + '.js', content);
         })
         .fail(function(error) {
-          console.log(error.stack);
+          if(commands.stack && error && error.stack) {
+            console.log(error.stack);
+          }
+
+          if(error && error.message) {
+            console.log(error.message);
+          }
         });
     })(locale);
   }
@@ -113,7 +115,7 @@ Compiler.prototype._getLocalizationMap = function(locale) {
       for(var key in localizations) {
         // Append a comma for previous hashes
         if(n !== 0) {
-          body += _this.comma + _this.newline;
+          body += _this.comma + _this.linefeed;
         }
 
         var field = _this.indentSpaces(2, template.JSONTranslationFunctionField({
@@ -421,4 +423,10 @@ Compiler.prototype._getFormatedTranslatedText = function(text, variables) {
  * Export instance
  */
 
-module.exports = Compiler;
+module.exports = new Compiler;
+
+/**
+ * Export constructor
+ */
+
+module.exports.Constructor = Compiler;

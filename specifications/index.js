@@ -13,6 +13,8 @@ global.eventually = require('underscore').defer;
 global.spy = sinon.spy;
 global.stub = sinon.stub;
 global.noop = function() {};
+global.resolvesTo = Q.resolve;
+global.rejectsWith = Q.reject;
 
 /**
  * Plugins
@@ -45,3 +47,5 @@ global.commands = {};
 require('./update');
 require('./file');
 require('./init');
+
+require('../plugins/javascript/specification');
