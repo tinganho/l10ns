@@ -14,7 +14,9 @@ global.spy = sinon.spy;
 global.stub = sinon.stub;
 global.noop = function() {};
 global.resolvesTo = Q.resolve;
+global.resolves = Q.resolve;
 global.rejectsWith = Q.reject;
+global.rejects = Q.reject;
 
 /**
  * Plugins

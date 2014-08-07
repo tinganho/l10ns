@@ -132,5 +132,51 @@ describe('Compiler', function() {
         expect(compiler.indentSpaces(2, 'content-line-1\ncontent-line-2')).to.equal('  content-line-1\n  content-line-2');
       });
     });
+
+    describe('#_getLocalizationMap()', function() {
+      it('should return a promise', function() {
+        var deferred = { promise: 'promise', reject: noop };
+        dependencies.q.defer = stub().returns(deferred);
+        dependencies['../../libraries/file'].readLocalizations = stub().withArgs('locale1').returns(rejects());
+        var compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor);
+        expect(compiler._getLocalizationMap('locale1')).to.equal('promise');
+      });
+
+      it('should read localization from storage', function() {
+        dependencies.q.defer = stub().returns({ reject: noop });
+        dependencies['../../libraries/file'].readLocalizations = stub().withArgs('locale1').returns(rejects());
+        var compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor);
+        compiler._getLocalizationMap('locale1');
+        dependencies['../../libraries/file'].readLocalizations.should.have.been.calledOnce;
+      });
+
+      it('should resolve to a localization map', function(done) {
+        var deferred = { resolve: spy() };
+        dependencies.q.defer = stub().returns(deferred);
+        var localizations = { 'key1': {}};
+        dependencies['../../libraries/file'].readLocalizations = stub().withArgs('locale1').returns(resolvesTo(localizations));
+        var compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor);
+        compiler._getFunctionBodyString = stub().returns('function-string');
+        compiler._getLocalizationMap('locale1');
+        eventually(function() {
+          deferred.resolve.should.have.been.calledOnce;
+          deferred.resolve.should.have.been.calledWith('  var localizations = {\n    \'key1\': function-string\n  };\n  ');
+          done();
+        });
+      });
+
+      it('should reject with error if getting localization from storage rejects with error', function(done) {
+        var deferred = { reject: spy() };
+        dependencies.q.defer = stub().returns(deferred);
+        dependencies['../../libraries/file'].readLocalizations = stub().withArgs('locale1').returns(rejectsWith('error'));
+        var compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor);
+        compiler._getLocalizationMap('locale1');
+        eventually(function() {
+          deferred.reject.should.have.been.calledOnce;
+          deferred.reject.should.have.been.calledWith('error');
+          done();
+        });
+      });
+    });
   });
 });
