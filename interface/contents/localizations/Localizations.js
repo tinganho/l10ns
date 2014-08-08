@@ -95,7 +95,7 @@ define(function(require) {
      */
 
     onHistoryChange: function(path) {
-      if(/^[a-z]{2}\-[A-Z]{2}\/translations$/.test(path)) {
+      if(/^[a-z]{2}\-[A-Z]{2}\/localizations$/.test(path)) {
         this.setMeta('revealed', true);
         this.setPageTitle('Localizations')
         this.setPageDescription('Latest localizations');

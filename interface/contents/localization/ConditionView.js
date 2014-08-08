@@ -252,10 +252,10 @@ define(function(require) {
           operators : cf.OPERATORS,
           additionalCompairOperators : cf.ADDITIONAL_COMPAIR_OPERATORS,
           row : this.model.get('row') + 1,
-          translation : app.models.translation
+          localization : app.models.localization
         };
 
-      var condition = new app.models.translation.Condition(data);
+      var condition = new app.models.localization.Condition(data);
 
       this._hideThenDropDown();
     },

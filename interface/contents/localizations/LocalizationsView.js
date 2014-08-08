@@ -33,7 +33,7 @@ define(function(require) {
 
     _setElements: function() {
       this.$region = $('[data-region=body]');
-      this.$loadMore = $('.translations-load');
+      this.$loadMore = $('.localizations-load');
     },
 
     /**
