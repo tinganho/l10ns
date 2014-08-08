@@ -296,7 +296,7 @@ describe('File', function() {
       var deferred = { promise: 'promise', reject: function() {} };
       dependencies.q.defer = stub().returns(deferred);
       var file = new (proxyquire('../libraries/file', dependencies).File);
-      file.readLocalizationArray = stub().returns(Q.reject());
+      file.readLocalizationArray = stub().returns(rejects());
       expect(file.readLocalizationMap('storage-folder/locale1.locale')).to.equal('promise');
     });
 
@@ -307,7 +307,7 @@ describe('File', function() {
       var localizations = [{ key: 'key1' }, { key: 'key2'}];
       file.readLocalizationArray = stub()
         .withArgs('storage-folder/locale1.locale')
-        .returns(Q.resolve(localizations));
+        .returns(resolvesTo(localizations));
       file.readLocalizationMap('storage-folder/locale1.locale');
       eventually(function() {
         deferred.resolve.should.have.been.calledOnce;

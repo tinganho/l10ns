@@ -45,7 +45,7 @@ describe('Init', function() {
       var init = new (proxyquire('../libraries/init', dependencies).Init);
       init._createReadlineInterface = function() {};
       init._outputIntroduction = function() {};
-      init._getProjectName = stub().returns(Q.reject());
+      init._getProjectName = stub().returns(rejects());
       init.run();
       exitStub.should.have.been.calledOnce;
       consoleStub.should.have.been.calledOnce;
@@ -61,7 +61,7 @@ describe('Init', function() {
       var init = new (proxyquire('../libraries/init', dependencies).Init);
       init._createReadlineInterface = spy();
       init._outputIntroduction = spy();
-      init._getProjectName = stub().returns(Q.reject());
+      init._getProjectName = stub().returns(rejects());
       init.run();
       init._createReadlineInterface.should.have.been.calledOnce;
       init._outputIntroduction.should.have.been.calledOnce;
@@ -75,8 +75,8 @@ describe('Init', function() {
       var init = new (proxyquire('../libraries/init', dependencies).Init);
       init._createReadlineInterface = function() {};
       init._outputIntroduction = function() {};
-      init._getProjectName = stub().returns(Q.resolve('name1'));
-      init._getLocales = stub().returns(Q.reject());
+      init._getProjectName = stub().returns(resolvesTo('name1'));
+      init._getLocales = stub().returns(rejects());
       init.run();
       eventually(function() {
         expect(init.projectName).to.equal('name1');
@@ -92,9 +92,9 @@ describe('Init', function() {
       var init = new (proxyquire('../libraries/init', dependencies).Init);
       init._createReadlineInterface = function() {};
       init._outputIntroduction = function() {};
-      init._getProjectName = stub().returns(Q.resolve('name1'));
-      init._getLocales = stub().returns(Q.resolve({ 'locale1': 'locale1-title' }));
-      init._getDefaultLocale = stub().returns(Q.reject());
+      init._getProjectName = stub().returns(resolvesTo('name1'));
+      init._getLocales = stub().returns(resolvesTo({ 'locale1': 'locale1-title' }));
+      init._getDefaultLocale = stub().returns(rejects());
       init.run();
       eventually(function() {
         expect(init.json.locales).to.eql({ 'locale1': 'locale1-title' });
@@ -111,10 +111,10 @@ describe('Init', function() {
       var init = new (proxyquire('../libraries/init', dependencies).Init);
       init._createReadlineInterface = function() {};
       init._outputIntroduction = function() {};
-      init._getProjectName = stub().returns(Q.resolve('name1'));
-      init._getLocales = stub().returns(Q.resolve({ 'locale1': 'locale1-title' }));
-      init._getDefaultLocale = stub().returns(Q.resolve('locale1'));
-      init._getProgrammingLanguage = stub().returns(Q.reject());
+      init._getProjectName = stub().returns(resolvesTo('name1'));
+      init._getLocales = stub().returns(resolvesTo({ 'locale1': 'locale1-title' }));
+      init._getDefaultLocale = stub().returns(resolvesTo('locale1'));
+      init._getProgrammingLanguage = stub().returns(rejects());
       init.run();
       eventually(function() {
         expect(init.json.defaultLocale).to.eql('locale1');
@@ -130,11 +130,11 @@ describe('Init', function() {
       var init = new (proxyquire('../libraries/init', dependencies).Init);
       init._createReadlineInterface = function() {};
       init._outputIntroduction = function() {};
-      init._getProjectName = stub().returns(Q.resolve('name1'));
-      init._getLocales = stub().returns(Q.resolve({ 'locale1': 'locale1-title' }));
-      init._getDefaultLocale = stub().returns(Q.resolve('locale1'));
-      init._getProgrammingLanguage = stub().returns(Q.resolve('javascript'));
-      init._getStorageFolder = stub().returns(Q.reject());
+      init._getProjectName = stub().returns(resolvesTo('name1'));
+      init._getLocales = stub().returns(resolvesTo({ 'locale1': 'locale1-title' }));
+      init._getDefaultLocale = stub().returns(resolvesTo('locale1'));
+      init._getProgrammingLanguage = stub().returns(resolvesTo('javascript'));
+      init._getStorageFolder = stub().returns(rejects());
       init.run();
       eventually(function() {
         expect(init.json.programmingLanguage).to.eql('javascript');
@@ -151,11 +151,11 @@ describe('Init', function() {
       var init = new (proxyquire('../libraries/init', dependencies).Init);
       init._createReadlineInterface = function() {};
       init._outputIntroduction = function() {};
-      init._getProjectName = stub().returns(Q.resolve('name1'));
-      init._getLocales = stub().returns(Q.resolve({ 'locale1': 'locale1-title' }));
-      init._getDefaultLocale = stub().returns(Q.resolve('locale1'));
-      init._getProgrammingLanguage = stub().returns(Q.resolve('javascript'));
-      init._getStorageFolder = stub().returns(Q.resolve('storage-folder/'));
+      init._getProjectName = stub().returns(resolvesTo('name1'));
+      init._getLocales = stub().returns(resolvesTo({ 'locale1': 'locale1-title' }));
+      init._getDefaultLocale = stub().returns(resolvesTo('locale1'));
+      init._getProgrammingLanguage = stub().returns(resolvesTo('javascript'));
+      init._getStorageFolder = stub().returns(resolvesTo('storage-folder/'));
       init._setDefaultSrc = spy();
       init._writeProject = spy();
       init.run();
@@ -179,7 +179,7 @@ describe('Init', function() {
       var init = new (proxyquire('../libraries/init', dependencies).Init);
       init._createReadlineInterface = function() {};
       init._outputIntroduction = function() {};
-      init._getProjectName = stub().returns(Q.reject('error'));
+      init._getProjectName = stub().returns(rejectsWith('error'));
       init.run();
       eventually(function() {
         dependencies['./_log'].error.should.have.been.calledOnce;
