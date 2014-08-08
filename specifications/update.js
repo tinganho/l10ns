@@ -154,7 +154,7 @@ describe('Update', function() {
         });
       });
 
-      it('find all gt() function call strings', function() {
+      it('find all l() function call strings', function() {
         project.source = ['file1'];
         var deferred = {};
         deferred.resolve = function() {};
@@ -172,7 +172,7 @@ describe('Update', function() {
         innerFunctionCallResultObject.match.should.have.been.calledOnce;
       });
 
-      it('get the key and variables on each gt() call strings', function(done) {
+      it('get the key and variables on each l() call strings', function(done) {
         project.source = ['file1'];
         var deferred = {};
         deferred.resolve = function() {};
@@ -189,14 +189,14 @@ describe('Update', function() {
         Hashids.prototype.encrypt = function() {};
         dependencies['hashids'] = Hashids;
         var update = new (proxyquire('../libraries/update', dependencies).Update);
-        var innerFunctionCallResultObject = { match: stub().returns(['gt(\'SOME_KEY\')']) };
+        var innerFunctionCallResultObject = { match: stub().returns(['l(\'SOME_KEY\')']) };
         update._stripInnerFunctionCalls = stub().returns(innerFunctionCallResultObject);
         update.getNewLocalizations();
         eventually(function() {
           dependencies['./parser'].getKey.should.have.been.calledOnce;
-          dependencies['./parser'].getKey.should.have.been.calledWith('gt(\'SOME_KEY\')');
+          dependencies['./parser'].getKey.should.have.been.calledWith('l(\'SOME_KEY\')');
           dependencies['./parser'].getVars.should.have.been.calledOnce;
-          dependencies['./parser'].getVars.should.have.been.calledWith('gt(\'SOME_KEY\')');
+          dependencies['./parser'].getVars.should.have.been.calledWith('l(\'SOME_KEY\')');
           done();
         });
       });
@@ -218,7 +218,7 @@ describe('Update', function() {
         Hashids.prototype.encrypt = stub().returns('id');
         dependencies['hashids'] = Hashids;
         var update = new (proxyquire('../libraries/update', dependencies).Update);
-        var innerFunctionCallResultObject = { match: stub().returns(['gt(\'SOME_KEY\')']) };
+        var innerFunctionCallResultObject = { match: stub().returns(['l(\'SOME_KEY\')']) };
         update._stripInnerFunctionCalls = stub().returns(innerFunctionCallResultObject);
         update.getNewLocalizations();
         eventually(function() {
@@ -250,7 +250,7 @@ describe('Update', function() {
         Hashids.prototype.encrypt = stub().returns('id');
         dependencies['hashids'] = Hashids;
         var update = new (proxyquire('../libraries/update', dependencies).Update);
-        var innerFunctionCallResultObject = { match: stub().returns(['gt(\'SOME_KEY\')']) };
+        var innerFunctionCallResultObject = { match: stub().returns(['l(\'SOME_KEY\')']) };
         update._stripInnerFunctionCalls = stub().returns(innerFunctionCallResultObject);
         update.getNewLocalizations();
         eventually(function() {
@@ -284,7 +284,7 @@ describe('Update', function() {
         Hashids.prototype.encrypt = stub().returns('id');
         dependencies['hashids'] = Hashids;
         var update = new (proxyquire('../libraries/update', dependencies).Update);
-        var innerFunctionCallResultObject = { match: stub().returns(['gt(\'SOME_KEY\')', 'gt(\'SOME_KEY\')']) };
+        var innerFunctionCallResultObject = { match: stub().returns(['l(\'SOME_KEY\')', 'l(\'SOME_KEY\')']) };
         update._stripInnerFunctionCalls = stub().returns(innerFunctionCallResultObject);
         update.getNewLocalizations();
         eventually(function() {
