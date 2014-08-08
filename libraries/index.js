@@ -3,7 +3,7 @@
  * Module dependencies.
  */
 
-var Log = require('./log').Log
+var Log = require('./log').Constructor
   , log = require('./_log')
   , init = require('./init')
   , set = require('./set')

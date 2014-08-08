@@ -44,7 +44,7 @@ describe('File', function() {
       var deferred = { resolve: spy() };
       dependencies.q.defer = stub().returns(deferred);
       var file = new (proxyquire('../libraries/file', dependencies).File);
-      file.writeLocalization = stub().withArgs('localizations', 'en-US').returns(Q.resolve());
+      file.writeLocalization = stub().withArgs('localizations', 'en-US').returns(resolves());
       file.writeLocalizations('localizations');
       eventually(function() {
         deferred.resolve.should.have.been.calledOnce;
@@ -179,7 +179,7 @@ describe('File', function() {
       dependencies.q.defer = stub().returns(deferred);
       dependencies.glob.sync = stub().withArgs(project.store + '/*.locale').returns(['locale1.locale', 'locale2.locale']);
       var file = new (proxyquire('../libraries/file', dependencies).File);
-      file.readLocalizationMap = stub().returns(Q.resolve());
+      file.readLocalizationMap = stub().returns(resolves());
       file.readLocalizations();
       file.readLocalizationMap.should.have.been.calledTwice;
       file.readLocalizationMap.should.have.been.calledWith('locale1.locale');
@@ -191,7 +191,7 @@ describe('File', function() {
       dependencies.q.defer = stub().returns(deferred);
       dependencies.glob.sync = stub().withArgs(project.store + '/*.locale').returns(['locale1.locale', 'locale2.locale']);
       var file = new (proxyquire('../libraries/file', dependencies).File);
-      file.readLocalizationMap = stub().returns(Q.resolve('localizations'));
+      file.readLocalizationMap = stub().returns(resolvesTo('localizations'));
       file.readLocalizations();
       eventually(function() {
         deferred.resolve.should.have.been.calledOnce;
@@ -204,7 +204,7 @@ describe('File', function() {
       dependencies.q.defer = stub().returns(deferred);
       dependencies.glob.sync = stub().withArgs(project.store + '/*.locale').returns(['locale1.locale', 'locale2.locale']);
       var file = new (proxyquire('../libraries/file', dependencies).File);
-      file.readLocalizationMap = stub().returns(Q.resolve('localizations'));
+      file.readLocalizationMap = stub().returns(resolvesTo('localizations'));
       file.readLocalizations('locale1');
       eventually(function() {
         deferred.resolve.should.have.been.calledOnce;
@@ -217,7 +217,7 @@ describe('File', function() {
       dependencies.q.defer = stub().returns(deferred);
       dependencies.glob.sync = stub().withArgs(project.store + '/*.locale').returns(['locale1.locale', 'locale2.locale']);
       var file = new (proxyquire('../libraries/file', dependencies).File);
-      file.readLocalizationMap = stub().returns(Q.resolve('localizations'));
+      file.readLocalizationMap = stub().returns(resolvesTo('localizations'));
       file.readLocalizations('locale3');
       eventually(function() {
         deferred.reject.should.have.been.calledOnce;
@@ -230,7 +230,7 @@ describe('File', function() {
       var deferred = { reject: spy() };
       dependencies.q.defer = stub().returns(deferred);
       var file = new (proxyquire('../libraries/file', dependencies).File);
-      file.readLocalizationMap = stub().returns(Q.reject('error'));
+      file.readLocalizationMap = stub().returns(rejectsWith('error'));
       file.readLocalizations();
       eventually(function() {
         deferred.reject.should.have.been.calledOnce;
@@ -320,7 +320,7 @@ describe('File', function() {
       var deferred = { reject: spy() };
       dependencies.q.defer = stub().returns(deferred);
       var file = new (proxyquire('../libraries/file', dependencies).File);
-      file.readLocalizationArray = stub().returns(Q.reject('error'));
+      file.readLocalizationArray = stub().returns(rejectsWith('error'));
       file.readLocalizationMap('storage-folder/locale1.locale');
       eventually(function() {
         deferred.reject.should.have.been.calledOnce;

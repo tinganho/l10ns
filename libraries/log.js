@@ -43,10 +43,13 @@ Log.prototype.run = function(locale, type) {
       else {
         _this.printRegularLog(localizations);
       }
-
     })
     .fail(function(error) {
-      console.log(error.stack);
+      if(commands.stack && error) {
+        console.log(error.stack);
+      }
+
+      console.log(error.message);
     });
 };
 
@@ -108,4 +111,4 @@ Log.prototype.printRegularLog = function(localizations) {
  * Export constructor
  */
 
-module.exports.Log = Log;
+module.exports.Constructor = Log;

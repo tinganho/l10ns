@@ -49,5 +49,6 @@ global.commands = {};
 require('./update');
 require('./file');
 require('./init');
+require('./log');
 
 require('../plugins/javascript/specification');
