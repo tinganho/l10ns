@@ -31,8 +31,6 @@ Log.prototype.run = function(locale, type) {
 
   file.readLocalizationArray(project.store + '/' + locale + '.locale')
     .then(function(localizations) {
-      localizations = localizations.slice(0, program.DEFAULT_LOG_LENGTH);
-
       if(!localizations.length) {
         return log.log('No localizations.');
       }
@@ -91,6 +89,10 @@ Log.prototype.printEmptyValuesLog = function(localizations, locale) {
 Log.prototype.printRegularLog = function(localizations) {
   var n = 1;
   for(var i in localizations) {
+    if(n > program.DEFAULT_LOG_LENGTH) {
+      break;
+    }
+
     var tag;
     if((n+'').length < 2) {
       tag = ' @' + n;
