@@ -7,30 +7,25 @@ if(inServer) {
 }
 
 define(function(require) {
-  var Backbone
+  var Backbone = require('backbone')
     , Model = inServer ? require('../../libraries/Model'): require('Model')
     , Collection = inServer ? require('../../libraries/Collection'): require('Collection')
     , _ = require('underscore')
-    , Condition = require('./Condition')
-    , Input = require('./Input')
-    , Else = require('./Else');
+    , ValueGroup = require('./ValueGroup')
+    , Else = ValueGroup.prototype.Else
+    , Input = ValueGroup.prototype.Input
+    , Condition = ValueGroup.prototype.Condition;
 
   if(inClient) {
-    Backbone = require('backbone');
     var request = require('request')
   }
   else {
     Backbone = require('backbone-relational');
   }
 
-  var Conditions = Collection.extend({
-    model: Condition,
-    comparator: 'row'
-  });
-
-  var Inputs = Collection.extend({
-    model: Input,
-    comparator: 'row'
+  var ValueGroups = Collection.extend({
+    model: ValueGroup,
+    comparator: 'index'
   });
 
   var Constructor = Model.extend({
@@ -41,35 +36,18 @@ define(function(require) {
      * @type {Object}
      */
 
-    relations: [{
-      type: 'HasMany',
-      key: 'conditions',
-      relatedModel: Condition,
-      collectionType: Conditions,
-      reverseRelation: {
-        key: 'localization',
-        includeInJSON: 'id'
+    relations: [
+      {
+        type: 'HasMany',
+        key: 'valueGroups',
+        relatedModel: ValueGroup,
+        collectionType: ValueGroups,
+        reverseRelation: {
+          key: 'localization',
+          includeInJSON: 'id'
+        }
       }
-    },
-    {
-      type: 'HasOne',
-      key: 'else',
-      relatedModel: Else,
-      reverseRelation: {
-        key: 'localization',
-        includeInJSON: 'id'
-      }
-    },
-    {
-      type: 'HasMany',
-      key: 'inputs',
-      relatedModel: Input,
-      collectionType: Inputs,
-      reverseRelation: {
-        key: 'localization',
-        includeInJSON: 'id'
-      }
-    }],
+    ],
 
     /**
      * Parse values(conditions and inputs)
@@ -80,17 +58,31 @@ define(function(require) {
      */
 
     _parseValues: function(values, vars) {
+      var valueGroup, index = 0;
       if(values.length <= 1) {
+        valueGroup = new ValueGroup({
+          localization: this,
+          index: index
+        });
+
         return new Input({
-          value: values.length ? values[0]: '',
+          value: values.length ? values[0] : '',
           row: 0,
-          localization: this
+          valueGroup: valueGroup
         });
       }
       var row = 0;
       for(var i = 0; i<values.length; i++) {
         if(values[i].length > 2) {
           var y = 0;
+
+          valueGroup = new ValueGroup({
+            localization: this,
+            index: index
+          });
+
+          index++;
+
           while(typeof values[i][y] !== 'undefined') {
             new Condition({
               statement: values[i][y],
@@ -101,7 +93,7 @@ define(function(require) {
               additionalCompairOperators: cf.ADDITIONAL_COMPAIR_OPERATORS,
               vars: vars,
               row: row,
-              localization: this
+              valueGroup: valueGroup
             });
 
             row++;
@@ -117,8 +109,17 @@ define(function(require) {
             new Input({
               value: values[i][y + 4],
               row: row,
-              localization: this
+              valueGroup: valueGroup
             });
+
+            valueGroup = new ValueGroup({
+              localization: this,
+              index: index
+            });
+
+            row = 0;
+
+            index++;
 
             y += 5;
 
@@ -126,15 +127,22 @@ define(function(require) {
           }
         }
         else {
+          valueGroup = new ValueGroup({
+            localization: this,
+            index: index
+          });
+
+          row = 0;
+
           new Else({
             row: row,
-            localization: this
+            valueGroup: valueGroup
           });
 
           new Input({
             value: values[i][1],
             row: row + 1,
-            localization: this
+            valueGroup: valueGroup
           });
         }
       }
@@ -150,14 +158,6 @@ define(function(require) {
 
     _parse: function(json) {
       this._parseValues(json.values, json.vars);
-
-      // Delete relations while parsing. Otherwise it will
-      // cause some nested relations during parsing.
-      delete json.conditions;
-      delete json.inputs;
-      delete json.else;
-      delete json.firstOperand;
-      delete json.lastOperand;
 
       this.set(json);
 
@@ -370,32 +370,6 @@ define(function(require) {
       return json;
     }
   });
-
-  /**
-   * Constructor used for checking if an instance is Condition
-   *
-   * @type {Condition}
-   */
-
-  Constructor.prototype.Condition = Condition;
-
-
-  /**
-   * Constructor used for checking if an instance is Input
-   *
-   * @type {Condition}
-   */
-
-  Constructor.prototype.Input = Input;
-
-  /**
-   * Constructor used for checking if an instance is Else
-   *
-   * @type {Condition}
-   */
-
-  Constructor.prototype.Else = Else;
-
 
   return Constructor;
 });

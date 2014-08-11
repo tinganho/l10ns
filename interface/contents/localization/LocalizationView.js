@@ -4,12 +4,17 @@ if(typeof define !== 'function') {
 }
 
 define(function(require) {
-  var View = inServer ? require('../../libraries/View'): require('View')
+  var View = inServer ? require('../../libraries/View') : require('View')
     , ConditionView = require('./ConditionView')
     , InputView = require('./InputView')
     , ElseView = require('./ElseView')
-    , template = inServer ? content_appTemplates: require('contentTemplates')
-    , _ = require('underscore');
+    , template = inServer ? content_appTemplates : require('contentTemplates')
+    , _ = require('underscore')
+    , ValueGroup = require('./ValueGroup')
+    , ValueGroupView = require('./ValueGroupView')
+    , Else = ValueGroup.prototype.Else
+    , Input = ValueGroup.prototype.Input
+    , Condition = ValueGroup.prototype.Condition;
 
   if(inClient) {
     var minTimer = require('minTimer');
@@ -26,8 +31,7 @@ define(function(require) {
 
     initialize: function(model) {
       this.model = model;
-      this._conditionViews = [];
-      this._inputViews = [];
+      this._valueGroupViews = [];
       if(inClient) {
         this._bindMethods();
       }
@@ -41,379 +45,10 @@ define(function(require) {
      */
 
     bindModel: function() {
-      this._bindConditionsAddition();
-      this._bindConditionRemoval();
-      this._bindInputAddition();
-      this._bindElseAddition();
-    },
-
-    /**
-     * Bind else addition
-     *
-     * @return {void}
-     * @api private
-     */
-
-    _bindElseAddition: function() {
-      var _this = this;
-      this.model.on('change:else', function(_else) {
-        if(_this.model.get('else')) {
-          _this._elseView = new ElseView(_else.get('else'));
-          _this.$('[data-row="1"]').after(_this._elseView.render());
-          _this._elseView.bindModel();
-          _this._elseView.setElement('[data-row="2"]');
-          _this._elseView.bindDOM();
-        }
-      });
-    },
-
-    /**
-     * Bind condition addition
-     *
-     * @return {void}
-     * @api private
-     */
-
-    _bindConditionsAddition: function() {
-      var _this = this;
-      this.model.on('add:conditions', function(condition) {
-        var view = new ConditionView(condition)
-          , insertingRow = condition.get('row')
-          , $condition;
-
-        // We need a defer block because firstOperand and lastOperans relation
-        // are not set yet.
-        _.defer(function() {
-          // If we insert a condition by choosing `and` or `or` in the `then` dropdown
-          // We need to increase the row property on other conditions
-          // and inputs. Otherwise some DOM bindings/event handling
-          // will be wrong. We check that this is condition insertion from the `then`
-          // dropdown by checking if inserting row is equals the `else` row minus 2
-          if(_this.model.get('else') && insertingRow !== _this.model.get('else').get('row')) {
-            _this.model.get('conditions').forEach(function(_condition) {
-              var currentRow = _condition.get('row');
-              if(currentRow >= insertingRow && condition.cid !== _condition.cid) {
-                _condition.set('row', currentRow + 1);
-              }
-            });
-            _this.model.get('inputs').forEach(function(input) {
-              var currentRow = input.get('row');
-              if(currentRow >= insertingRow) {
-                input.set('row', currentRow + 1);
-              }
-            });
-            var _else = _this.model.get('else');
-            _else.set('row', _else.get('row') + 1);
-            $condition = $(view.render());
-          }
-          else {
-            if(insertingRow === 0) {
-              _this.model.get('inputs').forEach(function(input) {
-                var currentRow = input.get('row');
-                if(currentRow >= insertingRow) {
-                  input.set('row', currentRow + 1);
-                }
-              });
-            }
-            $condition = $(view.render()).addClass('invisible');
-          }
-
-          // bind conditions' DOM
-          if(insertingRow > 0) {
-            this.$('[data-row="' + (insertingRow - 1) + '"]').after($condition);
-          }
-          else {
-            this.$('[data-row="1"]').before($condition);
-          }
-
-          var conditionSelector = '.condition[data-row="' + insertingRow + '"]:not(.condition-else)';
-          view.setElement(conditionSelector);
-          view.bindDOM();
-          view.firstOperandView.setElement(conditionSelector + ' .condition-first-operand');
-          view.firstOperandView.bindDOM();
-          view.lastOperandView.setElement(conditionSelector + ' .condition-last-operand');
-          view.lastOperandView.bindDOM();
-
-          // We must insert the view in the right index in `_conditionViews`
-          var appended = false;
-          _this._conditionViews.some(function(conditionView, index) {
-            if(conditionView.model.get('row') === insertingRow - 1) {
-              _this._conditionViews.splice(index + 1, 0, view);
-              appended = true;
-              return true;
-            }
-            return false;
-          });
-          if(!appended) {
-            _this._conditionViews.push(view);
-          }
-        });
-      });
-    },
-
-    /**
-     * Bind condition removal
-     *
-     * @return {void}
-     * @api private
-     */
-
-    _bindConditionRemoval: function() {
-      var _this = this;
-
-      this.model.on('remove:conditions', function(condition) {
-        var row = condition.get('row')
-          , inputs = _this.model.get('inputs').sort()
-          , conditions = _this.model.get('conditions').sort()
-          , hasSubsequentCondition = false;
-
-        if(row === 0) {
-          _this._removeFirstCondition();
-          return;
-        }
-
-        conditions.some(function(_condition) {
-          if(_condition.get('row') === row - 1) {
-            _this._removeSingleCondition(condition);
-            return true;
-          }
-          if(_condition.get('row') === row + 1) {
-            inputs.some(function(input) {
-              if(input.get('row') === row - 1) {
-                _this._removeConditionWithSubsequentCondition(condition);
-                hasSubsequentCondition = true;
-                return true;
-              }
-              return false;
-            });
-            return true;
-          }
-          return false;
-        });
-        if(!hasSubsequentCondition) {
-          inputs.some(function(input, index) {
-            if(input.get('row') === row - 1) {
-              if(inputs.where({ row: row + 1}).length) {
-                _this._removeConditionAndInput(condition);
-                return true;
-              }
-            }
-            return false;
-          });
-        }
-      });
-    },
-
-    /**
-     * Remove condition when an input is before and one condition after.
-     *
-     * @return {void}
-     * @api private
-     */
-
-    _removeConditionWithSubsequentCondition: function(condition) {
-      var _this = this, removalIndex, removalRow;
-      this._conditionViews.forEach(function(conditionView, index) {
-        if(conditionView.model === condition) {
-          conditionView.remove();
-          removalRow = conditionView.model.get('row');
-          removalIndex = index;
-        }
-
-        // We must decrease the row index on all subsequent conditions
-        if(removalIndex) {
-          if(index === removalIndex + 1) {
-            conditionView.model.set('statement', 'else if');
-          }
-          if(index > removalIndex) {
-            conditionView.model.set('row', conditionView.model.get('row') - 1);
-          }
-        }
-      });
-
-      if(removalRow) {
-        this._inputViews.forEach(function(inputView) {
-          var row = inputView.model.get('row');
-          if(row > removalRow) {
-            inputView.model.set('row', row - 1);
-          }
-        });
-
-        if(this._elseView) {
-          this._elseView.model.set('row', this._elseView.model.get('row') - 1);
-        }
-
-        this._conditionViews.splice(removalIndex, 1);
-      }
-    },
-
-    /**
-     * Remove condition only. This method only removes the `condition` from
-     * the DOM by calling `Backbone.View.prototype.remove`.
-     *
-     * @return {void}
-     * @api private
-     */
-
-    _removeSingleCondition: function(condition) {
-      var _this = this, removalIndex, removalRow;
-      this._conditionViews.forEach(function(conditionView, index) {
-        if(conditionView.model === condition) {
-          conditionView.remove();
-          removalRow = conditionView.model.get('row');
-          removalIndex = index;
-        }
-
-        // We must decrease the row index on all subsequent conditions
-        if(removalIndex && index > removalIndex) {
-          conditionView.model.set('row', conditionView.model.get('row') - 1);
-        }
-      });
-
-      if(removalRow) {
-        this._inputViews.forEach(function(inputView) {
-          var row = inputView.model.get('row');
-          if(row > removalRow) {
-            inputView.model.set('row', row - 1);
-          }
-        });
-
-        if(this._elseView) {
-          this._elseView.model.set('row', this._elseView.model.get('row') - 1);
-        }
-
-        this._conditionViews.splice(removalIndex, 1);
-      }
-    },
-
-    /**
-     * Remove the first condition. When removing the first condition some other logic
-     * need to be applied. First condition and the input after it should be removed
-     * from DOM. Then depending on if the `else` row is two or not else will be removed
-     * or one `else if` statement will be converted to just an if statement.
-     *
-     * @return {void}
-     * @api private
-     */
-
-    _removeFirstCondition: function() {
-      var elseRow = this.model.get('else').get('row');
-      this._conditionViews[0].remove();
-      this._conditionViews.splice(0, 1);
-
-      var inputs = this.model.get('inputs').sort()
-        , conditions = this.model.get('conditions').sort()
-        , removedElements = 1;
-
-      if(!conditions.where({ row: 1 }).length) {
-        this._inputViews[0].model.destroy();
-        this._inputViews[0].remove();
-        this._inputViews.splice(0, 1);
-        removedElements++;
-      }
-
-      if(elseRow === 2) {
-        this._elseView.model.destroy();
-        this._elseView.remove();
-        this._elseView = null;
-        this._inputViews[0].model.set('row', 0);
-      }
-      else {
-        var first = true;
-        conditions.forEach(function(condition) {
-          condition.set('row', condition.get('row') - removedElements);
-          if(first) {
-            condition.set('statement', 'if');
-            first = false;
-          }
-        });
-        inputs.sort().forEach(function(input) {
-          input.set('row', input.get('row') - removedElements);
-        });
-
-        var _else = this.model.get('else');
-        _else.set('row', _else.get('row') - removedElements);
-      }
-    },
-
-    /**
-     * Remove condition and input. This method should be called when a
-     * condition have one input after and one input before it. This method
-     * will remove the condition and also remove the input after it.
-     *
-     * @return {void}
-     * @api private
-     */
-
-    _removeConditionAndInput: function(condition) {
-      var _this = this, conditionRemovalIndex, removalRow;
-      this._conditionViews.forEach(function(conditionView, index) {
-        if(conditionView.model === condition) {
-          conditionView.remove();
-          // We remove the view pointer from `LocalizationView`
-          removalRow = conditionView.model.get('row');
-          conditionRemovalIndex = index;
-        }
-
-        // We must decrease the row index on all subsequent conditions
-        if(conditionRemovalIndex && index > conditionRemovalIndex) {
-          conditionView.model.set('row', conditionView.model.get('row') - 2);
-        }
-      });
-
-      var inputRemovalIndex;
-      this._inputViews.forEach(function(inputView, index) {
-        var row = inputView.model.get('row');
-        if(row == removalRow + 1) {
-          inputView.model.destroy();
-          inputView.remove();
-          inputRemovalIndex = index;
-        }
-        else if(row > inputRemovalIndex) {
-          inputView.model.set('row', row - 2);
-        }
-      });
-
-      if(this._elseView) {
-        this._elseView.model.set('row', this._elseView.model.get('row') - 2);
-      }
-
-      this._inputViews.splice(inputRemovalIndex, 1);
-      this._conditionViews.splice(conditionRemovalIndex, 1);
-    },
-
-    /**
-     * Bind condition removal
-     *
-     * @return {void}
-     * @api private
-     */
-
-    _bindInputAddition: function() {
-      var _this = this;
-      this.model.on('add:inputs', function(input) {
-        var row = input.get('row')
-          , view = new InputView(input);
-
-        _this.$('[data-row="' + (row - 1) + '"]').after(view.render());
-        view.setElement('[data-row="' + row + '"]');
-        view.bindDOM();
-
-        _this._inputViews.push(view);
-      });
-    },
-
-    /**
-     * Bind condition removal
-     *
-     * @return {void}
-     * @api private
-     */
-
-    _bindInputRemoval: function() {
-      var _this = this;
-      this.model.on('remove:inputs', function(input) {
-
+      this.listenTo(this.model, 'add:valueGroups', this._renderValueGroupAddition);
+      this.listenTo(this.model, 'remove:valueGroups', this._renderValueGroupRemoval);
+      this._valueGroupViews.forEach(function(valueGroupView) {
+        valueGroupView.bindModel();
       });
     },
 
@@ -425,33 +60,13 @@ define(function(require) {
      */
 
     bindDOM: function() {
-      if(!has.touch) {
-        this._addMouseInteractions();
-      }
-      // We loop through each relation view and try to bind
-      // them with our object
-      this._conditionViews.forEach(function(conditionView) {
-        var conditionSelector = '.condition[data-row="' + conditionView.model.get('row') + '"]';
-        conditionView.setElement(conditionSelector);
-        conditionView.bindDOM();
-        conditionView.firstOperandView.setElement(conditionSelector + ' .condition-first-operand');
-        conditionView.firstOperandView.bindDOM();
-        conditionView.lastOperandView.setElement(conditionSelector + ' .condition-last-operand');
-        conditionView.lastOperandView.bindDOM();
+      this._valueGroupViews.forEach(function(valueGroupView) {
+        valueGroupView.setElement('[data-index="' + valueGroupView.model.get('index') + '"]');
+        valueGroupView.bindDOM();
       });
-      this._inputViews.forEach(function(inputView) {
-        var conditionSelector = '.input[data-row="' + inputView.model.get('row') + '"]';
-        inputView.setElement(conditionSelector);
-        inputView.bindDOM();
-      });
-      if(typeof this._elseView !== 'undefined') {
-        this._elseView.setElement('.condition-else');
-        this._elseView.bindModel();
-      }
 
       this._setElements();
-
-      this.boundDOM = true;
+      this._addMouseInteractions();
     },
 
     /**
@@ -465,8 +80,48 @@ define(function(require) {
       _.bindAll(
         this,
         '_addCondition',
-        '_save'
+        '_save',
+        '_renderValueGroupAddition',
+        '_renderValueGroupRemoval'
       );
+    },
+
+    /**
+     * Render value group addition
+     *
+     * @param {ValueGroup} valueGroup
+     * @return {void}
+     * @api private
+     */
+
+    _renderValueGroupAddition: function(valueGroup) {
+      var index = valueGroup.get('index')
+        , valueGroupView = new ValueGroupView(valueGroup);
+
+      this.$values.prepend(valueGroupView.toHTML());
+      valueGroupView.setElement('.value-group[data-index="' + index + '"]');
+      valueGroupView.bindDOM();
+      valueGroupView.bindModel();
+      this._valueGroupViews.unshift(valueGroupView);
+    },
+
+    /**
+     * Render value group removal
+     *
+     * @param {ValueGroup} valueGroup
+     * @return {void}
+     * @api private
+     */
+
+    _renderValueGroupRemoval: function(valueGroup) {
+      var index = valueGroup.get('index');
+      var valueGroupView = this._valueGroupViews.splice(index, 1)[0];
+      valueGroupView.remove();
+      this.model.get('valueGroups').forEach(function(valueGroup) {
+        if(valueGroup.get('index') > index) {
+          valueGroup.set('index', valueGroup.get('index') - 1);
+        }
+      });
     },
 
     /**
@@ -494,6 +149,7 @@ define(function(require) {
       this.$saveButton = $('.save');
       this.$saveSpinner = $('.save-spinner');
       this.$saveButtonContainer = $('.save-button-container');
+      this.$values = this.$('.localization-values');
     },
 
     /**
@@ -503,60 +159,42 @@ define(function(require) {
      */
 
     _addCondition: function(event) {
-      var _this = this;
+      var _this = this
+        , index = this.model.get('valueGroups').length
+        , firstValueGroup = this.model.get('valueGroups').where({ index: 0 })[0];
+
+      this.model.get('valueGroups').forEach(function(valueGroup) {
+        valueGroup.set('index', valueGroup.get('index') + 1);
+      });
 
       event.preventDefault();
 
-      var _else = this.model.get('else'), row = 0, elseRow, inputRow;
-
-      if(_else) {
-        row = _else.get('row');
-      }
-
-      // We increase the row by two. So it becomes behind the input,
-      // which has a row that is one bigger than inserting row.
-      elseRow = row + 2;
-      inputRow = elseRow + 1;
-
-      var $inputs =
-      $('[data-row="' + row + '"]')
-        .add('[data-row="' + (row + 1) + '"]')
-        .add('[data-row="' + (row + 2) + '"]')
-        .addClass('invisible');
-
-      var data = {
-        statement: row === 0 ? 'if': 'else if',
+      var condition = new Condition({
+        statement: 'if',
         firstOperand: 'value1',
         operator: '==',
         lastOperand: 'value2',
         vars: this.model.get('vars'),
         operators: cf.OPERATORS,
         additionalCompairOperators: cf.ADDITIONAL_COMPAIR_OPERATORS,
-        row: row,
-        localization: this.model
-      };
-
-      new this.model.Condition(data);
-
-      if(_else) {
-        _.defer(function() {
-          _else.set('row', elseRow);
-          new _this.model.Input({ value: '', row: inputRow, localization: _this.model});
-        });
-      }
-      else {
-        _.defer(function() {
-          new _this.model.Else({ row: 2, localization: _this.model });
-          var input = new _this.model.Input({ value: '', row: 3, localization: _this.model});
-        });
-      }
-
-      _.defer(function() {
-        $('[data-row="' + row + '"]')
-          .add('[data-row="' + (row + 1) + '"]')
-          .add('[data-row="' + (row + 2) + '"]')
-          .removeClass('invisible');
+        row: 0
       });
+
+      var input = new Input({ value: '', row: 1 });
+
+      var newValueGroup = new ValueGroup({
+        localization: this.model,
+        index: 0,
+        input: input
+      });
+
+      condition.set('valueGroup', newValueGroup);
+      input.set('valueGroup', newValueGroup);
+
+      if(index === 1) {
+        new Else({ row: 0, valueGroup: firstValueGroup });
+        firstValueGroup.get('input').set('row', 1);
+      }
     },
 
     /**
@@ -602,32 +240,19 @@ define(function(require) {
 
     toHTML: function() {
       var _this = this
-        , html = '', values = []
+        , html = '', values = ''
         , json = this.model.toJSON()
-        , conditions = this.model.get('conditions')
-        , inputs = this.model.get('inputs');
+        , valueGroups = this.model.get('valueGroups');
 
-      // We loop through each relation object to get the HTML. We use `row`
-      // to determine the order of the HTML
-      conditions.forEach(function(condition) {
-        var view = new ConditionView(condition);
-        _this._conditionViews.push(view);
-        values[condition.get('row')] = view.render();
-      });
-      inputs.forEach(function(input, index) {
-        var view = new InputView(input);
-        _this._inputViews.push(view);
-        values[input.get('row')] = view.render();
+      valueGroups.forEach(function(valueGroup) {
+        var valueGroupView = new ValueGroupView(valueGroup);
+        values += valueGroupView.toHTML();
+        if(inClient) {
+          _this._valueGroupViews.push(valueGroupView);
+        }
       });
 
-      // `else` might be null if there is no conditions on localization
-      var _else = this.model.get('else');
-      if(_else) {
-        this._elseView = new ElseView(_else);
-        values[_else.get('row')] = this._elseView.render();
-      }
-
-      json.values = values.join('');
+      json.values = values;
 
       html += template['Localization'](json);
 

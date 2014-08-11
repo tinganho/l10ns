@@ -17,7 +17,7 @@ define(function(require) {
      * @api public
      */
 
-    initialize : function(model) {
+    initialize: function(model) {
       this.model = model;
       if(inClient) {
         this._bindMethods();
@@ -31,9 +31,8 @@ define(function(require) {
      * @api public
      */
 
-    _bindMethods : function() {
+    _bindMethods: function() {
       _.bindAll(this,
-        'render',
         '_updateRow'
       );
     },
@@ -45,7 +44,7 @@ define(function(require) {
      * @api private
      */
 
-    bindModel : function() {
+    bindModel: function() {
       this.model.on('change:row', this._updateRow);
     },
 
@@ -55,7 +54,7 @@ define(function(require) {
      * @delegate
      */
 
-    _updateRow : function() {
+    _updateRow: function() {
       var row = this.model.get('row');
       this.el.dataset.row = row;
       $('[data-row="' + (row - 1) + '"]').after(this.$el);
@@ -68,16 +67,8 @@ define(function(require) {
      * @api public
      */
 
-    render : function() {
-      return this.template(this.model.toJSON());
-    },
-
-    /**
-     * Template
-     *
-     * @type {String}
-     */
-
-    template : template['ConditionElse']
+    toHTML: function() {
+      return template['ConditionElse'](this.model.toJSON());
+    }
   });
 });

@@ -8,7 +8,8 @@ define(function(require) {
     , template = inServer ? content_appTemplates : require('contentTemplates')
     , OperandView = require('./ConditionOperandView')
     , Condition = require('./Condition')
-    , _ = require('underscore');
+    , _ = require('underscore')
+
 
   return View.extend({
 
@@ -19,11 +20,10 @@ define(function(require) {
      * @api public
      */
 
-    initialize : function(model) {
+    initialize: function(model) {
       this.model = model;
       if(inClient) {
         this._bindMethods();
-        this._bindModel();
       }
     },
 
@@ -34,7 +34,7 @@ define(function(require) {
      * @api private
      */
 
-    _setElements : function() {
+    _setElements: function() {
       this.$statement = this.$('.condition-statement');
       this.$operators = this.$('.condition-operators');
       this.$operator = this.$('.condition-operators-value');
@@ -48,10 +48,12 @@ define(function(require) {
      * @api private
      */
 
-    _bindModel : function() {
-      this.model.on('change:operator', this._setOperatorText);
-      this.model.on('change:row', this._updateRow);
-      this.model.on('change:statement', this._updateStatement);
+    bindModel: function() {
+      this.listenTo(this.model, 'change:operator', this._setOperatorText);
+      this.listenTo(this.model, 'change:row', this._updateRow);
+      this.listenTo(this.model, 'change:statement', this._updateStatement);
+      this.firstOperandView.bindModel();
+      this.lastOperandView.bindModel();
     },
 
     /**
@@ -61,7 +63,7 @@ define(function(require) {
      * @api private
      */
 
-    _setOperatorText : function() {
+    _setOperatorText: function() {
       this.$operator.html(this.model.get('operator'));
     },
 
@@ -72,7 +74,7 @@ define(function(require) {
      * @api private
      */
 
-    bindDOM : function() {
+    bindDOM: function() {
       this._setElements();
       this._addMouseInteractions();
     },
@@ -83,7 +85,7 @@ define(function(require) {
      * @delegate
      */
 
-    _onOperatorChange : function() {
+    _onOperatorChange: function() {
       this.$operator.html(this.model.get('operator'));
     },
 
@@ -93,7 +95,7 @@ define(function(require) {
      * @delegate
      */
 
-    _updateRow : function() {
+    _updateRow: function() {
       this.el.dataset.row = this.model.get('row');
     },
 
@@ -103,7 +105,7 @@ define(function(require) {
      * @delegate
      */
 
-    _updateStatement : function() {
+    _updateStatement: function() {
       this.$statement.html(this.model.get('statement'));
     },
 
@@ -114,7 +116,7 @@ define(function(require) {
      * @api private
      */
 
-    _bindMethods : function() {
+    _bindMethods: function() {
       _.bindAll(this,
         'render',
         '_showOperatorsDropDown',
@@ -138,7 +140,7 @@ define(function(require) {
      * @api private
      */
 
-    _addMouseInteractions : function() {
+    _addMouseInteractions: function() {
       this.$el.on('mousedown', '.condition-operators', this._showOperatorsDropDown);
       this.$el.on('mousedown', '.condition-operator', this._setOperator);
       this.$el.on('mousedown', '.condition-then', this._showThenDropDown);
@@ -152,7 +154,7 @@ define(function(require) {
      * @delegate
      */
 
-    _showOperatorsDropDown : function() {
+    _showOperatorsDropDown: function() {
       var _this = this;
 
       this.$operators[0].classList.add('active');
@@ -168,7 +170,7 @@ define(function(require) {
      * @delegate
      */
 
-    _hideOperatorsDropDown : function(event) {
+    _hideOperatorsDropDown: function(event) {
       if(typeof event !== 'undefined') {
         var $parent = $(event.target).parents('.condition-operators');
         if($parent.length > 0 && $parent[0] === this.$operators[0]) {
@@ -191,7 +193,7 @@ define(function(require) {
      * @delegate
      */
 
-    _setOperator : function(event) {
+    _setOperator: function(event) {
       this.model.set('operator', event.currentTarget.dataset.value);
       this._hideOperatorsDropDown();
     },
@@ -202,7 +204,7 @@ define(function(require) {
      * @delegate
      */
 
-    _showThenDropDown : function() {
+    _showThenDropDown: function() {
       var _this = this;
 
       this.$then[0].classList.add('active');
@@ -218,7 +220,7 @@ define(function(require) {
      * @delegate
      */
 
-    _hideThenDropDown : function(event) {
+    _hideThenDropDown: function(event) {
       if(typeof event !== 'undefined') {
         var $parent = $(event.target).parents('.condition-then');
         if($parent.length > 0 && $parent[0] === this.$then[0]) {
@@ -241,21 +243,22 @@ define(function(require) {
      * @delegate
      */
 
-    _addSubCondition : function(event) {
+    _addSubCondition: function(event) {
       var statement = event.currentTarget.dataset.value
-        , data = {
-          statement : statement,
-          firstOperand : 'value1',
-          operator : '==',
-          lastOperand : 'value2',
-          vars : this.model.get('vars'),
-          operators : cf.OPERATORS,
-          additionalCompairOperators : cf.ADDITIONAL_COMPAIR_OPERATORS,
-          row : this.model.get('row') + 1,
-          localization : app.models.localization
-        };
+        , valueGroup = this.model.get('valueGroup')
+        , attributes = {
+            statement: statement,
+            firstOperand: 'value1',
+            operator: '==',
+            lastOperand: 'value2',
+            vars: this.model.get('vars'),
+            operators: cf.OPERATORS,
+            additionalCompairOperators: cf.ADDITIONAL_COMPAIR_OPERATORS,
+            row: this.model.get('row') + 1,
+            valueGroup: valueGroup
+          };
 
-      var condition = new app.models.localization.Condition(data);
+      var condition = new valueGroup.Condition(attributes);
 
       this._hideThenDropDown();
     },
@@ -266,7 +269,7 @@ define(function(require) {
      * @delegate
      */
 
-    _removeCondition : function() {
+    _removeCondition: function() {
       this.model.destroy();
     },
 
@@ -277,7 +280,7 @@ define(function(require) {
      * @api public
      */
 
-    render : function() {
+    toHTML: function() {
       var json = this.model.toJSON();
 
       // We set this as object properties so we can access them outside.
@@ -286,8 +289,8 @@ define(function(require) {
       // to bind the DOM with the object.
       this.firstOperandView = new OperandView(this.model.get('firstOperand'));
       this.lastOperandView = new OperandView(this.model.get('lastOperand'));
-      json.firstOperand = this.firstOperandView.render();
-      json.lastOperand = this.lastOperandView.render();
+      json.firstOperand = this.firstOperandView.toHTML();
+      json.lastOperand = this.lastOperandView.toHTML();
 
       // We need to convert symbols from `&&` and `||` to `and` and `or`
       // so that non-programmers understand the meaning of `&&` and `||`
@@ -298,15 +301,7 @@ define(function(require) {
         json.statement = 'or';
       }
 
-      return this.template(json);
-    },
-
-    /**
-     * Template
-     *
-     * @type {String}
-     */
-
-    template : template['Condition']
+      return template['Condition'](json);
+    }
   });
 });

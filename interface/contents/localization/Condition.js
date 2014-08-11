@@ -24,6 +24,34 @@ define(function(require) {
       this._parse(json);
     },
 
+
+    /**
+     * Relations
+     *
+     * @type {Object}
+     */
+
+    relations : [
+      {
+        type: 'HasOne',
+        key: 'firstOperand',
+        relatedModel: FirstOperand,
+        reverseRelation: {
+          key: 'condition',
+          includeInJSON: 'value'
+        }
+      },
+      {
+        type: 'HasOne',
+        key: 'lastOperand',
+        relatedModel: LastOperand,
+        reverseRelation: {
+          key: 'condition',
+          includeInJSON: 'value'
+        }
+      }
+    ],
+
     /**
      * Parse raw data
      *
@@ -44,31 +72,7 @@ define(function(require) {
         order : 'last',
         condition : this
       }));
-    },
+    }
 
-    /**
-     * Relations
-     *
-     * @type {Object}
-     */
-
-    relations : [{
-      type: 'HasOne',
-      key: 'firstOperand',
-      relatedModel: FirstOperand,
-      reverseRelation: {
-        key: 'condition',
-        includeInJSON: 'value'
-      }
-    },
-    {
-      type: 'HasOne',
-      key: 'lastOperand',
-      relatedModel: LastOperand,
-      reverseRelation: {
-        key: 'condition',
-        includeInJSON: 'value'
-      }
-    }]
   });
 });

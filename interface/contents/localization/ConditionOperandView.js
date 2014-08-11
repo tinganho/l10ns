@@ -17,11 +17,10 @@ define(function(require) {
      * @api public
      */
 
-    initialize : function(model) {
+    initialize: function(model) {
       this.model = model;
       if(inClient) {
         this._bindMethods();
-        this._bindModel();
       }
     },
 
@@ -32,7 +31,7 @@ define(function(require) {
      * @api public
      */
 
-    bindDOM : function() {
+    bindDOM: function() {
       this._setElements();
       this._addMouseInteractions();
     },
@@ -44,7 +43,7 @@ define(function(require) {
      * @api private
      */
 
-    _bindModel : function() {
+    bindModel: function() {
       this.model.on('change:value', this._onValueChange);
     },
 
@@ -54,7 +53,7 @@ define(function(require) {
      * @delegate
      */
 
-    _onValueChange : function() {
+    _onValueChange: function() {
       this.$('.checked').removeClass('checked');
       if(this.model.get('vars').indexOf(this.model.get('value')) !== -1) {
         var selector = '.condition-variable-operand[data-value="' + this.model.get('value') + '"]';
@@ -75,7 +74,7 @@ define(function(require) {
      * @api private
      */
 
-    _setElements : function() {
+    _setElements: function() {
       this.$customVarInput = this.$('.js-condition-custom-operand-input');
       this.$value = this.$('.condition-value');
     },
@@ -87,7 +86,7 @@ define(function(require) {
      * @api private
      */
 
-    _bindMethods : function() {
+    _bindMethods: function() {
       _.bindAll(this,
         'render',
         '_showDropDown',
@@ -107,7 +106,7 @@ define(function(require) {
      * @api private
      */
 
-    _addMouseInteractions : function() {
+    _addMouseInteractions: function() {
       this.$el.on('mousedown', this._showDropDown);
       this.$customVarInput.on('keydown', this._setCustomVar);
       this.$customVarInput.on('blur', this._addSelectAllTextHandler);
@@ -119,7 +118,7 @@ define(function(require) {
      * @delegate
      */
 
-    _setOperand : function(event) {
+    _setOperand: function(event) {
       this.model.set('value', event.currentTarget.getAttribute('data-value'));
       this._hideDropDown();
     },
@@ -132,7 +131,7 @@ define(function(require) {
      * @delegate
      */
 
-    _addSelectAllTextHandler : function() {
+    _addSelectAllTextHandler: function() {
       this.$customVarInput.on('mouseup', this._selectAllText);
     },
 
@@ -142,7 +141,7 @@ define(function(require) {
      * @delegate
      */
 
-    _showDropDown : function(event) {
+    _showDropDown: function(event) {
       var _this = this;
 
       this.el.classList.add('active');
@@ -162,7 +161,7 @@ define(function(require) {
      * @delegate
      */
 
-    _hideDropDown : function(event) {
+    _hideDropDown: function(event) {
       if(typeof event !== 'undefined') {
         var $parent = $(event.target).parents('.condition-operand');
         if($parent.length > 0 && $parent[0] === this.$el[0]) {
@@ -188,7 +187,7 @@ define(function(require) {
      * @delegate
      */
 
-    _setCustomVar : function(event) {
+    _setCustomVar: function(event) {
       if(event.keyCode === 13) {
         this.model.set('value', this.$customVarInput.val());
         this._hideDropDown();
@@ -202,7 +201,7 @@ define(function(require) {
      * @delegate
      */
 
-    _selectAllText : function(event) {
+    _selectAllText: function(event) {
       var _this = this;
 
       this.$customVarInput.select();
@@ -219,16 +218,8 @@ define(function(require) {
      * @api public
      */
 
-    render : function() {
-      return this.template(this.model.toJSON());
-    },
-
-    /**
-     * Template
-     *
-     * @type {String}
-     */
-
-    template : template['ConditionOperand']
+    toHTML: function() {
+      return template['ConditionOperand'](this.model.toJSON());
+    }
   });
 });

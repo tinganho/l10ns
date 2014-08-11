@@ -1,0 +1,7 @@
+<!--
+
+Confition group
+
+!-->
+
+<div class="value-group" data-index="{{=it.index}}">{{=it.values}}</div>

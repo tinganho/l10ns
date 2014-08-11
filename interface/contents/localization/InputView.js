@@ -5,7 +5,7 @@ if(typeof define !== 'function') {
 
 define(function(require) {
   var View = inServer ? require('../../libraries/View') : require('View')
-    , template = inServer ? content_appTemplates : require('contentTemplates')
+    , template = inServer ? content_appTemplates: require('contentTemplates')
     , _ = require('underscore');
 
   return View.extend({
@@ -17,11 +17,10 @@ define(function(require) {
      * @api public
      */
 
-    initialize : function(model) {
+    initialize: function(model) {
       this.model = model;
       if(inClient) {
         this._bindMethods();
-        this._bindModel();
       }
     },
 
@@ -32,7 +31,7 @@ define(function(require) {
      * @api public
      */
 
-    bindDOM : function() {
+    bindDOM: function() {
       this._addMouseInteractions();
     },
 
@@ -43,7 +42,7 @@ define(function(require) {
      * @api public
      */
 
-    _bindMethods : function() {
+    _bindMethods: function() {
       _.bindAll(this,
         'render',
         '_setValue',
@@ -60,7 +59,7 @@ define(function(require) {
      * @api private
      */
 
-    _bindModel : function() {
+    bindModel: function() {
       this.model.on('change:row', this._updateRow);
     },
 
@@ -71,7 +70,7 @@ define(function(require) {
      * @api private
      */
 
-    _addMouseInteractions : function() {
+    _addMouseInteractions: function() {
       this._addSelectAllTextHandler();
       this.$el.on('blur', this._addSelectAllTextHandler);
       this.$el.on('keyup', this._setValue);
@@ -85,7 +84,7 @@ define(function(require) {
      * @delegate
      */
 
-    _addSelectAllTextHandler : function() {
+    _addSelectAllTextHandler: function() {
       this.$el.on('mouseup', this._selectAllText);
     },
 
@@ -95,7 +94,7 @@ define(function(require) {
      * @delegate
      */
 
-    _selectAllText : function(event) {
+    _selectAllText: function(event) {
       var _this = this;
 
       this.$el.select();
@@ -111,7 +110,7 @@ define(function(require) {
      * @delegate
      */
 
-    _updateRow : function() {
+    _updateRow: function() {
       this.el.dataset.row = this.model.get('row');
     },
 
@@ -121,7 +120,7 @@ define(function(require) {
      * @delegate
      */
 
-    _setValue : function() {
+    _setValue: function() {
       this.model.set('value', this.$el.val());
     },
 
@@ -132,7 +131,7 @@ define(function(require) {
      * @api public
      */
 
-    render : function() {
+    toHTML: function() {
       return this.template(this.model.toJSON());
     },
 
@@ -142,6 +141,6 @@ define(function(require) {
      * @type {String}
      */
 
-    template : template['Input']
+    template: template['Input']
   });
 });
