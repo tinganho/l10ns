@@ -9,6 +9,7 @@ var fs = require('fs')
   , template = require('./templates/build/templates')
   , file = require('../../libraries/file')
   , log = require('../../libraries/_log')
+  , mkdirp = require('mkdirp')
   , defer = require('q').defer;
 
 /**
@@ -59,7 +60,10 @@ Compiler.prototype.run = function() {
             localizationMap: localizationMap,
             functions: _this.indentSpaces(2, template.functions())
           });
-          fs.writeFileSync(project.output + '/' + locale + '.js', content);
+          mkdirp(project.output, function(error) {
+            if(error) throw error;
+            fs.writeFileSync(project.output + '/' + locale + '.js', content);
+          });
         })
         .fail(function(error) {
           if(commands.stack && error && error.stack) {

@@ -3,6 +3,7 @@ var dependencies = {
   'fs': {},
   'path': {},
   'q': {},
+  'mkdirp': {},
   './syntax': {},
   '../../libraries/file': {},
   '../../libraries/_log': {}
@@ -53,6 +54,7 @@ describe('Compiler', function() {
       it('should get localization map', function() {
         project.locales = { 'locale-code-1': 'locale-name-1' };
         dependencies.fs.writeFileSync = spy();
+        dependencies.mkdirp = stub().withArgs(project.output).callsArgWith(1, null);
         var compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor);
         compiler._getLocalizationMap = stub().returns(resolvesTo('localization-map'));
         compiler.run();
@@ -63,6 +65,7 @@ describe('Compiler', function() {
         project.locales = { 'locale-code-1': 'locale-name-1' };
         project.output = 'output-folder';
         dependencies.fs.writeFileSync = spy();
+        dependencies.mkdirp = stub().withArgs(project.output).callsArgWith(1, null);
         var compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor);
         compiler._getLocalizationMap = stub().returns(resolvesTo('localization-map'));
         compiler.run();
@@ -73,10 +76,25 @@ describe('Compiler', function() {
         });
       });
 
+      it('if output folder does not exists it should create it', function(done) {
+        project.locales = { 'locale-code-1': 'locale-name-1' };
+        project.output = 'output-folder';
+        dependencies.mkdirp = stub();
+        var compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor);
+        compiler._getLocalizationMap = stub().returns(resolvesTo('localization-map'));
+        compiler.run();
+        eventually(function() {
+          dependencies.mkdirp.should.have.been.calledOnce;
+          dependencies.mkdirp.should.have.been.calledWith(project.output);
+          done();
+        });
+      });
+
       it('should write a localization function', function() {
         project.locales = { 'locale-code-1': 'locale-name-1' };
         project.output = 'output-folder';
         dependencies.fs.writeFileSync = spy();
+        dependencies.mkdirp = stub().withArgs(project.output).callsArgWith(1, null);
         var compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor);
         compiler._getLocalizationMap = stub().returns(resolvesTo('localization-map'));
         compiler.run();
