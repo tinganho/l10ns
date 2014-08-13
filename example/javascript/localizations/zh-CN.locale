@@ -1,7 +1,7 @@
 {
   "id": "XjddxLrksG",
   "key": "lo\\'\\\"cale1",
-  "vars": [],
+  "variables": [],
   "text": "lo\\'\"cale1",
   "files": [
     "example/javascript/example.js"
@@ -14,7 +14,7 @@
 {
   "id": "5oBBq7Gouo",
   "key": "locale2",
-  "vars": [],
+  "variables": [],
   "text": "locale2",
   "files": [
     "example/javascript/example.js"

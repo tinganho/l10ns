@@ -7,13 +7,13 @@ define(function(require) {
   var Model = inServer ? require('../../libraries/Model') : require('Model');
 
   return Model.extend({
-    defaults : {
-      key : null,
-      value : [],
-      vars : [],
-      text : '',
-      timestamp : null,
-      _new : false
+    defaults: {
+      key: null,
+      value: [],
+      variables: [],
+      text: '',
+      timestamp: null,
+      new: false
     }
   });
 });

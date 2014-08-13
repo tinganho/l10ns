@@ -6,24 +6,10 @@ if(typeof define !== 'function') {
 define(function(require) {
   var Model = inServer ? require('../../libraries/Model') : require('Model')
     , Operand = require('./ConditionOperand')
-    , OperandView = require('./ConditionOperandView')
     , FirstOperand = Operand.extend()
     , LastOperand = Operand.extend();
 
-  return Model.extend({
-
-    /**
-     * Initializer.
-     *
-     * @param {Object}
-     * @return {void}
-     * @api public
-     */
-
-    initialize : function(json) {
-      this._parse(json);
-    },
-
+  var Constructor = Model.extend({
 
     /**
      * Relations
@@ -31,7 +17,7 @@ define(function(require) {
      * @type {Object}
      */
 
-    relations : [
+    relations: [
       {
         type: 'HasOne',
         key: 'firstOperand',
@@ -53,26 +39,30 @@ define(function(require) {
     ],
 
     /**
-     * Parse raw data
+     * To l10ns JSON
      *
-     * @returns {void}
-     * @api private
+     * @extends toJSON
+     * @return {Array}
+     *
+     *   Example:
+     *
+     *     ['if', '${variable1}', '===', '1']
+     *
+     * @api public
      */
 
-    _parse : function(json) {
-      this.set('firstOperand', new FirstOperand({
-        value : json.firstOperand,
-        vars : json.vars,
-        order : 'first',
-        condition : this
-      }));
-      this.set('lastOperand', new LastOperand({
-        value : json.lastOperand,
-        vars : json.vars,
-        order : 'last',
-        condition : this
-      }));
+    toL10nsJSON: function() {
+     var json = Model.prototype.toJSON.call(this);
+     return [json.statement, json.firstOperand.value, json.operator, json.lastOperand.value];
     }
-
   });
+
+  /**
+   * Constructors
+   */
+
+  Constructor.prototype.FirstOperand = FirstOperand;
+  Constructor.prototype.LastOperand = LastOperand;
+
+  return Constructor;
 });

@@ -44,7 +44,7 @@ define(function(require) {
         collectionType: ValueGroups,
         reverseRelation: {
           key: 'localization',
-          includeInJSON: 'id'
+          includeInJSON: false
         }
       }
     ],
@@ -57,8 +57,9 @@ define(function(require) {
      * @api private
      */
 
-    _parseValues: function(values, vars) {
+    _parseValues: function(values, variables) {
       var valueGroup, index = 0;
+
       if(values.length <= 1) {
         valueGroup = new ValueGroup({
           localization: this,
@@ -72,7 +73,7 @@ define(function(require) {
         });
       }
       var row = 0;
-      for(var i = 0; i<values.length; i++) {
+      for(var i = 0; i < values.length; i++) {
         if(values[i].length > 2) {
           var y = 0;
 
@@ -84,16 +85,28 @@ define(function(require) {
           index++;
 
           while(typeof values[i][y] !== 'undefined') {
-            new Condition({
+            var condition = new Condition({
               statement: values[i][y],
-              firstOperand: values[i][y + 1],
               operator: values[i][y + 2],
               operators: cf.OPERATORS,
-              lastOperand: values[i][y + 3],
               additionalCompairOperators: cf.ADDITIONAL_COMPAIR_OPERATORS,
-              vars: vars,
+              variables: variables,
               row: row,
               valueGroup: valueGroup
+            });
+
+            new condition.FirstOperand({
+              value: values[i][y + 1],
+              variables: variables,
+              order: 'first',
+              condition: condition
+            });
+
+            new condition.LastOperand({
+              value: values[i][y + 3],
+              variables: variables,
+              order: 'last',
+              condition: condition
             });
 
             row++;
@@ -112,18 +125,7 @@ define(function(require) {
               valueGroup: valueGroup
             });
 
-            valueGroup = new ValueGroup({
-              localization: this,
-              index: index
-            });
-
-            row = 0;
-
-            index++;
-
             y += 5;
-
-            row++;
           }
         }
         else {
@@ -157,7 +159,7 @@ define(function(require) {
      */
 
     _parse: function(json) {
-      this._parseValues(json.values, json.vars);
+      this._parseValues(json.values, json.variables);
 
       this.set(json);
 
@@ -173,17 +175,16 @@ define(function(require) {
     defaults: {
       key: null,
       values: [],
-      vars: [],
+      variables: [],
       text: '',
       timestamp: null,
-      _new: false,
+      new: false,
 
       i18n_variables: 'VARIABLES',
       i18n_value: 'VALUE',
       i18n_none: 'None',
       i18n_save: 'Save',
-      i18n_addCondition: 'Add condition',
-      variables: null
+      i18n_addCondition: 'Add condition'
     },
 
     /**
@@ -244,7 +245,7 @@ define(function(require) {
         }
       }
       else if(method === 'update') {
-        var json = this.toGTStandardJSON();
+        var json = this.toL10nsJSON();
         request
           .put('/api/' + app.locale + '/l/' + id)
           .send(json)
@@ -289,83 +290,36 @@ define(function(require) {
      * @override
      */
 
-    toGTStandardJSON: function() {
-      var json = Model.prototype.toJSON.call(this);
+    toL10nsJSON: function() {
+      var json = Model.prototype.toJSON.call(this)
+        , values = [];
 
-      // First step: We store an array representation of the objects.
-      // We also order them according to the `row` property.
-      var firstValues = [];
-      this.get('inputs').forEach(function(input) {
-        firstValues[input.get('row')] = [input.get('value')];
-      });
-      this.get('conditions').forEach(function(condition) {
-        firstValues[condition.get('row')] = [
-          condition.get('statement'),
-          condition.get('firstOperand').get('value'),
-          condition.get('operator'),
-          condition.get('lastOperand').get('value')
-        ];
-      });
-      var _else = this.get('else');
-      if(_else) {
-        firstValues[_else.get('row')] = ['else'];
-      }
-
-      // Second step: We concatinate the arrays that have two or more
-      // conditions in a row.
-      var secondValues = [], currentValue = [], lastWasInput = false;
-      firstValues.forEach(function(value) {
-        // Check if condition. Condition have a length bigger than zero
-        // because it consist of an array [STATEMENT, FIRST_OPERAND,...]
-        if(value.length > 1) {
-          if(!lastWasInput) {
-            currentValue = currentValue.concat(value);
-          }
-          else {
-            currentValue = value;
-          }
-
-          lastWasInput = false;
-        }
-        else if(value[0] === 'else') {
-          currentValue = value;
-          lastWasInput = false;
-        }
-        else {
-          currentValue = currentValue.concat(value)
-          secondValues.push(currentValue);
-          lastWasInput = true;
-        }
+      this.get('valueGroups').forEach(function(valueGroup) {
+        values[valueGroup.get('index')] = valueGroup.toL10nsJSON();
       });
 
-      // We want [[value]] to be just [value]
-      if(secondValues.length === 1 && secondValues[0].length === 1) {
-        secondValues = [secondValues[0][0]];
-        json.text = secondValues[0];
-      }
-      else {
-        var values = secondValues.map(function(value) {
-          return _.last(value);
-        });
-        json.text = values.join('\n');
-      }
+      json.values = values;
 
-      json.values = secondValues;
+      json = this._removeJSONLocalizedStrings(json);
 
-      // Delete translation. It is unnecessary that these travels
-      // through the network and they also don't represent properties
-      // of the GT Standard
+      return json;
+    },
+
+    /**
+     * Remove JSON localizaed strings
+     *
+     * @param {JSON} json
+     * @return {JSON}
+     * @api private
+     */
+
+    _removeJSONLocalizedStrings: function(json) {
       delete json.i18n_addCondition;
       delete json.i18n_none;
       delete json.i18n_save;
       delete json.i18n_value;
       delete json.i18n_variables;
-      delete json.conditions;
-      delete json.inputs;
-      delete json.else;
-
-      // Override current values
-      json.values = secondValues;
+      delete json.valueGroups;
 
       return json;
     }

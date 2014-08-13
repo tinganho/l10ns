@@ -1,20 +1,39 @@
 {
-  "id": "XjddxLrksG",
   "key": "lo\\'\\\"cale1",
-  "vars": [],
+  "values": [
+    [
+      "if",
+      "efwwefwef",
+      "==",
+      "value2",
+      ""
+    ],
+    [
+      "else if",
+      "fewwfeewf",
+      "==",
+      "value2",
+      ""
+    ],
+    [
+      "else",
+      ""
+    ]
+  ],
+  "variables": [],
   "text": "lo\\'\"cale1",
+  "timestamp": 1407396701233,
+  "new": false,
+  "id": "XjddxLrksG",
   "files": [
     "example/javascript/example.js"
-  ],
-  "values": [],
-  "timestamp": 1407396701233,
-  "new": false
+  ]
 }
 
 {
   "id": "5oBBq7Gouo",
   "key": "locale2",
-  "vars": [],
+  "variables": [],
   "text": "locale2",
   "files": [
     "example/javascript/example.js"

@@ -129,21 +129,21 @@ Update.prototype.getNewLocalizations = function() {
         if(calls !== null) {
           calls.forEach(function(call) {
             var key  = parser.getKey(call)
-              , vars = parser.getVars(call);
+              , variables = parser.getVariables(call);
             if(!(key in newLocalizations)) {
               newLocalizations[key] = {};
               newLocalizations[key].id = hashids.encrypt(now, hashCount);
               newLocalizations[key].key = key;
-              newLocalizations[key].vars = vars;
+              newLocalizations[key].variables = variables;
               newLocalizations[key].text = key;
               newLocalizations[key].files = [file];
               hashCount++;
             }
             else {
-              if(syntax.hasErrorDuplicate(newLocalizations, key, vars)) {
+              if(syntax.hasErrorDuplicate(newLocalizations, key, variables)) {
                 rejected = true;
                 return deferred.reject(new TypeError('You have defined a localization key ('
-                  + key + ') with different vars.\n In file:' + file));
+                  + key + ') with different variables.\n In file:' + file));
               }
               newLocalizations[key].files.push(file);
             }

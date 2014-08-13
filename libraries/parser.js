@@ -32,7 +32,7 @@ Parser.prototype.getKey = function(fn) {
  * @api public
  */
 
-Parser.prototype.getVars = function(fn) {
+Parser.prototype.getVariables = function(fn) {
   language.LOCALIZATION_VARIABLES_SYNTAX.lastIndex = 0;
   var obj = language.LOCALIZATION_VARIABLES_SYNTAX.exec(fn);
 

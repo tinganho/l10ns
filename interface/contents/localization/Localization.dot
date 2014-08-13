@@ -9,8 +9,8 @@
     <div class="localization-variables">
       <label class="localization-sub-title">{{=it.i18n_variables}}</label>
       <ul class="localization-variables-list">
-      {{?it.vars.length > 0}}
-        {{~it.vars :variable:index}}
+      {{?it.variables.length > 0}}
+        {{~it.variables :variable:index}}
           <li class="localization-variable">{{=variable}}</li>
         {{~}}
       {{??}}

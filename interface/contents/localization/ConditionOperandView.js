@@ -55,7 +55,7 @@ define(function(require) {
 
     _onValueChange: function() {
       this.$('.checked').removeClass('checked');
-      if(this.model.get('vars').indexOf(this.model.get('value')) !== -1) {
+      if(this.model.get('variables').indexOf(this.model.get('value')) !== -1) {
         var selector = '.condition-variable-operand[data-value="' + this.model.get('value') + '"]';
         this.el.querySelector(selector).classList.add('checked');
         this.$customVarInput.val('');

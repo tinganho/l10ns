@@ -171,13 +171,25 @@ define(function(require) {
 
       var condition = new Condition({
         statement: 'if',
-        firstOperand: 'value1',
         operator: '==',
-        lastOperand: 'value2',
-        vars: this.model.get('vars'),
+        variables: [],
         operators: cf.OPERATORS,
         additionalCompairOperators: cf.ADDITIONAL_COMPAIR_OPERATORS,
         row: 0
+      });
+
+      new condition.FirstOperand({
+        value: 'value1',
+        variables: [],
+        order: 'first',
+        condition: condition
+      });
+
+      new condition.LastOperand({
+        value: 'value2',
+        variables: [],
+        order: 'last',
+        condition: condition
       });
 
       var input = new Input({ value: '', row: 1 });
@@ -189,7 +201,6 @@ define(function(require) {
       });
 
       condition.set('valueGroup', newValueGroup);
-      input.set('valueGroup', newValueGroup);
 
       if(index === 1) {
         new Else({ row: 0, valueGroup: firstValueGroup });

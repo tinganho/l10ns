@@ -52,7 +52,37 @@ define(function(require) {
           includeInJSON: 'id'
         }
       }
-    ]
+    ],
+
+    /**
+     * To l10ns JSON
+     *
+     * @extends toJSON
+     * @return {Array}
+     *
+     *   Example:
+     *
+     *     ['if', '${variable1}', '===', '1']
+     *
+     * @api public
+     */
+
+    toL10nsJSON: function() {
+      var value = [];
+
+      this.get('conditions').forEach(function(condition) {
+        value = value.concat(condition.toL10nsJSON());
+      });
+
+      var _else = this.get('else');
+      if(_else) {
+        value = value.concat(['else']);
+      }
+
+      value = value.concat(this.get('input').toL10nsJSON());
+
+      return value;
+    }
   });
 
   /**
