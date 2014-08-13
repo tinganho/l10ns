@@ -184,7 +184,7 @@ describe('Update', function() {
         dependencies['fs'].readFile = stub();
         dependencies['fs'].readFile.callsArgWith(2, null, '');
         dependencies['./parser'].getKey = stub().returns('SOME_KEY');
-        dependencies['./parser'].getVars = stub().returns(['test1', 'test2']);
+        dependencies['./parser'].getVariables = stub().returns(['test1', 'test2']);
         var Hashids = function() {}
         Hashids.prototype.encrypt = function() {};
         dependencies['hashids'] = Hashids;
@@ -195,13 +195,13 @@ describe('Update', function() {
         eventually(function() {
           dependencies['./parser'].getKey.should.have.been.calledOnce;
           dependencies['./parser'].getKey.should.have.been.calledWith('l(\'SOME_KEY\')');
-          dependencies['./parser'].getVars.should.have.been.calledOnce;
-          dependencies['./parser'].getVars.should.have.been.calledWith('l(\'SOME_KEY\')');
+          dependencies['./parser'].getVariables.should.have.been.calledOnce;
+          dependencies['./parser'].getVariables.should.have.been.calledWith('l(\'SOME_KEY\')');
           done();
         });
       });
 
-      it('set properties id, key, vars, text, files', function(done) {
+      it('set properties id, key, variables, text, files', function(done) {
         project.source = ['file1'];
         var deferred = {};
         deferred.resolve = spy();
@@ -213,7 +213,7 @@ describe('Update', function() {
         dependencies['fs'].readFile = stub();
         dependencies['fs'].readFile.callsArgWith(2, null, '');
         dependencies['./parser'].getKey = stub().returns('SOME_KEY');
-        dependencies['./parser'].getVars = stub().returns(['test1', 'test2']);
+        dependencies['./parser'].getVariables = stub().returns(['test1', 'test2']);
         var Hashids = function() {}
         Hashids.prototype.encrypt = stub().returns('id');
         dependencies['hashids'] = Hashids;
@@ -226,7 +226,7 @@ describe('Update', function() {
           deferred.resolve.should.have.been.calledWith({ SOME_KEY: {
             id: 'id',
             key: 'SOME_KEY',
-            vars: ['test1', 'test2'],
+            variables: ['test1', 'test2'],
             text: 'SOME_KEY',
             files: ['file1'] }});
           done();
@@ -244,7 +244,7 @@ describe('Update', function() {
         });
         dependencies['fs'].readFileSync = function() {};
         dependencies['./parser'].getKey = stub().returns('SOME_KEY');
-        dependencies['./parser'].getVars = stub().returns(['test1', 'test2']);
+        dependencies['./parser'].getVariables = stub().returns(['test1', 'test2']);
         dependencies['./syntax'].hasErrorDuplicate = stub().returns(false);
         var Hashids = function() {}
         Hashids.prototype.encrypt = stub().returns('id');
@@ -258,7 +258,7 @@ describe('Update', function() {
           deferred.resolve.should.have.been.calledWith({ SOME_KEY: {
             id: 'id',
             key: 'SOME_KEY',
-            vars: ['test1', 'test2'],
+            variables: ['test1', 'test2'],
             text: 'SOME_KEY',
             files: ['file1', 'file2'] }});
           done();
@@ -276,9 +276,9 @@ describe('Update', function() {
         });
         dependencies['fs'].readFileSync = function() {};
         dependencies['./parser'].getKey = stub().returns('SOME_KEY');
-        dependencies['./parser'].getVars = stub();
-        dependencies['./parser'].getVars.onCall(0).returns(['test1']);
-        dependencies['./parser'].getVars.onCall(1).returns(['test1', 'test2']);
+        dependencies['./parser'].getVariables = stub();
+        dependencies['./parser'].getVariables.onCall(0).returns(['test1']);
+        dependencies['./parser'].getVariables.onCall(1).returns(['test1', 'test2']);
         dependencies['./syntax'].hasErrorDuplicate = stub().returns(true);
         var Hashids = function() {}
         Hashids.prototype.encrypt = stub().returns('id');
@@ -289,7 +289,7 @@ describe('Update', function() {
         update.getNewLocalizations();
         eventually(function() {
           deferred.reject.should.have.been.calledOnce;
-          expect(deferred.reject.args[0][0].message).to.contain('You have defined a localization key (SOME_KEY) with different vars');
+          expect(deferred.reject.args[0][0].message).to.contain('You have defined a localization key (SOME_KEY) with different variables');
           done();
         });
       });
