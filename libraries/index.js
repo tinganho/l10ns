@@ -168,7 +168,7 @@ CLI.prototype._setProjectSource = function(project) {
     }
   }
   if(!source.length) {
-    console.log('No files found. \n(Have you updated your l10ns.json to include your source file and ran `gt update` yet?)');
+    console.log('No files found. \n(Have you updated your l10ns.json to include your source file and ran `l10ns update` yet?)');
   }
 
   project.source = source;
