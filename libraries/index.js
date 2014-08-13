@@ -211,7 +211,7 @@ CLI.prototype.init = function() {
  */
 
 CLI.prototype.set = function(key, value, locale) {
-  set.run(key, value, locale);
+  set.run(key, value, locale || project.defaultLocale);
 };
 
 /**
