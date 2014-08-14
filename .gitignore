@@ -4,7 +4,6 @@ node_modules/
 test/translations/delete.log
 .sass-cache/
 .l10ns/
-example/output/
 docs/
 interface/public/images/default-*
 interface/public/images/default2x-*
@@ -13,8 +12,6 @@ interface/public/styles/
 interface/public/scripts/
 interface/public/templates/**/*
 interface/vendor/**/*
-test/translations/cache/latestSearch.json
-test/translations/output/
 
 app/page/document/build/
 app/page/layout/build/
