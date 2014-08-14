@@ -1,22 +1,31 @@
 ;(function() {
   var localizations = {
-    'locale1': function anonymous(it) {
-      if(lci('variable1', '1')) {
-        return 'value1';
-      } else {
-        return 'value2';
+    'en-US': {
+      'locale1': function anonymous(it) {
+        if(lci('variable1', '1')) {
+          return 'value1';
+        } else {
+          return 'value2';
+        }
+      },
+      'locale2': function anonymous(it) {
+        return 'value3';
       }
-    },
-    'locale2': function anonymous(it) {
-      return 'value3';
     }
   };
 
-  function l(key) {
-    if(!(key in localizations)) {
-      return 'KEY_NOT_IN_SOURCE: ' + key;
-    }
-    return localizations[key].call(undefined, arguments[1]);
+  function requireLocale(locale) {
+    return (function(locale) {
+      return function l(key) {
+        if(!(locale in localizations)) {
+          return 'LOCALE_NOT_IN_LOCALIZATIONS: ' + locale;
+        }
+        if(!(key in localizations[locale])) {
+          return 'KEY_NOT_IN_LOCALIZATIONS: ' + key;
+        }
+        return localizations[locale][key].call(undefined, arguments[1]);
+      };
+    })(locale);
   };
 
   function lci(operand1, operand2) {
@@ -27,14 +36,14 @@
   };
 
   if(typeof require === "function" && typeof exports === 'object' && typeof module === 'object') {
-    module.exports = l;
+    module.exports = requireLocale;
   }
   else if (typeof define === "function" && define.amd) {
     define(function() {
-      return l;
+      return requireLocale;
     });
   }
   else {
-    window.l = l;
+    window.requireLocale = requireLocale;
   }
 })();

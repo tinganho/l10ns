@@ -68,7 +68,7 @@ describe('Compiler', function() {
         compiler.run();
         eventually(function() {
           dependencies.fs.writeFileSync.should.have.been.calledOnce;
-          dependencies.fs.writeFileSync.should.have.been.calledWith(project.output + '/locale-code-1' + '.js');
+          dependencies.fs.writeFileSync.should.have.been.calledWith(project.output + '/localizations' + '.js');
           done();
         });
       });
@@ -153,14 +153,14 @@ describe('Compiler', function() {
       it('should resolve to a localization map', function(done) {
         var deferred = { resolve: spy() };
         dependencies.q.defer = stub().returns(deferred);
-        var localizations = { 'key1': {}};
+        var localizations = { 'locale1': {'key1': {}}};
         dependencies['../../libraries/file'].readLocalizations = stub().withArgs('locale1').returns(resolvesTo(localizations));
         var compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor);
         compiler._getFunctionBodyString = stub().returns('function-string');
-        compiler._getLocalizationMap('locale1');
+        compiler._getLocalizationMap();
         eventually(function() {
           deferred.resolve.should.have.been.calledOnce;
-          deferred.resolve.should.have.been.calledWith('  var localizations = {\n    \'key1\': function-string\n  };\n  ');
+          deferred.resolve.should.have.been.calledWith('  var localizations = {\n    \'locale1\': {\n      \'key1\': function-string\n    }\n  };\n  ');
           done();
         });
       });

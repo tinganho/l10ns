@@ -2,11 +2,13 @@
   "id": "XjddxLrksG",
   "key": "lo\\'\\\"cale1",
   "vars": [],
-  "text": "lo\\'\"cale1",
+  "text": "hej",
   "files": [
     "example/javascript/example.js"
   ],
-  "values": [],
+  "values": [
+    "hej"
+  ],
   "timestamp": 1407396701233,
   "new": false
 }

@@ -200,7 +200,7 @@ commands
 
     cli.initialize()
       .then(function() {
-        cli.set(reference, value, this.locale);
+        cli.set(reference, value, commands.locale);
       })
       .fail(function(error) {
         if(commands.stack && error) {

@@ -3,14 +3,14 @@
 {{=it.functions}}
 
   if(typeof require === "function" && typeof exports === 'object' && typeof module === 'object') {
-    module.exports = l;
+    module.exports = requireLocale;
   }
   else if (typeof define === "function" && define.amd) {
     define(function() {
-      return l;
+      return requireLocale;
     });
   }
   else {
-    window.{{=it.functionName}} = l;
+    window.requireLocale = requireLocale;
   }
 })();

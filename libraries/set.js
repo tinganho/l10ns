@@ -30,6 +30,8 @@ function Set() {}
 Set.prototype.run = function(reference, value, locale) {
   var _this = this, key;
 
+  locale = locale || project.defaultLocale;
+
   if(typeof reference !== 'string') {
     return log.error('You must reference a translation. Either using a translation key or tag.');
   }
