@@ -6,18 +6,23 @@
       "value1",
       "==",
       "value2",
-      "feweefef"
-    ],
-    [
-      "else if",
-      "efwwefwef",
+      "||",
+      "value1",
       "==",
       "value2",
-      "fewefefw"
+      "||",
+      "value1",
+      "==",
+      "value2",
+      "&&",
+      "value1",
+      "==",
+      "value2",
+      ""
     ],
     [
       "else if",
-      "fewwfeewf",
+      "value1",
       "==",
       "value2",
       ""
@@ -28,18 +33,17 @@
     ]
   ],
   "variables": [],
-  "text": "feweefef; fewefefw; ; ",
-  "timestamp": 1407396701233,
+  "text": "; ; ",
+  "timestamp": 1408020081108,
   "new": false,
-  "id": "XjddxLrksG",
+  "id": "5oBELKxzf8",
   "files": [
     "example/javascript/example.js"
-  ],
-  "value": []
+  ]
 }
 
 {
-  "id": "5oBBq7Gouo",
+  "id": "KGe5EbgyFg",
   "key": "locale2",
   "variables": [],
   "text": "locale2",
@@ -47,7 +51,6 @@
     "example/javascript/example.js"
   ],
   "values": [],
-  "timestamp": 1407396061130,
-  "new": false
+  "timestamp": 1408020081108
 }
 

@@ -70,7 +70,7 @@ define(function(require) {
     toL10nsJSON: function() {
       var value = [];
 
-      this.get('conditions').forEach(function(condition) {
+      this.get('conditions').sort().forEach(function(condition) {
         value = value.concat(condition.toL10nsJSON());
       });
 

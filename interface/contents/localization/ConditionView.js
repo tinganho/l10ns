@@ -8,6 +8,8 @@ define(function(require) {
     , template = inServer ? content_appTemplates : require('contentTemplates')
     , OperandView = require('./ConditionOperandView')
     , Condition = require('./Condition')
+    , FirstOperand = Condition.prototype.FirstOperand
+    , LastOperand = Condition.prototype.LastOperand
     , _ = require('underscore')
 
 
@@ -248,17 +250,25 @@ define(function(require) {
         , valueGroup = this.model.get('valueGroup')
         , attributes = {
             statement: statement,
-            firstOperand: 'value1',
             operator: '==',
-            lastOperand: 'value2',
-            vars: this.model.get('vars'),
+            firstOperand: new FirstOperand({
+              value: 'value1',
+              variables: [],
+              order: 'first'
+            }),
+            lastOperand: new LastOperand({
+              value: 'value2',
+              variables: [],
+              order: 'last'
+            }),
+            variables: [],
             operators: cf.OPERATORS,
             additionalCompairOperators: cf.ADDITIONAL_COMPAIR_OPERATORS,
             row: this.model.get('row') + 1,
             valueGroup: valueGroup
           };
 
-      var condition = new valueGroup.Condition(attributes);
+      new valueGroup.Condition(attributes);
 
       this._hideThenDropDown();
     },

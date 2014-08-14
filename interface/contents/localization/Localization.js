@@ -203,7 +203,9 @@ define(function(require) {
         }
       }
       else if(method === 'update') {
-        this._handleUpdateRequestFromClient(model, options, requestData);
+        if(inClient) {
+          this._handleUpdateRequestFromClient(model, options, requestData);
+        }
       }
     },
 
@@ -288,6 +290,8 @@ define(function(require) {
      */
 
     _handleReadRequestFromServer: function(model, options, requestData) {
+      var _this = this;
+
       file.readLocalizations()
         .then(function(localizations) {
           localizations = file.localizationMapToArray(localizations)[requestData.param('locale')];
