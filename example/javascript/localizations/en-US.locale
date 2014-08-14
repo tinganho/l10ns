@@ -1,16 +1,19 @@
 {
-  "id": "XjddxLrksG",
   "key": "lo\\'\\\"cale1",
+  "values": [
+    "fefweefwef"
+  ],
   "vars": [],
-  "text": "hej",
+  "text": "fefweefwef",
+  "timestamp": 1407396701233,
+  "_new": false,
+  "variables": null,
+  "id": "XjddxLrksG",
   "files": [
     "example/javascript/example.js"
   ],
-  "values": [
-    "hej"
-  ],
-  "timestamp": 1407396701233,
-  "new": false
+  "new": false,
+  "value": []
 }
 
 {
