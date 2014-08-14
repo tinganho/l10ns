@@ -6,40 +6,29 @@
       "value1",
       "==",
       "value2",
-      "||",
-      "value1",
-      "==",
-      "value2",
-      "||",
-      "value1",
-      "==",
-      "value2",
-      "&&",
-      "value1",
-      "==",
-      "value2",
-      ""
+      "efweeefw"
     ],
     [
       "else if",
       "value1",
       "==",
       "value2",
-      ""
+      "fwwfeefw"
     ],
     [
       "else",
-      ""
+      "efwefwewf"
     ]
   ],
   "variables": [],
-  "text": "; ; ",
+  "text": "efweeefw; fwwfeefw; efwefwewf",
   "timestamp": 1408020081108,
   "new": false,
   "id": "5oBELKxzf8",
   "files": [
     "example/javascript/example.js"
-  ]
+  ],
+  "value": []
 }
 
 {
