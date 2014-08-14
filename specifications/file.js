@@ -14,9 +14,9 @@ describe('File', function() {
       expect(file.linefeed).to.eql('\n');
     });
 
-    it('should set this.outputFolderExists to true', function() {
+    it('should set this.storageFolderExists to true', function() {
       var file = new (proxyquire('../libraries/file', dependencies).File);
-      expect(file.outputFolderExists).to.be.true;
+      expect(file.storageFolderExists).to.be.true;
     });
   });
 
@@ -69,9 +69,9 @@ describe('File', function() {
       dependencies.mkdirp.sync = spy();
       dependencies.fs.unlink = function() {};
       var file = new (proxyquire('../libraries/file', dependencies).File);
-      file.outputFolderExists = false;
+      file.storageFolderExists = false;
       file.writeLocalization('localizations', 'en-US');
-      expect(file.outputFolderExists).to.equal(true);
+      expect(file.storageFolderExists).to.equal(true);
       dependencies.mkdirp.sync.should.have.been.calledOnce;
       dependencies.mkdirp.sync.should.have.been.calledWith(project.store);
     });

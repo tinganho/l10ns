@@ -61,17 +61,32 @@ describe('Compiler', function() {
         compiler._getLocalizationMap.should.have.been.calledOnce;
       });
 
+      it('should create output folder if it does not exists', function(done) {
+        project.locales = { 'locale-code-1': 'locale-name-1' };
+        project.outputFile = 'output-folder/localizations.js';
+        dependencies.fs.writeFileSync = spy();
+        dependencies.mkdirp = stub().withArgs(project.outputFile).callsArgWith(1, null);
+        var compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor);
+        compiler._getLocalizationMap = stub().returns(resolvesTo('localization-map'));
+        compiler.run();
+        eventually(function() {
+          dependencies.mkdirp.should.have.been.calledOnce;
+          dependencies.mkdirp.should.have.been.calledWith('output-folder');
+          done();
+        });
+      });
+
       it('should write localization content to output folder', function(done) {
         project.locales = { 'locale-code-1': 'locale-name-1' };
-        project.output = 'output-folder';
+        project.outputFile = 'output-folder/localizations.js';
         dependencies.fs.writeFileSync = spy();
-        dependencies.mkdirp = stub().withArgs(project.output).callsArgWith(1, null);
+        dependencies.mkdirp = stub().withArgs(project.outputFile).callsArgWith(1, null);
         var compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor);
         compiler._getLocalizationMap = stub().returns(resolvesTo('localization-map'));
         compiler.run();
         eventually(function() {
           dependencies.fs.writeFileSync.should.have.been.calledOnce;
-          dependencies.fs.writeFileSync.should.have.been.calledWith(project.output + '/locale-code-1' + '.js');
+          dependencies.fs.writeFileSync.should.have.been.calledWith(project.outputFile);
           done();
         });
       });
@@ -171,14 +186,14 @@ describe('Compiler', function() {
       it('should resolve to a localization map', function(done) {
         var deferred = { resolve: spy() };
         dependencies.q.defer = stub().returns(deferred);
-        var localizations = { 'key1': {}};
+        var localizations = { 'locale1': {'key1': {}}};
         dependencies['../../libraries/file'].readLocalizations = stub().withArgs('locale1').returns(resolvesTo(localizations));
         var compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor);
         compiler._getFunctionBodyString = stub().returns('function-string');
-        compiler._getLocalizationMap('locale1');
+        compiler._getLocalizationMap();
         eventually(function() {
           deferred.resolve.should.have.been.calledOnce;
-          deferred.resolve.should.have.been.calledWith('  var localizations = {\n    \'key1\': function-string\n  };\n  ');
+          deferred.resolve.should.have.been.calledWith('  var localizations = {\n    \'locale1\': {\n      \'key1\': function-string\n    }\n  };\n  ');
           done();
         });
       });

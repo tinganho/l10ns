@@ -23,10 +23,10 @@ var out=''+(it.condition)+'('+(it.function)+'('+(it.operand1)+', '+(it.operand2)
 var out='else {\n  return \''+(it.string)+'\';\n}';return out;
 };
   tmpl['functions']=function anonymous(it) {
-var out='function l(key) {\n  if(!(key in localizations)) {\n    return \'KEY_NOT_IN_SOURCE: \' + key;\n  }\n  return localizations[key].call(undefined, arguments[1]);\n};\n\nfunction lci(operand1, operand2) {\n  operand1 = operand1 + \'\';\n  operand2 = operand2 + \'\';\n  operand1LastNumber = operand1.substr(-1,1);\n  return operand1LastNumber === operand2;\n};';return out;
+var out='function requireLocale(locale) {\n  return (function(locale) {\n    return function l(key) {\n      if(!(locale in localizations)) {\n        return \'LOCALE_NOT_IN_LOCALIZATIONS: \' + locale;\n      }\n      if(!(key in localizations[locale])) {\n        return \'KEY_NOT_IN_LOCALIZATIONS: \' + key;\n      }\n      return localizations[locale][key].call(undefined, arguments[1]);\n    };\n  })(locale);\n};\n\nfunction lci(operand1, operand2) {\n  operand1 = operand1 + \'\';\n  operand2 = operand2 + \'\';\n  operand1LastNumber = operand1.substr(-1,1);\n  return operand1LastNumber === operand2;\n};';return out;
 };
   tmpl['javascriptWrapper']=function anonymous(it) {
-var out=';(function() {\n'+(it.localizationMap)+'\n'+(it.functions)+'\n\n  if(typeof require === "function" && typeof exports === \'object\' && typeof module === \'object\') {\n    module.exports = l;\n  }\n  else if (typeof define === "function" && define.amd) {\n    define(function() {\n      return l;\n    });\n  }\n  else {\n    window.'+(it.functionName)+' = l;\n  }\n})();\n';return out;
+var out=';(function() {\n'+(it.localizationMap)+'\n'+(it.functions)+'\n\n  if(typeof require === "function" && typeof exports === \'object\' && typeof module === \'object\') {\n    module.exports = requireLocale;\n  }\n  else if (typeof define === "function" && define.amd) {\n    define(function() {\n      return requireLocale;\n    });\n  }\n  else {\n    window.requireLocale = requireLocale;\n  }\n})();\n';return out;
 };
   tmpl['mapDeclaration']=function anonymous(it) {
 var out='var localizations = {\n'+(it.body)+'\n};\n';return out;

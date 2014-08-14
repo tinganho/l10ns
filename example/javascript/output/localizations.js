@@ -1,19 +1,23 @@
 ;(function() {
   var localizations = {
     'en-US': {
-      'locale1': function anonymous(it) {
-        if(lci('variable1', '1')) {
-          return 'value1';
-        } else {
-          return 'value2';
-        }
+      'lo\'\"cale1': function anonymous(it) {
+        return 'hej';
       },
       'locale2': function anonymous(it) {
-        return 'value3';
+        return 'KEY_NOT_TRANSLATED: locale2';
+      }
+    },
+    'zh-CN': {
+      'lo\'\"cale1': function anonymous(it) {
+        return 'hwefpiojewfij';
+      },
+      'locale2': function anonymous(it) {
+        return 'KEY_NOT_TRANSLATED: locale2';
       }
     }
   };
-
+  
   function requireLocale(locale) {
     return (function(locale) {
       return function l(key) {
@@ -27,7 +31,7 @@
       };
     })(locale);
   };
-
+  
   function lci(operand1, operand2) {
     operand1 = operand1 + '';
     operand2 = operand2 + '';

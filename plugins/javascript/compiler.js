@@ -50,32 +50,29 @@ var Compiler = function() {
 
 Compiler.prototype.run = function() {
   var _this = this;
+  this._getLocalizationMap()
+    .then(function(localizationMap) {
+      var content = template.javascriptWrapper({
+        functionName: language.GET_LOCALIZATION_STRING_FUNCTION_NAME,
+        localizationMap: localizationMap,
+        functions: _this.indentSpaces(2, template.functions())
+      });
+      mkdirp(path.dirname(project.outputFile), function(error) {
+        if(error) {
+          throw error;
+        }
+        fs.writeFileSync(project.outputFile, content);
+      });
+    })
+    .fail(function(error) {
+      if(commands.stack && error && error.stack) {
+        console.log(error.stack);
+      }
 
-  for(locale in project.locales) {
-    (function(locale) {
-      _this._getLocalizationMap(locale)
-        .then(function(localizationMap) {
-          var content = template.javascriptWrapper({
-            functionName: language.GET_LOCALIZATION_STRING_FUNCTION_NAME,
-            localizationMap: localizationMap,
-            functions: _this.indentSpaces(2, template.functions())
-          });
-          mkdirp(project.output, function(error) {
-            if(error) throw error;
-            fs.writeFileSync(project.output + '/' + locale + '.js', content);
-          });
-        })
-        .fail(function(error) {
-          if(commands.stack && error && error.stack) {
-            console.log(error.stack);
-          }
-
-          if(error && error.message) {
-            console.log(error.message);
-          }
-        });
-    })(locale);
-  }
+      if(error && error.message) {
+        console.log(error.message);
+      }
+    });
 };
 
 /**
@@ -109,31 +106,43 @@ Compiler.prototype.indentSpaces = function(spaces, string) {
  * @api private
  */
 
-Compiler.prototype._getLocalizationMap = function(locale) {
+Compiler.prototype._getLocalizationMap = function() {
   var _this = this, deferred = defer();
 
-  file.readLocalizations(locale)
+  file.readLocalizations()
     .then(function(localizations) {
-      // Get Body string
-      var n = 0, body = '';
-      for(var key in localizations) {
-        // Append a comma for previous hashes
-        if(n !== 0) {
+      var body = '', localeCounter = 0;
+      for(var locale in localizations) {
+        if(localeCounter !== 0) {
           body += _this.comma + _this.linefeed;
         }
 
-        var field = _this.indentSpaces(2, template.JSONLocalizationFunctionField({
-          key: key,
-          functionString: _this._getFunctionBodyString(localizations, key)
-        }));
+        body += _this.indentSpaces(2, _this.quote + locale + _this.quote) + ':' + _this.space + '{' + _this.linefeed;
+        // Get Body string
+        var keyCounter = 0;
+        for(var key in localizations[locale]) {
+          // Append a comma for previous hashes
+          if(keyCounter !== 0) {
+            body += _this.comma + _this.linefeed;
+          }
 
-        body += field;
+          var field = _this.indentSpaces(4, template.JSONLocalizationFunctionField({
+            key: key,
+            functionString: _this._getFunctionBodyString(localizations[locale], key)
+          }));
 
-        if(!this.quiet && locale === project.defaultLocale) {
-          console.log('[compiled] '.green + key);
+          body += field;
+
+          if(!this.quiet && locale === project.defaultLocale) {
+            console.log('[compiled] '.green + key);
+          }
+
+          keyCounter++;
         }
 
-        n++;
+        body  += _this.linefeed + _this.indentSpaces(2, '}');
+
+        localeCounter++;
       }
 
       // Store every function in a hash
@@ -269,8 +278,6 @@ Compiler.prototype._getConditionString = function(condition, variables) {
       operand2: operand2
     });
   }
-
-
 };
 
 /**
