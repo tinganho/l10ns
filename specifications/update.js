@@ -440,7 +440,7 @@ describe('Update', function() {
       expect(update._getDeletedLocalizations(newLocalizations, oldLocalizations)).to.have.keys('key1');
     });
 
-    it('should add deleted locales, timestamp and files', function() {
+    it('should add deleted locales, timestamp and files', function() {
       project.locales = { 'en-US': 'English (US)', 'zh-CN': 'Chinese (Simplified)' };
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       var oldLocalizations = { 'en-US': { 'key1': { files: ['file1'] }}, 'zh-CN': { 'key1': { files: ['file1'] }}};
