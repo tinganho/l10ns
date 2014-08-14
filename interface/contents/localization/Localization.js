@@ -193,74 +193,114 @@ define(function(require) {
      * @delegate
      */
 
-    sync: function(method, model, options, req) {
-      var _this = this, id;
-
-      if(inClient) {
-        id = window.location.pathname.split('/')[3];
-      }
-
+    sync: function(method, model, options, requestData) {
       if(method === 'read') {
         if(inServer) {
-          file.readLocalizations()
-            .then(function(localizations) {
-              localizations = file.localizationMapToArray(localizations)[req.param('locale')];
-              var localization = _.findWhere(localizations, { id: req.param('id') });
-              _this._parse(localization);
-              _this.setPageTitle(localization.key);
-              _this.setPageDescription('Edit: ' + localization.key);
-              options.success();
-            })
-            .fail(function(error) {
-              console.log(error.stack)
-              options.error(error);
-            });
+          this._handleReadRequestFromServer(model, options, requestData);
         }
         else {
-          var $json = $('.js-json-localization');
-          if($json.length) {
-            this._parse(JSON.parse($json.html()));
-            $json.remove();
-            options.success();
-            return;
-          }
-          var localization = app.models.localizations.get(id);
-          if(localization) {
-            localization = localization.toJSON();
-            this._parse(localization);
-            app.document.set('title', localization.key);
-            app.document.set('description', 'Edit: ' + localization.key);
-            options.success();
-            return;
-          }
-          request
-            .get('/api/' + app.locale + '/l/' + id)
-            .end(function(err, res) {
-              var localization = res.body;
-              _this._parse(localization);
-              app.document.set('title', localization.key);
-              app.document.set('description', 'Edit: ' + localization.key);
-              options.success();
-            });
+          this._handleReadRequestFromClient(model, options, requestData);
         }
       }
       else if(method === 'update') {
-        var json = this.toL10nsJSON();
-        request
-          .put('/api/' + app.locale + '/l/' + id)
-          .send(json)
-          .end(function(error, response) {
-            if(!error) {
-              app.models.localizations.get(json.id).set(json);
-              if(typeof options.success === 'function') {
-                options.success();
-              }
-            }
-            else {
-              options.error(error);
-            }
-          });
+        this._handleUpdateRequestFromClient(model, options, requestData);
       }
+    },
+
+    /**
+     * Handle update request from client
+     *
+     * @param {Model} model
+     * @param {Object} options
+     * @param {Request} requestData
+     * @return {void}
+     * @api private
+     */
+
+    _handleUpdateRequestFromClient: function(model, options, requestData) {
+      var id = window.location.pathname.split('/')[3]
+        , json = this.toL10nsJSON();
+
+      request
+        .put('/api/' + app.locale + '/l/' + id)
+        .send(json)
+        .end(function(error, response) {
+          if(!error) {
+            app.models.localizations.get(json.id).set(json);
+            if(typeof options.success === 'function') {
+              options.success();
+            }
+          }
+          else {
+            options.error(error);
+          }
+        });
+    },
+
+    /**
+     * Handle read request from client
+     *
+     * @param {Model} model
+     * @param {Object} options
+     * @param {Request} requestData
+     * @return {void}
+     * @api private
+     */
+
+    _handleReadRequestFromClient: function(model, options, requestData) {
+      var id = window.location.pathname.split('/')[3];
+
+      var $json = $('.js-json-localization');
+      if($json.length) {
+        this._parse(JSON.parse($json.html()));
+        $json.remove();
+        options.success();
+        return;
+      }
+      var localization = app.models.localizations.get(id);
+      if(localization) {
+        localization = localization.toJSON();
+        this._parse(localization);
+        app.document.set('title', localization.key);
+        app.document.set('description', 'Edit: ' + localization.key);
+        options.success();
+        return;
+      }
+      request
+        .get('/api/' + app.locale + '/l/' + id)
+        .end(function(err, res) {
+          var localization = res.body;
+          _this._parse(localization);
+          app.document.set('title', localization.key);
+          app.document.set('description', 'Edit: ' + localization.key);
+          options.success();
+        });
+    },
+
+    /**
+     * Handle read request from server
+     *
+     * @param {Model} model
+     * @param {Object} options
+     * @param {Request} requestData
+     * @return {void}
+     * @api private
+     */
+
+    _handleReadRequestFromServer: function(model, options, requestData) {
+      file.readLocalizations()
+        .then(function(localizations) {
+          localizations = file.localizationMapToArray(localizations)[requestData.param('locale')];
+          var localization = _.findWhere(localizations, { id: requestData.param('id') });
+          _this._parse(localization);
+          _this.setPageTitle(localization.key);
+          _this.setPageDescription('Edit: ' + localization.key);
+          options.success();
+        })
+        .fail(function(error) {
+          console.log(error.stack)
+          options.error(error);
+        });
     },
 
     /**
@@ -292,13 +332,17 @@ define(function(require) {
 
     toL10nsJSON: function() {
       var json = Model.prototype.toJSON.call(this)
-        , values = [];
+        , values = []
+        , text = [];
 
       this.get('valueGroups').forEach(function(valueGroup) {
-        values[valueGroup.get('index')] = valueGroup.toL10nsJSON();
+        var group = valueGroup.toL10nsJSON();
+        values[valueGroup.get('index')] = group;
+        text.push(_.last(group));
       });
 
       json.values = values;
+      json.text = text.join('; ');
 
       json = this._removeJSONLocalizedStrings(json);
 

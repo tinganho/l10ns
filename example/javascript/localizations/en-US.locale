@@ -3,10 +3,17 @@
   "values": [
     [
       "if",
+      "value1",
+      "==",
+      "value2",
+      "feweefef"
+    ],
+    [
+      "else if",
       "efwwefwef",
       "==",
       "value2",
-      ""
+      "fewefefw"
     ],
     [
       "else if",
@@ -21,13 +28,14 @@
     ]
   ],
   "variables": [],
-  "text": "lo\\'\"cale1",
+  "text": "feweefef; fewefefw; ; ",
   "timestamp": 1407396701233,
   "new": false,
   "id": "XjddxLrksG",
   "files": [
     "example/javascript/example.js"
-  ]
+  ],
+  "value": []
 }
 
 {
