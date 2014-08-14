@@ -9,7 +9,7 @@
       "quiet" : false,
       "defaultLocale": "en-US",
       "store": "example/javascript/localizations",
-      "output": "example/javascript/output",
+      "outputFile": "example/javascript/output/localizations.js",
       "source": ["example/javascript/**/*.js"],
       "interface" : {
         "autoOpen": false,

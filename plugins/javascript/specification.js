@@ -59,16 +59,32 @@ describe('Compiler', function() {
         compiler._getLocalizationMap.should.have.been.calledOnce;
       });
 
+      it('should create output folder if it does not exists', function(done) {
+        project.locales = { 'locale-code-1': 'locale-name-1' };
+        project.outputFile = 'output-folder/localizations.js';
+        dependencies.fs.writeFileSync = spy();
+        dependencies.mkdirp = stub().withArgs(project.outputFile).callsArgWith(1, null);
+        var compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor);
+        compiler._getLocalizationMap = stub().returns(resolvesTo('localization-map'));
+        compiler.run();
+        eventually(function() {
+          dependencies.mkdirp.should.have.been.calledOnce;
+          dependencies.mkdirp.should.have.been.calledWith('output-folder');
+          done();
+        });
+      });
+
       it('should write localization content to output folder', function(done) {
         project.locales = { 'locale-code-1': 'locale-name-1' };
-        project.output = 'output-folder';
+        project.outputFile = 'output-folder/localizations.js';
         dependencies.fs.writeFileSync = spy();
+        dependencies.mkdirp = stub().withArgs(project.outputFile).callsArgWith(1, null);
         var compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor);
         compiler._getLocalizationMap = stub().returns(resolvesTo('localization-map'));
         compiler.run();
         eventually(function() {
           dependencies.fs.writeFileSync.should.have.been.calledOnce;
-          dependencies.fs.writeFileSync.should.have.been.calledWith(project.output + '/localizations' + '.js');
+          dependencies.fs.writeFileSync.should.have.been.calledWith(project.outputFile);
           done();
         });
       });

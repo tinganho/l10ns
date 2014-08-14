@@ -52,7 +52,7 @@ Init.prototype.run = function() {
   })
   .then(function(folder) {
     _this.json.store = folder;
-    _this.json.output = folder + 'output/'
+    _this.json.outputFile = folder + 'output/localizations.js';
     _this._setDefaultSrc();
     _this._writeProject();
     process.exit();
@@ -274,20 +274,20 @@ Init.prototype._getProgrammingLanguage = function() {
 Init.prototype._getStorageFolder = function() {
   var _this = this
     , deferred = defer()
-    , defaultOutput
+    , defaultStorage
     , question
     , answeredWrong = false;
 
   if(fs.existsSync(process.cwd() + '/app')) {
-    defaultOutput = 'app/' + program.DEFAULT_STORAGE_FOLDER;
+    defaultStorage = 'app/' + program.DEFAULT_STORAGE_FOLDER;
   }
   else if(fs.existsSync(process.cwd() + '/application')) {
-    defaultOutput = 'application/' + program.DEFAULT_STORAGE_FOLDER;
+    defaultStorage = 'application/' + program.DEFAULT_STORAGE_FOLDER;
   }
   else {
-    defaultOutput = program.DEFAULT_STORAGE_FOLDER;
+    defaultStorage = program.DEFAULT_STORAGE_FOLDER;
   }
-  question = text.DEFAULT_STORAGE_FOLDER_QUESTION + 'storage: (' + defaultOutput + ') ';
+  question = text.DEFAULT_STORAGE_FOLDER_QUESTION + 'storage: (' + defaultStorage + ') ';
   var wrongAnswer = text.DEFAULT_STORAGE_FOLDER_WRONG_ANSWER + question;
   (function ask() {
     if(answeredWrong) {
@@ -295,7 +295,7 @@ Init.prototype._getStorageFolder = function() {
     }
     _this.rl.question(question, function(option) {
       if(option === '') {
-        return deferred.resolve(defaultOutput);
+        return deferred.resolve(defaultStorage);
       }
       else {
         option = path.normalize(option);

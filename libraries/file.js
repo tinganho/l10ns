@@ -18,7 +18,7 @@ var fs = require('fs')
 
 function File() {
   this.linefeed = '\n';
-  this.outputFolderExists = true;
+  this.storageFolderExists = true;
 }
 
 /**
@@ -65,9 +65,9 @@ File.prototype.writeLocalization = function(localizations, locale) {
   var _this = this
     , deferred = Q.defer();
 
-  if(!this.outputFolderExists || !fs.existsSync(project.store)) {
+  if(!this.storageFolderExists || !fs.existsSync(project.store)) {
     mkdirp.sync(project.store);
-    this.outputFolderExists = true;
+    this.storageFolderExists = true;
   }
 
   var p = project.store + '/' + locale + '.locale';
