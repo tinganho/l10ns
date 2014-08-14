@@ -33,5 +33,6 @@ module.exports = function(page) {
           view: 'contents/localizations/LocalizationsView'
         }
       })
-    .handleErrorsUsing(function(err) {});
+    .handleErrorsUsing(function(error) {
+    });
 };

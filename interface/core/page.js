@@ -138,8 +138,12 @@ Page.prototype.withRegions = function(regions) {
  */
 
 Page.prototype._getRegions = function(callback, req) {
-  var n = 0, regions = {}, _this = this, size = _.size(this.regions)
+  var _this = this
+    , n = 0
+    , regions = {}
+    , size = _.size(this.regions)
     , jsonScripts = '';
+
   for(var name in this.regions) {
     if(!this.regions[name].model) {
       throw new TypeError('name `' + name + '` doesn\'t have a model');
@@ -168,7 +172,7 @@ Page.prototype._getRegions = function(callback, req) {
 
       try {
         model.fetch({
-          success : function() {
+          success: function() {
             view = new View(model)
             regions[name] = view.toHTML();
 
@@ -194,11 +198,11 @@ Page.prototype._getRegions = function(callback, req) {
               callback(regions, jsonScripts);
             }
           },
-          error : this.fail
+          error: _this._errorCallback
         });
       }
-      catch(err) {
-        if(err.message === 'A "url" property or function must be specified') {
+      catch(error) {
+        if(error.message === 'A "url" property or function must be specified') {
           regions[name] = view.toHTML();
           n++;
           if(n === size) {
@@ -206,7 +210,7 @@ Page.prototype._getRegions = function(callback, req) {
           }
         }
         else {
-          throw err;
+          throw error;
         }
       }
 
@@ -221,7 +225,14 @@ Page.prototype._getRegions = function(callback, req) {
  */
 
 Page.prototype.handleErrorsUsing = function(callback) {
-  this.error = callback;
+  var _this = this;
+  this._errorCallback = function(model, response, options) {
+    callback.call(_this, response);
+  };
+};
+
+Page.prototype.sendPage = function(page) {
+
 };
 
 /**

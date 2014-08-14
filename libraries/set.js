@@ -45,23 +45,23 @@ Set.prototype.run = function(reference, value, locale) {
   value = this._removeEscapes(value);
 
   this._getKey(reference)
-  .then(function(_key) {
-    key = _key;
-    return _this._replace(key, value, locale);
-  })
-  .then(function(localizations) {
-    return file.writeLocalizations(localizations);
-  })
-  .then(function() {
-    log.success('Updated key ' + key.yellow + ' in ' + locale.yellow + ' to ' + value.yellow + '.');
-  })
-  .fail(function(error) {
-    if(commands.stack) {
-      console.log(error.stack);
-    }
+    .then(function(_key) {
+      key = _key;
+      return _this._replace(key, value, locale);
+    })
+    .then(function(localizations) {
+      return file.writeLocalizations(localizations);
+    })
+    .then(function() {
+      log.success('Updated key ' + key.yellow + ' in ' + locale.yellow + ' to ' + value.yellow + '.');
+    })
+    .fail(function(error) {
+      if(commands.stack) {
+        console.log(error.stack);
+      }
 
-    log.error('Could not edit your translations.');
-  });
+      log.error('Could not edit your translations.');
+    });
 };
 
 /**

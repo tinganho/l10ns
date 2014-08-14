@@ -37,5 +37,9 @@ module.exports = function(page) {
           view: 'contents/localization/LocalizationView'
         }
       })
-    .handleErrorsUsing(function(err) {});
+    .handleErrorsUsing(function(error) {
+      if(/localization with id/.test(error.message) && /not found/.test(error.message)) {
+        this.sendPage(404);
+      }
+    });
 };

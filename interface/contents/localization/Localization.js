@@ -294,13 +294,17 @@ define(function(require) {
         .then(function(localizations) {
           localizations = file.localizationMapToArray(localizations)[requestData.param('locale')];
           var localization = _.findWhere(localizations, { id: requestData.param('id') });
-          _this._parse(localization);
-          _this.setPageTitle(localization.key);
-          _this.setPageDescription('Edit: ' + localization.key);
-          options.success();
+          if(localization) {
+            _this._parse(localization);
+            _this.setPageTitle(localization.key);
+            _this.setPageDescription('Edit: ' + localization.key);
+            options.success();
+          }
+          else {
+            options.error(new TypeError('localization with id:' + requestData.param('id') + ' not found'));
+          }
         })
         .fail(function(error) {
-          console.log(error.stack)
           options.error(error);
         });
     },

@@ -1,67 +1,24 @@
 {
+  "id": "qojEronpF8",
   "key": "lo\\'\\\"cale1",
-  "values": [
-    [
-      "if",
-      "value1",
-      "==",
-      "value2",
-      "&&",
-      "value1",
-      "==",
-      "value2",
-      "||",
-      "value1",
-      "==",
-      "value2",
-      "efweeefw"
-    ],
-    [
-      "else if",
-      "value1",
-      "==",
-      "value2",
-      "fwwfeefw"
-    ],
-    [
-      "else",
-      "efwefwewf"
-    ]
-  ],
   "variables": [],
-  "text": "efweeefw; fwwfeefw; efwefwewf",
-  "timestamp": 1408020081108,
-  "new": false,
-  "id": "5oBELKxzf8",
+  "text": "lo\\'\\\"cale1",
   "files": [
     "example/javascript/example.js"
   ],
-  "value": []
+  "values": [],
+  "timestamp": 1408024661472
 }
 
 {
+  "id": "BKg8kKdrFo",
   "key": "locale2",
-  "values": [
-    [
-      "if",
-      "value1",
-      "==",
-      "value2",
-      "fewwef"
-    ],
-    [
-      "else",
-      "efwewfefw"
-    ]
-  ],
   "variables": [],
-  "text": "fewwef; efwewfefw",
-  "timestamp": 1408020081108,
-  "new": false,
-  "id": "KGe5EbgyFg",
+  "text": "locale2",
   "files": [
     "example/javascript/example.js"
   ],
-  "value": []
+  "values": [],
+  "timestamp": 1408024661472
 }
 
