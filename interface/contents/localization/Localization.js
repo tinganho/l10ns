@@ -14,7 +14,9 @@ define(function(require) {
     , ValueGroup = require('./ValueGroup')
     , Else = ValueGroup.prototype.Else
     , Input = ValueGroup.prototype.Input
-    , Condition = ValueGroup.prototype.Condition;
+    , Condition = ValueGroup.prototype.Condition
+    , FirstOperand = Condition.prototype.FirstOperand
+    , LastOperand = Condition.prototype.LastOperand;
 
   if(inClient) {
     var request = require('request')
@@ -85,28 +87,24 @@ define(function(require) {
           index++;
 
           while(typeof values[i][y] !== 'undefined') {
-            var condition = new Condition({
+            new Condition({
               statement: values[i][y],
+              firstOperand: new FirstOperand({
+                value: values[i][y + 1],
+                variables: variables,
+                order: 'first'
+              }),
               operator: values[i][y + 2],
+              lastOperand: new LastOperand({
+                value: values[i][y + 3],
+                variables: variables,
+                order: 'last'
+              }),
               operators: cf.OPERATORS,
               additionalCompairOperators: cf.ADDITIONAL_COMPAIR_OPERATORS,
               variables: variables,
               row: row,
               valueGroup: valueGroup
-            });
-
-            new condition.FirstOperand({
-              value: values[i][y + 1],
-              variables: variables,
-              order: 'first',
-              condition: condition
-            });
-
-            new condition.LastOperand({
-              value: values[i][y + 3],
-              variables: variables,
-              order: 'last',
-              condition: condition
             });
 
             row++;

@@ -14,7 +14,10 @@ define(function(require) {
     , ValueGroupView = require('./ValueGroupView')
     , Else = ValueGroup.prototype.Else
     , Input = ValueGroup.prototype.Input
-    , Condition = ValueGroup.prototype.Condition;
+    , Condition = ValueGroup.prototype.Condition
+    , FirstOperand = Condition.prototype.FirstOperand
+    , LastOperand = Condition.prototype.LastOperand;
+
 
   if(inClient) {
     var minTimer = require('minTimer');
@@ -171,25 +174,21 @@ define(function(require) {
 
       var condition = new Condition({
         statement: 'if',
+        firstOperand: new FirstOperand({
+          value: 'value1',
+          variables: [],
+          order: 'first'
+        }),
         operator: '==',
+        lastOperand: new LastOperand({
+          value: 'value2',
+          variables: [],
+          order: 'last'
+        }),
         variables: [],
         operators: cf.OPERATORS,
         additionalCompairOperators: cf.ADDITIONAL_COMPAIR_OPERATORS,
         row: 0
-      });
-
-      new condition.FirstOperand({
-        value: 'value1',
-        variables: [],
-        order: 'first',
-        condition: condition
-      });
-
-      new condition.LastOperand({
-        value: 'value2',
-        variables: [],
-        order: 'last',
-        condition: condition
       });
 
       var input = new Input({ value: '', row: 1 });

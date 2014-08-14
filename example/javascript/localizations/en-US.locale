@@ -6,6 +6,14 @@
       "value1",
       "==",
       "value2",
+      "&&",
+      "value1",
+      "==",
+      "value2",
+      "||",
+      "value1",
+      "==",
+      "value2",
       "efweeefw"
     ],
     [
@@ -32,14 +40,28 @@
 }
 
 {
-  "id": "KGe5EbgyFg",
   "key": "locale2",
+  "values": [
+    [
+      "if",
+      "value1",
+      "==",
+      "value2",
+      "fewwef"
+    ],
+    [
+      "else",
+      "efwewfefw"
+    ]
+  ],
   "variables": [],
-  "text": "locale2",
+  "text": "fewwef; efwewfefw",
+  "timestamp": 1408020081108,
+  "new": false,
+  "id": "KGe5EbgyFg",
   "files": [
     "example/javascript/example.js"
   ],
-  "values": [],
-  "timestamp": 1408020081108
+  "value": []
 }
 

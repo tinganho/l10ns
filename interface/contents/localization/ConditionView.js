@@ -250,12 +250,12 @@ define(function(require) {
         , valueGroup = this.model.get('valueGroup')
         , attributes = {
             statement: statement,
-            operator: '==',
             firstOperand: new FirstOperand({
               value: 'value1',
               variables: [],
               order: 'first'
             }),
+            operator: '==',
             lastOperand: new LastOperand({
               value: 'value2',
               variables: [],
