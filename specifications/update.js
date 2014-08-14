@@ -672,8 +672,8 @@ describe('Update', function() {
   describe('#_migrateLocalization()', function() {
     it('should migrate old localization', function() {
       project.locales = { 'en-US': 'English (US' };
-      var oldLocalizations = {'en-US': { 'key1': 'old-localization' }};
-      var newLocalizations = {'en-US': { 'key2': 'new-localization' }};
+      var oldLocalizations = {'en-US': { 'key1': 'old-localization' }};
+      var newLocalizations = {'en-US': { 'key2': 'new-localization' }};
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       expect(update._migrateLocalization('key2', 'key1', newLocalizations, oldLocalizations)).to.eql({ 'en-US': { 'key2': 'old-localization'}})
     });
