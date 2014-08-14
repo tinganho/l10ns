@@ -20,7 +20,7 @@ describe('File', function() {
     });
   });
 
-  describe('#writeLocalizations()', function() {
+  describe('#writeLocalizations()', function() {
     it('should return a promise', function() {
       project.locales = {};
       dependencies.q.defer = stub().returns({ promise: 'promise' });
