@@ -59,7 +59,7 @@ Compiler.prototype.run = function() {
       });
       mkdirp(path.dirname(project.outputFile), function(error) {
         if(error) {
-          throw error
+          throw error;
         }
         fs.writeFileSync(project.outputFile, content);
       });
