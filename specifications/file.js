@@ -25,7 +25,7 @@ describe('File', function() {
       project.locales = {};
       dependencies.q.defer = stub().returns({ promise: 'promise' });
       var file = new (proxyquire('../libraries/file', dependencies).File);
-      file.localizationMapToArray = function() {};
+      file.localizationMapToArray = noop;
       expect(file.writeLocalizations()).to.equal('promise');
     });
 
@@ -58,7 +58,7 @@ describe('File', function() {
       project.store = 'storage-folder';
       dependencies.q.defer = stub().returns({ promise: 'promise' });
       dependencies.fs.existsSync = stub().withArgs(project.store).returns(true);
-      dependencies.fs.unlink = function() {};
+      dependencies.fs.unlink = noop;
       var file = new (proxyquire('../libraries/file', dependencies).File);
       file.outputFolderExists = true;
       expect(file.writeLocalization('localizations', 'en-US')).to.eql('promise');
@@ -244,7 +244,7 @@ describe('File', function() {
     it('should return a promise', function() {
       var deferred = { promise: 'promise' };
       dependencies.q.defer = stub().returns(deferred);
-      dependencies.fs.readFile = function() {};
+      dependencies.fs.readFile = noop;
       var file = new (proxyquire('../libraries/file', dependencies).File);
       expect(file.readLocalizationArray('storage-folder/locale1.locale')).to.equal('promise');
     });
@@ -335,7 +335,7 @@ describe('File', function() {
       project.cache.search = 'search-file';
       var deferred = { promise: 'promise' };
       dependencies.q.defer = stub().returns(deferred);
-      dependencies.fs.readFile = function() {};
+      dependencies.fs.readFile = noop;
       var file = new (proxyquire('../libraries/file', dependencies).File);
       expect(file.readSearchLocalizations('storage-folder/locale1.locale')).to.equal('promise');
     });

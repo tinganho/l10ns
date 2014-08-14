@@ -43,8 +43,8 @@ describe('Init', function() {
       var consoleStub = stub(console, 'log');
       dependencies.fs.existsSync = stub().withArgs('current-working-directory/l10ns.json').returns(true);
       var init = new (proxyquire('../libraries/init', dependencies).Init);
-      init._createReadlineInterface = function() {};
-      init._outputIntroduction = function() {};
+      init._createReadlineInterface = noop;
+      init._outputIntroduction = noop;
       init._getProjectName = stub().returns(rejects());
       init.run();
       exitStub.should.have.been.calledOnce;
@@ -73,8 +73,8 @@ describe('Init', function() {
       dependencies.fs.existsSync = stub().returns(false);
       dependencies['findup-sync'] = stub().returns(false);
       var init = new (proxyquire('../libraries/init', dependencies).Init);
-      init._createReadlineInterface = function() {};
-      init._outputIntroduction = function() {};
+      init._createReadlineInterface = noop;
+      init._outputIntroduction = noop;
       init._getProjectName = stub().returns(resolvesTo('name1'));
       init._getLocales = stub().returns(rejects());
       init.run();
@@ -90,8 +90,8 @@ describe('Init', function() {
       dependencies.fs.existsSync = stub().returns(false);
       dependencies['findup-sync'] = stub().returns(false);
       var init = new (proxyquire('../libraries/init', dependencies).Init);
-      init._createReadlineInterface = function() {};
-      init._outputIntroduction = function() {};
+      init._createReadlineInterface = noop;
+      init._outputIntroduction = noop;
       init._getProjectName = stub().returns(resolvesTo('name1'));
       init._getLocales = stub().returns(resolvesTo({ 'locale1': 'locale1-title' }));
       init._getDefaultLocale = stub().returns(rejects());
@@ -109,8 +109,8 @@ describe('Init', function() {
       dependencies.fs.existsSync = stub().returns(false);
       dependencies['findup-sync'] = stub().returns(false);
       var init = new (proxyquire('../libraries/init', dependencies).Init);
-      init._createReadlineInterface = function() {};
-      init._outputIntroduction = function() {};
+      init._createReadlineInterface = noop;
+      init._outputIntroduction = noop;
       init._getProjectName = stub().returns(resolvesTo('name1'));
       init._getLocales = stub().returns(resolvesTo({ 'locale1': 'locale1-title' }));
       init._getDefaultLocale = stub().returns(resolvesTo('locale1'));
@@ -128,8 +128,8 @@ describe('Init', function() {
       dependencies.fs.existsSync = stub().returns(false);
       dependencies['findup-sync'] = stub().returns(false);
       var init = new (proxyquire('../libraries/init', dependencies).Init);
-      init._createReadlineInterface = function() {};
-      init._outputIntroduction = function() {};
+      init._createReadlineInterface = noop;
+      init._outputIntroduction = noop;
       init._getProjectName = stub().returns(resolvesTo('name1'));
       init._getLocales = stub().returns(resolvesTo({ 'locale1': 'locale1-title' }));
       init._getDefaultLocale = stub().returns(resolvesTo('locale1'));
@@ -149,8 +149,8 @@ describe('Init', function() {
       dependencies['findup-sync'] = stub().returns(false);
       var exitStub = stub(process, 'exit');
       var init = new (proxyquire('../libraries/init', dependencies).Init);
-      init._createReadlineInterface = function() {};
-      init._outputIntroduction = function() {};
+      init._createReadlineInterface = noop;
+      init._outputIntroduction = noop;
       init._getProjectName = stub().returns(resolvesTo('name1'));
       init._getLocales = stub().returns(resolvesTo({ 'locale1': 'locale1-title' }));
       init._getDefaultLocale = stub().returns(resolvesTo('locale1'));
@@ -177,8 +177,8 @@ describe('Init', function() {
       dependencies['findup-sync'] = stub().returns(false);
       var consoleStub = stub(console, 'log');
       var init = new (proxyquire('../libraries/init', dependencies).Init);
-      init._createReadlineInterface = function() {};
-      init._outputIntroduction = function() {};
+      init._createReadlineInterface = noop;
+      init._outputIntroduction = noop;
       init._getProjectName = stub().returns(rejectsWith('error'));
       init.run();
       eventually(function() {

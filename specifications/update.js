@@ -137,7 +137,7 @@ describe('Update', function() {
       it('strip inner function calls', function(done) {
         project.source = ['file1'];
         var deferred = {};
-        deferred.resolve = function() {};
+        deferred.resolve = noop;
         dependencies.q = {};
         dependencies.q.defer = stub().returns(deferred);
         dependencies['fs'].lstatSync = stub().returns({
@@ -157,7 +157,7 @@ describe('Update', function() {
       it('find all l() function call strings', function() {
         project.source = ['file1'];
         var deferred = {};
-        deferred.resolve = function() {};
+        deferred.resolve = noop;
         dependencies.q = {};
         dependencies.q.defer = stub().returns(deferred);
         dependencies['fs'].lstatSync = stub().returns({
@@ -175,7 +175,7 @@ describe('Update', function() {
       it('get the key and variables on each l() call strings', function(done) {
         project.source = ['file1'];
         var deferred = {};
-        deferred.resolve = function() {};
+        deferred.resolve = noop;
         dependencies.q = {};
         dependencies.q.defer = stub().returns(deferred);
         dependencies['fs'].lstatSync = stub().returns({
@@ -186,7 +186,7 @@ describe('Update', function() {
         dependencies['./parser'].getKey = stub().returns('SOME_KEY');
         dependencies['./parser'].getVariables = stub().returns(['test1', 'test2']);
         var Hashids = function() {}
-        Hashids.prototype.encrypt = function() {};
+        Hashids.prototype.encrypt = noop;
         dependencies['hashids'] = Hashids;
         var update = new (proxyquire('../libraries/update', dependencies).Update);
         var innerFunctionCallResultObject = { match: stub().returns(['l(\'SOME_KEY\')']) };
@@ -242,7 +242,7 @@ describe('Update', function() {
         dependencies['fs'].lstatSync = stub().returns({
           isDirectory: stub().returns(false)
         });
-        dependencies['fs'].readFileSync = function() {};
+        dependencies['fs'].readFileSync = noop;
         dependencies['./parser'].getKey = stub().returns('SOME_KEY');
         dependencies['./parser'].getVariables = stub().returns(['test1', 'test2']);
         dependencies['./syntax'].hasErrorDuplicate = stub().returns(false);
@@ -274,7 +274,7 @@ describe('Update', function() {
         dependencies['fs'].lstatSync = stub().returns({
           isDirectory: stub().returns(false)
         });
-        dependencies['fs'].readFileSync = function() {};
+        dependencies['fs'].readFileSync = noop;
         dependencies['./parser'].getKey = stub().returns('SOME_KEY');
         dependencies['./parser'].getVariables = stub();
         dependencies['./parser'].getVariables.onCall(0).returns(['test1']);
@@ -302,7 +302,7 @@ describe('Update', function() {
       dependencies['./file'].readLocalizations = stub().returns(Q.resolve());
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       project.locales = {};
-      update._mergeUserInputs = function() {};
+      update._mergeUserInputs = noop;
       update._mergeWithOldLocalizations();
       eventually(function() {
         dependencies['./file'].readLocalizations.should.have.been.calledOnce;
@@ -321,7 +321,7 @@ describe('Update', function() {
       dependencies['./merger'].mergeId = spy();
       project.locales = { 'en-US': 'English (US)' };
       var update = new (proxyquire('../libraries/update', dependencies).Update);
-      update._mergeUserInputs = function() {};
+      update._mergeUserInputs = noop;
       update._mergeWithOldLocalizations({
         'key1': {}
       });
@@ -487,7 +487,7 @@ describe('Update', function() {
       update._getDeletedLocalizations = stub().returns({});
       var oldLocalizations = {};
       var newLocalizations = {};
-      var callback = function() {};
+      var callback = noop;
       update._mergeUserInputs(newLocalizations, oldLocalizations, callback);
       update._getDeletedLocalizations.should.have.been.calledOnce;
     });
@@ -495,7 +495,7 @@ describe('Update', function() {
     it('should callback if there is no deleted localizations', function() {
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       update._getDeletedLocalizations = stub().returns({});
-      update._executeUserInputStream = function() {};
+      update._executeUserInputStream = noop;
       var oldLocalizations = {};
       var newLocalizations = {};
       var callback = spy();
@@ -507,12 +507,12 @@ describe('Update', function() {
     it('should get updated files', function() {
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       update._getDeletedLocalizations = stub().returns({ 'file2': ['key3'] });
-      update._pushToUserInputStream = function() {};
-      update._executeUserInputStream = function() {};
+      update._pushToUserInputStream = noop;
+      update._executeUserInputStream = noop;
       update._getUpdatedFiles = spy();
       var oldLocalizations = { 'key1': { files: ['file1'] }};
       var newLocalizations = { 'key2': { files: ['file1'] }};
-      var callback = function() {};
+      var callback = noop;
       update._mergeUserInputs(newLocalizations, oldLocalizations, callback);
       update._getUpdatedFiles.should.have.been.calledOnce;
     });
@@ -521,11 +521,11 @@ describe('Update', function() {
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       update._getDeletedLocalizations = stub().returns({ 'key3': { files: ['file1'] }});
       update._pushToUserInputStream = spy();
-      update._executeUserInputStream = function() {};
+      update._executeUserInputStream = noop;
       update._getUpdatedFiles = stub().returns({'file1': ['key4']});
       var oldLocalizations = { 'key1': { files: ['file1'] }};
       var newLocalizations = { 'key2': { files: ['file1'] }};
-      var callback = function() {};
+      var callback = noop;
       update._mergeUserInputs(newLocalizations, oldLocalizations, callback);
       update._pushToUserInputStream.should.have.been.calledOnce;
       update._pushToUserInputStream.should.have.been.calledWith('key3', ['key4']);
@@ -534,7 +534,7 @@ describe('Update', function() {
     it('should callback with merged user input localization if user have been asked for input', function() {
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       update._getDeletedLocalizations = stub().returns({ 'key3': { files: ['file1'] }});
-      update._pushToUserInputStream = function() {};
+      update._pushToUserInputStream = noop;
       update._executeUserInputStream = stub();
       update._executeUserInputStream.callsArgWith(2, null, 'merged-localization');
       update._getUpdatedFiles = stub().returns({'file1': ['key4']});
@@ -549,7 +549,7 @@ describe('Update', function() {
     it('should callback with error if a merge error have been occurred', function() {
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       update._getDeletedLocalizations = stub().returns({ 'key3': { files: ['file1'] }});
-      update._pushToUserInputStream = function() {};
+      update._pushToUserInputStream = noop;
       update._executeUserInputStream = stub();
       update._executeUserInputStream.callsArgWith(2, 'error');
       update._getUpdatedFiles = stub().returns({'file1': ['key4']});
@@ -692,7 +692,7 @@ describe('Update', function() {
       var callback = spy();
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       update.rl = {};
-      update.rl.on = function() {};
+      update.rl.on = noop;
       update.rl.question = stub();
       update.rl.question.callsArgWith(1, '1');
       update._getUserInputKey('key1', ['key2'], callback);
@@ -704,7 +704,7 @@ describe('Update', function() {
       var callback = spy();
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       update.rl = {};
-      update.rl.on = function() {};
+      update.rl.on = noop;
       update.rl.question = stub();
       update.rl.question.callsArgWith(1, 'd');
       update._getUserInputKey('key1', ['key2'], callback);
@@ -719,7 +719,7 @@ describe('Update', function() {
       update.rl.on = stub();
       update.rl.on.callsArg(1);
       update.rl.close = spy();
-      update.rl.question = function() {};
+      update.rl.question = noop;
       update._getUserInputKey('key1', ['key2'], callback);
       update.rl.close.should.have.been.calledOnce;
       callback.should.have.been.calledOnce;
