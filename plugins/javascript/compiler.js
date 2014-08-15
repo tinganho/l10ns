@@ -180,7 +180,7 @@ Compiler.prototype._getFunctionBodyString = function(localizations, key) {
   else {
     string += this._getNonConditionsFunctionBodyString(
       this._getFormatedLocalizedText(
-        localizations[key].values[0],
+        localizations[key].values[0][0],
         localizations[key].variables
       )
     );

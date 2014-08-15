@@ -1,19 +1,21 @@
 {
-  "id": "8Ebxk8kzsn",
   "key": "lo\\'\\\"cale1",
+  "values": [
+    [
+      "${text} wfweefefw"
+    ]
+  ],
   "variables": [
     "${text}"
   ],
-  "text": "lo\\'\\\"cale1",
+  "text": "${text} wfweefefw",
+  "timestamp": 1408093549251,
+  "new": false,
+  "id": "8Ebxk8kzsn",
   "files": [
     "example/javascript/example.js"
   ],
-  "values": [
-    [
-      ""
-    ]
-  ],
-  "timestamp": 1408093549251
+  "value": []
 }
 
 {
@@ -29,6 +31,7 @@
       ""
     ]
   ],
-  "timestamp": 1408093549251
+  "timestamp": 1408093549251,
+  "new": false
 }
 
