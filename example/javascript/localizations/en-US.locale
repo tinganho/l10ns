@@ -22,13 +22,13 @@
   "id": "ajzo8a87fa",
   "key": "locale2",
   "variables": [],
-  "text": "locale2",
+  "text": "hej",
   "files": [
     "example/javascript/example.js"
   ],
   "values": [
     [
-      ""
+      "hej"
     ]
   ],
   "timestamp": 1408093549251,

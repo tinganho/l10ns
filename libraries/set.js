@@ -215,7 +215,7 @@ Set.prototype._replace = function(key, value, locale) {
       }
 
       // Save value
-      localizations[locale][key].values = [value];
+      localizations[locale][key].values = [[value]];
       localizations[locale][key].text = value;
 
       deferred.resolve(localizations);
