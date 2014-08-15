@@ -2,7 +2,11 @@
   var localizations = {
     'en-US': {
       'lo\'\"cale1': function anonymous(it) {
-        return 'hej';
+        if('value1' == 'value2' || 'value1' == 'value2') {
+          return '';
+        } else {
+          return '';
+        }
       },
       'locale2': function anonymous(it) {
         return 'KEY_NOT_TRANSLATED: locale2';
@@ -10,7 +14,7 @@
     },
     'zh-CN': {
       'lo\'\"cale1': function anonymous(it) {
-        return 'hwefpiojewfij';
+        return 'KEY_NOT_TRANSLATED: lo\'\"cale1';
       },
       'locale2': function anonymous(it) {
         return 'KEY_NOT_TRANSLATED: locale2';
