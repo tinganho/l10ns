@@ -53,7 +53,15 @@ describe('File', function() {
     });
   });
 
-  describe('#writeLocalization()', function() {
+  describe('#_sortObject(object)', function() {
+    it('should sort an javascript object by object keys', function() {
+      var object = { 'c': 'valueC', 'a': 'valueA', 'b': 'valueB' };
+      var file = new (proxyquire('../libraries/file', dependencies).File);
+      expect(file._sortObject(object)).to.eql({ 'a': 'valueA', 'b': 'valueB', 'c': 'valueC' });
+    });
+  });
+
+  describe('#writeLocalization(localizations, locale)', function() {
     it('should return a promise', function() {
       project.store = 'storage-folder';
       dependencies.q.defer = stub().returns({ promise: 'promise' });
@@ -100,6 +108,22 @@ describe('File', function() {
       deferred.reject.should.have.been.calledOnce;
     });
 
+    it('should sort object before writing to storage', function() {
+      project.store = 'storage-folder';
+      var deferred = { resolve: spy() };
+      dependencies.q.defer = stub().returns(deferred);
+      dependencies.fs.existsSync = stub().withArgs(project.store).returns(true);
+      dependencies.fs.appendFile = stub();
+      dependencies.fs.appendFile.callsArgWith(2, null);
+      dependencies.fs.unlink = stub();
+      dependencies.fs.unlink.callsArgWith(1, null);
+      var file = new (proxyquire('../libraries/file', dependencies).File);
+      var localizations = { 'en-US': [{ key: 'key1'}] };
+      file._sortObject = stub().withArgs({ key: 'key1'}).returns({ key: 'key1'});
+      file.writeLocalization(localizations, 'en-US');
+      file._sortObject.should.have.been.calledOnce;
+    });
+
     it('should write a JSON line to storage', function() {
       project.store = 'storage-folder';
       var deferred = { resolve: spy() };
@@ -111,6 +135,7 @@ describe('File', function() {
       dependencies.fs.unlink.callsArgWith(1, null);
       var file = new (proxyquire('../libraries/file', dependencies).File);
       var localizations = { 'en-US': [{ key: 'key1'}] };
+      file._sortObject = stub().withArgs({ key: 'key1'}).returns({ key: 'key1'});
       file.writeLocalization(localizations, 'en-US');
       dependencies.fs.appendFile.should.have.been.calledOnce;
       dependencies.fs.appendFile.should.have.been.calledWith('storage-folder/en-US.locale', '{\n  "key": "key1"\n}\n\n');
@@ -128,6 +153,7 @@ describe('File', function() {
       dependencies.fs.unlink.callsArgWith(1, null);
       var file = new (proxyquire('../libraries/file', dependencies).File);
       var localizations = { 'en-US': [{ key: 'key1'}] };
+      file._sortObject = stub().withArgs({ key: 'key1'}).returns({ key: 'key1'});
       file.writeLocalization(localizations, 'en-US');
       deferred.reject.should.have.been.calledOnce;
       deferred.reject.should.have.been.calledWith('error');
