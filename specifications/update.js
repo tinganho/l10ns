@@ -345,7 +345,7 @@ describe('Update', function() {
       });
       eventually(function() {
         expect(update._mergeUserInputs.args[0][0]['en-US']['key1']).to.contain.keys('values', 'timestamp');
-        expect(update._mergeUserInputs.args[0][0]['en-US']['key1'].values).to.eql([]);
+        expect(update._mergeUserInputs.args[0][0]['en-US']['key1'].values).to.eql([['']]);
         done();
       });
     });

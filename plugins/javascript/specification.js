@@ -353,7 +353,7 @@ describe('Compiler', function() {
 
       it('should return a string containing variable with a namespace', function() {
         var compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor)
-          , variables = ['variable1'];
+          , variables = ['${variable1}'];
         expect(compiler._getFormatedOperandString('${variable1}', variables)).to.equal('it.variable1');
       });
 
@@ -370,7 +370,7 @@ describe('Compiler', function() {
 
     describe('#_getFormatedLocalizedText(text, variables)', function() {
       it('should return localized string with variable', function() {
-        var variables = ['variable1']
+        var variables = ['${variable1}']
           , compiler = new (proxyquire('../plugins/javascript/compiler', dependencies).Constructor);
         expect(compiler._getFormatedLocalizedText('text with ${variable1}', variables)).to.equal('text with \' + it.variable1 + \'');
       });
