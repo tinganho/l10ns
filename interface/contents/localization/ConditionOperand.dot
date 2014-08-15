@@ -5,14 +5,14 @@ Operand
 
 @inTemplateVar type
 @param {String} {{type}}operand
-@param {Array} vars
+@param {Array} variables
 
 !-->
 
 <div class="condition-operand condition-item condition-{{=it.order}}-operand">
   <span class="condition-value">{{=it.value}}</span>
   <ul class="condition-operands condition-dropdown">
-    {{~it.vars :variable:index}}
+    {{~it.variables :variable:index}}
       <li class="condition-variable-operand condition-dropdown-list-item {{?variable === it.value}}checked{{?}}" data-value="{{=variable}}">
         {{=variable}}
         <i class="condition-check sp-default sp-default-check"></i>

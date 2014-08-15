@@ -247,21 +247,22 @@ define(function(require) {
 
     _addSubCondition: function(event) {
       var statement = event.currentTarget.dataset.value
+        , variables = this.model.get('variables')
         , valueGroup = this.model.get('valueGroup')
         , attributes = {
             statement: statement,
             firstOperand: new FirstOperand({
               value: 'value1',
-              variables: [],
+              variables: variables,
               order: 'first'
             }),
             operator: '==',
             lastOperand: new LastOperand({
               value: 'value2',
-              variables: [],
+              variables: variables,
               order: 'last'
             }),
-            variables: [],
+            variables: variables,
             operators: cf.OPERATORS,
             additionalCompairOperators: cf.ADDITIONAL_COMPAIR_OPERATORS,
             row: this.model.get('row') + 1,

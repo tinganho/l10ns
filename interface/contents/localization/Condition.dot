@@ -3,7 +3,7 @@
 Condition
 
 @param {String} statement
-@param {Array.<Variable>} vars
+@param {Array.<Variable>} variables
 
 !-->
 

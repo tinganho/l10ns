@@ -164,6 +164,7 @@ define(function(require) {
     _addCondition: function(event) {
       var _this = this
         , index = this.model.get('valueGroups').length
+        , variables = this.model.get('variables')
         , firstValueGroup = this.model.get('valueGroups').where({ index: 0 })[0];
 
       this.model.get('valueGroups').forEach(function(valueGroup) {
@@ -176,16 +177,16 @@ define(function(require) {
         statement: 'if',
         firstOperand: new FirstOperand({
           value: 'value1',
-          variables: [],
+          variables: variables,
           order: 'first'
         }),
         operator: '==',
         lastOperand: new LastOperand({
           value: 'value2',
-          variables: [],
+          variables: variables,
           order: 'last'
         }),
-        variables: [],
+        variables: variables,
         operators: cf.OPERATORS,
         additionalCompairOperators: cf.ADDITIONAL_COMPAIR_OPERATORS,
         row: 0

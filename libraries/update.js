@@ -64,7 +64,7 @@ Update.prototype.run = function() {
 /**
  * Strip inner functions calls. All function calls that is not from l10ns
  * needs to be removed. Because they can cause updating error
- * when they are defined inside vars like below
+ * when they are defined inside variables like below
  *
  *    Example:
  *

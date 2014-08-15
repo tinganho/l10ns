@@ -1,13 +1,22 @@
 {
-  "id": "qojEronpF8",
   "key": "lo\\'\\\"cale1",
-  "variables": [],
-  "text": "lo\\'\\\"cale1",
+  "values": [
+    [
+      [
+        ""
+      ]
+    ]
+  ],
+  "variables": [
+    "${text}"
+  ],
+  "text": "",
+  "timestamp": 1408024661472,
+  "new": false,
+  "id": "qojEronpF8",
   "files": [
     "example/javascript/example.js"
-  ],
-  "values": [],
-  "timestamp": 1408024661472
+  ]
 }
 
 {
@@ -19,6 +28,7 @@
     "example/javascript/example.js"
   ],
   "values": [],
-  "timestamp": 1408024661472
+  "timestamp": 1408024661472,
+  "new": false
 }
 

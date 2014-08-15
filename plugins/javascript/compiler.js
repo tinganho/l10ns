@@ -373,13 +373,12 @@ Compiler.prototype._getFormatedOperandString = function(operand, variables) {
     if(/^\$\{\d/.test(operand)) {
       throw new TypeError('variable can\'t begin with an integer.');
     }
-
-    operand = operand.substring(2, operand.length - 1);
-
     if(variables.indexOf(operand) === -1) {
       throw new TypeError('You have used an undefined variable ' + operand.red
-      + '.\n Please add the variable or remove the operand from your source.');
+      + '.\nPlease add the variable or remove the operand from your source.');
     }
+
+    operand = operand.substring(2, operand.length - 1);
     operand = this.namespace + this.dot + operand;
   }
   else if(!/^\d+$/.test(operand)) {
@@ -401,12 +400,12 @@ Compiler.prototype._getFormatedLocalizedText = function(text, variables) {
   var _this = this;
 
   return text.replace(program.SYNTAX_VARIABLE_MARKUP, function(match) {
-    match = match.substring(2, match.length - 1);
-
     if(variables.indexOf(match) === -1) {
       throw new TypeError('You have used an undefined variable ' + match.red
-      + '.\n Please add the variable or remove the operand from your source.');
+      + '.\nPlease add the variable or remove the operand from your source.');
     }
+
+    match = match.substring(2, match.length - 1);
 
     return String.prototype.concat(
       _this.quote,

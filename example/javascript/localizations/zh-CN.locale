@@ -1,13 +1,16 @@
 {
   "id": "qojEronpF8",
   "key": "lo\\'\\\"cale1",
-  "variables": [],
+  "variables": [
+    "${text}"
+  ],
   "text": "lo\\'\\\"cale1",
   "files": [
     "example/javascript/example.js"
   ],
   "values": [],
-  "timestamp": 1408024661472
+  "timestamp": 1408024661472,
+  "new": false
 }
 
 {
@@ -19,6 +22,7 @@
     "example/javascript/example.js"
   ],
   "values": [],
-  "timestamp": 1408024661472
+  "timestamp": 1408024661472,
+  "new": false
 }
 
