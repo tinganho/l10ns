@@ -158,7 +158,6 @@ define(function(require) {
       this._parseValues(json.values, json.variables);
 
       delete json.values;
-      delete json.variables;
       delete json.valueGroups;
 
       this.set(json);
