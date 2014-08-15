@@ -1,36 +1,36 @@
 {
-  "id": "8Ebxk8kzsn",
-  "key": "lo\\'\\\"cale1",
-  "variables": [
-    "${text}"
-  ],
-  "text": "lo\\'\\\"cale1",
   "files": [
     "example/javascript/example.js"
   ],
+  "id": "8Ebxk8kzsn",
+  "key": "lo\\'\\\"cale1",
+  "new": false,
+  "text": "lo\\'\\\"cale1",
+  "timestamp": 1408093549251,
   "values": [
     [
       ""
     ]
   ],
-  "timestamp": 1408093549251,
-  "new": false
+  "variables": [
+    "${text}"
+  ]
 }
 
 {
-  "id": "ajzo8a87fa",
-  "key": "locale2",
-  "variables": [],
-  "text": "locale2",
   "files": [
     "example/javascript/example.js"
   ],
+  "id": "ajzo8a87fa",
+  "key": "locale2",
+  "new": false,
+  "text": "locale2",
+  "timestamp": 1408093549251,
   "values": [
     [
       ""
     ]
   ],
-  "timestamp": 1408093549251,
-  "new": false
+  "variables": []
 }
 

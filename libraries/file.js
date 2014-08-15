@@ -53,6 +53,24 @@ File.prototype.writeLocalizations = function(localizations) {
 };
 
 /**
+ * Sort object. We want to sort object before writing to disk.
+ *
+ * @param {Object} object
+ * @return {Object}
+ * @api private
+ */
+
+File.prototype._sortObject = function(object) {
+  var keys = _.sortBy(_.keys(object), function(key) { return key; });
+  var newMap = {};
+  _.each(keys, function(k) {
+      newMap[k] = object[k];
+  });
+
+  return newMap;
+};
+
+/**
  * Write localization.
  *
  * @param {Object} localizations
@@ -79,7 +97,7 @@ File.prototype.writeLocalization = function(localizations, locale) {
       var localizationString = '';
 
       for(var index = 0; index < localizations[locale].length; index++) {
-        localizationString += JSON.stringify(localizations[locale][index], null, 2) + _this.linefeed + _this.linefeed;
+        localizationString += JSON.stringify(_this._sortObject(localizations[locale][index]), null, 2) + _this.linefeed + _this.linefeed;
       }
       fs.appendFile(p, localizationString, function(error) {
           if(error) {
