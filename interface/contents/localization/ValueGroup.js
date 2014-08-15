@@ -62,7 +62,7 @@ define(function(require) {
      *
      *   Example:
      *
-     *     ['if', '${variable1}', '===', '1']
+     *     ['if', '${variable1}', '===', '1', '']
      *
      * @api public
      */

@@ -63,15 +63,13 @@ define(function(require) {
       var valueGroup, index = 0;
 
       if(values.length <= 1) {
-        valueGroup = new ValueGroup({
+        return new ValueGroup({
           localization: this,
-          index: index
-        });
-
-        return new Input({
-          value: values.length ? values[0] : '',
-          row: 0,
-          valueGroup: valueGroup
+          index: index,
+          input: new Input({
+            value: values.length ? values[0][0] : '',
+            row: 0
+          })
         });
       }
       var row = 0;
@@ -158,6 +156,10 @@ define(function(require) {
 
     _parse: function(json) {
       this._parseValues(json.values, json.variables);
+
+      delete json.values;
+      delete json.variables;
+      delete json.valueGroups;
 
       this.set(json);
 

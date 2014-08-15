@@ -2,20 +2,25 @@
   "key": "lo\\'\\\"cale1",
   "values": [
     [
+      "if",
+      "value1",
+      "==",
+      "value2",
+      ""
+    ],
+    [
+      "else",
       "${text} wfweefefw"
     ]
   ],
-  "variables": [
-    "${text}"
-  ],
-  "text": "${text} wfweefefw",
+  "variables": [],
+  "text": "; ${text} wfweefefw",
   "timestamp": 1408093549251,
   "new": false,
   "id": "8Ebxk8kzsn",
   "files": [
     "example/javascript/example.js"
-  ],
-  "value": []
+  ]
 }
 
 {
