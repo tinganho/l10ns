@@ -221,7 +221,7 @@ define(function(require) {
       this.$saveButtonContainer.removeClass('is-waiting').addClass('is-loading');
       minTimer.start(1000);
       this.model.save(null, {
-        success: function(model, response, options) {
+        success: function(model, response, options) {
           minTimer.end(function() {
             _this.$saveButtonContainer.removeClass('is-loading').addClass('is-waiting');
             setTimeout(function() {
@@ -254,7 +254,7 @@ define(function(require) {
         , json = this.model.toJSON()
         , valueGroups = this.model.get('valueGroups');
 
-      valueGroups.forEach(function(valueGroup) {
+      valueGroups.forEach(function(valueGroup) {
         var valueGroupView = new ValueGroupView(valueGroup);
         values += valueGroupView.toHTML();
         if(inClient) {

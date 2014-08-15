@@ -156,7 +156,7 @@ define(function(require) {
      * @api private
      */
 
-    _parse: function(json) {
+    _parse: function(json) {
       this._parseValues(json.values, json.variables);
 
       this.set(json);
@@ -212,7 +212,7 @@ define(function(require) {
      *
      * @param {Model} model
      * @param {Object} options
-     * @param {Request} requestData
+     * @param {Request} requestData
      * @return {void}
      * @api private
      */
@@ -227,7 +227,7 @@ define(function(require) {
         .end(function(error, response) {
           if(!error) {
             app.models.localizations.get(json.id).set(json);
-            if(typeof options.success === 'function') {
+            if(typeof options.success === 'function') {
               options.success();
             }
           }
@@ -242,7 +242,7 @@ define(function(require) {
      *
      * @param {Model} model
      * @param {Object} options
-     * @param {Request} requestData
+     * @param {Request} requestData
      * @return {void}
      * @api private
      */
@@ -282,7 +282,7 @@ define(function(require) {
      *
      * @param {Model} model
      * @param {Object} options
-     * @param {Request} requestData
+     * @param {Request} requestData
      * @return {void}
      * @api private
      */
@@ -291,7 +291,7 @@ define(function(require) {
       var _this = this;
 
       file.readLocalizations()
-        .then(function(localizations) {
+        .then(function(localizations) {
           localizations = file.localizationMapToArray(localizations)[requestData.param('locale')];
           var localization = _.findWhere(localizations, { id: requestData.param('id') });
           if(localization) {

@@ -50,7 +50,7 @@ define(function(require) {
      * @overried sync
      */
 
-    sync: function(method, collection, options, request) {
+    sync: function(method, collection, options, request) {
       var _this = this;
 
       if(method === 'read') {

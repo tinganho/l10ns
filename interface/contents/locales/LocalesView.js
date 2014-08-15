@@ -19,7 +19,7 @@ define(function(require) {
 
     constructor: function(model) {
       this.model = model;
-      if(inClient) {
+      if(inClient) {
         this._bindMethods();
       }
     },

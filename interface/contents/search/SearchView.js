@@ -105,7 +105,7 @@ define(function(require) {
      * @handler
      */
 
-    _setIndex: function(event) {
+    _setIndex: function(event) {
       var index = event.currentTarget.getAttribute('data-index');
       this.model.set('resultIndex', index);
     },

@@ -17,7 +17,7 @@ define(function(require) {
      * @type {Object}
      */
 
-    relations: [
+    relations: [
       {
         type: 'HasOne',
         key: 'firstOperand',
