@@ -14,6 +14,7 @@ var readline = require('readline')
 
 function Init() {
   this.rl = null;
+  this.linefeed = '\n';
   this.projectName = '';
   this.json = program.DEFAULT_CONFIGURATIONS;
 }
@@ -341,7 +342,7 @@ Init.prototype._writeProject = function() {
     var projects = { defaultProject: this.projectName };
     projects.projects = {};
     projects.projects[this.projectName] = this.json;
-    fs.writeFileSync(file, JSON.stringify(projects, null, 2));
+    fs.writeFileSync(file, this.linefeed + JSON.stringify(projects, null, 2) + this.linefeed);
   }
 
   if(!fs.existsSync(folder)) {

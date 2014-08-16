@@ -499,7 +499,7 @@ describe('Init', function() {
       init.json = {};
       init._writeProject();
       dependencies.fs.writeFileSync.should.have.been.calledOnce;
-      dependencies.fs.writeFileSync.should.have.been.calledWith('current-working-directory/l10ns.json', '{\n  "defaultProject": "",\n  "projects": {\n    "": {}\n  }\n}');
+      dependencies.fs.writeFileSync.should.have.been.calledWith('current-working-directory/l10ns.json', '\n{\n  "defaultProject": "",\n  "projects": {\n    "": {}\n  }\n}\n');
       cwdStub.restore();
     });
 
