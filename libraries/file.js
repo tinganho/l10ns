@@ -94,7 +94,7 @@ File.prototype.writeLocalization = function(localizations, locale) {
         return deferred.reject(error);
       }
 
-      var localizationString = '';
+      var localizationString = _this.linefeed;
 
       for(var index = 0; index < localizations[locale].length; index++) {
         localizationString += JSON.stringify(_this._sortObject(localizations[locale][index]), null, 2) + _this.linefeed;

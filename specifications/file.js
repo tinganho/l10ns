@@ -138,7 +138,7 @@ describe('File', function() {
       file._sortObject = stub().withArgs({ key: 'key1'}).returns({ key: 'key1'});
       file.writeLocalization(localizations, 'en-US');
       dependencies.fs.appendFile.should.have.been.calledOnce;
-      dependencies.fs.appendFile.should.have.been.calledWith('storage-folder/en-US.locale', '{\n  "key": "key1"\n}\n');
+      dependencies.fs.appendFile.should.have.been.calledWith('storage-folder/en-US.locale', '\n{\n  "key": "key1"\n}\n');
       deferred.resolve.should.have.been.calledOnce;
     });
 
@@ -158,7 +158,7 @@ describe('File', function() {
       file._sortObject.withArgs({ key: 'key2'}).returns({ key: 'key2'});
       file.writeLocalization(localizations, 'en-US');
       dependencies.fs.appendFile.should.have.been.calledOnce;
-      dependencies.fs.appendFile.should.have.been.calledWith('storage-folder/en-US.locale', '{\n  "key": "key1"\n}\n\n{\n  "key": "key2"\n}\n');
+      dependencies.fs.appendFile.should.have.been.calledWith('storage-folder/en-US.locale', '\n{\n  "key": "key1"\n}\n\n{\n  "key": "key2"\n}\n');
       deferred.resolve.should.have.been.calledOnce;
     });
 
