@@ -15,6 +15,10 @@
       "value1",
       "==",
       "value2",
+      "||",
+      "value1",
+      "==",
+      "value2",
       "weefefw"
     ],
     [
@@ -24,7 +28,7 @@
       "value2",
       "||",
       "value1",
-      "==",
+      "<",
       "value2",
       "efeewf"
     ],
@@ -80,10 +84,30 @@
   "id": "G5g8E5MpIr",
   "key": "lo\\'\\\"cale1",
   "new": false,
-  "text": "lo\\'\\\"cale1",
+  "text": "; ; ",
   "timestamp": "2014-08-16T03:22:56.455Z",
+  "value": [],
   "values": [
     [
+      "if",
+      "value1",
+      "==",
+      "value2",
+      ""
+    ],
+    [
+      "else if",
+      "value1",
+      "==",
+      "value2",
+      "&&",
+      "value1",
+      "==",
+      "value2",
+      ""
+    ],
+    [
+      "else",
       ""
     ]
   ],
@@ -99,11 +123,29 @@
   "id": "yxdopx5euo",
   "key": "locale2",
   "new": false,
-  "text": "efwewweffe",
+  "text": "; ; efwewweffe",
   "timestamp": "2014-08-16T03:22:56.455Z",
-  "value": [],
   "values": [
     [
+      "if",
+      "value1",
+      "==",
+      "value2",
+      ""
+    ],
+    [
+      "else if",
+      "value1",
+      "==",
+      "value2",
+      "&&",
+      "value1",
+      "==",
+      "value2",
+      ""
+    ],
+    [
+      "else",
       "efwewweffe"
     ]
   ],

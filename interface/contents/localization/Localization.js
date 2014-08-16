@@ -72,10 +72,9 @@ define(function(require) {
           })
         });
       }
-      var row = 0;
       for(var i = 0; i < values.length; i++) {
         if(values[i].length > 2) {
-          var y = 0;
+          var y = 0, row = 0;
 
           valueGroup = new ValueGroup({
             localization: this,
@@ -157,9 +156,7 @@ define(function(require) {
     _parse: function(json) {
       this._parseValues(json.values, json.variables);
 
-      // We delete json values because we will get a proper
-      // valueGroups json.
-      delete json.values;
+      delete json.valueGroups;
 
       this.set(json);
 
