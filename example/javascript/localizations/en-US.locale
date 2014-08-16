@@ -2,11 +2,10 @@
   "files": [
     "example/javascript/example.js"
   ],
-  "id": "8Ebxk8kzsn",
-  "key": "lo\\'\\\"cale1",
-  "new": false,
-  "text": "",
-  "timestamp": 1408093549251,
+  "id": "rL9oeLp6t4",
+  "key": "ef",
+  "text": "ef",
+  "timestamp": "2014-08-16T03:25:04.379Z",
   "values": [
     [
       ""
@@ -19,14 +18,50 @@
   "files": [
     "example/javascript/example.js"
   ],
-  "id": "ajzo8a87fa",
-  "key": "locale2",
+  "id": "4LdopL4AIp",
+  "key": "bajs",
   "new": false,
-  "text": "hej",
-  "timestamp": 1408093549251,
+  "text": "bajs",
+  "timestamp": "2014-08-16T03:24:16.076Z",
   "values": [
     [
-      "hej"
+      ""
+    ]
+  ],
+  "variables": []
+}
+
+{
+  "files": [
+    "example/javascript/example.js"
+  ],
+  "id": "G5g8E5MpIr",
+  "key": "lo\\'\\\"cale1",
+  "new": false,
+  "text": "lo\\'\\\"cale1",
+  "timestamp": "2014-08-16T03:22:56.455Z",
+  "values": [
+    [
+      ""
+    ]
+  ],
+  "variables": [
+    "${text}"
+  ]
+}
+
+{
+  "files": [
+    "example/javascript/example.js"
+  ],
+  "id": "yxdopx5euo",
+  "key": "locale2",
+  "new": false,
+  "text": "locale2",
+  "timestamp": "2014-08-16T03:22:56.455Z",
+  "values": [
+    [
+      ""
     ]
   ],
   "variables": []

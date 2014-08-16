@@ -175,7 +175,7 @@ Update.prototype._mergeWithOldLocalizations = function(newLocalizations) {
   file.readLocalizations()
     .then(function(oldLocalizations) {
       var newLocalizationsCopy = {}
-        , now = Date.now();
+        , now = (new Date).toISOString();
 
       for(var locale in project.locales) {
         newLocalizationsCopy[locale] = JSON.parse(JSON.stringify(newLocalizations));
@@ -261,7 +261,7 @@ Update.prototype._mergeWithOldLocalizations = function(newLocalizations) {
  */
 
 Update.prototype._getDeletedLocalizations = function(newLocalizations, oldLocalizations) {
-  var now = Date.now(), deletedTranslations = {};
+  var now = (new Date).toISOString(), deletedTranslations = {};
   for(var locale in project.locales) {
     for(var key in oldLocalizations[locale]) {
       if(!(key in newLocalizations[locale])) {

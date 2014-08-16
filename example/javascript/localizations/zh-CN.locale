@@ -2,11 +2,44 @@
   "files": [
     "example/javascript/example.js"
   ],
-  "id": "8Ebxk8kzsn",
+  "id": "rL9oeLp6t4",
+  "key": "ef",
+  "text": "ef",
+  "timestamp": "2014-08-16T03:25:04.379Z",
+  "values": [
+    [
+      ""
+    ]
+  ],
+  "variables": []
+}
+
+{
+  "files": [
+    "example/javascript/example.js"
+  ],
+  "id": "4LdopL4AIp",
+  "key": "bajs",
+  "new": false,
+  "text": "bajs",
+  "timestamp": "2014-08-16T03:24:16.076Z",
+  "values": [
+    [
+      ""
+    ]
+  ],
+  "variables": []
+}
+
+{
+  "files": [
+    "example/javascript/example.js"
+  ],
+  "id": "G5g8E5MpIr",
   "key": "lo\\'\\\"cale1",
   "new": false,
   "text": "lo\\'\\\"cale1",
-  "timestamp": 1408093549251,
+  "timestamp": "2014-08-16T03:22:56.455Z",
   "values": [
     [
       ""
@@ -21,11 +54,11 @@
   "files": [
     "example/javascript/example.js"
   ],
-  "id": "ajzo8a87fa",
+  "id": "yxdopx5euo",
   "key": "locale2",
   "new": false,
   "text": "locale2",
-  "timestamp": 1408093549251,
+  "timestamp": "2014-08-16T03:22:56.455Z",
   "values": [
     [
       ""
