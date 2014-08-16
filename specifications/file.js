@@ -138,7 +138,27 @@ describe('File', function() {
       file._sortObject = stub().withArgs({ key: 'key1'}).returns({ key: 'key1'});
       file.writeLocalization(localizations, 'en-US');
       dependencies.fs.appendFile.should.have.been.calledOnce;
-      dependencies.fs.appendFile.should.have.been.calledWith('storage-folder/en-US.locale', '{\n  "key": "key1"\n}\n\n');
+      dependencies.fs.appendFile.should.have.been.calledWith('storage-folder/en-US.locale', '{\n  "key": "key1"\n}\n');
+      deferred.resolve.should.have.been.calledOnce;
+    });
+
+    it('should add two linefeeds between each localization and end with a single linefeed', function() {
+      project.store = 'storage-folder';
+      var deferred = { resolve: spy() };
+      dependencies.q.defer = stub().returns(deferred);
+      dependencies.fs.existsSync = stub().withArgs(project.store).returns(true);
+      dependencies.fs.appendFile = stub();
+      dependencies.fs.appendFile.callsArgWith(2, null);
+      dependencies.fs.unlink = stub();
+      dependencies.fs.unlink.callsArgWith(1, null);
+      var file = new (proxyquire('../libraries/file', dependencies).File);
+      var localizations = { 'en-US': [{ key: 'key1' }, { key: 'key2' }] };
+      file._sortObject = stub()
+      file._sortObject.withArgs({ key: 'key1'}).returns({ key: 'key1'});
+      file._sortObject.withArgs({ key: 'key2'}).returns({ key: 'key2'});
+      file.writeLocalization(localizations, 'en-US');
+      dependencies.fs.appendFile.should.have.been.calledOnce;
+      dependencies.fs.appendFile.should.have.been.calledWith('storage-folder/en-US.locale', '{\n  "key": "key1"\n}\n\n{\n  "key": "key2"\n}\n');
       deferred.resolve.should.have.been.calledOnce;
     });
 
