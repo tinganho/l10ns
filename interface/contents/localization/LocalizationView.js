@@ -66,6 +66,7 @@ define(function(require) {
       this._valueGroupViews.forEach(function(valueGroupView) {
         valueGroupView.setElement('[data-index="' + valueGroupView.model.get('index') + '"]');
         valueGroupView.bindDOM();
+        valueGroupView.bindModel();
       });
 
       this._setElements();
