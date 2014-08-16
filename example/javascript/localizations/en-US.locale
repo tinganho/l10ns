@@ -8,6 +8,7 @@
   "new": false,
   "text": "weefefw; efeewf; wefewfef; fewfefwefwefw",
   "timestamp": "2014-08-16T03:25:04.379Z",
+  "value": [],
   "values": [
     [
       "if",
@@ -18,7 +19,7 @@
     ],
     [
       "else if",
-      "value1",
+      "effeef",
       "==",
       "value2",
       "||",
@@ -98,11 +99,12 @@
   "id": "yxdopx5euo",
   "key": "locale2",
   "new": false,
-  "text": "locale2",
+  "text": "efwewweffe",
   "timestamp": "2014-08-16T03:22:56.455Z",
+  "value": [],
   "values": [
     [
-      ""
+      "efwewweffe"
     ]
   ],
   "variables": []

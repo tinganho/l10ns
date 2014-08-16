@@ -157,6 +157,8 @@ define(function(require) {
     _parse: function(json) {
       this._parseValues(json.values, json.variables);
 
+      // We delete json values because we will get a proper
+      // valueGroups json.
       delete json.values;
 
       this.set(json);
