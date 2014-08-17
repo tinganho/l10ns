@@ -16,14 +16,9 @@ $base-line: 10;
 $sprite-folders : default;
 @import "compass-retina-sprites";
 
-$mobile: 0px 500px;
-$tablet: 0px 900px;
-$desktop: 501px;
-
 // General styles
 @import "animation";
 @import "compass";
-@import "breakpoint";
 @import "compass-placeholder";
 
 // Contents

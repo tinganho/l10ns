@@ -18,7 +18,6 @@ define(function(require) {
     , FirstOperand = Condition.prototype.FirstOperand
     , LastOperand = Condition.prototype.LastOperand;
 
-
   if(inClient) {
     var minTimer = require('minTimer');
   }
@@ -34,7 +33,7 @@ define(function(require) {
 
     initialize: function(model) {
       this.model = model;
-      this._valueGroupViews = [];
+      this.valueGroupViews = [];
       if(inClient) {
         this._bindMethods();
       }
@@ -50,7 +49,7 @@ define(function(require) {
     bindModel: function() {
       this.listenTo(this.model, 'add:valueGroups', this._renderValueGroupAddition);
       this.listenTo(this.model, 'remove:valueGroups', this._renderValueGroupRemoval);
-      this._valueGroupViews.forEach(function(valueGroupView) {
+      this.valueGroupViews.forEach(function(valueGroupView) {
         valueGroupView.bindModel();
       });
     },
@@ -63,7 +62,7 @@ define(function(require) {
      */
 
     bindDOM: function() {
-      this._valueGroupViews.forEach(function(valueGroupView) {
+      this.valueGroupViews.forEach(function(valueGroupView) {
         valueGroupView.setElement('[data-index="' + valueGroupView.model.get('index') + '"]');
         valueGroupView.bindDOM();
       });
@@ -82,7 +81,7 @@ define(function(require) {
     _bindMethods: function() {
       _.bindAll(
         this,
-        '_addCondition',
+        '_addValueGroup',
         '_save',
         '_renderValueGroupAddition',
         '_renderValueGroupRemoval'
@@ -103,9 +102,10 @@ define(function(require) {
 
       this.$values.prepend(valueGroupView.toHTML());
       valueGroupView.setElement('.value-group[data-index="' + index + '"]');
+      valueGroupView.localizationView = this;
       valueGroupView.bindDOM();
       valueGroupView.bindModel();
-      this._valueGroupViews.unshift(valueGroupView);
+      this.valueGroupViews.unshift(valueGroupView);
     },
 
     /**
@@ -117,14 +117,19 @@ define(function(require) {
      */
 
     _renderValueGroupRemoval: function(valueGroup) {
-      var index = valueGroup.get('index');
-      var valueGroupView = this._valueGroupViews.splice(index, 1)[0];
+      var index = valueGroup.get('index')
+        , valueGroups = this.model.get('valueGroups')
+        , valueGroupView = this.valueGroupViews.splice(index, 1)[0];
+
       valueGroupView.remove();
-      this.model.get('valueGroups').forEach(function(valueGroup) {
+      valueGroups.forEach(function(valueGroup) {
         if(valueGroup.get('index') > index) {
           valueGroup.set('index', valueGroup.get('index') - 1);
         }
       });
+      if(valueGroups.length === 2) {
+        valueGroups.sort().at(0).set('movable', false);
+      }
     },
 
     /**
@@ -136,7 +141,7 @@ define(function(require) {
 
     _addMouseInteractions: function() {
       this.$('[disabled]').removeAttr('disabled');
-      this.$el.on('click', '.add-condition', this._addCondition);
+      this.$el.on('click', '.add-condition', this._addValueGroup);
       this.$el.on('click', '.save', this._save);
     },
 
@@ -161,11 +166,13 @@ define(function(require) {
      * @delegate
      */
 
-    _addCondition: function(event) {
+    _addValueGroup: function(event) {
       var _this = this
-        , index = this.model.get('valueGroups').length
+        , valueGroups = this.model.get('valueGroups')
+        , index = valueGroups.length
         , variables = this.model.get('variables')
-        , firstValueGroup = this.model.get('valueGroups').where({ index: 0 })[0];
+        , firstValueGroup = this.model.get('valueGroups').where({ index: 0 })[0]
+        , newValueGroup;
 
       this.model.get('valueGroups').forEach(function(valueGroup) {
         valueGroup.set('index', valueGroup.get('index') + 1);
@@ -194,11 +201,24 @@ define(function(require) {
 
       var input = new Input({ value: '', row: 1 });
 
-      var newValueGroup = new ValueGroup({
-        localization: this.model,
-        index: 0,
-        input: input
-      });
+      if(valueGroups.length > 1) {
+        if(valueGroups.length === 2) {
+          this.model.get('valueGroups').at(0).set('movable', true);
+        }
+        newValueGroup = new ValueGroup({
+          localization: this.model,
+          index: 0,
+          input: input,
+          movable: true
+        });
+      }
+      else {
+        newValueGroup = new ValueGroup({
+          localization: this.model,
+          index: 0,
+          input: input
+        });
+      }
 
       condition.set('valueGroup', newValueGroup);
 
@@ -257,9 +277,10 @@ define(function(require) {
 
       valueGroups.forEach(function(valueGroup) {
         var valueGroupView = new ValueGroupView(valueGroup);
+        valueGroupView.localizationView = _this;
         values += valueGroupView.toHTML();
         if(inClient) {
-          _this._valueGroupViews.push(valueGroupView);
+          _this.valueGroupViews.push(valueGroupView);
         }
       });
 

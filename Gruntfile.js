@@ -1,6 +1,6 @@
 
 var jshintGlobals = require('jshint-globals')
-  , compassRequires = ['susy', 'compass-placeholder', 'compass-retina-sprites', 'toolkit', 'animation', 'compass-h5bp'];
+  , compassRequires = ['compass-placeholder', 'compass-retina-sprites', 'animation', 'compass-h5bp'];
 
 module.exports = function(grunt) {
 
@@ -11,40 +11,40 @@ module.exports = function(grunt) {
 
     jshint: {
       options: {
-        maxlen : 100,
-        strict : false,
-        curly : false,
-        eqeqeq : true,
-        loopfunc : true,
-        forin : false,
-        immed : true,
-        latedef : true,
-        newcap : true,
-        noarg : true,
-        sub : true,
-        undef : true,
-        boss : true,
-        eqnull : true,
-        node : true,
-        es5 : true,
-        supernew : true,
-        laxbreak : true,
-        expr : true,
-        laxcomma : true,
-        unused : true,
+        maxlen: 100,
+        strict: false,
+        curly: false,
+        eqeqeq: true,
+        loopfunc: true,
+        forin: false,
+        immed: true,
+        latedef: true,
+        newcap: true,
+        noarg: true,
+        sub: true,
+        undef: true,
+        boss: true,
+        eqnull: true,
+        node: true,
+        es5: true,
+        supernew: true,
+        laxbreak: true,
+        expr: true,
+        laxcomma: true,
+        unused: true,
         globals: jshintGlobals({
-          lcf : true,
-          pcf : true,
-          cf : true,
-          gt : true,
-          tmpl : true,
-          opt : true,
-          Modernizr : true,
-          jQuery : true,
-          $ : true,
-          requirejs : jshintGlobals.requirejs,
-          mocha : jshintGlobals.mocha,
-          browser : jshintGlobals.browser
+          lcf: true,
+          pcf: true,
+          cf: true,
+          gt: true,
+          tmpl: true,
+          opt: true,
+          Modernizr: true,
+          jQuery: true,
+          $: true,
+          requirejs: jshintGlobals.requirejs,
+          mocha: jshintGlobals.mocha,
+          browser: jshintGlobals.browser
         })
       },
 
@@ -59,28 +59,31 @@ module.exports = function(grunt) {
       ]
     },
 
-    compass : {
-      documents : {
-        options : {
-          require : compassRequires,
-          sassDir : 'interface/documents/styles',
-          cssDir : 'interface/public/styles/documents',
-          debugInfo : true,
-          noLineComments : true,
-          imagesDir : 'interface/public/images',
-          relativeAssets : true
+    compass: {
+      documents: {
+        options: {
+          config: 'interface/configurations/compass.rb',
+          require: compassRequires,
+          sassDir: 'interface/documents/styles',
+          cssDir: 'interface/public/styles/documents',
+          debugInfo: false,
+          noLineComments: true,
+          imagesDir: 'interface/public/images',
+          relativeAssets: true
         }
       },
 
-      content : {
-        options : {
-          require : compassRequires,
-          sassDir : 'interface/contents/styles',
-          cssDir : 'interface/public/styles/content',
-          debugInfo : true,
-          noLineComments : true,
-          imagesDir : 'interface/public/images',
-          relativeAssets : true
+      content: {
+        options: {
+          config: 'interface/configurations/compass.rb',
+          require: compassRequires,
+          sassDir: 'interface/contents/styles',
+          cssDir: 'interface/public/styles/content',
+          debugInfo: false,
+          noLineComments: true,
+          imagesDir: 'interface/public/images',
+          relativeAssets: true,
+          trace: true
         }
       }
     },
@@ -108,85 +111,85 @@ module.exports = function(grunt) {
       }
     },
 
-    modernizr : {
-      dist : {
-        devFile : 'interface/vendor/modernizr/modernizr.js',
-        outputFile : 'interface/vendor/modernizr/build/modernizr.js', // we will revision this later
-        extra : {
-          shiv : true,
-          printShiv : false,
-          mq : true,
-          cssclasses : true
+    modernizr: {
+      dist: {
+        devFile: 'interface/vendor/modernizr/modernizr.js',
+        outputFile: 'interface/vendor/modernizr/build/modernizr.js', // we will revision this later
+        extra: {
+          shiv: true,
+          printShiv: false,
+          mq: true,
+          cssclasses: true
         },
-        extensibility : {
-          addtest : true,
-          prefixed : false,
-          teststyles : false,
-          testallprops : false,
-          hasevents : false,
-          prefixes : false,
-          domprefixes : false,
+        extensibility: {
+          addtest: true,
+          prefixed: false,
+          teststyles: false,
+          testallprops: false,
+          hasevents: false,
+          prefixes: false,
+          domprefixes: false,
         },
-        uglify : true,
-        parseFiles : true
+        uglify: true,
+        parseFiles: true
       }
     },
 
-    clean : {
+    clean: {
       css: ['interface/public/styles/*']
     },
 
     dot: {
-      core : {
-        options : {
-          variable : 'tmpl',
-          requirejs : true,
-          node : true
+      core: {
+        options: {
+          variable: 'tmpl',
+          requirejs: true,
+          node: true
         },
-        src : ['interface/core/**/*.dot'],
-        dest : 'interface/public/templates/core/templates.js'
+        src: ['interface/core/**/*.dot'],
+        dest: 'interface/public/templates/core/templates.js'
       },
 
-      documents : {
-        options : {
-          variable : 'tmpl',
-          requirejs : true,
-          node : true
+      documents: {
+        options: {
+          variable: 'tmpl',
+          requirejs: true,
+          node: true
         },
-        src : ['interface/documents/**/*.dot'],
-        dest : 'interface/public/templates/documents/templates.js'
+        src: ['interface/documents/**/*.dot'],
+        dest: 'interface/public/templates/documents/templates.js'
       },
 
-      layouts : {
-        options : {
-          variable : 'tmpl',
-          requirejs : true,
-          node : true
+      layouts: {
+        options: {
+          variable: 'tmpl',
+          requirejs: true,
+          node: true
         },
-        src : ['interface/layouts/**/*.dot'],
-        dest : 'interface/public/templates/layouts/templates.js'
+        src: ['interface/layouts/**/*.dot'],
+        dest: 'interface/public/templates/layouts/templates.js'
       },
 
-      content_app : {
-        options : {
-          variable : 'tmpl',
-          requirejs : true,
-          node : true
+      content_app: {
+        options: {
+          variable: 'tmpl',
+          requirejs: true,
+          node: true
         },
-        src : [
+        src: [
           'interface/contents/**/*.dot'
         ],
-        dest : 'interface/public/templates/contents/templates.js'
+        dest: 'interface/public/templates/contents/templates.js'
       },
 
-      jsPlugin : {
-        options : {
-          variable : 'tmpl',
-          requirejs : false,
-          node : true
+      jsPlugin: {
+        options: {
+          variable: 'tmpl',
+          requirejs: false,
+          node: true
         },
-        src : ['plugins/javascript/templates/*.{dot,part}'],
-        dest : 'plugins/javascript/templates/build/templates.js'
+        src: ['plugins/javascript/templates/*.{dot,part}'],
+        dest: 'plugins/javascript/templates/build/templates.js'
       }
     },
 
@@ -220,31 +223,31 @@ module.exports = function(grunt) {
         tasks: ['jshint']
       },
 
-      styles_documents : {
-        files : [
+      styles_documents: {
+        files: [
           'interface/layouts/**/*.scss',
           'interface/documents/styles/**/*.scss',
           'interface/components/**/*.scss'
         ],
-        tasks : ['compass:documents']
+        tasks: ['compass:documents']
       },
 
-      styles_content_app : {
-        files : [
+      styles_content_app: {
+        files: [
           'interface/contents/**/*.scss'
         ],
-        tasks : ['compass:content']
+        tasks: ['compass:content']
       }
     },
 
     webp: {
-      dev : {
+      dev: {
         expand: true,
-        cwd : 'interface/public/images',
-        src : [
+        cwd: 'interface/public/images',
+        src: [
           '*.{jpg,png}'
         ],
-        dest : 'interface/public/images-webp'
+        dest: 'interface/public/images-webp'
       },
       options: {
         lossless: true,
@@ -254,15 +257,15 @@ module.exports = function(grunt) {
     requirejs: {
       default: {
         options: {
-          optimize : 'uglify',
-          preserveLicenseComments : false,
-          // generateSourceMaps : true,
-          baseUrl : 'interface',
-          mainConfigFile : 'interface/documents/mains/app.js',
-          out : 'interface/public/scripts/mains/app.js',
-          name : 'documents/mains/app',
-          paths : {
-            'modernizr' : 'empty:'
+          optimize: 'uglify',
+          preserveLicenseComments: false,
+          // generateSourceMaps: true,
+          baseUrl: 'interface',
+          mainConfigFile: 'interface/documents/mains/app.js',
+          out: 'interface/public/scripts/mains/app.js',
+          name: 'documents/mains/app',
+          paths: {
+            'modernizr': 'empty:'
           }
         }
       }

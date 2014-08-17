@@ -4,4 +4,9 @@ Confition group
 
 !-->
 
-<div class="value-group" data-index="{{=it.index}}">{{=it.values}}</div>
+<div class="value-group {{?it.movable}}is-movable{{?}}" data-index="{{=it.index}}">
+  <div class="value-group-grip">
+    <i class="value-group-grip-icon sp-default sp-default-grip"></i>
+  </div>
+  {{=it.values}}
+</div>

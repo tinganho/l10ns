@@ -6,23 +6,12 @@
   "id": "rL9oeLp6t4",
   "key": "ef",
   "new": false,
-  "text": "weefefw; efeewf; wefewfef; fewfefwefwefw",
+  "text": "wefewfef; efeewf; weefefw; fewfefwefwefw",
   "timestamp": "2014-08-16T03:25:04.379Z",
   "value": [],
   "values": [
     [
       "if",
-      "value1",
-      "==",
-      "value2",
-      "||",
-      "value1",
-      "==",
-      "value2",
-      "weefefw"
-    ],
-    [
-      "else if",
       "effeef",
       "==",
       "value2",
@@ -44,6 +33,17 @@
       "wefewfef"
     ],
     [
+      "else if",
+      "value1",
+      "==",
+      "value2",
+      "||",
+      "value1",
+      "==",
+      "value2",
+      "weefefw"
+    ],
+    [
       "else",
       "fewfefwefwefw"
     ]
@@ -58,12 +58,19 @@
   "id": "4LdopL4AIp",
   "key": "bajs",
   "new": false,
-  "text": "; ",
+  "text": "ewfwewefewf; ; ",
   "timestamp": "2014-08-16T03:24:16.076Z",
   "value": [],
   "values": [
     [
       "if",
+      "value1",
+      "==",
+      "value2",
+      "ewfwewefewf"
+    ],
+    [
+      "else if",
       "value1",
       "==",
       "value2",

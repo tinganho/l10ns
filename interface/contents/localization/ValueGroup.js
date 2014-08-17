@@ -18,6 +18,16 @@ define(function(require) {
   var Constructor = Model.extend({
 
     /**
+     * Default values
+     *
+     * @property {Object}
+     */
+
+    defaults: {
+      movable: false
+    },
+
+    /**
      * Relations
      *
      * @type {Array}

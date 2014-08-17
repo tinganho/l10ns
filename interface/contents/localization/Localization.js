@@ -76,10 +76,19 @@ define(function(require) {
         if(values[i].length > 2) {
           var y = 0, row = 0;
 
-          valueGroup = new ValueGroup({
-            localization: this,
-            index: index
-          });
+          if(values.length === 2) {
+            valueGroup = new ValueGroup({
+              localization: this,
+              index: index
+            });
+          }
+          else {
+            valueGroup = new ValueGroup({
+              localization: this,
+              index: index,
+              movable: true
+            });
+          }
 
           index++;
 
@@ -340,7 +349,7 @@ define(function(require) {
         , values = []
         , text = [];
 
-      this.get('valueGroups').forEach(function(valueGroup) {
+      this.get('valueGroups').sort().forEach(function(valueGroup) {
         var group = valueGroup.toL10nsJSON();
         values[valueGroup.get('index')] = group;
         text.push(_.last(group));

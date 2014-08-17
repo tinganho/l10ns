@@ -1,0 +1,2 @@
+
+<div class="value-group shadow" style="width: {{=it.width}}px; height: {{=it.height}}px;"></div>

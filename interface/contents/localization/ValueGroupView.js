@@ -22,9 +22,9 @@ define(function(require) {
 
     constructor: function(model) {
       this.model = model;
-      this._conditionViews = [];
-      this._inputViews = null;
-      this._elseView = null;
+      this.conditionViews = [];
+      this.inputViews = null;
+      this.elseView = null;
       this._bindMethods();
     },
 
@@ -38,9 +38,13 @@ define(function(require) {
     _bindMethods: function() {
       _.bindAll(this,
         '_reOrder',
+        '_renderGrip',
         '_renderElse',
         '_renderConditionAddition',
-        '_renderConditionRemoval');
+        '_renderConditionRemoval',
+        '_renderMoving',
+        '_letShadowFollowMouse',
+        '_setNewValueGroupOrder');
     },
 
     /**
@@ -53,15 +57,32 @@ define(function(require) {
 
     bindModel: function() {
       this.listenTo(this.model, 'change:index', this._reOrder);
+      this.listenTo(this.model, 'change:movable', this._renderGrip);
       this.listenTo(this.model, 'change:else', this._renderElse);
       this.listenTo(this.model, 'add:conditions', this._renderConditionAddition);
       this.listenTo(this.model, 'remove:conditions', this._renderConditionRemoval);
-      this._conditionViews.forEach(function(conditionView) {
+      this.conditionViews.forEach(function(conditionView) {
         conditionView.bindModel();
       });
-      this._inputView.bindModel();
-      if(this._elseView) {
-        this._elseView.bindModel();
+      this.inputView.bindModel();
+      if(this.elseView) {
+        this.elseView.bindModel();
+      }
+    },
+
+    /**
+     * Render grip
+     *
+     * @return {void}
+     * @handler
+     */
+
+    _renderGrip: function() {
+      if(this.model.get('movable')) {
+        this.$el.addClass('is-movable');
+      }
+      else {
+        this.$el.removeClass('is-movable');
       }
     },
 
@@ -105,7 +126,7 @@ define(function(require) {
       conditionView.lastOperandView.setElement(_this.$el.find(conditionSelector + ' .condition-last-operand'));
       conditionView.lastOperandView.bindDOM();
 
-      this._conditionViews.splice(condition.get('row'), 0, conditionView);
+      this.conditionViews.splice(condition.get('row'), 0, conditionView);
     },
 
     /**
@@ -156,14 +177,14 @@ define(function(require) {
     _renderElse: function() {
       var _else = this.model.get('else');
       if(_else) {
-        this._elseView = new ElseView(_else);
-        this.$el.prepend(this._elseView.toHTML());
-        this._elseView.setElement(this.$el.find('.condition-else'));
-        this._elseView.bindDOM();
-        this._elseView.bindModel();
+        this.elseView = new ElseView(_else);
+        this.$el.prepend(this.elseView.toHTML());
+        this.elseView.setElement(this.$el.find('.condition-else'));
+        this.elseView.bindDOM();
+        this.elseView.bindModel();
       }
       else {
-        this._elseView.remove();
+        this.elseView.remove();
       }
     },
 
@@ -199,7 +220,7 @@ define(function(require) {
     _removeConditionWithSubsequentCondition: function(removingCondition) {
       var _this = this
         , removalRow = removingCondition.get('row')
-        , conditionView = this._conditionViews.splice(removalRow, 1)[0];
+        , conditionView = this.conditionViews.splice(removalRow, 1)[0];
 
       conditionView.remove();
 
@@ -248,7 +269,7 @@ define(function(require) {
 
     _removeCondition: function(removingCondition) {
       var removingRow = removingCondition.get('row')
-        , conditionView = this._conditionViews.splice(removingCondition.get('row'), 1)[0];
+        , conditionView = this.conditionViews.splice(removingCondition.get('row'), 1)[0];
 
       conditionView.remove();
       this.model.get('conditions').forEach(function(condition) {
@@ -281,7 +302,9 @@ define(function(require) {
     bindDOM: function() {
       var _this = this;
 
-      this._conditionViews.forEach(function(conditionView) {
+      this._setElements();
+
+      this.conditionViews.forEach(function(conditionView) {
         var conditionSelector = '.condition[data-row="' + conditionView.model.get('row') + '"]';
         conditionView.setElement(_this.$el.find(conditionSelector));
         conditionView.bindDOM();
@@ -291,13 +314,197 @@ define(function(require) {
         conditionView.lastOperandView.bindDOM();
       });
 
-      var inputSelector = '.input[data-row="' + this._inputView.model.get('row') + '"]';
-      this._inputView.setElement(this.$el.find(inputSelector));
-      this._inputView.bindDOM();
+      var inputSelector = '.input[data-row="' + this.inputView.model.get('row') + '"]';
+      this.inputView.setElement(this.$el.find(inputSelector));
+      this.inputView.bindDOM();
 
-      if(this._elseView) {
-        this._elseView.setElement(this.$el.find('.condition-else'));
+      if(this.elseView) {
+        this.elseView.setElement(this.$el.find('.condition-else'));
       }
+
+      this._addMouseInteractions();
+    },
+
+    /**
+     * Render value group is moving
+     *
+     * @return {void}
+     * @api private
+     * @handler
+     */
+
+    _renderMoving: function(event) {
+      this.$grip.addClass('is-grabbed');
+
+      var valueGroupOffset = this.$el.offset()
+        , width = this.$el.width()
+        , height = this.$el.height()
+        , scrollTop = this.$window.scrollTop()
+
+      this.$el.before(template['ValueGroupShadow']({
+        width: width,
+        height: height
+      }));
+      this.$shadow = this.localizationView.$('.value-group.shadow');
+
+      this.$el
+        .css('position', 'fixed')
+        .css('top', valueGroupOffset.top - scrollTop)
+        .css('left', valueGroupOffset.left)
+        .css('z-index', 100)
+        .css('width', width)
+        .addClass('is-moving')
+
+      var gripOffset = this.$grip.offset();
+      this.gripsMousePosition = {
+        left: event.pageX - gripOffset.left,
+        top: event.pageY - gripOffset.top
+      };
+      this.valueGroupDimensions = {
+        height: height + this._getComputedStyle(this.$el, 'padding-top') + this._getComputedStyle(this.$el, 'padding-bottom'),
+        width: width + this._getComputedStyle(this.$el, 'padding-left') + this._getComputedStyle(this.$el, 'padding-right')
+      };
+
+      this.$document.on('mousemove', this._letShadowFollowMouse);
+      this.$document.on('mouseup', this._setNewValueGroupOrder);
+    },
+
+    /**
+     * Set new value group order
+     *
+     * @return {void}
+     * @api private
+     * @handler
+     */
+
+    _setNewValueGroupOrder: function() {
+      var _this = this;
+
+      this.$el.attr('style', '').removeClass('is-moving');
+      this.$grip.removeClass('is-grabbed');
+      this.$shadow.before(_this.$el);
+      this.$shadow.remove();
+      _.defer(function() {
+        _this.$document.off('mousemove', this._letShadowFollowMouse);
+        _this.$document.off('mouseup', this._setNewValueGroupOrder);
+      });
+    },
+
+    /**
+     * Let value group follow mouse position
+     *
+     * @return {void}
+     * @api private
+     */
+
+    _letShadowFollowMouse: function(event) {
+      var left = event.clientX - this.valueGroupDimensions.width - this.gripsMousePosition.left
+        , top = event.clientY - this.gripsMousePosition.top;
+
+      this.$el
+        .css('left', left)
+        .css('top', top)
+
+      this._renderShadowMove(left, top,
+        left + this.valueGroupDimensions.width,
+        top + this.valueGroupDimensions.height);
+    },
+
+    /**
+     * Returns the absolute number instead of string for a style property
+     *
+     * @param {jQuery} $element
+     * @param {String} style
+     * @return {Number}
+     * @api private
+     */
+
+    _getComputedStyle: function($element, style) {
+      return parseInt($element.css(style).replace('px'), 10);
+    },
+
+    /**
+     * Render shadow
+     *
+     * @param {Number} left
+     * @param {Number} top
+     * @return {void}
+     * @api private
+     */
+
+    _renderShadowMove: function(left, top, right, bottom) {
+      var _this = this
+        , elseIndex = this.localizationView.valueGroupViews.length - 1
+        , shadowIndex = this.model.get('index')
+        , scrollLeft = this.$window.scrollLeft()
+        , scrollTop = this.$window.scrollTop()
+
+      this.localizationView.valueGroupViews.some(function(valueGroupView, index) {
+        if(index === shadowIndex) {
+          return false;
+        }
+
+        if(index !== elseIndex) {
+          var valueGroupOffset = valueGroupView.$el.offset()
+            , fixedLeft = valueGroupOffset.left - scrollLeft
+            , fixedTop = valueGroupOffset.top - scrollTop
+            , fixedBottom = fixedTop + valueGroupView.$el.height() +
+              _this._getComputedStyle(valueGroupView.$el, 'padding-top') +
+              _this._getComputedStyle(valueGroupView.$el, 'padding-bottom') +
+              _this._getComputedStyle(valueGroupView.$el, 'margin-bottom')
+            , inUpperHalf = top >= fixedTop && top <= (fixedTop + fixedBottom) / 2
+            , inLowerHalf = top <= fixedBottom && top >= (fixedTop + fixedBottom) / 2
+            , firstAndBiggerThanTop = index === 0 && top <= fixedTop
+            , lastAndSmallerThanBottom = index === elseIndex - 1 && top >= fixedBottom;
+
+          if(index < shadowIndex
+          && (inUpperHalf || firstAndBiggerThanTop)) {
+            _this.localizationView.$('.value-group[data-index="' + index + '"]').before(_this.$shadow);
+            _this.model.get('localization').get('valueGroups').sort().at(index).set('index', index + 1);
+            _this.model.set('index', index);
+            var replacingValueGroupView = _this.localizationView.valueGroupViews[index];
+            _this.localizationView.valueGroupViews[index] = _this.localizationView.valueGroupViews[shadowIndex];
+            _this.localizationView.valueGroupViews[shadowIndex] = replacingValueGroupView;
+            return true;
+          }
+          else if(index > shadowIndex
+          && (inLowerHalf || lastAndSmallerThanBottom)) {
+            _this.localizationView.$('.value-group[data-index="' + index + '"]').after(_this.$shadow);
+            _this.model.get('localization').get('valueGroups').sort().at(index).set('index', index - 1);
+            _this.model.set('index', index);
+            var replacingValueGroupView = _this.localizationView.valueGroupViews[index];
+            _this.localizationView.valueGroupViews[index] = _this.localizationView.valueGroupViews[shadowIndex];
+            _this.localizationView.valueGroupViews[shadowIndex] = replacingValueGroupView;
+            return true;
+          }
+        }
+
+        return false;
+      });
+    },
+
+    /**
+     * Add mouse interactions
+     *
+     * @return {void}
+     * @api private
+     */
+
+    _addMouseInteractions: function() {
+      this.$grip.on('mousedown', this._renderMoving);
+    },
+
+    /**
+     * Set elements
+     *
+     * @return {void}
+     * @api private
+     */
+
+    _setElements: function() {
+      this.$grip = this.$('.value-group-grip');
+      this.$window = $(window);
+      this.$document = $(document);
     },
 
     /**
@@ -311,24 +518,25 @@ define(function(require) {
         , html = []
         , input = this.model.get('input');
 
-      this._inputView = new InputView(input);
-      html[input.get('row')] = this._inputView.toHTML();
+      this.inputView = new InputView(input);
+      html[input.get('row')] = this.inputView.toHTML();
 
       this.model.get('conditions').forEach(function(condition) {
         var conditionView = new ConditionView(condition);
         html[condition.get('row')] = conditionView.toHTML();
-        _this._conditionViews.push(conditionView);
+        _this.conditionViews.push(conditionView);
       });
 
       var _else = this.model.get('else');
       if(_else) {
-        this._elseView = new ElseView(_else);
-        html[0] = this._elseView.toHTML();
+        this.elseView = new ElseView(_else);
+        html[0] = this.elseView.toHTML();
       }
 
       return template['ValueGroup']({
         index: this.model.get('index'),
-        values: html.join('')
+        values: html.join(''),
+        movable: this.model.get('movable')
       });
     }
   });
