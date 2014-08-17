@@ -19,7 +19,7 @@
       </ul>
     </div>
     <div class="localization-inputs clearfix">
-      <label class="localization-sub-title">{{=it.i18n_value}}</label>
+      <label class="localization-sub-title">{{=it.i18n_values}}</label>
       <div class="localization-values">
         {{=it.values}}
       </div>

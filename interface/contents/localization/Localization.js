@@ -187,7 +187,7 @@ define(function(require) {
       new: false,
 
       i18n_variables: 'VARIABLES',
-      i18n_value: 'VALUE',
+      i18n_values: 'VALUES',
       i18n_none: 'None',
       i18n_save: 'Save',
       i18n_addCondition: 'Add condition'
