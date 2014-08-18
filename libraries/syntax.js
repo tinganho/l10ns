@@ -20,15 +20,15 @@ function Syntax() {}
  * @api public
  */
 
-Syntax.prototype.hasErrorDuplicate = function(newTranslations, key, vars) {
+Syntax.prototype.hasErrorDuplicate = function(newTranslations, key, variables) {
   if(typeof newTranslations[key] === 'undefined') {
     return false;
   }
-  if(vars.length !== newTranslations[key].vars.length) {
+  if(variables.length !== newTranslations[key].variables.length) {
     return true;
   }
-  for(var i in vars) {
-    if(newTranslations[key].vars[i] !== vars[i]) {
+  for(var i in variables) {
+    if(newTranslations[key].variables[i] !== variables[i]) {
       return true;
     }
   }
