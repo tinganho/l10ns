@@ -4,7 +4,7 @@
   color: #ffffff;
   margin: 0 auto;
   border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-  padding: 14px 0;
+  padding: 10px 0;
   overflow: hidden;
 }
 
@@ -18,9 +18,11 @@
 .logo {
   font-size: 18px;
   float: left;
+  width: 28px;
+  height: 28px;
+  background: url('../images/l10ns-logo.png');
+  background-size: 28px 28px;
 }
-
-
 
 @media(max-width: 800px) {
   .logo {

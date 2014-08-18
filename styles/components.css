@@ -66,6 +66,7 @@ a {
 .menu-item {
   float: left;
   margin-left: 22px;
+  line-height: 28px;
 }
 
 .timeline-pin-container {

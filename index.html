@@ -15,17 +15,17 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="viewport" content="width=device-width, user-scalable=no, minimal-ui">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="gt | Effective translation workflow">
+<meta name="twitter:title" content="L10ns | Effective translation workflow">
 <meta name="twitter:description" content="CLI tool for effectively update translation keys, edit translations and open translation interface.">
 <meta name="twitter:creator" content="@tinganho">
-<meta name="twitter:image:src" content="http://tinganho.github.io/get-translation/images/cli-and-editor.png">
+<meta name="twitter:image:src" content="http://tinganho.github.io/l10ns/images/cli-and-editor.png">
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-  ga('create', 'UA-51369650-1', 'get-translation.co');
+  ga('create', 'UA-51369650-1', 'l10ns.org');
   ga('send', 'pageview');
 
 </script>
@@ -33,10 +33,10 @@
 <body>
   <section class="hero-section red-section">
     <nav class="top-bar">
-      <span class="logo">gt</span>
+      <i class="logo"></i>
       <ul class="menu">
         <!-- <li class="menu-item"><a class="menu-anchor">Documentation</a></li> -->
-        <li class="menu-item"><a class="menu-anchor" href="https://github.com/tinganho/get-translation">Contribute</a></li>
+        <li class="menu-item"><a class="menu-anchor" href="https://github.com/tinganho/l10ns">Contribute</a></li>
       </ul>
     </nav>
 
@@ -44,7 +44,7 @@
       <h1 class="hero-title">Effective translation workflow</h1>
       <h2 class="hero-description">CLI tool for effectively update translation keys, edit translations <br>and open translation interface.</h2>
       <div class="hero-install">
-        <div class="hero-install-red-text">npm install get-translation -g</div>
+        <div class="hero-install-red-text">npm install l10ns -g</div>
       </div>
       <div class="hero-image">
         <img src="images/cli-and-editor.png">
@@ -61,7 +61,7 @@
       </div>
       <code class="code">
         <span class="blue">var</span> properties <span class="red">=</span> {<br>
-        <span class="tab"></span>title: gt(<span class="yellow">’LANDING_TITLE’</span>)<br>
+        <span class="tab"></span>title: l(<span class="yellow">’LANDING_TITLE’</span>)<br>
         };
       </code>
 
@@ -69,14 +69,14 @@
         <h2 class="workflow-step-description description-text">Update translation keys</h2>
       </div>
       <code class="code">
-        <span class="blue">$ </span>gt update
+        <span class="blue">$ </span>l10ns update
       </code>
 
       <div class="description-mobile">
         <h2 class="workflow-step-description description-text">Get latest translation keys</h2>
       </div>
       <code class="code">
-        <span class="blue">$ </span> gt log<br>
+        <span class="blue">$ </span> l10ns log<br>
         <span class="yellow">@1 </span>LANDING__TITLE | <span class="green">The bes...</span><br>
         <span class="yellow">@2 </span>LANDING__DESCRIPTION | <span class="green">H...</span><br>
         <span class="yellow">@3 </span>BASE__LOG_OUT | <span class="green">Log out</span><br>
@@ -88,14 +88,14 @@
         <h2 class="workflow-step-description description-text">Edit translations</h2>
       </div>
       <code class="code">
-        <span class="blue">$ </span>gt set @1 “Some title”
+        <span class="blue">$ </span>l10ns set @1 “Some title”
       </code>
 
       <div class="description-mobile">
         <h2 class="workflow-step-description description-text">Compile translations</h2>
       </div>
       <code class="code">
-        <span class="blue">$ </span> gt compile
+        <span class="blue">$ </span> l10ns compile
       </code>
     </div>
     <div class="workflow-steps-desktop">
@@ -109,7 +109,7 @@
         <div class="code-container">
           <code class="code code-right">
             <span class="blue">var</span> properties <span class="red">=</span> {<br>
-            <span class="tab"></span>title: gt(<span class="yellow">’LANDING_TITLE’</span>)<br>
+            <span class="tab"></span>title: l(<span class="yellow">’LANDING_TITLE’</span>)<br>
             };
           </code>
         </div>
@@ -118,7 +118,7 @@
       <section class="workflow-step">
         <div class="code-container">
           <code class="code code-left">
-            <span class="blue">$ </span>gt update
+            <span class="blue">$ </span>l10ns update
           </code>
         </div>
         <div class="timeline-pin-container">
@@ -138,7 +138,7 @@
         </div>
         <div class="code-container">
           <code class="code code-right">
-            <span class="blue">$ </span> gt log<br>
+            <span class="blue">$ </span> l10ns log<br>
             <span class="yellow">@1 </span>LANDING__TITLE | <span class="green">The bes...</span><br>
             <span class="yellow">@2 </span>LANDING__DESCRIPTION | <span class="green">H...</span><br>
             <span class="yellow">@3 </span>BASE__LOG_OUT | <span class="green">Log out</span><br>
@@ -151,7 +151,7 @@
       <section class="workflow-step">
         <div class="code-container">
           <code class="code code-left">
-            <span class="blue">$ </span>gt set @1 “Some title”
+            <span class="blue">$ </span>l10ns set @1 “Some title”
           </code>
         </div>
         <div class="timeline-pin-container">
@@ -171,7 +171,7 @@
         </div>
         <div class="code-container">
           <code class="code code-right">
-            <span class="blue">$ </span> gt compile
+            <span class="blue">$ </span> l10ns compile
           </code>
         </div>
       </section>
@@ -193,10 +193,10 @@
 
   <section class="hero-section white-section">
     <h1 class="workflow-section-title">Give it a try</h1>
-      <h2 class="hero-description">Give get-translation a try by just installing it from NPM.</h2>
+      <h2 class="hero-description">Give l10ns a try by just installing it from NPM.</h2>
 
       <div class="hero-install">
-        <div class="hero-install-gray-text">npm install get-translation -g</div>
+        <div class="hero-install-gray-text">npm install l10ns -g</div>
       </div>
   </section>
 </body>
