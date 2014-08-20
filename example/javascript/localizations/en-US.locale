@@ -3,158 +3,20 @@
   "files": [
     "example/javascript/example.js"
   ],
-  "id": "rL9oeLp6t4",
-  "key": "ef",
-  "new": false,
-  "text": "wefewfef; efeewf; weefefw; fewfefwefwefw",
-  "timestamp": "2014-08-16T03:25:04.379Z",
-  "value": [],
+  "id": "KGe5bAdMUq",
+  "key": "INDEX__ALICE_GOT_PRODUCT",
+  "text": "INDEX__ALICE_GOT_PRODUCT",
+  "timestamp": "2014-08-20T02:12:40.277Z",
   "values": [
     [
-      "if",
-      "effeef",
-      "==",
-      "value2",
-      "||",
-      "value1",
-      "<",
-      "value2",
-      "efeewf"
-    ],
-    [
-      "else if",
-      "value1",
-      "==",
-      "value2",
-      "&&",
-      "value1",
-      "==",
-      "value2",
-      "wefewfef"
-    ],
-    [
-      "else if",
-      "value1",
-      "==",
-      "value2",
-      "||",
-      "value1",
-      "==",
-      "value2",
-      "weefefw"
-    ],
-    [
-      "else",
-      "fewfefwefwefw"
-    ]
-  ],
-  "variables": []
-}
-
-{
-  "files": [
-    "example/javascript/example.js"
-  ],
-  "id": "4LdopL4AIp",
-  "key": "bajs",
-  "new": false,
-  "text": "ewfwewefewf; ; ",
-  "timestamp": "2014-08-16T03:24:16.076Z",
-  "value": [],
-  "values": [
-    [
-      "if",
-      "value1",
-      "==",
-      "value2",
-      "ewfwewefewf"
-    ],
-    [
-      "else if",
-      "value1",
-      "==",
-      "value2",
-      ""
-    ],
-    [
-      "else",
-      ""
-    ]
-  ],
-  "variables": []
-}
-
-{
-  "files": [
-    "example/javascript/example.js"
-  ],
-  "id": "G5g8E5MpIr",
-  "key": "lo\\'\\\"cale1",
-  "new": false,
-  "text": "; ; ",
-  "timestamp": "2014-08-16T03:22:56.455Z",
-  "value": [],
-  "values": [
-    [
-      "if",
-      "value1",
-      "==",
-      "value2",
-      ""
-    ],
-    [
-      "else if",
-      "value1",
-      "==",
-      "value2",
-      "&&",
-      "value1",
-      "==",
-      "value2",
-      ""
-    ],
-    [
-      "else",
       ""
     ]
   ],
   "variables": [
-    "${text}"
+    "${day}",
+    "${month}",
+    "${year}",
+    "${user}",
+    "${product}"
   ]
-}
-
-{
-  "files": [
-    "example/javascript/example.js"
-  ],
-  "id": "yxdopx5euo",
-  "key": "locale2",
-  "new": false,
-  "text": "; ; efwewweffe",
-  "timestamp": "2014-08-16T03:22:56.455Z",
-  "values": [
-    [
-      "if",
-      "value1",
-      "==",
-      "value2",
-      ""
-    ],
-    [
-      "else if",
-      "value1",
-      "==",
-      "value2",
-      "&&",
-      "value1",
-      "==",
-      "value2",
-      ""
-    ],
-    [
-      "else",
-      "efwewweffe"
-    ]
-  ],
-  "variables": []
 }

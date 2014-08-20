@@ -1,9 +1,10 @@
 
 var localizations = {
-  'locale1': l('lo\'\"cale1', {
-    'text': 'ewfoiwejf'
-  }),
-  'locale2': l('locale2'),
-  'l10ee': l('bajs'),
-  'efwfewef': l('ef')
+  'locale1': l('INDEX__ALICE_GOT_PRODUCT', {
+    day: 1,
+    month: 1,
+    year: 1,
+    user: 'Alice'
+    product: 'product'
+  })
 };
