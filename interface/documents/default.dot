@@ -19,6 +19,7 @@ The default document
 {{##def.configurations : load('./partials/configurations.part') #}}
 {{##def.scripts : load('./partials/scripts.part') #}}
 {{##def.globals : load('./partials/globals.part') #}}
+{{##def.googleAnalytics : load('./custom/googleAnalytics.part') #}}
 
 <!DOCTYPE html>
 <html lang="{{=it.locale}}" class="locale-{{=it.locale}}">
@@ -39,6 +40,7 @@ The default document
     {{#def.scripts}}
     {{=it.layout}}
     {{=it.jsonScripts}}
+    {{#def.googleAnalytics}}
 
     <script data-main="{{=it.main}}" src="{{=it.requirejs}}"></script>
   </body>

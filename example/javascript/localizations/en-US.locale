@@ -3,13 +3,31 @@
   "files": [
     "example/javascript/example.js"
   ],
+  "i18n_values": "VALUES",
   "id": "KGe5bAdMUq",
   "key": "INDEX__ALICE_GOT_PRODUCT",
-  "text": "INDEX__ALICE_GOT_PRODUCT",
+  "new": false,
+  "text": "ewfewf; fewfew; wfewefewf",
   "timestamp": "2014-08-20T02:12:40.277Z",
+  "value": [],
   "values": [
     [
-      ""
+      "if",
+      "value1",
+      "==",
+      "value2",
+      "ewfewf"
+    ],
+    [
+      "else if",
+      "value1",
+      "==",
+      "value2",
+      "fewfew"
+    ],
+    [
+      "else",
+      "wfewefewf"
     ]
   ],
   "variables": [
