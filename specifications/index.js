@@ -52,3 +52,4 @@ require('./init');
 require('./log');
 
 require('../plugins/javascript/specification');
+require('./messageFormat');

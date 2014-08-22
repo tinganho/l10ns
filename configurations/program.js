@@ -207,5 +207,13 @@ module.exports = {
    * @value {RegExp}
    */
 
-  PROJECT_NAME_SYNTAX: /^[\w+-\.\/\\\?]+$/
+  PROJECT_NAME_SYNTAX: /^[\w+-\.\/\\\?]+$/,
+
+  /**
+   * Latest token length, to show in case of parser error of message format
+   *
+   * @value {Number}
+   */
+
+  LATEST_TOKENS_LENGTH: 10
 };
