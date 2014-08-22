@@ -37,7 +37,7 @@ AST.Variable = function(name) {
 AST.PluralFormat = function(variable, values, offset) {
   this.variable = variable;
   this.values = values;
-  this.offset = 0;
+  this.offset = offset;
 };
 
 module.exports = AST;

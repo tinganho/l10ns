@@ -131,6 +131,11 @@ describe('MessageFormat', function() {
         expect(messageFormat.messageAST[0].values.other).to.eql([{ string: 'message3' }]);
       });
 
+      it('should be able to set offset', function() {
+        messageFormat.parse('{variable1,plural, offset:1 other{message1}}');
+        expect(messageFormat.messageAST[0].offset).to.equal(1);
+      });
+
       describe('Values', function() {
         it('should be able to have a sentence', function() {
           messageFormat.parse('{variable1,plural,other{message1}}');
@@ -210,6 +215,23 @@ describe('MessageFormat', function() {
         expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
         expect(messageFormat.messageAST[0].values.one).to.eql([{ string: 'message1' }]);
         expect(messageFormat.messageAST[0].values.other).to.eql([{ string: 'message2' }]);
+        messageFormat.parse('{variable1,plural,offset:1 other{message1}}');
+        expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
+        expect(messageFormat.messageAST[0].offset).to.equal(1);
+        expect(messageFormat.messageAST[0].values.other[0].string).to.equal('message1');
+        messageFormat.parse('{variable1,plural, offset:1 other{message1}}');
+        expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
+        expect(messageFormat.messageAST[0].offset).to.equal(1);
+        expect(messageFormat.messageAST[0].values.other[0].string).to.equal('message1');
+        messageFormat.parse('{variable1,plural, offset:1  other{message1}}');
+        expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
+        expect(messageFormat.messageAST[0].offset).to.equal(1);
+        expect(messageFormat.messageAST[0].values.other[0].string).to.equal('message1');
+        messageFormat.parse('{variable1,plural, offset:1 one{message1} other{message2}}');
+        expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
+        expect(messageFormat.messageAST[0].offset).to.equal(1);
+        expect(messageFormat.messageAST[0].values.one[0].string).to.equal('message1');
+        expect(messageFormat.messageAST[0].values.other[0].string).to.equal('message2');
       });
 
       it('should parse a plural form with tabs between keywords', function() {
