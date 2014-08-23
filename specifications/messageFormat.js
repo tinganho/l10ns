@@ -171,10 +171,30 @@ describe('MessageFormat', function() {
         });
 
         it('should be able to have an another PluralFormat', function() {
-          messageFormat.parse('{variable1,plural,other{{variable2,plural, other{message1}}}}');
+          messageFormat.parse('{variable1,plural,other{{variable2,plural,other{message1}}}}');
           expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
+          expect(messageFormat.messageAST[0].values.other[0]).to.be.an.instanceOf(AST.PluralFormat);
           expect(messageFormat.messageAST[0].values.other[0].variable.name).to.equal('variable2');
           expect(messageFormat.messageAST[0].values.other[0].values.other[0].string).to.equal('message1');
+        });
+
+        it('should be able to have an another SelectFormat', function() {
+          messageFormat.parse('{variable1,plural,other{{variable2,select,other{message1}}}}');
+          expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
+          expect(messageFormat.messageAST[0].values.other[0]).to.be.an.instanceOf(AST.SelectFormat);
+          expect(messageFormat.messageAST[0].values.other[0].variable.name).to.equal('variable2');
+          expect(messageFormat.messageAST[0].values.other[0].values.other[0].string).to.equal('message1');
+        });
+
+        it('should be able to have both a SelectFormat and a PluralFormat', function() {
+          messageFormat.parse('{variable1,plural,other{{variable2,select,other{message1}}{variable3,plural,other{message2}}}}');
+          expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
+          expect(messageFormat.messageAST[0].values.other[0]).to.be.an.instanceOf(AST.SelectFormat);
+          expect(messageFormat.messageAST[0].values.other[0].variable.name).to.equal('variable2');
+          expect(messageFormat.messageAST[0].values.other[0].values.other[0].string).to.equal('message1');
+          expect(messageFormat.messageAST[0].values.other[1]).to.be.an.instanceOf(AST.PluralFormat);
+          expect(messageFormat.messageAST[0].values.other[1].variable.name).to.equal('variable3');
+          expect(messageFormat.messageAST[0].values.other[1].values.other[0].string).to.equal('message2');
         });
       });
 
@@ -436,6 +456,60 @@ describe('MessageFormat', function() {
         expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
         expect(messageFormat.messageAST[0].values.case1).to.eql([{ string: 'message1' }]);
         expect(messageFormat.messageAST[0].values.other).to.eql([{ string: 'message2' }]);
+      });
+
+      describe('Values', function() {
+        it('should be able to have a sentence', function() {
+          messageFormat.parse('{variable1,select,other{message1}}');
+          expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
+          expect(messageFormat.messageAST[0].values.other[0].string).to.eql('message1');
+        });
+
+        it('should be able to have a the same variable connected to the SelectFormat', function() {
+          messageFormat.parse('{variable1,select,other{{variable1}}}');
+          expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
+          expect(messageFormat.messageAST[0].values.other[0].name).to.equal('variable1');
+        });
+
+        it('should be able to have a variable that is not connected to the SelectFormat', function() {
+          messageFormat.parse('{variable1,select,other{{variable2}}}');
+          expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
+          expect(messageFormat.messageAST[0].values.other[0].name).to.equal('variable2');
+        });
+
+        it('should be able to have multiple variable that is not connected to the SelectFormat', function() {
+          messageFormat.parse('{variable1,select,other{{variable2}{variable3}}}');
+          expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
+          expect(messageFormat.messageAST[0].values.other[0].name).to.equal('variable2');
+          expect(messageFormat.messageAST[0].values.other[1].name).to.equal('variable3');
+        });
+
+        it('should be able to have an another SelectFormat', function() {
+          messageFormat.parse('{variable1,select,other{{variable2,select,other{message1}}}}');
+          expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
+          expect(messageFormat.messageAST[0].values.other[0]).to.be.an.instanceOf(AST.SelectFormat);
+          expect(messageFormat.messageAST[0].values.other[0].variable.name).to.equal('variable2');
+          expect(messageFormat.messageAST[0].values.other[0].values.other[0].string).to.equal('message1');
+        });
+
+        it('should be able to have an another PluralFormat', function() {
+          messageFormat.parse('{variable1,select,other{{variable2,plural,other{message1}}}}');
+          expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
+          expect(messageFormat.messageAST[0].values.other[0]).to.be.an.instanceOf(AST.PluralFormat);
+          expect(messageFormat.messageAST[0].values.other[0].variable.name).to.equal('variable2');
+          expect(messageFormat.messageAST[0].values.other[0].values.other[0].string).to.equal('message1');
+        });
+
+        it('should be able to have both a SelectFormat and a PluralFormat', function() {
+          messageFormat.parse('{variable1,select,other{{variable2,select,other{message1}}{variable3,plural,other{message2}}}}');
+          expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
+          expect(messageFormat.messageAST[0].values.other[0]).to.be.an.instanceOf(AST.SelectFormat);
+          expect(messageFormat.messageAST[0].values.other[0].variable.name).to.equal('variable2');
+          expect(messageFormat.messageAST[0].values.other[0].values.other[0].string).to.equal('message1');
+          expect(messageFormat.messageAST[0].values.other[1]).to.be.an.instanceOf(AST.PluralFormat);
+          expect(messageFormat.messageAST[0].values.other[1].variable.name).to.equal('variable3');
+          expect(messageFormat.messageAST[0].values.other[1].values.other[0].string).to.equal('message2');
+        });
       });
 
       it('should throw an error if there is no other case', function() {
