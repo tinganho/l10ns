@@ -4,7 +4,8 @@
  */
 
 var Lexer = require('./Lexer')
-  , AST = require('./AST');
+  , AST = require('./AST')
+  , _ = require('underscore');
 
 /**
  * Constants
@@ -13,6 +14,7 @@ var Lexer = require('./Lexer')
 var STARTING_BRACKET = '{'
   , ENDING_BRACKET = '}'
   , ESCAPE_CHARACTER = '\\'
+  , PLURAL_REMAINING = '#'
   , COMMA = ','
   , EOF = -1;
 
@@ -52,13 +54,35 @@ MessageFormat.prototype.parse = function(message) {
  * @api private
  */
 
-MessageFormat.prototype._parsePrimary = function() {
+MessageFormat.prototype._parsePrimary = function(options) {
+  options = _.defaults(options || {}, {
+    remaining: false
+  });
+
+  if(options.remaining && this.currentToken === PLURAL_REMAINING) {
+    return this._parsePluralRemaining();
+  }
+
   switch(this.currentToken) {
     case STARTING_BRACKET:
       return this._parseBracketStatement();
     default:
       return this._parseSentence();
   }
+};
+
+/**
+ * Parse plural remaining
+ *
+ * @return {AST.PluralRemaining}
+ * @api private
+ */
+
+MessageFormat.prototype._parsePluralRemaining = function() {
+  // Swallow '#'
+  this.currentToken = this.lexer.getNextToken();
+
+  return new AST.PluralRemaining();
 };
 
 /**
@@ -72,7 +96,8 @@ MessageFormat.prototype._parseSentence = function() {
   var sentence = '';
   while(this.currentToken !== EOF &&
         this.currentToken !== STARTING_BRACKET &&
-        this.currentToken !== ENDING_BRACKET) {
+        this.currentToken !== ENDING_BRACKET &&
+        this.currentToken !== PLURAL_REMAINING) {
     if(this.currentToken === ESCAPE_CHARACTER) {
       sentence += this.currentToken;
       this.currentToken = this.lexer.getNextToken();
@@ -183,7 +208,7 @@ MessageFormat.prototype._parseSwitchStatement = function(variable) {
       switchStatement = this._parsePluralFormat(variable);
       break;
     case 'select':
-      switchStatement = this._parseSelectStatement(variable);
+      switchStatement = this._parseSelectFormat(variable);
       break;
     default:
       throw new TypeError('Wrong type of ICU format: ' + type);
@@ -194,7 +219,7 @@ MessageFormat.prototype._parseSwitchStatement = function(variable) {
 };
 
 /**
- * Parse plural statement
+ * Parse plural format
  *
  * @return {AST.Plural}
  * @api private
@@ -204,8 +229,7 @@ MessageFormat.prototype._parsePluralFormat = function(variable) {
   var offset = 0
     , values = {}
     , offsetSyntax = /^offset:(\d)$/
-    , exactlySyntax = /^=\d+$/
-    , hasOtherCase = false;
+    , exactlySyntax = /^=\d+$/;
 
   // Swallow comma
   this.currentToken = this.lexer.getNextToken();
@@ -218,15 +242,16 @@ MessageFormat.prototype._parsePluralFormat = function(variable) {
     }
     else if(exactlySyntax.test(_case) || this.pluralKeywords.indexOf(_case) !== -1) {
       if(this.currentToken !== STARTING_BRACKET) {
-        throw new TypeError('Expected bracket \'{\' in ' + this.lexer.getLatestTokensLog());
+        throw new TypeError('Expected bracket \'{\' instead got \'' + this.currentToken + '\' in ' + this.lexer.getLatestTokensLog());
       }
       var messageAST = [];
       this.currentToken = this.lexer.getNextToken();
       while(this.currentToken !== ENDING_BRACKET) {
-        messageAST.push(this._parsePrimary());
+        messageAST.push(this._parsePrimary({ remaining: true }));
       }
       values[_case] = messageAST;
       exactlySyntax.lastIndex = 0;
+      // Swallow ending bracket of sub-message
       this.currentToken = this.lexer.getNextToken();
       if(_case !== 'other') {
         _case = this._getPluralCase();
@@ -245,6 +270,70 @@ MessageFormat.prototype._parsePluralFormat = function(variable) {
       throw new TypeError('Missing \'other\' case in ' + this.lexer.getLatestTokensLog());
     }
   }
+};
+
+/**
+ * Parse select format
+ *
+ * @return {AST.Plural}
+ * @api private
+ */
+
+MessageFormat.prototype._parseSelectFormat = function(variable) {
+  var values = {};
+
+  // Swallow comma
+  this.currentToken = this.lexer.getNextToken();
+  var _case = this._getSelectCase();
+  while(true) {
+    if(this.currentToken === ENDING_BRACKET) {
+      throw new TypeError('Missing \'other\' case in ' + this.lexer.getLatestTokensLog());
+    }
+    if(this.currentToken !== STARTING_BRACKET) {
+      throw new TypeError('Expected bracket \'{\' instead got \'' + this.currentToken + '\' in ' + this.lexer.getLatestTokensLog());
+    }
+    var messageAST = [];
+    this.currentToken = this.lexer.getNextToken();
+    while(this.currentToken !== ENDING_BRACKET) {
+      messageAST.push(this._parsePrimary());
+    }
+    values[_case] = messageAST;
+    this.currentToken = this.lexer.getNextToken();
+    if(_case !== 'other') {
+      _case = this._getSelectCase();
+    }
+    else {
+      this._swallowWhiteSpace();
+      // Swallow ending bracket of PluralFormat
+      if(this.currentToken === EOF) {
+        throw new TypeError('You must have a closing bracket in your select format in ' + this.lexer.getLatestTokensLog());
+      }
+      this.currentToken = this.lexer.getNextToken();
+      return new AST.SelectFormat(variable, values);
+    }
+  }
+};
+
+/**
+ * Get plural case
+ *
+ * @return {String}
+ * @api private
+ */
+
+MessageFormat.prototype._getSelectCase = function() {
+  var _case = '';
+
+  this._swallowWhiteSpace();
+
+  while(this._isAlphaNumeric(this.currentToken)) {
+    _case += this.currentToken;
+    this.currentToken = this.lexer.getNextToken();
+  }
+
+  this._swallowWhiteSpace();
+
+  return _case;
 };
 
 /**
@@ -282,7 +371,6 @@ MessageFormat.prototype._getPluralCase = function() {
 MessageFormat.prototype._isAlphaNumeric = function(character) {
   return /^[a-zA-Z0-9]+$/.test(character);
 };
-
 
 /**
  * Check if a string is space

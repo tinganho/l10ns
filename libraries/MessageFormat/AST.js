@@ -40,4 +40,25 @@ AST.PluralFormat = function(variable, values, offset) {
   this.offset = offset;
 };
 
+/**
+ * AST class representing an ICU PluralFormat count '#'
+ *
+ * @param {String} variable
+ * @constructor
+ */
+
+AST.PluralRemaining = function() {};
+
+/**
+ * AST class representing an ICU SelectFormat
+ *
+ * @param {String} variable
+ * @constructor
+ */
+
+AST.SelectFormat = function(variable, values) {
+  this.variable = variable;
+  this.values = values;
+};
+
 module.exports = AST;
