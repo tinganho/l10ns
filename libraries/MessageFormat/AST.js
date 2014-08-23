@@ -28,6 +28,30 @@ AST.Variable = function(name) {
 };
 
 /**
+ * AST class representing an ICU SelectFormat
+ *
+ * @param {String} variable
+ * @constructor
+ */
+
+AST.ChoiceFormat = function(variable, values) {
+  this.variable = variable;
+  this.values = values;
+};
+
+/**
+ * AST class representing an ICU SelectFormat
+ *
+ * @param {String} variable
+ * @constructor
+ */
+
+AST.SelectFormat = function(variable, values) {
+  this.variable = variable;
+  this.values = values;
+};
+
+/**
  * AST class representing an ICU PluralFormat
  *
  * @param {String} variable
@@ -48,17 +72,5 @@ AST.PluralFormat = function(variable, values, offset) {
  */
 
 AST.PluralRemaining = function() {};
-
-/**
- * AST class representing an ICU SelectFormat
- *
- * @param {String} variable
- * @constructor
- */
-
-AST.SelectFormat = function(variable, values) {
-  this.variable = variable;
-  this.values = values;
-};
 
 module.exports = AST;

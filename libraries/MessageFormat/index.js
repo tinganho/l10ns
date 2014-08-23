@@ -15,6 +15,8 @@ var STARTING_BRACKET = '{'
   , ENDING_BRACKET = '}'
   , ESCAPE_CHARACTER = '\\'
   , PLURAL_REMAINING = '#'
+  , DIAGRAPH = '|'
+  , EMPTY = ''
   , COMMA = ','
   , EOF = -1;
 
@@ -28,6 +30,7 @@ function MessageFormat() {
   this.lexer = null;
   this.messageAST = [];
   this.currentToken = null;
+  this.lastChoiceCase = null;
   this.pluralKeywords = ['zero', 'one', 'two', 'few', 'many', 'other'];
 };
 
@@ -97,7 +100,8 @@ MessageFormat.prototype._parseSentence = function() {
   while(this.currentToken !== EOF &&
         this.currentToken !== STARTING_BRACKET &&
         this.currentToken !== ENDING_BRACKET &&
-        this.currentToken !== PLURAL_REMAINING) {
+        this.currentToken !== PLURAL_REMAINING &&
+        this.currentToken !== DIAGRAPH) {
     if(this.currentToken === ESCAPE_CHARACTER) {
       sentence += this.currentToken;
       this.currentToken = this.lexer.getNextToken();
@@ -204,11 +208,14 @@ MessageFormat.prototype._parseSwitchStatement = function(variable) {
   }
 
   switch(type) {
-    case 'plural':
-      switchStatement = this._parsePluralFormat(variable);
+    case 'choice':
+      switchStatement = this._parseChoiceFormat(variable);
       break;
     case 'select':
       switchStatement = this._parseSelectFormat(variable);
+      break;
+    case 'plural':
+      switchStatement = this._parsePluralFormat(variable);
       break;
     default:
       throw new TypeError('Wrong type of ICU format: ' + type);
@@ -217,9 +224,90 @@ MessageFormat.prototype._parseSwitchStatement = function(variable) {
 
   return switchStatement;
 };
+/**
+ * Parse ChoiceFormat
+ *
+ * @return {AST.Plural}
+ * @api private
+ */
+
+MessageFormat.prototype._parseChoiceFormat = function(variable) {
+  var values = {};
+
+  // Swallow comma
+  this.currentToken = this.lexer.getNextToken();
+  this.lastChoiceCase = null;
+  var _case = this._getChoiceCase();
+  while(true) {
+    if(_case === EMPTY) {
+      throw new TypeError('Missing choice case in ' + this.lexer.getLatestTokensLog());
+    }
+    var messageAST = [];
+    while(this.currentToken !== DIAGRAPH &&
+          this.currentToken !== ENDING_BRACKET) {
+      messageAST.push(this._parsePrimary());
+    }
+    values[_case] = messageAST;
+    if(this.currentToken === DIAGRAPH) {
+      // Swallow diagraph
+      this.currentToken = this.lexer.getNextToken();
+      _case = this._getChoiceCase();
+    }
+    else if(this.currentToken === ENDING_BRACKET) {
+      // Swallow ending bracket of ChoiceFormat
+      this.currentToken = this.lexer.getNextToken();
+      return new AST.ChoiceFormat(variable, values);
+    }
+    else {
+      throw new TypeError('You must have a closing bracket in your plural format in ' + this.lexer.getLatestTokensLog());
+    }
+  }
+};
 
 /**
- * Parse plural format
+ * Parse SelectFormat
+ *
+ * @return {AST.Plural}
+ * @api private
+ */
+
+MessageFormat.prototype._parseSelectFormat = function(variable) {
+  var values = {};
+
+  // Swallow comma
+  this.currentToken = this.lexer.getNextToken();
+  var _case = this._getSelectCase();
+  while(true) {
+    if(this.currentToken === ENDING_BRACKET) {
+      throw new TypeError('Missing \'other\' case in ' + this.lexer.getLatestTokensLog());
+    }
+    if(this.currentToken !== STARTING_BRACKET) {
+      throw new TypeError('Expected bracket \'{\' instead got \'' + this.currentToken + '\' in ' + this.lexer.getLatestTokensLog());
+    }
+    var messageAST = [];
+    this.currentToken = this.lexer.getNextToken();
+    while(this.currentToken !== ENDING_BRACKET) {
+      messageAST.push(this._parsePrimary());
+    }
+    values[_case] = messageAST;
+    this.currentToken = this.lexer.getNextToken();
+    if(_case !== 'other') {
+      _case = this._getSelectCase();
+    }
+    else {
+      this._swallowWhiteSpace();
+      if(this.currentToken === EOF) {
+        throw new TypeError('You must have a closing bracket in your select format in ' + this.lexer.getLatestTokensLog());
+      }
+      // Swallow ending bracket of PluralFormat
+      this.currentToken = this.lexer.getNextToken();
+      return new AST.SelectFormat(variable, values);
+    }
+  }
+};
+
+/**
+ * Parse PluralFormat
  *
  * @return {AST.Plural}
  * @api private
@@ -273,45 +361,53 @@ MessageFormat.prototype._parsePluralFormat = function(variable) {
 };
 
 /**
- * Parse select format
+ * Get choice case
  *
- * @return {AST.Plural}
+ * @return {String}
  * @api private
  */
 
-MessageFormat.prototype._parseSelectFormat = function(variable) {
-  var values = {};
 
-  // Swallow comma
-  this.currentToken = this.lexer.getNextToken();
-  var _case = this._getSelectCase();
-  while(true) {
-    if(this.currentToken === ENDING_BRACKET) {
-      throw new TypeError('Missing \'other\' case in ' + this.lexer.getLatestTokensLog());
-    }
-    if(this.currentToken !== STARTING_BRACKET) {
-      throw new TypeError('Expected bracket \'{\' instead got \'' + this.currentToken + '\' in ' + this.lexer.getLatestTokensLog());
-    }
-    var messageAST = [];
+MessageFormat.prototype._getChoiceCase = function() {
+  var _case = '';
+
+  this._swallowWhiteSpace();
+  while(/^[\d\.<#]$/.test(this.currentToken)) {
+    _case += this.currentToken;
     this.currentToken = this.lexer.getNextToken();
-    while(this.currentToken !== ENDING_BRACKET) {
-      messageAST.push(this._parsePrimary());
-    }
-    values[_case] = messageAST;
-    this.currentToken = this.lexer.getNextToken();
-    if(_case !== 'other') {
-      _case = this._getSelectCase();
-    }
-    else {
-      this._swallowWhiteSpace();
-      // Swallow ending bracket of PluralFormat
-      if(this.currentToken === EOF) {
-        throw new TypeError('You must have a closing bracket in your select format in ' + this.lexer.getLatestTokensLog());
-      }
-      this.currentToken = this.lexer.getNextToken();
-      return new AST.SelectFormat(variable, values);
-    }
   }
+
+  if(!/^\d+\.?\d?[<#]$/.test(_case)) {
+    throw new TypeError('Expected a ChoiceFormat case (/^\\d+\.?\\d?[<#]$/), instead got \'' + _case + '\' in ' + this.lexer.getLatestTokensLog());
+  }
+
+  if(_case === this.lastChoiceCase) {
+    throw new TypeError('Same ChoiceFormat in ' + this.lexer.getLatestTokensLog());
+  }
+
+  if(this.lastChoiceCase === null) {
+    this.lastChoiceCase = _case;
+
+    return _case;
+  }
+
+  var comparatorStringOfNewCase = _case.charAt(_case.length - 1)
+    , comparatorStringOfOldCase = this.lastChoiceCase.charAt(this.lastChoiceCase.length - 1)
+    , numberStringOfNewCase = _case.substring(0, _case.length - 1)
+    , numberStringOfOldCase = this.lastChoiceCase.substring(0, this.lastChoiceCase.length - 1)
+
+  var hasBiggerValueThanPreviousCase = numberStringOfNewCase > numberStringOfOldCase;
+  if(numberStringOfNewCase === numberStringOfOldCase) {
+    hasBiggerValueThanPreviousCase = !(comparatorStringOfNewCase > comparatorStringOfOldCase);
+  }
+
+  if(!hasBiggerValueThanPreviousCase) {
+    throw new TypeError('Case \'' + _case + '\' needs to bigger than case \'' + this.lastChoiceCase + '\' in ' + this.lexer.getLatestTokensLog());
+  }
+
+  this.lastChoiceCase = _case;
+
+  return _case;
 };
 
 /**
