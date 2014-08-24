@@ -372,17 +372,17 @@ MessageFormat.prototype._getChoiceCase = function() {
   var _case = '';
 
   this._swallowWhiteSpace();
-  while(/^[\d\.<#]$/.test(this.currentToken)) {
+  while(/^[\d∞\-\.<#]$/.test(this.currentToken)) {
     _case += this.currentToken;
     this.currentToken = this.lexer.getNextToken();
   }
 
-  if(!/^\d+\.?\d?[<#]$/.test(_case)) {
-    throw new TypeError('Expected a ChoiceFormat case (/^\\d+\.?\\d?[<#]$/), instead got \'' + _case + '\' in ' + this.lexer.getLatestTokensLog());
+  if(!/^(\-?\d+\.?\d*[<#]|∞#|\-∞[<#])$/.test(_case)) {
+    throw new TypeError('Expected a ChoiceFormat case (/^(\\-?\\d+\\.?\\d*[<#]|∞#|\\-∞[<#])$/), instead got \'' + _case + '\' in ' + this.lexer.getLatestTokensLog());
   }
 
   if(_case === this.lastChoiceCase) {
-    throw new TypeError('Same ChoiceFormat in ' + this.lexer.getLatestTokensLog());
+    throw new TypeError('Same ChoiceFormat case in ' + this.lexer.getLatestTokensLog());
   }
 
   if(this.lastChoiceCase === null) {
@@ -395,8 +395,29 @@ MessageFormat.prototype._getChoiceCase = function() {
     , comparatorStringOfOldCase = this.lastChoiceCase.charAt(this.lastChoiceCase.length - 1)
     , numberStringOfNewCase = _case.substring(0, _case.length - 1)
     , numberStringOfOldCase = this.lastChoiceCase.substring(0, this.lastChoiceCase.length - 1)
+    , numberOfNewCase;
 
-  var hasBiggerValueThanPreviousCase = numberStringOfNewCase > numberStringOfOldCase;
+  if(/^∞$/.test(numberStringOfNewCase)) {
+    numberOfNewCase = Infinity;
+  }
+  else if(/^\-∞$/.test(numberStringOfNewCase)) {
+    numberOfNewCase = -Infinity;
+  }
+  else {
+    numberOfNewCase = parseFloat(numberStringOfNewCase);
+  }
+
+  if(/^∞$/.test(numberStringOfOldCase)) {
+    numberOfOldCase = Infinity;
+  }
+  else if(/^\-∞$/.test(numberStringOfOldCase)) {
+    numberOfOldCase = -Infinity;
+  }
+  else {
+    numberOfOldCase = parseFloat(numberStringOfOldCase);
+  }
+
+  var hasBiggerValueThanPreviousCase = numberOfNewCase > numberOfOldCase;
   if(numberStringOfNewCase === numberStringOfOldCase) {
     hasBiggerValueThanPreviousCase = !(comparatorStringOfNewCase > comparatorStringOfOldCase);
   }

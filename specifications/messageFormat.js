@@ -594,6 +594,27 @@ describe('MessageFormat', function() {
         expect(messageFormat.messageAST[0].values['1<'][0].string).to.equal('message1');
       });
 
+      it('should be able to parse a case with positive infinity', function() {
+        messageFormat.parse('{variable1,choice,∞#message1}');
+        expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
+        expect(messageFormat.messageAST[0].values['∞#'][0].string).to.equal('message1');
+      });
+
+      it('should be able to parse a case with negative infinity', function() {
+        messageFormat.parse('{variable1,choice,-∞#message1}');
+        expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
+        expect(messageFormat.messageAST[0].values['-∞#'][0].string).to.equal('message1');
+      });
+
+      it('should be able to parse a case with a negative double', function() {
+        messageFormat.parse('{variable1,choice,-1#message1}');
+        expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
+        expect(messageFormat.messageAST[0].values['-1#'][0].string).to.equal('message1');
+        messageFormat.parse('{variable1,choice,-2#message1}');
+        expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
+        expect(messageFormat.messageAST[0].values['-2#'][0].string).to.equal('message1');
+      });
+
       it('should be able to parse multiple cases', function() {
         messageFormat.parse('{variable1,choice,1<message1|3#message2}');
         expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
@@ -732,7 +753,7 @@ describe('MessageFormat', function() {
         var method = function() {
           messageFormat.parse('{variable1,choice,1message1}');
         };
-        expect(method).to.throw(TypeError, 'Expected a ChoiceFormat case (/^\\d+\.?\\d?[<#]$/), instead got \'1\' in {variable1,choice,1m');
+        expect(method).to.throw(TypeError, 'Expected a ChoiceFormat case (/^(\\-?\\d+\\.?\\d*[<#]|∞#|\\-∞[<#])$/), instead got \'1\' in {variable1,choice,1m');
       });
 
       it('should throw en error if the cases are not in order', function() {
@@ -744,13 +765,28 @@ describe('MessageFormat', function() {
           messageFormat.parse('{variable1,choice,1#message1|1<message2}');
         };
         expect(method).to.throw(TypeError, 'Case \'1<\' needs to bigger than case \'1#\' in {variable1,choice,1#message1|1<m');
+        var method = function() {
+          messageFormat.parse('{variable1,choice,1#message1|-1<message2}');
+        };
+        expect(method).to.throw(TypeError, 'Case \'-1<\' needs to bigger than case \'1#\' in {variable1,choice,1#message1|-1<m');
+        var method = function() {
+          messageFormat.parse('{variable1,choice,1#message1|-∞#message2}');
+        };
+        expect(method).to.throw(TypeError, 'Case \'-∞#\' needs to bigger than case \'1#\' in {variable1,choice,1#message1|-∞#m');
+      });
+
+      it('should throw an error if ∞< is used', function() {
+         var method = function() {
+          messageFormat.parse('{variable1,choice,1#message1|∞<message2}');
+        };
+        expect(method).to.throw(TypeError, 'Expected a ChoiceFormat case (/^(\\-?\\d+\\.?\\d*[<#]|∞#|\\-∞[<#])$/), instead got \'∞<\' in {variable1,choice,1#message1|∞<m');
       });
 
       it('should throw an error if same cases appears', function() {
         var method = function() {
           messageFormat.parse('{variable1,choice,1<message1|1<message2}');
         };
-        expect(method).to.throw(TypeError, 'Same ChoiceFormat in {variable1,choice,1<message1|1<m');
+        expect(method).to.throw(TypeError, 'Same ChoiceFormat case in {variable1,choice,1<message1|1<m');
       });
     });
   });
