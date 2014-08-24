@@ -208,6 +208,14 @@ MessageFormat.prototype._parseSwitchStatement = function(variable) {
   }
 
   switch(type) {
+    case 'number':
+    case 'date':
+    case 'time':
+    case 'spellout':
+    case 'ordinal':
+    case 'duration':
+      switchStatement = this._parseSimpleFormat(type, variable);
+      break;
     case 'choice':
       switchStatement = this._parseChoiceFormat(variable);
       break;
@@ -224,6 +232,47 @@ MessageFormat.prototype._parseSwitchStatement = function(variable) {
 
   return switchStatement;
 };
+
+/**
+ * Parse simple format
+ *
+ * @param {String} type (number|date|time|spellout|ordinal|duration)
+ * @param {AST.Variable} variable
+ * @return {AST.SimpleFormat}
+ * @api private
+ */
+
+MessageFormat.prototype._parseSimpleFormat = function(type, variable) {
+  var argument = '';
+  // Swallow comma
+  this.currentToken = this.lexer.getNextToken();
+  this._swallowWhiteSpace();
+  while(this.currentToken !== ENDING_BRACKET &&
+        this.currentToken !== EOF) {
+    argument += this.currentToken;
+    this.currentToken = this.lexer.getNextToken();
+  }
+
+  this._swallowWhiteSpace();
+
+  if(this.currentToken !== ENDING_BRACKET) {
+    throw new TypeError('You must have a closing bracket in your simple format in ' + this.lexer.getLatestTokensLog());
+  }
+
+  if(!/^(number|date|time|spellout|ordinal|duration)$/.test(type)) {
+    throw new TypeError('SimpleFormat has invalid type (number|date|time|spellout|ordinal|duration) in ' + this.lexer.getNextToken());
+  }
+
+  this.currentToken = this.lexer.getNextToken();
+
+  switch(type) {
+    case 'number':
+      return new AST.NumberFormat(variable, argument);
+  }
+
+
+};
+
 /**
  * Parse ChoiceFormat
  *
@@ -487,6 +536,18 @@ MessageFormat.prototype._getPluralCase = function() {
 
 MessageFormat.prototype._isAlphaNumeric = function(character) {
   return /^[a-zA-Z0-9]+$/.test(character);
+};
+
+/**
+ * Check if a string is alpha lower case
+ *
+ * @param {String} string
+ * @return {Boolean}
+ * @api private
+ */
+
+MessageFormat.prototype._isAlphaLowerCase = function(character) {
+  return /^[a-z]$/.test(character);
 };
 
 /**
