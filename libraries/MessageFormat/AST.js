@@ -148,17 +148,7 @@ AST.NumberFormat.prototype._parseArgument = function(argument) {
       numberPattern = _this._setPrefixesAndSuffixAttributes(numberPattern, attributes);
 
       if(_this.Syntaxes.SIGNIFICANT_PATTERN.test(numberPattern)) {
-        var pattern = _this.Syntaxes.SIGNIFICANT_PATTERN.exec(numberPattern);
-        var format = new AST.NumberFormat._SignificantNumberFormat({
-          nonAbsentNumbers: pattern[2].length
-        });
-        if(positive) {
-          _this.format.positive = format;
-        }
-        else {
-          _this.format.negative = format;
-        }
-
+        this._setSignificantNumberFormat(numberPattern, positive);
         positive = false;
 
         // Valid pattern
@@ -226,6 +216,29 @@ AST.NumberFormat.prototype._parseArgument = function(argument) {
         throw new TypeError('Expected only one \'E\' in your exponent pattern in your NumberFormat argument, got ' + (floatAndExponentPattern.length - 1)+ ' \'E\':s in ' + numberPattern);
       }
     });
+  }
+};
+
+/**
+ * Set signifcant number format on NumberFormat format.postive or format.negative
+ * depending on if postive is positive or not.
+ *
+ * @param {String} numberPattern
+ * @param {Boolean} positive
+ * @return {void}
+ * @api private
+ */
+
+AST.NumberFormat.prototype._setSignificantNumberFormat = function(numberPattern, positive) {
+  var pattern = this.Syntaxes.SIGNIFICANT_PATTERN.exec(numberPattern);
+  var format = new AST.NumberFormat._SignificantNumberFormat({
+    nonAbsentNumbers: pattern[2].length
+  });
+  if(positive) {
+    _this.format.positive = format;
+  }
+  else {
+    _this.format.negative = format;
   }
 };
 
