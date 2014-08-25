@@ -146,43 +146,70 @@ AST.NumberFormat.prototype._parseArgument = function(argument) {
 
       numberPattern = _this._setPrefixesAndSuffixAttributes(numberPattern, attributes);
 
-      if(_this.Syntaxes.SIGNIFICANT_PATTERN.test(numberPattern)) {
-        _this._setSignificantNumberFormat(numberPattern, positive);
-        positive = false;
+      _this._handleSetNumberFormat(numberPattern, attributes, positive);
 
-        // Valid pattern
-        return;
-      }
-
-      var floatAndExponentPattern = numberPattern.split('E');
-      if(floatAndExponentPattern.length <= 2) {
-        if(floatAndExponentPattern.length === 2) {
-          attributes.exponent = _this._getExponentAttributes('E' + floatAndExponentPattern[1]);
-        }
-
-        var integerAndFractionPattern = floatAndExponentPattern[0].split('.');
-        if(integerAndFractionPattern.length <= 2) {
-          if(integerAndFractionPattern.length === 2) {
-            attributes.fraction = _this._getFractionAttributes(integerAndFractionPattern[1]);
-          }
-
-          attributes.integer = _this._getIntegerAttributes(integerAndFractionPattern[0]);
-
-          _this._setFloatingNumberFormat(attributes, positive);
-
-          positive = false;
-
-          // Valid pattern
-          return;
-        }
-        else {
-          throw new TypeError('Expected only one \'.\' in your number pattern in your NumberFormat argument, got ' + (integerAndFractionPattern.length - 1) + ' \'.\':s in ' + numberPattern);
-        }
-      }
-      else {
-        throw new TypeError('Expected only one \'E\' in your exponent pattern in your NumberFormat argument, got ' + (floatAndExponentPattern.length - 1)+ ' \'E\':s in ' + numberPattern);
-      }
+      positive = false;
     });
+  }
+};
+
+/**
+ * Handle set number format
+ *
+ * @param {String} numberPattern String that represents a number pattern
+ * excluding prefix and suffix
+ * @param {Object} attributes Object used during initialization of a
+ * NumberFormat.NumberFormat
+ * @param {Boolean} positive Set positive side or negative
+ * @return {void}
+ * @throws TypeError
+ * @api private
+ */
+
+AST.NumberFormat.prototype._handleSetNumberFormat = function(numberPattern, attributes, positive) {
+  if(this.Syntaxes.SIGNIFICANT_PATTERN.test(numberPattern)) {
+    this._setSignificantNumberFormat(numberPattern, positive);
+  }
+
+  var floatAndExponentPattern = numberPattern.split('E');
+  if(floatAndExponentPattern.length <= 2) {
+    this._handleSetFloatingNumberFormat(floatAndExponentPattern, attributes, positive);
+  }
+  else {
+    throw new TypeError('Expected only one \'E\' in your exponent pattern in your NumberFormat argument, got ' + (floatAndExponentPattern.length - 1)+ ' \'E\':s in ' + numberPattern);
+  }
+};
+
+/**
+ * Handle set floating number format
+ *
+ * @param {Array} floatAndExponentPattern An array representing float and
+ * exponent pattern that is splitted using the string `E`
+ * @param {Object} attributes Object used during initialization of a
+ * NumberFormat.NumberFormat
+ * @param {Boolean} positive
+ * @return {void}
+ * @throws TypeError
+ * @api private
+ */
+
+AST.NumberFormat.prototype._handleSetFloatingNumberFormat = function(floatAndExponentPattern, attributes, positive) {
+  if(floatAndExponentPattern.length === 2) {
+    attributes.exponent = this._getExponentAttributes('E' + floatAndExponentPattern[1]);
+  }
+
+  var integerAndFractionPattern = floatAndExponentPattern[0].split('.');
+  if(integerAndFractionPattern.length <= 2) {
+    if(integerAndFractionPattern.length === 2) {
+      attributes.fraction = this._getFractionAttributes(integerAndFractionPattern[1]);
+    }
+
+    attributes.integer = this._getIntegerAttributes(integerAndFractionPattern[0]);
+
+    this._setFloatingNumberFormat(attributes, positive);
+  }
+  else {
+    throw new TypeError('Expected only one \'.\' in your number pattern in your NumberFormat argument, got ' + (integerAndFractionPattern.length - 1) + ' \'.\':s in ' + numberPattern);
   }
 };
 
@@ -191,6 +218,7 @@ AST.NumberFormat.prototype._parseArgument = function(argument) {
  *
  * @param {String} integerAndFractionPattern
  * @return {void}
+ * @throws TypeError
  * @api private
  */
 
@@ -211,6 +239,7 @@ AST.NumberFormat.prototype._getIntegerAttributes = function(integerAndFractionPa
  *
  * @param {String} integerAndFractionPattern
  * @return {void}
+ * @throws TypeError
  * @api private
  */
 
@@ -231,6 +260,7 @@ AST.NumberFormat.prototype._getFractionAttributes = function(integerAndFractionP
  *
  * @param {String} exponentPatter
  * @return {void}
+ * @throws TypeError
  * @api private
  */
 
