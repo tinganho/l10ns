@@ -57,7 +57,7 @@ AST.NumberFormat = function(variable, argument) {
  * @type {Enum}
  */
 
-AST.NumberFormat.prototype.Syntaxes = {
+AST.NumberFormat.Syntaxes = {
   NUMBER_SIMPLE_ARGUMENTS: /^(integer|currency|percent)$/,
   NUMBER_CHARACTER: /[#0-9\.E@\,\+\-;]/,
   SIGNIFICANT_PATTERN: /^(#*)(@+)(#*)$/,
@@ -135,7 +135,7 @@ AST.NumberFormat.prototype._parseArgument = function(argument) {
   var _this = this
     , numberPatterns = argument;
 
-  if(this.Syntaxes.NUMBER_SIMPLE_ARGUMENTS.test(numberPatterns)) {
+  if(AST.NumberFormat.Syntaxes.NUMBER_SIMPLE_ARGUMENTS.test(numberPatterns)) {
     // Valid pattern
     return;
   }
@@ -167,7 +167,7 @@ AST.NumberFormat.prototype._parseArgument = function(argument) {
  */
 
 AST.NumberFormat.prototype._handleSetNumberFormat = function(numberPattern, attributes, positive) {
-  if(this.Syntaxes.SIGNIFICANT_PATTERN.test(numberPattern)) {
+  if(AST.NumberFormat.Syntaxes.SIGNIFICANT_PATTERN.test(numberPattern)) {
     this._setSignificantNumberFormat(numberPattern, positive);
   }
 
@@ -223,11 +223,11 @@ AST.NumberFormat.prototype._handleSetFloatingNumberFormat = function(floatAndExp
  */
 
 AST.NumberFormat.prototype._getIntegerAttributes = function(integerAndFractionPattern) {
-  if(!this.Syntaxes.INTEGER_PATTERN.test(integerAndFractionPattern)) {
+  if(!AST.NumberFormat.Syntaxes.INTEGER_PATTERN.test(integerAndFractionPattern)) {
     throw new TypeError('Expected a valid integer pattern (/^#*0+$/) in your NumberFormat argument, got (' + integerAndFractionPattern[0] + ') in '  + this.currentNumberPattern);
   }
 
-  var pattern = this.Syntaxes.INTEGER_PATTERN.exec(integerAndFractionPattern);
+  var pattern = AST.NumberFormat.Syntaxes.INTEGER_PATTERN.exec(integerAndFractionPattern);
   return {
     leftAbsentNumbers: pattern[1].length,
     nonAbsentNumbers: pattern[2].length
@@ -244,11 +244,11 @@ AST.NumberFormat.prototype._getIntegerAttributes = function(integerAndFractionPa
  */
 
 AST.NumberFormat.prototype._getFractionAttributes = function(integerAndFractionPattern) {
-  if(!this.Syntaxes.FRACTION_PATTERN.test(integerAndFractionPattern)) {
+  if(!AST.NumberFormat.Syntaxes.FRACTION_PATTERN.test(integerAndFractionPattern)) {
     throw new TypeError('Expected a valid fraction pattern (/^0*#*$/) in your NumberFormat argument, got (' + integerAndFractionPattern[1] + ') in ' + this.currentNumberPattern);
   }
 
-  var pattern = this.Syntaxes.FRACTION_PATTERN.exec(integerAndFractionPattern);
+  var pattern = AST.NumberFormat.Syntaxes.FRACTION_PATTERN.exec(integerAndFractionPattern);
   return {
     nonAbsentNumbers: pattern[1].length,
     rightAbsentNumbers: pattern[2].length
@@ -265,11 +265,11 @@ AST.NumberFormat.prototype._getFractionAttributes = function(integerAndFractionP
  */
 
 AST.NumberFormat.prototype._getExponentAttributes = function(exponentPattern) {
-  if(!this.Syntaxes.EXPONENT_PATTERN.test(exponentPattern)) {
+  if(!AST.NumberFormat.Syntaxes.EXPONENT_PATTERN.test(exponentPattern)) {
     throw new TypeError('Expected a valid exponent pattern (/^E\\+?[0-9]+$/) in your NumberFormat argument, got (' + floatAndExponentPattern[1] + ') in ' + this.currentNumberPattern);
   }
 
-  var pattern = this.Syntaxes.EXPONENT_PATTERN.exec(exponentPattern);
+  var pattern = AST.NumberFormat.Syntaxes.EXPONENT_PATTERN.exec(exponentPattern);
   return {
     nonAbsentNumbers: pattern[2].length,
     showPositiveCharacter: !!pattern[1].length
@@ -308,7 +308,7 @@ AST.NumberFormat.prototype._setFloatingNumberFormat = function(attributes, posit
  */
 
 AST.NumberFormat.prototype._setSignificantNumberFormat = function(numberPattern, positive) {
-  var pattern = this.Syntaxes.SIGNIFICANT_PATTERN.exec(numberPattern);
+  var pattern = AST.NumberFormat.Syntaxes.SIGNIFICANT_PATTERN.exec(numberPattern);
   var format = new AST.NumberFormat._SignificantNumberFormat({
     leftAbsentNumbers: pattern[1].length,
     nonAbsentNumbers: pattern[2].length,
@@ -434,7 +434,7 @@ AST.NumberFormat.prototype._setPrefixesAndSuffixAttributes = function(numberPatt
         continue;
     }
 
-    if(this.Syntaxes.NUMBER_CHARACTER.test(numberPattern[index])) {
+    if(AST.NumberFormat.Syntaxes.NUMBER_CHARACTER.test(numberPattern[index])) {
       hasEncounterdNumberCharacters = true;
       result += numberPattern[index];
       continue;
@@ -454,8 +454,8 @@ AST.NumberFormat.prototype._setPrefixesAndSuffixAttributes = function(numberPatt
   attributes.suffix = suffix;
 
   // Calculate group size
-  if(this.Syntaxes.GROUP_SIZE_PATTERN.test(result)) {
-    var pattern = this.Syntaxes.GROUP_SIZE_PATTERN.exec(result);
+  if(AST.NumberFormat.Syntaxes.GROUP_SIZE_PATTERN.test(result)) {
+    var pattern = AST.NumberFormat.Syntaxes.GROUP_SIZE_PATTERN.exec(result);
     attributes.groupSize = {
       primary: pattern[1].length,
       // We subtract by one to remove one length unit caused by comma
