@@ -8,19 +8,6 @@ var Lexer = require('./Lexer')
   , _ = require('underscore');
 
 /**
- * Constants
- */
-
-var STARTING_BRACKET = '{'
-  , ENDING_BRACKET = '}'
-  , ESCAPE_CHARACTER = '\\'
-  , PLURAL_REMAINING = '#'
-  , DIAGRAPH = '|'
-  , EMPTY = ''
-  , COMMA = ','
-  , EOF = -1;
-
-/**
  * MessageFormat class
  *
  * @constructor
@@ -35,6 +22,25 @@ function MessageFormat() {
 };
 
 /**
+ * Characters
+ *
+ * @type {Enum}
+ * @private
+ */
+
+MessageFormat.Characters = {
+  STARTING_BRACKET: '{',
+  ENDING_BRACKET: '}',
+  ESCAPE_CHARACTER: '\\',
+  PLURAL_REMAINING: '#',
+  DIAGRAPH: '|',
+  EMPTY: '',
+  COMMA: ',',
+  EOF: -1
+};
+
+
+/**
  * Parse message
  *
  * @param {String} string
@@ -45,7 +51,7 @@ MessageFormat.prototype.parse = function(message) {
   this.messageAST = [];
   this.lexer = new Lexer(message);
   this.currentToken = this.lexer.getNextToken();
-  while(this.currentToken !== EOF) {
+  while(this.currentToken !== MessageFormat.Characters.EOF) {
     this.messageAST.push(this._parsePrimary());
   }
 };
@@ -62,12 +68,12 @@ MessageFormat.prototype._parsePrimary = function(options) {
     remaining: false
   });
 
-  if(options.remaining && this.currentToken === PLURAL_REMAINING) {
+  if(options.remaining && this.currentToken === MessageFormat.Characters.PLURAL_REMAINING) {
     return this._parsePluralRemaining();
   }
 
   switch(this.currentToken) {
-    case STARTING_BRACKET:
+    case MessageFormat.Characters.STARTING_BRACKET:
       return this._parseBracketStatement();
     default:
       return this._parseSentence();
@@ -97,12 +103,12 @@ MessageFormat.prototype._parsePluralRemaining = function() {
 
 MessageFormat.prototype._parseSentence = function() {
   var sentence = '';
-  while(this.currentToken !== EOF &&
-        this.currentToken !== STARTING_BRACKET &&
-        this.currentToken !== ENDING_BRACKET &&
-        this.currentToken !== PLURAL_REMAINING &&
-        this.currentToken !== DIAGRAPH) {
-    if(this.currentToken === ESCAPE_CHARACTER) {
+  while(this.currentToken !== MessageFormat.Characters.EOF &&
+        this.currentToken !== MessageFormat.Characters.STARTING_BRACKET &&
+        this.currentToken !== MessageFormat.Characters.ENDING_BRACKET &&
+        this.currentToken !== MessageFormat.Characters.PLURAL_REMAINING &&
+        this.currentToken !== MessageFormat.Characters.DIAGRAPH) {
+    if(this.currentToken === MessageFormat.Characters.ESCAPE_CHARACTER) {
       sentence += this.currentToken;
       this.currentToken = this.lexer.getNextToken();
       sentence += this.currentToken;
@@ -130,11 +136,11 @@ MessageFormat.prototype._parseBracketStatement = function() {
 
   var variable = this._parseVariable();
 
-  if(this.currentToken === COMMA) {
+  if(this.currentToken === MessageFormat.Characters.COMMA) {
     return this._parseSwitchStatement(variable);
   }
-  else if(this.currentToken === ENDING_BRACKET ||
-          this.currentToken === EOF) {
+  else if(this.currentToken === MessageFormat.Characters.ENDING_BRACKET ||
+          this.currentToken === MessageFormat.Characters.EOF) {
     this.currentToken = this.lexer.getNextToken();
     return variable;
   }
@@ -156,10 +162,10 @@ MessageFormat.prototype._parseVariable = function() {
 
   this._swallowWhiteSpace();
 
-  while(this.currentToken !== EOF &&
-        this.currentToken !== STARTING_BRACKET &&
-        this.currentToken !== ENDING_BRACKET &&
-        this.currentToken !== COMMA) {
+  while(this.currentToken !== MessageFormat.Characters.EOF &&
+        this.currentToken !== MessageFormat.Characters.STARTING_BRACKET &&
+        this.currentToken !== MessageFormat.Characters.ENDING_BRACKET &&
+        this.currentToken !== MessageFormat.Characters.COMMA) {
     if(!this._isAlphaNumeric(this.currentToken) &&
         (this.currentToken !== ' ' && this.currentToken !== '\t') ) {
       throw new TypeError('Variable names must be alpha numeric, got a \'' + this.currentToken + '\' in ' + this.lexer.getLatestTokensLog());
@@ -203,7 +209,7 @@ MessageFormat.prototype._parseSwitchStatement = function(variable) {
 
   this._swallowWhiteSpace();
 
-  if(this.currentToken !== COMMA) {
+  if(this.currentToken !== MessageFormat.Characters.COMMA) {
     throw new TypeError('Missing comma in: ' + this.lexer.getLatestTokensLog());
   }
 
@@ -247,15 +253,15 @@ MessageFormat.prototype._parseSimpleFormat = function(type, variable) {
   // Swallow comma
   this.currentToken = this.lexer.getNextToken();
   this._swallowWhiteSpace();
-  while(this.currentToken !== ENDING_BRACKET &&
-        this.currentToken !== EOF) {
+  while(this.currentToken !== MessageFormat.Characters.ENDING_BRACKET &&
+        this.currentToken !== MessageFormat.Characters.EOF) {
     argument += this.currentToken;
     this.currentToken = this.lexer.getNextToken();
   }
 
   this._swallowWhiteSpace();
 
-  if(this.currentToken !== ENDING_BRACKET) {
+  if(this.currentToken !== MessageFormat.Characters.ENDING_BRACKET) {
     throw new TypeError('You must have a closing bracket in your simple format in ' + this.lexer.getLatestTokensLog());
   }
 
@@ -288,21 +294,21 @@ MessageFormat.prototype._parseChoiceFormat = function(variable) {
   this.lastChoiceCase = null;
   var _case = this._getChoiceCase();
   while(true) {
-    if(_case === EMPTY) {
+    if(_case === MessageFormat.Characters.EMPTY) {
       throw new TypeError('Missing choice case in ' + this.lexer.getLatestTokensLog());
     }
     var messageAST = [];
-    while(this.currentToken !== DIAGRAPH &&
-          this.currentToken !== ENDING_BRACKET) {
+    while(this.currentToken !== MessageFormat.Characters.DIAGRAPH &&
+          this.currentToken !== MessageFormat.Characters.ENDING_BRACKET) {
       messageAST.push(this._parsePrimary());
     }
     values[_case] = messageAST;
-    if(this.currentToken === DIAGRAPH) {
+    if(this.currentToken === MessageFormat.Characters.DIAGRAPH) {
       // Swallow diagraph
       this.currentToken = this.lexer.getNextToken();
       _case = this._getChoiceCase();
     }
-    else if(this.currentToken === ENDING_BRACKET) {
+    else if(this.currentToken === MessageFormat.Characters.ENDING_BRACKET) {
       // Swallow ending bracket of ChoiceFormat
       this.currentToken = this.lexer.getNextToken();
       return new AST.ChoiceFormat(variable, values);
@@ -327,15 +333,15 @@ MessageFormat.prototype._parseSelectFormat = function(variable) {
   this.currentToken = this.lexer.getNextToken();
   var _case = this._getSelectCase();
   while(true) {
-    if(this.currentToken === ENDING_BRACKET) {
+    if(this.currentToken === MessageFormat.Characters.ENDING_BRACKET) {
       throw new TypeError('Missing \'other\' case in ' + this.lexer.getLatestTokensLog());
     }
-    if(this.currentToken !== STARTING_BRACKET) {
+    if(this.currentToken !== MessageFormat.Characters.STARTING_BRACKET) {
       throw new TypeError('Expected bracket \'{\' instead got \'' + this.currentToken + '\' in ' + this.lexer.getLatestTokensLog());
     }
     var messageAST = [];
     this.currentToken = this.lexer.getNextToken();
-    while(this.currentToken !== ENDING_BRACKET) {
+    while(this.currentToken !== MessageFormat.Characters.ENDING_BRACKET) {
       messageAST.push(this._parsePrimary());
     }
     values[_case] = messageAST;
@@ -345,7 +351,7 @@ MessageFormat.prototype._parseSelectFormat = function(variable) {
     }
     else {
       this._swallowWhiteSpace();
-      if(this.currentToken === EOF) {
+      if(this.currentToken === MessageFormat.Characters.EOF) {
         throw new TypeError('You must have a closing bracket in your select format in ' + this.lexer.getLatestTokensLog());
       }
       // Swallow ending bracket of PluralFormat
@@ -378,12 +384,12 @@ MessageFormat.prototype._parsePluralFormat = function(variable) {
       _case = this._getPluralCase();
     }
     else if(exactlySyntax.test(_case) || this.pluralKeywords.indexOf(_case) !== -1) {
-      if(this.currentToken !== STARTING_BRACKET) {
+      if(this.currentToken !== MessageFormat.Characters.STARTING_BRACKET) {
         throw new TypeError('Expected bracket \'{\' instead got \'' + this.currentToken + '\' in ' + this.lexer.getLatestTokensLog());
       }
       var messageAST = [];
       this.currentToken = this.lexer.getNextToken();
-      while(this.currentToken !== ENDING_BRACKET) {
+      while(this.currentToken !== MessageFormat.Characters.ENDING_BRACKET) {
         messageAST.push(this._parsePrimary({ remaining: true }));
       }
       values[_case] = messageAST;
@@ -396,7 +402,7 @@ MessageFormat.prototype._parsePluralFormat = function(variable) {
       else {
         this._swallowWhiteSpace();
         // Swallow ending bracket of PluralFormat
-        if(this.currentToken === EOF) {
+        if(this.currentToken === MessageFormat.Characters.EOF) {
           throw new TypeError('You must have a closing bracket in your plural format in ' + this.lexer.getLatestTokensLog());
         }
         this.currentToken = this.lexer.getNextToken();
