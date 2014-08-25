@@ -169,7 +169,8 @@ AST.NumberFormat.prototype._parseArgument = function(argument) {
 
 AST.NumberFormat.prototype._handleSetNumberFormat = function(numberPattern, attributes, positive) {
   if(AST.NumberFormat.Syntaxes.SIGNIFICANT_PATTERN.test(numberPattern)) {
-    this._setSignificantNumberFormat(numberPattern, positive);
+    this._setSignificantNumberFormat(numberPattern, attributes, positive);
+    return;
   }
 
   var floatAndExponentPattern = numberPattern.split('E');
@@ -321,18 +322,20 @@ AST.NumberFormat.prototype._setFloatingNumberFormat = function(attributes, posit
  * or format.negative depending on if it is positive or not.
  *
  * @param {String} numberPattern
+ * @param {Object} attributes Object used during initialization of a
+ * NumberFormat.NumberFormat
  * @param {Boolean} positive
  * @return {void}
  * @api private
  */
 
-AST.NumberFormat.prototype._setSignificantNumberFormat = function(numberPattern, positive) {
+AST.NumberFormat.prototype._setSignificantNumberFormat = function(numberPattern, attributes, positive) {
   var pattern = AST.NumberFormat.Syntaxes.SIGNIFICANT_PATTERN.exec(numberPattern);
-  var format = new AST.NumberFormat._SignificantNumberFormat({
-    leftAbsentNumbers: pattern[1].length,
-    nonAbsentNumbers: pattern[2].length,
-    rightAbsentNumbers: pattern[2].length
-  });
+  attributes.leftAbsentNumbers = pattern[1].length;
+  attributes.nonAbsentNumbers = pattern[2].length;
+  attributes.rightAbsentNumbers = pattern[3].length;
+
+  var format = new AST.NumberFormat._SignificantNumberFormat(attributes);
 
   if(positive) {
     this.format.positive = format;
