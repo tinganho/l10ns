@@ -25,7 +25,7 @@ function MessageFormat() {
  * Characters
  *
  * @type {Enum}
- * @private
+ * @api private
  */
 
 MessageFormat.Characters = {

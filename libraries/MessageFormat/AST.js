@@ -55,6 +55,7 @@ AST.NumberFormat = function(variable, argument) {
  * NumberFormat syntaxes
  *
  * @type {Enum}
+ * @api private
  */
 
 AST.NumberFormat.Syntaxes = {
@@ -218,6 +219,12 @@ AST.NumberFormat.prototype._handleSetFloatingNumberFormat = function(floatAndExp
  *
  * @param {String} integerAndFractionPattern
  * @return {Object}
+ *
+ *   {
+ *     leftAbsentNumbers: Number,
+ *     nonAbsentNumbers: Number
+ *   }
+ *
  * @throws TypeError
  * @api private
  */
@@ -239,6 +246,12 @@ AST.NumberFormat.prototype._getIntegerAttributes = function(integerAndFractionPa
  *
  * @param {String} integerAndFractionPattern
  * @return {Object}
+ *
+ *   {
+ *     nonAbsentNumbers: Number,
+ *     rightAbsentNumbers: Number
+ *   }
+ *
  * @throws TypeError
  * @api private
  */
@@ -260,6 +273,12 @@ AST.NumberFormat.prototype._getFractionAttributes = function(integerAndFractionP
  *
  * @param {String} exponentPatter
  * @return {Object}
+ *
+ *   {
+ *     nonAbsentNumbers: Number,
+ *     showPositiveCharacter: Boolean
+ *   }
+ *
  * @throws TypeError
  * @api private
  */
@@ -374,63 +393,21 @@ AST.NumberFormat.prototype._setPrefixesAndSuffixAttributes = function(numberPatt
         setPaddingCharacter = true;
         continue;
       case '%':
-        if(attributes.percentage) {
-          throw new TypeError('Can not set double percentage character(%) in ' + numberPattern);
-        }
-        if(attributes.permille || attributes.currency) {
-          throw new TypeError('Can not set percentage whenever permille or currency are set in ' + numberPattern);
-        }
-        if(!hasEncounterdNumberCharacters) {
-          attributes.percentage = {
-            position: 'prefix'
-          };
-        }
-        else {
-          attributes.percentage = {
-            position: 'suffix'
-          };
-        }
+        attributes.percentage = this._getPercentageAttributes(
+          attributes,
+          hasEncounterdNumberCharacters);
         continue;
       case '‰':
-        if(attributes.permille) {
-          throw new TypeError('Can not set double permille character(‰) in ' + numberPattern);
-        }
-        if(attributes.percentage || attributes.currency) {
-          throw new TypeError('Can not set permille whenever percentage or currency are set in ' + numberPattern);
-        }
-        if(!hasEncounterdNumberCharacters) {
-          attributes.permille = {
-            position: 'prefix'
-          };
-        }
-        else {
-          attributes.permille = {
-            position: 'suffix'
-          };
-        }
+        attributes.permille = this._getPermilleAttributes(
+          attributes,
+          hasEncounterdNumberCharacters);
         continue;
       case '¤':
-        if(attributes.percentage || attributes.permille) {
-          throw new TypeError('Can not set currency whenever percentage and permille are set in ' + numberPattern);
-        }
-        if(!hasEncounterdNumberCharacters) {
-          currencyCharacterCounter++;
-          attributes.currency = {
-            position: 'prefix',
-            characterLength: currencyCharacterCounter
-          };
-        }
-        else {
-          if(typeof attributes.currency !== 'undefined' &&
-             typeof attributes.currency.position === 'prefix') {
-            throw new TypeError('Can not set both a currency prefix and suffix in ' + numberPattern);
-          }
-          currencyCharacterCounter++;
-          attributes.currency = {
-            position: 'suffix',
-            characterLength: currencyCharacterCounter
-          };
-        }
+        currencyCharacterCounter++;
+        attributes.currency = this._getCurrencyAttributes(
+          attributes,
+          currencyCharacterCounter,
+          hasEncounterdNumberCharacters);
         continue;
     }
 
@@ -455,18 +432,145 @@ AST.NumberFormat.prototype._setPrefixesAndSuffixAttributes = function(numberPatt
 
   // Calculate group size
   if(AST.NumberFormat.Syntaxes.GROUP_SIZE_PATTERN.test(result)) {
-    var pattern = AST.NumberFormat.Syntaxes.GROUP_SIZE_PATTERN.exec(result);
-    attributes.groupSize = {
-      primary: pattern[1].length,
-      // We subtract by one to remove one length unit caused by comma
-      secondary: (pattern[0].length - 1) || pattern[1].length
-    };
+    attributes.groupSize = this._getGroupSizeAttributes(result);
   }
 
   // Format length
   attributes.formatLength = prefix.length + result.length + suffix.length;
 
   return result;
+};
+
+/**
+ * Get group size attributes to be used in NumberFormat.NumberFormat
+ *
+ * @param {String} numberPattern
+ * @return {Object}
+ *
+ *   {
+ *     primary: Number,
+ *     secondary: Number
+ *   }
+ * @api private
+ */
+
+AST.NumberFormat.prototype._getGroupSizeAttributes = function(numberPattern) {
+  var pattern = AST.NumberFormat.Syntaxes.GROUP_SIZE_PATTERN.exec(numberPattern);
+  return {
+    primary: pattern[1].length,
+    // We subtract by one to remove one length unit caused by comma
+    secondary: (pattern[0].length - 1) || pattern[1].length
+  };
+};
+
+/**
+ * Get percentage attributes to be used in NumberFormat.NumberFormat
+ *
+ * @param {Object} attributes Object used during initialization of a
+ * NumberFormat.NumberFormat
+ * @param {Boolean} hasEncounterdNumberCharacters
+ * @return {Object}
+ *
+ *   {
+ *     position: ('prefix'|'suffix')
+ *   }
+ *
+ * @throws TypeError
+ * @api private
+ */
+
+AST.NumberFormat.prototype._getPercentageAttributes = function(attributes, hasEncounterdNumberCharacters) {
+  if(attributes.percentage) {
+    throw new TypeError('Can not set double percentage character(%) in ' + this.currentNumberPattern);
+  }
+  if(attributes.permille || attributes.currency) {
+    throw new TypeError('Can not set percentage whenever permille or currency are set in ' + this.currentNumberPattern);
+  }
+  if(!hasEncounterdNumberCharacters) {
+    return {
+      position: 'prefix'
+    };
+  }
+  else {
+    return {
+      position: 'suffix'
+    };
+  }
+};
+
+/**
+ * Get permille attributes to be used in NumberFormat.NumberFormat
+ *
+ * @param {Object} attributes Object used during initialization of a
+ * NumberFormat.NumberFormat
+ * @param {Boolean} hasEncounterdNumberCharacters
+ * @return {Object}
+ *
+ *   {
+ *     position: ('prefix'|'suffix')
+ *   }
+ *
+ * @throws TypeError
+ * @api private
+ */
+
+AST.NumberFormat.prototype._getPermilleAttributes = function(attributes, hasEncounterdNumberCharacters) {
+  if(attributes.permille) {
+    throw new TypeError('Can not set double permille character(‰) in ' + this.currentNumberPattern);
+  }
+  if(attributes.percentage || attributes.currency) {
+    throw new TypeError('Can not set permille whenever percentage or currency are set in ' + this.currentNumberPattern);
+  }
+  if(!hasEncounterdNumberCharacters) {
+    return {
+      position: 'prefix'
+    };
+  }
+  else {
+    return {
+      position: 'suffix'
+    };
+  }
+};
+
+/**
+ * Get currency attributes to be used in NumberFormat.NumberFormat
+ *
+ * @param {Object} attributes Object used during initialization of a
+ * NumberFormat.NumberFormat
+ * @param {Number} currencyCharacterCounter
+ * @param {Boolean} hasEncounterdNumberCharacters
+ * @return {Object}
+ *
+ *   {
+ *     position: ('prefix'|'suffix'),
+ *     characterLength: Number
+ *   }
+ *
+ * @throws TypeError
+ * @api private
+ */
+
+AST.NumberFormat.prototype._getCurrencyAttributes = function(attributes, currencyCharacterCounter, hasEncounterdNumberCharacters) {
+  if(attributes.percentage || attributes.permille) {
+    throw new TypeError('Can not set currency whenever percentage and permille are set in ' + this.currentNumberPattern);
+  }
+  if(!hasEncounterdNumberCharacters) {
+    return {
+      position: 'prefix',
+      characterLength: currencyCharacterCounter
+    };
+  }
+  else {
+    if(typeof attributes.currency !== 'undefined' &&
+       typeof attributes.currency.position === 'prefix') {
+      throw new TypeError('Can not set both a currency prefix and suffix in ' + this.currentNumberPattern);
+    }
+    return {
+      position: 'suffix',
+      characterLength: currencyCharacterCounter
+    };
+  }
 };
 
 /**
