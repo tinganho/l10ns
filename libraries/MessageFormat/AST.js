@@ -168,14 +168,15 @@ AST.NumberFormat.prototype._parseArgument = function(argument) {
       var floatAndExponentPattern = numberPattern.split('E');
       if(floatAndExponentPattern.length <= 2) {
         if(floatAndExponentPattern.length === 2) {
-          if(!_this.Syntaxes.EXPONENT.test(floatAndExponentPattern[1])) {
+          var exponentPattern = 'E' + floatAndExponentPattern[1];
+          if(!_this.Syntaxes.EXPONENT.test(exponentPattern)) {
             throw new TypeError('Expected a valid exponent pattern (/^E\\+?[0-9]+$/) in your NumberFormat argument, got (' + floatAndExponentPattern[1] + ') in ' + numberPattern);
           }
 
-          var pattern = _this.Syntaxes.EXPONENT.exec(floatAndExponentPattern[1]);
+          var pattern = _this.Syntaxes.EXPONENT.exec(exponentPattern);
           attributes.exponent = {
             nonAbsentNumbers: pattern[2].length,
-            showPositive: !!pattern[1].length
+            showPositiveCharacter: !!pattern[1].length
           };
         }
 
