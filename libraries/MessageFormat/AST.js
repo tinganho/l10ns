@@ -145,7 +145,7 @@ AST.NumberFormat.prototype._parseArgument = function(argument) {
       var attributes = {};
 
       numberPattern = _this._setPrefixesAndSuffixAttributes(numberPattern, attributes);
-
+      _this.currentNumberPattern = numberPattern;
       _this._handleSetNumberFormat(numberPattern, attributes, positive);
 
       positive = false;
@@ -176,7 +176,7 @@ AST.NumberFormat.prototype._handleSetNumberFormat = function(numberPattern, attr
     this._handleSetFloatingNumberFormat(floatAndExponentPattern, attributes, positive);
   }
   else {
-    throw new TypeError('Expected only one \'E\' in your exponent pattern in your NumberFormat argument, got ' + (floatAndExponentPattern.length - 1)+ ' \'E\':s in ' + numberPattern);
+    throw new TypeError('Expected only one \'E\' in your exponent pattern in your NumberFormat argument, got ' + (floatAndExponentPattern.length - 1)+ ' \'E\':s in ' + _this.currentNumberPattern);
   }
 };
 
@@ -209,7 +209,7 @@ AST.NumberFormat.prototype._handleSetFloatingNumberFormat = function(floatAndExp
     this._setFloatingNumberFormat(attributes, positive);
   }
   else {
-    throw new TypeError('Expected only one \'.\' in your number pattern in your NumberFormat argument, got ' + (integerAndFractionPattern.length - 1) + ' \'.\':s in ' + numberPattern);
+    throw new TypeError('Expected only one \'.\' in your number pattern in your NumberFormat argument, got ' + (integerAndFractionPattern.length - 1) + ' \'.\':s in ' + this.currentNumberPattern);
   }
 };
 
@@ -217,14 +217,14 @@ AST.NumberFormat.prototype._handleSetFloatingNumberFormat = function(floatAndExp
  * Get integer attributes from an integerAndFractionPattern
  *
  * @param {String} integerAndFractionPattern
- * @return {void}
+ * @return {Object}
  * @throws TypeError
  * @api private
  */
 
 AST.NumberFormat.prototype._getIntegerAttributes = function(integerAndFractionPattern) {
   if(!this.Syntaxes.INTEGER_PATTERN.test(integerAndFractionPattern)) {
-    throw new TypeError('Expected a valid integer pattern (/^#*0+$/) in your NumberFormat argument, got (' + integerAndFractionPattern[0] + ') in '  + numberPattern);
+    throw new TypeError('Expected a valid integer pattern (/^#*0+$/) in your NumberFormat argument, got (' + integerAndFractionPattern[0] + ') in '  + this.currentNumberPattern);
   }
 
   var pattern = this.Syntaxes.INTEGER_PATTERN.exec(integerAndFractionPattern);
@@ -238,14 +238,14 @@ AST.NumberFormat.prototype._getIntegerAttributes = function(integerAndFractionPa
  * Get fraction attributes from an integerAndFractionPattern
  *
  * @param {String} integerAndFractionPattern
- * @return {void}
+ * @return {Object}
  * @throws TypeError
  * @api private
  */
 
 AST.NumberFormat.prototype._getFractionAttributes = function(integerAndFractionPattern) {
   if(!this.Syntaxes.FRACTION_PATTERN.test(integerAndFractionPattern)) {
-    throw new TypeError('Expected a valid fraction pattern (/^0*#*$/) in your NumberFormat argument, got (' + integerAndFractionPattern[1] + ') in ' + numberPattern);
+    throw new TypeError('Expected a valid fraction pattern (/^0*#*$/) in your NumberFormat argument, got (' + integerAndFractionPattern[1] + ') in ' + this.currentNumberPattern);
   }
 
   var pattern = this.Syntaxes.FRACTION_PATTERN.exec(integerAndFractionPattern);
@@ -259,14 +259,14 @@ AST.NumberFormat.prototype._getFractionAttributes = function(integerAndFractionP
  * Get exponent attributes from a exponent pattern string
  *
  * @param {String} exponentPatter
- * @return {void}
+ * @return {Object}
  * @throws TypeError
  * @api private
  */
 
 AST.NumberFormat.prototype._getExponentAttributes = function(exponentPattern) {
   if(!this.Syntaxes.EXPONENT_PATTERN.test(exponentPattern)) {
-    throw new TypeError('Expected a valid exponent pattern (/^E\\+?[0-9]+$/) in your NumberFormat argument, got (' + floatAndExponentPattern[1] + ') in ' + numberPattern);
+    throw new TypeError('Expected a valid exponent pattern (/^E\\+?[0-9]+$/) in your NumberFormat argument, got (' + floatAndExponentPattern[1] + ') in ' + this.currentNumberPattern);
   }
 
   var pattern = this.Syntaxes.EXPONENT_PATTERN.exec(exponentPattern);
