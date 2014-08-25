@@ -148,7 +148,7 @@ AST.NumberFormat.prototype._parseArgument = function(argument) {
       numberPattern = _this._setPrefixesAndSuffixAttributes(numberPattern, attributes);
 
       if(_this.Syntaxes.SIGNIFICANT_PATTERN.test(numberPattern)) {
-        this._setSignificantNumberFormat(numberPattern, positive);
+        _this._setSignificantNumberFormat(numberPattern, positive);
         positive = false;
 
         // Valid pattern
@@ -158,50 +158,19 @@ AST.NumberFormat.prototype._parseArgument = function(argument) {
       var floatAndExponentPattern = numberPattern.split('E');
       if(floatAndExponentPattern.length <= 2) {
         if(floatAndExponentPattern.length === 2) {
-          var exponentPattern = 'E' + floatAndExponentPattern[1];
-          if(!_this.Syntaxes.EXPONENT_PATTERN.test(exponentPattern)) {
-            throw new TypeError('Expected a valid exponent pattern (/^E\\+?[0-9]+$/) in your NumberFormat argument, got (' + floatAndExponentPattern[1] + ') in ' + numberPattern);
-          }
-
-          var pattern = _this.Syntaxes.EXPONENT_PATTERN.exec(exponentPattern);
-          attributes.exponent = {
-            nonAbsentNumbers: pattern[2].length,
-            showPositiveCharacter: !!pattern[1].length
-          };
+          attributes.exponent = _this._getExponentAttributes('E' + floatAndExponentPattern[1]);
         }
 
         var integerAndFractionPattern = floatAndExponentPattern[0].split('.');
         if(integerAndFractionPattern.length <= 2) {
           if(integerAndFractionPattern.length == 2) {
-            if(!_this.Syntaxes.FRACTION_PATTERN.test(integerAndFractionPattern[1])) {
-              throw new TypeError('Expected a valid fraction pattern (/^0*#*$/) in your NumberFormat argument, got (' + integerAndFractionPattern[1] + ') in ' + numberPattern);
-            }
-
-            var pattern = _this.Syntaxes.FRACTION_PATTERN.exec(integerAndFractionPattern[1]);
-            attributes.fraction = {
-              nonAbsentNumbers: pattern[1].length,
-              rightAbsentNumbers: pattern[2].length
-            };
+            attributes.fraction = _this._getFractionAttributes(integerAndFractionPattern[1]);
           }
 
-          if(!_this.Syntaxes.INTEGER_PATTERN.test(integerAndFractionPattern[0])) {
-            throw new TypeError('Expected a valid integer pattern (/^#*0+$/) in your NumberFormat argument, got (' + integerAndFractionPattern[0] + ') in '  + numberPattern);
-          }
 
-          var pattern = _this.Syntaxes.INTEGER_PATTERN.exec(integerAndFractionPattern[0]);
-          attributes.integer = {
-            leftAbsentNumbers: pattern[1].length,
-            nonAbsentNumbers: pattern[2].length
-          };
+          attributes.integer = _this._getIntegerAttributes(integerAndFractionPattern[0]);
 
-          var format = new AST.NumberFormat._FloatingNumberFormat(attributes);
-
-          if(positive) {
-            _this.format.positive = format;
-          }
-          else {
-            _this.format.negative = format;
-          }
+          _this._setFloatingNumberFormat(attributes, positive);
 
           positive = false;
 
@@ -220,8 +189,89 @@ AST.NumberFormat.prototype._parseArgument = function(argument) {
 };
 
 /**
- * Set signifcant number format on NumberFormat format.postive or format.negative
- * depending on if postive is positive or not.
+ * Get integer attributes from an integerAndFractionPattern
+ *
+ * @param {String} integerAndFractionPattern
+ * @return {void}
+ * @api private
+ */
+
+AST.NumberFormat.prototype._getIntegerAttributes = function(integerAndFractionPattern) {
+  if(!this.Syntaxes.INTEGER_PATTERN.test(integerAndFractionPattern)) {
+    throw new TypeError('Expected a valid integer pattern (/^#*0+$/) in your NumberFormat argument, got (' + integerAndFractionPattern[0] + ') in '  + numberPattern);
+  }
+
+  var pattern = this.Syntaxes.INTEGER_PATTERN.exec(integerAndFractionPattern);
+  return {
+    leftAbsentNumbers: pattern[1].length,
+    nonAbsentNumbers: pattern[2].length
+  };
+};
+
+/**
+ * Get fraction attributes from an integerAndFractionPattern
+ *
+ * @param {String} integerAndFractionPattern
+ * @return {void}
+ * @api private
+ */
+
+AST.NumberFormat.prototype._getFractionAttributes = function(integerAndFractionPattern) {
+  if(!this.Syntaxes.FRACTION_PATTERN.test(integerAndFractionPattern)) {
+    throw new TypeError('Expected a valid fraction pattern (/^0*#*$/) in your NumberFormat argument, got (' + integerAndFractionPattern[1] + ') in ' + numberPattern);
+  }
+
+  var pattern = this.Syntaxes.FRACTION_PATTERN.exec(integerAndFractionPattern);
+  return {
+    nonAbsentNumbers: pattern[1].length,
+    rightAbsentNumbers: pattern[2].length
+  };
+};
+
+/**
+ * Get exponent attributes from a exponent pattern string
+ *
+ * @param {String} exponentPatter
+ * @return {void}
+ * @api private
+ */
+
+AST.NumberFormat.prototype._getExponentAttributes = function(exponentPattern) {
+  if(!this.Syntaxes.EXPONENT_PATTERN.test(exponentPattern)) {
+    throw new TypeError('Expected a valid exponent pattern (/^E\\+?[0-9]+$/) in your NumberFormat argument, got (' + floatAndExponentPattern[1] + ') in ' + numberPattern);
+  }
+
+  var pattern = this.Syntaxes.EXPONENT_PATTERN.exec(exponentPattern);
+  return {
+    nonAbsentNumbers: pattern[2].length,
+    showPositiveCharacter: !!pattern[1].length
+  };
+};
+
+/**
+ * Set floating number format on NumberFormat's property format.positive
+ * or format.negative depending on if it is positive or not.
+ *
+ * @param {String} attributes
+ * @param {Boolean} positive
+ * @return {void}
+ * @api private
+ */
+
+AST.NumberFormat.prototype._setFloatingNumberFormat = function(attributes, positive) {
+  var format = new AST.NumberFormat._FloatingNumberFormat(attributes);
+
+  if(positive) {
+    this.format.positive = format;
+  }
+  else {
+    this.format.negative = format;
+  }
+};
+
+/**
+ * Set signifcant number format on NumberFormat's property format.positive
+ * or format.negative depending on if it is positive or not.
  *
  * @param {String} numberPattern
  * @param {Boolean} positive
@@ -232,13 +282,16 @@ AST.NumberFormat.prototype._parseArgument = function(argument) {
 AST.NumberFormat.prototype._setSignificantNumberFormat = function(numberPattern, positive) {
   var pattern = this.Syntaxes.SIGNIFICANT_PATTERN.exec(numberPattern);
   var format = new AST.NumberFormat._SignificantNumberFormat({
-    nonAbsentNumbers: pattern[2].length
+    leftAbsentNumbers: pattern[1].length,
+    nonAbsentNumbers: pattern[2].length,
+    rightAbsentNumbers: pattern[2].length
   });
+
   if(positive) {
-    _this.format.positive = format;
+    this.format.positive = format;
   }
   else {
-    _this.format.negative = format;
+    this.format.negative = format;
   }
 };
 
