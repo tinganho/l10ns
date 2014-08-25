@@ -60,7 +60,6 @@ AST.NumberFormat = function(variable, argument) {
 AST.NumberFormat.prototype.Syntaxes = {
   NUMBER_SIMPLE_ARGUMENTS: /^(integer|currency|percent)$/,
   NUMBER_CHARACTER: /[#0-9\.E@\,\+\-;]/,
-  NUMBER_SUFFIX: /'([\u0000-\uFFFD])'$/,
   SIGNIFICANT_PATTERN: /^(#*)(@+)(#*)$/,
   EXPONENT_PATTERN: /^E(\+?)(0+)$/,
   FRACTION_PATTERN: /^(0*)(#*)$/,
@@ -163,10 +162,9 @@ AST.NumberFormat.prototype._parseArgument = function(argument) {
 
         var integerAndFractionPattern = floatAndExponentPattern[0].split('.');
         if(integerAndFractionPattern.length <= 2) {
-          if(integerAndFractionPattern.length == 2) {
+          if(integerAndFractionPattern.length === 2) {
             attributes.fraction = _this._getFractionAttributes(integerAndFractionPattern[1]);
           }
-
 
           attributes.integer = _this._getIntegerAttributes(integerAndFractionPattern[0]);
 
