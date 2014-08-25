@@ -576,6 +576,83 @@ describe('MessageFormat', function() {
         expect(messageFormat.messageAST[0].format.positive.integer.nonAbsentNumbers).to.equal(1);
         expect(messageFormat.messageAST[0].format.negative).to.equal(null);
       });
+
+      it('should throw an error if there exists two padding characters', function() {
+        var method = function() {
+          messageFormat.parse('{variable1,number,*r*r0}');
+        };
+        expect(method).to.throw(TypeError, 'Can not set double padding character(*x*x) in *r*r0');
+      });
+
+      it('should throw an error if there exists two percentage characters', function() {
+        var method = function() {
+          messageFormat.parse('{variable1,number,%%0}');
+        };
+        expect(method).to.throw(TypeError, 'Can not set double percentage character(%%) in %%0');
+      });
+
+      it('should throw an error if there exists two permille characters', function() {
+        var method = function() {
+          messageFormat.parse('{variable1,number,‰‰0}');
+        };
+        expect(method).to.throw(TypeError, 'Can not set double permille character(‰‰) in ‰‰0');
+      });
+
+      it('should throw an error if there exists two permille characters', function() {
+        var method = function() {
+          messageFormat.parse('{variable1,number,‰‰0}');
+        };
+        expect(method).to.throw(TypeError, 'Can not set double permille character(‰‰) in ‰‰0');
+      });
+
+      it('should throw an error if you set percentage and then set permille', function() {
+        var method = function() {
+          messageFormat.parse('{variable1,number,%‰0}');
+        };
+        expect(method).to.throw(TypeError, 'Can not set permille whenever percentage or currency are set in %‰0');
+      });
+
+      it('should throw an error if you set permille and then set currency', function() {
+        var method = function() {
+          messageFormat.parse('{variable1,number,‰¤0}');
+        };
+        expect(method).to.throw(TypeError, 'Can not set currency whenever percentage or permille are set in ‰¤0');
+      });
+
+      it('should throw an error if you set percentage and then set currency', function() {
+        var method = function() {
+          messageFormat.parse('{variable1,number,%¤0}');
+        };
+        expect(method).to.throw(TypeError, 'Can not set currency whenever percentage or permille are set in %¤0');
+      });
+
+      it('should throw an error if the number pattern does not have any non-absent numbers', function() {
+        var method = function() {
+          messageFormat.parse('{variable1,number,#}');
+        };
+        expect(method).to.throw(TypeError, 'Expected a valid integer pattern (/^#*0+$/) in your NumberFormat argument, got (#) in #');
+      });
+
+      it('should throw an error if the exponent pattern have no non-absent numbers', function() {
+        var method = function() {
+          messageFormat.parse('{variable1,number,0E}');
+        };
+        expect(method).to.throw(TypeError, 'Expected a valid exponent pattern (/^E\\+?[0-9]+$/) in your NumberFormat argument, got (E) in 0E');
+      });
+
+      it('should throw an error if a special character exists in between integer and exponent pattern', function() {
+        var method = function() {
+          messageFormat.parse('{variable1,number,0nE0}');
+        };
+        expect(method).to.throw(TypeError, 'A number pattern can not exist after suffix pattern in 0nE0');
+      });
+
+      it('should throw an error if there exist a non non-absent number after `E` in an exponent pattern', function() {
+        var method = function() {
+          messageFormat.parse('{variable1,number,0E10}');
+        };
+        expect(method).to.throw(TypeError, 'Expected a valid exponent pattern (/^E\\+?[0-9]+$/) in your NumberFormat argument, got (E10) in 0E10');
+      });
     });
 
     describe('PluralFormat', function() {

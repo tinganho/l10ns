@@ -146,7 +146,6 @@ AST.NumberFormat.prototype._parseArgument = function(argument) {
       var attributes = {};
 
       numberPattern = _this._setPrefixesAndSuffixAttributes(numberPattern, attributes);
-      _this.currentNumberPattern = numberPattern;
       _this._handleSetNumberFormat(numberPattern, attributes, positive);
 
       positive = false;
@@ -232,7 +231,7 @@ AST.NumberFormat.prototype._handleSetFloatingNumberFormat = function(floatAndExp
 
 AST.NumberFormat.prototype._getIntegerAttributes = function(integerAndFractionPattern) {
   if(!AST.NumberFormat.Syntaxes.INTEGER_PATTERN.test(integerAndFractionPattern)) {
-    throw new TypeError('Expected a valid integer pattern (/^#*0+$/) in your NumberFormat argument, got (' + integerAndFractionPattern[0] + ') in '  + this.currentNumberPattern);
+    throw new TypeError('Expected a valid integer pattern (/^#*0+$/) in your NumberFormat argument, got (' + integerAndFractionPattern + ') in '  + this.currentNumberPattern);
   }
 
   var pattern = AST.NumberFormat.Syntaxes.INTEGER_PATTERN.exec(integerAndFractionPattern);
@@ -259,7 +258,7 @@ AST.NumberFormat.prototype._getIntegerAttributes = function(integerAndFractionPa
 
 AST.NumberFormat.prototype._getFractionAttributes = function(integerAndFractionPattern) {
   if(!AST.NumberFormat.Syntaxes.FRACTION_PATTERN.test(integerAndFractionPattern)) {
-    throw new TypeError('Expected a valid fraction pattern (/^0*#*$/) in your NumberFormat argument, got (' + integerAndFractionPattern[1] + ') in ' + this.currentNumberPattern);
+    throw new TypeError('Expected a valid fraction pattern (/^0*#*$/) in your NumberFormat argument, got (' + integerAndFractionPattern + ') in ' + this.currentNumberPattern);
   }
 
   var pattern = AST.NumberFormat.Syntaxes.FRACTION_PATTERN.exec(integerAndFractionPattern);
@@ -286,7 +285,7 @@ AST.NumberFormat.prototype._getFractionAttributes = function(integerAndFractionP
 
 AST.NumberFormat.prototype._getExponentAttributes = function(exponentPattern) {
   if(!AST.NumberFormat.Syntaxes.EXPONENT_PATTERN.test(exponentPattern)) {
-    throw new TypeError('Expected a valid exponent pattern (/^E\\+?[0-9]+$/) in your NumberFormat argument, got (' + floatAndExponentPattern[1] + ') in ' + this.currentNumberPattern);
+    throw new TypeError('Expected a valid exponent pattern (/^E\\+?[0-9]+$/) in your NumberFormat argument, got (' + exponentPattern + ') in ' + this.currentNumberPattern);
   }
 
   var pattern = AST.NumberFormat.Syntaxes.EXPONENT_PATTERN.exec(exponentPattern);
@@ -359,11 +358,14 @@ AST.NumberFormat.prototype._setPrefixesAndSuffixAttributes = function(numberPatt
   var result = ''
     , prefix = ''
     , suffix = ''
-    , hasEncounterdNumberCharacters = false
+    , hasEncounterNumberCharacters = false
+    , hasEncounterSuffix = false
     , currencyCharacterCounter = 0
     , index = 0
     , inQuote = false
     , setPaddingCharacter = false;
+
+  this.currentNumberPattern = numberPattern;
 
   for(var index = 0; index < numberPattern.length; index++) {
     // Check quote for escaping special characters
@@ -392,39 +394,46 @@ AST.NumberFormat.prototype._setPrefixesAndSuffixAttributes = function(numberPatt
 
     switch(numberPattern[index]) {
       case '*':
+        if(attributes.paddingCharacter) {
+          throw new TypeError('Can not set double padding character(*x*x) in ' + numberPattern);
+        }
         // Defer padding character set
         setPaddingCharacter = true;
         continue;
       case '%':
         attributes.percentage = this._getPercentageAttributes(
           attributes,
-          hasEncounterdNumberCharacters);
+          hasEncounterNumberCharacters);
         continue;
       case '‰':
         attributes.permille = this._getPermilleAttributes(
           attributes,
-          hasEncounterdNumberCharacters);
+          hasEncounterNumberCharacters);
         continue;
       case '¤':
         currencyCharacterCounter++;
         attributes.currency = this._getCurrencyAttributes(
           attributes,
           currencyCharacterCounter,
-          hasEncounterdNumberCharacters);
+          hasEncounterNumberCharacters);
         continue;
     }
 
     if(AST.NumberFormat.Syntaxes.NUMBER_CHARACTER.test(numberPattern[index])) {
-      hasEncounterdNumberCharacters = true;
+      if(hasEncounterSuffix) {
+        throw new TypeError('A number pattern can not exist after suffix pattern in ' + numberPattern);
+      }
+      hasEncounterNumberCharacters = true;
       result += numberPattern[index];
       continue;
     }
 
-    if(!hasEncounterdNumberCharacters) {
+    if(!hasEncounterNumberCharacters) {
       prefix += numberPattern[index];
       continue;
     }
     else {
+      hasEncounterSuffix = true;
       suffix += numberPattern[index];
     }
   }
@@ -484,7 +493,7 @@ AST.NumberFormat.prototype._getGroupSizeAttributes = function(numberPattern) {
 
 AST.NumberFormat.prototype._getPercentageAttributes = function(attributes, hasEncounterdNumberCharacters) {
   if(attributes.percentage) {
-    throw new TypeError('Can not set double percentage character(%) in ' + this.currentNumberPattern);
+    throw new TypeError('Can not set double percentage character(%%) in ' + this.currentNumberPattern);
   }
   if(attributes.permille || attributes.currency) {
     throw new TypeError('Can not set percentage whenever permille or currency are set in ' + this.currentNumberPattern);
@@ -519,7 +528,7 @@ AST.NumberFormat.prototype._getPercentageAttributes = function(attributes, hasEn
 
 AST.NumberFormat.prototype._getPermilleAttributes = function(attributes, hasEncounterdNumberCharacters) {
   if(attributes.permille) {
-    throw new TypeError('Can not set double permille character(‰) in ' + this.currentNumberPattern);
+    throw new TypeError('Can not set double permille character(‰‰) in ' + this.currentNumberPattern);
   }
   if(attributes.percentage || attributes.currency) {
     throw new TypeError('Can not set permille whenever percentage or currency are set in ' + this.currentNumberPattern);
@@ -556,7 +565,7 @@ AST.NumberFormat.prototype._getPermilleAttributes = function(attributes, hasEnco
 
 AST.NumberFormat.prototype._getCurrencyAttributes = function(attributes, currencyCharacterCounter, hasEncounterdNumberCharacters) {
   if(attributes.percentage || attributes.permille) {
-    throw new TypeError('Can not set currency whenever percentage and permille are set in ' + this.currentNumberPattern);
+    throw new TypeError('Can not set currency whenever percentage or permille are set in ' + this.currentNumberPattern);
   }
   if(!hasEncounterdNumberCharacters) {
     return {
