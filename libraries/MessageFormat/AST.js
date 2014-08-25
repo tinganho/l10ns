@@ -61,11 +61,11 @@ AST.NumberFormat.prototype.Syntaxes = {
   NUMBER_SIMPLE_ARGUMENTS: /^(integer|currency|percent)$/,
   NUMBER_CHARACTER: /[#0-9\.E@\,\+\-;]/,
   NUMBER_SUFFIX: /'([\u0000-\uFFFD])'$/,
-  SIGNIFICANT_DIGIT: /^(#*)(@+)(#*)$/,
-  EXPONENT: /^E(\+?)(0+)$/,
-  FRACTION: /^(0*)(#*)$/,
-  INTEGER: /^(#*)(0+)$/,
-  GROUP_SIZE: /(\,[0#]+)?\,([0#]+)(\.[0#]+)?$/
+  SIGNIFICANT_PATTERN: /^(#*)(@+)(#*)$/,
+  EXPONENT_PATTERN: /^E(\+?)(0+)$/,
+  FRACTION_PATTERN: /^(0*)(#*)$/,
+  INTEGER_PATTERN: /^(#*)(0+)$/,
+  GROUP_SIZE_PATTERN: /(\,[0#]+)?\,([0#]+)(\.[0#]+)?$/
 };
 
 /**
@@ -147,10 +147,10 @@ AST.NumberFormat.prototype._parseArgument = function(argument) {
 
       numberPattern = _this._setPrefixesAndSuffixAttributes(numberPattern, attributes);
 
-      if(_this.Syntaxes.SIGNIFICANT_DIGIT.test(numberPattern)) {
-        var significantPattern = _this.Syntaxes.SIGNIFICANT_DIGIT.exec(numberPattern);
+      if(_this.Syntaxes.SIGNIFICANT_PATTERN.test(numberPattern)) {
+        var pattern = _this.Syntaxes.SIGNIFICANT_PATTERN.exec(numberPattern);
         var format = new AST.NumberFormat._SignificantNumberFormat({
-
+          nonAbsentNumbers: pattern[2].length
         });
         if(positive) {
           _this.format.positive = format;
@@ -169,11 +169,11 @@ AST.NumberFormat.prototype._parseArgument = function(argument) {
       if(floatAndExponentPattern.length <= 2) {
         if(floatAndExponentPattern.length === 2) {
           var exponentPattern = 'E' + floatAndExponentPattern[1];
-          if(!_this.Syntaxes.EXPONENT.test(exponentPattern)) {
+          if(!_this.Syntaxes.EXPONENT_PATTERN.test(exponentPattern)) {
             throw new TypeError('Expected a valid exponent pattern (/^E\\+?[0-9]+$/) in your NumberFormat argument, got (' + floatAndExponentPattern[1] + ') in ' + numberPattern);
           }
 
-          var pattern = _this.Syntaxes.EXPONENT.exec(exponentPattern);
+          var pattern = _this.Syntaxes.EXPONENT_PATTERN.exec(exponentPattern);
           attributes.exponent = {
             nonAbsentNumbers: pattern[2].length,
             showPositiveCharacter: !!pattern[1].length
@@ -183,22 +183,22 @@ AST.NumberFormat.prototype._parseArgument = function(argument) {
         var integerAndFractionPattern = floatAndExponentPattern[0].split('.');
         if(integerAndFractionPattern.length <= 2) {
           if(integerAndFractionPattern.length == 2) {
-            if(!_this.Syntaxes.FRACTION.test(integerAndFractionPattern[1])) {
+            if(!_this.Syntaxes.FRACTION_PATTERN.test(integerAndFractionPattern[1])) {
               throw new TypeError('Expected a valid fraction pattern (/^0*#*$/) in your NumberFormat argument, got (' + integerAndFractionPattern[1] + ') in ' + numberPattern);
             }
 
-            var pattern = _this.Syntaxes.FRACTION.exec(integerAndFractionPattern[1]);
+            var pattern = _this.Syntaxes.FRACTION_PATTERN.exec(integerAndFractionPattern[1]);
             attributes.fraction = {
               nonAbsentNumbers: pattern[1].length,
               rightAbsentNumbers: pattern[2].length
             };
           }
 
-          if(!_this.Syntaxes.INTEGER.test(integerAndFractionPattern[0])) {
+          if(!_this.Syntaxes.INTEGER_PATTERN.test(integerAndFractionPattern[0])) {
             throw new TypeError('Expected a valid integer pattern (/^#*0+$/) in your NumberFormat argument, got (' + integerAndFractionPattern[0] + ') in '  + numberPattern);
           }
 
-          var pattern = _this.Syntaxes.INTEGER.exec(integerAndFractionPattern[0]);
+          var pattern = _this.Syntaxes.INTEGER_PATTERN.exec(integerAndFractionPattern[0]);
           attributes.integer = {
             leftAbsentNumbers: pattern[1].length,
             nonAbsentNumbers: pattern[2].length
@@ -360,8 +360,8 @@ AST.NumberFormat.prototype._setPrefixesAndSuffixAttributes = function(numberPatt
   attributes.suffix = suffix;
 
   // Calculate group size
-  if(this.Syntaxes.GROUP_SIZE.test(result)) {
-    var pattern = this.Syntaxes.GROUP_SIZE.exec(result);
+  if(this.Syntaxes.GROUP_SIZE_PATTERN.test(result)) {
+    var pattern = this.Syntaxes.GROUP_SIZE_PATTERN.exec(result);
     attributes.groupSize = {
       primary: pattern[1].length,
       // We subtract by one to remove one length unit caused by comma
