@@ -23,6 +23,7 @@ LDMLPlural.Characters = {
   IS_NOT: '!=',
   AND: 'and',
   OR: 'or',
+  COMMA: ',',
   FIRST_CHARACTER_OF_IS_NOT: '!',
   FIRST_CHARACTER_OF_AND: 'a',
   FIRST_CHARACTER_OF_OR: 'o',
@@ -256,10 +257,10 @@ LDMLPlural.prototype._parseRangeList = function() {
       this.currentToken = this.lexer.getNextToken();
     }
     startValue = parseInt(startValue, 10);
-    if(this.lexer.nextToken() === LDMLPlural.Characters.DOT) {
+    if(this.currentToken === LDMLPlural.Characters.DOT) {
       // Swallow ..
       this.lexer.getNextToken();
-      this.lexer.getNextToken();
+      this.currentToken = this.lexer.getNextToken();
       this._expectNumber();
 
       var endValue = '';

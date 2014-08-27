@@ -85,6 +85,22 @@ describe('LDMLPlural', function() {
       expect(LDMLPlural_.ruleAST.RHS.RHS.values[0].value).to.equal(6);
     });
 
+    it('should be able to parse ranges', function() {
+      LDMLPlural_.parse('n = 3..5');
+      expect(LDMLPlural_.ruleAST.RHS.values[0].from).to.equal(3);
+      expect(LDMLPlural_.ruleAST.RHS.values[0].to).to.equal(5);
+    });
+
+    it('should be able to parse range list', function() {
+      LDMLPlural_.parse('n = 3..5');
+      expect(LDMLPlural_.ruleAST.RHS.values[0].from).to.equal(3);
+      expect(LDMLPlural_.ruleAST.RHS.values[0].to).to.equal(5);
+      LDMLPlural_.parse('n = 3..5,6');
+      expect(LDMLPlural_.ruleAST.RHS.values[0].from).to.equal(3);
+      expect(LDMLPlural_.ruleAST.RHS.values[0].to).to.equal(5);
+      expect(LDMLPlural_.ruleAST.RHS.values[1].value).to.equal(6);
+    });
+
     it('should parse multiple number comparison group of type `and` and `or`', function() {
       LDMLPlural_.parse('n % 3 = 2 and n % 2 = 6 or n = 10');
 
@@ -155,7 +171,7 @@ describe('LDMLPlural', function() {
       expect(LDMLPlural_.ruleAST.RHS.comparator).to.equal('!=');
       expect(LDMLPlural_.ruleAST.RHS.RHS.values[0].value).to.equal(6);
 
-      LDMLPlural_.parse('n % 3 = 2 and n % 2 = 6 or n = 10 and n != 6');
+      LDMLPlural_.parse('n % 3 = 2 and n % 2 = 6 or n = 10,11 and n != 6..9');
 
       // First
       expect(LDMLPlural_.ruleAST).to.be.an.instanceOf(AST.NumberComparisonGroup);
@@ -175,12 +191,14 @@ describe('LDMLPlural', function() {
       expect(LDMLPlural_.ruleAST.RHS.LHS.LHS.modulus).to.equal(null);
       expect(LDMLPlural_.ruleAST.RHS.LHS.comparator).to.equal('=');
       expect(LDMLPlural_.ruleAST.RHS.LHS.RHS.values[0].value).to.equal(10);
+      expect(LDMLPlural_.ruleAST.RHS.LHS.RHS.values[1].value).to.equal(11);
 
       // Fourth
       expect(LDMLPlural_.ruleAST.RHS.RHS.LHS.variable).to.equal('n');
       expect(LDMLPlural_.ruleAST.RHS.RHS.LHS.modulus).to.equal(null);
       expect(LDMLPlural_.ruleAST.RHS.RHS.comparator).to.equal('!=');
-      expect(LDMLPlural_.ruleAST.RHS.RHS.RHS.values[0].value).to.equal(6);
+      expect(LDMLPlural_.ruleAST.RHS.RHS.RHS.values[0].from).to.equal(6);
+      expect(LDMLPlural_.ruleAST.RHS.RHS.RHS.values[0].to).to.equal(9);
     });
   });
 });
