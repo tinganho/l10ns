@@ -1,5 +1,5 @@
 
-var messageFormat = require('../libraries/MessageFormat')
+var messageFormat = new (require('../libraries/MessageFormat'))('en-US')
   , AST = require('../libraries/MessageFormat/AST');
 
 describe('MessageFormat', function() {
@@ -483,7 +483,7 @@ describe('MessageFormat', function() {
         expect(messageFormat.messageAST[0].format.negative).to.equal(null);
       });
 
-      it('should be able to parse o formatted argument with a negative pattern', function() {
+      it('should be able to parse a formatted argument with a negative pattern', function() {
         messageFormat.parse('{variable1,number,0;0}');
         expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormat._FloatingNumberFormat);
         expect(messageFormat.messageAST[0].format.positive.integer.leftAbsentNumbers).to.equal(0);
@@ -501,6 +501,22 @@ describe('MessageFormat', function() {
         expect(messageFormat.messageAST[0].format.negative.paddingCharacter).to.equal(null);
         expect(messageFormat.messageAST[0].format.negative.groupSize).to.equal(null);
         expect(messageFormat.messageAST[0].format.negative.formatLength).to.equal(10);
+      });
+
+      it('should be able to parse group size with a single group separator', function() {
+        messageFormat.parse('{variable1,number,#,#0}');
+        expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
+        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormat._FloatingNumberFormat);
+        expect(messageFormat.messageAST[0].format.positive.groupSize.primary).to.equal(2);
+        expect(messageFormat.messageAST[0].format.positive.groupSize.secondary).to.equal(2);
+      });
+
+      it('should be able to parse a group size with multiple group separator', function() {
+        messageFormat.parse('{variable1,number,#,#,#0}');
+        expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
+        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormat._FloatingNumberFormat);
+        expect(messageFormat.messageAST[0].format.positive.groupSize.primary).to.equal(2);
+        expect(messageFormat.messageAST[0].format.positive.groupSize.secondary).to.equal(1);
       });
 
       it('should be able to parse with spaces between keywords', function() {

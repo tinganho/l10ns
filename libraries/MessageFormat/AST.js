@@ -3,13 +3,27 @@
  * Dependenices
  */
 
-var _ = require('underscore');
+var _ = require('underscore')
+  , fs = require('fs')
+  , path = require('path')
+  , xml = require('libxmljs')
+  , Q = require('q');
 
 /**
  * Namespace AST
  */
 
 var AST = {};
+
+/**
+ * Cache used for lazy loading
+ *
+ * @type {Object}
+ */
+
+AST.cache = {
+  plural: null
+};
 
 /**
  * AST class representing a sentence
@@ -41,7 +55,8 @@ AST.Variable = function(name) {
  * @constructor
  */
 
-AST.NumberFormat = function(variable, argument) {
+AST.NumberFormat = function(locale, variable, argument) {
+  this.locale = locale;
   this.variable = variable;
   this.argument = argument;
   this.format = {
@@ -167,6 +182,9 @@ AST.NumberFormat.prototype._parseArgument = function(argument) {
  */
 
 AST.NumberFormat.prototype._handleSetNumberFormat = function(numberPattern, attributes, positive) {
+  // All group size is already set so we can remove all commas
+  // to ease our parsing
+  numberPattern = numberPattern.replace(/,/g, '');
   if(AST.NumberFormat.Syntaxes.SIGNIFICANT_PATTERN.test(numberPattern)) {
     this._setSignificantNumberFormat(numberPattern, attributes, positive);
     return;
@@ -469,9 +487,12 @@ AST.NumberFormat.prototype._setPrefixesAndSuffixAttributes = function(numberPatt
 AST.NumberFormat.prototype._getGroupSizeAttributes = function(numberPattern) {
   var pattern = AST.NumberFormat.Syntaxes.GROUP_SIZE_PATTERN.exec(numberPattern);
   return {
-    primary: pattern[1].length,
+    primary: pattern[2].length,
     // We subtract by one to remove one length unit caused by comma
-    secondary: (pattern[0].length - 1) || pattern[1].length
+    secondary:
+      typeof pattern[1] !== 'undefined' ?
+      pattern[1].length - 1 :
+      pattern[2].length
   };
 };
 
@@ -616,10 +637,45 @@ AST.SelectFormat = function(variable, values) {
  * @constructor
  */
 
-AST.PluralFormat = function(variable, values, offset) {
+AST.PluralFormat = function(locale, variable, values, offset) {
+  this.locale = locale;
+  this.language = locale.substring(0, 2)
   this.variable = variable;
   this.values = values;
   this.offset = offset;
+  this.pluralRules = {};
+  this.readData();
+};
+
+AST.PluralFormat.prototype.readData = function() {
+  var _this = this
+    , deferred = Q.defer();
+
+  if(AST.cache.pluralRules) {
+    this.pluralRules = AST.cache.pluralRules;
+  }
+  else {
+    var data = fs.readFileSync(path.join(
+      __dirname, '../../CLDR/common/supplemental/plurals.xml'), 'utf-8');
+
+    var document = xml.parseXmlString(data, { noblanks: true });
+    var pluralRules = document.get(
+      '//supplementalData/plurals/pluralRules\
+      [contains(concat(\' \', normalize-space(@locales), \' \'), \' ' + _this.language + ' \')]');
+    var n = 0;
+    pluralRules.childNodes().forEach(function(pluralRule) {
+      var _case = pluralRule.attr('count').value()
+        , rule = pluralRule.text();
+
+      var value = {
+        rule: null,
+        example: {
+          integer: null,
+          decimal: null
+        }
+      };
+    });
+  }
 };
 
 /**

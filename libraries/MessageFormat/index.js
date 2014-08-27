@@ -3,7 +3,7 @@
  * Requires
  */
 
-var Lexer = require('./Lexer')
+var Lexer = require('../Lexer')
   , AST = require('./AST')
   , _ = require('underscore');
 
@@ -13,7 +13,8 @@ var Lexer = require('./Lexer')
  * @constructor
  */
 
-function MessageFormat() {
+function MessageFormat(locale) {
+  this.locale = locale || program.defaultLocale;
   this.lexer = null;
   this.messageAST = [];
   this.currentToken = null;
@@ -273,10 +274,8 @@ MessageFormat.prototype._parseSimpleFormat = function(type, variable) {
 
   switch(type) {
     case 'number':
-      return new AST.NumberFormat(variable, argument);
+      return new AST.NumberFormat(this.locale, variable, argument);
   }
-
-
 };
 
 /**
@@ -406,7 +405,7 @@ MessageFormat.prototype._parsePluralFormat = function(variable) {
           throw new TypeError('You must have a closing bracket in your plural format in ' + this.lexer.getLatestTokensLog());
         }
         this.currentToken = this.lexer.getNextToken();
-        return new AST.PluralFormat(variable, values, offset);
+        return new AST.PluralFormat(this.locale, variable, values, offset);
       }
     }
     else {
@@ -581,4 +580,4 @@ MessageFormat.prototype._swallowWhiteSpace = function() {
   }
 };
 
-module.exports = new MessageFormat;
+module.exports = MessageFormat;

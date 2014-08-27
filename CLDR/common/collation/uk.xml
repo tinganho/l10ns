@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<!--
+Copyright © 1991-2013 Unicode, Inc.
+CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
+For terms of use, see http://www.unicode.org/copyright.html
+-->
+<ldml>
+	<identity>
+		<version number="$Revision: 8900 $"/>
+		<generation date="$Date: 2013-06-12 17:21:10 -0500 (Wed, 12 Jun 2013) $"/>
+		<language type="uk" /> 
+	</identity>
+	<collations validSubLocales="uk_UA">
+		<collation type="standard">
+			<settings reorder="Cyrl"/>
+			<suppress_contractions>[АаӘәГгЕеЖжЗзОоӨөКкУуЧчЫыЭэѴѵ]</suppress_contractions>
+			<!-- List of UCA contractions remaining after suppression:
+
+			Ї 0406 0308 CYRILLIC CAPITAL LETTER YI
+			ї 0456 0308 CYRILLIC SMALL LETTER YI
+			Й 0418 0306 CYRILLIC CAPITAL LETTER SHORT I
+			й 0438 0306 CYRILLIC SMALL LETTER SHORT I
+			-->
+			<cr><![CDATA[
+			    &Г<ґ<<<Ґ
+			]]></cr>
+		</collation>
+	</collations>
+</ldml>

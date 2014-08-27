@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<ldml>
+  <identity>
+    <version number="$Revision: 9229 $"/>
+    <generation date="$Date: 2013-08-18 23:26:52 -0500 (Sun, 18 Aug 2013) $"/>
+    <language type="ru"/>
+  </identity>
+  <segmentations>
+    <segmentation type="SentenceBreak">
+      <!--From ULI data, http://uli.unicode.org-->
+      <exceptions>
+        <exception draft="provisional">руб.</exception>
+        <exception draft="provisional">янв.</exception>
+        <exception draft="provisional">тел.</exception>
+        <exception draft="provisional">до н.э.</exception>
+        <exception draft="provisional">дек.</exception>
+        <exception draft="provisional">февр.</exception>
+        <exception draft="provisional">нояб.</exception>
+        <exception draft="provisional">апр.</exception>
+        <exception draft="provisional">окт.</exception>
+        <exception draft="provisional">тыс.</exception>
+        <exception draft="provisional">авг.</exception>
+        <exception draft="provisional">проф.</exception>
+        <exception draft="provisional">сент.</exception>
+        <exception draft="provisional">н.э.</exception>
+        <exception draft="provisional">кв.</exception>
+        <exception draft="provisional">ул.</exception>
+        <exception draft="provisional">отд.</exception>
+      </exceptions>
+    </segmentation>
+  </segmentations>
+</ldml>
+

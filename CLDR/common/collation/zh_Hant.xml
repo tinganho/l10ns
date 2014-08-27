@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<!--
+Copyright © 1991-2013 Unicode, Inc.
+CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
+For terms of use, see http://www.unicode.org/copyright.html
+-->
+<ldml>
+	<identity>
+		<version number="$Revision: 8962 $"/>
+		<generation date="$Date: 2013-06-24 13:06:57 -0500 (Mon, 24 Jun 2013) $"/>
+		<language type="zh" /> 
+		<script type="Hant" /> 
+	</identity>
+		<collations validSubLocales="zh_Hant_HK zh_Hant_MO zh_Hant_TW">
+			<defaultCollation>stroke</defaultCollation>
+		</collations>
+</ldml>

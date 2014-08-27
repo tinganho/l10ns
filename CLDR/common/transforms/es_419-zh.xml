@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE supplementalData SYSTEM "../../common/dtd/ldmlSupplemental.dtd">
+<!--
+Copyright © 1991-2013 Unicode, Inc.
+CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
+For terms of use, see http://www.unicode.org/copyright.html
+-->
+<supplementalData>
+  <version number="$Revision: 8242 $"/>
+	<generation date="$Date: 2013-02-24 21:06:02 -0600 (Sun, 24 Feb 2013) $"/>
+	<transforms>
+		<transform source="es_419" target="zh" direction="forward">
+			<comment>
+			# Copyright (C) 2010 Google, Inc.  All Rights Reserved.
+			# Author: sascha@google.com (Sascha Brawer)
+			#
+			</comment>
+			<tRule>::es-es_FONIPA;</tRule>
+			<tRule>::es_FONIPA-es_419_FONIPA;</tRule>
+			<tRule>::es_FONIPA-zh;</tRule>
+		</transform>
+	</transforms>
+</supplementalData>

@@ -53,3 +53,4 @@ require('./log');
 
 require('../plugins/javascript/specification');
 require('./messageFormat');
+require('./LDMLPlural');

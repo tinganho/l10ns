@@ -48,6 +48,7 @@
     "grunt-webp": "https://github.com/tinganho/grunt-webp/tarball/master",
     "hashids": "~0.1.4",
     "helmet": "~0.1.2",
+    "libxmljs": "^0.11.0",
     "lunr": "~0.4.3",
     "mkdirp": "~0.5.0",
     "mocha": "~1.8.2",

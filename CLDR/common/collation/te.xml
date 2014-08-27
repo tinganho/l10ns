@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<!--
+Copyright © 1991-2013 Unicode, Inc.
+CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
+For terms of use, see http://www.unicode.org/copyright.html
+-->
+<ldml>
+	<identity>
+		<version number="$Revision: 8900 $"/>
+		<generation date="$Date: 2013-06-12 17:21:10 -0500 (Wed, 12 Jun 2013) $"/>
+		<language type="te" /> 
+	</identity>
+	<collations  validSubLocales="te_IN">
+		<collation type="standard" references="Brown: Telugu-English Dictionary ISBN:8120600371">
+			<settings normalization="on" reorder="Telu Deva Beng Guru Gujr Orya Taml Knda Mlym Sinh"/>
+			<cr><![CDATA[
+			#
+			# The following tailoring is an adjustment of the
+			# DUCET collation order for CANDRABINDU, ANUSVARA,
+			# and VISARGA. Instead of being sorted with secondary
+			# weights, they are collated on primary level between
+			# the independent vowels and the consonants.
+			# 
+				&ఔ<ఁ<ం<ః
+			]]></cr>
+		</collation>
+	</collations>
+</ldml>

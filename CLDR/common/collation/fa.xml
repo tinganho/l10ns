@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<!--
+Copyright © 1991-2013 Unicode, Inc.
+CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
+For terms of use, see http://www.unicode.org/copyright.html
+-->
+<ldml>
+	<identity>
+		<version number="$Revision: 8900 $"/>
+		<generation date="$Date: 2013-06-12 17:21:10 -0500 (Wed, 12 Jun 2013) $"/>
+		<language type="fa" /> 
+	</identity>
+		<collations  validSubLocales="fa_IR">
+			<collation type="standard" >
+				<settings normalization="on" reorder="Arab"/>
+				<cr><![CDATA[
+					&َ<<ِ<<ُ<<ً<<ٍ<<ٌ
+					&[before 1]ا<آ
+					&ا<<ٱ<ء<<*أٲإٳؤ<<یٔ<<<ىٔ<<<ئ
+					&ک<<*ڪګكڬڭڮ
+					&ۏ<ه<<*ەہةۃۀھ
+					&ی<<*ىےيېۑۍێ
+				]]></cr>
+			</collation  >
+		</collations>
+</ldml>

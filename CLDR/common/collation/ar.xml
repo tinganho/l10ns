@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<!--
+Copyright © 1991-2013 Unicode, Inc.
+CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
+For terms of use, see http://www.unicode.org/copyright.html
+-->
+<ldml>
+	<identity>
+		<version number="$Revision: 8900 $"/>
+		<generation date="$Date: 2013-06-12 17:21:10 -0500 (Wed, 12 Jun 2013) $"/>
+		<language type="ar" /> 
+	</identity>
+		<collations validSubLocales="ar_001 ar_AE ar_BH ar_DJ ar_DZ ar_EG ar_EH ar_ER ar_IL ar_IQ ar_JO ar_KM ar_KW ar_LB ar_LY ar_MA ar_MR ar_OM ar_PS ar_QA ar_SA ar_SD ar_SO ar_SY ar_TD ar_TN ar_YE">
+			<collation type="standard" >
+				<settings reorder="Arab"/>
+				<cr><![CDATA[
+					&ت<<ة<<<ﺔ<<<ﺓ
+					&ي<<ى<<<ﯨ<<<ﯩ<<<ﻰ<<<ﻯ<<<ﲐ<<<ﱝ
+				]]></cr>
+			</collation  >
+		</collations>
+</ldml>
