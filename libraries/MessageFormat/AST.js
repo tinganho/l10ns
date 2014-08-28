@@ -7,7 +7,8 @@ var _ = require('underscore')
   , fs = require('fs')
   , path = require('path')
   , xml = require('libxmljs')
-  , Q = require('q');
+  , Q = require('q')
+  , LDMLPlural = require('../LDMLPlural');
 
 /**
  * Namespace AST
@@ -665,15 +666,7 @@ AST.PluralFormat.prototype.readData = function() {
     var n = 0;
     pluralRules.childNodes().forEach(function(pluralRule) {
       var _case = pluralRule.attr('count').value()
-        , rule = pluralRule.text();
-
-      var value = {
-        rule: null,
-        example: {
-          integer: null,
-          decimal: null
-        }
-      };
+        , rule = LDMLPlural.parse(pluralRule.text());
     });
   }
 };

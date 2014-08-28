@@ -27,6 +27,8 @@ LDMLPlural.Characters = {
   FIRST_CHARACTER_OF_IS_NOT: '!',
   FIRST_CHARACTER_OF_AND: 'a',
   FIRST_CHARACTER_OF_OR: 'o',
+  FIRST_CHARACTER_OF_INTEGER_EXAMPLE: 'i',
+  FIRST_CHARACTER_OF_DECIMAL_EXAMPLE: 'd',
   ABSOLUTE_VALUE: 'n',
   INTEGER_DIGIT: 'i',
   NUMBER_OF_VISIBLE_FRACTION_DIGITS_WITH_TRAILING_ZEROS: 'v',
@@ -65,6 +67,10 @@ LDMLPlural.prototype.parse = function(string) {
         this.currentToken !== LDMLPlural.Characters.EOF) {
     this.ruleAST = this._parsePrimary();
   }
+
+  this._parseExample();
+
+  return this.ruleAST;
 };
 
 /**
@@ -164,6 +170,15 @@ LDMLPlural.prototype._parseNumberComparison = function(stop) {
   return this._parseRHSNumberComparisonGroup(0, LHS);
 };
 
+/**
+ * Parse RHS number comparison group
+ *
+ * @param {Number} previousPrecedence
+ * @param {AST.NumberComparison|AST.NumberComparisonGroup}
+ * @return {void}
+ * @api private
+ */
+
 LDMLPlural.prototype._parseRHSNumberComparisonGroup = function(previousPrecedence, LHS) {
   while(true) {
     var thisPrecedence = this._getNumberComparisonGroupTypePrecedence();
@@ -183,6 +198,13 @@ LDMLPlural.prototype._parseRHSNumberComparisonGroup = function(previousPrecedenc
     LHS = new AST.NumberComparisonGroup(LHS, thisNumberComparisonGroupType, RHS);
   }
 };
+
+/**
+ * Get number comparison group type precedence
+ *
+ * @return {Number}
+ * @api private
+ */
 
 LDMLPlural.prototype._getNumberComparisonGroupTypePrecedence = function() {
   if(this.currentToken === LDMLPlural.Characters.FIRST_CHARACTER_OF_AND) {
@@ -301,6 +323,19 @@ LDMLPlural.prototype._isWhiteSpace = function(character) {
   return ' ' === character || '\n' === character || '\t' === character;
 };
 
+
+/**
+ * Check if a character is alpha lowercase
+ *
+ * @param {String} character
+ * @return {Boolean}
+ * @api private
+ */
+
+LDMLPlural.prototype._isAlphaLowerCase = function(character) {
+  return /^[a-z]$/.test(character);
+};
+
 /**
  * Swallow spaces
  *
@@ -314,8 +349,78 @@ LDMLPlural.prototype._swallowWhiteSpace = function() {
   }
 };
 
+/**
+ * Parse example
+ *
+ * @return {void}
+ * @api private
+ */
 
-module.exports = LDMLPlural;
+LDMLPlural.prototype._parseExample = function() {
+  while(this.currentToken !== LDMLPlural.Characters.EOF) {
+    // Swallow `@`
+    this.currentToken = this.lexer.getNextToken();
+    if(this.currentToken === LDMLPlural.Characters.FIRST_CHARACTER_OF_INTEGER_EXAMPLE) {
+      this._parseIntegerExample();
+    }
+    else if(this.currentToken === LDMLPlural.Characters.FIRST_CHARACTER_OF_DECIMAL_EXAMPLE) {
+      this._parseDecimalExample();
+    }
+    else {
+      throw new TypeError('Expected `@` in ' + this.lexer.getLatestTokensLog());
+    }
+  }
+};
+
+/**
+ * Parse integer example
+ *
+ * @return {void}
+ * @api private
+ */
+
+LDMLPlural.prototype._parseIntegerExample = function() {
+  var integerExample = '';
+  while(this._isAlphaLowerCase(this.currentToken)) {
+    this.currentToken = this.lexer.getNextToken();
+  }
+
+  // Go to first example
+  this._swallowWhiteSpace();
 
 
+  while(this.currentToken !== LDMLPlural.Characters.EOF &&
+        this.currentToken !== LDMLPlural.Characters.AT) {
+    integerExample += this.currentToken;
+    this.currentToken = this.lexer.getNextToken();
+  }
 
+  this.integerExample = integerExample.trim().split(', ');
+};
+
+/**
+ * Parse decimal example
+ *
+ * @return {void}
+ * @api private
+ */
+
+LDMLPlural.prototype._parseDecimalExample = function() {
+  var decimalExample = '';
+  while(this._isAlphaLowerCase(this.currentToken)) {
+    this.currentToken = this.lexer.getNextToken();
+  }
+
+  // Go to first example
+  this._swallowWhiteSpace();
+
+  while(this.currentToken !== LDMLPlural.Characters.EOF &&
+        this.currentToken !== LDMLPlural.Characters.AT) {
+    decimalExample += this.currentToken;
+    this.currentToken = this.lexer.getNextToken();
+  }
+
+  this.decimalExample = decimalExample.trim().split(', ');
+};
+
+module.exports = new LDMLPlural;

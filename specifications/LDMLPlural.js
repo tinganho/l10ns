@@ -1,5 +1,5 @@
 
-var LDMLPlural_ = new (require('../libraries/LDMLPlural'))
+var LDMLPlural_ = require('../libraries/LDMLPlural')
   , AST = require('../libraries/LDMLPlural/AST');
 
 describe('LDMLPlural', function() {
@@ -92,6 +92,9 @@ describe('LDMLPlural', function() {
     });
 
     it('should be able to parse range list', function() {
+      LDMLPlural_.parse('n = 3,5');
+      expect(LDMLPlural_.ruleAST.RHS.values[0].value).to.equal(3);
+      expect(LDMLPlural_.ruleAST.RHS.values[1].value).to.equal(5);
       LDMLPlural_.parse('n = 3..5');
       expect(LDMLPlural_.ruleAST.RHS.values[0].from).to.equal(3);
       expect(LDMLPlural_.ruleAST.RHS.values[0].to).to.equal(5);
@@ -99,6 +102,15 @@ describe('LDMLPlural', function() {
       expect(LDMLPlural_.ruleAST.RHS.values[0].from).to.equal(3);
       expect(LDMLPlural_.ruleAST.RHS.values[0].to).to.equal(5);
       expect(LDMLPlural_.ruleAST.RHS.values[1].value).to.equal(6);
+      LDMLPlural_.parse('n = 6,3..5');
+      expect(LDMLPlural_.ruleAST.RHS.values[0].value).to.equal(6);
+      expect(LDMLPlural_.ruleAST.RHS.values[1].from).to.equal(3);
+      expect(LDMLPlural_.ruleAST.RHS.values[1].to).to.equal(5);
+      LDMLPlural_.parse('n = 3..5,6..9');
+      expect(LDMLPlural_.ruleAST.RHS.values[0].from).to.equal(3);
+      expect(LDMLPlural_.ruleAST.RHS.values[0].to).to.equal(5);
+      expect(LDMLPlural_.ruleAST.RHS.values[1].from).to.equal(6);
+      expect(LDMLPlural_.ruleAST.RHS.values[1].to).to.equal(9);
     });
 
     it('should parse multiple number comparison group of type `and` and `or`', function() {
@@ -199,6 +211,22 @@ describe('LDMLPlural', function() {
       expect(LDMLPlural_.ruleAST.RHS.RHS.comparator).to.equal('!=');
       expect(LDMLPlural_.ruleAST.RHS.RHS.RHS.values[0].from).to.equal(6);
       expect(LDMLPlural_.ruleAST.RHS.RHS.RHS.values[0].to).to.equal(9);
+    });
+
+    it('should parse integer example', function() {
+      LDMLPlural_.parse('n = 1 @integer 1');
+      expect(LDMLPlural_.integerExample).to.eql(['1']);
+    });
+
+    it('should parse decimal exampl', function() {
+      LDMLPlural_.parse('n = 1 @decimal 1.0, 1.00, 1.000');
+      expect(LDMLPlural_.decimalExample).to.eql(['1.0', '1.00', '1.000']);
+    });
+
+    it('should parse both decimal and integer example', function() {
+      LDMLPlural_.parse('n = 1 @integer 1 @decimal 1.0, 1.00, 1.000');
+      expect(LDMLPlural_.integerExample).to.eql(['1']);
+      expect(LDMLPlural_.decimalExample).to.eql(['1.0', '1.00', '1.000']);
     });
   });
 });
