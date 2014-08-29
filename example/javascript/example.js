@@ -1,10 +1,10 @@
 
 var localizations = {
-  'locale1': l('INDEX__ALICE_GOT_PRODUCT', {
-    day: 1,
-    month: 1,
-    year: 1,
-    user: 'Alice'
-    product: 'product'
+  'locale1': l('INDEX1', {
+    'range files': 1,
+    'plural score': 1,
+    'keywords score': 1,
+    'number gender': 'Alice',
+    'date gender': 'Alice'
   })
 };

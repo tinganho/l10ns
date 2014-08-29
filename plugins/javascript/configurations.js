@@ -72,7 +72,7 @@ module.exports = {
   LOCALIZATION_KEY_SYNTAX: new RegExp('\\s+(' + GET_LOCALIZATION_STRING_FUNCTION_NAME + '|' + GET_LOCALIZATION_STRING_USING_VARIABLES_FUNCTION_NAME + ')\\((\'|")(.+?)\\2[\,\)]'),
 
   /**
-   * Translation vars regex should capture a match
+   * Translation variables regex should capture a match
    * of the whole translation var object literal in
    * the first index of the whole translation function
    * call string. It should also match multiline
@@ -90,6 +90,38 @@ module.exports = {
   LOCALIZATION_VARIABLES_SYNTAX: /(\{(.|\s)*?\})/g,
 
   /**
+   * Translation variable name syntax. Captures the name
+   * of a variable. Given that the map key string is only
+   * provided.
+   *
+   * Example match (double hard brackets mean match):
+   *
+   * l('SOME_TRANSLATION_KEY', {
+   *   'plural [[test]]': 'test'
+   * });
+   *
+   * @value {RegExp}
+   */
+
+  LOCALIZATION_VARIABLE_NAME_SYNTAX: /\s(\w+)("|')\:$/g,
+
+  /**
+   * Translation variable type syntax. Captures the type
+   * of a variable. Given that the map key string is only
+   * provided.
+   *
+   * Example match (double hard brackets mean match):
+   *
+   * l('SOME_TRANSLATION_KEY', {
+   *   '[[plural]] test': 'test'
+   * });
+   *
+   * @value {RegExp}
+   */
+
+  LOCALIZATION_VARIABLE_TYPE_SYNTAX: /\s*('|")?(range|plural|keywords|ordinal|number|date)/g,
+
+  /**
    * Translation var regex should capture a match
    * of one line of the translation var key including
    * colon sign of the whole translation vars string.
@@ -104,7 +136,7 @@ module.exports = {
    * @value {RegExp}
    */
 
-  LOCALIZATION_VARIABLE_SYNTAX: /\s*('|")?\w+\1?\s*\:/g,
+  LOCALIZATION_VARIABLE_SYNTAX: /\s*('|")?(range|plural|keywords|ordinal|number|date|)\s+[\w\s]+\1?\s*\:/g,
 
   /**
    * Imports of local variables

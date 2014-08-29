@@ -192,7 +192,7 @@ Update.prototype._mergeWithOldLocalizations = function(newLocalizations) {
             newLocalizationsCopy[locale] = merger.mergeId(_new, old, key);
           }
           else {
-            newLocalizationsCopy[locale][key].values = [['']];
+            newLocalizationsCopy[locale][key].value = '';
             newLocalizationsCopy[locale][key].timestamp = now;
 
             if(locale === project.defaultLocale) {
