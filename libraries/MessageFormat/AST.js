@@ -3,12 +3,7 @@
  * Dependenices
  */
 
-var _ = require('underscore')
-  , fs = require('fs')
-  , path = require('path')
-  , xml = require('libxmljs')
-  , Q = require('q')
-  , LDMLPlural = require('../LDMLPlural');
+var _ = require('underscore');
 
 /**
  * Namespace AST
@@ -640,36 +635,11 @@ AST.SelectFormat = function(variable, values) {
 
 AST.PluralFormat = function(locale, variable, values, offset) {
   this.locale = locale;
-  this.language = locale.substring(0, 2)
   this.variable = variable;
   this.values = values;
   this.offset = offset;
-  this.pluralRules = {};
-  this.readData();
 };
 
-AST.PluralFormat.prototype.readData = function() {
-  var _this = this
-    , deferred = Q.defer();
-
-  if(AST.cache.pluralRules) {
-    this.pluralRules = AST.cache.pluralRules;
-  }
-  else {
-    var data = fs.readFileSync(path.join(
-      __dirname, '../../CLDR/common/supplemental/plurals.xml'), 'utf-8');
-
-    var document = xml.parseXmlString(data, { noblanks: true });
-    var pluralRules = document.get(
-      '//supplementalData/plurals/pluralRules\
-      [contains(concat(\' \', normalize-space(@locales), \' \'), \' ' + _this.language + ' \')]');
-    var n = 0;
-    pluralRules.childNodes().forEach(function(pluralRule) {
-      var _case = pluralRule.attr('count').value()
-        , rule = LDMLPlural.parse(pluralRule.text());
-    });
-  }
-};
 
 /**
  * AST class representing an ICU PluralFormat count '#'

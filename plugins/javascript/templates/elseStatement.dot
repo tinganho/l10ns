@@ -1,3 +1,0 @@
-else {
-  return '{{=it.string}}';
-}

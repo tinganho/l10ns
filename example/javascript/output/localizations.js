@@ -1,21 +1,6 @@
 ;(function() {
   var localizations = {
-    'en-US': {
-      'lo\'\"cale1': function anonymous(it) {
-        return '' + it.text + ' wfweefefw';
-      },
-      'locale2': function anonymous(it) {
-        return '';
-      }
-    },
-    'zh-CN': {
-      'lo\'\"cale1': function anonymous(it) {
-        return '';
-      },
-      'locale2': function anonymous(it) {
-        return '';
-      }
-    }
+  
   };
   
   function requireLocale(locale) {

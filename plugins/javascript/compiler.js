@@ -10,7 +10,9 @@ var fs = require('fs')
   , file = require('../../libraries/file')
   , log = require('../../libraries/_log')
   , mkdirp = require('mkdirp')
-  , defer = require('q').defer;
+  , MessageFormat = require('../../libraries/MessageFormat')
+  , defer = require('q').defer
+  , LDMLPlural = { AST: require('../../libraries/LDMLPlural/AST') };
 
 /**
  * Add terminal colors
@@ -39,6 +41,8 @@ var Compiler = function() {
   this.add = ' + ';
   // space
   this.space = ' ';
+  // and
+  this.and = ' && ';
 };
 
 /**
@@ -84,7 +88,7 @@ Compiler.prototype.run = function() {
  * @api public
  */
 
-Compiler.prototype.indentSpaces = function(spaces, string) {
+Compiler.prototype._indentSpaces = function(spaces, string) {
   for(var i = 0; i<spaces; i++) {
     string = string.replace(/\n/g, '\n ');
   }
@@ -111,44 +115,56 @@ Compiler.prototype._getLocalizationMap = function() {
 
   file.readLocalizations()
     .then(function(localizations) {
-      var body = '', localeCounter = 0;
+      var localizationsMap = ''
+        , localesLength = Object.keys(localizations).length
+        , localesCount = 0;
+
       for(var locale in localizations) {
-        if(localeCounter !== 0) {
-          body += _this.comma + _this.linefeed;
-        }
+        var localizationMap = ''
+          , localizationsLength = Object.keys(localizations[locale]).length
+          , localizationsCount = 0;
 
-        body += _this.indentSpaces(2, _this.quote + locale + _this.quote) + ':' + _this.space + '{' + _this.linefeed;
-        // Get Body string
-        var keyCounter = 0;
         for(var key in localizations[locale]) {
-          // Append a comma for previous hashes
-          if(keyCounter !== 0) {
-            body += _this.comma + _this.linefeed;
-          }
+          var messageFormat = new MessageFormat(locale);
+          messageFormat.parse(localizations[locale][key].value);
+          var _function = template['Function']({
+            functionBody: _this._indentSpaces(
+              2,
+              _this._getFunctionBody(messageFormat.messageAST
+            ))
+          });
 
-          var field = _this.indentSpaces(4, template.JSONLocalizationFunctionField({
+          localizationMap += template['LocalizationKeyValue']({
             key: key,
-            functionString: _this._getFunctionBodyString(localizations[locale], key)
-          }));
+            function: _function
+          });
 
-          body += field;
-
-          if(!this.quiet && locale === project.defaultLocale) {
-            console.log('[compiled] '.green + key);
+          if(localizationsCount !== localizationsLength - 1 &&
+            localizationsLength > 1) {
+            localizationMap += _this.comma;
+            localizationMap += _this.linefeed;
           }
-
-          keyCounter++;
         }
 
-        body  += _this.linefeed + _this.indentSpaces(2, '}');
+        localizationsMap += template['LocalizationMap']({
+          locale: locale,
+          map: _this._indentSpaces(2, localizationMap)
+        });
 
-        localeCounter++;
+        if(localesCount !== localesLength - 1 &&
+           localesLength > 1) {
+          localizationsMap += _this.comma;
+          localizationsMap += _this.linefeed;
+        }
+
+        localesCount++;
       }
 
-      // Store every function in a hash
-      deferred.resolve(_this.indentSpaces(2, template.mapDeclaration({
-        body: body
-      })));
+      var result = template['LocalizationsMap']({
+        localizations: _this._indentSpaces(2, localizationsMap)
+      });
+
+      deferred.resolve(result);
     })
     .fail(function(error) {
       deferred.reject(error);
@@ -157,235 +173,157 @@ Compiler.prototype._getLocalizationMap = function() {
   return deferred.promise;
 };
 
-/**
- * Get function body string
- *
- * @param {Object} localizations
- * @return {String} function body string
- * @api private
- */
+Compiler.prototype._getFunctionBody = function(messageAST, withLinefeed) {
+  withLinefeed = typeof withLinefeed=== 'undefined' ? true : withLinefeed;
 
-Compiler.prototype._getFunctionBodyString = function(localizations, key) {
-  var string = '';
+  var result = '';
 
-  if(localizations[key].values.length === 0) {
-    string += this.indentSpaces(2, this._getNonLocalizedFunctionBodyString(key));
-  }
-  else if(localizations[key].values[0][0] === program.CONDITION_IF) {
-    string += this.indentSpaces(2, this._getConditionsString(
-      localizations[key].values,
-      localizations[key].variables
-    ));
-  }
-  else {
-    string += this._getNonConditionsFunctionBodyString(
-      this._getFormatedLocalizedText(
-        localizations[key].values[0][0],
-        localizations[key].variables
-      )
-    );
+  for(var index = 0; index < messageAST.length; index++) {
+    if(messageAST[index] instanceof MessageFormat.AST.Sentence) {
+      result += template['Sentence']({ sentence: messageAST[index].string });
+    }
+    else if(messageAST[index] instanceof MessageFormat.AST.PluralFormat) {
+      var switchBody = ''
+        , setCaseStatement = ''
+        , exactCases = 0
+        , setCaseStatementType = 'if';
+
+      for(var _case in messageAST[index].values) {
+        var caseBody = this._indentSpaces(2, this._getFunctionBody(messageAST[index].values[_case], false));
+        switchBody += template['Case']({
+          case: _case,
+          caseBody: this._indentSpaces(2, caseBody)
+        });
+        switchBody += this.linefeed;
+        if(/^=\d+$/.test(_case)) {
+          if(exactCases !== 0) {
+            setCaseStatementType = 'else if';
+          }
+          setCaseStatement += template['SetPluralCase']({
+            statementType: setCaseStatementType,
+            variableName: messageAST[index].variable.name,
+            value: _case.replace('=', '')
+          });
+          exactCases++;
+        }
+      }
+      if(exactCases === 0) {
+        setCaseStatement += template['SetPluralElseCase']({ variableName: messageAST[index].variable.name });
+      }
+      else {
+        setCaseStatement += this.linefeed;
+        setCaseStatement += template['SetPluralElseCase']({ variableName: messageAST[index].variable.name });
+      }
+      switchBody = this._indentSpaces(2, switchBody.substring(0, switchBody.length - 1));
+      result += template['SwitchStatement']({
+        setCaseStatement: setCaseStatement,
+        variableName: messageAST[index].variable.name,
+        switchBody: switchBody
+      });
+    }
+    else if(messageAST[index] instanceof MessageFormat.AST.ChoiceFormat) {
+
+    }
+
+    if(withLinefeed && index !== messageAST.length - 1) {
+      result += this.linefeed;
+    }
   }
 
-  return (new Function([this.namespace], string)).toString();
+  return result;
 };
-
 /**
- * Get non-conditions function body string
+ * Get plural getter function string
  *
- * @param {String} key
- * @return {String}
+ * @return {void}
  * @api private
  */
 
-Compiler.prototype._getNonConditionsFunctionBodyString = function(string) {
-  return this.indentSpaces(2, template.nonConditionFunctionBody({
-    string: string
-  }));
-};
+Compiler.prototype._getPluralGetterFunctionString = function(messageFormat) {
+  var result = this.linefeed, index = 0, type = 'if';
 
-/**
- * Get non-localized function body string
- *
- * @param {String} key
- * @return {String}
- * @api private
- */
+  for(var _case in messageFormat.pluralRules) {
+    if(_case === 'other') {
+      continue;
+    }
 
-Compiler.prototype._getNonLocalizedFunctionBodyString = function(key) {
-  return template.nonLocalizedFunctionBody({
-    key: key
+    if(index > 0) {
+      type = 'else if';
+    }
+
+    result += this._indentSpaces(2, template['ConditionStatement']({
+      type: type,
+      condition: this._getPluralComparisonString(messageFormat.pluralRules[_case]),
+      case: _case
+    }));
+  }
+
+  result += this.linefeed;
+  result += this._indentSpaces(2, template['ReturnOtherStringStatement']());
+
+  return template['GetPluralKeyword']({
+    functionBody: result
   });
 };
 
 /**
- * Get conditions string
+ * Get javascript number comparison group type
  *
- * @param {Array} conditions
- * @param {Array} variables
- * @return {String}
+ * @param {String} type (and|or)
+ * @return {String} (&&|||)
  * @api private
  */
 
-Compiler.prototype._getConditionsString = function(conditions, variables) {
-  var string = '';
+Compiler.prototype._getNumberComparisonGroupType = function(type) {
+  if(type === 'and') {
+    return '&&';
+  }
 
-  conditions.forEach(function(condition) {
-    if(condition[0] !== program.CONDITION_ELSE) {
-      string += this._getConditionString(condition, variables);
-      string += this._getAdditionalConditionString(condition, variables);
-    }
-    else {
-      string += this.space + this._getElseStatementString(condition[1], variables);
-    }
-  }, this);
-
-  return string;
+  return '||';
 };
 
 /**
- * Get condition string
+ * Get plural comparison string
  *
- * @param {Array} condition
- * @param {Array} variables
+ * @param {String} _case
+ * @param {LMDLPlural.AST.NumberComparisonGroup|LMDLPlural.AST.NumberComparison} comparison
  * @return {String}
  * @api private
  */
 
-Compiler.prototype._getConditionString = function(condition, variables) {
-  var _condition = condition[0]
-    , operand1 = this._getFormatedOperandString(condition[1], variables)
-    , operator = condition[2]
-    , operand2 = this._getFormatedOperandString(condition[3], variables);
+Compiler.prototype._getPluralComparisonString = function(comparison) {
+  if(comparison instanceof LDMLPlural.AST.NumberComparisonGroup) {
+    var LHSString = this._getPluralComparisonString(comparison.LHS)
+      , RHSString = this._getPluralComparisonString(comparison.RHS);
 
-  // Check if string represent a condition
-  if(!syntax.stringIsCondition(operand1, operator, operand2)) {
-    throw new TypeError('string does not represent a condition');
+    return LHSString + this.space + this._getNumberComparisonGroupType(comparison.type) + this.space + RHSString;
   }
+  else if(comparison instanceof LDMLPlural.AST.NumberComparison) {
+    var result = ''
+      , values = comparison.RHS.values;
 
-  if(operator !== 'lci') {
-    return template.condition({
-      condition: _condition,
-      operand1: operand1,
-      operator: operator,
-      operand2: operand2
-    });
-  }
-  else {
-    return template.conditionFunction({
-      condition: _condition,
-      operand1: operand1,
-      function: operator,
-      operand2: operand2
-    });
-  }
-};
-
-/**
- * Get condition string
- *
- * @param {ConditionArray}
- * @return {String}
- * @api private
- */
-
-Compiler.prototype._getAdditionalConditionString = function(conditions, variables) {
-  var string = '', index = 4;
-  while(conditions[index] === program.ADDITIONAL_CONDITION_AND ||
-        conditions[index] === program.ADDITIONAL_CONDITION_OR) {
-
-    // Declare additional condition
-    var additionalCondition = conditions[index];
-
-    // Declare operators and operands
-    var operand1 = this._getFormatedOperandString(conditions[index + 1], variables)
-      , operator = conditions[index + 2]
-      , operand2 = this._getFormatedOperandString(conditions[index + 3], variables);
-
-    // Check if string represent a condition
-    if(!syntax.stringIsCondition(operand1, operator, operand2)) {
-      throw new TypeError('string does not represent a condition');
-    }
-    if(operator !== 'lci') {
-      string += this.space + template.additionalCondition({
-        additionalCondition: additionalCondition,
-        operand1: operand1,
-        operator: operator,
-        operand2: operand2
-      });
-    }
-    else {
-      string += this.space + template.additionalConditionFunction({
-        additionalCondition: additionalCondition,
-        operand1: operand1,
-        function: operator,
-        operand2: operand2
-      });
+    for(var index = 0; index<values.length; index++) {
+      if(index !== 0) {
+        result += this.and;
+      }
+      if(values[index] instanceof LDMLPlural.AST.Value) {
+        result += template['NumberComparison']({
+          variableName: comparison.LHS.variable,
+          modulus: comparison.LHS.modulus,
+          value: values[index].value
+        });
+      }
+      else if(values[index] instanceof LDMLPlural.AST.Range) {
+        result += template['RangeNumberComparison']({
+          variableName: values[index].vairable.name,
+          from: values[index].from,
+          to: values[index].to
+        });
+      }
     }
 
-    index += 4;
+    return result;
   }
-
-  // append condition body
-  string += template.conditionBody({
-    string: this._getFormatedLocalizedText(conditions[index], variables)
-  });
-
-  return string;
-};
-
-/**
- * Get condition body string
- *
- * @param {String} condition body
- * @api private
- */
-
-Compiler.prototype._getConditionBodyString = function(string) {
-  return template.conditionBody({ string: string });
-};
-
-/**
- * Get else statement string
- *
- * @return {String} else statement
- * @api private
- */
-
-Compiler.prototype._getElseStatementString = function(string, variables) {
-  string = this._getFormatedLocalizedText(string, variables);
-  return template.elseStatement({ string: string });
-};
-
-/**
- * Reformats a localization JSON variable to javascript string
- *
- * @param {String} operand
- * @param {Array} variables
- * @return {String}
- * @api private
- */
-
-Compiler.prototype._getFormatedOperandString = function(operand, variables) {
-  program.SYNTAX_VARIABLE_MARKUP.lastIndex = 0;
-  if(program.SYNTAX_VARIABLE_MARKUP.test(operand)) {
-    program.SYNTAX_VARIABLE_MARKUP.lastIndex = 0;
-    // Re-formats all variables
-    if(/^\$\{\d/.test(operand)) {
-      throw new TypeError('variable can\'t begin with an integer.');
-    }
-    if(variables.indexOf(operand) === -1) {
-      throw new TypeError('You have used an undefined variable ' + operand.red
-      + '.\nPlease add the variable or remove the operand from your source.');
-    }
-
-    operand = operand.substring(2, operand.length - 1);
-    operand = this.namespace + this.dot + operand;
-  }
-  else if(!/^\d+$/.test(operand)) {
-    operand = this.quote + operand + this.quote;
-  }
-
-  return operand;
 };
 
 /**

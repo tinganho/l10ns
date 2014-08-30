@@ -1,0 +1,33 @@
+
+{
+  "files": [
+    "example/javascript/example.js"
+  ],
+  "id": "jKexqneAIG",
+  "key": "INDEX1",
+  "text": "INDEX1",
+  "timestamp": "2014-08-29T02:13:52.055Z",
+  "value": "",
+  "variables": [
+    {
+      "type": "range",
+      "name": "files"
+    },
+    {
+      "type": "plural",
+      "name": "score"
+    },
+    {
+      "type": "keywords",
+      "name": "score"
+    },
+    {
+      "type": "number",
+      "name": "gender"
+    },
+    {
+      "type": "date",
+      "name": "gender"
+    }
+  ]
+}

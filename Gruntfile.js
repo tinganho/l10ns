@@ -188,7 +188,7 @@ module.exports = function(grunt) {
           requirejs: false,
           node: true
         },
-        src: ['plugins/javascript/templates/*.{dot,part}'],
+        src: ['plugins/javascript/templates/*.{tmpl,part}'],
         dest: 'plugins/javascript/templates/build/templates.js'
       }
     },

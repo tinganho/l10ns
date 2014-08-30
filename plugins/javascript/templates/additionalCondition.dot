@@ -1,1 +1,0 @@
-{{=it.additionalCondition}} {{=it.operand1}} {{=it.operator}} {{=it.operand2}}

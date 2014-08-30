@@ -5,6 +5,10 @@
 
 var Lexer = require('../Lexer')
   , AST = require('./AST')
+  , xml = require('libxmljs')
+  , fs = require('fs')
+  , path = require('path')
+  , LDMLPlural = require('../LDMLPlural')
   , _ = require('underscore');
 
 /**
@@ -15,11 +19,14 @@ var Lexer = require('../Lexer')
 
 function MessageFormat(locale) {
   this.locale = locale || program.defaultLocale;
+  this.language = /^([a-z]+)\-/.exec(locale)[1];
+  this.pluralRules = {};
   this.lexer = null;
   this.messageAST = [];
   this.currentToken = null;
   this.lastChoiceCase = null;
   this.pluralKeywords = ['zero', 'one', 'two', 'few', 'many', 'other'];
+  this._readPluralizationRules();
 };
 
 /**
@@ -579,5 +586,38 @@ MessageFormat.prototype._swallowWhiteSpace = function() {
     this.currentToken = this.lexer.getNextToken();
   }
 };
+
+/**
+ * Read pluralization rules
+ *
+ * @return {void}
+ * @api private
+ */
+
+MessageFormat.prototype._readPluralizationRules = function() {
+  var _this = this;
+
+  var data = fs.readFileSync(path.join(
+    __dirname, '../../CLDR/common/supplemental/plurals.xml'), 'utf-8');
+
+  var document = xml.parseXmlString(data, { noblanks: true });
+  var pluralRules = document.get(
+    '//supplementalData/plurals/pluralRules\
+    [contains(concat(\' \', normalize-space(@locales), \' \'), \' ' + _this.language + '\')]');
+
+  pluralRules.childNodes().forEach(function(pluralRule) {
+    var _case = pluralRule.attr('count').value();
+    _this.pluralRules[_case] = LDMLPlural.parse(pluralRule.text());
+    _this.integers = LDMLPlural.integerExample;
+  });
+};
+
+/**
+ * Namespace Constructors
+ *
+ * @namespace Constrcutors
+ */
+
+MessageFormat.AST = AST;
 
 module.exports = MessageFormat;

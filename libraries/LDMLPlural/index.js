@@ -59,7 +59,7 @@ LDMLPlural.NumberComparisonGroupTypePrecedence = {
  */
 
 LDMLPlural.prototype.parse = function(string) {
-  this.ruleAST = [];
+  this.ruleAST = {};
   this.lexer = new Lexer(string);
   this.currentToken = this.lexer.getNextToken();
   this._swallowWhiteSpace();
@@ -422,5 +422,13 @@ LDMLPlural.prototype._parseDecimalExample = function() {
 
   this.decimalExample = decimalExample.trim().split(', ');
 };
+
+/**
+ * namespace AST
+ *
+ * @namespace AST
+ */
+
+LDMLPlural.prototype.AST = AST;
 
 module.exports = new LDMLPlural;
