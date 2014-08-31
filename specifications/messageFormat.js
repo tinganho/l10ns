@@ -1277,6 +1277,29 @@ describe('MessageFormat', function() {
         expect(messageFormat.messageAST[0].values[0].messageAST[0].values[0].limits.lower.value).to.equal(1);
         expect(messageFormat.messageAST[0].values[0].messageAST[0].values[0].limits.upper.type).to.equal('<=');
         expect(messageFormat.messageAST[0].values[0].messageAST[0].values[0].limits.upper.value).to.equal(Infinity);
+
+        // Check that a sub message case can have smaller range than the super message
+        messageFormat.parse('{variable1, choice, 2#{variable2, choice, 2.0<message3|4#message4}|3.0<message2}');
+        expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
+        expect(messageFormat.messageAST[0].values[0].limits.lower.type).to.equal('>=');
+        expect(messageFormat.messageAST[0].values[0].limits.lower.value).to.equal(2);
+        expect(messageFormat.messageAST[0].values[0].limits.upper.type).to.equal('<=');
+        expect(messageFormat.messageAST[0].values[0].limits.upper.value).to.equal(3);
+        expect(messageFormat.messageAST[0].values[1].limits.lower.type).to.equal('>');
+        expect(messageFormat.messageAST[0].values[1].limits.lower.value).to.equal(3);
+        expect(messageFormat.messageAST[0].values[1].limits.upper.type).to.equal('<=');
+        expect(messageFormat.messageAST[0].values[1].limits.upper.value).to.equal(Infinity);
+        expect(messageFormat.messageAST[0].values[0].messageAST[0]).to.be.an.instanceOf(AST.ChoiceFormat);
+        expect(messageFormat.messageAST[0].values[0].messageAST[0].variable.name).to.equal('variable2');
+        expect(messageFormat.messageAST[0].values[0].messageAST[0].values[0].messageAST[0].string).to.equal('message3');
+        expect(messageFormat.messageAST[0].values[0].messageAST[0].values[0].limits.lower.type).to.equal('>');
+        expect(messageFormat.messageAST[0].values[0].messageAST[0].values[0].limits.lower.value).to.equal(2);
+        expect(messageFormat.messageAST[0].values[0].messageAST[0].values[0].limits.upper.type).to.equal('<');
+        expect(messageFormat.messageAST[0].values[0].messageAST[0].values[0].limits.upper.value).to.equal(4);
+        expect(messageFormat.messageAST[0].values[0].messageAST[0].values[1].limits.lower.type).to.equal('>=');
+        expect(messageFormat.messageAST[0].values[0].messageAST[0].values[1].limits.lower.value).to.equal(4);
+        expect(messageFormat.messageAST[0].values[0].messageAST[0].values[1].limits.upper.type).to.equal('<=');
+        expect(messageFormat.messageAST[0].values[0].messageAST[0].values[1].limits.upper.value).to.equal(Infinity);
       });
 
       it('should be able to parse sub-messages with SelectFormat', function() {

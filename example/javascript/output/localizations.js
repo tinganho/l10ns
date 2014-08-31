@@ -3,12 +3,16 @@
     'en-US': {
       'INDEX1': function(it) {
         var string = '';
-        if(it.variable1 <= 2) {
-          string += 'message1';
+        if(isNaN(parsePloat(it.variable1)) || it.variable1 < 2) {
+          string += 'message3';
         }
-        else {
+        else if(it.variable1 >= 2 && it.variable1 <= 3) {
+          string += 'message3';
+        }
+        else if(it.variable1 > 3 && it.variable1 <= Infinity) {
           string += 'message2';
         }
+        
         return string;
       }
     },

@@ -332,8 +332,10 @@ MessageFormat.prototype._parseChoiceFormat = function(variable) {
     var messageAST = [];
     while(this.currentToken !== MessageFormat.Characters.DIAGRAPH &&
           this.currentToken !== MessageFormat.Characters.ENDING_BRACKET) {
+      this.lastChoiceCase = null;
       messageAST.push(this._parsePrimary());
     }
+    this.lastChoiceCase = _case;
     var limit = this._getLimitFromCase(_case);
     var value = {
       messageAST: messageAST,

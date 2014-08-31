@@ -59,8 +59,9 @@ Compiler.prototype.run = function() {
       var content = template['JavascriptWrapper']({
         functionName: language.GET_LOCALIZATION_STRING_FUNCTION_NAME,
         localizationMap: _this._indentSpaces(2, localizationMap),
-        functions: _this._indentSpaces(2, template['Functions']())
+        requireStatement: _this._indentSpaces(2, template['RequireStatement']())
       });
+      console.log(content);
 
       mkdirp(path.dirname(project.outputFile), function(error) {
         if(error) {
@@ -218,36 +219,26 @@ Compiler.prototype._getFunctionBody = function(messageAST) {
 Compiler.prototype._compileChoiceFormat = function(choiceFormat) {
   var valuesLength = Object.keys(choiceFormat.values).length
     , valuesCount = 0
-    , conditionOrder = 'if'
     , result = '';
 
-  for(var _case in choiceFormat.values) {
-    var comparator = /([<#])$/.exec(_case)[1].replace('#', '>=')
-      , number = /^(\-?\d+\.?\d*|^∞|\-∞)/.exec(_case)[1].replace('∞', 'Infinity')
-
-    var condition = template['Condition']({
-      variableName: choiceFormat.variable.name,
-      comparator: comparator,
-      value: number
-    });
-
-    if(valuesCount !== 0) {
-      conditionOrder = 'else if';
-    }
-
+  for(var index = 0; index < choiceFormat.values.length; index++) {
     if(valuesLength === 1) {
-      result += this._getFunctionBody(choiceFormat.values[_case]);
-    }
-    else if(valuesCount === valuesLength - 1) {
-      result += template['ElseStatement']({
-        body: this._indentSpaces(2, this._getFunctionBody(choiceFormat.values[_case]))
-      });
+      result += this._getFunctionBody(choiceFormat.values[index].messageAST);
     }
     else {
-      result += template['ConditionStatement']({
-        order: conditionOrder,
-        condition: condition,
-        body: this._indentSpaces(2, this._getFunctionBody(choiceFormat.values[_case]))
+      if(index === 0) {
+        result += template['FirstRangeCondition']({
+          variableName: choiceFormat.variable.name,
+          lowestLimit: choiceFormat.values[index].limits.lower.value,
+          type: choiceFormat.values[index].limits.lower.type.replace('>=', '<').replace('>', '<='),
+          body: this._indentSpaces(2, this._getFunctionBody(choiceFormat.values[index].messageAST))
+        });
+        result += this.linefeed;
+      }
+      result += template['RangeCondition']({
+        variableName: choiceFormat.variable.name,
+        limits: choiceFormat.values[index].limits,
+        body: this._indentSpaces(2, this._getFunctionBody(choiceFormat.values[index].messageAST))
       });
       result += this.linefeed;
     }

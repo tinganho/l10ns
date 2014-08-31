@@ -10,20 +10,17 @@ var out='it.'+(it.variableName)+' '+(it.comparator)+' '+(it.value);return out;
   tmpl['ConditionStatement']=function anonymous(it) {
 var out=''+(it.order)+'('+(it.condition)+') {\n'+(it.body)+'\n}';return out;
 };
-  tmpl['ElseStatement']=function anonymous(it) {
-var out='else {\n'+(it.body)+'\n}';return out;
+  tmpl['FirstRangeCondition']=function anonymous(it) {
+var out='if(isNaN(parsePloat(it.'+(it.variableName)+')) || it.'+(it.variableName)+' '+(it.type)+' '+(it.lowestLimit)+') {\n'+(it.body)+'\n}';return out;
 };
   tmpl['Function']=function anonymous(it) {
 var out='function(it) {\n  var string = \'\';\n'+(it.functionBody)+'\n  return string;\n}';return out;
-};
-  tmpl['Functions']=function anonymous(it) {
-var out='function requireLocale(locale) {\n  return (function(locale) {\n    return function l(key) {\n      if(!(locale in localizations)) {\n        return \'LOCALE_NOT_IN_LOCALIZATIONS: \' + locale;\n      }\n      if(!(key in localizations[locale])) {\n        return \'KEY_NOT_IN_LOCALIZATIONS: \' + key;\n      }\n      return localizations[locale][key].call(undefined, arguments[1]);\n    };\n  })(locale);\n};';return out;
 };
   tmpl['GetPluralKeyword']=function anonymous(it) {
 var out='function getPluralKeyword(cardinal) {\n  var cardinal = cardinal + \'\'\n    , n = cardinal\n    , i = parseInt(cardinal, 10)\n    , v = 0\n    , w = 0\n    , f = 0\n    , t = 0;\n\n  var hasFractionalDigitsSyntax = /\\.(\\d+)/;\n\n  if(hasFractionalDigitsSyntax.test(cardinal)) {\n    f = fractionalDigits.exec(cardinal)[1];\n    v = f.length;\n  }\n  if(hasFractionalDigitsSyntax.test(cardinal)) {\n    t = cardinal.replace(/+0$/, \'\');\n    t = fractionalDigits.exec(t)[1];\n    w = t.length;\n  }\n'+(it.functionBody)+'\n};';return out;
 };
   tmpl['JavascriptWrapper']=function anonymous(it) {
-var out=';(function() {\n'+(it.localizationMap)+'\n\n'+(it.functions)+'\n\n  if(typeof require === "function" && typeof exports === \'object\' && typeof module === \'object\') {\n    module.exports = requireLocale;\n  }\n  else if (typeof define === "function" && define.amd) {\n    define(function() {\n      return requireLocale;\n    });\n  }\n  else {\n    window.requireLocale = requireLocale;\n  }\n})();\n';return out;
+var out=';(function() {\n'+(it.localizationMap)+'\n\n'+(it.requireStatement)+'\n\n  if(typeof require === "function" && typeof exports === \'object\' && typeof module === \'object\') {\n    module.exports = requireLocale;\n  }\n  else if (typeof define === "function" && define.amd) {\n    define(function() {\n      return requireLocale;\n    });\n  }\n  else {\n    window.requireLocale = requireLocale;\n  }\n})();\n';return out;
 };
   tmpl['LocalizationKeyValue']=function anonymous(it) {
 var out='\''+(it.key)+'\': '+(it.function);return out;
@@ -43,8 +40,14 @@ var out='default:\n'+(it.caseBody)+'\n  break;';return out;
   tmpl['PluralFormat']=function anonymous(it) {
 var out='var keyword = this.getPluralKeyword(cardinal);';return out;
 };
+  tmpl['RangeCondition']=function anonymous(it) {
+var out='else if(it.'+(it.variableName)+' '+(it.limits.lower.type)+' '+(it.limits.lower.value)+' && it.'+(it.variableName)+' '+(it.limits.upper.type)+' '+(it.limits.upper.value)+') {\n'+(it.body)+'\n}';return out;
+};
   tmpl['RangeNumberComparison']=function anonymous(it) {
 var out='('+(it.from)+' >= '+(it.variableName)+' && '+(it.variableName)+' <= '+(it.to)+')';return out;
+};
+  tmpl['RequireStatement']=function anonymous(it) {
+var out='function requireLocale(locale) {\n  return (function(locale) {\n    return function l(key) {\n      if(!(locale in localizations)) {\n        return \'LOCALE_NOT_IN_LOCALIZATIONS: \' + locale;\n      }\n      if(!(key in localizations[locale])) {\n        return \'KEY_NOT_IN_LOCALIZATIONS: \' + key;\n      }\n      return localizations[locale][key].call(undefined, arguments[1]);\n    };\n  })(locale);\n};';return out;
 };
   tmpl['ReturnOtherStringStatement']=function anonymous(it) {
 var out='return \'other\';';return out;
