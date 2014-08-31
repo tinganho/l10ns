@@ -4,14 +4,26 @@ var tmpl = {};
   tmpl['Case']=function anonymous(it) {
 var out='case \''+(it.case)+'\':\n'+(it.caseBody)+'\n  break;';return out;
 };
+  tmpl['Condition']=function anonymous(it) {
+var out='it.'+(it.variableName)+' '+(it.comparator)+' '+(it.value);return out;
+};
   tmpl['ConditionStatement']=function anonymous(it) {
-var out=''+(it.type)+'('+(it.condition)+') {\n  return \''+(it.case)+'\';\n}';return out;
+var out=''+(it.order)+'('+(it.condition)+') {\n'+(it.body)+'\n}';return out;
+};
+  tmpl['ElseStatement']=function anonymous(it) {
+var out='else {\n'+(it.body)+'\n}';return out;
 };
   tmpl['Function']=function anonymous(it) {
 var out='function(it) {\n  var string = \'\';\n'+(it.functionBody)+'\n  return string;\n}';return out;
 };
+  tmpl['Functions']=function anonymous(it) {
+var out='function requireLocale(locale) {\n  return (function(locale) {\n    return function l(key) {\n      if(!(locale in localizations)) {\n        return \'LOCALE_NOT_IN_LOCALIZATIONS: \' + locale;\n      }\n      if(!(key in localizations[locale])) {\n        return \'KEY_NOT_IN_LOCALIZATIONS: \' + key;\n      }\n      return localizations[locale][key].call(undefined, arguments[1]);\n    };\n  })(locale);\n};';return out;
+};
   tmpl['GetPluralKeyword']=function anonymous(it) {
 var out='function getPluralKeyword(cardinal) {\n  var cardinal = cardinal + \'\'\n    , n = cardinal\n    , i = parseInt(cardinal, 10)\n    , v = 0\n    , w = 0\n    , f = 0\n    , t = 0;\n\n  var hasFractionalDigitsSyntax = /\\.(\\d+)/;\n\n  if(hasFractionalDigitsSyntax.test(cardinal)) {\n    f = fractionalDigits.exec(cardinal)[1];\n    v = f.length;\n  }\n  if(hasFractionalDigitsSyntax.test(cardinal)) {\n    t = cardinal.replace(/+0$/, \'\');\n    t = fractionalDigits.exec(t)[1];\n    w = t.length;\n  }\n'+(it.functionBody)+'\n};';return out;
+};
+  tmpl['JavascriptWrapper']=function anonymous(it) {
+var out=';(function() {\n'+(it.localizationMap)+'\n\n'+(it.functions)+'\n\n  if(typeof require === "function" && typeof exports === \'object\' && typeof module === \'object\') {\n    module.exports = requireLocale;\n  }\n  else if (typeof define === "function" && define.amd) {\n    define(function() {\n      return requireLocale;\n    });\n  }\n  else {\n    window.requireLocale = requireLocale;\n  }\n})();\n';return out;
 };
   tmpl['LocalizationKeyValue']=function anonymous(it) {
 var out='\''+(it.key)+'\': '+(it.function);return out;
@@ -24,6 +36,9 @@ var out='var localizations = {\n'+(it.localizations)+'\n};';return out;
 };
   tmpl['NumberComparison']=function anonymous(it) {
 var out=''+(it.variableName);if(it.modulus){out+='%'+(it.modulus);}out+=' === '+(it.value);return out;
+};
+  tmpl['OtherCase']=function anonymous(it) {
+var out='default:\n'+(it.caseBody)+'\n  break;';return out;
 };
   tmpl['PluralFormat']=function anonymous(it) {
 var out='var keyword = this.getPluralKeyword(cardinal);';return out;
@@ -41,6 +56,9 @@ var out='string += \''+(it.sentence)+'\';';return out;
 var out='_case = this.getPluralKeyword('+(it.variableName)+');';return out;
 };
   tmpl['SetPluralCase']=function anonymous(it) {
+var out='_case = this._getPluralKerword('+(it.variableName)+');';return out;
+};
+  tmpl['SetPluralConditionCase']=function anonymous(it) {
 var out=''+(it.statementType)+'(it.'+(it.variableName)+' === '+(it.value)+') {\n  _case = \'=\' + '+(it.value)+';\n}';return out;
 };
   tmpl['SetPluralElseCase']=function anonymous(it) {

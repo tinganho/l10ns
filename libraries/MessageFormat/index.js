@@ -286,6 +286,32 @@ MessageFormat.prototype._parseSimpleFormat = function(type, variable) {
 };
 
 /**
+ * Get limit string from case string
+ *
+ * @param {String} case
+ * @return {Array} first index is the limit value, second index is
+ * the type of the limit
+ * @api private
+ */
+
+MessageFormat.prototype._getLimitFromCase = function(_case) {
+  var limit = /(\-?\d+\.?\d*|\-?∞)([<#])/.exec(_case);
+  if(/^∞$/.test(limit[1])) {
+    limit[1] = Infinity;
+  }
+  else if(/^\-∞$/.test(limit[1])) {
+    limit[1] = -Infinity;
+  }
+  else {
+    limit[1] = parseFloat(limit[1]);
+  }
+
+  limit[2] = limit[2].replace('#', '>=').replace('<', '>')
+
+  return limit;
+};
+
+/**
  * Parse ChoiceFormat
  *
  * @return {AST.Plural}
@@ -293,7 +319,7 @@ MessageFormat.prototype._parseSimpleFormat = function(type, variable) {
  */
 
 MessageFormat.prototype._parseChoiceFormat = function(variable) {
-  var values = {};
+  var values = [];
 
   // Swallow comma
   this.currentToken = this.lexer.getNextToken();
@@ -308,15 +334,36 @@ MessageFormat.prototype._parseChoiceFormat = function(variable) {
           this.currentToken !== MessageFormat.Characters.ENDING_BRACKET) {
       messageAST.push(this._parsePrimary());
     }
-    values[_case] = messageAST;
+    var limit = this._getLimitFromCase(_case);
+    var value = {
+      messageAST: messageAST,
+      limits: {
+        lower: {
+          value: limit[1],
+          type: limit[2]
+        }
+      }
+    };
+    values.push(value);
     if(this.currentToken === MessageFormat.Characters.DIAGRAPH) {
       // Swallow diagraph
       this.currentToken = this.lexer.getNextToken();
       _case = this._getChoiceCase();
+      if(_case !== MessageFormat.Characters.EMPTY) {
+        var limit = this._getLimitFromCase(_case);
+        value.limits.upper = {
+          value: limit[1],
+          type: limit[2].replace('>=', '<').replace('>', '<=')
+        };
+      }
     }
     else if(this.currentToken === MessageFormat.Characters.ENDING_BRACKET) {
       // Swallow ending bracket of ChoiceFormat
       this.currentToken = this.lexer.getNextToken();
+      value.limits.upper = {
+        value: Infinity,
+        type: '<='
+      };
       return new AST.ChoiceFormat(variable, values);
     }
     else {

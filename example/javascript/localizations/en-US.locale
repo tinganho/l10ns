@@ -7,7 +7,7 @@
   "key": "INDEX1",
   "text": "INDEX1",
   "timestamp": "2014-08-29T02:13:52.055Z",
-  "value": " {files, plural, one{bajs} =2{bajs} other{hora}}",
+  "value": "{variable1, choice, 2#message1|3.0<message2}",
   "variables": [
     {
       "type": "range",

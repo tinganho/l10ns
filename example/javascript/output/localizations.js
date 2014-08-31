@@ -1,8 +1,26 @@
 ;(function() {
   var localizations = {
-  
+    'en-US': {
+      'INDEX1': function(it) {
+        var string = '';
+        if(it.variable1 <= 2) {
+          string += 'message1';
+        }
+        else {
+          string += 'message2';
+        }
+        return string;
+      }
+    },
+    'zh-CN': {
+      'INDEX1': function(it) {
+        var string = '';
+      
+        return string;
+      }
+    }
   };
-  
+
   function requireLocale(locale) {
     return (function(locale) {
       return function l(key) {
@@ -15,13 +33,6 @@
         return localizations[locale][key].call(undefined, arguments[1]);
       };
     })(locale);
-  };
-  
-  function lci(operand1, operand2) {
-    operand1 = operand1 + '';
-    operand2 = operand2 + '';
-    operand1LastNumber = operand1.substr(-1,1);
-    return operand1LastNumber === operand2;
   };
 
   if(typeof require === "function" && typeof exports === 'object' && typeof module === 'object') {

@@ -56,11 +56,12 @@ Compiler.prototype.run = function() {
   var _this = this;
   this._getLocalizationMap()
     .then(function(localizationMap) {
-      var content = template.javascriptWrapper({
+      var content = template['JavascriptWrapper']({
         functionName: language.GET_LOCALIZATION_STRING_FUNCTION_NAME,
-        localizationMap: localizationMap,
-        functions: _this.indentSpaces(2, template.functions())
+        localizationMap: _this._indentSpaces(2, localizationMap),
+        functions: _this._indentSpaces(2, template['Functions']())
       });
+
       mkdirp(path.dirname(project.outputFile), function(error) {
         if(error) {
           throw error;
@@ -173,65 +174,153 @@ Compiler.prototype._getLocalizationMap = function() {
   return deferred.promise;
 };
 
-Compiler.prototype._getFunctionBody = function(messageAST, withLinefeed) {
-  withLinefeed = typeof withLinefeed=== 'undefined' ? true : withLinefeed;
+/**
+ * Get function body
+ *
+ * @param {Array} messageAST
+ * @return {String} A string representing a function body
+ * @api private
+ */
 
+Compiler.prototype._getFunctionBody = function(messageAST) {
   var result = '';
 
   for(var index = 0; index < messageAST.length; index++) {
     if(messageAST[index] instanceof MessageFormat.AST.Sentence) {
       result += template['Sentence']({ sentence: messageAST[index].string });
     }
-    else if(messageAST[index] instanceof MessageFormat.AST.PluralFormat) {
-      var switchBody = ''
-        , setCaseStatement = ''
-        , exactCases = 0
-        , setCaseStatementType = 'if';
-
-      for(var _case in messageAST[index].values) {
-        var caseBody = this._indentSpaces(2, this._getFunctionBody(messageAST[index].values[_case], false));
-        switchBody += template['Case']({
-          case: _case,
-          caseBody: this._indentSpaces(2, caseBody)
-        });
-        switchBody += this.linefeed;
-        if(/^=\d+$/.test(_case)) {
-          if(exactCases !== 0) {
-            setCaseStatementType = 'else if';
-          }
-          setCaseStatement += template['SetPluralCase']({
-            statementType: setCaseStatementType,
-            variableName: messageAST[index].variable.name,
-            value: _case.replace('=', '')
-          });
-          exactCases++;
-        }
-      }
-      if(exactCases === 0) {
-        setCaseStatement += template['SetPluralElseCase']({ variableName: messageAST[index].variable.name });
-      }
-      else {
-        setCaseStatement += this.linefeed;
-        setCaseStatement += template['SetPluralElseCase']({ variableName: messageAST[index].variable.name });
-      }
-      switchBody = this._indentSpaces(2, switchBody.substring(0, switchBody.length - 1));
-      result += template['SwitchStatement']({
-        setCaseStatement: setCaseStatement,
-        variableName: messageAST[index].variable.name,
-        switchBody: switchBody
-      });
-    }
     else if(messageAST[index] instanceof MessageFormat.AST.ChoiceFormat) {
-
+      result += this._compileChoiceFormat(messageAST[index]);
+    }
+    else if(messageAST[index] instanceof MessageFormat.AST.PluralFormat) {
+      result += this._compilePluralFormat(messageAST[index]);
+    }
+    else if(messageAST[index] instanceof MessageFormat.AST.SelectFormat) {
+      result += this._compileSelectFormat(messageAST[index]);
     }
 
-    if(withLinefeed && index !== messageAST.length - 1) {
+    if(index !== messageAST.length - 1) {
       result += this.linefeed;
     }
   }
 
   return result;
 };
+
+/**
+ * Compile choice format
+ *
+ * @param {AST.ChoiceFormat} choiceFormat
+ * @return {String}
+ * @api private
+ */
+
+Compiler.prototype._compileChoiceFormat = function(choiceFormat) {
+  var valuesLength = Object.keys(choiceFormat.values).length
+    , valuesCount = 0
+    , conditionOrder = 'if'
+    , result = '';
+
+  for(var _case in choiceFormat.values) {
+    var comparator = /([<#])$/.exec(_case)[1].replace('#', '>=')
+      , number = /^(\-?\d+\.?\d*|^∞|\-∞)/.exec(_case)[1].replace('∞', 'Infinity')
+
+    var condition = template['Condition']({
+      variableName: choiceFormat.variable.name,
+      comparator: comparator,
+      value: number
+    });
+
+    if(valuesCount !== 0) {
+      conditionOrder = 'else if';
+    }
+
+    if(valuesLength === 1) {
+      result += this._getFunctionBody(choiceFormat.values[_case]);
+    }
+    else if(valuesCount === valuesLength - 1) {
+      result += template['ElseStatement']({
+        body: this._indentSpaces(2, this._getFunctionBody(choiceFormat.values[_case]))
+      });
+    }
+    else {
+      result += template['ConditionStatement']({
+        order: conditionOrder,
+        condition: condition,
+        body: this._indentSpaces(2, this._getFunctionBody(choiceFormat.values[_case]))
+      });
+      result += this.linefeed;
+    }
+
+    valuesCount++;
+  }
+
+  return result;
+};
+
+/**
+ * Compile plural format
+ *
+ * @param {AST.PluralFormat} pluralFormat
+ * @return {String}
+ * @api private
+ */
+
+Compiler.prototype._compilePluralFormat = function(pluralFormat) {
+  var switchBody = ''
+    , setCaseStatement = ''
+    , exactCases = []
+    , conditionOrder = 'if';
+
+  for(var _case in pluralFormat.values) {
+    var caseBody = this._getFunctionBody(pluralFormat.values[_case]);
+    if(_case !== 'other') {
+      switchBody += template['Case']({
+        case: _case,
+        caseBody: this._indentSpaces(2, caseBody)
+      });
+    }
+    else {
+      switchBody += template['OtherCase']({
+        caseBody: this._indentSpaces(2, caseBody)
+      });
+    }
+
+    switchBody += this.linefeed;
+    if(/^=\d+$/.test(_case)) {
+      exactCases.push(_case);
+    }
+  }
+
+  if(exactCases.length > 0) {
+    for(var exactCaseIndex = 0; exactCaseIndex < exactCases.length; exactCaseIndex++) {
+      if(exactCaseIndex !== 0) {
+        conditionOrder = 'else if';
+      }
+      setCaseStatement += template['SetPluralConditionCase']({
+        statementType: conditionOrder,
+        variableName: pluralFormat.variable.name,
+        value: exactCases[exactCaseIndex].replace('=', '')
+      });
+    }
+    setCaseStatement += this.linefeed;
+    setCaseStatement += template['SetPluralElseCase']({ variableName: pluralFormat.variable.name });
+  }
+  else {
+    setCaseStatement += template['SetPluralCase']({
+      variableName:pluralFormat.variable.name
+    });
+  }
+
+  switchBody = this._indentSpaces(2, switchBody.substring(0, switchBody.length - 1));
+
+  return template['SwitchStatement']({
+    setCaseStatement: setCaseStatement,
+    variableName: pluralFormat.variable.name,
+    switchBody: switchBody
+  });
+};
+
 /**
  * Get plural getter function string
  *
@@ -240,7 +329,7 @@ Compiler.prototype._getFunctionBody = function(messageAST, withLinefeed) {
  */
 
 Compiler.prototype._getPluralGetterFunctionString = function(messageFormat) {
-  var result = this.linefeed, index = 0, type = 'if';
+  var result = this.linefeed, index = 0, conditionOrder = 'if';
 
   for(var _case in messageFormat.pluralRules) {
     if(_case === 'other') {
@@ -248,13 +337,13 @@ Compiler.prototype._getPluralGetterFunctionString = function(messageFormat) {
     }
 
     if(index > 0) {
-      type = 'else if';
+      conditionOrder = 'else if';
     }
 
     result += this._indentSpaces(2, template['ConditionStatement']({
-      type: type,
+      order: conditionOrder,
       condition: this._getPluralComparisonString(messageFormat.pluralRules[_case]),
-      case: _case
+      body: 'string +=' + _case
     }));
   }
 
@@ -302,7 +391,7 @@ Compiler.prototype._getPluralComparisonString = function(comparison) {
     var result = ''
       , values = comparison.RHS.values;
 
-    for(var index = 0; index<values.length; index++) {
+    for(var index = 0; index < values.length; index++) {
       if(index !== 0) {
         result += this.and;
       }
