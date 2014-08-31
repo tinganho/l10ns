@@ -240,7 +240,9 @@ Compiler.prototype._compileChoiceFormat = function(choiceFormat) {
         limits: choiceFormat.values[index].limits,
         body: this._indentSpaces(2, this._getFunctionBody(choiceFormat.values[index].messageAST))
       });
-      result += this.linefeed;
+      if(index !== valuesLength - 1) {
+        result += this.linefeed;
+      }
     }
 
     valuesCount++;
