@@ -7,7 +7,7 @@
   "key": "INDEX1",
   "text": "INDEX1",
   "timestamp": "2014-08-29T02:13:52.055Z",
-  "value": "{variable1, choice, 2#{variable2, choice, 2.0<message3|4#message4}|3.0<message2}",
+  "value": "{variable1, choice, 2#{variable2, plural, one{message1} other{message2}}|3.0<message2}",
   "variables": [
     {
       "type": "range",

@@ -61,7 +61,6 @@ Compiler.prototype.run = function() {
         localizationMap: _this._indentSpaces(2, localizationMap),
         requireStatement: _this._indentSpaces(2, template['RequireStatement']())
       });
-      console.log(content);
 
       mkdirp(path.dirname(project.outputFile), function(error) {
         if(error) {
@@ -114,7 +113,6 @@ Compiler.prototype._indentSpaces = function(spaces, string) {
 
 Compiler.prototype._getLocalizationMap = function() {
   var _this = this, deferred = defer();
-
   file.readLocalizations()
     .then(function(localizations) {
       var localizationsMap = ''
@@ -189,6 +187,9 @@ Compiler.prototype._getFunctionBody = function(messageAST) {
   for(var index = 0; index < messageAST.length; index++) {
     if(messageAST[index] instanceof MessageFormat.AST.Sentence) {
       result += template['Sentence']({ sentence: messageAST[index].string });
+    }
+    else if(messageAST[index] instanceof MessageFormat.AST.Variable) {
+      result += template['Variable']({ variableName: messageAST[index].name });
     }
     else if(messageAST[index] instanceof MessageFormat.AST.ChoiceFormat) {
       result += this._compileChoiceFormat(messageAST[index]);

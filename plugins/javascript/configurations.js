@@ -119,7 +119,7 @@ module.exports = {
    * @value {RegExp}
    */
 
-  LOCALIZATION_VARIABLE_TYPE_SYNTAX: /\s*('|")?(range|plural|keywords|ordinal|number|date)/g,
+  LOCALIZATION_VARIABLE_TYPE_SYNTAX: /\s*('|")?(choice|plural|select|selectordinal|number|date)/g,
 
   /**
    * Translation var regex should capture a match
@@ -136,7 +136,7 @@ module.exports = {
    * @value {RegExp}
    */
 
-  LOCALIZATION_VARIABLE_SYNTAX: /\s*('|")?(range|plural|keywords|ordinal|number|date|)\s+[\w\s]+\1?\s*\:/g,
+  LOCALIZATION_VARIABLE_SYNTAX: /\s*('|")?(choice|plural|select|selectordinal|number|date|)\s+[\w\s]+\1?\s*\:/g,
 
   /**
    * Imports of local variables

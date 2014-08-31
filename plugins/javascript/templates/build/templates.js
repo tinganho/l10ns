@@ -59,7 +59,7 @@ var out='string += \''+(it.sentence)+'\';';return out;
 var out='_case = this.getPluralKeyword('+(it.variableName)+');';return out;
 };
   tmpl['SetPluralCase']=function anonymous(it) {
-var out='_case = this._getPluralKerword('+(it.variableName)+');';return out;
+var out='_case = this._getPluralKerword(it.'+(it.variableName)+');';return out;
 };
   tmpl['SetPluralConditionCase']=function anonymous(it) {
 var out=''+(it.statementType)+'(it.'+(it.variableName)+' === '+(it.value)+') {\n  _case = \'=\' + '+(it.value)+';\n}';return out;
@@ -72,5 +72,8 @@ var out='var string = \'\';';return out;
 };
   tmpl['SwitchStatement']=function anonymous(it) {
 var out='var _case;\n'+(it.setCaseStatement)+'\nswitch(_case) {\n'+(it.switchBody)+'\n}';return out;
+};
+  tmpl['Variable']=function anonymous(it) {
+var out='string += it.'+(it.variableName)+';';return out;
 };
 module.exports = tmpl;

@@ -190,6 +190,16 @@ module.exports = function(grunt) {
         },
         src: ['plugins/javascript/templates/*.{tmpl,part}'],
         dest: 'plugins/javascript/templates/build/templates.js'
+      },
+
+      jsPluginSpecifications: {
+        options: {
+          variable: 'tmpl',
+          requirejs: false,
+          node: true
+        },
+        src: ['plugins/javascript/specifications/templates/*.{tmpl,part}'],
+        dest: 'plugins/javascript/specifications/templates/build/templates.js'
       }
     },
 

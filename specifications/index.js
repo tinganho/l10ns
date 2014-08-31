@@ -51,6 +51,6 @@ require('./file');
 require('./init');
 require('./log');
 
-require('../plugins/javascript/specification');
+require('../plugins/javascript/specifications');
 require('./messageFormat');
 require('./LDMLPlural');

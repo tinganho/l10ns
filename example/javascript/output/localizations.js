@@ -4,25 +4,27 @@
       'INDEX1': function(it) {
         var string = '';
         if(isNaN(parsePloat(it.variable1)) || it.variable1 < 2) {
-          if(isNaN(parsePloat(it.variable2)) || it.variable2 <= 2) {
-            string += 'message3';
-          }
-          else if(it.variable2 > 2 && it.variable2 < 4) {
-            string += 'message3';
-          }
-          else if(it.variable2 >= 4 && it.variable2 <= Infinity) {
-            string += 'message4';
+          var _case;
+          _case = this._getPluralKerword(it.variable2);
+          switch(_case) {
+            case 'one':
+              string += 'message1';
+              break;
+            default:
+              string += 'message2';
+              break;
           }
         }
         else if(it.variable1 >= 2 && it.variable1 <= 3) {
-          if(isNaN(parsePloat(it.variable2)) || it.variable2 <= 2) {
-            string += 'message3';
-          }
-          else if(it.variable2 > 2 && it.variable2 < 4) {
-            string += 'message3';
-          }
-          else if(it.variable2 >= 4 && it.variable2 <= Infinity) {
-            string += 'message4';
+          var _case;
+          _case = this._getPluralKerword(it.variable2);
+          switch(_case) {
+            case 'one':
+              string += 'message1';
+              break;
+            default:
+              string += 'message2';
+              break;
           }
         }
         else if(it.variable1 > 3 && it.variable1 <= Infinity) {
