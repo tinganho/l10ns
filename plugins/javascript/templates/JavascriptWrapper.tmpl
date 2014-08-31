@@ -1,0 +1,17 @@
+;(function() {
+{{=it.localizationMap}}
+
+{{=it.requireStatement}}
+
+  if(typeof require === "function" && typeof exports === 'object' && typeof module === 'object') {
+    module.exports = requireLocale;
+  }
+  else if (typeof define === "function" && define.amd) {
+    define(function() {
+      return requireLocale;
+    });
+  }
+  else {
+    window.requireLocale = requireLocale;
+  }
+})();
