@@ -62,7 +62,7 @@ var template = require('./templates/build/templates');
 
 describe('Javascript Compiler', function() {
   describe('Sentences', function() {
-    it('should be able to compile a single sentece', function() {
+    it('should be able to compile a single sentece', function(done) {
       var localizations = {
         'en-US': {
           'key-1': {
@@ -81,10 +81,11 @@ describe('Javascript Compiler', function() {
         expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
         }));
+        done();
       });
     });
 
-    it('should be able to compile multiple sentences', function() {
+    it('should be able to compile multiple sentences', function(done) {
       var localizations = getLocalizations('sentence1{variable1}sentence2')
         , dependencies = getDependencies(localizations)
         , compiler = proxyquire('../plugins/javascript/compiler', dependencies);
@@ -100,12 +101,13 @@ describe('Javascript Compiler', function() {
         expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
         }));
+        done();
       });
     });
   });
 
   describe('Variables', function() {
-    it('should be able to compile a single variable', function() {
+    it('should be able to compile a single variable', function(done) {
       var localizations = getLocalizations('{variable1}')
         , dependencies = getDependencies(localizations)
         , compiler = proxyquire('../plugins/javascript/compiler', dependencies);
@@ -119,10 +121,11 @@ describe('Javascript Compiler', function() {
         expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
         }));
+        done();
       });
     });
 
-    it('should be able to compile multiple variables', function() {
+    it('should be able to compile multiple variables', function(done) {
       var localizations = getLocalizations('{variable1}{variable2}')
         , dependencies = getDependencies(localizations)
         , compiler = proxyquire('../plugins/javascript/compiler', dependencies);
@@ -137,12 +140,13 @@ describe('Javascript Compiler', function() {
         expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
         }));
+        done();
       });
     });
   });
 
   describe('ChoiceFormat', function() {
-    it('should be able to compile ChoiceFormat with a single case', function() {
+    it('should be able to compile ChoiceFormat with a single case', function(done) {
       var localizations = getLocalizations('{variable1, choice, 3#message1}')
         , dependencies = getDependencies(localizations)
         , compiler = proxyquire('../plugins/javascript/compiler', dependencies);
@@ -156,10 +160,11 @@ describe('Javascript Compiler', function() {
         expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
         }));
+        done();
       });
     });
 
-    it('should be able to compile a ChoiceFormat with multiple cases', function() {
+    it('should be able to compile a ChoiceFormat with multiple cases', function(done) {
       var localizations = getLocalizations('{variable1, choice, 1<message1|3#message2}')
         , dependencies = getDependencies(localizations)
         , compiler = proxyquire('../plugins/javascript/compiler', dependencies);
@@ -178,10 +183,11 @@ describe('Javascript Compiler', function() {
         expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
         }));
+        done();
       });
     });
 
-    it('should be able to compile a ChoiceFormat with a variable in sub message', function() {
+    it('should be able to compile a ChoiceFormat with a variable in sub message', function(done) {
       var localizations = getLocalizations('{variable1, choice, 1<{variable2}|3#message2}')
         , dependencies = getDependencies(localizations)
         , compiler = proxyquire('../plugins/javascript/compiler', dependencies);
@@ -200,10 +206,11 @@ describe('Javascript Compiler', function() {
         expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
         }));
+        done();
       });
     });
 
-    it('should be able to compile a ChoiceFormat with a variable and sentence in sub message', function() {
+    it('should be able to compile a ChoiceFormat with a variable and sentence in sub message', function(done) {
       var localizations = getLocalizations('{variable1, choice, 1<message1{variable2}|3#message2}')
         , dependencies = getDependencies(localizations)
         , compiler = proxyquire('../plugins/javascript/compiler', dependencies);
@@ -223,10 +230,11 @@ describe('Javascript Compiler', function() {
         expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
         }));
+        done();
       });
     });
 
-    it('should be able to compile ChoiceFormat in sub message', function() {
+    it('should be able to compile ChoiceFormat in sub message', function(done) {
       var localizations = getLocalizations('{variable1, choice, 1<{variable2, choice, 2#message1|3#message2}|3#message3}')
         , dependencies = getDependencies(localizations)
         , compiler = proxyquire('../plugins/javascript/compiler', dependencies);
@@ -250,10 +258,11 @@ describe('Javascript Compiler', function() {
         expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
         }));
+        done();
       });
     });
 
-    it('should be able to compile PluralFormat in sub message', function() {
+    it('should be able to compile PluralFormat in sub message', function(done) {
       var localizations = getLocalizations('{variable1, choice, 1<{variable2, plural, one{message1} other{message2}}|3#message3}')
         , dependencies = getDependencies(localizations)
         , compiler = proxyquire('../plugins/javascript/compiler', dependencies);
@@ -281,6 +290,7 @@ describe('Javascript Compiler', function() {
         expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
         }));
+        done();
       });
     });
   });
