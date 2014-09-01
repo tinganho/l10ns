@@ -26,11 +26,12 @@
           return 'one';
         }
         return 'other';
-      },'INDEX1': function(it) {
+      },
+      'INDEX1': function(it) {
         var string = '';
-        if(isNaN(parsePloat(it.variable1)) || it.variable1 < 2 || it.variable1 >= 2 && it.variable1 <= 3) {
+        if(isNaN(parseFloat(it.variable1)) || it.variable1 < 2 || it.variable1 >= 2 && it.variable1 <= 3) {
           var _case;
-          _case = this._getPluralKeyword(it.variable2);
+          _case = localizations['undefined']._getPluralKeyword(it.variable2);
           switch(_case) {
             case 'one':
               string += 'message1';
@@ -41,7 +42,7 @@
           }
         }
         else if(it.variable1 > 3 && it.variable1 <= Infinity) {
-          string += 'message2';
+          string += 'message3';
         }
         return string;
       }
@@ -69,7 +70,8 @@
         }
 
         return 'other';
-      },'INDEX1': function(it) {
+      },
+      'INDEX1': function(it) {
         var string = '';
 
         return string;
@@ -86,7 +88,11 @@
         if(!(key in localizations[locale])) {
           return 'KEY_NOT_IN_LOCALIZATIONS: ' + key;
         }
-        return localizations[locale][key].call(undefined, arguments[1]);
+        var variables = {};
+        for(var variable in arguments[1]) {
+          variables[variable.replace(/^\w+\s+/, '')] = arguments[1][variable];
+        }
+        return localizations[locale][key].call(undefined, variables);
       };
     })(locale);
   };

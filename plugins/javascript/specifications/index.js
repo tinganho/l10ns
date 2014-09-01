@@ -175,7 +175,7 @@ describe('Javascript Compiler', function() {
       eventually(function() {
         var functionBody =
         'var string = \'\';\n' +
-        'if(isNaN(parsePloat(it.variable1)) || it.variable1 <= 1 || it.variable1 > 1 && it.variable1 < 3) {\n' +
+        'if(isNaN(parseFloat(it.variable1)) || it.variable1 <= 1 || it.variable1 > 1 && it.variable1 < 3) {\n' +
         '  string += \'message1\';\n' +
         '}\n' +
         'else if(it.variable1 >= 3 && it.variable1 <= Infinity) {\n' +
@@ -198,7 +198,7 @@ describe('Javascript Compiler', function() {
       eventually(function() {
         var functionBody =
         'var string = \'\';\n' +
-        'if(isNaN(parsePloat(it.variable1)) || it.variable1 <= 1 || it.variable1 > 1 && it.variable1 < 3) {\n' +
+        'if(isNaN(parseFloat(it.variable1)) || it.variable1 <= 1 || it.variable1 > 1 && it.variable1 < 3) {\n' +
         '  string += it.variable2;\n' +
         '}\n' +
         'else if(it.variable1 >= 3 && it.variable1 <= Infinity) {\n' +
@@ -221,7 +221,7 @@ describe('Javascript Compiler', function() {
       eventually(function() {
         var functionBody =
         'var string = \'\';\n' +
-        'if(isNaN(parsePloat(it.variable1)) || it.variable1 <= 1 || it.variable1 > 1 && it.variable1 < 3) {\n' +
+        'if(isNaN(parseFloat(it.variable1)) || it.variable1 <= 1 || it.variable1 > 1 && it.variable1 < 3) {\n' +
         '  string += \'message1\';\n' +
         '  string += it.variable2;\n' +
         '}\n' +
@@ -245,8 +245,8 @@ describe('Javascript Compiler', function() {
       eventually(function() {
         var functionBody =
         'var string = \'\';\n' +
-        'if(isNaN(parsePloat(it.variable1)) || it.variable1 <= 1 || it.variable1 > 1 && it.variable1 < 3) {\n' +
-        '  if(isNaN(parsePloat(it.variable2)) || it.variable2 < 2 || it.variable2 >= 2 && it.variable2 < 3) {\n' +
+        'if(isNaN(parseFloat(it.variable1)) || it.variable1 <= 1 || it.variable1 > 1 && it.variable1 < 3) {\n' +
+        '  if(isNaN(parseFloat(it.variable2)) || it.variable2 < 2 || it.variable2 >= 2 && it.variable2 < 3) {\n' +
         '    string += \'message1\';\n' +
         '  }\n' +
         '  else if(it.variable2 >= 3 && it.variable2 <= Infinity) {\n' +
@@ -273,9 +273,9 @@ describe('Javascript Compiler', function() {
       eventually(function() {
         var functionBody =
         'var string = \'\';\n' +
-        'if(isNaN(parsePloat(it.variable1)) || it.variable1 <= 1 || it.variable1 > 1 && it.variable1 < 3) {\n' +
+        'if(isNaN(parseFloat(it.variable1)) || it.variable1 <= 1 || it.variable1 > 1 && it.variable1 < 3) {\n' +
         '  var _case;\n' +
-        '  _case = this._getPluralKeyword(it.variable2);\n' +
+        '  _case = localizations[\'en-US\']._getPluralKeyword(it.variable2);\n' +
         '  switch(_case) {\n' +
         '    case \'one\':\n' +
         '      string += \'message1\';\n' +
@@ -308,7 +308,7 @@ describe('Javascript Compiler', function() {
         var functionBody =
         'var string = \'\';\n' +
         'var _case;\n' +
-        '_case = this._getPluralKeyword(it.variable1);\n' +
+        '_case = localizations[\'en-US\']._getPluralKeyword(it.variable1);\n' +
         'switch(_case) {\n' +
         '  default:\n' +
         '    string += \'message1\';\n' +
@@ -332,7 +332,7 @@ describe('Javascript Compiler', function() {
         var functionBody =
         'var string = \'\';\n' +
         'var _case;\n' +
-        '_case = this._getPluralKeyword(it.variable1);\n' +
+        '_case = localizations[\'en-US\']._getPluralKeyword(it.variable1);\n' +
         'switch(_case) {\n' +
         '  case \'one\':\n' +
         '    string += \'message1\';\n' +
@@ -359,11 +359,11 @@ describe('Javascript Compiler', function() {
         var functionBody =
         'var string = \'\';\n' +
         'var _case;\n' +
-        '_case = this._getPluralKeyword(it.variable1);\n' +
+        '_case = localizations[\'en-US\']._getPluralKeyword(it.variable1);\n' +
         'switch(_case) {\n' +
         '  case \'one\':\n' +
         '    var _case;\n' +
-        '    _case = this._getPluralKeyword(it.variable2);\n' +
+        '    _case = localizations[\'en-US\']._getPluralKeyword(it.variable2);\n' +
         '    switch(_case) {\n' +
         '      case \'one\':\n' +
         '        string += \'message1\';\n' +

@@ -308,11 +308,15 @@ Compiler.prototype._compilePluralFormat = function(pluralFormat) {
       });
     }
     setCaseStatement += this.linefeed;
-    setCaseStatement += template['SetPluralElseCase']({ variableName: pluralFormat.variable.name });
+    setCaseStatement += template['SetPluralElseCase']({
+      locale: pluralFormat.locale,
+      variableName: pluralFormat.variable.name
+    });
   }
   else {
     setCaseStatement += template['SetPluralCase']({
-      variableName:pluralFormat.variable.name
+      locale: pluralFormat.locale,
+      variableName: pluralFormat.variable.name
     });
   }
 

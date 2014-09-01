@@ -11,7 +11,7 @@ var out='it.'+(it.variableName)+' '+(it.comparator)+' '+(it.value);return out;
 var out=''+(it.order)+'('+(it.condition)+') {\n'+(it.body)+'\n}';return out;
 };
   tmpl['FirstRangeCondition']=function anonymous(it) {
-var out='if(isNaN(parsePloat(it.'+(it.variableName)+')) || it.'+(it.variableName)+' '+(it.type)+' '+(it.lowestLimit)+' || it.'+(it.variableName)+' '+(it.limits.lower.type)+' '+(it.limits.lower.value)+' && it.'+(it.variableName)+' '+(it.limits.upper.type)+' '+(it.limits.upper.value)+') {\n'+(it.body)+'\n}';return out;
+var out='if(isNaN(parseFloat(it.'+(it.variableName)+')) || it.'+(it.variableName)+' '+(it.type)+' '+(it.lowestLimit)+' || it.'+(it.variableName)+' '+(it.limits.lower.type)+' '+(it.limits.lower.value)+' && it.'+(it.variableName)+' '+(it.limits.upper.type)+' '+(it.limits.upper.value)+') {\n'+(it.body)+'\n}';return out;
 };
   tmpl['Function']=function anonymous(it) {
 var out='function(it) {\n  var string = \'\';\n'+(it.functionBody)+'\n  return string;\n}';return out;
@@ -37,9 +37,6 @@ var out=''+(it.variableName);if(it.modulus){out+='%'+(it.modulus);}out+=' === '+
   tmpl['OtherCase']=function anonymous(it) {
 var out='default:\n'+(it.caseBody)+'\n  break;';return out;
 };
-  tmpl['PluralFormat']=function anonymous(it) {
-var out='var keyword = this.getPluralKeyword(cardinal);';return out;
-};
   tmpl['RangeCondition']=function anonymous(it) {
 var out='else if(it.'+(it.variableName)+' '+(it.limits.lower.type)+' '+(it.limits.lower.value)+' && it.'+(it.variableName)+' '+(it.limits.upper.type)+' '+(it.limits.upper.value)+') {\n'+(it.body)+'\n}';return out;
 };
@@ -47,7 +44,7 @@ var out='else if(it.'+(it.variableName)+' '+(it.limits.lower.type)+' '+(it.limit
 var out='('+(it.from)+' >= '+(it.variableName)+' && '+(it.variableName)+' <= '+(it.to)+')';return out;
 };
   tmpl['RequireStatement']=function anonymous(it) {
-var out='function requireLocale(locale) {\n  return (function(locale) {\n    return function l(key) {\n      if(!(locale in localizations)) {\n        return \'LOCALE_NOT_IN_LOCALIZATIONS: \' + locale;\n      }\n      if(!(key in localizations[locale])) {\n        return \'KEY_NOT_IN_LOCALIZATIONS: \' + key;\n      }\n      return localizations[locale][key].call(undefined, arguments[1]);\n    };\n  })(locale);\n};';return out;
+var out='function requireLocale(locale) {\n  return (function(locale) {\n    return function l(key) {\n      if(!(locale in localizations)) {\n        return \'LOCALE_NOT_IN_LOCALIZATIONS: \' + locale;\n      }\n      if(!(key in localizations[locale])) {\n        return \'KEY_NOT_IN_LOCALIZATIONS: \' + key;\n      }\n      var variables = {};\n      for(var variable in arguments[1]) {\n        variables[variable.replace(/^\\w+\\s+/, \'\')] = arguments[1][variable];\n      }\n      return localizations[locale][key].call(undefined, variables);\n    };\n  })(locale);\n};';return out;
 };
   tmpl['ReturnOtherStringStatement']=function anonymous(it) {
 var out='return \'other\';';return out;
@@ -55,17 +52,14 @@ var out='return \'other\';';return out;
   tmpl['Sentence']=function anonymous(it) {
 var out='string += \''+(it.sentence)+'\';';return out;
 };
-  tmpl['SetKeywordCase']=function anonymous(it) {
-var out='_case = this.getPluralKeyword(it.'+(it.variableName)+');';return out;
-};
   tmpl['SetPluralCase']=function anonymous(it) {
-var out='_case = this._getPluralKeyword(it.'+(it.variableName)+');';return out;
+var out='_case = localizations[\''+(it.locale)+'\']._getPluralKeyword(it.'+(it.variableName)+');';return out;
 };
   tmpl['SetPluralConditionCase']=function anonymous(it) {
 var out=''+(it.statementType)+'(it.'+(it.variableName)+' === '+(it.value)+') {\n  _case = \'=\' + '+(it.value)+';\n}';return out;
 };
   tmpl['SetPluralElseCase']=function anonymous(it) {
-var out='else {\n  _case = this.getPluralKeyword(it.'+(it.variableName)+');\n}';return out;
+var out='else {\n  _case = localizations[\''+(it.locale)+'\'].getPluralKeyword(it.'+(it.variableName)+');\n}';return out;
 };
   tmpl['Start']=function anonymous(it) {
 var out='var string = \'\';';return out;

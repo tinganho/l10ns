@@ -7,7 +7,11 @@ function requireLocale(locale) {
       if(!(key in localizations[locale])) {
         return 'KEY_NOT_IN_LOCALIZATIONS: ' + key;
       }
-      return localizations[locale][key].call(undefined, arguments[1]);
+      var variables = {};
+      for(var variable in arguments[1]) {
+        variables[variable.replace(/^\w+\s+/, '')] = arguments[1][variable];
+      }
+      return localizations[locale][key].call(undefined, variables);
     };
   })(locale);
 };
