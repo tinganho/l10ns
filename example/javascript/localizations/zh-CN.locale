@@ -3,31 +3,20 @@
   "files": [
     "example/javascript/example.js"
   ],
-  "id": "jKexqneAIG",
+  "id": "ejodnzbdUX",
   "key": "INDEX1",
+  "new": false,
   "text": "INDEX1",
-  "timestamp": "2014-08-29T02:13:52.055Z",
+  "timestamp": "2014-09-01T08:18:00.857Z",
   "value": "",
   "variables": [
     {
-      "type": "range",
+      "type": "choice",
       "name": "files"
     },
     {
       "type": "plural",
-      "name": "score"
-    },
-    {
-      "type": "keywords",
-      "name": "score"
-    },
-    {
-      "type": "number",
-      "name": "gender"
-    },
-    {
-      "type": "date",
-      "name": "gender"
+      "name": "people"
     }
   ]
 }

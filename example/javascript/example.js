@@ -3,8 +3,8 @@ var requireLocale = require('./output/localizations')
 
 var localizations = {
   'locale1': l('INDEX1', {
-    'choice variable1': 1,
-    'plural variable2': 2
+    'choice files': 1,
+    'plural people': 1
   })
 };
 

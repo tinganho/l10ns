@@ -128,7 +128,7 @@ Compiler.prototype._getLocalizationMap = function() {
           , messageFormat = new MessageFormat(locale);
 
         localizationMap += template['LocalizationKeyValue']({
-          key: '_getPluralKeyword',
+          key: '__getPluralKeyword',
           function: _this._getPluralGetterFunctionString(messageFormat) + _this.linefeed
         });
 

@@ -275,7 +275,7 @@ describe('Javascript Compiler', function() {
         'var string = \'\';\n' +
         'if(isNaN(parseFloat(it.variable1)) || it.variable1 <= 1 || it.variable1 > 1 && it.variable1 < 3) {\n' +
         '  var _case;\n' +
-        '  _case = localizations[\'en-US\']._getPluralKeyword(it.variable2);\n' +
+        '  _case = localizations[\'en-US\'].__getPluralKeyword(it.variable2);\n' +
         '  switch(_case) {\n' +
         '    case \'one\':\n' +
         '      string += \'message1\';\n' +
@@ -308,7 +308,7 @@ describe('Javascript Compiler', function() {
         var functionBody =
         'var string = \'\';\n' +
         'var _case;\n' +
-        '_case = localizations[\'en-US\']._getPluralKeyword(it.variable1);\n' +
+        '_case = localizations[\'en-US\'].__getPluralKeyword(it.variable1);\n' +
         'switch(_case) {\n' +
         '  default:\n' +
         '    string += \'message1\';\n' +
@@ -332,7 +332,7 @@ describe('Javascript Compiler', function() {
         var functionBody =
         'var string = \'\';\n' +
         'var _case;\n' +
-        '_case = localizations[\'en-US\']._getPluralKeyword(it.variable1);\n' +
+        '_case = localizations[\'en-US\'].__getPluralKeyword(it.variable1);\n' +
         'switch(_case) {\n' +
         '  case \'one\':\n' +
         '    string += \'message1\';\n' +
@@ -359,11 +359,11 @@ describe('Javascript Compiler', function() {
         var functionBody =
         'var string = \'\';\n' +
         'var _case;\n' +
-        '_case = localizations[\'en-US\']._getPluralKeyword(it.variable1);\n' +
+        '_case = localizations[\'en-US\'].__getPluralKeyword(it.variable1);\n' +
         'switch(_case) {\n' +
         '  case \'one\':\n' +
         '    var _case;\n' +
-        '    _case = localizations[\'en-US\']._getPluralKeyword(it.variable2);\n' +
+        '    _case = localizations[\'en-US\'].__getPluralKeyword(it.variable2);\n' +
         '    switch(_case) {\n' +
         '      case \'one\':\n' +
         '        string += \'message1\';\n' +

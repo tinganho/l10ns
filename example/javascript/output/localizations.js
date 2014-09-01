@@ -29,20 +29,31 @@
       },
       'INDEX1': function(it) {
         var string = '';
-        if(isNaN(parseFloat(it.variable1)) || it.variable1 < 2 || it.variable1 >= 2 && it.variable1 <= 3) {
+        if(isNaN(parseFloat(it.files)) || it.files < 1 || it.files >= 1 && it.files < 2) {
           var _case;
-          _case = localizations['undefined']._getPluralKeyword(it.variable2);
+          _case = localizations['en-US']._getPluralKeyword(it.people);
           switch(_case) {
             case 'one':
-              string += 'message1';
+              string += 'pupil';
               break;
             default:
-              string += 'message2';
+              string += 'people';
               break;
           }
+          string += ' own one file';
         }
-        else if(it.variable1 > 3 && it.variable1 <= Infinity) {
-          string += 'message3';
+        else if(it.files >= 2 && it.files <= Infinity) {
+          var _case;
+          _case = localizations['en-US']._getPluralKeyword(it.people);
+          switch(_case) {
+            case 'one':
+              string += 'pupil';
+              break;
+            default:
+              string += 'people';
+              break;
+          }
+          string += ' own many files';
         }
         return string;
       }

@@ -3,31 +3,20 @@
   "files": [
     "example/javascript/example.js"
   ],
-  "id": "jKexqneAIG",
+  "id": "ejodnzbdUX",
   "key": "INDEX1",
+  "new": false,
   "text": "INDEX1",
-  "timestamp": "2014-08-29T02:13:52.055Z",
-  "value": "{variable1, choice, 2#{variable2, plural, one{message1} other{message2}}|3.0<message3}",
+  "timestamp": "2014-09-01T08:18:00.857Z",
+  "value": "{files, choice, 1#{people, plural, one {pupil} other {people}} own one file|2#{people, plural, one {pupil} other {people}} own many files}",
   "variables": [
     {
-      "type": "range",
+      "type": "choice",
       "name": "files"
     },
     {
       "type": "plural",
-      "name": "score"
-    },
-    {
-      "type": "keywords",
-      "name": "score"
-    },
-    {
-      "type": "number",
-      "name": "gender"
-    },
-    {
-      "type": "date",
-      "name": "gender"
+      "name": "people"
     }
   ]
 }

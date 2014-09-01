@@ -82,8 +82,8 @@ Merger.prototype.mergeId = function(newLocalizations, oldLocalizations, key) {
  */
 
 Merger.prototype.mergeLocalizations = function(newLocalizations, oldLocalizations, key) {
-  if(key in oldLocalizations && 'values' in oldLocalizations[key]) {
-    newLocalizations[key].values = oldLocalizations[key].values;
+  if(key in oldLocalizations && 'value' in oldLocalizations[key]) {
+    newLocalizations[key].value = oldLocalizations[key].value;
     newLocalizations[key].text = oldLocalizations[key].text;
   }
   else {
