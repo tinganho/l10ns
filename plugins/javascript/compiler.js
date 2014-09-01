@@ -424,37 +424,6 @@ Compiler.prototype._getPluralComparisonString = function(comparison) {
 };
 
 /**
- * Get formated localized text
- *
- * @param {String} text
- * @return {String} formated text
- * @api private
- */
-
-Compiler.prototype._getFormatedLocalizedText = function(text, variables) {
-  var _this = this;
-
-  return text.replace(program.SYNTAX_VARIABLE_MARKUP, function(match) {
-    if(variables.indexOf(match) === -1) {
-      throw new TypeError('You have used an undefined variable ' + match.red
-      + '.\nPlease add the variable or remove the operand from your source.');
-    }
-
-    match = match.substring(2, match.length - 1);
-
-    return String.prototype.concat(
-      _this.quote,
-      _this.add,
-      _this.namespace,
-      _this.dot,
-      match,
-      _this.add,
-      _this.quote
-    );
-  });
-};
-
-/**
  * Export instance
  */
 
