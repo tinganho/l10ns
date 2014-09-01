@@ -55,6 +55,8 @@ var indentSpaces = function(spaces, string) {
     }
   }
 
+  string = string.replace(/\n\s+\n/g, '\n\n');
+
   return string;
 };
 
@@ -273,7 +275,7 @@ describe('Javascript Compiler', function() {
         'var string = \'\';\n' +
         'if(isNaN(parsePloat(it.variable1)) || it.variable1 <= 1 || it.variable1 > 1 && it.variable1 < 3) {\n' +
         '  var _case;\n' +
-        '  _case = this._getPluralKerword(it.variable2);\n' +
+        '  _case = this._getPluralKeyword(it.variable2);\n' +
         '  switch(_case) {\n' +
         '    case \'one\':\n' +
         '      string += \'message1\';\n' +
@@ -296,6 +298,55 @@ describe('Javascript Compiler', function() {
   });
 
   describe('PluralFormat', function() {
+    it('should be able to parse a PluralFormat with a single case', function(done) {
+      var localizations = getLocalizations('{variable1, plural, other{message1}}')
+        , dependencies = getDependencies(localizations)
+        , compiler = proxyquire('../plugins/javascript/compiler', dependencies);
 
+      compiler.run();
+      eventually(function() {
+        var functionBody =
+        'var string = \'\';\n' +
+        'var _case;\n' +
+        '_case = this._getPluralKeyword(it.variable1);\n' +
+        'switch(_case) {\n' +
+        '  default:\n' +
+        '    string += \'message1\';\n' +
+        '    break;\n' +
+        '}\n' +
+        'return string;';
+        expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to parse a PluralFormat with multiple cases', function(done) {
+      var localizations = getLocalizations('{variable1, plural, one{message1} other{message2}}')
+        , dependencies = getDependencies(localizations)
+        , compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody =
+        'var string = \'\';\n' +
+        'var _case;\n' +
+        '_case = this._getPluralKeyword(it.variable1);\n' +
+        'switch(_case) {\n' +
+        '  case \'one\':\n' +
+        '    string += \'message1\';\n' +
+        '    break;\n' +
+        '  default:\n' +
+        '    string += \'message2\';\n' +
+        '    break;\n' +
+        '}\n' +
+        'return string;';
+        expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
   });
 });

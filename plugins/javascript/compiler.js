@@ -99,6 +99,8 @@ Compiler.prototype._indentSpaces = function(spaces, string) {
     }
   }
 
+  string = string.replace(/\n\s+\n/g, '\n\n');
+
   return string;
 };
 
@@ -122,10 +124,15 @@ Compiler.prototype._getLocalizationMap = function() {
       for(var locale in localizations) {
         var localizationMap = ''
           , localizationsLength = Object.keys(localizations[locale]).length
-          , localizationsCount = 0;
+          , localizationsCount = 0
+          , messageFormat = new MessageFormat(locale);
+
+        localizationMap += template['LocalizationKeyValue']({
+          key: '_getPluralKeyword',
+          function: _this._getPluralGetterFunctionString(messageFormat) + _this.linefeed
+        });
 
         for(var key in localizations[locale]) {
-          var messageFormat = new MessageFormat(locale);
           messageFormat.parse(localizations[locale][key].value);
           var _function = template['Function']({
             functionBody: _this._indentSpaces(
@@ -340,7 +347,7 @@ Compiler.prototype._getPluralGetterFunctionString = function(messageFormat) {
     result += this._indentSpaces(2, template['ConditionStatement']({
       order: conditionOrder,
       condition: this._getPluralComparisonString(messageFormat.pluralRules[_case]),
-      body: 'string +=' + _case
+      body: this._indentSpaces(2, 'return \'' + _case + '\';')
     }));
   }
 

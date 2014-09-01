@@ -17,7 +17,7 @@ var out='if(isNaN(parsePloat(it.'+(it.variableName)+')) || it.'+(it.variableName
 var out='function(it) {\n  var string = \'\';\n'+(it.functionBody)+'\n  return string;\n}';return out;
 };
   tmpl['GetPluralKeyword']=function anonymous(it) {
-var out='function getPluralKeyword(cardinal) {\n  var cardinal = cardinal + \'\'\n    , n = cardinal\n    , i = parseInt(cardinal, 10)\n    , v = 0\n    , w = 0\n    , f = 0\n    , t = 0;\n\n  var hasFractionalDigitsSyntax = /\\.(\\d+)/;\n\n  if(hasFractionalDigitsSyntax.test(cardinal)) {\n    f = fractionalDigits.exec(cardinal)[1];\n    v = f.length;\n  }\n  if(hasFractionalDigitsSyntax.test(cardinal)) {\n    t = cardinal.replace(/+0$/, \'\');\n    t = fractionalDigits.exec(t)[1];\n    w = t.length;\n  }\n'+(it.functionBody)+'\n};';return out;
+var out='function(cardinal) {\n  var cardinal = cardinal + \'\'\n    , n = cardinal\n    , i = parseInt(cardinal, 10)\n    , v = 0\n    , w = 0\n    , f = 0\n    , t = 0;\n\n  var hasFractionalDigitsSyntax = /\\.(\\d+)/;\n\n  if(hasFractionalDigitsSyntax.test(cardinal)) {\n    f = fractionalDigits.exec(cardinal)[1];\n    v = f.length;\n  }\n  if(hasFractionalDigitsSyntax.test(cardinal)) {\n    t = cardinal.replace(/+0$/, \'\');\n    t = fractionalDigits.exec(t)[1];\n    w = t.length;\n  }\n'+(it.functionBody)+'\n},';return out;
 };
   tmpl['JavascriptWrapper']=function anonymous(it) {
 var out=';(function() {\n'+(it.localizationMap)+'\n\n'+(it.requireStatement)+'\n\n  if(typeof require === "function" && typeof exports === \'object\' && typeof module === \'object\') {\n    module.exports = requireLocale;\n  }\n  else if (typeof define === "function" && define.amd) {\n    define(function() {\n      return requireLocale;\n    });\n  }\n  else {\n    window.requireLocale = requireLocale;\n  }\n})();\n';return out;
@@ -56,10 +56,10 @@ var out='return \'other\';';return out;
 var out='string += \''+(it.sentence)+'\';';return out;
 };
   tmpl['SetKeywordCase']=function anonymous(it) {
-var out='_case = this.getPluralKeyword('+(it.variableName)+');';return out;
+var out='_case = this.getPluralKeyword(it.'+(it.variableName)+');';return out;
 };
   tmpl['SetPluralCase']=function anonymous(it) {
-var out='_case = this._getPluralKerword(it.'+(it.variableName)+');';return out;
+var out='_case = this._getPluralKeyword(it.'+(it.variableName)+');';return out;
 };
   tmpl['SetPluralConditionCase']=function anonymous(it) {
 var out=''+(it.statementType)+'(it.'+(it.variableName)+' === '+(it.value)+') {\n  _case = \'=\' + '+(it.value)+';\n}';return out;
