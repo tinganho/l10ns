@@ -263,6 +263,42 @@ Compiler.prototype._compileChoiceFormat = function(choiceFormat) {
 };
 
 /**
+ * Compile select format
+ *
+ * @param {AST.PluralFormat} pluralFormat
+ * @return {String}
+ * @api private
+ */
+
+Compiler.prototype._compileSelectFormat = function(selectFormat) {
+  var switchBody = '';
+
+  for(var _case in selectFormat.values) {
+    var caseBody = this._getFunctionBody(selectFormat.values[_case]);
+    if(_case !== 'other') {
+      switchBody += template['Case']({
+        case: _case,
+        caseBody: this._indentSpaces(2, caseBody)
+      });
+    }
+    else {
+      switchBody += template['OtherCase']({
+        caseBody: this._indentSpaces(2, caseBody)
+      });
+    }
+
+    switchBody += this.linefeed;
+  }
+
+  switchBody = this._indentSpaces(2, switchBody.substring(0, switchBody.length - 1));
+
+  return template['SelectSwitchStatement']({
+    variableName: selectFormat.variable.name,
+    switchBody: switchBody
+  });
+};
+
+/**
  * Compile plural format
  *
  * @param {AST.PluralFormat} pluralFormat
@@ -322,7 +358,7 @@ Compiler.prototype._compilePluralFormat = function(pluralFormat) {
 
   switchBody = this._indentSpaces(2, switchBody.substring(0, switchBody.length - 1));
 
-  return template['SwitchStatement']({
+  return template['PluralSwitchStatement']({
     setCaseStatement: setCaseStatement,
     variableName: pluralFormat.variable.name,
     switchBody: switchBody

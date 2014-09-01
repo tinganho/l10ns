@@ -640,7 +640,6 @@ AST.PluralFormat = function(locale, variable, values, offset) {
   this.offset = offset;
 };
 
-
 /**
  * AST class representing an ICU PluralFormat count '#'
  *

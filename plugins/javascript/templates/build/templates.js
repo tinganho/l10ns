@@ -37,6 +37,9 @@ var out=''+(it.variableName);if(it.modulus){out+='%'+(it.modulus);}out+=' === '+
   tmpl['OtherCase']=function anonymous(it) {
 var out='default:\n'+(it.caseBody)+'\n  break;';return out;
 };
+  tmpl['PluralSwitchStatement']=function anonymous(it) {
+var out='var _case;\n'+(it.setCaseStatement)+'\nswitch(_case) {\n'+(it.switchBody)+'\n}';return out;
+};
   tmpl['RangeCondition']=function anonymous(it) {
 var out='else if(it.'+(it.variableName)+' '+(it.limits.lower.type)+' '+(it.limits.lower.value)+' && it.'+(it.variableName)+' '+(it.limits.upper.type)+' '+(it.limits.upper.value)+') {\n'+(it.body)+'\n}';return out;
 };
@@ -48,6 +51,9 @@ var out='function requireLocale(locale) {\n  return (function(locale) {\n    ret
 };
   tmpl['ReturnOtherStringStatement']=function anonymous(it) {
 var out='return \'other\';';return out;
+};
+  tmpl['SelectSwitchStatement']=function anonymous(it) {
+var out='switch(it.'+(it.variableName)+') {\n'+(it.switchBody)+'\n}';return out;
 };
   tmpl['Sentence']=function anonymous(it) {
 var out='string += \''+(it.sentence)+'\';';return out;
@@ -63,9 +69,6 @@ var out='else {\n  _case = localizations[\''+(it.locale)+'\'].__getPluralKeyword
 };
   tmpl['Start']=function anonymous(it) {
 var out='var string = \'\';';return out;
-};
-  tmpl['SwitchStatement']=function anonymous(it) {
-var out='var _case;\n'+(it.setCaseStatement)+'\nswitch(_case) {\n'+(it.switchBody)+'\n}';return out;
 };
   tmpl['Variable']=function anonymous(it) {
 var out='string += it.'+(it.variableName)+';';return out;
