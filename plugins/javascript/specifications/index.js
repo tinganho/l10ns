@@ -350,7 +350,7 @@ describe('Javascript Compiler', function() {
     });
 
     it('should be able to compile a PluralFormat with PluralFormat in sub message', function(done) {
-      var localizations = getLocalizations('{variable1, plural, one {{variable2, plural, one {message1} other {message2}}} other{message3}}')
+      var localizations = getLocalizations('{variable1, plural, one {{variable2, plural, one {message1} other {message2}}} other{message3}}')
         , dependencies = getDependencies(localizations)
         , compiler = proxyquire('../plugins/javascript/compiler', dependencies);
 
