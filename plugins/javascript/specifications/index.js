@@ -168,10 +168,7 @@ describe('Javascript Compiler', function() {
       eventually(function() {
         var functionBody =
         'var string = \'\';\n' +
-        'if(isNaN(parsePloat(it.variable1)) || it.variable1 <= 1) {\n' +
-        '  string += \'message1\';\n' +
-        '}\n' +
-        'else if(it.variable1 > 1 && it.variable1 < 3) {\n' +
+        'if(isNaN(parsePloat(it.variable1)) || it.variable1 <= 1 || it.variable1 > 1 && it.variable1 < 3) {\n' +
         '  string += \'message1\';\n' +
         '}\n' +
         'else if(it.variable1 >= 3 && it.variable1 <= Infinity) {\n' +
@@ -193,10 +190,7 @@ describe('Javascript Compiler', function() {
       eventually(function() {
         var functionBody =
         'var string = \'\';\n' +
-        'if(isNaN(parsePloat(it.variable1)) || it.variable1 <= 1) {\n' +
-        '  string += it.variable2;\n' +
-        '}\n' +
-        'else if(it.variable1 > 1 && it.variable1 < 3) {\n' +
+        'if(isNaN(parsePloat(it.variable1)) || it.variable1 <= 1 || it.variable1 > 1 && it.variable1 < 3) {\n' +
         '  string += it.variable2;\n' +
         '}\n' +
         'else if(it.variable1 >= 3 && it.variable1 <= Infinity) {\n' +
@@ -218,11 +212,7 @@ describe('Javascript Compiler', function() {
       eventually(function() {
         var functionBody =
         'var string = \'\';\n' +
-        'if(isNaN(parsePloat(it.variable1)) || it.variable1 <= 1) {\n' +
-        '  string += \'message1\';\n' +
-        '  string += it.variable2;\n' +
-        '}\n' +
-        'else if(it.variable1 > 1 && it.variable1 < 3) {\n' +
+        'if(isNaN(parsePloat(it.variable1)) || it.variable1 <= 1 || it.variable1 > 1 && it.variable1 < 3) {\n' +
         '  string += \'message1\';\n' +
         '  string += it.variable2;\n' +
         '}\n' +
@@ -236,7 +226,7 @@ describe('Javascript Compiler', function() {
       });
     });
 
-    it('should be able to compile choice format in sub message', function() {
+    it('should be able to compile ChoiceFormat in sub message', function() {
       var localizations = getLocalizations('{variable1, choice, 1<{variable2, choice, 2#message1|3#message2}|3#message3}')
         , dependencies = getDependencies(localizations)
         , compiler = proxyquire('../plugins/javascript/compiler', dependencies);
@@ -245,22 +235,8 @@ describe('Javascript Compiler', function() {
       eventually(function() {
         var functionBody =
         'var string = \'\';\n' +
-        'if(isNaN(parsePloat(it.variable1)) || it.variable1 <= 1) {\n' +
-        '  if(isNaN(parsePloat(it.variable2)) || it.variable2 < 2) {\n' +
-        '    string += \'message1\';\n' +
-        '  }\n' +
-        '  else if(it.variable2 >= 2 && it.variable2 < 3) {\n' +
-        '    string += \'message1\';\n' +
-        '  }\n' +
-        '  else if(it.variable2 >= 3 && it.variable2 <= Infinity) {\n' +
-        '    string += \'message2\';\n' +
-        '  }\n' +
-        '}\n' +
-        'else if(it.variable1 > 1 && it.variable1 < 3) {\n' +
-        '  if(isNaN(parsePloat(it.variable2)) || it.variable2 < 2) {\n' +
-        '    string += \'message1\';\n' +
-        '  }\n' +
-        '  else if(it.variable2 >= 2 && it.variable2 < 3) {\n' +
+        'if(isNaN(parsePloat(it.variable1)) || it.variable1 <= 1 || it.variable1 > 1 && it.variable1 < 3) {\n' +
+        '  if(isNaN(parsePloat(it.variable2)) || it.variable2 < 2 || it.variable2 >= 2 && it.variable2 < 3) {\n' +
         '    string += \'message1\';\n' +
         '  }\n' +
         '  else if(it.variable2 >= 3 && it.variable2 <= Infinity) {\n' +
@@ -276,5 +252,40 @@ describe('Javascript Compiler', function() {
         }));
       });
     });
+
+    it('should be able to compile PluralFormat in sub message', function() {
+      var localizations = getLocalizations('{variable1, choice, 1<{variable2, plural, one{message1} other{message2}}|3#message3}')
+        , dependencies = getDependencies(localizations)
+        , compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody =
+        'var string = \'\';\n' +
+        'if(isNaN(parsePloat(it.variable1)) || it.variable1 <= 1 || it.variable1 > 1 && it.variable1 < 3) {\n' +
+        '  var _case;\n' +
+        '  _case = this._getPluralKerword(it.variable2);\n' +
+        '  switch(_case) {\n' +
+        '    case \'one\':\n' +
+        '      string += \'message1\';\n' +
+        '      break;\n' +
+        '    default:\n' +
+        '      string += \'message2\';\n' +
+        '      break;\n' +
+        '  }\n' +
+        '}\n' +
+        'else if(it.variable1 >= 3 && it.variable1 <= Infinity) {\n' +
+        '  string += \'message3\';\n' +
+        '}\n' +
+        'return string;';
+        expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+      });
+    });
+  });
+
+  describe('PluralFormat', function() {
+
   });
 });

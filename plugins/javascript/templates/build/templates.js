@@ -11,7 +11,7 @@ var out='it.'+(it.variableName)+' '+(it.comparator)+' '+(it.value);return out;
 var out=''+(it.order)+'('+(it.condition)+') {\n'+(it.body)+'\n}';return out;
 };
   tmpl['FirstRangeCondition']=function anonymous(it) {
-var out='if(isNaN(parsePloat(it.'+(it.variableName)+')) || it.'+(it.variableName)+' '+(it.type)+' '+(it.lowestLimit)+') {\n'+(it.body)+'\n}';return out;
+var out='if(isNaN(parsePloat(it.'+(it.variableName)+')) || it.'+(it.variableName)+' '+(it.type)+' '+(it.lowestLimit)+' || it.'+(it.variableName)+' '+(it.limits.lower.type)+' '+(it.limits.lower.value)+' && it.'+(it.variableName)+' '+(it.limits.upper.type)+' '+(it.limits.upper.value)+') {\n'+(it.body)+'\n}';return out;
 };
   tmpl['Function']=function anonymous(it) {
 var out='function(it) {\n  var string = \'\';\n'+(it.functionBody)+'\n  return string;\n}';return out;

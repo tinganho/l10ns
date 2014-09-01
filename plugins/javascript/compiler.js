@@ -231,18 +231,21 @@ Compiler.prototype._compileChoiceFormat = function(choiceFormat) {
         result += template['FirstRangeCondition']({
           variableName: choiceFormat.variable.name,
           lowestLimit: choiceFormat.values[index].limits.lower.value,
+          limits: choiceFormat.values[index].limits,
           type: choiceFormat.values[index].limits.lower.type.replace('>=', '<').replace('>', '<='),
           body: this._indentSpaces(2, this._getFunctionBody(choiceFormat.values[index].messageAST))
         });
         result += this.linefeed;
       }
-      result += template['RangeCondition']({
-        variableName: choiceFormat.variable.name,
-        limits: choiceFormat.values[index].limits,
-        body: this._indentSpaces(2, this._getFunctionBody(choiceFormat.values[index].messageAST))
-      });
-      if(index !== valuesLength - 1) {
-        result += this.linefeed;
+      else {
+        result += template['RangeCondition']({
+          variableName: choiceFormat.variable.name,
+          limits: choiceFormat.values[index].limits,
+          body: this._indentSpaces(2, this._getFunctionBody(choiceFormat.values[index].messageAST))
+        });
+        if(index !== valuesLength - 1) {
+          result += this.linefeed;
+        }
       }
     }
 
