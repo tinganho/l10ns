@@ -620,7 +620,7 @@ MessageFormat.prototype._isAlphaLowerCase = function(character) {
  */
 
 MessageFormat.prototype._isWhiteSpace = function(character) {
-  return ' ' === character || '\n' === character || '\t' === character;
+  return /^\s$/.test(character);
 };
 
 /**

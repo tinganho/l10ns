@@ -298,7 +298,7 @@ describe('Javascript Compiler', function() {
   });
 
   describe('PluralFormat', function() {
-    it('should be able to parse a PluralFormat with a single case', function(done) {
+    it('should be able to compile a PluralFormat with a single case', function(done) {
       var localizations = getLocalizations('{variable1, plural, other{message1}}')
         , dependencies = getDependencies(localizations)
         , compiler = proxyquire('../plugins/javascript/compiler', dependencies);
@@ -322,7 +322,7 @@ describe('Javascript Compiler', function() {
       });
     });
 
-    it('should be able to parse a PluralFormat with multiple cases', function(done) {
+    it('should be able to compile a PluralFormat with multiple cases', function(done) {
       var localizations = getLocalizations('{variable1, plural, one{message1} other{message2}}')
         , dependencies = getDependencies(localizations)
         , compiler = proxyquire('../plugins/javascript/compiler', dependencies);
@@ -339,6 +339,42 @@ describe('Javascript Compiler', function() {
         '    break;\n' +
         '  default:\n' +
         '    string += \'message2\';\n' +
+        '    break;\n' +
+        '}\n' +
+        'return string;';
+        expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to compile a PluralFormat with PluralFormat in sub message', function(done) {
+      var localizations = getLocalizations('{variable1, plural, one {{variable2, plural, one {message1} other {message2}}} other{message3}}')
+        , dependencies = getDependencies(localizations)
+        , compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody =
+        'var string = \'\';\n' +
+        'var _case;\n' +
+        '_case = this._getPluralKeyword(it.variable1);\n' +
+        'switch(_case) {\n' +
+        '  case \'one\':\n' +
+        '    var _case;\n' +
+        '    _case = this._getPluralKeyword(it.variable2);\n' +
+        '    switch(_case) {\n' +
+        '      case \'one\':\n' +
+        '        string += \'message1\';\n' +
+        '        break;\n' +
+        '      default:\n' +
+        '        string += \'message2\';\n' +
+        '        break;\n' +
+        '    }\n' +
+        '    break;\n' +
+        '  default:\n' +
+        '    string += \'message3\';\n' +
         '    break;\n' +
         '}\n' +
         'return string;';
