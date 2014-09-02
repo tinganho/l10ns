@@ -647,6 +647,9 @@ AST.PluralFormat = function(locale, variable, values, offset) {
  * @constructor
  */
 
-AST.PluralRemaining = function() {};
+AST.PluralRemaining = function(variable, offset) {
+  this.variable = variable;
+  this.offset = offset;
+};
 
 module.exports = AST;

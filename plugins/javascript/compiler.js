@@ -184,6 +184,7 @@ Compiler.prototype._getLocalizationMap = function() {
  * Get function body
  *
  * @param {Array} messageAST
+ * @param {AST.PluralFormat} parent caller. Now only used for plural remaining
  * @return {String} A string representing a function body
  * @api private
  */
@@ -197,6 +198,9 @@ Compiler.prototype._getFunctionBody = function(messageAST) {
     }
     else if(messageAST[index] instanceof MessageFormat.AST.Variable) {
       result += template['Variable']({ variableName: messageAST[index].name });
+    }
+    else if(messageAST[index] instanceof MessageFormat.AST.PluralRemaining) {
+      result += template['PluralRemaining']({ variableName: messageAST[index].variable.name, offset: messageAST[index].offset });
     }
     else if(messageAST[index] instanceof MessageFormat.AST.ChoiceFormat) {
       result += this._compileChoiceFormat(messageAST[index]);

@@ -730,7 +730,17 @@ describe('MessageFormat', function() {
 
       it('should be able to set offset', function() {
         messageFormat.parse('{variable1,plural, offset:1 other{message1}}');
+        expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.PluralFormat);
         expect(messageFormat.messageAST[0].offset).to.equal(1);
+      });
+
+      it('should be able to parse sub-message with a remaining symbol', function() {
+        messageFormat.parse('{variable1, plural, offset:1 one {message1} other {sentence1#sentence2}}');
+        expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.PluralFormat);
+        expect(messageFormat.messageAST[0].offset).to.equal(1);
+        expect(messageFormat.messageAST[0].values['other'][1]).to.be.an.instanceOf(AST.PluralRemaining);
+        expect(messageFormat.messageAST[0].values['other'][1].offset).to.equal(1);
+        expect(messageFormat.messageAST[0].values['other'][1].variable.name).to.equal('variable1');
       });
 
       it('should be able to parse a sub-message with a sentence', function() {

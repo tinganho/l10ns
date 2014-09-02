@@ -429,6 +429,36 @@ describe('Javascript Compiler', function() {
       });
     });
 
+    it('should be able to compile with a plural remaining in sub message', function(done) {
+      var localizations = getLocalizations('{variable1, plural, offset:1 one{sentence1{variable2}} other{sentence1#sentence2}}')
+        , dependencies = getDependencies(localizations)
+        , compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody =
+        'var string = \'\';\n' +
+        'var _case;\n' +
+        '_case = localizations[\'en-US\'].__getPluralKeyword(it.variable1);\n' +
+        'switch(_case) {\n' +
+        '  case \'one\':\n' +
+        '    string += \'sentence1\';\n' +
+        '    string += it.variable2;\n' +
+        '    break;\n' +
+        '  default:\n' +
+        '    string += \'sentence1\';\n' +
+        '    string += (it.variable1 - parseInt(1, 10));\n' +
+        '    string += \'sentence2\';\n' +
+        '    break;\n' +
+        '}\n' +
+        'return string;';
+        expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
     it('should be able to compile with PluralFormat in sub message', function(done) {
       var localizations = getLocalizations('{variable1, plural, one {{variable2, plural, one {message1} other {message2}}} other{message3}}')
         , dependencies = getDependencies(localizations)

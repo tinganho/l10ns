@@ -37,6 +37,9 @@ var out=''+(it.variableName);if(it.modulus){out+='%'+(it.modulus);}out+=' === '+
   tmpl['OtherCase']=function anonymous(it) {
 var out='default:\n'+(it.caseBody)+'\n  break;';return out;
 };
+  tmpl['PluralRemaining']=function anonymous(it) {
+var out='string += (it.'+(it.variableName)+' - parseInt('+(it.offset)+', 10));';return out;
+};
   tmpl['PluralSwitchStatement']=function anonymous(it) {
 var out='var _case;\n'+(it.setCaseStatement)+'\nswitch(_case) {\n'+(it.switchBody)+'\n}';return out;
 };

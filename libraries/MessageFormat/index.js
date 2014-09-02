@@ -77,7 +77,7 @@ MessageFormat.prototype._parsePrimary = function(options) {
   });
 
   if(options.remaining && this.currentToken === MessageFormat.Characters.PLURAL_REMAINING) {
-    return this._parsePluralRemaining();
+    return this._parsePluralRemaining(options.variable, options.offset);
   }
 
   switch(this.currentToken) {
@@ -95,11 +95,11 @@ MessageFormat.prototype._parsePrimary = function(options) {
  * @api private
  */
 
-MessageFormat.prototype._parsePluralRemaining = function() {
+MessageFormat.prototype._parsePluralRemaining = function(variable, offset) {
   // Swallow '#'
   this.currentToken = this.lexer.getNextToken();
 
-  return new AST.PluralRemaining();
+  return new AST.PluralRemaining(variable, offset);
 };
 
 /**
@@ -445,7 +445,11 @@ MessageFormat.prototype._parsePluralFormat = function(variable) {
       var messageAST = [];
       this.currentToken = this.lexer.getNextToken();
       while(this.currentToken !== MessageFormat.Characters.ENDING_BRACKET) {
-        messageAST.push(this._parsePrimary({ remaining: true }));
+        messageAST.push(this._parsePrimary({
+          remaining: true,
+          offset: offset,
+          variable: variable
+        }));
       }
       values[_case] = messageAST;
       exactlySyntax.lastIndex = 0;
