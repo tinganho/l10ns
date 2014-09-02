@@ -184,7 +184,6 @@ Compiler.prototype._getLocalizationMap = function() {
  * Get function body
  *
  * @param {Array} messageAST
- * @param {AST.PluralFormat} parent caller. Now only used for plural remaining
  * @return {String} A string representing a function body
  * @api private
  */
