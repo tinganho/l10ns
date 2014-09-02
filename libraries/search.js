@@ -69,7 +69,7 @@ Search.prototype.readLocalizations = function() {
         var localization = _this.localizations[key];
         _this.index.add({
           id : localization.key,
-          text : localization.text,
+          text : localization.value,
           // the  `BASE__EXIT_BUTTON` should be toknized as `base exit button`
           key : localization.key.replace(/_+/g,  ' ').toLowerCase()
         });
