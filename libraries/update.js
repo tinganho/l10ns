@@ -135,7 +135,6 @@ Update.prototype.getNewLocalizations = function() {
               newLocalizations[key].id = hashids.encrypt(now, hashCount);
               newLocalizations[key].key = key;
               newLocalizations[key].variables = variables;
-              newLocalizations[key].text = key;
               newLocalizations[key].files = [file];
               hashCount++;
             }

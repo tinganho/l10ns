@@ -3,12 +3,10 @@
   "files": [
     "example/javascript/example.js"
   ],
-  "id": "ejodnzbdUX",
+  "id": "jKo9yb96IG",
   "key": "INDEX1",
-  "new": false,
-  "text": "INDEX1",
-  "timestamp": "2014-09-01T08:18:00.857Z",
-  "value": "hej",
+  "timestamp": "2014-09-03T15:00:04.343Z",
+  "value": "{variable1, plural, one{bajs} other {hora}}",
   "variables": [
     {
       "type": "choice",

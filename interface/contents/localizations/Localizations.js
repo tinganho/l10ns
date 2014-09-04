@@ -60,7 +60,6 @@ define(function(require) {
             .then(function(localizations) {
               localizations = file.localizationMapToArray(localizations)[request.param('locale')]
                 .slice(0, cf.ITEMS_PER_PAGE);
-
               collection.add(localizations, { merge: true });
 
               if(/^\/t/.test(request.url)) {
