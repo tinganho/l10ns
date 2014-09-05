@@ -5,31 +5,39 @@
 
 <div class="localization" data-content="localization">
   <h1 class="localization-title">{{=it.key}}</h1>
-  <form class="localization-form">
-    <div class="localization-variables">
-      <label class="localization-sub-title">{{=it.i18n_variables}}</label>
-      <ul class="localization-variables-list">
-      {{?it.variables.length > 0}}
-        {{~it.variables :variable:index}}
-          <li class="localization-variable">{{=variable}}</li>
-        {{~}}
-      {{??}}
-        <li class="localization-variable">{{=it.i18n_none}}</li>
-      {{?}}
-      </ul>
+  <div class="localization-variables">
+    <span class="localization-variables-label">{{=it.l10ns.variables}}</span>
+    {{~it.variables :variable:index}}
+      <span class="localization-variable">{{=variable}}</span>
+    {{~}}
+  </div>
+  <div class="localization-input">
+    <ul class="localization-actions">
+      <li class="localization-action">
+        <a class="localization-action-anchor localization-action-plural">plural</a>
+      </li>
+      <li class="localization-action">
+        <a class="localization-action-anchor localization-action-select">select</a>
+      </li>
+      <li class="localization-action">
+        <a class="localization-action-anchor localization-action-choice">choice</a>
+      </li>
+      <li class="localization-action">
+        <a class="localization-action-anchor localization-action-selectordinal">selectordinal</a>
+      </li>
+      <li class="localization-action">
+        <a class="localization-action-anchor localization-action-number">number</a>
+      </li>
+      <li class="localization-action">
+        <a class="localization-action-anchor localization-action-date">date</a>
+      </li>
+    </ul>
+    <textarea class="localization-textarea localization-textarea-real">{{=it.value}}</textarea>
+    <div class="localization-text-area-height-helper-container">
+      <textarea class="localization-textarea localization-textarea-mirror"></textarea>
     </div>
-    <div class="localization-inputs clearfix">
-      <label class="localization-sub-title">{{=it.i18n_values}}</label>
-      <div class="localization-values">
-        {{=it.values}}
-      </div>
-      <div class="localization-actions">
-        <div class="save-button-container">
-          <button class="save button" type="submit" disabled>{{=it.i18n_save}}</button>
-          {{#def.spinner}}
-        </div>
-        <button class="add-condition button" type="button" disabled>{{=it.i18n_addCondition}}</button>
-      </div>
-    </div>
-  </form>
+  </div>
+  <div class="localization-buttons">
+    <a class="localization-save">{{=it.l10ns.save}}</a>
+  </div>
 </div>

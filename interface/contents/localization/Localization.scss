@@ -1,94 +1,99 @@
 
-@import "./Condition";
-@import "./Input";
-@import "./ValueGroup";
-
 $padding: 40px;
 
 [data-content=localization] {
-  width: calc(720px - #{1 * $padding});
+  width: calc(720px - #{2 * $padding});
   margin: auto;
-  background-color: #cbcbcb;
-  padding: $padding 0 0 $padding;
-}
-
-.localization {
-  @include user-select(none);
+  background-color: #e2e2e2;
+  padding: $padding;
 }
 
 .localization-title {
-  color: #fff;
+  color: #5a5a5a;
   font-size: 40px;
-  margin-bottom: 40px;
   word-wrap: break-word;
 }
 
-.localization-form {
-  overflow: hidden;
-  padding-right: 40px;
-}
-
 .localization-variables {
-  float: left;
-  width: 20%;
-  margin-right: 6.67%;
+  margin-top: 40px;
 }
 
-.localization-sub-title {
-  color: #fff;
-  padding: 6px 0;
-  border-bottom: 1px solid #acacac;
-  margin-bottom: 10px;
-  display: block;
-  @include font-size(2);
-}
+.localization-variable {
+  font-size: 19px;
+  font-weight: 300;
+  cursor: pointer;
 
-.localization-inputs {
-  width: calc(73.33% - 2px);
-  float: left;
-  padding-bottom: 40px;
-
-  .localization-sub-title {
-    margin-left: 2px;
-    margin-right: 2px
+  &:hover {
+    text-decoration: underline;
   }
+}
+
+.localization-input {
+  margin-top: 20px;
+  min-height: 40px;
+  border: 1px solid #c4c4c4;
+  background-color: #f3f3f3;
 }
 
 .localization-actions {
-  float: right;
   overflow: hidden;
-  margin-top: 10px;
-  width: 100%;
+  border-bottom: 1px solid #c4c4c4;
 }
 
-.save-button-container {
-  position: relative;
+.localization-action {
+  float: left;
   display: inline-block;
-  float: right;
+  padding: 0px 10px;
+  border-right: 1px solid #c4c4c4;
+  font-size: 19px;
+  font-weight: 300;
+  cursor: pointer;
+  margin: 5px 0;
+
+  &:last-child {
+    border-right: none;
+  }
+
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
-.save-spinner {
-  @include transition(transform 0.2s);
-  top: 4px !important;
-
-  .is-waiting & {
-    @include transform(scale(0, 0));
-  }
-
-  .is-loading & {
-    @include transform(scale(1, 1));
-  }
+.localization-textarea {
+  display: block;
+  margin: 0;
+  padding: 10px;
+  border: none;
+  outline: none;
+  min-height: 60px;
+  background-color: transparent;
+  resize: none;
+  font-size: 19px;
+  line-height: 23px;
+  font-weight: 400;
+  overflow: hidden;
+  font-family: 'Helvetica Neue', Arial;
+  width: calc(100% - 20px);
 }
 
-.save {
-  @include transition(transform 0.2s);
+.localization-text-area-height-helper-container {
+  height: 0px;
+  overflow: hidden;
+}
+
+.localization-buttons {
+  overflow: hidden;
+}
+
+.localization-save {
+  margin-top: 20px;
+  font-size: 35px;
+  line-height: 35px;
+  font-weight: 100;
   float: right;
+  cursor: pointer;
 
-  .is-waiting & {
-    @include transform(scale(1, 1));
-  }
-
-  .is-loading & {
-    @include transform(scale(0, 0));
+  &:hover {
+    text-decoration: underline;
   }
 }

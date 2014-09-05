@@ -1,6 +1,6 @@
 
-var LDMLPlural_ = require('../libraries/LDMLPlural')
-  , AST = require('../libraries/LDMLPlural/AST');
+var LDMLPlural_ = require('../libraries/LDML')
+  , AST = require('../libraries/LDML/AST');
 
 describe('LDMLPlural', function() {
   describe('parse(string)', function() {

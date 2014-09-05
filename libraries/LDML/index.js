@@ -3,13 +3,13 @@ var Lexer = require('../Lexer')
   , AST = require('./AST');
 
 /**
- * LDMLPlural class
+ * LDML class
  *
  * @class
  * @constructor
  */
 
-function LDMLPlural() {}
+function LDML() {}
 
 /**
  * Binary operation precedence
@@ -17,7 +17,7 @@ function LDMLPlural() {}
  * @type {Enum}
  */
 
-LDMLPlural.Characters = {
+LDML.Characters = {
   AT: '@',
   MODULUS: '%',
   IS_NOT: '!=',
@@ -45,7 +45,7 @@ LDMLPlural.Characters = {
  * @type {Object}
  */
 
-LDMLPlural.NumberComparisonGroupTypePrecedence = {
+LDML.NumberComparisonGroupTypePrecedence = {
   'or': 10,
   'and': 20
 };
@@ -58,13 +58,13 @@ LDMLPlural.NumberComparisonGroupTypePrecedence = {
  * @api public
  */
 
-LDMLPlural.prototype.parse = function(string) {
+LDML.prototype.parse = function(string) {
   this.ruleAST = {};
   this.lexer = new Lexer(string);
   this.currentToken = this.lexer.getNextToken();
   this._swallowWhiteSpace();
   while(this.currentToken !== '@' &&
-        this.currentToken !== LDMLPlural.Characters.EOF) {
+        this.currentToken !== LDML.Characters.EOF) {
     this.ruleAST = this._parsePrimary();
   }
 
@@ -80,14 +80,14 @@ LDMLPlural.prototype.parse = function(string) {
  * @api public
  */
 
-LDMLPlural.prototype._parsePrimary = function() {
+LDML.prototype._parsePrimary = function() {
   switch(this.currentToken) {
-    case LDMLPlural.Characters.ABSOLUTE_VALUE:
-    case LDMLPlural.Characters.INTEGER_DIGIT:
-    case LDMLPlural.Characters.NUMBER_OF_VISIBLE_FRACTION_DIGITS_WITH_TRAILING_ZEROS:
-    case LDMLPlural.Characters.NUMBER_OF_VISIBLE_FRACTION_DIGITS_WITHOUT_TRAILING_ZEROS:
-    case LDMLPlural.Characters.VISIBLE_FRACTIONAL_DIGIT_WITH_TRAILING_ZEROS:
-    case LDMLPlural.Characters.VISIBLE_FRACTIONAL_DIGIT_WITHOUT_TRAILING_ZEROS:
+    case LDML.Characters.ABSOLUTE_VALUE:
+    case LDML.Characters.INTEGER_DIGIT:
+    case LDML.Characters.NUMBER_OF_VISIBLE_FRACTION_DIGITS_WITH_TRAILING_ZEROS:
+    case LDML.Characters.NUMBER_OF_VISIBLE_FRACTION_DIGITS_WITHOUT_TRAILING_ZEROS:
+    case LDML.Characters.VISIBLE_FRACTIONAL_DIGIT_WITH_TRAILING_ZEROS:
+    case LDML.Characters.VISIBLE_FRACTIONAL_DIGIT_WITHOUT_TRAILING_ZEROS:
       return this._parseNumberComparison();
     default:
       throw new TypeError('Unrecognized token, got (' + this.currentToken + ') in ' + this.lexer.getLatestTokensLog());
@@ -102,7 +102,7 @@ LDMLPlural.prototype._parsePrimary = function() {
  * @api private
  */
 
-LDMLPlural.prototype._isNumber = function(string) {
+LDML.prototype._isNumber = function(string) {
   return /^\d+$/.test(string);
 };
 
@@ -114,7 +114,7 @@ LDMLPlural.prototype._isNumber = function(string) {
  * @api private
  */
 
-LDMLPlural.prototype._parseNumberComparison = function(stop) {
+LDML.prototype._parseNumberComparison = function(stop) {
   // Swallow variable
   var variable = new AST.Variable(this.currentToken);
   this.currentToken = this.lexer.getNextToken();
@@ -126,7 +126,7 @@ LDMLPlural.prototype._parseNumberComparison = function(stop) {
     throw new TypeError('Expected operator (!,=,%), instead got (' + this.currentToken + ') in ' + this.lexer.getLatestTokensLog());
   }
 
-  if(this.currentToken === LDMLPlural.Characters.MODULUS) {
+  if(this.currentToken === LDML.Characters.MODULUS) {
     // Swallow modulus
     this.currentToken = this.lexer.getNextToken();
     // Go to number
@@ -145,11 +145,11 @@ LDMLPlural.prototype._parseNumberComparison = function(stop) {
 
 
   var comparator;
-  if(this.currentToken === LDMLPlural.Characters.FIRST_CHARACTER_OF_IS_NOT) {
+  if(this.currentToken === LDML.Characters.FIRST_CHARACTER_OF_IS_NOT) {
     // Swallow '='
     this.lexer.getNextToken();
     this.currentToken = this.lexer.getNextToken();
-    comparator = LDMLPlural.Characters.IS_NOT;
+    comparator = LDML.Characters.IS_NOT;
   }
   else {
     comparator = this.currentToken;
@@ -179,7 +179,7 @@ LDMLPlural.prototype._parseNumberComparison = function(stop) {
  * @api private
  */
 
-LDMLPlural.prototype._parseRHSNumberComparisonGroup = function(previousPrecedence, LHS) {
+LDML.prototype._parseRHSNumberComparisonGroup = function(previousPrecedence, LHS) {
   while(true) {
     var thisPrecedence = this._getNumberComparisonGroupTypePrecedence();
     if(thisPrecedence < previousPrecedence) {
@@ -206,15 +206,15 @@ LDMLPlural.prototype._parseRHSNumberComparisonGroup = function(previousPrecedenc
  * @api private
  */
 
-LDMLPlural.prototype._getNumberComparisonGroupTypePrecedence = function() {
-  if(this.currentToken === LDMLPlural.Characters.FIRST_CHARACTER_OF_AND) {
-    return LDMLPlural.NumberComparisonGroupTypePrecedence[
-      LDMLPlural.Characters.AND
+LDML.prototype._getNumberComparisonGroupTypePrecedence = function() {
+  if(this.currentToken === LDML.Characters.FIRST_CHARACTER_OF_AND) {
+    return LDML.NumberComparisonGroupTypePrecedence[
+      LDML.Characters.AND
     ];
   }
-  else if(this.currentToken === LDMLPlural.Characters.FIRST_CHARACTER_OF_OR) {
-    return LDMLPlural.NumberComparisonGroupTypePrecedence[
-      LDMLPlural.Characters.OR
+  else if(this.currentToken === LDML.Characters.FIRST_CHARACTER_OF_OR) {
+    return LDML.NumberComparisonGroupTypePrecedence[
+      LDML.Characters.OR
     ];
   }
   else {
@@ -229,8 +229,8 @@ LDMLPlural.prototype._getNumberComparisonGroupTypePrecedence = function() {
  * @api private
  */
 
-LDMLPlural.prototype._getNumberComparisonGroupType = function() {
-  if(this.currentToken === LDMLPlural.Characters.FIRST_CHARACTER_OF_AND) {
+LDML.prototype._getNumberComparisonGroupType = function() {
+  if(this.currentToken === LDML.Characters.FIRST_CHARACTER_OF_AND) {
     // Swallow 'nd'
     this.lexer.getNextToken();
     this.lexer.getNextToken();
@@ -238,15 +238,15 @@ LDMLPlural.prototype._getNumberComparisonGroupType = function() {
     this.currentToken = this.lexer.getNextToken();
     this._swallowWhiteSpace();
 
-    return LDMLPlural.Characters.AND;
+    return LDML.Characters.AND;
   }
-  else if(this.currentToken === LDMLPlural.Characters.FIRST_CHARACTER_OF_OR) {
+  else if(this.currentToken === LDML.Characters.FIRST_CHARACTER_OF_OR) {
     // Swallow 'or'
     this.lexer.getNextToken();
 
     this.currentToken = this.lexer.getNextToken();
     this._swallowWhiteSpace();
-    return LDMLPlural.Characters.OR;
+    return LDML.Characters.OR;
   }
 };
 
@@ -257,7 +257,7 @@ LDMLPlural.prototype._getNumberComparisonGroupType = function() {
  * @api private
  */
 
-LDMLPlural.prototype._expectNumber = function() {
+LDML.prototype._expectNumber = function() {
   if(!this._isNumber(this.currentToken)) {
     throw new TypeError('Expected a number, instead got (' + this.currentToken + ') in ' + this.lexer.getLatestTokensLog());
   }
@@ -270,7 +270,7 @@ LDMLPlural.prototype._expectNumber = function() {
  * @api private
  */
 
-LDMLPlural.prototype._parseRangeList = function() {
+LDML.prototype._parseRangeList = function() {
   var rangeList = new AST.RangeList;
   while(this._isNumber(this.currentToken)) {
     var startValue = '';
@@ -279,7 +279,7 @@ LDMLPlural.prototype._parseRangeList = function() {
       this.currentToken = this.lexer.getNextToken();
     }
     startValue = parseInt(startValue, 10);
-    if(this.currentToken === LDMLPlural.Characters.DOT) {
+    if(this.currentToken === LDML.Characters.DOT) {
       // Swallow ..
       this.lexer.getNextToken();
       this.currentToken = this.lexer.getNextToken();
@@ -300,7 +300,7 @@ LDMLPlural.prototype._parseRangeList = function() {
     }
     // Go to next non-whitespace token
     this._swallowWhiteSpace();
-    if(this.currentToken === LDMLPlural.Characters.COMMA) {
+    if(this.currentToken === LDML.Characters.COMMA) {
       this.currentToken = this.lexer.getNextToken();
       // Go to next non-whitespace token
       this._swallowWhiteSpace();
@@ -319,7 +319,7 @@ LDMLPlural.prototype._parseRangeList = function() {
  * @api private
  */
 
-LDMLPlural.prototype._isWhiteSpace = function(character) {
+LDML.prototype._isWhiteSpace = function(character) {
   return ' ' === character || '\n' === character || '\t' === character;
 };
 
@@ -332,7 +332,7 @@ LDMLPlural.prototype._isWhiteSpace = function(character) {
  * @api private
  */
 
-LDMLPlural.prototype._isAlphaLowerCase = function(character) {
+LDML.prototype._isAlphaLowerCase = function(character) {
   return /^[a-z]$/.test(character);
 };
 
@@ -343,7 +343,7 @@ LDMLPlural.prototype._isAlphaLowerCase = function(character) {
  * @api private
  */
 
-LDMLPlural.prototype._swallowWhiteSpace = function() {
+LDML.prototype._swallowWhiteSpace = function() {
   while(this._isWhiteSpace(this.currentToken)) {
     this.currentToken = this.lexer.getNextToken();
   }
@@ -356,14 +356,14 @@ LDMLPlural.prototype._swallowWhiteSpace = function() {
  * @api private
  */
 
-LDMLPlural.prototype._parseExample = function() {
-  while(this.currentToken !== LDMLPlural.Characters.EOF) {
+LDML.prototype._parseExample = function() {
+  while(this.currentToken !== LDML.Characters.EOF) {
     // Swallow `@`
     this.currentToken = this.lexer.getNextToken();
-    if(this.currentToken === LDMLPlural.Characters.FIRST_CHARACTER_OF_INTEGER_EXAMPLE) {
+    if(this.currentToken === LDML.Characters.FIRST_CHARACTER_OF_INTEGER_EXAMPLE) {
       this._parseIntegerExample();
     }
-    else if(this.currentToken === LDMLPlural.Characters.FIRST_CHARACTER_OF_DECIMAL_EXAMPLE) {
+    else if(this.currentToken === LDML.Characters.FIRST_CHARACTER_OF_DECIMAL_EXAMPLE) {
       this._parseDecimalExample();
     }
     else {
@@ -379,7 +379,7 @@ LDMLPlural.prototype._parseExample = function() {
  * @api private
  */
 
-LDMLPlural.prototype._parseIntegerExample = function() {
+LDML.prototype._parseIntegerExample = function() {
   var integerExample = '';
   while(this._isAlphaLowerCase(this.currentToken)) {
     this.currentToken = this.lexer.getNextToken();
@@ -389,8 +389,8 @@ LDMLPlural.prototype._parseIntegerExample = function() {
   this._swallowWhiteSpace();
 
 
-  while(this.currentToken !== LDMLPlural.Characters.EOF &&
-        this.currentToken !== LDMLPlural.Characters.AT) {
+  while(this.currentToken !== LDML.Characters.EOF &&
+        this.currentToken !== LDML.Characters.AT) {
     integerExample += this.currentToken;
     this.currentToken = this.lexer.getNextToken();
   }
@@ -405,7 +405,7 @@ LDMLPlural.prototype._parseIntegerExample = function() {
  * @api private
  */
 
-LDMLPlural.prototype._parseDecimalExample = function() {
+LDML.prototype._parseDecimalExample = function() {
   var decimalExample = '';
   while(this._isAlphaLowerCase(this.currentToken)) {
     this.currentToken = this.lexer.getNextToken();
@@ -414,8 +414,8 @@ LDMLPlural.prototype._parseDecimalExample = function() {
   // Go to first example
   this._swallowWhiteSpace();
 
-  while(this.currentToken !== LDMLPlural.Characters.EOF &&
-        this.currentToken !== LDMLPlural.Characters.AT) {
+  while(this.currentToken !== LDML.Characters.EOF &&
+        this.currentToken !== LDML.Characters.AT) {
     decimalExample += this.currentToken;
     this.currentToken = this.lexer.getNextToken();
   }
@@ -429,6 +429,6 @@ LDMLPlural.prototype._parseDecimalExample = function() {
  * @namespace AST
  */
 
-LDMLPlural.prototype.AST = AST;
+LDML.prototype.AST = AST;
 
-module.exports = new LDMLPlural;
+module.exports = new LDML;

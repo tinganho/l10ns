@@ -5,16 +5,11 @@
   ],
   "id": "jKo9yb96IG",
   "key": "INDEX1",
+  "new": false,
   "timestamp": "2014-09-03T15:00:04.343Z",
   "value": "{variable1, plural, one{bajs} other {hora}}",
   "variables": [
-    {
-      "type": "choice",
-      "name": "files"
-    },
-    {
-      "type": "plural",
-      "name": "people"
-    }
+    "files",
+    "people"
   ]
 }

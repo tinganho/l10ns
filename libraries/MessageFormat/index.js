@@ -8,7 +8,7 @@ var Lexer = require('../Lexer')
   , xml = require('libxmljs')
   , fs = require('fs')
   , path = require('path')
-  , LDMLPlural = require('../LDMLPlural')
+  , LDML = require('../LDML')
   , _ = require('underscore');
 
 /**
@@ -660,8 +660,8 @@ MessageFormat.prototype._readPluralizationRules = function() {
 
   pluralRules.childNodes().forEach(function(pluralRule) {
     var _case = pluralRule.attr('count').value();
-    _this.pluralRules[_case] = LDMLPlural.parse(pluralRule.text());
-    _this.integers = LDMLPlural.integerExample;
+    _this.pluralRules[_case] = LDML.parse(pluralRule.text());
+    _this.integers = LDML.integerExample;
   });
 };
 

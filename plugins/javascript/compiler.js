@@ -12,7 +12,7 @@ var fs = require('fs')
   , mkdirp = require('mkdirp')
   , MessageFormat = require('../../libraries/MessageFormat')
   , defer = require('q').defer
-  , LDMLPlural = { AST: require('../../libraries/LDMLPlural/AST') };
+  , LDML = { AST: require('../../libraries/LDML/AST') };
 
 /**
  * Add terminal colors
@@ -428,13 +428,13 @@ Compiler.prototype._getNumberComparisonGroupType = function(type) {
  */
 
 Compiler.prototype._getPluralComparisonString = function(comparison) {
-  if(comparison instanceof LDMLPlural.AST.NumberComparisonGroup) {
+  if(comparison instanceof LDML.AST.NumberComparisonGroup) {
     var LHSString = this._getPluralComparisonString(comparison.LHS)
       , RHSString = this._getPluralComparisonString(comparison.RHS);
 
     return LHSString + this.space + this._getNumberComparisonGroupType(comparison.type) + this.space + RHSString;
   }
-  else if(comparison instanceof LDMLPlural.AST.NumberComparison) {
+  else if(comparison instanceof LDML.AST.NumberComparison) {
     var result = ''
       , values = comparison.RHS.values;
 
@@ -442,14 +442,14 @@ Compiler.prototype._getPluralComparisonString = function(comparison) {
       if(index !== 0) {
         result += this.and;
       }
-      if(values[index] instanceof LDMLPlural.AST.Value) {
+      if(values[index] instanceof LDML.AST.Value) {
         result += template['NumberComparison']({
           variableName: comparison.LHS.variable,
           modulus: comparison.LHS.modulus,
           value: values[index].value
         });
       }
-      else if(values[index] instanceof LDMLPlural.AST.Range) {
+      else if(values[index] instanceof LDML.AST.Range) {
         result += template['RangeNumberComparison']({
           variableName: values[index].vairable.name,
           from: values[index].from,

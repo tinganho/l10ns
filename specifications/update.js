@@ -227,7 +227,6 @@ describe('Update', function() {
             id: 'id',
             key: 'SOME_KEY',
             variables: ['test1', 'test2'],
-            text: 'SOME_KEY',
             files: ['file1'] }});
           done();
         });
@@ -259,7 +258,6 @@ describe('Update', function() {
             id: 'id',
             key: 'SOME_KEY',
             variables: ['test1', 'test2'],
-            text: 'SOME_KEY',
             files: ['file1', 'file2'] }});
           done();
         });

@@ -42,13 +42,9 @@ Parser.prototype.getVariables = function(fn) {
   obj = obj[1].match(language.LOCALIZATION_VARIABLE_SYNTAX);
   for(var i = 0; i < obj.length; i++) {
     language.LOCALIZATION_VARIABLE_NAME_SYNTAX.lastIndex = 0;
-    language.LOCALIZATION_VARIABLE_TYPE_SYNTAX.lastIndex = 0;
-
-    var type = language.LOCALIZATION_VARIABLE_TYPE_SYNTAX.exec(obj[i])[2]
-      , name = language.LOCALIZATION_VARIABLE_NAME_SYNTAX.exec(obj[i])[1];
-
-    obj[i] = { type: type, name: name };
+    obj[i] = language.LOCALIZATION_VARIABLE_NAME_SYNTAX.exec(obj[i])[1];
   }
+
   return obj;
 };
 

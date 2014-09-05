@@ -103,23 +103,7 @@ module.exports = {
    * @value {RegExp}
    */
 
-  LOCALIZATION_VARIABLE_NAME_SYNTAX: /\s(\w+)("|')\:$/g,
-
-  /**
-   * Translation variable type syntax. Captures the type
-   * of a variable. Given that the map key string is only
-   * provided.
-   *
-   * Example match (double hard brackets mean match):
-   *
-   * l('SOME_TRANSLATION_KEY', {
-   *   '[[plural]] test': 'test'
-   * });
-   *
-   * @value {RegExp}
-   */
-
-  LOCALIZATION_VARIABLE_TYPE_SYNTAX: /\s*('|")?(choice|plural|select|selectordinal|number|date)/g,
+  LOCALIZATION_VARIABLE_NAME_SYNTAX: /(\w+)("|')?\:$/g,
 
   /**
    * Translation var regex should capture a match
@@ -136,7 +120,7 @@ module.exports = {
    * @value {RegExp}
    */
 
-  LOCALIZATION_VARIABLE_SYNTAX: /\s*('|")?(choice|plural|select|selectordinal|number|date|)\s+[\w\s]+\1?\s*\:/g,
+  LOCALIZATION_VARIABLE_SYNTAX: /\s*('|")?\w+\1?\s*\:/g,
 
   /**
    * Imports of local variables

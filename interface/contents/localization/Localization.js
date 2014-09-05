@@ -10,149 +10,17 @@ define(function(require) {
   var Backbone = require('backbone')
     , Model = inServer ? require('../../libraries/Model'): require('Model')
     , Collection = inServer ? require('../../libraries/Collection'): require('Collection')
-    , _ = require('underscore')
-    , ValueGroup = require('./ValueGroup')
-    , Else = ValueGroup.prototype.Else
-    , Input = ValueGroup.prototype.Input
-    , Condition = ValueGroup.prototype.Condition
-    , FirstOperand = Condition.prototype.FirstOperand
-    , LastOperand = Condition.prototype.LastOperand;
+    , _ = require('underscore');
 
   if(inClient) {
     var request = require('request')
   }
   else {
+    var MessageFormat = require('../../../libraries/MessageFormat');
     Backbone = require('backbone-relational');
   }
 
-  var ValueGroups = Collection.extend({
-    model: ValueGroup,
-    comparator: 'index'
-  });
-
   var Constructor = Model.extend({
-
-    /**
-     * Relations
-     *
-     * @type {Object}
-     */
-
-    relations: [
-      {
-        type: 'HasMany',
-        key: 'valueGroups',
-        relatedModel: ValueGroup,
-        collectionType: ValueGroups,
-        reverseRelation: {
-          key: 'localization',
-          includeInJSON: false
-        }
-      }
-    ],
-
-    /**
-     * Parse values(conditions and inputs)
-     *
-     * @param {Array.<value>} values
-     * @return {void}
-     * @api private
-     */
-
-    _parseValues: function(values, variables) {
-      var valueGroup, index = 0;
-
-      if(values.length <= 1) {
-        return new ValueGroup({
-          localization: this,
-          index: index,
-          input: new Input({
-            value: values.length ? values[0][0] : '',
-            row: 0
-          })
-        });
-      }
-      for(var i = 0; i < values.length; i++) {
-        if(values[i].length > 2) {
-          var y = 0, row = 0;
-
-          if(values.length === 2) {
-            valueGroup = new ValueGroup({
-              localization: this,
-              index: index
-            });
-          }
-          else {
-            valueGroup = new ValueGroup({
-              localization: this,
-              index: index,
-              movable: true
-            });
-          }
-
-          index++;
-
-          while(typeof values[i][y] !== 'undefined') {
-            new Condition({
-              statement: values[i][y],
-              firstOperand: new FirstOperand({
-                value: values[i][y + 1],
-                variables: variables,
-                order: 'first'
-              }),
-              operator: values[i][y + 2],
-              lastOperand: new LastOperand({
-                value: values[i][y + 3],
-                variables: variables,
-                order: 'last'
-              }),
-              operators: cf.OPERATORS,
-              additionalCompairOperators: cf.ADDITIONAL_COMPAIR_OPERATORS,
-              variables: variables,
-              row: row,
-              valueGroup: valueGroup
-            });
-
-            row++;
-
-            // Continue condition statement
-            if(values[i][y + 4] === '&&'
-            || values[i][y + 4] === '||') {
-              y += 4;
-              continue;
-            }
-
-            // Initialize input
-            new Input({
-              value: values[i][y + 4],
-              row: row,
-              valueGroup: valueGroup
-            });
-
-            y += 5;
-          }
-        }
-        else {
-          valueGroup = new ValueGroup({
-            localization: this,
-            index: index
-          });
-
-          row = 0;
-
-          new Else({
-            row: row,
-            valueGroup: valueGroup
-          });
-
-          new Input({
-            value: values[i][1],
-            row: row + 1,
-            valueGroup: valueGroup
-          });
-        }
-      }
-    },
 
     /**
      * Parse raw data
@@ -163,13 +31,7 @@ define(function(require) {
      */
 
     _parse: function(json) {
-      this._parseValues(json.values, json.variables);
-
-      delete json.valueGroups;
-
       this.set(json);
-
-      return this;
     },
 
     /**
@@ -186,11 +48,10 @@ define(function(require) {
       timestamp: null,
       new: false,
 
-      i18n_variables: 'VARIABLES',
-      i18n_values: 'VALUES',
-      i18n_none: 'None',
-      i18n_save: 'Save',
-      i18n_addCondition: 'Add condition'
+      l10ns: {
+        save: 'Save',
+        variables: 'VARIABLES:'
+      }
     },
 
     /**
@@ -304,6 +165,8 @@ define(function(require) {
           var localization = _.findWhere(localizations, { id: requestData.param('id') });
           if(localization) {
             _this._parse(localization);
+            var messageFormat = new MessageFormat(requestData.param('locale'));
+            _this.set('pluralRules', messageFormat.pluralRules);
             _this.setPageTitle(localization.key);
             _this.setPageDescription('Edit: ' + localization.key);
             options.success();
@@ -349,15 +212,6 @@ define(function(require) {
         , values = []
         , text = [];
 
-      this.get('valueGroups').sort().forEach(function(valueGroup) {
-        var group = valueGroup.toL10nsJSON();
-        values[valueGroup.get('index')] = group;
-        text.push(_.last(group));
-      });
-
-      json.values = values;
-      json.text = text.join('; ');
-
       json = this._removeJSONLocalizedStrings(json);
 
       return json;
@@ -372,12 +226,6 @@ define(function(require) {
      */
 
     _removeJSONLocalizedStrings: function(json) {
-      delete json.i18n_addCondition;
-      delete json.i18n_none;
-      delete json.i18n_save;
-      delete json.i18n_value;
-      delete json.i18n_variables;
-      delete json.valueGroups;
 
       return json;
     }
