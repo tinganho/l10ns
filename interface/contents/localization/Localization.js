@@ -49,7 +49,8 @@ define(function(require) {
       l10ns: {
         message: 'Use <a>message format</a> to localize your string above. Click on the help buttons on the toolbar to get help on different formats.',
         save: 'Save',
-        variables: 'VARIABLES:'
+        variables: 'VARIABLES:',
+        successFullyUpdated: 'Successfully updated!'
       }
     },
 
@@ -100,7 +101,6 @@ define(function(require) {
             }
           }
           else {
-            console.log(response);
             options.error(response.text);
           }
         });

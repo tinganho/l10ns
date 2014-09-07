@@ -245,7 +245,7 @@ define(function(require) {
      */
 
     _addSelectordinalFormatedText: function() {
-      var text = '{variable, plural, ';
+      var text = '{variable, selectordinal, ';
       var keywords =  Object.keys(this.model.get('ordinalRules'));
       for(var index = 0; index < keywords.length; index++) {
         text +=  ' ' + keywords[index] + ' {message-' + keywords[index] + '}';
@@ -299,7 +299,10 @@ define(function(require) {
       event.preventDefault();
       this.model.save(null, {
         success: function(model, response, options) {
-          _this.$messageText.html(_this.model.get('l10ns').message);
+          _this.$messageText.html(_this.model.get('l10ns').successFullyUpdated);
+          setTimeout(function() {
+            _this.$messageText.html(_this.model.get('l10ns').message);
+          }, 2000);
         },
         error: function(model, response, options) {
           _this.$messageText.html(response);

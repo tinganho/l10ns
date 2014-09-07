@@ -1560,7 +1560,7 @@ describe('MessageFormat', function() {
         var method = function() {
           messageFormat.parse('{variable1,choice,1message1}');
         };
-        expect(method).to.throw(TypeError, 'Expected a ChoiceFormat case (/^(\\-?\\d+\\.?\\d*[<#]|∞#|\\-∞[<#])$/), instead got \'1\' in {variable1,choice,1m');
+        expect(method).to.throw(TypeError, 'Expected a ChoiceFormat case (n<, n#, ∞#, -∞<) in {variable1,choice,1m');
       });
 
       it('should throw en error if the cases are not in order', function() {
@@ -1586,7 +1586,7 @@ describe('MessageFormat', function() {
          var method = function() {
           messageFormat.parse('{variable1,choice,1#message1|∞<message2}');
         };
-        expect(method).to.throw(TypeError, 'Expected a ChoiceFormat case (/^(\\-?\\d+\\.?\\d*[<#]|∞#|\\-∞[<#])$/), instead got \'∞<\' in {variable1,choice,1#message1|∞<m');
+        expect(method).to.throw(TypeError, 'Expected a ChoiceFormat case (n<, n#, ∞#, -∞<) in {variable1,choice,1#message1|∞<m');
       });
 
       it('should throw an error if same cases appears', function() {

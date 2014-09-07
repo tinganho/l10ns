@@ -599,7 +599,7 @@ MessageFormat.prototype._getChoiceCase = function() {
   }
 
   if(!/^(\-?\d+\.?\d*[<#]|∞#|\-∞[<#])$/.test(_case)) {
-    throw new TypeError('Expected a ChoiceFormat case (/^(\\-?\\d+\\.?\\d*[<#]|∞#|\\-∞[<#])$/), instead got \'' + _case + '\' in ' + this.lexer.getLatestTokensLog());
+    throw new TypeError('Expected a ChoiceFormat case (n<, n#, ∞#, -∞<) in ' + this.lexer.getLatestTokensLog());
   }
 
   if(_case === this.lastChoiceCase) {
