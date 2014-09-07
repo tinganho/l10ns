@@ -1,5 +1,5 @@
 function(cardinal) {
-  var cardinal = cardinal + ''
+{{?it.functionBody !== '  return \'other\';'}}  var cardinal = cardinal + ''
     , n = cardinal
     , i = parseInt(cardinal, 10)
     , v = 0
@@ -17,6 +17,5 @@ function(cardinal) {
     t = cardinal.replace(/+0$/, '');
     t = fractionalDigits.exec(t)[1];
     w = t.length;
-  }
-{{=it.functionBody}}
+  }{{?}}{{=it.functionBody}}
 },

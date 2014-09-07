@@ -1,12 +1,17 @@
 module.exports = function(app) {
   var file = require('../../../libraries/file')
-    , _ = require('underscore');
+    , _ = require('underscore')
+    , MessageFormat = require('../../../libraries/MessageFormat');
 
   app.get('/api/:locale/l/:id', function(request, response) {
     file.readLocalizations()
       .then(function(localizations) {
-        localizations = file.localizationMapToArray(localizations)[request.param('locale')];
+        var locale = request.param('locale');
+        localizations = file.localizationMapToArray(localizations)[locale];
         var localization = _.findWhere(localizations, { id : request.param('id') });
+        var messageFormat = new MessageFormat(locale);
+        localization.pluralRules = messageFormat.pluralRules;
+        localization.ordinalRules = messageFormat.ordinalRules;
         response.json(localization);
       })
       .fail(function(error) {
@@ -17,6 +22,15 @@ module.exports = function(app) {
   app.put('/api/:locale/l/:id', function(request, response) {
     var id = request.param('id')
       , locale = request.param('locale');
+
+    try {
+      var messageFormat = new MessageFormat(request.param('locale'));
+      messageFormat.parse(request.body.value);
+    }
+    catch(error) {
+      response.send(400, error.message);
+      return;
+    }
 
     file.readLocalizations()
       .then(function(localizations) {

@@ -1,7 +1,7 @@
 ;(function() {
   var localizations = {
     'en-US': {
-      '_getPluralKeyword': function(cardinal) {
+      '__getPluralKeyword': function(cardinal) {
         var cardinal = cardinal + ''
           , n = cardinal
           , i = parseInt(cardinal, 10)
@@ -21,45 +21,12 @@
           t = fractionalDigits.exec(t)[1];
           w = t.length;
         }
-
         if(i === 1 && v === 0) {
           return 'one';
         }
         return 'other';
       },
-      'INDEX1': function(it) {
-        var string = '';
-        if(isNaN(parseFloat(it.files)) || it.files < 1 || it.files >= 1 && it.files < 2) {
-          var _case;
-          _case = localizations['en-US']._getPluralKeyword(it.people);
-          switch(_case) {
-            case 'one':
-              string += 'pupil';
-              break;
-            default:
-              string += 'people';
-              break;
-          }
-          string += ' own one file';
-        }
-        else if(it.files >= 2 && it.files <= Infinity) {
-          var _case;
-          _case = localizations['en-US']._getPluralKeyword(it.people);
-          switch(_case) {
-            case 'one':
-              string += 'pupil';
-              break;
-            default:
-              string += 'people';
-              break;
-          }
-          string += ' own many files';
-        }
-        return string;
-      }
-    },
-    'zh-CN': {
-      '_getPluralKeyword': function(cardinal) {
+      '__getOrdinalKeyword': function(cardinal) {
         var cardinal = cardinal + ''
           , n = cardinal
           , i = parseInt(cardinal, 10)
@@ -79,7 +46,37 @@
           t = fractionalDigits.exec(t)[1];
           w = t.length;
         }
-
+        if(n % 10 === 1 && n % 100 === 11) {
+          return 'one';
+        }
+        else if(n % 10 === 2 && n % 100 === 12) {
+          return 'two';
+        }
+        else if(n % 10 === 3 && n % 100 === 13) {
+          return 'few';
+        }
+        return 'other';
+      },
+      'INDEX1': function(it) {
+        var string = '';
+        var _case;
+        _case = localizations['en-US'].__getPluralKeyword(it.variable1);
+        switch(_case) {
+          case 'one':
+            string += 'bajs';
+            break;
+          default:
+            string += 'hora';
+            break;
+        }
+        return string;
+      }
+    },
+    'zh-CN': {
+      '__getPluralKeyword': function(cardinal) {
+        return 'other';
+      },
+      '__getOrdinalKeyword': function(cardinal) {
         return 'other';
       },
       'INDEX1': function(it) {

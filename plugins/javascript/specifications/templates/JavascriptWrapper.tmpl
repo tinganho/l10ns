@@ -21,9 +21,39 @@
           t = fractionalDigits.exec(t)[1];
           w = t.length;
         }
-
         if(i === 1 && v === 0) {
           return 'one';
+        }
+        return 'other';
+      },
+      '__getOrdinalKeyword': function(cardinal) {
+        var cardinal = cardinal + ''
+          , n = cardinal
+          , i = parseInt(cardinal, 10)
+          , v = 0
+          , w = 0
+          , f = 0
+          , t = 0;
+
+        var hasFractionalDigitsSyntax = /\.(\d+)/;
+
+        if(hasFractionalDigitsSyntax.test(cardinal)) {
+          f = fractionalDigits.exec(cardinal)[1];
+          v = f.length;
+        }
+        if(hasFractionalDigitsSyntax.test(cardinal)) {
+          t = cardinal.replace(/+0$/, '');
+          t = fractionalDigits.exec(t)[1];
+          w = t.length;
+        }
+        if(n % 10 === 1 && n % 100 === 11) {
+          return 'one';
+        }
+        else if(n % 10 === 2 && n % 100 === 12) {
+          return 'two';
+        }
+        else if(n % 10 === 3 && n % 100 === 13) {
+          return 'few';
         }
         return 'other';
       },

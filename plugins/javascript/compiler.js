@@ -132,6 +132,11 @@ Compiler.prototype._getLocalizationMap = function() {
           function: _this._getPluralGetterFunctionString(messageFormat) + _this.linefeed
         });
 
+        localizationMap += template['LocalizationKeyValue']({
+          key: '__getOrdinalKeyword',
+          function: _this._getOrdinalGetterFunctionString(messageFormat) + _this.linefeed
+        });
+
         for(var key in localizations[locale]) {
           messageFormat.parse(localizations[locale][key].value);
           var _function = template['Function']({
@@ -198,8 +203,8 @@ Compiler.prototype._getFunctionBody = function(messageAST) {
     else if(messageAST[index] instanceof MessageFormat.AST.Variable) {
       result += template['Variable']({ variableName: messageAST[index].name });
     }
-    else if(messageAST[index] instanceof MessageFormat.AST.PluralRemaining) {
-      result += template['PluralRemaining']({ variableName: messageAST[index].variable.name, offset: messageAST[index].offset });
+    else if(messageAST[index] instanceof MessageFormat.AST.Remaining) {
+      result += template['Remaining']({ variableName: messageAST[index].variable.name, offset: messageAST[index].offset });
     }
     else if(messageAST[index] instanceof MessageFormat.AST.ChoiceFormat) {
       result += this._compileChoiceFormat(messageAST[index]);
@@ -392,9 +397,55 @@ Compiler.prototype._getPluralGetterFunctionString = function(messageFormat) {
       condition: this._getPluralComparisonString(messageFormat.pluralRules[_case]),
       body: this._indentSpaces(2, 'return \'' + _case + '\';')
     }));
+
+    result += this.linefeed;
+
+    index++;
   }
 
-  result += this.linefeed;
+  if(index === 0) {
+    result = result.substring(1);
+  }
+  result += this._indentSpaces(2, template['ReturnOtherStringStatement']());
+
+  return template['GetPluralKeyword']({
+    functionBody: result
+  });
+};
+
+/**
+ * Get ordinal getter function string
+ *
+ * @return {void}
+ * @api private
+ */
+
+Compiler.prototype._getOrdinalGetterFunctionString = function(messageFormat) {
+  var result = this.linefeed, index = 0, conditionOrder = 'if';
+
+  for(var _case in messageFormat.ordinalRules) {
+    if(_case === 'other') {
+      continue;
+    }
+
+    if(index > 0) {
+      conditionOrder = 'else if';
+    }
+
+    result += this._indentSpaces(2, template['ConditionStatement']({
+      order: conditionOrder,
+      condition: this._getPluralComparisonString(messageFormat.ordinalRules[_case]),
+      body: this._indentSpaces(2, 'return \'' + _case + '\';')
+    }));
+
+    result += this.linefeed;
+
+    index++;
+  }
+
+  if(index === 0) {
+    result = result.substring(1);
+  }
   result += this._indentSpaces(2, template['ReturnOtherStringStatement']());
 
   return template['GetPluralKeyword']({

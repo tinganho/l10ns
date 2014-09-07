@@ -21,12 +21,14 @@ function MessageFormat(locale) {
   this.locale = locale || program.defaultLocale;
   this.language = /^([a-z]+)\-/.exec(locale)[1];
   this.pluralRules = {};
+  this.ordinalRules = {};
   this.lexer = null;
   this.messageAST = [];
   this.currentToken = null;
   this.lastChoiceCase = null;
   this.pluralKeywords = ['zero', 'one', 'two', 'few', 'many', 'other'];
   this._readPluralizationRules();
+  this._readOrdinalRules();
 };
 
 /**
@@ -40,7 +42,7 @@ MessageFormat.Characters = {
   STARTING_BRACKET: '{',
   ENDING_BRACKET: '}',
   ESCAPE_CHARACTER: '\\',
-  PLURAL_REMAINING: '#',
+  REMAINING: '#',
   DIAGRAPH: '|',
   EMPTY: '',
   COMMA: ',',
@@ -76,8 +78,8 @@ MessageFormat.prototype._parsePrimary = function(options) {
     remaining: false
   });
 
-  if(options.remaining && this.currentToken === MessageFormat.Characters.PLURAL_REMAINING) {
-    return this._parsePluralRemaining(options.variable, options.offset);
+  if(options.remaining && this.currentToken === MessageFormat.Characters.REMAINING) {
+    return this._parseRemaining(options.variable, options.offset);
   }
 
   switch(this.currentToken) {
@@ -95,11 +97,11 @@ MessageFormat.prototype._parsePrimary = function(options) {
  * @api private
  */
 
-MessageFormat.prototype._parsePluralRemaining = function(variable, offset) {
+MessageFormat.prototype._parseRemaining = function(variable, offset) {
   // Swallow '#'
   this.currentToken = this.lexer.getNextToken();
 
-  return new AST.PluralRemaining(variable, offset);
+  return new AST.Remaining(variable, offset);
 };
 
 /**
@@ -114,7 +116,7 @@ MessageFormat.prototype._parseSentence = function() {
   while(this.currentToken !== MessageFormat.Characters.EOF &&
         this.currentToken !== MessageFormat.Characters.STARTING_BRACKET &&
         this.currentToken !== MessageFormat.Characters.ENDING_BRACKET &&
-        this.currentToken !== MessageFormat.Characters.PLURAL_REMAINING &&
+        this.currentToken !== MessageFormat.Characters.REMAINING &&
         this.currentToken !== MessageFormat.Characters.DIAGRAPH) {
     if(this.currentToken === MessageFormat.Characters.ESCAPE_CHARACTER) {
       sentence += this.currentToken;
@@ -223,11 +225,6 @@ MessageFormat.prototype._parseSwitchStatement = function(variable) {
 
   switch(type) {
     case 'number':
-    case 'date':
-    case 'time':
-    case 'spellout':
-    case 'ordinal':
-    case 'duration':
       switchStatement = this._parseSimpleFormat(type, variable);
       break;
     case 'choice':
@@ -238,6 +235,9 @@ MessageFormat.prototype._parseSwitchStatement = function(variable) {
       break;
     case 'plural':
       switchStatement = this._parsePluralFormat(variable);
+      break;
+    case 'selectordinal':
+      switchStatement = this._parseSelectordinalFormat(variable);
       break;
     default:
       throw new TypeError('Wrong type of ICU format: ' + type);
@@ -314,7 +314,7 @@ MessageFormat.prototype._getLimitFromCase = function(_case) {
 /**
  * Parse ChoiceFormat
  *
- * @return {AST.Plural}
+ * @return {AST.ChoiceFormat}
  * @api private
  */
 
@@ -377,7 +377,7 @@ MessageFormat.prototype._parseChoiceFormat = function(variable) {
 /**
  * Parse SelectFormat
  *
- * @return {AST.Plural}
+ * @return {AST.SelectFormat}
  * @api private
  */
 
@@ -407,7 +407,10 @@ MessageFormat.prototype._parseSelectFormat = function(variable) {
     else {
       this._swallowWhiteSpace();
       if(this.currentToken === MessageFormat.Characters.EOF) {
-        throw new TypeError('You must have a closing bracket in your select format in ' + this.lexer.getLatestTokensLog());
+        throw new TypeError('Expected closing bracket \'}\' in instead got \'' + this.currentToken + '\' in ' + this.lexer.getLatestTokensLog());
+      }
+      if(this.currentToken !== MessageFormat.Characters.ENDING_BRACKET) {
+        throw new TypeError('Expected closing bracket \'}\' in instead got \'' + this.currentToken + '\' in ' + this.lexer.getLatestTokensLog());
       }
       // Swallow ending bracket of PluralFormat
       this.currentToken = this.lexer.getNextToken();
@@ -419,7 +422,7 @@ MessageFormat.prototype._parseSelectFormat = function(variable) {
 /**
  * Parse PluralFormat
  *
- * @return {AST.Plural}
+ * @return {AST.PluralFormat}
  * @api private
  */
 
@@ -462,10 +465,68 @@ MessageFormat.prototype._parsePluralFormat = function(variable) {
         this._swallowWhiteSpace();
         // Swallow ending bracket of PluralFormat
         if(this.currentToken === MessageFormat.Characters.EOF) {
-          throw new TypeError('You must have a closing bracket in your plural format in ' + this.lexer.getLatestTokensLog());
+        throw new TypeError('Expected closing bracket \'}\' in instead got \'' + this.currentToken + '\' in ' + this.lexer.getLatestTokensLog());
+        }
+        if(this.currentToken !== MessageFormat.Characters.ENDING_BRACKET) {
+        throw new TypeError('Expected closing bracket \'}\' in instead got \'' + this.currentToken + '\' in ' + this.lexer.getLatestTokensLog());
         }
         this.currentToken = this.lexer.getNextToken();
         return new AST.PluralFormat(this.locale, variable, values, offset);
+      }
+    }
+    else {
+      throw new TypeError('Missing \'other\' case in ' + this.lexer.getLatestTokensLog());
+    }
+  }
+};
+
+/**
+ * Parse select ordinal format
+ *
+ * @return {AST.SelectordinalFormat}
+ * @api private
+ */
+
+MessageFormat.prototype._parseSelectordinalFormat = function(variable) {
+  var offset = 0
+    , values = {}
+    , exactlySyntax = /^=\d+$/;
+
+  // Swallow comma
+  this.currentToken = this.lexer.getNextToken();
+  var _case = this._getPluralCase();
+  while(true) {
+    if(exactlySyntax.test(_case) || this.pluralKeywords.indexOf(_case) !== -1) {
+      if(this.currentToken !== MessageFormat.Characters.STARTING_BRACKET) {
+        throw new TypeError('Expected bracket \'{\' instead got \'' + this.currentToken + '\' in ' + this.lexer.getLatestTokensLog());
+      }
+      var messageAST = [];
+      this.currentToken = this.lexer.getNextToken();
+      while(this.currentToken !== MessageFormat.Characters.ENDING_BRACKET) {
+        messageAST.push(this._parsePrimary({
+          remaining: true,
+          offset: offset,
+          variable: variable
+        }));
+      }
+      values[_case] = messageAST;
+      exactlySyntax.lastIndex = 0;
+      // Swallow ending bracket of sub-message
+      this.currentToken = this.lexer.getNextToken();
+      if(_case !== 'other') {
+        _case = this._getPluralCase();
+      }
+      else {
+        this._swallowWhiteSpace();
+        // Swallow ending bracket of PluralFormat
+        if(this.currentToken === MessageFormat.Characters.EOF) {
+        throw new TypeError('Expected closing bracket \'}\' in instead got \'' + this.currentToken + '\' in ' + this.lexer.getLatestTokensLog());
+        }
+        if(this.currentToken !== MessageFormat.Characters.ENDING_BRACKET) {
+        throw new TypeError('Expected closing bracket \'}\' in instead got \'' + this.currentToken + '\' in ' + this.lexer.getLatestTokensLog());
+        }
+        this.currentToken = this.lexer.getNextToken();
+        return new AST.SelectordinalFormat(this.locale, variable, values, offset);
       }
     }
     else {
@@ -480,7 +541,6 @@ MessageFormat.prototype._parsePluralFormat = function(variable) {
  * @return {String}
  * @api private
  */
-
 
 MessageFormat.prototype._getChoiceCase = function() {
   var _case = '';
@@ -661,6 +721,31 @@ MessageFormat.prototype._readPluralizationRules = function() {
   pluralRules.childNodes().forEach(function(pluralRule) {
     var _case = pluralRule.attr('count').value();
     _this.pluralRules[_case] = LDML.parse(pluralRule.text());
+    _this.integers = LDML.integerExample;
+  });
+};
+
+/**
+ * Read ordinal rules
+ *
+ * @return {void}
+ * @api private
+ */
+
+MessageFormat.prototype._readOrdinalRules = function() {
+  var _this = this;
+
+  var data = fs.readFileSync(path.join(
+    __dirname, '../../CLDR/common/supplemental/ordinals.xml'), 'utf-8');
+
+  var document = xml.parseXmlString(data, { noblanks: true });
+  var ordinalRules = document.get(
+    '//supplementalData/plurals/pluralRules\
+    [contains(concat(\' \', normalize-space(@locales), \' \'), \' ' + _this.language + '\')]');
+
+  ordinalRules.childNodes().forEach(function(pluralRule) {
+    var _case = pluralRule.attr('count').value();
+    _this.ordinalRules[_case] = LDML.parse(pluralRule.text());
     _this.integers = LDML.integerExample;
   });
 };

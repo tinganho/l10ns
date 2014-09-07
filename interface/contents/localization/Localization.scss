@@ -24,12 +24,16 @@ $padding: 40px;
   cursor: pointer;
 
   &:hover {
-    text-decoration: underline;
+    opacity: 0.8;
+  }
+
+  &:active {
+    opacity: 0.6;
   }
 }
 
 .localization-input {
-  margin-top: 20px;
+  margin-top: 10px;
   min-height: 40px;
   border: 1px solid #c4c4c4;
   background-color: #f3f3f3;
@@ -55,7 +59,11 @@ $padding: 40px;
   }
 
   &:hover {
-    text-decoration: underline;
+    opacity: 0.8;
+  }
+
+  &:active {
+    opacity: 0.6;
   }
 }
 
@@ -81,6 +89,14 @@ $padding: 40px;
   overflow: hidden;
 }
 
+.localization-message {
+  margin-top: 10px;
+}
+
+.localization-message-text {
+  min-height: 70px;
+}
+
 .localization-buttons {
   overflow: hidden;
 }
@@ -94,6 +110,10 @@ $padding: 40px;
   cursor: pointer;
 
   &:hover {
-    text-decoration: underline;
+    opacity: 0.8;
+  }
+
+  &:active {
+    opacity: 0.6;
   }
 }

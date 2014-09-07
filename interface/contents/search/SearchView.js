@@ -40,6 +40,7 @@ define(function(require) {
         '_search',
         '_setActiveResult',
         '_setIndex',
+        '_markText',
         '_showLocalization',
         '_removeSearchResult',
         '_preventCursorMove');
@@ -93,8 +94,25 @@ define(function(require) {
       this.$input.on('keydown', this._preventCursorMove);
       this.$input.on('keyup', this._search);
       this.$input.on('focus', this._search);
+      this.$input.on('focus', this._markText);
       this.$el.on('mouseover', '.search-result', this._setIndex);
       this.$el.on('click', '.search-result', this._showLocalization);
+    },
+
+    /**
+     * Mark text on input
+     *
+     * @return {void}
+     * @api private
+     * @handler
+     */
+
+    _markText: function() {
+      var _this = this;
+
+      _.defer(function() {
+        _this.$input.select();
+      });
     },
 
     /**

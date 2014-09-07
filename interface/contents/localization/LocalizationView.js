@@ -29,16 +29,6 @@ define(function(require) {
     },
 
     /**
-     * Bind model
-     *
-     * @return {void}
-     * @api public
-     */
-
-    bindModel: function() {
-    },
-
-    /**
      * Bind view
      *
      * @return {void}
@@ -61,11 +51,15 @@ define(function(require) {
       _.bindAll(
         this,
         '_save',
+        '_syncValue',
         '_delayedResize',
         '_resizeTextArea',
         '_addPluralFormatedText',
         '_addSelectFormatedText',
-        '_addChoiceFormatedText'
+        '_addChoiceFormatedText',
+        '_addSelectordinalFormatedText',
+        '_addNumberFormatedText',
+        '_addVariableFormatedText'
       );
     },
 
@@ -104,6 +98,18 @@ define(function(require) {
     },
 
     /**
+     * Syn value with model
+     *
+     * @return {void}
+     * @api private
+     * @handler
+     */
+
+    _syncValue: function() {
+      this.model.set('value', this.$textArea.val());
+    },
+
+    /**
      * Add desktop listeners
      *
      * @return {void}
@@ -114,6 +120,7 @@ define(function(require) {
       this.$('[disabled]').removeAttr('disabled');
       this.$el.on('click', '.save', this._save);
       this.$textArea.on('change', this._resizeTextArea);
+      this.$textArea.on('change', this._syncValue);
       this.$textArea.on('cut', this._resizeTextArea);
       this.$textArea.on('paste', this._resizeTextArea);
       this.$textArea.on('drop', this._resizeTextArea);
@@ -121,6 +128,10 @@ define(function(require) {
       this.$addPluralButton.on('mousedown', this._addPluralFormatedText);
       this.$addSelectButton.on('mousedown', this._addSelectFormatedText);
       this.$addChoiceButton.on('mousedown', this._addChoiceFormatedText);
+      this.$addSelectordinalButton.on('mousedown', this._addSelectordinalFormatedText);
+      this.$addNumberButton.on('mousedown', this._addNumberFormatedText);
+      this.$variable.on('mousedown', this._addVariableFormatedText);
+      this.$save.on('mouseup', this._save);
       this._resizeTextArea();
     },
 
@@ -141,6 +152,7 @@ define(function(require) {
         , endString = string.substring(end, string.length);
 
       this.$textArea.val(startString + text + endString);
+      this._syncValue();
       this._resizeTextArea();
 
       setTimeout(function() {
@@ -152,13 +164,38 @@ define(function(require) {
         else {
           if(_this.$textArea[0].selectionStart) {
             _this.$textArea[0].focus();
-            _this.$textArea[0].setSelectionRange(start, text.length + end);
+            _this.$textArea[0].setSelectionRange(start, text.length + start);
           }
           else {
             _this.$textArea[0].focus();
           }
         }
       }, 0);
+    },
+
+    /**
+     * Add variable formated text to textarea
+     *
+     * @return {void}
+     * @api private
+     */
+
+    _addVariableFormatedText: function(event) {
+      var string = this.$textArea.val()
+        , start = this.$textArea[0].selectionStart
+        , end = this.$textArea[0].selectionEnd
+        , startString = string.charAt(start - 1)
+        , variable = event.currentTarget.getAttribute('data-value')
+        , text;
+
+      if(startString === '{') {
+        text = event.currentTarget.getAttribute('data-value');
+      }
+      else {
+        text = '{' + event.currentTarget.getAttribute('data-value') + '}';
+      }
+
+      this._replaceTextSelectionWithText(text);
     },
 
     /**
@@ -186,8 +223,7 @@ define(function(require) {
      */
 
     _addSelectFormatedText: function() {
-      var text = '{variable, select, other {message-other}}';
-      this._replaceTextSelectionWithText(text);
+      this._replaceTextSelectionWithText('{variable, select, other {message-other}}');
     },
 
     /**
@@ -198,8 +234,35 @@ define(function(require) {
      */
 
     _addChoiceFormatedText: function() {
-      var text = '{variable, choice, 1<message1|5#message2}';
+      this._replaceTextSelectionWithText('{variable, choice, 1<message1|5#message2}');
+    },
+
+    /**
+     * Add select ordinal formated text to textarea
+     *
+     * @return {void}
+     * @api private
+     */
+
+    _addSelectordinalFormatedText: function() {
+      var text = '{variable, plural, ';
+      var keywords =  Object.keys(this.model.get('ordinalRules'));
+      for(var index = 0; index < keywords.length; index++) {
+        text +=  ' ' + keywords[index] + ' {message-' + keywords[index] + '}';
+      }
+      text += '}';
       this._replaceTextSelectionWithText(text);
+    },
+
+    /**
+     * Add number formated text to textarea
+     *
+     * @return {void}
+     * @api private
+     */
+
+    _addNumberFormatedText: function() {
+      this._replaceTextSelectionWithText('{variable, number, integer}');
     },
 
     /**
@@ -219,7 +282,9 @@ define(function(require) {
       this.$addChoiceButton = this.$('.localization-action-choice');
       this.$addSelectordinalButton = this.$('.localization-action-selectordinal');
       this.$addNumberButton = this.$('.localization-action-number');
-      this.$addDateButton = this.$('.localization-action-date');
+      this.$messageText = this.$('.localization-message-text');
+      this.$save = this.$('.localization-save');
+      this.$variable = this.$('.localization-variable');
     },
 
     /**
@@ -232,26 +297,12 @@ define(function(require) {
       var _this = this;
 
       event.preventDefault();
-      this.$saveSpinner.show();
-      this.$saveButtonContainer.removeClass('is-waiting').addClass('is-loading');
-      minTimer.start(1000);
       this.model.save(null, {
         success: function(model, response, options) {
-          minTimer.end(function() {
-            _this.$saveButtonContainer.removeClass('is-loading').addClass('is-waiting');
-            setTimeout(function() {
-              _this.$saveSpinner.hide();
-            }, 300);
-          });
+          _this.$messageText.html(_this.model.get('l10ns').message);
         },
-        error: function() {
-          minTimer.end(function() {
-            _this.$saveButtonContainer.removeClass('is-loading').addClass('is-waiting');
-            setTimeout(function() {
-              _this.$saveSpinner.hide();
-              alert('Couldn\'t save your localization, please try again later.');
-            }, 300);
-          });
+        error: function(model, response, options) {
+          _this.$messageText.html(response);
         }
       });
     },

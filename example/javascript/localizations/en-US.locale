@@ -3,11 +3,11 @@
   "files": [
     "example/javascript/example.js"
   ],
-  "id": "jKo9yb96IG",
+  "id": "XjoeLxXRHG",
   "key": "INDEX1",
   "new": false,
-  "timestamp": "2014-09-03T15:00:04.343Z",
-  "value": "{variable1, plural, one{bajs} other {hora}}",
+  "timestamp": "2014-09-07T03:54:16.050Z",
+  "value": "{variable, plural,  one {message-one} other {message-other}}",
   "variables": [
     "files",
     "people"

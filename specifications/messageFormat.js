@@ -738,7 +738,7 @@ describe('MessageFormat', function() {
         messageFormat.parse('{variable1, plural, offset:1 one {message1} other {sentence1#sentence2}}');
         expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.PluralFormat);
         expect(messageFormat.messageAST[0].offset).to.equal(1);
-        expect(messageFormat.messageAST[0].values['other'][1]).to.be.an.instanceOf(AST.PluralRemaining);
+        expect(messageFormat.messageAST[0].values['other'][1]).to.be.an.instanceOf(AST.Remaining);
         expect(messageFormat.messageAST[0].values['other'][1].offset).to.equal(1);
         expect(messageFormat.messageAST[0].values['other'][1].variable.name).to.equal('variable1');
       });
@@ -749,11 +749,11 @@ describe('MessageFormat', function() {
         expect(messageFormat.messageAST[0].values.other[0].string).to.eql('message1');
       });
 
-      it('should be able to parse a sub-message with a PluralRemaining', function() {
+      it('should be able to parse a sub-message with a Remaining', function() {
         messageFormat.parse('{variable1,plural,other{message1#}}');
         expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
         expect(messageFormat.messageAST[0].values.other[0].string).to.eql('message1');
-        expect(messageFormat.messageAST[0].values.other[1]).to.be.an.instanceOf(AST.PluralRemaining);
+        expect(messageFormat.messageAST[0].values.other[1]).to.be.an.instanceOf(AST.Remaining);
       });
 
       it('should be able to parse a sub-message with the same variable connected to the PluralFormat', function() {
@@ -977,6 +977,13 @@ describe('MessageFormat', function() {
         }
         expect(method).to.throw(TypeError, 'You must have a closing bracket in your plural format in {variable1,plural,other {message1}');
       });
+
+      it('should throw an error if there is letters or a case after the other case', function() {
+        var method = function() {
+          messageFormat.parse('{variable1,plural,other {message1}case}');
+        }
+        expect(method).to.throw(TypeError, 'You must have a closing bracket in your plural format in {variable1,plural,other {message1}c');
+      });
     });
 
     describe('SelectFormat', function() {
@@ -1190,6 +1197,13 @@ describe('MessageFormat', function() {
           messageFormat.parse('{variable1,select,other {message1}');
         }
         expect(method).to.throw(TypeError, 'You must have a closing bracket in your select format in {variable1,select,other {message1}');
+      });
+
+      it('should throw an error if there is letters or a case after the other case', function() {
+        var method = function() {
+          messageFormat.parse('{variable1,select,other {message1}case}');
+        }
+        expect(method).to.throw(TypeError, 'You must have a closing bracket in your select format in {variable1,select,other {message1}c');
       });
     });
 
@@ -1547,6 +1561,30 @@ describe('MessageFormat', function() {
           messageFormat.parse('{variable1,choice,1<message1|1<message2}');
         };
         expect(method).to.throw(TypeError, 'Same ChoiceFormat case in {variable1,choice,1<message1|1<m');
+      });
+    });
+
+    describe('SelectordinalFormat', function() {
+      it('should be able to parse a single case', function() {
+        messageFormat.parse('{variable1, selectordinal, other{message1}}');
+        expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
+        expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.SelectordinalFormat);
+        expect(messageFormat.messageAST[0].values['other'][0].string).to.equal('message1');
+      });
+
+      it('should be able to parse a multiple cases', function() {
+        messageFormat.parse('{variable1, selectordinal, one{message1} other{message2}}');
+        expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
+        expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.SelectordinalFormat);
+        expect(messageFormat.messageAST[0].values['one'][0].string).to.equal('message1');
+        expect(messageFormat.messageAST[0].values['other'][0].string).to.equal('message2');
+      });
+
+      it('should throw an error if there is letters or a case after the other case', function() {
+        var method = function() {
+          messageFormat.parse('{variable1,selectordinal,other {message1}case}');
+        }
+        expect(method).to.throw(TypeError, 'You must have a closing bracket in your selectordinal format in {variable1,selectordinal,other {message1}c');
       });
     });
   });

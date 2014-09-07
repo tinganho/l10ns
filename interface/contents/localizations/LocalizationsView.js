@@ -17,7 +17,7 @@ define(function(require) {
      * @api public
      */
 
-    constructor: function(model) {
+    initialize: function(model) {
       this.model = model;
       if(inClient) {
         this._bindMethods();

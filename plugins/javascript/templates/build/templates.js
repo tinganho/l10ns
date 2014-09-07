@@ -17,7 +17,7 @@ var out='if(isNaN(parseFloat(it.'+(it.variableName)+')) || it.'+(it.variableName
 var out='function(it) {\n  var string = \'\';\n'+(it.functionBody)+'\n  return string;\n}';return out;
 };
   tmpl['GetPluralKeyword']=function anonymous(it) {
-var out='function(cardinal) {\n  var cardinal = cardinal + \'\'\n    , n = cardinal\n    , i = parseInt(cardinal, 10)\n    , v = 0\n    , w = 0\n    , f = 0\n    , t = 0;\n\n  var hasFractionalDigitsSyntax = /\\.(\\d+)/;\n\n  if(hasFractionalDigitsSyntax.test(cardinal)) {\n    f = fractionalDigits.exec(cardinal)[1];\n    v = f.length;\n  }\n  if(hasFractionalDigitsSyntax.test(cardinal)) {\n    t = cardinal.replace(/+0$/, \'\');\n    t = fractionalDigits.exec(t)[1];\n    w = t.length;\n  }\n'+(it.functionBody)+'\n},';return out;
+var out='function(cardinal) {\n';if(it.functionBody !== '  return \'other\';'){out+='  var cardinal = cardinal + \'\'\n    , n = cardinal\n    , i = parseInt(cardinal, 10)\n    , v = 0\n    , w = 0\n    , f = 0\n    , t = 0;\n\n  var hasFractionalDigitsSyntax = /\\.(\\d+)/;\n\n  if(hasFractionalDigitsSyntax.test(cardinal)) {\n    f = fractionalDigits.exec(cardinal)[1];\n    v = f.length;\n  }\n  if(hasFractionalDigitsSyntax.test(cardinal)) {\n    t = cardinal.replace(/+0$/, \'\');\n    t = fractionalDigits.exec(t)[1];\n    w = t.length;\n  }';}out+=(it.functionBody)+'\n},';return out;
 };
   tmpl['JavascriptWrapper']=function anonymous(it) {
 var out=';(function() {\n'+(it.localizationMap)+'\n\n'+(it.requireStatement)+'\n\n  if(typeof require === "function" && typeof exports === \'object\' && typeof module === \'object\') {\n    module.exports = requireLocale;\n  }\n  else if (typeof define === "function" && define.amd) {\n    define(function() {\n      return requireLocale;\n    });\n  }\n  else {\n    window.requireLocale = requireLocale;\n  }\n})();\n';return out;
@@ -32,13 +32,10 @@ var out='\''+(it.locale)+'\': {\n'+(it.map)+'\n}';return out;
 var out='var localizations = {\n'+(it.localizations)+'\n};';return out;
 };
   tmpl['NumberComparison']=function anonymous(it) {
-var out=''+(it.variableName);if(it.modulus){out+='%'+(it.modulus);}out+=' === '+(it.value);return out;
+var out=''+(it.variableName);if(it.modulus){out+=' % '+(it.modulus);}out+=' === '+(it.value);return out;
 };
   tmpl['OtherCase']=function anonymous(it) {
 var out='default:\n'+(it.caseBody)+'\n  break;';return out;
-};
-  tmpl['PluralRemaining']=function anonymous(it) {
-var out='string += (it.'+(it.variableName)+' - parseInt('+(it.offset)+', 10));';return out;
 };
   tmpl['PluralSwitchStatement']=function anonymous(it) {
 var out='var _case;\n'+(it.setCaseStatement)+'\nswitch(_case) {\n'+(it.switchBody)+'\n}';return out;
@@ -48,6 +45,9 @@ var out='else if(it.'+(it.variableName)+' '+(it.limits.lower.type)+' '+(it.limit
 };
   tmpl['RangeNumberComparison']=function anonymous(it) {
 var out='('+(it.from)+' >= '+(it.variableName)+' && '+(it.variableName)+' <= '+(it.to)+')';return out;
+};
+  tmpl['Remaining']=function anonymous(it) {
+var out='string += (it.'+(it.variableName)+' - parseInt('+(it.offset)+', 10));';return out;
 };
   tmpl['RequireStatement']=function anonymous(it) {
 var out='function requireLocale(locale) {\n  return (function(locale) {\n    return function l(key) {\n      if(!(locale in localizations)) {\n        return \'LOCALE_NOT_IN_LOCALIZATIONS: \' + locale;\n      }\n      if(!(key in localizations[locale])) {\n        return \'KEY_NOT_IN_LOCALIZATIONS: \' + key;\n      }\n      var variables = {};\n      for(var variable in arguments[1]) {\n        variables[variable.replace(/^\\w+\\s+/, \'\')] = arguments[1][variable];\n      }\n      return localizations[locale][key].call(undefined, variables);\n    };\n  })(locale);\n};';return out;

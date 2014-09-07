@@ -41,7 +41,7 @@ Search.prototype._createIndex = function() {
   this.index = lunr(function() {
     this.ref('id');
     this.field('key', { boost: 10});
-    this.field('text', { boost: 10});
+    this.field('value', { boost: 10});
   });
 };
 
@@ -68,10 +68,10 @@ Search.prototype.readLocalizations = function() {
       for(var key in _this.localizations) {
         var localization = _this.localizations[key];
         _this.index.add({
-          id : localization.key,
-          text : localization.value,
+          id: localization.key,
+          value: localization.value,
           // the  `BASE__EXIT_BUTTON` should be toknized as `base exit button`
-          key : localization.key.replace(/_+/g,  ' ').toLowerCase()
+          key: localization.key.replace(/_+/g,  ' ').toLowerCase()
         });
       }
 
@@ -135,7 +135,7 @@ Search.prototype.query = function(q) {
     return {
       id: _this.localizations[result.ref].id,
       key: result.ref,
-      value: _this.localizations[result.ref].text
+      value: _this.localizations[result.ref].value
     };
   });
 };

@@ -42,13 +42,12 @@ define(function(require) {
 
     defaults: {
       key: null,
-      values: [],
       variables: [],
-      text: '',
       timestamp: null,
       new: false,
 
       l10ns: {
+        message: 'Use <a>message format</a> to localize your string above. Click on the help buttons on the toolbar to get help on different formats.',
         save: 'Save',
         variables: 'VARIABLES:'
       }
@@ -94,14 +93,15 @@ define(function(require) {
         .put('/api/' + app.locale + '/l/' + id)
         .send(json)
         .end(function(error, response) {
-          if(!error) {
+          if(!error && response.status === 200) {
             app.models.localizations.get(json.id).set(json);
             if(typeof options.success === 'function') {
               options.success();
             }
           }
           else {
-            options.error(error);
+            console.log(response);
+            options.error(response.text);
           }
         });
     },
@@ -117,21 +117,13 @@ define(function(require) {
      */
 
     _handleReadRequestFromClient: function(model, options, requestData) {
-      var id = window.location.pathname.split('/')[3];
+      var _this = this
+        , id = window.location.pathname.split('/')[3];
 
       var $json = $('.js-json-localization');
       if($json.length) {
         this._parse(JSON.parse($json.html()));
         $json.remove();
-        options.success();
-        return;
-      }
-      var localization = app.models.localizations.get(id);
-      if(localization) {
-        localization = localization.toJSON();
-        this._parse(localization);
-        app.document.set('title', localization.key);
-        app.document.set('description', 'Edit: ' + localization.key);
         options.success();
         return;
       }
@@ -167,6 +159,7 @@ define(function(require) {
             _this._parse(localization);
             var messageFormat = new MessageFormat(requestData.param('locale'));
             _this.set('pluralRules', messageFormat.pluralRules);
+            _this.set('ordinalRules', messageFormat.ordinalRules);
             _this.setPageTitle(localization.key);
             _this.setPageDescription('Edit: ' + localization.key);
             options.success();
@@ -208,9 +201,7 @@ define(function(require) {
      */
 
     toL10nsJSON: function() {
-      var json = Model.prototype.toJSON.call(this)
-        , values = []
-        , text = [];
+      var json = Model.prototype.toJSON.call(this);
 
       json = this._removeJSONLocalizedStrings(json);
 
@@ -226,6 +217,9 @@ define(function(require) {
      */
 
     _removeJSONLocalizedStrings: function(json) {
+      delete json.l10ns;
+      delete json.pluralRules;
+      delete json.ordinalRules;
 
       return json;
     }

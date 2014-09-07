@@ -641,13 +641,27 @@ AST.PluralFormat = function(locale, variable, values, offset) {
 };
 
 /**
+ * AST class representing an ICU PluralFormat
+ *
+ * @param {String} variable
+ * @constructor
+ */
+
+AST.SelectordinalFormat = function(locale, variable, values, offset) {
+  this.locale = locale;
+  this.variable = variable;
+  this.values = values;
+  this.offset = offset;
+};
+
+/**
  * AST class representing an ICU PluralFormat count '#'
  *
  * @param {String} variable
  * @constructor
  */
 
-AST.PluralRemaining = function(variable, offset) {
+AST.Remaining = function(variable, offset) {
   this.variable = variable;
   this.offset = offset;
 };
