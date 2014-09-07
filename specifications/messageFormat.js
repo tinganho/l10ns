@@ -32,6 +32,10 @@ describe('MessageFormat', function() {
     });
 
     describe('Variables', function() {
+      afterEach(function() {
+        messageFormat.unsetVariables();
+      });
+
       it('should parse a sentence with a single variable', function() {
         messageFormat.parse('sentence {variable1}');
         expect(messageFormat.messageAST[0].string).to.equal('sentence ');
@@ -58,24 +62,36 @@ describe('MessageFormat', function() {
       it('should throw an error if a variable contains non alphanumeric characters', function() {
         var method = function() {
           messageFormat.parse('{!variable1}');
-        }
+        };
         expect(method).to.throw(TypeError, 'Variable names must be alpha numeric, got a \'!\' in {!');
         var method = function() {
           messageFormat.parse('{varia!ble1}');
-        }
+        };
         expect(method).to.throw(TypeError, 'Variable names must be alpha numeric, got a \'!\' in {varia!');
         var method = function() {
           messageFormat.parse('{variable1!}');
-        }
+        };
         expect(method).to.throw(TypeError, 'Variable names must be alpha numeric, got a \'!\' in {variable1!');
         var method = function() {
           messageFormat.parse('{variable1}{varia!ble2}');
-        }
+        };
         expect(method).to.throw(TypeError, 'Variable names must be alpha numeric, got a \'!\' in {variable1}{varia');
+      });
+
+      it('should throw an error if an undefined variable is used', function() {
+        var method = function() {
+          messageFormat.setVariables(['variable2']);
+          messageFormat.parse('{variable1}');
+        };
+        expect(method).to.throw(TypeError, 'Variable \'variable1\' is not defined in \'{variable1}\'. Please add the variable in your source code.');
       });
     });
 
     describe('NumberFormat', function() {
+      afterEach(function() {
+        messageFormat.unsetVariables();
+      });
+
       it('should be able to parse a non-format arguments', function() {
         messageFormat.parse('{variable1,number,integer}');
         expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
@@ -669,9 +685,21 @@ describe('MessageFormat', function() {
         };
         expect(method).to.throw(TypeError, 'Expected a valid exponent pattern (/^E\\+?[0-9]+$/) in your NumberFormat argument, got (E10) in 0E10');
       });
+
+      it('should throw an error if one undefined variable is used', function() {
+        var method = function() {
+          messageFormat.setVariables(['variable2'])
+          messageFormat.parse('{variable1,number, integer}');
+        }
+        expect(method).to.throw(TypeError, 'Variable \'variable1\' is not defined in \'{variable1,\'. Please add the variable in your source code.');
+      });
     });
 
     describe('PluralFormat', function() {
+      afterEach(function() {
+        messageFormat.unsetVariables();
+      });
+
       it('should be able to parse a single case', function() {
         messageFormat.parse('{variable1,plural,other{message1}}');
         expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
@@ -984,9 +1012,21 @@ describe('MessageFormat', function() {
         }
         expect(method).to.throw(TypeError, 'Expected closing bracket \'}\' in instead got \'c\' in {variable1,plural,other {message1}c');
       });
+
+      it('should throw an error if one undefined variable is used', function() {
+        var method = function() {
+          messageFormat.setVariables(['variable2'])
+          messageFormat.parse('{variable1,plural,other {message1}}');
+        }
+        expect(method).to.throw(TypeError, 'Variable \'variable1\' is not defined in \'{variable1,\'. Please add the variable in your source code.');
+      });
     });
 
     describe('SelectFormat', function() {
+      afterEach(function() {
+        messageFormat.unsetVariables();
+      });
+
       it('should be able to parse with a single case', function() {
         messageFormat.parse('{variable1,select,other{message1}}');
         expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
@@ -1205,9 +1245,21 @@ describe('MessageFormat', function() {
         }
         expect(method).to.throw(TypeError, 'Expected closing bracket \'}\' in instead got \'c\' in {variable1,select,other {message1}c');
       });
+
+      it('should throw an error if one undefined variable is used', function() {
+        var method = function() {
+          messageFormat.setVariables(['variable2'])
+          messageFormat.parse('{variable1,select,other {message1}}');
+        }
+        expect(method).to.throw(TypeError, 'Variable \'variable1\' is not defined in \'{variable1,\'. Please add the variable in your source code.');
+      });
     });
 
     describe('ChoiceFormat', function() {
+      afterEach(function() {
+        messageFormat.unsetVariables();
+      });
+
       it('should be able to parse a single case', function() {
         messageFormat.parse('{variable1,choice,1<message1}');
         expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
@@ -1562,9 +1614,21 @@ describe('MessageFormat', function() {
         };
         expect(method).to.throw(TypeError, 'Same ChoiceFormat case in {variable1,choice,1<message1|1<m');
       });
+
+      it('should throw an error if one undefined variable is used', function() {
+        var method = function() {
+          messageFormat.setVariables(['variable2'])
+          messageFormat.parse('{variable1,choice,1<message1|2<message2}');
+        }
+        expect(method).to.throw(TypeError, 'Variable \'variable1\' is not defined in \'{variable1,\'. Please add the variable in your source code.');
+      });
     });
 
     describe('SelectordinalFormat', function() {
+      afterEach(function() {
+        messageFormat.unsetVariables();
+      });
+
       it('should be able to parse a single case', function() {
         messageFormat.parse('{variable1, selectordinal, other{message1}}');
         expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
@@ -1596,6 +1660,14 @@ describe('MessageFormat', function() {
           messageFormat.parse('{variable1,selectordinal,other {message1}case}');
         }
         expect(method).to.throw(TypeError, 'Expected closing bracket \'}\' in instead got \'c\' in {variable1,selectordinal,other {message1}c');
+      });
+
+      it('should throw an error if one undefined variable is used', function() {
+        var method = function() {
+          messageFormat.setVariables(['variable2'])
+          messageFormat.parse('{variable1,selectordinal,other {message1}}');
+        }
+        expect(method).to.throw(TypeError, 'Variable \'variable1\' is not defined in \'{variable1,\'. Please add the variable in your source code.');
       });
     });
   });

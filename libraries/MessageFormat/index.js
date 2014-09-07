@@ -20,6 +20,7 @@ var Lexer = require('../Lexer')
 function MessageFormat(locale) {
   this.locale = locale || program.defaultLocale;
   this.language = /^([a-z]+)\-/.exec(locale)[1];
+  this.variables = null;
   this.pluralRules = {};
   this.ordinalRules = {};
   this.lexer = null;
@@ -49,11 +50,38 @@ MessageFormat.Characters = {
   EOF: -1
 };
 
+/**
+ * Define what kind of variables is allowed on the parse string.
+ * If no variables are defined, all variables will be accepted.
+ * If variables is defined, the only those can appear in the a
+ * message formated string. Please call this function before you
+ * call MessageFormat.parse(string).
+ *
+ * @param {Array.<String>} variables
+ * @return {void}
+ * @api public
+ */
+
+MessageFormat.prototype.setVariables = function(variables) {
+  this.variables = variables;
+};
 
 /**
- * Parse message
+ * Unset variables. Call this method if you have set any variables
+ * you do not want to use anymore.
  *
- * @param {String} string
+ * @return {void}
+ * @api public
+ */
+
+MessageFormat.prototype.unsetVariables = function() {
+  this.variables = null;
+};
+
+/**
+ * Parse a message formated string
+ *
+ * @param {String} message A message formated string
  * @return {void}
  */
 
@@ -185,6 +213,11 @@ MessageFormat.prototype._parseVariable = function() {
   }
 
   name = name.trim();
+
+  if(this.variables !== null &&
+     this.variables.indexOf(name) === -1) {
+    throw new TypeError('Variable \'' + name + '\' is not defined in \'' + this.lexer.getLatestTokensLog() + '\'. Please add the variable in your source code.');
+  }
 
   if(name.length === 0) {
     throw new TypeError('Could not parse variable in ' + this.lexer.getLatestTokensLog());
