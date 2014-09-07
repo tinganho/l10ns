@@ -83,7 +83,7 @@ describe('MessageFormat', function() {
           messageFormat.setVariables(['variable2']);
           messageFormat.parse('{variable1}');
         };
-        expect(method).to.throw(TypeError, 'Variable \'variable1\' is not defined in \'{variable1}\'. Please add the variable in your source code.');
+        expect(method).to.throw(TypeError, 'Variable \'variable1\' is not defined in \'{variable1}\'. Please tell your developer to add the variable to his source code and update translations.');
       });
     });
 
@@ -691,7 +691,7 @@ describe('MessageFormat', function() {
           messageFormat.setVariables(['variable2'])
           messageFormat.parse('{variable1,number, integer}');
         }
-        expect(method).to.throw(TypeError, 'Variable \'variable1\' is not defined in \'{variable1,\'. Please add the variable in your source code.');
+        expect(method).to.throw(TypeError, 'Variable \'variable1\' is not defined in \'{variable1,\'. Please tell your developer to add the variable to his source code and update translations.');
       });
     });
 
@@ -707,41 +707,11 @@ describe('MessageFormat', function() {
       });
 
       it('should be able to parse with multiple cases using keywords', function() {
-        messageFormat.parse('{variable1,plural,zero{message1} other{message2}}');
+        messageFormat.parse('{variable1,plural,one{message1} other{message2}}');
         expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
         expect(messageFormat.messageAST[0].offset).to.equal(0);
-        expect(messageFormat.messageAST[0].values.zero).to.eql([{ string: 'message1' }]);
+        expect(messageFormat.messageAST[0].values.one).to.eql([{ string: 'message1' }]);
         expect(messageFormat.messageAST[0].values.other).to.eql([{ string: 'message2' }]);
-        messageFormat.parse('{variable1,plural,zero{message1}one{message2}other{message3}}');
-        expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
-        expect(messageFormat.messageAST[0].offset).to.equal(0);
-        expect(messageFormat.messageAST[0].values.zero).to.eql([{ string: 'message1' }]);
-        expect(messageFormat.messageAST[0].values.one).to.eql([{ string: 'message2' }]);
-        expect(messageFormat.messageAST[0].values.other).to.eql([{ string: 'message3' }]);
-        messageFormat.parse('{variable1,plural,zero{message1}one{message2}two{message3}other{message4}}');
-        expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
-        expect(messageFormat.messageAST[0].offset).to.equal(0);
-        expect(messageFormat.messageAST[0].values.zero).to.eql([{ string: 'message1' }]);
-        expect(messageFormat.messageAST[0].values.one).to.eql([{ string: 'message2' }]);
-        expect(messageFormat.messageAST[0].values.two).to.eql([{ string: 'message3' }]);
-        expect(messageFormat.messageAST[0].values.other).to.eql([{ string: 'message4' }]);
-        messageFormat.parse('{variable1,plural,zero{message1}one{message2}two{message3}few{message4}other{message5}}');
-        expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
-        expect(messageFormat.messageAST[0].offset).to.equal(0);
-        expect(messageFormat.messageAST[0].values.zero).to.eql([{ string: 'message1' }]);
-        expect(messageFormat.messageAST[0].values.one).to.eql([{ string: 'message2' }]);
-        expect(messageFormat.messageAST[0].values.two).to.eql([{ string: 'message3' }]);
-        expect(messageFormat.messageAST[0].values.few).to.eql([{ string: 'message4' }]);
-        expect(messageFormat.messageAST[0].values.other).to.eql([{ string: 'message5' }]);
-        messageFormat.parse('{variable1,plural,zero{message1}one{message2}two{message3}few{message4}many{message5}other{message6}}');
-        expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
-        expect(messageFormat.messageAST[0].offset).to.equal(0);
-        expect(messageFormat.messageAST[0].values.zero).to.eql([{ string: 'message1' }]);
-        expect(messageFormat.messageAST[0].values.one).to.eql([{ string: 'message2' }]);
-        expect(messageFormat.messageAST[0].values.two).to.eql([{ string: 'message3' }]);
-        expect(messageFormat.messageAST[0].values.few).to.eql([{ string: 'message4' }]);
-        expect(messageFormat.messageAST[0].values.many).to.eql([{ string: 'message5' }]);
-        expect(messageFormat.messageAST[0].values.other).to.eql([{ string: 'message6' }]);
       });
 
       it('should be able to parse with exact cases', function() {
@@ -992,7 +962,18 @@ describe('MessageFormat', function() {
         var method = function() {
           messageFormat.parse('{variable1,plural,one{message1}}');
         }
-        expect(method).to.throw(TypeError, 'Missing \'other\' case in {variable1,plural,one{message1}}');
+        expect(method).to.throw(TypeError, 'There must exist one other case in {variable1,plural,one{message1}}');
+      });
+
+      it('should throw an error if there is one case that is not defined in the plural rules', function() {
+        var method = function() {
+          messageFormat.parse('{variable1,plural,few{message1}other{message2}}');
+        }
+        expect(method).to.throw(TypeError, 'Expected a keyword (one, other) or an exact case (n=). Instead got \'few\' in {variable1,plural,few{');
+        var method = function() {
+          messageFormat.parse('{variable1,plural,somecase{message1}other{message2}}');
+        }
+        expect(method).to.throw(TypeError, 'Expected a keyword (one, other) or an exact case (n=). Instead got \'somecase\' in {variable1,plural,somecase{');
       });
 
       it('should throw an error if one of the brackets are missing in the values', function() {
@@ -1018,7 +999,7 @@ describe('MessageFormat', function() {
           messageFormat.setVariables(['variable2'])
           messageFormat.parse('{variable1,plural,other {message1}}');
         }
-        expect(method).to.throw(TypeError, 'Variable \'variable1\' is not defined in \'{variable1,\'. Please add the variable in your source code.');
+        expect(method).to.throw(TypeError, 'Variable \'variable1\' is not defined in \'{variable1,\'. Please tell your developer to add the variable to his source code and update translations.');
       });
     });
 
@@ -1251,7 +1232,7 @@ describe('MessageFormat', function() {
           messageFormat.setVariables(['variable2'])
           messageFormat.parse('{variable1,select,other {message1}}');
         }
-        expect(method).to.throw(TypeError, 'Variable \'variable1\' is not defined in \'{variable1,\'. Please add the variable in your source code.');
+        expect(method).to.throw(TypeError, 'Variable \'variable1\' is not defined in \'{variable1,\'. Please tell your developer to add the variable to his source code and update translations.');
       });
     });
 
@@ -1620,7 +1601,7 @@ describe('MessageFormat', function() {
           messageFormat.setVariables(['variable2'])
           messageFormat.parse('{variable1,choice,1<message1|2<message2}');
         }
-        expect(method).to.throw(TypeError, 'Variable \'variable1\' is not defined in \'{variable1,\'. Please add the variable in your source code.');
+        expect(method).to.throw(TypeError, 'Variable \'variable1\' is not defined in \'{variable1,\'. Please tell your developer to add the variable to his source code and update translations.');
       });
     });
 
@@ -1667,7 +1648,18 @@ describe('MessageFormat', function() {
           messageFormat.setVariables(['variable2'])
           messageFormat.parse('{variable1,selectordinal,other {message1}}');
         }
-        expect(method).to.throw(TypeError, 'Variable \'variable1\' is not defined in \'{variable1,\'. Please add the variable in your source code.');
+        expect(method).to.throw(TypeError, 'Variable \'variable1\' is not defined in \'{variable1,\'. Please tell your developer to add the variable to his source code and update translations.');
+      });
+
+      it('should throw an error if there is one case that is not defined in the ordinal rules', function() {
+        var method = function() {
+          messageFormat.parse('{variable1,selectordinal,many{message1}other{message2}}');
+        }
+        expect(method).to.throw(TypeError, 'Expected a keyword (one, two, few, other). Instead got \'many\' in {variable1,selectordinal,many{');
+        var method = function() {
+          messageFormat.parse('{variable1,selectordinal,somecase{message1}other{message2}}');
+        }
+        expect(method).to.throw(TypeError, 'Expected a keyword (one, two, few, other). Instead got \'somecase\' in {variable1,selectordinal,somecase{');
       });
     });
   });

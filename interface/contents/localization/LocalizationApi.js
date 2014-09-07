@@ -25,6 +25,7 @@ module.exports = function(app) {
 
     try {
       var messageFormat = new MessageFormat(request.param('locale'));
+      messageFormat.setVariables(request.body.variables);
       messageFormat.parse(request.body.value);
     }
     catch(error) {

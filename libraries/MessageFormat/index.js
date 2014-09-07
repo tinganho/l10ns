@@ -216,7 +216,7 @@ MessageFormat.prototype._parseVariable = function() {
 
   if(this.variables !== null &&
      this.variables.indexOf(name) === -1) {
-    throw new TypeError('Variable \'' + name + '\' is not defined in \'' + this.lexer.getLatestTokensLog() + '\'. Please add the variable in your source code.');
+    throw new TypeError('Variable \'' + name + '\' is not defined in \'' + this.lexer.getLatestTokensLog() + '\'. Please tell your developer to add the variable to his source code and update translations.');
   }
 
   if(name.length === 0) {
@@ -463,7 +463,8 @@ MessageFormat.prototype._parsePluralFormat = function(variable) {
   var offset = 0
     , values = {}
     , offsetSyntax = /^offset:(\d)$/
-    , exactlySyntax = /^=\d+$/;
+    , exactlySyntax = /^=\d+$/
+    , pluralKeywords = Object.keys(this.pluralRules);
 
   // Swallow comma
   this.currentToken = this.lexer.getNextToken();
@@ -474,7 +475,7 @@ MessageFormat.prototype._parsePluralFormat = function(variable) {
       offsetSyntax.lastIndex = 0;
       _case = this._getPluralCase();
     }
-    else if(exactlySyntax.test(_case) || this.pluralKeywords.indexOf(_case) !== -1) {
+    else if(exactlySyntax.test(_case) || pluralKeywords.indexOf(_case) !== -1) {
       if(this.currentToken !== MessageFormat.Characters.STARTING_BRACKET) {
         throw new TypeError('Expected bracket \'{\' instead got \'' + this.currentToken + '\' in ' + this.lexer.getLatestTokensLog());
       }
@@ -508,7 +509,13 @@ MessageFormat.prototype._parsePluralFormat = function(variable) {
       }
     }
     else {
-      throw new TypeError('Missing \'other\' case in ' + this.lexer.getLatestTokensLog());
+      // Case are empty if an other case is missing
+      if(_case === '' ) {
+        throw new TypeError('There must exist one other case in ' + this.lexer.getLatestTokensLog());
+      }
+      else {
+        throw new TypeError('Expected a keyword (' + pluralKeywords.join(', ')+ ') or an exact case (n=). Instead got \'' + _case + '\' in ' + this.lexer.getLatestTokensLog());
+      }
     }
   }
 };
@@ -523,13 +530,14 @@ MessageFormat.prototype._parsePluralFormat = function(variable) {
 MessageFormat.prototype._parseSelectordinalFormat = function(variable) {
   var offset = 0
     , values = {}
-    , exactlySyntax = /^=\d+$/;
+    , exactlySyntax = /^=\d+$/
+    , ordinalKeywords = Object.keys(this.ordinalRules);
 
   // Swallow comma
   this.currentToken = this.lexer.getNextToken();
   var _case = this._getPluralCase();
   while(true) {
-    if(exactlySyntax.test(_case) || this.pluralKeywords.indexOf(_case) !== -1) {
+    if(exactlySyntax.test(_case) || ordinalKeywords.indexOf(_case) !== -1) {
       if(this.currentToken !== MessageFormat.Characters.STARTING_BRACKET) {
         throw new TypeError('Expected bracket \'{\' instead got \'' + this.currentToken + '\' in ' + this.lexer.getLatestTokensLog());
       }
@@ -563,7 +571,13 @@ MessageFormat.prototype._parseSelectordinalFormat = function(variable) {
       }
     }
     else {
-      throw new TypeError('Missing \'other\' case in ' + this.lexer.getLatestTokensLog());
+      // Case are empty if an other case is missing
+      if(_case === '' ) {
+        throw new TypeError('There must exist one other case in ' + this.lexer.getLatestTokensLog());
+      }
+      else {
+        throw new TypeError('Expected a keyword (' + ordinalKeywords.join(', ')+ '). Instead got \'' + _case + '\' in ' + this.lexer.getLatestTokensLog());
+      }
     }
   }
 };

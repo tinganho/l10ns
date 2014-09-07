@@ -7,7 +7,7 @@
   "key": "INDEX1",
   "new": false,
   "timestamp": "2014-09-07T03:54:16.050Z",
-  "value": "{variable, plural,  one {message-one} other {message-other}}",
+  "value": "{files, plural,  one {message-one} other {message-other}}",
   "variables": [
     "files",
     "people"
