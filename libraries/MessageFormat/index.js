@@ -407,7 +407,7 @@ MessageFormat.prototype._parseSelectFormat = function(variable) {
     else {
       this._swallowWhiteSpace();
       if(this.currentToken === MessageFormat.Characters.EOF) {
-        throw new TypeError('Expected closing bracket \'}\' in instead got \'' + this.currentToken + '\' in ' + this.lexer.getLatestTokensLog());
+        throw new TypeError('Expected closing bracket \'}\' in instead got EOF in ' + this.lexer.getLatestTokensLog());
       }
       if(this.currentToken !== MessageFormat.Characters.ENDING_BRACKET) {
         throw new TypeError('Expected closing bracket \'}\' in instead got \'' + this.currentToken + '\' in ' + this.lexer.getLatestTokensLog());
@@ -465,10 +465,10 @@ MessageFormat.prototype._parsePluralFormat = function(variable) {
         this._swallowWhiteSpace();
         // Swallow ending bracket of PluralFormat
         if(this.currentToken === MessageFormat.Characters.EOF) {
-        throw new TypeError('Expected closing bracket \'}\' in instead got \'' + this.currentToken + '\' in ' + this.lexer.getLatestTokensLog());
+          throw new TypeError('Expected closing bracket \'}\' in instead got EOF in ' + this.lexer.getLatestTokensLog());
         }
         if(this.currentToken !== MessageFormat.Characters.ENDING_BRACKET) {
-        throw new TypeError('Expected closing bracket \'}\' in instead got \'' + this.currentToken + '\' in ' + this.lexer.getLatestTokensLog());
+          throw new TypeError('Expected closing bracket \'}\' in instead got \'' + this.currentToken + '\' in ' + this.lexer.getLatestTokensLog());
         }
         this.currentToken = this.lexer.getNextToken();
         return new AST.PluralFormat(this.locale, variable, values, offset);
@@ -520,10 +520,10 @@ MessageFormat.prototype._parseSelectordinalFormat = function(variable) {
         this._swallowWhiteSpace();
         // Swallow ending bracket of PluralFormat
         if(this.currentToken === MessageFormat.Characters.EOF) {
-        throw new TypeError('Expected closing bracket \'}\' in instead got \'' + this.currentToken + '\' in ' + this.lexer.getLatestTokensLog());
+          throw new TypeError('Expected closing bracket \'}\' in instead got EOF in ' + this.lexer.getLatestTokensLog());
         }
         if(this.currentToken !== MessageFormat.Characters.ENDING_BRACKET) {
-        throw new TypeError('Expected closing bracket \'}\' in instead got \'' + this.currentToken + '\' in ' + this.lexer.getLatestTokensLog());
+          throw new TypeError('Expected closing bracket \'}\' in instead got \'' + this.currentToken + '\' in ' + this.lexer.getLatestTokensLog());
         }
         this.currentToken = this.lexer.getNextToken();
         return new AST.SelectordinalFormat(this.locale, variable, values, offset);

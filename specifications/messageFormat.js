@@ -975,14 +975,14 @@ describe('MessageFormat', function() {
         var method = function() {
           messageFormat.parse('{variable1,plural,other {message1}');
         }
-        expect(method).to.throw(TypeError, 'You must have a closing bracket in your plural format in {variable1,plural,other {message1}');
+        expect(method).to.throw(TypeError, 'Expected closing bracket \'}\' in instead got EOF in {variable1,plural,other {message1}');
       });
 
       it('should throw an error if there is letters or a case after the other case', function() {
         var method = function() {
           messageFormat.parse('{variable1,plural,other {message1}case}');
         }
-        expect(method).to.throw(TypeError, 'You must have a closing bracket in your plural format in {variable1,plural,other {message1}c');
+        expect(method).to.throw(TypeError, 'Expected closing bracket \'}\' in instead got \'c\' in {variable1,plural,other {message1}c');
       });
     });
 
@@ -1196,14 +1196,14 @@ describe('MessageFormat', function() {
         var method = function() {
           messageFormat.parse('{variable1,select,other {message1}');
         }
-        expect(method).to.throw(TypeError, 'You must have a closing bracket in your select format in {variable1,select,other {message1}');
+        expect(method).to.throw(TypeError, 'Expected closing bracket \'}\' in instead got EOF in {variable1,select,other {message1}');
       });
 
       it('should throw an error if there is letters or a case after the other case', function() {
         var method = function() {
           messageFormat.parse('{variable1,select,other {message1}case}');
         }
-        expect(method).to.throw(TypeError, 'You must have a closing bracket in your select format in {variable1,select,other {message1}c');
+        expect(method).to.throw(TypeError, 'Expected closing bracket \'}\' in instead got \'c\' in {variable1,select,other {message1}c');
       });
     });
 
@@ -1580,11 +1580,22 @@ describe('MessageFormat', function() {
         expect(messageFormat.messageAST[0].values['other'][0].string).to.equal('message2');
       });
 
+      it('should throw an error if one of the brackets are missing in the values', function() {
+        var method = function() {
+          messageFormat.parse('{variable1,selectordinal,other message1}}');
+        }
+        expect(method).to.throw(TypeError, 'Expected bracket \'{\' instead got \'m\' in {variable1,selectordinal,other m');
+        var method = function() {
+          messageFormat.parse('{variable1,selectordinal,other {message1}');
+        }
+        expect(method).to.throw(TypeError, 'Expected closing bracket \'}\' in instead got EOF in {variable1,selectordinal,other {message1}');
+      });
+
       it('should throw an error if there is letters or a case after the other case', function() {
         var method = function() {
           messageFormat.parse('{variable1,selectordinal,other {message1}case}');
         }
-        expect(method).to.throw(TypeError, 'You must have a closing bracket in your selectordinal format in {variable1,selectordinal,other {message1}c');
+        expect(method).to.throw(TypeError, 'Expected closing bracket \'}\' in instead got \'c\' in {variable1,selectordinal,other {message1}c');
       });
     });
   });
