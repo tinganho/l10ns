@@ -1,5 +1,5 @@
 
-<tr class="localization" data-id="{{=it.id}}" data-key="{{=it.key}}">
-  <td class="localization-col localization-key">{{=it.key}}</td>
-  <td class="localization-col localization-value">{{=it.text.replace('\n', '<br>')}}</td>
+<tr class="localization" data-id="{{!it.id}}" data-key="{{!it.key}}">
+  <td class="localization-col localization-key">{{!it.key}}</td>
+  <td class="localization-col localization-value">{{!it.value.replace('\n', '<br>')}}</td>
 </tr>

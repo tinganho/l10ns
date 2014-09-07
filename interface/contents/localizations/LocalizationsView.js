@@ -61,7 +61,7 @@ define(function(require) {
       var _this = this;
 
       this.model.on('change', function(localization) {
-        _this.$('.localization[data-id="' + localization.id + '"] .localization-value').html(localization.get('text'));
+        _this.$('.localization[data-id="' + localization.id + '"] .localization-value').html($('.__class__').text(localization.get('value')).html());
       });
 
       this.model.on('add', function(localization) {

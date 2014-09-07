@@ -139,6 +139,7 @@ define(function(require) {
       var localization = this.model.get('results')[this.model.get('resultIndex')];
 
       this.$el.find('.search-results').remove();
+      this.$input.blur();
 
       if(typeof app.models.localization !== 'undefined'
       && typeof app.models.localization.id !== 'undefined'
@@ -249,6 +250,7 @@ define(function(require) {
         return;
       }
 
+      this.$input.blur();
       this.$el.find('.search-results').remove();
       this.$document.off('click', this._removeSearchResult);
     },

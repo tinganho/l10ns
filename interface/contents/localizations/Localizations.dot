@@ -8,9 +8,9 @@
   </thead>
   <tbody>
     {{~it :localization:index}}
-      <tr class="localization" data-id="{{=localization.id}}" data-key="{{=localization.key}}">
-        <td class="localization-col localization-key">{{=localization.key}}</td>
-        <td class="localization-col localization-value">{{=localization.value.replace('\n', '<br>')}}</td>
+      <tr class="localization" data-id="{{!localization.id}}" data-key="{{!localization.key}}">
+        <td class="localization-col localization-key">{{!localization.key}}</td>
+        <td class="localization-col localization-value">{{!localization.value.replace('\n', '<br>')}}</td>
       </tr>
     {{~}}
     {{?it.length === cf.ITEMS_PER_PAGE}}

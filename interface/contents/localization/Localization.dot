@@ -8,7 +8,7 @@
   <div class="localization-variables">
     <span class="localization-variables-label">{{=it.l10ns.variables}}</span>
     {{~it.variables :variable:index}}
-      <span class="localization-variable" data-value="{{=variable}}">{{=variable}}</span>
+      <span class="localization-variable" data-value="{{!variable}}">{{!variable}}</span>
     {{~}}
   </div>
   <div class="localization-input">
@@ -29,7 +29,7 @@
         <a class="localization-action-anchor localization-action-number">number</a>
       </li>
     </ul>
-    <textarea class="localization-textarea localization-textarea-real">{{=it.value}}</textarea>
+    <textarea class="localization-textarea localization-textarea-real">{{!it.value}}</textarea>
     <div class="localization-text-area-height-helper-container">
       <textarea class="localization-textarea localization-textarea-mirror"></textarea>
     </div>
