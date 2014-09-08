@@ -5,7 +5,8 @@
 
 var file = require('./file')
   , defer = require('q').defer
-  , log = require('./_log');
+  , log = require('./_log')
+  , MessageFormat = require('./MessageFormat');
 
 /**
  * Get translations execute edit functions for editing the current
@@ -40,6 +41,14 @@ Set.prototype.run = function(reference, value, locale) {
   }
   if(!(locale in project.locales)) {
     return log.error('Locale ' + locale.yellow + ' is not defined.');
+  }
+
+  try {
+    var messageFormat = new MessageFormat(locale);
+    messageFormat.parse(value);
+  }
+  catch(error) {
+    return log.error(error.message);
   }
 
   value = this._removeEscapes(value);

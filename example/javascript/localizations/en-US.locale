@@ -6,8 +6,14 @@
   "id": "XjoeLxXRHG",
   "key": "INDEX1",
   "new": false,
+  "text": "{",
   "timestamp": "2014-09-07T03:54:16.050Z",
   "value": "{files, plural,  one {message-one} other {message-other}}",
+  "values": [
+    [
+      "{"
+    ]
+  ],
   "variables": [
     "files",
     "people"
