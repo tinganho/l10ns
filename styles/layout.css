@@ -10,13 +10,19 @@
   }
 }
 
+@media(min-width: 570px) and (max-width: 680px) {
+  .red-section {
+    height: 730px;
+  }
+}
+
 .hero-section {
   position: relative;
   min-height: 400px;
 }
 
 .complex-translation-section {
-  height: 806px;
+  height: 724px;
 }
 
 @media(max-width: 500px) {
@@ -24,3 +30,21 @@
     height: 550px;
   }
 }
+@media(min-width: 501px) and (max-width: 520px) {
+  .complex-translation-section {
+    height: 664px;
+  }
+}
+
+@media(min-width: 580px) and (max-width: 640px) {
+  .complex-translation-section {
+    height: 680px;
+  }
+}
+
+@media(min-width: 710px) and (max-width: 800px) {
+  .complex-translation-section {
+    height: 775px;
+  }
+}
+
