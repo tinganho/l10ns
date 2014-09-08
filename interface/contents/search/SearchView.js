@@ -141,9 +141,9 @@ define(function(require) {
       this.$el.find('.search-results').remove();
       this.$input.blur();
 
-      if(typeof app.models.localization !== 'undefined'
-      && typeof app.models.localization.id !== 'undefined'
-      && app.models.localization.id === localization.id) {
+      if(typeof app.models.localization !== 'undefined' &&
+         typeof app.models.localization.id !== 'undefined' &&
+         app.models.localization.id === localization.id) {
         return;
       }
 

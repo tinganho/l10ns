@@ -50,7 +50,7 @@ var out='('+(it.from)+' >= '+(it.variableName)+' && '+(it.variableName)+' <= '+(
 var out='string += (it.'+(it.variableName)+' - parseInt('+(it.offset)+', 10));';return out;
 };
   tmpl['RequireStatement']=function anonymous(it) {
-var out='function requireLocale(locale) {\n  return (function(locale) {\n    return function l(key) {\n      if(!(locale in localizations)) {\n        return \'LOCALE_NOT_IN_LOCALIZATIONS: \' + locale;\n      }\n      if(!(key in localizations[locale])) {\n        return \'KEY_NOT_IN_LOCALIZATIONS: \' + key;\n      }\n      var variables = {};\n      for(var variable in arguments[1]) {\n        variables[variable.replace(/^\\w+\\s+/, \'\')] = arguments[1][variable];\n      }\n      return localizations[locale][key].call(undefined, variables);\n    };\n  })(locale);\n};';return out;
+var out='function requireLocale(locale) {\n  return (function(locale) {\n    return function l(key) {\n      if(!(locale in localizations)) {\n        return \'LOCALE_NOT_IN_LOCALIZATIONS: \' + locale;\n      }\n      if(!(key in localizations[locale])) {\n        return \'KEY_NOT_IN_LOCALIZATIONS: \' + key;\n      }\n      return localizations[locale][key].call(undefined, arguments[1]);\n    };\n  })(locale);\n};';return out;
 };
   tmpl['ReturnOtherStringStatement']=function anonymous(it) {
 var out='return \'other\';';return out;
