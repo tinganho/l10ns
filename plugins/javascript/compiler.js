@@ -542,6 +542,7 @@ Compiler.prototype._getPluralComparisonString = function(comparison) {
         result += template['NumberComparison']({
           variableName: comparison.LHS.variable,
           modulus: comparison.LHS.modulus,
+          comparator: comparison.comparator === '=' ? '===' : '!==',
           value: values[index].value
         });
       }

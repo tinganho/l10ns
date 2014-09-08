@@ -46,13 +46,13 @@
           t = fractionalDigits.exec(t)[1];
           w = t.length;
         }
-        if(n % 10 === 1 && n % 100 === 11) {
+        if(n % 10 === 1 && n % 100 !== 11) {
           return 'one';
         }
-        else if(n % 10 === 2 && n % 100 === 12) {
+        else if(n % 10 === 2 && n % 100 !== 12) {
           return 'two';
         }
-        else if(n % 10 === 3 && n % 100 === 13) {
+        else if(n % 10 === 3 && n % 100 !== 13) {
           return 'few';
         }
         return 'other';

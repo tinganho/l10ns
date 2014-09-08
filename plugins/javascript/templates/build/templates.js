@@ -32,7 +32,7 @@ var out='\''+(it.locale)+'\': {\n'+(it.map)+'\n}';return out;
 var out='var localizations = {\n'+(it.localizations)+'\n};';return out;
 };
   tmpl['NumberComparison']=function anonymous(it) {
-var out=''+(it.variableName);if(it.modulus){out+=' % '+(it.modulus);}out+=' === '+(it.value);return out;
+var out=''+(it.variableName);if(it.modulus){out+=' % '+(it.modulus);}out+=' '+(it.comparator)+' '+(it.value);return out;
 };
   tmpl['OrdinalSwitchStatement']=function anonymous(it) {
 var out='var _case;\n'+(it.setCaseStatement)+'\nswitch(_case) {\n'+(it.switchBody)+'\n}';return out;
