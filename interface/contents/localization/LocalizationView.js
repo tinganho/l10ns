@@ -206,7 +206,7 @@ define(function(require) {
      */
 
     _addPluralFormatedText: function() {
-      var text = '{variable, plural, ';
+      var text = '{variable, plural,';
       var keywords =  Object.keys(this.model.get('pluralRules'));
       for(var index = 0; index < keywords.length; index++) {
         text +=  ' ' + keywords[index] + ' {message-' + keywords[index] + '}';
@@ -245,7 +245,7 @@ define(function(require) {
      */
 
     _addSelectordinalFormatedText: function() {
-      var text = '{variable, selectordinal, ';
+      var text = '{variable, selectordinal,';
       var keywords =  Object.keys(this.model.get('ordinalRules'));
       for(var index = 0; index < keywords.length; index++) {
         text +=  ' ' + keywords[index] + ' {message-' + keywords[index] + '}';

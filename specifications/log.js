@@ -133,8 +133,8 @@ describe('Log', function() {
     it('should print log with tags', function() {
       program.DEFAULT_LOG_LENGTH = 10;
       var localizations = [
-        { key: 'key1', values: ['value1'], text: 'value1' },
-        { key: 'key2', values: ['value2'], text: 'value2' }
+        { key: 'key1', value: 'value1' },
+        { key: 'key2', value: 'value2' }
       ];
       dependencies['./_log'].log = spy();
       var log = new (proxyquire('../libraries/log', dependencies).Constructor);
@@ -151,8 +151,8 @@ describe('Log', function() {
     it('should truncate log with specified max length', function() {
       program.DEFAULT_LOG_LENGTH = 1;
       var localizations = [
-        { key: 'key1', values: ['value1'], text: 'value1' },
-        { key: 'key2', values: ['value2'], text: 'value2' }
+        { key: 'key1', value: 'value1' },
+        { key: 'key2', value: 'value2' }
       ];
       dependencies['./_log'].log = spy();
       var log = new (proxyquire('../libraries/log', dependencies).Constructor);

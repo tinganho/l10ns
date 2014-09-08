@@ -739,6 +739,12 @@ describe('MessageFormat', function() {
         expect(messageFormat.messageAST[0].values['other'][1]).to.be.an.instanceOf(AST.Remaining);
         expect(messageFormat.messageAST[0].values['other'][1].offset).to.equal(1);
         expect(messageFormat.messageAST[0].values['other'][1].variable.name).to.equal('variable1');
+        messageFormat.parse('{variable1, plural, one {message1} other {#sentence1}}');
+        expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.PluralFormat);
+        expect(messageFormat.messageAST[0].offset).to.equal(0);
+        expect(messageFormat.messageAST[0].values['other'][0]).to.be.an.instanceOf(AST.Remaining);
+        expect(messageFormat.messageAST[0].values['other'][0].offset).to.equal(0);
+        expect(messageFormat.messageAST[0].values['other'][0].variable.name).to.equal('variable1');
       });
 
       it('should be able to parse a sub-message with a sentence', function() {

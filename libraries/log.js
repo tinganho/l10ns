@@ -100,7 +100,7 @@ Log.prototype.printRegularLog = function(localizations) {
     else {
       tag = '@' + n;
     }
-    log.log((tag).yellow + ' ' + localizations[i].key + ' | ' + localizations[i].text.green);
+    log.log((tag).yellow + ' ' + localizations[i].key + ' | ' + localizations[i].value.green);
     n++;
   }
 
