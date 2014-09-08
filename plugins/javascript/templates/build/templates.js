@@ -47,7 +47,7 @@ var out='else if(it.'+(it.variableName)+' '+(it.limits.lower.type)+' '+(it.limit
 var out='('+(it.from)+' >= '+(it.variableName)+' && '+(it.variableName)+' <= '+(it.to)+')';return out;
 };
   tmpl['Remaining']=function anonymous(it) {
-var out='string += (it.'+(it.variableName)+' - parseInt('+(it.offset)+', 10));';return out;
+var out='string += (it.'+(it.variableName)+' - '+(it.offset)+');';return out;
 };
   tmpl['RequireStatement']=function anonymous(it) {
 var out='function requireLocale(locale) {\n  return (function(locale) {\n    return function l(key) {\n      if(!(locale in localizations)) {\n        return \'LOCALE_NOT_IN_LOCALIZATIONS: \' + locale;\n      }\n      if(!(key in localizations[locale])) {\n        return \'KEY_NOT_IN_LOCALIZATIONS: \' + key;\n      }\n      return localizations[locale][key].call(undefined, arguments[1]);\n    };\n  })(locale);\n};';return out;
