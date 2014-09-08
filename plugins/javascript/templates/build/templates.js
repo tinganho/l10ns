@@ -34,6 +34,9 @@ var out='var localizations = {\n'+(it.localizations)+'\n};';return out;
   tmpl['NumberComparison']=function anonymous(it) {
 var out=''+(it.variableName);if(it.modulus){out+=' % '+(it.modulus);}out+=' === '+(it.value);return out;
 };
+  tmpl['OrdinalSwitchStatement']=function anonymous(it) {
+var out='var _case;\n'+(it.setCaseStatement)+'\nswitch(_case) {\n'+(it.switchBody)+'\n}';return out;
+};
   tmpl['OtherCase']=function anonymous(it) {
 var out='default:\n'+(it.caseBody)+'\n  break;';return out;
 };
@@ -60,6 +63,9 @@ var out='switch(it.'+(it.variableName)+') {\n'+(it.switchBody)+'\n}';return out;
 };
   tmpl['Sentence']=function anonymous(it) {
 var out='string += \''+(it.sentence)+'\';';return out;
+};
+  tmpl['SetOrdinalCase']=function anonymous(it) {
+var out='_case = localizations[\''+(it.locale)+'\'].__getOrdinalKeyword(it.'+(it.variableName)+');';return out;
 };
   tmpl['SetPluralCase']=function anonymous(it) {
 var out='_case = localizations[\''+(it.locale)+'\'].__getPluralKeyword(it.'+(it.variableName)+');';return out;

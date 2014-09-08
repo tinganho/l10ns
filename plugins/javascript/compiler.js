@@ -215,6 +215,9 @@ Compiler.prototype._getFunctionBody = function(messageAST) {
     else if(messageAST[index] instanceof MessageFormat.AST.SelectFormat) {
       result += this._compileSelectFormat(messageAST[index]);
     }
+    else if(messageAST[index] instanceof MessageFormat.AST.SelectordinalFormat) {
+      result += this._compileSelectordinalFormat(messageAST[index]);
+    }
 
     if(index !== messageAST.length - 1) {
       result += this.linefeed;
@@ -369,6 +372,48 @@ Compiler.prototype._compilePluralFormat = function(pluralFormat) {
   return template['PluralSwitchStatement']({
     setCaseStatement: setCaseStatement,
     variableName: pluralFormat.variable.name,
+    switchBody: switchBody
+  });
+};
+
+/**
+ * Compile selectordinal format
+ *
+ * @param {AST.Selectordinal} selectordinalFormat
+ * @return {String}
+ * @api private
+ */
+
+Compiler.prototype._compileSelectordinalFormat = function(selectordinalFormat) {
+  var switchBody = ''
+    , setCaseStatement = '';
+
+  for(var _case in selectordinalFormat.values) {
+    var caseBody = this._getFunctionBody(selectordinalFormat.values[_case]);
+    if(_case !== 'other') {
+      switchBody += template['Case']({
+        case: _case,
+        caseBody: this._indentSpaces(2, caseBody)
+      });
+    }
+    else {
+      switchBody += template['OtherCase']({
+        caseBody: this._indentSpaces(2, caseBody)
+      });
+    }
+
+    switchBody += this.linefeed;
+  }
+
+  setCaseStatement += template['SetOrdinalCase']({
+    locale: selectordinalFormat.locale,
+    variableName: selectordinalFormat.variable.name
+  });
+
+  switchBody = this._indentSpaces(2, switchBody.substring(0, switchBody.length - 1));
+
+  return template['OrdinalSwitchStatement']({
+    setCaseStatement: setCaseStatement,
     switchBody: switchBody
   });
 };
