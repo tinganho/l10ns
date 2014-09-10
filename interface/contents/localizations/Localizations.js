@@ -28,6 +28,7 @@ define(function(require) {
         l10n_keys: 'Keys',
         l10n_values: 'Values',
         l10n_loadMore: 'Load more',
+        l10n_pageTitle: 'Latest localizations',
 
         page: 0,
         pageLength: cf.ITEMS_PER_PAGE,
@@ -66,6 +67,8 @@ define(function(require) {
                 _this.setMeta('revealed', false);
               }
               else {
+                _this.setPageTitle(request.param('locale') + ' | ' + _this.getMeta('l10n_pageTitle'));
+                _this.setPageDescription('Browse localizations for locale ' + request.param('locale'))
                 _this.setMeta('revealed', true);
               }
               options.success(collection.toJSON());
@@ -83,24 +86,6 @@ define(function(require) {
             return;
           }
         }
-      }
-    },
-
-    /**
-     * On history push to `/`. We want to change the `revealed` property
-     * to true.
-     *
-     * @delegate
-     */
-
-    onHistoryChange: function(path) {
-      if(/^[a-z]{2}\-[A-Z]{2}\/localizations$/.test(path)) {
-        this.setMeta('revealed', true);
-        this.setPageTitle('Localizations')
-        this.setPageDescription('Latest localizations');
-      }
-      else {
-        this.setMeta('revealed', false);
       }
     },
 

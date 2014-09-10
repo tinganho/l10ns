@@ -5,6 +5,6 @@
     <div class="app-search" data-region="search">{{=it.search}}</div>
     <div class="app-locales" data-region="locales">{{=it.locales}}</div>
   </header>
-  <div class="app-localizations {{?it.localization}}hidden{{?}}" data-region="body">{{=it.body}}</div>
-  <div class="app-localization {{?!it.localization}}hidden{{?}}" data-region="localization">{{?it.localization}}{{=it.localization}}{{?}}</div>
+  <div class="app-localizations {{?it.localization}}is-hidden{{?}}" {{?it.localization}}style="display:none;"{{?}} data-region="body">{{=it.body}}</div>
+  <div class="app-localization {{?!it.localization}}is-hidden{{?}}" {{?!it.localization}}style="display:none;"{{?}} data-region="localization">{{?it.localization}}{{=it.localization}}{{?}}</div>
 </div>

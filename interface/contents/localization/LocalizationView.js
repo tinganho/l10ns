@@ -9,7 +9,8 @@ define(function(require) {
     , _ = require('underscore');
 
   if(inClient) {
-    var minTimer = require('minTimer');
+    var minTimer = require('minTimer')
+      , SinusWave = require('../../libraries/client/SinusWave');
   }
 
   return View.extend({
@@ -24,6 +25,7 @@ define(function(require) {
     initialize: function(model) {
       this.model = model;
       if(inClient) {
+        this._lastSave = Date.now();
         this._bindMethods();
       }
     },
@@ -283,7 +285,9 @@ define(function(require) {
       this.$addSelectordinalButton = this.$('.localization-action-selectordinal');
       this.$addNumberButton = this.$('.localization-action-number');
       this.$messageText = this.$('.localization-message-text');
+      this.$buttons = this.$('.localization-buttons');
       this.$save = this.$('.localization-save');
+      this.$loadingCanvas = this.$('.localization-loading-canvas');
       this.$variable = this.$('.localization-variable');
     },
 
@@ -296,16 +300,33 @@ define(function(require) {
     _save: function(event) {
       var _this = this;
 
+      if(Date.now() - this._lastSave < 1000) {
+        return;
+      }
+
+      this._lastSave = Date.now();
+
+      var sinusWave = new SinusWave;
+      sinusWave.setCanvas(this.$loadingCanvas[0]);
+      sinusWave.start();
+      minTimer.start(1000);
+      this.$buttons.removeClass('is-revealed').addClass('is-hidden');
+
       event.preventDefault();
       this.model.save(null, {
         success: function(model, response, options) {
-          _this.$messageText.html(_this.model.get('l10ns').successFullyUpdated);
-          setTimeout(function() {
-            _this.$messageText.html(_this.model.get('l10ns').message);
-          }, 2000);
+          minTimer.end(function() {
+            sinusWave.stop();
+            _this.$buttons.removeClass('is-hidden').addClass('is-revealed');
+            _this.$messageText.removeClass('has-error').html(_this.model.get('l10ns').message);
+          });
         },
         error: function(model, response, options) {
-          _this.$messageText.html(response);
+          minTimer.end(function() {
+            sinusWave.stop();
+            _this.$buttons.removeClass('is-hidden').addClass('is-revealed');
+            _this.$messageText.addClass('has-error').html(response);
+          });
         }
       });
     },
@@ -328,6 +349,24 @@ define(function(require) {
       html += template['Localization'](json);
 
       return html;
+    },
+
+    /**
+     * On finish rendering callback
+     *
+     * @return {void}
+     * @handler
+     * @api public
+     */
+
+    onFinishRendering: function() {
+      var _this = this;
+
+      this.$region.show();
+
+      setTimeout(function() {
+        _this.$region.removeClass('is-hidden').addClass('is-revealed');
+      }, 300);
     },
 
     /**

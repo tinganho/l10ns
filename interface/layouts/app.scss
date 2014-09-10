@@ -35,10 +35,31 @@ body {
 .app-localizations {
   width: 720px;
   margin: 100px auto;
-  @include transform(translateZ(0));
+  @include transition(transform 0.2s, opacity 0.2s);
+
+  &.is-revealed {
+    opacity: 1;
+    @include transform(translateY(0));
+  }
+
+  &.is-hidden {
+    opacity: 0;
+    @include transform(translateY(50px));
+  }
 }
 
 .app-localization {
   margin-top: 125px;
   margin-bottom: 125px;
+  @include transition(transform 0.2s, opacity 0.2s);
+
+  &.is-revealed {
+    opacity: 1;
+    @include transform(translateY(0));
+  }
+
+  &.is-hidden {
+    opacity: 0;
+    @include transform(translateY(50px));
+  }
 }

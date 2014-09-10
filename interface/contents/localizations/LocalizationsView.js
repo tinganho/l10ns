@@ -106,10 +106,15 @@ define(function(require) {
      */
 
     _showLocalization: function(event) {
+      var _this = this;
       var id = event.currentTarget.getAttribute('data-id')
         , key = encodeURI(event.currentTarget.getAttribute('data-key').replace(/\s/g, '-'));
 
-      app.navigate('/' + app.locale + '/l/' + id + '/' + key);
+      this.$region.removeClass('is-revealed').addClass('is-hidden');
+      setTimeout(function() {
+        _this.$region.hide();
+        app.navigate('/' + app.locale + '/l/' + id + '/' + key);
+      }, 300);
     },
 
     /**
@@ -161,7 +166,12 @@ define(function(require) {
      */
 
     hide: function() {
-      this.$region.addClass('hidden');
+      var _this = this;
+
+      this.$region.removeClass('is-revealed').addClass('is-hidden');
+      setTimeout(function() {
+        _this.$region.hide();
+      }, 300);
     },
 
 
@@ -174,7 +184,14 @@ define(function(require) {
      */
 
     show: function() {
-      this.$region.removeClass('hidden');
+      var _this = this;
+
+      this.model.setPageTitle(app.locale + ' | ' + this.model.getMeta('l10n_pageTitle'));
+      this.$region.show();
+
+      setTimeout(function() {
+        _this.$region.removeClass('is-hidden').addClass('is-revealed');
+      }, 0);
     }
   });
 });

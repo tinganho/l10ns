@@ -26,9 +26,15 @@
 
 .search-result-key {
   font-weight: 300;
-  font-size: 22px;
+  font-size: 16px;
 }
 
 .search-result-value {
-  font-size: 16px;
+  font-size: 14px;
+  font-weight: 300;
+  color: #999;
+
+  .active & {
+    color: #fff;
+  }
 }

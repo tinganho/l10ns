@@ -3,8 +3,8 @@ module.exports = function(page) {
   page('/:locale/localizations')
     .hasDocument('default')
       .withProperties({
-        title: 'Localizations',
-        description: 'Latest localizations',
+        title: null,
+        description: null,
         configurations: ['default'],
         locale: 'en',
         styles: [

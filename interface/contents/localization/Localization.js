@@ -132,8 +132,8 @@ define(function(require) {
         .end(function(err, res) {
           var localization = res.body;
           _this._parse(localization);
-          app.document.set('title', localization.key);
-          app.document.set('description', 'Edit: ' + localization.key);
+          app.document.set('title', app.locale + ' | ' + localization.key);
+          app.document.set('description', 'Edit ' + localization.key + ' in locale ' + app.locale);
           options.success();
         });
     },
@@ -160,8 +160,8 @@ define(function(require) {
             var messageFormat = new MessageFormat(requestData.param('locale'));
             _this.set('pluralRules', messageFormat.pluralRules);
             _this.set('ordinalRules', messageFormat.ordinalRules);
-            _this.setPageTitle(localization.key);
-            _this.setPageDescription('Edit: ' + localization.key);
+            _this.setPageTitle(requestData.param('locale') + ' | ' + localization.key);
+            _this.setPageDescription('Edit ' + localization.key + ' in locale ' + requestData.param('locale'));
             options.success();
           }
           else {

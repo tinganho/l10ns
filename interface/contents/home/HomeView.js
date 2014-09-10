@@ -68,6 +68,7 @@ define(function(require) {
 
     _setElements: function() {
       this.setElement('.home');
+      this.$localizationRegion = $('[data-region="localization"]');
     },
 
     /**
@@ -89,7 +90,10 @@ define(function(require) {
      */
 
     _navigateHome: function() {
-      app.navigate('/' + app.locale + '/localizations');
+      this.$localizationRegion.addClass('is-hidden').removeClass('is-revealed');
+      setTimeout(function() {
+        app.navigate('/' + app.locale + '/localizations');
+      }, 300);
     }
   });
 });

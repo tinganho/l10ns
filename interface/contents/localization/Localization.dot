@@ -37,7 +37,8 @@
   <div class="localization-message">
     <p class="localization-message-text">{{=it.l10ns.message}}</p>
   </div>
-  <div class="localization-buttons">
+  <div class="localization-buttons is-revealed">
     <a class="localization-save">{{=it.l10ns.save}}</a>
+    <canvas class="localization-loading-canvas"></canvas>
   </div>
 </div>

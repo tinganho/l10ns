@@ -10,7 +10,7 @@ $padding: 40px;
 
 .localization-title {
   color: #5a5a5a;
-  font-size: 40px;
+  font-size: 30px;
   word-wrap: break-word;
 }
 
@@ -49,7 +49,7 @@ $padding: 40px;
   display: inline-block;
   padding: 0px 10px;
   border-right: 1px solid #c4c4c4;
-  font-size: 19px;
+  font-size: 14px;
   font-weight: 300;
   cursor: pointer;
   margin: 5px 0;
@@ -94,26 +94,66 @@ $padding: 40px;
 }
 
 .localization-message-text {
+  font-size: 14px;
   min-height: 70px;
+
+  &.has-error {
+    color: #f35f5f;
+  }
 }
 
 .localization-buttons {
-  overflow: hidden;
+  position: relative;
+  height: 50px;
 }
 
 .localization-save {
+  position: absolute;
+  right: 0;
   margin-top: 20px;
   font-size: 35px;
   line-height: 35px;
   font-weight: 100;
   float: right;
   cursor: pointer;
+  z-index: 1;
+  @include transition(opacity 0.3s, transform 0.3s);
 
-  &:hover {
-    opacity: 0.8;
+  .localization-buttons.is-hidden & {
+    opacity: 0;
+    @include transform(scale(0));
   }
 
-  &:active {
-    opacity: 0.6;
+  .localization-buttons.is-revealed & {
+    opacity: 1;
+    @include transform(scale(1));
+
+    &:active {
+      opacity: 0.3;
+    }
+
+    &:hover {
+      opacity: 0.6;
+    }
+  }
+}
+
+.localization-loading-canvas {
+  position: absolute;
+  right: -64px;
+  width: 200px;
+  height: 80px;
+  float: right;
+  @include transform(scale(.5));
+  @include transition(opacity 0.3s, transform 0.3s);
+
+  .localization-buttons.is-hidden & {
+    opacity: 1;
+    @include transform(scale(0.5));
+  }
+
+  .localization-buttons.is-revealed & {
+    opacity: 0;
+    @include transform(scale(0));
   }
 }
