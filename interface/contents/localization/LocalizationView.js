@@ -318,7 +318,7 @@ define(function(require) {
           minTimer.end(function() {
             sinusWave.stop();
             _this.$buttons.removeClass('is-hidden').addClass('is-revealed');
-            _this.$messageText.removeClass('has-error').html(_this.model.get('l10ns').message);
+            _this.$messageText.removeClass('has-error').html(_.escape(_this.model.get('message')));
           });
         },
         error: function(model, response, options) {

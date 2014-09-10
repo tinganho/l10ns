@@ -1,18 +1,28 @@
 module.exports = function(app) {
   var file = require('../../../libraries/file')
     , _ = require('underscore')
-    , MessageFormat = require('../../../libraries/MessageFormat');
+    , MessageFormat = require('../../../libraries/MessageFormat')
+    , defaultMessage = 'Use <a>message format</a> to localize your string above. Click on the help buttons on the toolbar to get help on different formats.';
 
   app.get('/api/:locale/l/:id', function(request, response) {
     file.readLocalizations()
       .then(function(localizations) {
-        var locale = request.param('locale');
-        localizations = file.localizationMapToArray(localizations)[locale];
-        var localization = _.findWhere(localizations, { id : request.param('id') });
+        var locale = request.param('locale')
+          , localizationsWithRequestedLocale = file.localizationMapToArray(localizations)[locale]
+          , localizationWithRequestedLocale = _.findWhere(localizationsWithRequestedLocale, { id : request.param('id') });
+
         var messageFormat = new MessageFormat(locale);
-        localization.pluralRules = messageFormat.pluralRules;
-        localization.ordinalRules = messageFormat.ordinalRules;
-        response.json(localization);
+        localizationWithRequestedLocale.pluralRules = messageFormat.pluralRules;
+        localizationWithRequestedLocale.ordinalRules = messageFormat.ordinalRules;
+        if(locale !== project.defaultLocale) {
+          var localizationsWithDefaultLocale = file.localizationMapToArray(localizations)[project.defaultLocale]
+            , localizationWithDefaultLocale = _.findWhere(localizationsWithDefaultLocale, { id : request.param('id') });
+          localizationWithRequestedLocale.message = 'In ' + project.defaultLocale + ': ' + localizationWithDefaultLocale.value;
+        }
+        else {
+          localizationWithRequestedLocale.message = defaultMessage;
+        }
+        response.json(localizationWithRequestedLocale);
       })
       .fail(function(error) {
         response.send(500);

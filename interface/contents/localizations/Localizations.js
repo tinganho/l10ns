@@ -59,9 +59,25 @@ define(function(require) {
           collection.reset();
           file.readLocalizations()
             .then(function(localizations) {
-              localizations = file.localizationMapToArray(localizations)[request.param('locale')]
-                .slice(0, cf.ITEMS_PER_PAGE);
-              collection.add(localizations, { merge: true });
+              var locale = request.param('locale')
+                , localizationsWithRequestedLocale = file.localizationMapToArray(localizations)[locale].slice(0, cf.ITEMS_PER_PAGE);
+
+              if(locale !== project.defaultLocale) {
+                _this.setMeta('l10n_keys', 'Keys | ' + project.defaultLocale);
+                var localizationsWithDefaultLocale = file.localizationMapToArray(localizations)[project.defaultLocale];
+
+                for(var index = 0; index < localizationsWithRequestedLocale.length; index++) {
+                  localizationsWithRequestedLocale[index].keyText =
+                    localizationsWithRequestedLocale[index].key + ' | ' +  localizationsWithDefaultLocale[index].value;
+                }
+              }
+              else {
+                _this.setMeta('l10n_keys', 'Keys');
+                for(var index = 0; index < localizationsWithRequestedLocale.length; index++) {
+                  localizationsWithRequestedLocale[index].keyText = localizationsWithRequestedLocale[index].key;
+                }
+              }
+              collection.add(localizationsWithRequestedLocale, { merge: true });
 
               if(/^\/t/.test(request.url)) {
                 _this.setMeta('revealed', false);

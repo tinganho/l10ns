@@ -6,10 +6,26 @@ module.exports = function(app) {
     var page = request.param('page');
     file.readLocalizations()
       .then(function(localizations) {
-        localizations = file.localizationMapToArray(localizations)[request.param('locale')]
-          .slice(page * cf.ITEMS_PER_PAGE, (parseInt(page, 10) + 1) * cf.ITEMS_PER_PAGE);
+        var locale = request.param('locale')
+          , localizationsWithRequestedLocale = file.localizationMapToArray(localizations)[locale]
+              .slice(page * cf.ITEMS_PER_PAGE, (parseInt(page, 10) + 1) * cf.ITEMS_PER_PAGE);
 
-        response.json(localizations);
+        if(locale !== project.defaultLocale) {
+          var localizationsWithDefaultLocale = file.localizationMapToArray(localizations)[project.defaultLocale]
+                .slice(page * cf.ITEMS_PER_PAGE, (parseInt(page, 10) + 1) * cf.ITEMS_PER_PAGE);
+
+          for(var index = 0; index < localizationsWithRequestedLocale.length; index++) {
+            localizationsWithRequestedLocale[index].keyText =
+              localizationsWithRequestedLocale[index].key + ' | ' +  localizationsWithDefaultLocale[index].value;
+          }
+        }
+        else {
+          for(var index = 0; index < localizationsWithRequestedLocale.length; index++) {
+            localizationsWithRequestedLocale[index].keyText = localizationsWithRequestedLocale[index].key;
+          }
+        }
+
+        response.json(localizationsWithRequestedLocale);
       })
       .fail(function(error) {
         response.error();

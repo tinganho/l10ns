@@ -50,7 +50,7 @@ define(function(require) {
         message: 'Use <a>message format</a> to localize your string above. Click on the help buttons on the toolbar to get help on different formats.',
         save: 'Save',
         variables: 'VARIABLES:',
-        successFullyUpdated: 'Successfully updated!'
+        inDefaultLocale: 'IN DEFAULT LOCALE:'
       }
     },
 
@@ -153,15 +153,27 @@ define(function(require) {
 
       file.readLocalizations()
         .then(function(localizations) {
-          localizations = file.localizationMapToArray(localizations)[requestData.param('locale')];
-          var localization = _.findWhere(localizations, { id: requestData.param('id') });
-          if(localization) {
-            _this._parse(localization);
-            var messageFormat = new MessageFormat(requestData.param('locale'));
+          var locale = requestData.param('locale')
+            , id = requestData.param('id')
+            , localizationsWithRequestedLocale = file.localizationMapToArray(localizations)[locale]
+            , localizationWithRequestedLocale = _.findWhere(localizationsWithRequestedLocale, { id : id });
+
+          if(localizationWithRequestedLocale) {
+            _this._parse(localizationWithRequestedLocale);
+            var messageFormat = new MessageFormat(locale);
             _this.set('pluralRules', messageFormat.pluralRules);
             _this.set('ordinalRules', messageFormat.ordinalRules);
-            _this.setPageTitle(requestData.param('locale') + ' | ' + localization.key);
-            _this.setPageDescription('Edit ' + localization.key + ' in locale ' + requestData.param('locale'));
+            if(locale !== project.defaultLocale) {
+              var localizationsWithDefaultLocale = file.localizationMapToArray(localizations)[project.defaultLocale]
+                , localizationWithDefaultLocale = _.findWhere(localizationsWithDefaultLocale, { id : id });
+              _this.set('message', 'In ' + project.defaultLocale + ': ' + localizationWithDefaultLocale.value);
+            }
+            else {
+              _this.set('message', _this.get('l10ns').message);
+            }
+
+            _this.setPageTitle(locale + ' | ' + localizationWithRequestedLocale.key);
+            _this.setPageDescription('Edit ' + localizationWithRequestedLocale.key + ' in locale ' + locale);
             options.success();
           }
           else {
@@ -220,6 +232,7 @@ define(function(require) {
       delete json.l10ns;
       delete json.pluralRules;
       delete json.ordinalRules;
+      delete json.message;
 
       return json;
     }
