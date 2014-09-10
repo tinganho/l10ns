@@ -2,7 +2,7 @@
 var LDMLPlural_ = require('../libraries/LDML')
   , AST = require('../libraries/LDML/AST');
 
-describe('LDMLPlural', function() {
+describe('LDML', function() {
   describe('parse(string)', function() {
     it('should parse a number comparison with a single character number and with the comparator `=`', function() {
       LDMLPlural_.parse('n = 1');

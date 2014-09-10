@@ -6,7 +6,7 @@ var localizations = {
     'files': 1,
     'people': 1
   }),
-  'locale1': l('INDEX2', {
+  'locale1': l('POST__COMMENTS', {
     'files': 1
   }),
   'locale1': l('INDEX3', {

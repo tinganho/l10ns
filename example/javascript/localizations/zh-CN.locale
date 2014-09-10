@@ -168,20 +168,6 @@
   "files": [
     "example/javascript/example.js"
   ],
-  "id": "oznzgBzdtb",
-  "key": "INDEX2",
-  "new": false,
-  "timestamp": "2014-09-10T06:30:46.984Z",
-  "value": "",
-  "variables": [
-    "files"
-  ]
-}
-
-{
-  "files": [
-    "example/javascript/example.js"
-  ],
   "id": "LqKqXxq5UG",
   "key": "INDEX20",
   "new": false,
@@ -295,6 +281,20 @@
   "variables": [
     "files",
     "people"
+  ]
+}
+
+{
+  "files": [
+    "example/javascript/example.js"
+  ],
+  "id": "oznzgBzdtb",
+  "key": "POST__COMMENTS",
+  "new": false,
+  "timestamp": "2014-09-10T06:30:46.984Z",
+  "value": "",
+  "variables": [
+    "files"
   ]
 }
 
