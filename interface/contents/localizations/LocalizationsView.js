@@ -33,7 +33,7 @@ define(function(require) {
 
     _setElements: function() {
       this.$region = $('[data-region=body]');
-      this.$loadMore = $('.localizations-load');
+      this.$loadMore = $('.localization-load');
     },
 
     /**
@@ -82,7 +82,7 @@ define(function(require) {
 
     bindDOM: function() {
       this._setElements();
-      this._addMouseInteractions();
+      this._addDesktopInteractions();
       this.boundDOM = true;
     },
 
@@ -93,7 +93,7 @@ define(function(require) {
      * @api private
      */
 
-    _addMouseInteractions: function() {
+    _addDesktopInteractions: function() {
       this.$el.on('click', '.localization', this._showLocalization);
       this.$el.on('click', '.localization-load-anchor', this._nextPage);
     },
@@ -138,7 +138,6 @@ define(function(require) {
     toHTML: function() {
       return template['Localizations'](this.model.toJSON());
     },
-
 
     /**
      * Determine whether to render or not
