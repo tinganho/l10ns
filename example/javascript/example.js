@@ -7,8 +7,7 @@ var localizations = {
     'people': 1
   }),
   'locale1': l('INDEX2', {
-    'files': 1,
-    'people': 1
+    'files': 1
   }),
   'locale1': l('INDEX3', {
     'files': 1,

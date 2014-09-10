@@ -208,7 +208,11 @@ define(function(require) {
      */
 
     _addPluralFormatedText: function() {
-      var text = '{variable, plural,';
+      var variable = 'variable';
+      if(this.model.get('variables').length === 1) {
+        variable = this.model.get('variables')[0];
+      }
+      var text = '{' + variable + ', plural,';
       var keywords =  Object.keys(this.model.get('pluralRules'));
       for(var index = 0; index < keywords.length; index++) {
         text +=  ' ' + keywords[index] + ' {message-' + keywords[index] + '}';
@@ -225,7 +229,12 @@ define(function(require) {
      */
 
     _addSelectFormatedText: function() {
-      this._replaceTextSelectionWithText('{variable, select, other {message-other}}');
+      var variable = 'variable';
+      if(this.model.get('variables').length === 1) {
+        variable = this.model.get('variables')[0];
+      }
+      var text = '{' + variable + ', select , other {message-other}}';
+      this._replaceTextSelectionWithText(text);
     },
 
     /**
@@ -236,7 +245,12 @@ define(function(require) {
      */
 
     _addChoiceFormatedText: function() {
-      this._replaceTextSelectionWithText('{variable, choice, 1<message1|5#message2}');
+      var variable = 'variable';
+      if(this.model.get('variables').length === 1) {
+        variable = this.model.get('variables')[0];
+      }
+      var text = '{' + variable + ', choice, 1<message1|5#message2}';
+      this._replaceTextSelectionWithText(text);
     },
 
     /**
@@ -247,7 +261,11 @@ define(function(require) {
      */
 
     _addSelectordinalFormatedText: function() {
-      var text = '{variable, selectordinal,';
+      var variable = 'variable';
+      if(this.model.get('variables').length === 1) {
+        variable = this.model.get('variables')[0];
+      }
+      var text = '{' + variable + ', selectordinal,';
       var keywords =  Object.keys(this.model.get('ordinalRules'));
       for(var index = 0; index < keywords.length; index++) {
         text +=  ' ' + keywords[index] + ' {message-' + keywords[index] + '}';
@@ -264,7 +282,12 @@ define(function(require) {
      */
 
     _addNumberFormatedText: function() {
-      this._replaceTextSelectionWithText('{variable, number, integer}');
+      var variable = 'variable';
+      if(this.model.get('variables').length === 1) {
+        variable = this.model.get('variables')[0];
+      }
+      var text = '{' + variable + ', number, integer}'
+      this._replaceTextSelectionWithText(text);
     },
 
     /**
