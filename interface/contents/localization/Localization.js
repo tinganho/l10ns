@@ -122,7 +122,7 @@ define(function(require) {
 
       var $json = $('.js-json-localization');
       if($json.length) {
-        this._parse(JSON.parse($json.html()));
+        this._parse(JSON.parse(_.unescape($json.html())));
         $json.remove();
         options.success();
         return;

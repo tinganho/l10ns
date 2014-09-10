@@ -7,7 +7,7 @@
   "key": "INDEX21",
   "new": false,
   "timestamp": "2014-09-10T06:35:44.062Z",
-  "value": "dwfwefewfwef",
+  "value": "dwfwefewfwefff<script>alert(\\'hej\\')</script>",
   "variables": [
     "files",
     "people"

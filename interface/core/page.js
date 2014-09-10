@@ -190,7 +190,7 @@ Page.prototype._getRegions = function(callback, req) {
             // Push json scripts
             jsonScripts += coreTmpls.jsonScript({
               name : _this.regions[name].model.split('/')[2].toLowerCase(),
-              json : JSON.stringify(model.toJSON())
+              json : _.escape(JSON.stringify(model.toJSON()))
             });
 
             n++;

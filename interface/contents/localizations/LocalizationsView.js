@@ -34,6 +34,7 @@ define(function(require) {
     _setElements: function() {
       this.$region = $('[data-region=body]');
       this.$loadMore = $('.localization-load');
+      this.$htmlEscape = $('.__htmlEscape__');
     },
 
     /**
@@ -61,7 +62,7 @@ define(function(require) {
       var _this = this;
 
       this.model.on('change', function(localization) {
-        _this.$('.localization[data-id="' + localization.id + '"] .localization-value').html(localization.get('value'));
+        _this.$('.localization[data-id="' + localization.id + '"] .localization-value').html(_this.$htmlEscape.text(localization.get('value')).html());
       });
 
       this.model.on('add', function(localization) {
