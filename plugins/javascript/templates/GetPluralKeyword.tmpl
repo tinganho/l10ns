@@ -14,7 +14,7 @@ function(cardinal) {
     v = f.length;
   }
   if(hasFractionalDigitsSyntax.test(cardinal)) {
-    t = cardinal.replace(/+0$/, '');
+    t = cardinal.replace(/0+$/, '');
     t = fractionalDigits.exec(t)[1];
     w = t.length;
   }{{?}}{{=it.functionBody}}
