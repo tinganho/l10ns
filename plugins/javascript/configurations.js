@@ -37,7 +37,7 @@ module.exports = {
    * @value {RegExp}
    */
 
-  GET_LOCALIZATION_INNER_FUNCTION_CALL_SYNTAX: new RegExp('\\s+(?!(' + GET_LOCALIZATION_STRING_FUNCTION_NAME + '|' + GET_LOCALIZATION_STRING_USING_VARIABLES_FUNCTION_NAME + '))[.|\\w]+?\\((.*?\\s*?)*?\\)', 'g'),
+  GET_LOCALIZATION_INNER_FUNCTION_CALL_SYNTAX: new RegExp('\\s+(?!(' + GET_LOCALIZATION_STRING_FUNCTION_NAME + '|' + GET_LOCALIZATION_STRING_USING_VARIABLES_FUNCTION_NAME + '))\\w+?\\((.*?\\s*?)*?\\)', 'g'),
 
   /** Translation vars regex should capture a match
    * of the whole translation var object literal in
