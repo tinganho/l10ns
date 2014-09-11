@@ -55,12 +55,16 @@ AST.NumberFormat = function(locale, variable, argument) {
   this.locale = locale;
   this.variable = variable;
   this.argument = argument;
-  this.format = {
-    positive: null,
-    negative: null
-  };
-  this._parseArgument(argument);
+  this.format = AST.NumberFormatPattern.parse(argument);
 };
+
+/**
+ * Namespace numnerformat pattern
+ *
+ * @namespace NumberFormatPattern
+ */
+
+AST.NumberFormatPattern = {};
 
 /**
  * NumberFormat syntaxes
@@ -69,7 +73,7 @@ AST.NumberFormat = function(locale, variable, argument) {
  * @api private
  */
 
-AST.NumberFormat.Syntaxes = {
+AST.NumberFormatPattern.Syntaxes = {
   NUMBER_SIMPLE_ARGUMENTS: /^(integer|currency|percent)$/,
   NUMBER_CHARACTER: /[#0-9\.E@\,\+\-;]/,
   SIGNIFICANT_PATTERN: /^(#*)(@+)(#*)$/,
@@ -88,7 +92,7 @@ AST.NumberFormat.Syntaxes = {
  * @api private
  */
 
-AST.NumberFormat._NumberFormat = function(attributes) {
+AST.NumberFormatPattern._NumberFormat = function(attributes) {
   this.prefix = attributes.prefix;
   this.suffix = attributes.suffix;
   this.paddingCharacter = typeof attributes.paddingCharacter !== 'undefined' ? attributes.paddingCharacter : null;
@@ -107,15 +111,15 @@ AST.NumberFormat._NumberFormat = function(attributes) {
  * @api private
  */
 
-AST.NumberFormat._FloatingNumberFormat = function(attributes) {
-  AST.NumberFormat._NumberFormat.apply(this, arguments);
+AST.NumberFormatPattern._FloatingNumberFormat = function(attributes) {
+  AST.NumberFormatPattern._NumberFormat.apply(this, arguments);
 
   this.exponent = typeof attributes.exponent !== 'undefined' ? attributes.exponent : null;
   this.fraction = typeof attributes.fraction !== 'undefined' ? attributes.fraction : null;
   this.integer = attributes.integer;
 };
 
-AST.NumberFormat._FloatingNumberFormat.prototype = Object.create(AST.NumberFormat._NumberFormat.prototype);
+AST.NumberFormatPattern._FloatingNumberFormat.prototype = Object.create(AST.NumberFormatPattern._NumberFormat.prototype);
 
 /**
  * Create format object representing a SignificantFormat.
@@ -125,29 +129,30 @@ AST.NumberFormat._FloatingNumberFormat.prototype = Object.create(AST.NumberForma
  * @api private
  */
 
-AST.NumberFormat._SignificantNumberFormat = function(attributes) {
-  AST.NumberFormat._NumberFormat.apply(this, arguments);
+AST.NumberFormatPattern._SignificantNumberFormat = function(attributes) {
+  AST.NumberFormatPattern._NumberFormat.apply(this, arguments);
 
   this.leftAbsentNumbers = attributes.leftAbsentNumbers;
   this.nonAbsentNumbers = attributes.nonAbsentNumbers;
   this.rightAbsentNumbers = attributes.rightAbsentNumbers;
 };
 
-AST.NumberFormat._SignificantNumberFormat.prototype = Object.create(AST.NumberFormat._NumberFormat.prototype);
+AST.NumberFormatPattern._SignificantNumberFormat.prototype = Object.create(AST.NumberFormatPattern._NumberFormat.prototype);
 
 /**
  * Parse argument and sets format
  *
- * @param {String} argument
+ * @param {String} argument pattern
  * @return{void}
  * @api private
  */
 
-AST.NumberFormat.prototype._parseArgument = function(argument) {
+AST.NumberFormatPattern.parse = function(argument) {
   var _this = this
-    , numberPatterns = argument;
+    , numberPatterns = argument
+    , format = { positive: null, negative: null };
 
-  if(AST.NumberFormat.Syntaxes.NUMBER_SIMPLE_ARGUMENTS.test(numberPatterns)) {
+  if(AST.NumberFormatPattern.Syntaxes.NUMBER_SIMPLE_ARGUMENTS.test(numberPatterns)) {
     // Valid pattern
     return;
   }
@@ -157,38 +162,44 @@ AST.NumberFormat.prototype._parseArgument = function(argument) {
       var attributes = {};
 
       numberPattern = _this._setPrefixesAndSuffixAttributes(numberPattern, attributes);
-      _this._handleSetNumberFormat(numberPattern, attributes, positive);
 
+      var result = _this._getNumberFormat(numberPattern, attributes);
+      if(positive) {
+        format.positive = result;
+      }
+      else {
+        format.negative = result;
+      }
       positive = false;
     });
+
+    return format;
   }
 };
 
 /**
- * Handle set number format
+ * Get number format
  *
  * @param {String} numberPattern String that represents a number pattern
  * excluding prefix and suffix
  * @param {Object} attributes Object used during initialization of a
  * NumberFormat.NumberFormat
- * @param {Boolean} positive Set positive side or negative
  * @return {void}
  * @throws TypeError
  * @api private
  */
 
-AST.NumberFormat.prototype._handleSetNumberFormat = function(numberPattern, attributes, positive) {
+AST.NumberFormatPattern._getNumberFormat = function(numberPattern, attributes) {
   // All group size is already set so we can remove all commas
   // to ease our parsing
   numberPattern = numberPattern.replace(/,/g, '');
-  if(AST.NumberFormat.Syntaxes.SIGNIFICANT_PATTERN.test(numberPattern)) {
-    this._setSignificantNumberFormat(numberPattern, attributes, positive);
-    return;
+  if(AST.NumberFormatPattern.Syntaxes.SIGNIFICANT_PATTERN.test(numberPattern)) {
+    return this._getSignificantNumberFormat(numberPattern, attributes);
   }
 
   var floatAndExponentPattern = numberPattern.split('E');
   if(floatAndExponentPattern.length <= 2) {
-    this._handleSetFloatingNumberFormat(floatAndExponentPattern, attributes, positive);
+    return this._getFloatingNumberFormat(floatAndExponentPattern, attributes);
   }
   else {
     throw new TypeError('Expected only one \'E\' in your exponent pattern in your NumberFormat argument, got ' + (floatAndExponentPattern.length - 1)+ ' \'E\':s in ' + _this.currentNumberPattern);
@@ -196,19 +207,18 @@ AST.NumberFormat.prototype._handleSetNumberFormat = function(numberPattern, attr
 };
 
 /**
- * Handle set floating number format
+ * Get floating number format
  *
  * @param {Array} floatAndExponentPattern An array representing float and
  * exponent pattern that is splitted using the string `E`
  * @param {Object} attributes Object used during initialization of a
  * NumberFormat.NumberFormat
- * @param {Boolean} positive
- * @return {void}
+ * @return {AST.NumberFormat._FloatingNumberFormat}
  * @throws TypeError
  * @api private
  */
 
-AST.NumberFormat.prototype._handleSetFloatingNumberFormat = function(floatAndExponentPattern, attributes, positive) {
+AST.NumberFormatPattern._getFloatingNumberFormat = function(floatAndExponentPattern, attributes) {
   if(floatAndExponentPattern.length === 2) {
     attributes.exponent = this._getExponentAttributes('E' + floatAndExponentPattern[1]);
   }
@@ -221,7 +231,7 @@ AST.NumberFormat.prototype._handleSetFloatingNumberFormat = function(floatAndExp
 
     attributes.integer = this._getIntegerAttributes(integerAndFractionPattern[0]);
 
-    this._setFloatingNumberFormat(attributes, positive);
+    return new AST.NumberFormatPattern._FloatingNumberFormat(attributes);
   }
   else {
     throw new TypeError('Expected only one \'.\' in your number pattern in your NumberFormat argument, got ' + (integerAndFractionPattern.length - 1) + ' \'.\':s in ' + this.currentNumberPattern);
@@ -243,12 +253,12 @@ AST.NumberFormat.prototype._handleSetFloatingNumberFormat = function(floatAndExp
  * @api private
  */
 
-AST.NumberFormat.prototype._getIntegerAttributes = function(integerAndFractionPattern) {
-  if(!AST.NumberFormat.Syntaxes.INTEGER_PATTERN.test(integerAndFractionPattern)) {
+AST.NumberFormatPattern._getIntegerAttributes = function(integerAndFractionPattern) {
+  if(!AST.NumberFormatPattern.Syntaxes.INTEGER_PATTERN.test(integerAndFractionPattern)) {
     throw new TypeError('Expected a valid integer pattern (/^#*0+$/) in your NumberFormat argument, got (' + integerAndFractionPattern + ') in '  + this.currentNumberPattern);
   }
 
-  var pattern = AST.NumberFormat.Syntaxes.INTEGER_PATTERN.exec(integerAndFractionPattern);
+  var pattern = AST.NumberFormatPattern.Syntaxes.INTEGER_PATTERN.exec(integerAndFractionPattern);
   return {
     leftAbsentNumbers: pattern[1].length,
     nonAbsentNumbers: pattern[2].length
@@ -270,12 +280,12 @@ AST.NumberFormat.prototype._getIntegerAttributes = function(integerAndFractionPa
  * @api private
  */
 
-AST.NumberFormat.prototype._getFractionAttributes = function(integerAndFractionPattern) {
-  if(!AST.NumberFormat.Syntaxes.FRACTION_PATTERN.test(integerAndFractionPattern)) {
+AST.NumberFormatPattern._getFractionAttributes = function(integerAndFractionPattern) {
+  if(!AST.NumberFormatPattern.Syntaxes.FRACTION_PATTERN.test(integerAndFractionPattern)) {
     throw new TypeError('Expected a valid fraction pattern (/^0*#*$/) in your NumberFormat argument, got (' + integerAndFractionPattern + ') in ' + this.currentNumberPattern);
   }
 
-  var pattern = AST.NumberFormat.Syntaxes.FRACTION_PATTERN.exec(integerAndFractionPattern);
+  var pattern = AST.NumberFormatPattern.Syntaxes.FRACTION_PATTERN.exec(integerAndFractionPattern);
   return {
     nonAbsentNumbers: pattern[1].length,
     rightAbsentNumbers: pattern[2].length
@@ -297,12 +307,12 @@ AST.NumberFormat.prototype._getFractionAttributes = function(integerAndFractionP
  * @api private
  */
 
-AST.NumberFormat.prototype._getExponentAttributes = function(exponentPattern) {
-  if(!AST.NumberFormat.Syntaxes.EXPONENT_PATTERN.test(exponentPattern)) {
+AST.NumberFormatPattern._getExponentAttributes = function(exponentPattern) {
+  if(!AST.NumberFormatPattern.Syntaxes.EXPONENT_PATTERN.test(exponentPattern)) {
     throw new TypeError('Expected a valid exponent pattern (/^E\\+?[0-9]+$/) in your NumberFormat argument, got (' + exponentPattern + ') in ' + this.currentNumberPattern);
   }
 
-  var pattern = AST.NumberFormat.Syntaxes.EXPONENT_PATTERN.exec(exponentPattern);
+  var pattern = AST.NumberFormatPattern.Syntaxes.EXPONENT_PATTERN.exec(exponentPattern);
   return {
     nonAbsentNumbers: pattern[2].length,
     showPositiveCharacter: !!pattern[1].length
@@ -310,52 +320,23 @@ AST.NumberFormat.prototype._getExponentAttributes = function(exponentPattern) {
 };
 
 /**
- * Set floating number format on NumberFormat's property format.positive
- * or format.negative depending on if it is positive or not.
- *
- * @param {String} attributes
- * @param {Boolean} positive
- * @return {void}
- * @api private
- */
-
-AST.NumberFormat.prototype._setFloatingNumberFormat = function(attributes, positive) {
-  var format = new AST.NumberFormat._FloatingNumberFormat(attributes);
-
-  if(positive) {
-    this.format.positive = format;
-  }
-  else {
-    this.format.negative = format;
-  }
-};
-
-/**
- * Set signifcant number format on NumberFormat's property format.positive
+ * Get signifcant number format on NumberFormat's property format.positive
  * or format.negative depending on if it is positive or not.
  *
  * @param {String} numberPattern
  * @param {Object} attributes Object used during initialization of a
  * NumberFormat.NumberFormat
- * @param {Boolean} positive
- * @return {void}
+ * @return {AST.NumberFormat._SignificantNumberFormat}
  * @api private
  */
 
-AST.NumberFormat.prototype._setSignificantNumberFormat = function(numberPattern, attributes, positive) {
-  var pattern = AST.NumberFormat.Syntaxes.SIGNIFICANT_PATTERN.exec(numberPattern);
+AST.NumberFormatPattern._getSignificantNumberFormat = function(numberPattern, attributes) {
+  var pattern = AST.NumberFormatPattern.Syntaxes.SIGNIFICANT_PATTERN.exec(numberPattern);
   attributes.leftAbsentNumbers = pattern[1].length;
   attributes.nonAbsentNumbers = pattern[2].length;
   attributes.rightAbsentNumbers = pattern[3].length;
 
-  var format = new AST.NumberFormat._SignificantNumberFormat(attributes);
-
-  if(positive) {
-    this.format.positive = format;
-  }
-  else {
-    this.format.negative = format;
-  }
+  return new AST.NumberFormatPattern._SignificantNumberFormat(attributes);
 };
 
 /**
@@ -368,7 +349,7 @@ AST.NumberFormat.prototype._setSignificantNumberFormat = function(numberPattern,
  * @api private
  */
 
-AST.NumberFormat.prototype._setPrefixesAndSuffixAttributes = function(numberPattern, attributes) {
+AST.NumberFormatPattern._setPrefixesAndSuffixAttributes = function(numberPattern, attributes) {
   var result = ''
     , prefix = ''
     , suffix = ''
@@ -377,6 +358,7 @@ AST.NumberFormat.prototype._setPrefixesAndSuffixAttributes = function(numberPatt
     , currencyCharacterCounter = 0
     , index = 0
     , inQuote = false
+    , formatLength = 0
     , setPaddingCharacter = false;
 
   this.currentNumberPattern = numberPattern;
@@ -403,6 +385,12 @@ AST.NumberFormat.prototype._setPrefixesAndSuffixAttributes = function(numberPatt
     if(setPaddingCharacter) {
       attributes.paddingCharacter = numberPattern[index];
       setPaddingCharacter = false;
+      if(hasEncounterNumberCharacters) {
+        suffix += numberPattern[index];
+      }
+      else {
+        prefix += numberPattern[index];
+      }
       continue;
     }
 
@@ -411,29 +399,53 @@ AST.NumberFormat.prototype._setPrefixesAndSuffixAttributes = function(numberPatt
         if(attributes.paddingCharacter) {
           throw new TypeError('Can not set double padding character(*x*x) in ' + numberPattern);
         }
+        if(hasEncounterNumberCharacters) {
+          suffix += '*';
+        }
+        else {
+          prefix += '*';
+        }
         // Defer padding character set
         setPaddingCharacter = true;
         continue;
       case '%':
-        attributes.percentage = this._getPercentageAttributes(
-          attributes,
-          hasEncounterNumberCharacters);
+        attributes.percentage = this._getPercentage(attributes);
+        if(hasEncounterNumberCharacters) {
+          suffix += '%';
+        }
+        else {
+          prefix += '%';
+        }
+        formatLength++;
         continue;
       case '‰':
-        attributes.permille = this._getPermilleAttributes(
-          attributes,
-          hasEncounterNumberCharacters);
+        attributes.permille = this._getPermille(attributes);
+        if(hasEncounterNumberCharacters) {
+          suffix += '‰';
+        }
+        else {
+          prefix += '‰';
+        }
+        formatLength++;
         continue;
       case '¤':
         currencyCharacterCounter++;
-        attributes.currency = this._getCurrencyAttributes(
+        attributes.currency = this._getCurrency(
           attributes,
-          currencyCharacterCounter,
-          hasEncounterNumberCharacters);
+          currencyCharacterCounter);
+        if(hasEncounterNumberCharacters) {
+          suffix += '¤';
+        }
+        else {
+          prefix += '¤';
+        }
+        formatLength++;
         continue;
     }
 
-    if(AST.NumberFormat.Syntaxes.NUMBER_CHARACTER.test(numberPattern[index])) {
+    formatLength++;
+
+    if(AST.NumberFormatPattern.Syntaxes.NUMBER_CHARACTER.test(numberPattern[index])) {
       if(hasEncounterSuffix) {
         throw new TypeError('A number pattern can not exist after suffix pattern in ' + numberPattern);
       }
@@ -457,12 +469,12 @@ AST.NumberFormat.prototype._setPrefixesAndSuffixAttributes = function(numberPatt
   attributes.suffix = suffix;
 
   // Calculate group size
-  if(AST.NumberFormat.Syntaxes.GROUP_SIZE_PATTERN.test(result)) {
+  if(AST.NumberFormatPattern.Syntaxes.GROUP_SIZE_PATTERN.test(result)) {
     attributes.groupSize = this._getGroupSizeAttributes(result);
   }
 
   // Format length
-  attributes.formatLength = prefix.length + result.length + suffix.length;
+  attributes.formatLength = formatLength;
 
   return result;
 };
@@ -480,8 +492,8 @@ AST.NumberFormat.prototype._setPrefixesAndSuffixAttributes = function(numberPatt
  * @api private
  */
 
-AST.NumberFormat.prototype._getGroupSizeAttributes = function(numberPattern) {
-  var pattern = AST.NumberFormat.Syntaxes.GROUP_SIZE_PATTERN.exec(numberPattern);
+AST.NumberFormatPattern._getGroupSizeAttributes = function(numberPattern) {
+  var pattern = AST.NumberFormatPattern.Syntaxes.GROUP_SIZE_PATTERN.exec(numberPattern);
   return {
     primary: pattern[2].length,
     // We subtract by one to remove one length unit caused by comma
@@ -497,34 +509,19 @@ AST.NumberFormat.prototype._getGroupSizeAttributes = function(numberPattern) {
  *
  * @param {Object} attributes Object used during initialization of a
  * NumberFormat.NumberFormat
- * @param {Boolean} hasEncounterdNumberCharacters
- * @return {Object}
- *
- *   {
- *     position: ('prefix'|'suffix')
- *   }
- *
+ * @return {Boolean}
  * @throws TypeError
  * @api private
  */
 
-AST.NumberFormat.prototype._getPercentageAttributes = function(attributes, hasEncounterdNumberCharacters) {
+AST.NumberFormatPattern._getPercentage = function(attributes) {
   if(attributes.percentage) {
     throw new TypeError('Can not set double percentage character(%%) in ' + this.currentNumberPattern);
   }
   if(attributes.permille || attributes.currency) {
     throw new TypeError('Can not set percentage whenever permille or currency are set in ' + this.currentNumberPattern);
   }
-  if(!hasEncounterdNumberCharacters) {
-    return {
-      position: 'prefix'
-    };
-  }
-  else {
-    return {
-      position: 'suffix'
-    };
-  }
+  return true;
 };
 
 /**
@@ -543,23 +540,14 @@ AST.NumberFormat.prototype._getPercentageAttributes = function(attributes, hasEn
  * @api private
  */
 
-AST.NumberFormat.prototype._getPermilleAttributes = function(attributes, hasEncounterdNumberCharacters) {
+AST.NumberFormatPattern._getPermille = function(attributes, hasEncounterdNumberCharacters) {
   if(attributes.permille) {
     throw new TypeError('Can not set double permille character(‰‰) in ' + this.currentNumberPattern);
   }
   if(attributes.percentage || attributes.currency) {
     throw new TypeError('Can not set permille whenever percentage or currency are set in ' + this.currentNumberPattern);
   }
-  if(!hasEncounterdNumberCharacters) {
-    return {
-      position: 'prefix'
-    };
-  }
-  else {
-    return {
-      position: 'suffix'
-    };
-  }
+  return true;
 };
 
 /**
@@ -580,26 +568,19 @@ AST.NumberFormat.prototype._getPermilleAttributes = function(attributes, hasEnco
  * @api private
  */
 
-AST.NumberFormat.prototype._getCurrencyAttributes = function(attributes, currencyCharacterCounter, hasEncounterdNumberCharacters) {
+AST.NumberFormatPattern._getCurrency = function(attributes, currencyCharacterCounter, hasEncounterdNumberCharacters) {
   if(attributes.percentage || attributes.permille) {
     throw new TypeError('Can not set currency whenever percentage or permille are set in ' + this.currentNumberPattern);
   }
-  if(!hasEncounterdNumberCharacters) {
-    return {
-      position: 'prefix',
-      characterLength: currencyCharacterCounter
-    };
-  }
-  else {
+  if(hasEncounterdNumberCharacters) {
     if(typeof attributes.currency !== 'undefined' &&
        typeof attributes.currency.position === 'prefix') {
       throw new TypeError('Can not set both a currency prefix and suffix in ' + this.currentNumberPattern);
     }
-    return {
-      position: 'suffix',
-      characterLength: currencyCharacterCounter
-    };
   }
+  return {
+    length: currencyCharacterCounter
+  };
 };
 
 /**

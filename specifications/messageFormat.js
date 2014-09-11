@@ -1,13 +1,124 @@
 
 var MessageFormat = require('../libraries/MessageFormat')
-  , messageFormat = new MessageFormat('en-US');
+  , messageFormat = new MessageFormat('en-US')
   , AST = require('../libraries/MessageFormat/AST');
+
+project.currencies = ['USD'];
 
 describe('MessageFormat', function() {
   describe('#constructor', function() {
-    it('should read number patterns', function() {
+    it('should read decimal pattern', function() {
       var messageFormat = new MessageFormat('en-US');
-      console.log(messageFormat.decimalPattern);
+      expect(messageFormat.decimalPattern.positive.groupSize).to.eql({
+        primary: 3,
+        secondary: 3
+      });
+      expect(messageFormat.decimalPattern.positive).to.include({
+        formatLength: 9,
+      });
+      expect(messageFormat.decimalPattern.positive.integer).to.eql({
+        leftAbsentNumbers: 3,
+        nonAbsentNumbers: 1
+      });
+      expect(messageFormat.decimalPattern.positive.fraction).to.eql({
+        nonAbsentNumbers: 0,
+        rightAbsentNumbers: 3
+      });
+    });
+
+    it('should read percentage pattern', function() {
+      var messageFormat = new MessageFormat('en-US');
+      expect(messageFormat.percentagePattern.positive.percentage).to.equal(true);
+      expect(messageFormat.percentagePattern.positive.formatLength).to.equal(6);
+      expect(messageFormat.percentagePattern.positive.suffix).to.equal('%');
+      expect(messageFormat.percentagePattern.positive.groupSize).to.eql({
+        primary: 3,
+        secondary: 3
+      });
+      expect(messageFormat.percentagePattern.positive.integer).to.eql({
+        leftAbsentNumbers: 3,
+        nonAbsentNumbers: 1
+      });
+    });
+
+    it('should read standard currency pattern', function() {
+      var messageFormat = new MessageFormat('en-US');
+      expect(messageFormat.standardCurrencyPattern.positive.prefix).to.equal('¤');
+      expect(messageFormat.standardCurrencyPattern.positive.groupSize).to.eql({
+        primary: 3,
+        secondary: 3
+      });
+      expect(messageFormat.standardCurrencyPattern.positive.currency).to.eql({
+        length: 1
+      });
+      expect(messageFormat.standardCurrencyPattern.positive.formatLength).to.equal(9);
+      expect(messageFormat.standardCurrencyPattern.positive.fraction).to.eql({
+        nonAbsentNumbers: 2,
+        rightAbsentNumbers: 0
+      });
+      expect(messageFormat.standardCurrencyPattern.positive.integer).to.eql({
+        leftAbsentNumbers: 3,
+        nonAbsentNumbers: 1
+      });
+    });
+
+    it('should read accounting currency pattern', function() {
+      var messageFormat = new MessageFormat('en-US');
+      expect(messageFormat.accountingCurrencyPattern.positive.prefix).to.equal('¤');
+      expect(messageFormat.accountingCurrencyPattern.positive.groupSize).to.eql({
+        primary: 3,
+        secondary: 3
+      });
+      expect(messageFormat.accountingCurrencyPattern.positive.currency).to.eql({
+        length: 1
+      });
+      expect(messageFormat.accountingCurrencyPattern.positive.formatLength).to.equal(9);
+      expect(messageFormat.accountingCurrencyPattern.positive.fraction).to.eql({
+        nonAbsentNumbers: 2,
+        rightAbsentNumbers: 0
+      });
+      expect(messageFormat.accountingCurrencyPattern.positive.integer).to.eql({
+        leftAbsentNumbers: 3,
+        nonAbsentNumbers: 1
+      });
+      expect(messageFormat.accountingCurrencyPattern.negative.prefix).to.equal('(¤');
+      expect(messageFormat.accountingCurrencyPattern.negative.suffix).to.equal(')');
+      expect(messageFormat.accountingCurrencyPattern.negative.groupSize).to.eql({
+        primary: 3,
+        secondary: 3
+      });
+      expect(messageFormat.accountingCurrencyPattern.negative.currency).to.eql({
+        length: 1
+      });
+      expect(messageFormat.accountingCurrencyPattern.negative.formatLength).to.equal(11);
+      expect(messageFormat.accountingCurrencyPattern.negative.fraction).to.eql({
+        nonAbsentNumbers: 2,
+        rightAbsentNumbers: 0
+      });
+      expect(messageFormat.accountingCurrencyPattern.negative.integer).to.eql({
+        leftAbsentNumbers: 3,
+        nonAbsentNumbers: 1
+      });
+    });
+
+    it('should read currencies', function() {
+      var messageFormat = new MessageFormat('en-US');
+      expect(messageFormat.currencies).to.eql({ 'USD': {
+        name: 'US Dollar',
+        pluralRules: {
+          one: 'US dollar',
+          other: 'US dollars'
+        },
+        symbol: '$'
+      }});
+    });
+
+    it('should read currencie unit patterns', function() {
+      var messageFormat = new MessageFormat('en-US');
+      expect(messageFormat.currencyUnitPatterns).to.eql({
+        one: '{value} {unit}',
+        other: '{value} {unit}'
+      });
     });
   });
 
@@ -148,11 +259,11 @@ describe('MessageFormat', function() {
         expect(messageFormat.messageAST[0].format.positive.integer.nonAbsentNumbers).to.equal(1);
         expect(messageFormat.messageAST[0].format.positive.fraction).to.equal(null);
         expect(messageFormat.messageAST[0].format.positive.exponent).to.equal(null);
-        expect(messageFormat.messageAST[0].format.positive.percentage).to.eql({ position: 'prefix' });
+        expect(messageFormat.messageAST[0].format.positive.percentage).to.equal(true);
         expect(messageFormat.messageAST[0].format.positive.permille).to.equal(null);
         expect(messageFormat.messageAST[0].format.positive.currency).to.equal(null);
         expect(messageFormat.messageAST[0].format.positive.groupSize).to.equal(null);
-        expect(messageFormat.messageAST[0].format.positive.formatLength).to.equal(1);
+        expect(messageFormat.messageAST[0].format.positive.formatLength).to.equal(2);
         expect(messageFormat.messageAST[0].format.negative).to.equal(null);
       });
 
@@ -164,11 +275,11 @@ describe('MessageFormat', function() {
         expect(messageFormat.messageAST[0].format.positive.integer.nonAbsentNumbers).to.equal(1);
         expect(messageFormat.messageAST[0].format.positive.fraction).to.equal(null);
         expect(messageFormat.messageAST[0].format.positive.exponent).to.equal(null);
-        expect(messageFormat.messageAST[0].format.positive.percentage).to.eql({ position: 'suffix' });
+        expect(messageFormat.messageAST[0].format.positive.percentage).to.equal(true);
         expect(messageFormat.messageAST[0].format.positive.permille).to.equal(null);
         expect(messageFormat.messageAST[0].format.positive.currency).to.equal(null);
         expect(messageFormat.messageAST[0].format.positive.groupSize).to.equal(null);
-        expect(messageFormat.messageAST[0].format.positive.formatLength).to.equal(1);
+        expect(messageFormat.messageAST[0].format.positive.formatLength).to.equal(2);
         expect(messageFormat.messageAST[0].format.negative).to.equal(null);
       });
 
@@ -181,10 +292,10 @@ describe('MessageFormat', function() {
         expect(messageFormat.messageAST[0].format.positive.fraction).to.equal(null);
         expect(messageFormat.messageAST[0].format.positive.exponent).to.equal(null);
         expect(messageFormat.messageAST[0].format.positive.percentage).to.equal(null);
-        expect(messageFormat.messageAST[0].format.positive.permille).to.eql({ position: 'prefix' });
+        expect(messageFormat.messageAST[0].format.positive.permille).to.equal(true);
         expect(messageFormat.messageAST[0].format.positive.currency).to.equal(null);
         expect(messageFormat.messageAST[0].format.positive.groupSize).to.equal(null);
-        expect(messageFormat.messageAST[0].format.positive.formatLength).to.equal(1);
+        expect(messageFormat.messageAST[0].format.positive.formatLength).to.equal(2);
         expect(messageFormat.messageAST[0].format.negative).to.equal(null);
       });
 
@@ -197,10 +308,10 @@ describe('MessageFormat', function() {
         expect(messageFormat.messageAST[0].format.positive.fraction).to.equal(null);
         expect(messageFormat.messageAST[0].format.positive.exponent).to.equal(null);
         expect(messageFormat.messageAST[0].format.positive.percentage).to.equal(null);
-        expect(messageFormat.messageAST[0].format.positive.permille).to.eql({ position: 'suffix' });
+        expect(messageFormat.messageAST[0].format.positive.permille).to.equal(true);
         expect(messageFormat.messageAST[0].format.positive.currency).to.equal(null);
         expect(messageFormat.messageAST[0].format.positive.groupSize).to.equal(null);
-        expect(messageFormat.messageAST[0].format.positive.formatLength).to.equal(1);
+        expect(messageFormat.messageAST[0].format.positive.formatLength).to.equal(2);
         expect(messageFormat.messageAST[0].format.negative).to.equal(null);
       });
 
@@ -208,7 +319,7 @@ describe('MessageFormat', function() {
         messageFormat.parse('{variable1,number,¤0}');
         expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
         expect(messageFormat.messageAST[0].argument).to.equal('¤0');
-        expect(messageFormat.messageAST[0].format.positive.prefix).to.equal('');
+        expect(messageFormat.messageAST[0].format.positive.prefix).to.equal('¤');
         expect(messageFormat.messageAST[0].format.positive.suffix).to.equal('');
         expect(messageFormat.messageAST[0].format.positive.integer.leftAbsentNumbers).to.equal(0);
         expect(messageFormat.messageAST[0].format.positive.integer.nonAbsentNumbers).to.equal(1);
@@ -216,14 +327,14 @@ describe('MessageFormat', function() {
         expect(messageFormat.messageAST[0].format.positive.exponent).to.equal(null);
         expect(messageFormat.messageAST[0].format.positive.percentage).to.equal(null);
         expect(messageFormat.messageAST[0].format.positive.permille).to.equal(null);
-        expect(messageFormat.messageAST[0].format.positive.currency).to.eql({ position: 'prefix', characterLength: 1 });
+        expect(messageFormat.messageAST[0].format.positive.currency).to.eql({ length: 1 });
         expect(messageFormat.messageAST[0].format.positive.groupSize).to.equal(null);
-        expect(messageFormat.messageAST[0].format.positive.formatLength).to.equal(1);
+        expect(messageFormat.messageAST[0].format.positive.formatLength).to.equal(2);
         expect(messageFormat.messageAST[0].format.negative).to.equal(null);
         messageFormat.parse('{variable1,number,¤¤0}');
         expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
         expect(messageFormat.messageAST[0].argument).to.equal('¤¤0');
-        expect(messageFormat.messageAST[0].format.positive.prefix).to.equal('');
+        expect(messageFormat.messageAST[0].format.positive.prefix).to.equal('¤¤');
         expect(messageFormat.messageAST[0].format.positive.suffix).to.equal('');
         expect(messageFormat.messageAST[0].format.positive.integer.leftAbsentNumbers).to.equal(0);
         expect(messageFormat.messageAST[0].format.positive.integer.nonAbsentNumbers).to.equal(1);
@@ -231,14 +342,14 @@ describe('MessageFormat', function() {
         expect(messageFormat.messageAST[0].format.positive.exponent).to.equal(null);
         expect(messageFormat.messageAST[0].format.positive.percentage).to.equal(null);
         expect(messageFormat.messageAST[0].format.positive.permille).to.equal(null);
-        expect(messageFormat.messageAST[0].format.positive.currency).to.eql({ position: 'prefix', characterLength: 2 });
+        expect(messageFormat.messageAST[0].format.positive.currency).to.eql({ length: 2 });
         expect(messageFormat.messageAST[0].format.positive.groupSize).to.equal(null);
-        expect(messageFormat.messageAST[0].format.positive.formatLength).to.equal(1);
+        expect(messageFormat.messageAST[0].format.positive.formatLength).to.equal(3);
         expect(messageFormat.messageAST[0].format.negative).to.equal(null);
         messageFormat.parse('{variable1,number,¤¤¤0}');
         expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
         expect(messageFormat.messageAST[0].argument).to.equal('¤¤¤0');
-        expect(messageFormat.messageAST[0].format.positive.prefix).to.equal('');
+        expect(messageFormat.messageAST[0].format.positive.prefix).to.equal('¤¤¤');
         expect(messageFormat.messageAST[0].format.positive.suffix).to.equal('');
         expect(messageFormat.messageAST[0].format.positive.integer.leftAbsentNumbers).to.equal(0);
         expect(messageFormat.messageAST[0].format.positive.integer.nonAbsentNumbers).to.equal(1);
@@ -246,9 +357,9 @@ describe('MessageFormat', function() {
         expect(messageFormat.messageAST[0].format.positive.exponent).to.equal(null);
         expect(messageFormat.messageAST[0].format.positive.percentage).to.equal(null);
         expect(messageFormat.messageAST[0].format.positive.permille).to.equal(null);
-        expect(messageFormat.messageAST[0].format.positive.currency).to.eql({ position: 'prefix', characterLength: 3 });
+        expect(messageFormat.messageAST[0].format.positive.currency).to.eql({ length: 3 });
         expect(messageFormat.messageAST[0].format.positive.groupSize).to.equal(null);
-        expect(messageFormat.messageAST[0].format.positive.formatLength).to.equal(1);
+        expect(messageFormat.messageAST[0].format.positive.formatLength).to.equal(4);
         expect(messageFormat.messageAST[0].format.negative).to.equal(null);
       });
 
@@ -257,47 +368,47 @@ describe('MessageFormat', function() {
         expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
         expect(messageFormat.messageAST[0].argument).to.equal('0¤');
         expect(messageFormat.messageAST[0].format.positive.prefix).to.equal('');
-        expect(messageFormat.messageAST[0].format.positive.suffix).to.equal('');
+        expect(messageFormat.messageAST[0].format.positive.suffix).to.equal('¤');
         expect(messageFormat.messageAST[0].format.positive.integer.leftAbsentNumbers).to.equal(0);
         expect(messageFormat.messageAST[0].format.positive.integer.nonAbsentNumbers).to.equal(1);
         expect(messageFormat.messageAST[0].format.positive.fraction).to.equal(null);
         expect(messageFormat.messageAST[0].format.positive.exponent).to.equal(null);
-        expect(messageFormat.messageAST[0].format.positive.currency).to.eql({ position: 'suffix', characterLength: 1 });
+        expect(messageFormat.messageAST[0].format.positive.currency).to.eql({ length: 1 });
         expect(messageFormat.messageAST[0].format.positive.groupSize).to.equal(null);
-        expect(messageFormat.messageAST[0].format.positive.formatLength).to.equal(1);
+        expect(messageFormat.messageAST[0].format.positive.formatLength).to.equal(2);
         expect(messageFormat.messageAST[0].format.negative).to.equal(null);
         messageFormat.parse('{variable1,number,0¤¤}');
         expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
         expect(messageFormat.messageAST[0].argument).to.equal('0¤¤');
         expect(messageFormat.messageAST[0].format.positive.prefix).to.equal('');
-        expect(messageFormat.messageAST[0].format.positive.suffix).to.equal('');
+        expect(messageFormat.messageAST[0].format.positive.suffix).to.equal('¤¤');
         expect(messageFormat.messageAST[0].format.positive.integer.leftAbsentNumbers).to.equal(0);
         expect(messageFormat.messageAST[0].format.positive.integer.nonAbsentNumbers).to.equal(1);
         expect(messageFormat.messageAST[0].format.positive.fraction).to.equal(null);
         expect(messageFormat.messageAST[0].format.positive.exponent).to.equal(null);
-        expect(messageFormat.messageAST[0].format.positive.currency).to.eql({ position: 'suffix', characterLength: 2 });
+        expect(messageFormat.messageAST[0].format.positive.currency).to.eql({ length: 2 });
         expect(messageFormat.messageAST[0].format.positive.groupSize).to.equal(null);
-        expect(messageFormat.messageAST[0].format.positive.formatLength).to.equal(1);
+        expect(messageFormat.messageAST[0].format.positive.formatLength).to.equal(3);
         expect(messageFormat.messageAST[0].format.negative).to.equal(null);
         messageFormat.parse('{variable1,number,0¤¤¤}');
         expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
         expect(messageFormat.messageAST[0].argument).to.equal('0¤¤¤');
         expect(messageFormat.messageAST[0].format.positive.prefix).to.equal('');
-        expect(messageFormat.messageAST[0].format.positive.suffix).to.equal('');
+        expect(messageFormat.messageAST[0].format.positive.suffix).to.equal('¤¤¤');
         expect(messageFormat.messageAST[0].format.positive.integer.leftAbsentNumbers).to.equal(0);
         expect(messageFormat.messageAST[0].format.positive.integer.nonAbsentNumbers).to.equal(1);
         expect(messageFormat.messageAST[0].format.positive.fraction).to.equal(null);
         expect(messageFormat.messageAST[0].format.positive.exponent).to.equal(null);
-        expect(messageFormat.messageAST[0].format.positive.currency).to.eql({ position: 'suffix', characterLength: 3 });
+        expect(messageFormat.messageAST[0].format.positive.currency).to.eql({ length: 3 });
         expect(messageFormat.messageAST[0].format.positive.groupSize).to.equal(null);
-        expect(messageFormat.messageAST[0].format.positive.formatLength).to.equal(1);
+        expect(messageFormat.messageAST[0].format.positive.formatLength).to.equal(4);
         expect(messageFormat.messageAST[0].format.negative).to.equal(null);
       });
 
       it('should be able to parse a signifcant number pattern with a single non-absent number', function() {
         messageFormat.parse('{variable1,number,@}');
         expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
-        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormat._SignificantNumberFormat);
+        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormatPattern._SignificantNumberFormat);
         expect(messageFormat.messageAST[0].format.positive.leftAbsentNumbers).to.equal(0);
         expect(messageFormat.messageAST[0].format.positive.nonAbsentNumbers).to.equal(1);
         expect(messageFormat.messageAST[0].format.positive.rightAbsentNumbers).to.equal(0);
@@ -308,7 +419,7 @@ describe('MessageFormat', function() {
       it('should be able to parse a signifcant number pattern with multiple non-absent numbers', function() {
         messageFormat.parse('{variable1,number,@@}');
         expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
-        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormat._SignificantNumberFormat);
+        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormatPattern._SignificantNumberFormat);
         expect(messageFormat.messageAST[0].format.positive.leftAbsentNumbers).to.equal(0);
         expect(messageFormat.messageAST[0].format.positive.nonAbsentNumbers).to.equal(2);
         expect(messageFormat.messageAST[0].format.positive.rightAbsentNumbers).to.equal(0);
@@ -319,7 +430,7 @@ describe('MessageFormat', function() {
       it('should be able to parse a signifcant number pattern with multiple non-absent numbers and a single left absent number', function() {
         messageFormat.parse('{variable1,number,#@@}');
         expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
-        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormat._SignificantNumberFormat);
+        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormatPattern._SignificantNumberFormat);
         expect(messageFormat.messageAST[0].format.positive.leftAbsentNumbers).to.equal(1);
         expect(messageFormat.messageAST[0].format.positive.nonAbsentNumbers).to.equal(2);
         expect(messageFormat.messageAST[0].format.positive.rightAbsentNumbers).to.equal(0);
@@ -330,7 +441,7 @@ describe('MessageFormat', function() {
       it('should be able to parse a signifcant number pattern with multiple non-absent numbers and multiple left absent numbers', function() {
         messageFormat.parse('{variable1,number,##@@}');
         expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
-        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormat._SignificantNumberFormat);
+        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormatPattern._SignificantNumberFormat);
         expect(messageFormat.messageAST[0].format.positive.leftAbsentNumbers).to.equal(2);
         expect(messageFormat.messageAST[0].format.positive.nonAbsentNumbers).to.equal(2);
         expect(messageFormat.messageAST[0].format.positive.rightAbsentNumbers).to.equal(0);
@@ -342,7 +453,7 @@ describe('MessageFormat', function() {
         messageFormat.parse('{variable1,number,0}');
         expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
         expect(messageFormat.messageAST[0].argument).to.equal('0');
-        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormat._FloatingNumberFormat);
+        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormatPattern._FloatingNumberFormat);
         expect(messageFormat.messageAST[0].format.positive.integer.leftAbsentNumbers).to.equal(0);
         expect(messageFormat.messageAST[0].format.positive.integer.nonAbsentNumbers).to.equal(1);
         expect(messageFormat.messageAST[0].format.positive.fraction).to.equal(null);
@@ -357,7 +468,7 @@ describe('MessageFormat', function() {
         messageFormat.parse('{variable1,number,00}');
         expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
         expect(messageFormat.messageAST[0].argument).to.equal('00');
-        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormat._FloatingNumberFormat);
+        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormatPattern._FloatingNumberFormat);
         expect(messageFormat.messageAST[0].format.positive.integer.leftAbsentNumbers).to.equal(0);
         expect(messageFormat.messageAST[0].format.positive.integer.nonAbsentNumbers).to.equal(2);
         expect(messageFormat.messageAST[0].format.positive.fraction).to.equal(null);
@@ -372,7 +483,7 @@ describe('MessageFormat', function() {
         messageFormat.parse('{variable1,number,#0}');
         expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
         expect(messageFormat.messageAST[0].argument).to.equal('#0');
-        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormat._FloatingNumberFormat);
+        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormatPattern._FloatingNumberFormat);
         expect(messageFormat.messageAST[0].format.positive.integer.leftAbsentNumbers).to.equal(1);
         expect(messageFormat.messageAST[0].format.positive.integer.nonAbsentNumbers).to.equal(1);
         expect(messageFormat.messageAST[0].format.positive.fraction).to.equal(null);
@@ -387,7 +498,7 @@ describe('MessageFormat', function() {
         messageFormat.parse('{variable1,number,##0}');
         expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
         expect(messageFormat.messageAST[0].argument).to.equal('##0');
-        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormat._FloatingNumberFormat);
+        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormatPattern._FloatingNumberFormat);
         expect(messageFormat.messageAST[0].format.positive.integer.leftAbsentNumbers).to.equal(2);
         expect(messageFormat.messageAST[0].format.positive.integer.nonAbsentNumbers).to.equal(1);
         expect(messageFormat.messageAST[0].format.positive.fraction).to.equal(null);
@@ -402,7 +513,7 @@ describe('MessageFormat', function() {
         messageFormat.parse('{variable1,number,#0.0}');
         expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
         expect(messageFormat.messageAST[0].argument).to.equal('#0.0');
-        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormat._FloatingNumberFormat);
+        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormatPattern._FloatingNumberFormat);
         expect(messageFormat.messageAST[0].format.positive.integer.leftAbsentNumbers).to.equal(1);
         expect(messageFormat.messageAST[0].format.positive.integer.nonAbsentNumbers).to.equal(1);
         expect(messageFormat.messageAST[0].format.positive.fraction.nonAbsentNumbers).to.equal(1);
@@ -418,7 +529,7 @@ describe('MessageFormat', function() {
         messageFormat.parse('{variable1,number,#0.00}');
         expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
         expect(messageFormat.messageAST[0].argument).to.equal('#0.00');
-        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormat._FloatingNumberFormat);
+        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormatPattern._FloatingNumberFormat);
         expect(messageFormat.messageAST[0].format.positive.integer.leftAbsentNumbers).to.equal(1);
         expect(messageFormat.messageAST[0].format.positive.integer.nonAbsentNumbers).to.equal(1);
         expect(messageFormat.messageAST[0].format.positive.fraction.nonAbsentNumbers).to.equal(2);
@@ -434,7 +545,7 @@ describe('MessageFormat', function() {
         messageFormat.parse('{variable1,number,#0.00#}');
         expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
         expect(messageFormat.messageAST[0].argument).to.equal('#0.00#');
-        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormat._FloatingNumberFormat);
+        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormatPattern._FloatingNumberFormat);
         expect(messageFormat.messageAST[0].format.positive.integer.leftAbsentNumbers).to.equal(1);
         expect(messageFormat.messageAST[0].format.positive.integer.nonAbsentNumbers).to.equal(1);
         expect(messageFormat.messageAST[0].format.positive.fraction.nonAbsentNumbers).to.equal(2);
@@ -450,7 +561,7 @@ describe('MessageFormat', function() {
         messageFormat.parse('{variable1,number,#0.00##}');
         expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
         expect(messageFormat.messageAST[0].argument).to.equal('#0.00##');
-        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormat._FloatingNumberFormat);
+        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormatPattern._FloatingNumberFormat);
         expect(messageFormat.messageAST[0].format.positive.integer.leftAbsentNumbers).to.equal(1);
         expect(messageFormat.messageAST[0].format.positive.integer.nonAbsentNumbers).to.equal(1);
         expect(messageFormat.messageAST[0].format.positive.fraction.nonAbsentNumbers).to.equal(2);
@@ -466,7 +577,7 @@ describe('MessageFormat', function() {
         messageFormat.parse('{variable1,number,#0E0}');
         expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
         expect(messageFormat.messageAST[0].argument).to.equal('#0E0');
-        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormat._FloatingNumberFormat);
+        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormatPattern._FloatingNumberFormat);
         expect(messageFormat.messageAST[0].format.positive.integer.leftAbsentNumbers).to.equal(1);
         expect(messageFormat.messageAST[0].format.positive.integer.nonAbsentNumbers).to.equal(1);
         expect(messageFormat.messageAST[0].format.positive.fraction).to.equal(null);
@@ -481,7 +592,7 @@ describe('MessageFormat', function() {
         messageFormat.parse('{variable1,number,#0E00}');
         expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
         expect(messageFormat.messageAST[0].argument).to.equal('#0E00');
-        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormat._FloatingNumberFormat);
+        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormatPattern._FloatingNumberFormat);
         expect(messageFormat.messageAST[0].format.positive.integer.leftAbsentNumbers).to.equal(1);
         expect(messageFormat.messageAST[0].format.positive.integer.nonAbsentNumbers).to.equal(1);
         expect(messageFormat.messageAST[0].format.positive.fraction).to.equal(null);
@@ -496,7 +607,7 @@ describe('MessageFormat', function() {
         messageFormat.parse('{variable1,number,#0E+0}');
         expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
         expect(messageFormat.messageAST[0].argument).to.equal('#0E+0');
-        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormat._FloatingNumberFormat);
+        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormatPattern._FloatingNumberFormat);
         expect(messageFormat.messageAST[0].format.positive.integer.leftAbsentNumbers).to.equal(1);
         expect(messageFormat.messageAST[0].format.positive.integer.nonAbsentNumbers).to.equal(1);
         expect(messageFormat.messageAST[0].format.positive.fraction).to.equal(null);
@@ -509,14 +620,14 @@ describe('MessageFormat', function() {
 
       it('should be able to parse a formatted argument with a negative pattern', function() {
         messageFormat.parse('{variable1,number,0;0}');
-        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormat._FloatingNumberFormat);
+        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormatPattern._FloatingNumberFormat);
         expect(messageFormat.messageAST[0].format.positive.integer.leftAbsentNumbers).to.equal(0);
         expect(messageFormat.messageAST[0].format.positive.integer.nonAbsentNumbers).to.equal(1);
-        expect(messageFormat.messageAST[0].format.negative).to.be.an.instanceOf(AST.NumberFormat._FloatingNumberFormat);
+        expect(messageFormat.messageAST[0].format.negative).to.be.an.instanceOf(AST.NumberFormatPattern._FloatingNumberFormat);
         expect(messageFormat.messageAST[0].format.negative.integer.leftAbsentNumbers).to.equal(0);
         expect(messageFormat.messageAST[0].format.negative.integer.nonAbsentNumbers).to.equal(1);
         messageFormat.parse('{variable1,number,0;##0.00##E0}');
-        expect(messageFormat.messageAST[0].format.negative).to.be.an.instanceOf(AST.NumberFormat._FloatingNumberFormat);
+        expect(messageFormat.messageAST[0].format.negative).to.be.an.instanceOf(AST.NumberFormatPattern._FloatingNumberFormat);
         expect(messageFormat.messageAST[0].format.negative.integer.leftAbsentNumbers).to.equal(2);
         expect(messageFormat.messageAST[0].format.negative.integer.nonAbsentNumbers).to.equal(1);
         expect(messageFormat.messageAST[0].format.negative.fraction.nonAbsentNumbers).to.equal(2);
@@ -530,7 +641,7 @@ describe('MessageFormat', function() {
       it('should be able to parse group size with a single group separator', function() {
         messageFormat.parse('{variable1,number,#,#0}');
         expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
-        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormat._FloatingNumberFormat);
+        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormatPattern._FloatingNumberFormat);
         expect(messageFormat.messageAST[0].format.positive.groupSize.primary).to.equal(2);
         expect(messageFormat.messageAST[0].format.positive.groupSize.secondary).to.equal(2);
       });
@@ -538,43 +649,43 @@ describe('MessageFormat', function() {
       it('should be able to parse a group size with multiple group separator', function() {
         messageFormat.parse('{variable1,number,#,#,#0}');
         expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
-        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormat._FloatingNumberFormat);
+        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormatPattern._FloatingNumberFormat);
         expect(messageFormat.messageAST[0].format.positive.groupSize.primary).to.equal(2);
         expect(messageFormat.messageAST[0].format.positive.groupSize.secondary).to.equal(1);
       });
 
       it('should be able to parse with spaces between keywords', function() {
         messageFormat.parse('{ variable1,number,0}');
-        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormat._FloatingNumberFormat);
+        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormatPattern._FloatingNumberFormat);
         expect(messageFormat.messageAST[0].format.positive.integer.leftAbsentNumbers).to.equal(0);
         expect(messageFormat.messageAST[0].format.positive.integer.nonAbsentNumbers).to.equal(1);
         expect(messageFormat.messageAST[0].format.negative).to.equal(null);
         messageFormat.parse('{variable1 ,number,0}');
-        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormat._FloatingNumberFormat);
+        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormatPattern._FloatingNumberFormat);
         expect(messageFormat.messageAST[0].format.positive.integer.leftAbsentNumbers).to.equal(0);
         expect(messageFormat.messageAST[0].format.positive.integer.nonAbsentNumbers).to.equal(1);
         expect(messageFormat.messageAST[0].format.negative).to.equal(null);
         messageFormat.parse('{variable1 ,number,0}');
-        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormat._FloatingNumberFormat);
+        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormatPattern._FloatingNumberFormat);
         expect(messageFormat.messageAST[0].format.positive.integer.leftAbsentNumbers).to.equal(0);
         expect(messageFormat.messageAST[0].format.positive.integer.nonAbsentNumbers).to.equal(1);
         expect(messageFormat.messageAST[0].format.negative).to.equal(null);
         messageFormat.parse('{variable1, number,0}');
-        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormat._FloatingNumberFormat);
+        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormatPattern._FloatingNumberFormat);
         expect(messageFormat.messageAST[0].format.positive.integer.leftAbsentNumbers).to.equal(0);
         expect(messageFormat.messageAST[0].format.positive.integer.nonAbsentNumbers).to.equal(1);
         expect(messageFormat.messageAST[0].format.negative).to.equal(null);
         messageFormat.parse('{variable1,number, 0}');
-        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormat._FloatingNumberFormat);
+        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormatPattern._FloatingNumberFormat);
         expect(messageFormat.messageAST[0].format.positive.integer.leftAbsentNumbers).to.equal(0);
         expect(messageFormat.messageAST[0].format.positive.integer.nonAbsentNumbers).to.equal(1);
         expect(messageFormat.messageAST[0].format.negative).to.equal(null);
-        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormat._FloatingNumberFormat);
+        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormatPattern._FloatingNumberFormat);
         expect(messageFormat.messageAST[0].format.positive.integer.leftAbsentNumbers).to.equal(0);
         expect(messageFormat.messageAST[0].format.positive.integer.nonAbsentNumbers).to.equal(1);
         expect(messageFormat.messageAST[0].format.negative).to.equal(null);
         messageFormat.parse('{variable1,number,0 }');
-        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormat._FloatingNumberFormat);
+        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormatPattern._FloatingNumberFormat);
         expect(messageFormat.messageAST[0].format.positive.integer.leftAbsentNumbers).to.equal(0);
         expect(messageFormat.messageAST[0].format.positive.integer.nonAbsentNumbers).to.equal(1);
         expect(messageFormat.messageAST[0].format.negative).to.equal(null);
@@ -582,36 +693,36 @@ describe('MessageFormat', function() {
 
       it('should be able to parse with tabes between keywords', function() {
         messageFormat.parse('{\tvariable1,number,0}');
-        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormat._FloatingNumberFormat);
+        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormatPattern._FloatingNumberFormat);
         expect(messageFormat.messageAST[0].format.positive.integer.leftAbsentNumbers).to.equal(0);
         expect(messageFormat.messageAST[0].format.positive.integer.nonAbsentNumbers).to.equal(1);
         expect(messageFormat.messageAST[0].format.negative).to.equal(null);
         messageFormat.parse('{variable1\t,number,0}');
-        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormat._FloatingNumberFormat);
+        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormatPattern._FloatingNumberFormat);
         expect(messageFormat.messageAST[0].format.positive.integer.leftAbsentNumbers).to.equal(0);
         expect(messageFormat.messageAST[0].format.positive.integer.nonAbsentNumbers).to.equal(1);
         expect(messageFormat.messageAST[0].format.negative).to.equal(null);
         messageFormat.parse('{variable1\t,number,0}');
-        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormat._FloatingNumberFormat);
+        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormatPattern._FloatingNumberFormat);
         expect(messageFormat.messageAST[0].format.positive.integer.leftAbsentNumbers).to.equal(0);
         expect(messageFormat.messageAST[0].format.positive.integer.nonAbsentNumbers).to.equal(1);
         expect(messageFormat.messageAST[0].format.negative).to.equal(null);
         messageFormat.parse('{variable1,\tnumber,0}');
-        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormat._FloatingNumberFormat);
+        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormatPattern._FloatingNumberFormat);
         expect(messageFormat.messageAST[0].format.positive.integer.leftAbsentNumbers).to.equal(0);
         expect(messageFormat.messageAST[0].format.positive.integer.nonAbsentNumbers).to.equal(1);
         expect(messageFormat.messageAST[0].format.negative).to.equal(null);
         messageFormat.parse('{variable1,number,\t0}');
-        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormat._FloatingNumberFormat);
+        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormatPattern._FloatingNumberFormat);
         expect(messageFormat.messageAST[0].format.positive.integer.leftAbsentNumbers).to.equal(0);
         expect(messageFormat.messageAST[0].format.positive.integer.nonAbsentNumbers).to.equal(1);
         expect(messageFormat.messageAST[0].format.negative).to.equal(null);
-        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormat._FloatingNumberFormat);
+        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormatPattern._FloatingNumberFormat);
         expect(messageFormat.messageAST[0].format.positive.integer.leftAbsentNumbers).to.equal(0);
         expect(messageFormat.messageAST[0].format.positive.integer.nonAbsentNumbers).to.equal(1);
         expect(messageFormat.messageAST[0].format.negative).to.equal(null);
         messageFormat.parse('{variable1,number,0\t}');
-        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormat._FloatingNumberFormat);
+        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormatPattern._FloatingNumberFormat);
         expect(messageFormat.messageAST[0].format.positive.integer.leftAbsentNumbers).to.equal(0);
         expect(messageFormat.messageAST[0].format.positive.integer.nonAbsentNumbers).to.equal(1);
         expect(messageFormat.messageAST[0].format.negative).to.equal(null);

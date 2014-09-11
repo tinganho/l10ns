@@ -78,6 +78,9 @@ module.exports = {
    */
 
   DEFAULT_CONFIGURATIONS: {
+    currencies: [
+      'USD'
+    ],
     interface: {
       autoOpen: true,
       port: 3001

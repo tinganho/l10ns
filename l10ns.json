@@ -8,6 +8,9 @@
       },
       "quiet" : false,
       "defaultLocale": "en-US",
+      "currencies": [
+        "USD"
+      ],
       "store": "example/javascript/localizations",
       "outputFile": "example/javascript/output/localizations.js",
       "source": ["example/javascript/**/*.js"],

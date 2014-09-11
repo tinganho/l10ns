@@ -29,9 +29,11 @@ function MessageFormat(locale) {
   this.currentToken = null;
   this.lastChoiceCase = null;
   this.pluralKeywords = ['zero', 'one', 'two', 'few', 'many', 'other'];
+  this.currencies = {};
+  this.currencyUnitPatterns = {};
   this._readPluralizationRules();
   this._readOrdinalRules();
-  this._readDecimalPattern();
+  this._readNumberPatterns();
 };
 
 /**
@@ -807,18 +809,89 @@ MessageFormat.prototype._readOrdinalRules = function() {
  */
 
 MessageFormat.prototype._readNumberPatterns = function() {
-  var specificData = fs.readFileSync(path.join(
-        __dirname, '../../CLDR/common/main/' + this.lang + '_' + this.region + '.xml'), 'utf-8')
+  var _this = this
+    , specificData = fs.readFileSync(path.join(
+        __dirname, '../../CLDR/common/main/' + this.language + '_' + this.region + '.xml'), 'utf-8')
     , genericData = fs.readFileSync(path.join(
-        __dirname, '../../CLDR/common/main/' + this.lang + '.xml'), 'utf-8');
-
-  var specificDocument = xml.parseXmlString(specificData, { noblanks: true });
+        __dirname, '../../CLDR/common/main/' + this.language + '.xml'), 'utf-8')
+    , specificDocument = xml.parseXmlString(specificData, { noblanks: true })
+    , genericDocument = xml.parseXmlString(genericData, { noblanks: true });
 
   // Read decimal pattner
   var decimalPattern = specificDocument.get(
-    '//ldml/numbers/decimalFormats[@lang=\'latn\']/decimalFormatLength/decimalFormat/pattern');
-  console.log(decimalPattern);
+    '//ldml/numbers/decimalFormats[@numberSystem=\'latn\']/decimalFormatLength/decimalFormat/pattern');
+  if(!decimalPattern) {
+    decimalPattern = genericDocument.get(
+      '//ldml/numbers/decimalFormats[@numberSystem=\'latn\']/decimalFormatLength/decimalFormat/pattern');
+  }
+  this.decimalPattern = AST.NumberFormatPattern.parse(decimalPattern.text());
+
+  var percentagePattern = specificDocument.get(
+    '//ldml/numbers/percentFormats[@numberSystem=\'latn\']/percentFormatLength/percentFormat/pattern');
+  if(!percentagePattern) {
+    percentagePattern = genericDocument.get(
+      '//ldml/numbers/percentFormats[@numberSystem=\'latn\']/percentFormatLength/percentFormat/pattern');
+  }
+  this.percentagePattern = AST.NumberFormatPattern.parse(percentagePattern.text());
+
+  var standardCurrencyPattern = specificDocument.get(
+    '//ldml/numbers/currencyFormats[@numberSystem=\'latn\']/currencyFormatLength/currencyFormat[@type=\'standard\']/pattern');
+  if(!standardCurrencyPattern) {
+    standardCurrencyPattern = genericDocument.get(
+    '//ldml/numbers/currencyFormats[@numberSystem=\'latn\']/currencyFormatLength/currencyFormat[@type=\'standard\']/pattern');
+  }
+  this.standardCurrencyPattern = AST.NumberFormatPattern.parse(standardCurrencyPattern.text());
+
+  var accountingCurrencyPattern = specificDocument.get(
+    '//ldml/numbers/currencyFormats[@numberSystem=\'latn\']/currencyFormatLength/currencyFormat[@type=\'accounting\']/pattern');
+  if(!accountingCurrencyPattern) {
+    accountingCurrencyPattern = genericDocument.get(
+    '//ldml/numbers/currencyFormats[@numberSystem=\'latn\']/currencyFormatLength/currencyFormat[@type=\'accounting\']/pattern');
+  }
+  this.accountingCurrencyPattern = AST.NumberFormatPattern.parse(accountingCurrencyPattern.text());
+
+  var currencyUnitPatterns = specificDocument.get(
+    '//ldml/numbers/currencyFormats[@numberSystem=\'latn\']');
+  if(!currencyUnitPatterns) {
+    currencyUnitPatterns = genericDocument.get(
+    '//ldml/numbers/currencyFormats[@numberSystem=\'latn\']');
+  }
+  currencyUnitPatterns.childNodes().forEach(function(pattern) {
+    if(pattern.name() === 'unitPattern') {
+      _this.currencyUnitPatterns[pattern.attr('count').value()] = pattern.text().replace('0', 'value').replace('1', 'unit');
+    }
+  });
+
+  if(typeof project.currencies !== 'undefined' &&
+    Object.prototype.toString.call(project.currencies) === '[object Array]') {
+    project.currencies.forEach(function(currency) {
+      var currencyNames = specificDocument.get(
+        '//ldml/numbers/currencies/currency[@type=\'' + currency + '\']');
+      if(!currencyNames) {
+        currencyNames = genericDocument.get(
+          '//ldml/numbers/currencies/currency[@type=\'' + currency + '\']');
+      }
+      currencyNames.childNodes().forEach(function(currencyName) {
+        if(currencyName.name() === 'displayName') {
+          var count = currencyName.attr('count')
+          if(count) {
+            _this.currencies[currency]['pluralRules'][count.value()] = currencyName.text();
+          }
+          else {
+            _this.currencies[currency] = {
+              name: currencyName.text(),
+              pluralRules: {}
+            };
+          }
+        }
+        else if(currencyName.name() === 'symbol') {
+          _this.currencies[currency]['symbol'] = currencyName.text();
+        }
+      });
+    });
+  }
 };
+
 
 /**
  * Namespace Constructors
