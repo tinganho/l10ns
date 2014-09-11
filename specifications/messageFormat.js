@@ -1,8 +1,16 @@
 
-var messageFormat = new (require('../libraries/MessageFormat'))('en-US')
+var MessageFormat = require('../libraries/MessageFormat')
+  , messageFormat = new MessageFormat('en-US');
   , AST = require('../libraries/MessageFormat/AST');
 
 describe('MessageFormat', function() {
+  describe('#constructor', function() {
+    it('should read number patterns', function() {
+      var messageFormat = new MessageFormat('en-US');
+      console.log(messageFormat.decimalPattern);
+    });
+  });
+
   describe('#parse(string)', function() {
     describe('Sentences', function() {
       it('should parse a sentence', function() {

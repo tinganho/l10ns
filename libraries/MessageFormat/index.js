@@ -19,7 +19,8 @@ var Lexer = require('../Lexer')
 
 function MessageFormat(locale) {
   this.locale = locale || program.defaultLocale;
-  this.language = /^([a-z]+)\-/.exec(locale)[1];
+  this.language = /^([a-z]+)\-/.exec(this.locale)[1];
+  this.region = /\-([A-Z]+)$/.exec(this.locale)[1];
   this.variables = null;
   this.pluralRules = {};
   this.ordinalRules = {};
@@ -30,6 +31,7 @@ function MessageFormat(locale) {
   this.pluralKeywords = ['zero', 'one', 'two', 'few', 'many', 'other'];
   this._readPluralizationRules();
   this._readOrdinalRules();
+  this._readDecimalPattern();
 };
 
 /**
@@ -795,6 +797,27 @@ MessageFormat.prototype._readOrdinalRules = function() {
     _this.ordinalRules[_case] = LDML.parse(pluralRule.text());
     _this.integers = LDML.integerExample;
   });
+};
+
+/**
+ * read decimal pattern rule
+ *
+ * @return {void}
+ * @api private
+ */
+
+MessageFormat.prototype._readNumberPatterns = function() {
+  var specificData = fs.readFileSync(path.join(
+        __dirname, '../../CLDR/common/main/' + this.lang + '_' + this.region + '.xml'), 'utf-8')
+    , genericData = fs.readFileSync(path.join(
+        __dirname, '../../CLDR/common/main/' + this.lang + '.xml'), 'utf-8');
+
+  var specificDocument = xml.parseXmlString(specificData, { noblanks: true });
+
+  // Read decimal pattner
+  var decimalPattern = specificDocument.get(
+    '//ldml/numbers/decimalFormats[@lang=\'latn\']/decimalFormatLength/decimalFormat/pattern');
+  console.log(decimalPattern);
 };
 
 /**
