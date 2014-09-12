@@ -53,4 +53,5 @@ require('./log');
 
 require('../plugins/javascript/specifications');
 require('./messageFormat');
+// require('./numberFormat');
 require('./LDML');

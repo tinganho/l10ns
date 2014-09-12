@@ -232,7 +232,39 @@ Compiler.prototype._getFunctionBody = function(messageAST) {
 };
 
 Compiler.prototype._compileNumberFormat = function(numberFormat) {
-  console.log(numberFormat)
+  var result = ''
+    , signs = ['positive', 'negative'];
+
+  signs.forEach(function(sign) {
+    var format = numberFormat.format[sign];
+    if(sign === 'negative' && format === null) {
+      numberFormat.format['positive'].prefix = numberFormat.format['positive'].prefix + '-';
+      format = numberFormat.format['positive'];
+    }
+
+    var minimumIntegerDigits = format.integer.nonAbsentNumbers
+      , minimumFractionDigits = null
+      , maximumFractionDigits = null;
+
+    if(typeof format.fraction === 'object' &&
+       typeof format.fraction.nonAbsentNumbers === 'number' &&
+       typeof format.fraction.rightAbsentNumbers) {
+      minimumFractionDigits = format.fraction.nonAbsentNumbers;
+      maximumFractionDigits = minimumFractionDigits + format.fraction.rightAbsentNumbers;
+    }
+
+    result += template['NumberFormat']({
+      variableName: numberFormat.variable.name,
+      roundTo: format.rounding,
+      minimumIntegerDigits: minimumIntegerDigits,
+      minimumFractionDigits: minimumFractionDigits,
+      maximumFractionDigits: maximumFractionDigits,
+      groupSize: format.groupSize,
+      symbols: numberFormat.numberSymbols
+    });
+  });
+
+  return result;
 };
 
 /**

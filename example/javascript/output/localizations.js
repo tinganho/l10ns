@@ -61,133 +61,55 @@
         }
         return 'other';
       },
-      'INDEX21': function(it) {
-        var string = '';
-        string += 'dwfwefewfwefff<script>alert(\'hej\')</script>';
-        return string;
-      },
-      'INDEX10': function(it) {
-        var string = '';
-
-        return string;
-      },
-      'INDEX11': function(it) {
-        var string = '';
-
-        return string;
-      },
-      'INDEX12': function(it) {
-        var string = '';
-
-        return string;
-      },
-      'INDEX13': function(it) {
-        var string = '';
-
-        return string;
-      },
-      'INDEX14': function(it) {
-        var string = '';
-
-        return string;
-      },
-      'INDEX15': function(it) {
-        var string = '';
-
-        return string;
-      },
-      'INDEX16': function(it) {
-        var string = '';
-
-        return string;
-      },
-      'INDEX17': function(it) {
-        var string = '';
-
-        return string;
-      },
-      'INDEX18': function(it) {
-        var string = '';
-
-        return string;
-      },
-      'INDEX19': function(it) {
-        var string = '';
-
-        return string;
-      },
-      'INDEX20': function(it) {
-        var string = '';
-
-        return string;
-      },
-      'INDEX3': function(it) {
-        var string = '';
-
-        return string;
-      },
-      'INDEX4': function(it) {
-        var string = '';
-
-        return string;
-      },
-      'INDEX5': function(it) {
-        var string = '';
-
-        return string;
-      },
-      'INDEX6': function(it) {
-        var string = '';
-
-        return string;
-      },
-      'INDEX7': function(it) {
-        var string = '';
-
-        return string;
-      },
-      'INDEX8': function(it) {
-        var string = '';
-
-        return string;
-      },
-      'INDEX9': function(it) {
-        var string = '';
-
-        return string;
-      },
-      'POST__COMMENTSS': function(it) {
-        var string = '';
-        string += 'He had ';
-        var _case;
-        _case = localizations['en-US'].__getPluralKeyword(it.files);
-        switch(_case) {
-          case 'one':
-            string += (it.files - 0);
-            string += ' file';
-            break;
-          default:
-            string += (it.files - 0);
-            string += ' files';
-            break;
-        }
-        return string;
-      },
       'INDEX1': function(it) {
         var string = '';
-        var _case;
-        _case = localizations['en-US'].__getPluralKeyword(it.files);
-        switch(_case) {
-          case 'one':
-            string += 'message-one';
-            break;
-          default:
-            string += 'message-other';
-            break;
-        }
-        return string;
-      },
+        var number = it.files;
 
+        number = roundTo(number, 1)
+
+        var numberSplit = number + ''.split('.')
+          , integerDigits = numberSplit[0]
+          , integerDigitsLength = integerDigits.length
+          , fractionDigits = numberSplit[1] || ''
+          , fractionDigitsLength = 0;
+
+        if(integerDigitsLength < 1) {
+          var missingIntegerDigits = 1 - integerDigitsLength;
+          for(var index = 0; index < missingIntegerDigits; index++) {
+            fractionDigits += '0' + fractionDigits;
+          }
+          integerDigitsLength = 1;
+        }
+
+        if(typeof fractionDigits === 'string') {
+          fractionDigitsLength = fractions.length;
+        }
+        if(fractionDigitsLength > 2) {
+          fractionDigits = fractionDigits.substring(0, var number = it.files;
+
+        number = roundTo(number, 1)
+
+        var numberSplit = number + ''.split('.')
+          , integerDigits = numberSplit[0]
+          , integerDigitsLength = integerDigits.length
+          , fractionDigits = numberSplit[1] || ''
+          , fractionDigitsLength = 0;
+
+        if(integerDigitsLength < 1) {
+          var missingIntegerDigits = 1 - integerDigitsLength;
+          for(var index = 0; index < missingIntegerDigits; index++) {
+            fractionDigits += '0' + fractionDigits;
+          }
+          integerDigitsLength = 1;
+        }
+
+        if(typeof fractionDigits === 'string') {
+          fractionDigitsLength = fractions.length;
+        }
+        if(fractionDigitsLength > 2) {
+          fractionDigits = fractionDigits.substring(0, 
+        return string;
+      }
     },
     'zh-CN': {
       '__getPluralKeyword': function(cardinal) {
@@ -196,112 +118,11 @@
       '__getOrdinalKeyword': function(cardinal) {
         return 'other';
       },
-      'INDEX21': function(it) {
-        var string = '';
-
-        return string;
-      },
-      'INDEX10': function(it) {
-        var string = '';
-
-        return string;
-      },
-      'INDEX11': function(it) {
-        var string = '';
-
-        return string;
-      },
-      'INDEX12': function(it) {
-        var string = '';
-
-        return string;
-      },
-      'INDEX13': function(it) {
-        var string = '';
-
-        return string;
-      },
-      'INDEX14': function(it) {
-        var string = '';
-
-        return string;
-      },
-      'INDEX15': function(it) {
-        var string = '';
-
-        return string;
-      },
-      'INDEX16': function(it) {
-        var string = '';
-
-        return string;
-      },
-      'INDEX17': function(it) {
-        var string = '';
-
-        return string;
-      },
-      'INDEX18': function(it) {
-        var string = '';
-
-        return string;
-      },
-      'INDEX19': function(it) {
-        var string = '';
-
-        return string;
-      },
-      'INDEX20': function(it) {
-        var string = '';
-
-        return string;
-      },
-      'INDEX3': function(it) {
-        var string = '';
-
-        return string;
-      },
-      'INDEX4': function(it) {
-        var string = '';
-
-        return string;
-      },
-      'INDEX5': function(it) {
-        var string = '';
-
-        return string;
-      },
-      'INDEX6': function(it) {
-        var string = '';
-
-        return string;
-      },
-      'INDEX7': function(it) {
-        var string = '';
-
-        return string;
-      },
-      'INDEX8': function(it) {
-        var string = '';
-
-        return string;
-      },
-      'INDEX9': function(it) {
-        var string = '';
-
-        return string;
-      },
-      'POST__COMMENTSS': function(it) {
-        var string = '';
-
-        return string;
-      },
       'INDEX1': function(it) {
         var string = '';
 
         return string;
-      },
-
+      }
     }
   };
 

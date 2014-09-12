@@ -1,5 +1,12 @@
 
 /**
+ * Module dependencies
+ */
+
+var fs = require('fs')
+  , path = require('path');
+
+/**
  * Get dependencies
  *
  * @param {Object} localizations
@@ -18,6 +25,9 @@ var getDependencies = function(localizations) {
     }
   };
 };
+
+eval(fs.readFileSync(path.join(__dirname, '../templates/NumberFormat.tmpl'), 'utf-8'));
+eval(fs.readFileSync(path.join(__dirname, '../templates/RoundToFunction.tmpl'), 'utf-8'));
 
 /**
  * Get localizations
@@ -149,22 +159,270 @@ describe('Javascript Compiler', function() {
   });
 
   describe('NumberFormat', function() {
-    // it('should be able to compile an integer', function() {
-    //   var localizations = getLocalizations('{variable1, number, integer}')
-    //     , dependencies = getDependencies(localizations)
-    //     , compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+    var symbols = {
+      decimal: '.',
+      group: ',',
+      percent: '%',
+      permille: '‰'
+    };
+    describe('formatNumber()', function() {
+      it('should be able to group primary', function() {
+        var number = formatNumber({
+          prefix: '',
+          suffix: '',
+          roundTo: 1,
+          number: 1000,
+          percentage: false,
+          permille: false,
+          fraction: null,
+          integer: {
+            nonAbsentNumbers: 1,
+            leftAbsentNumbers: 1
+          },
+          groupSize: {
+            primary: 3,
+            secondary: 3
+          },
+          symbols: symbols
+        });
+        expect(number).to.equal('1,000');
+      });
 
-    //   compiler.run();
-    //   eventually(function() {
-    //     var functionBody =
-    //     'var string = \'\';\n' +
-    //     'return string;';
-    //     expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
-    //       functionBody: indentSpaces(8, functionBody)
-    //     }));
-    //     done();
-    //   });
-    // });
+      it('should be able to group primary and secondary', function() {
+        var number = formatNumber({
+          prefix: '',
+          suffix: '',
+          roundTo: 1,
+          number: 1000000,
+          percentage: false,
+          permille: false,
+          fraction: null,
+          integer: {
+            nonAbsentNumbers: 1,
+            leftAbsentNumbers: 1
+          },
+          groupSize: {
+            primary: 3,
+            secondary: 3
+          },
+          symbols: symbols
+        });
+        expect(number).to.equal('1,000,000');
+        var number = formatNumber({
+          prefix: '',
+          suffix: '',
+          roundTo: 1,
+          number: 1000000,
+          percentage: false,
+          permille: false,
+          fraction: null,
+          integer: {
+            nonAbsentNumbers: 1,
+            leftAbsentNumbers: 1
+          },
+          groupSize: {
+            primary: 3,
+            secondary: 2
+          },
+          symbols: symbols
+        });
+        expect(number).to.equal('10,00,000');
+        var number = formatNumber({
+          prefix: '',
+          suffix: '',
+          roundTo: 1,
+          number: 100000000,
+          percentage: false,
+          permille: false,
+          fraction: null,
+          integer: {
+            nonAbsentNumbers: 1,
+            leftAbsentNumbers: 1
+          },
+          groupSize: {
+            primary: 3,
+            secondary: 2
+          },
+          symbols: symbols
+        });
+        expect(number).to.equal('10,00,00,000');
+      });
+
+      it('should be able to add trailing zeros whenever minimum fraction digits is no met', function() {
+        var number = formatNumber({
+          prefix: '',
+          suffix: '',
+          roundTo: 0.01,
+          number: 0.2,
+          percentage: false,
+          permille: false,
+          fraction: {
+            nonAbsentNumbers: 2,
+            rightAbsentNumbers: 1
+          },
+          integer: {
+            nonAbsentNumbers: 1,
+            leftAbsentNumbers: 1
+          },
+          groupSize: {
+            primary: 3,
+            secondary: 2
+          },
+          symbols: symbols
+        });
+        expect(number).to.equal('0.20');
+      });
+
+      it('should round to the defined increment when number of fraction digits exceeds maximum fraction digits', function() {
+        var number = formatNumber({
+          prefix: '',
+          suffix: '',
+          roundTo: 0.001,
+          number: 0.1236,
+          percentage: false,
+          permille: false,
+          fraction: {
+            nonAbsentNumbers: 2,
+            rightAbsentNumbers: 1
+          },
+          integer: {
+            nonAbsentNumbers: 1,
+            leftAbsentNumbers: 1
+          },
+          groupSize: {
+            primary: 3,
+            secondary: 2
+          },
+          symbols: symbols
+        });
+        expect(number).to.equal('0.124');
+      });
+
+      it('should be able to render maximum fraction digits', function() {
+        var number = formatNumber({
+          prefix: '',
+          suffix: '',
+          roundTo: 0.001,
+          number: 0.1333,
+          percentage: false,
+          permille: false,
+          fraction: {
+            nonAbsentNumbers: 2,
+            rightAbsentNumbers: 1
+          },
+          integer: {
+            nonAbsentNumbers: 1,
+            leftAbsentNumbers: 1
+          },
+          groupSize: {
+            primary: 3,
+            secondary: 2
+          },
+          symbols: symbols
+        });
+        expect(number).to.equal('0.133');
+      });
+
+      it('should not render fraction digits that are zero', function() {
+        var number = formatNumber({
+          prefix: '',
+          suffix: '',
+          roundTo: 0.001,
+          number: 0.1200,
+          percentage: false,
+          permille: false,
+          fraction: {
+            nonAbsentNumbers: 2,
+            rightAbsentNumbers: 1
+          },
+          integer: {
+            nonAbsentNumbers: 1,
+            leftAbsentNumbers: 1
+          },
+          groupSize: {
+            primary: 3,
+            secondary: 2
+          },
+          symbols: symbols
+        });
+        expect(number).to.equal('0.12');
+      });
+
+      it('should not render fraction digits that are zero', function() {
+        var number = formatNumber({
+          prefix: '',
+          suffix: '',
+          roundTo: 0.001,
+          number: 0.1200,
+          percentage: false,
+          permille: false,
+          fraction: {
+            nonAbsentNumbers: 2,
+            rightAbsentNumbers: 1
+          },
+          integer: {
+            nonAbsentNumbers: 1,
+            leftAbsentNumbers: 1
+          },
+          groupSize: {
+            primary: 3,
+            secondary: 2
+          },
+          symbols: symbols
+        });
+        expect(number).to.equal('0.12');
+      });
+
+      it('should be able to render percentages', function() {
+        var number = formatNumber({
+          prefix: '',
+          suffix: '%',
+          roundTo: 0.001,
+          number: 0.1230,
+          percentage: true,
+          permille: false,
+          fraction: {
+            nonAbsentNumbers: 0,
+            rightAbsentNumbers: 0
+          },
+          integer: {
+            nonAbsentNumbers: 1,
+            leftAbsentNumbers: 1
+          },
+          groupSize: {
+            primary: 3,
+            secondary: 2
+          },
+          symbols: symbols
+        });
+        expect(number).to.equal('12%');
+      });
+
+      it('should be able to render permille', function() {
+        var number = formatNumber({
+          prefix: '',
+          suffix: '‰',
+          roundTo: 0.001,
+          number: 0.1230,
+          percentage: false,
+          permille: true,
+          fraction: {
+            nonAbsentNumbers: 0,
+            rightAbsentNumbers: 0
+          },
+          integer: {
+            nonAbsentNumbers: 1,
+            leftAbsentNumbers: 1
+          },
+          groupSize: {
+            primary: 3,
+            secondary: 2
+          },
+          symbols: symbols
+        });
+        expect(number).to.equal('123‰');
+      });
+    });
   });
 
   describe('ChoiceFormat', function() {

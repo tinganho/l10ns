@@ -1,11 +1,73 @@
-var number = roundTo(it.{{=it.variableName}}, {{=it.roundTo}})
-  , fractionDigits = number + ''.split('.')[1]
-  , fractionDigitsLength = 0;
+function formatNumber(it) {
+  var number = it.number
+    , minimumIntegerDigits = it.integer.nonAbsentNumbers
+    , minimumFractionDigits = null
+    , maximumFractionDigits = null
+    , prefix = it.prefix
+    , suffix = it.suffix;
 
-if(typeof fractionDigits === 'string') {
-  fractionDigitsLength = fractions.length;
-}
+  if(it.fraction) {
+    minimumFractionDigits = it.fraction.nonAbsentNumbers;
+    maximumFractionDigits = minimumFractionDigits + it.fraction.rightAbsentNumbers;
+  }
 
-if(fractionDigitsLength > {{it.maximumFractionDigits}}) {
-  fractionDigits = fractionDigits.substring(0, {{it.maximumFractionDigits}});
+  if(it.percentage) {
+    prefix = prefix.replace('%', it.symbols.percent);
+    suffix = suffix.replace('%', it.symbols.percent);
+    number = number * 100;
+  }
+  else if(it.permille) {
+    prefix = prefix.replace('‰', it.symbols.permille);
+    suffix = suffix.replace('‰', it.symbols.permille);
+    number = number * 1000;
+  }
+  number = roundTo(number, it.roundTo);
+
+  var numberSplit = (number + '').split('.')
+    , integerDigits = numberSplit[0]
+    , integerDigitsLength = integerDigits.length
+    , fractionDigits = numberSplit[1] || ''
+    , fractionDigitsLength = fractionDigits.length;
+
+  if(integerDigitsLength < minimumIntegerDigits) {
+    var missingIntegerDigits = minimumIntegerDigits - integerDigitsLength;
+    for(var index = 0; index < missingIntegerDigits; index++) {
+      fractionDigits += '0' + fractionDigits;
+    }
+    integerDigitsLength = minimumIntegerDigits;
+  }
+  if(it.groupSize) {
+    var newIntegerDigits = '';
+    for(var index = integerDigitsLength - 1; index >= 0; index--) {
+      var primaryIndex = integerDigitsLength - it.groupSize.primary - 1;
+      if(index === primaryIndex) {
+        newIntegerDigits += it.symbols.group;
+      }
+      else if(index < primaryIndex && (primaryIndex - index) % it.groupSize.secondary === 0) {
+        newIntegerDigits += it.symbols.group;
+      }
+
+      newIntegerDigits += integerDigits.charAt(index);
+    }
+    integerDigits = newIntegerDigits.split('').reverse().join('');
+  }
+
+
+  if(fractionDigitsLength > maximumFractionDigits) {
+    fractionDigits = fractionDigits.substring(0, maximumFractionDigits);
+  }
+  else if(fractionDigitsLength < minimumFractionDigits) {
+    var missingFractionDigits = minimumFractionDigits - fractionDigitsLength;
+    for(var index = 0; index < missingFractionDigits; index++) {
+      fractionDigits += '0';
+    }
+  }
+  var result = '';
+  result += prefix;
+  result += integerDigits;
+  if(fractionDigits.length > 0) {
+    result += it.symbols.decimal + fractionDigits;
+  }
+  result += suffix;
+  return result;
 }
