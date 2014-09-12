@@ -1,4 +1,8 @@
 ;(function() {
+  function roundTo(number, to) {
+    return Math.round(number / to) * to;
+  }
+
   var localizations = {
     'en-US': {
       '__getPluralKeyword': function(cardinal) {

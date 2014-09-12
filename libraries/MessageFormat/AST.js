@@ -51,11 +51,18 @@ AST.Variable = function(name) {
  * @constructor
  */
 
-AST.NumberFormat = function(locale, variable, argument) {
+AST.NumberFormat = function(locale, variable, argument, messageFormat) {
   this.locale = locale;
   this.variable = variable;
   this.argument = argument;
-  this.format = AST.NumberFormatPattern.parse(argument);
+  this.numberSymbols = messageFormat.numberSymbols;
+  this.currencies = messageFormat.currencies;
+  this.format = AST.NumberFormatPattern.parse(
+    argument,
+    messageFormat.decimalPattern,
+    messageFormat.percentagePattern,
+    messageFormat.standardCurrencyPattern
+  );
 };
 
 /**
@@ -76,11 +83,12 @@ AST.NumberFormatPattern = {};
 AST.NumberFormatPattern.Syntaxes = {
   NUMBER_SIMPLE_ARGUMENTS: /^(integer|currency|percent)$/,
   NUMBER_CHARACTER: /[#0-9\.E@\,\+\-;]/,
+  ROUNDING_CHARACTER: /[1-9]/,
   SIGNIFICANT_PATTERN: /^(#*)(@+)(#*)$/,
   EXPONENT_PATTERN: /^E(\+?)(0+)$/,
-  FRACTION_PATTERN: /^(0*)(#*)$/,
-  INTEGER_PATTERN: /^(#*)(0+)$/,
-  GROUP_SIZE_PATTERN: /(\,[0#]+)?\,([0#]+)(\.[0#]+)?$/
+  FRACTION_PATTERN: /^([0-9]*)(#*)$/,
+  INTEGER_PATTERN: /^(#*)([0-9]+)$/,
+  GROUP_SIZE_PATTERN: /(\,[0-9#]+)?\,([0-9#]+)(\.[0-9#]+)?$/
 };
 
 /**
@@ -100,6 +108,7 @@ AST.NumberFormatPattern._NumberFormat = function(attributes) {
   this.percentage = typeof attributes.percentage !== 'undefined' ? attributes.percentage : null;
   this.permille = typeof attributes.permille !== 'undefined' ? attributes.permille : null;
   this.currency = typeof attributes.currency !== 'undefined' ? attributes.currency : null;
+  this.rounding = attributes.rounding;
   this.formatLength = attributes.formatLength;
 };
 
@@ -147,34 +156,38 @@ AST.NumberFormatPattern._SignificantNumberFormat.prototype = Object.create(AST.N
  * @api private
  */
 
-AST.NumberFormatPattern.parse = function(argument) {
+AST.NumberFormatPattern.parse = function(argument, decimalPattern, percentagePattern, standardCurrencyPattern) {
   var _this = this
     , numberPatterns = argument
     , format = { positive: null, negative: null };
 
   if(AST.NumberFormatPattern.Syntaxes.NUMBER_SIMPLE_ARGUMENTS.test(numberPatterns)) {
-    // Valid pattern
-    return;
+    switch(numberPatterns) {
+      case 'integer':
+        decimalPattern.fraction = null;
+        return decimalPattern;
+      case 'percent':
+        return percentagePattern;
+      case 'currency':
+        return standardCurrencyPattern;
+    }
   }
-  else {
-    var positive = true;
-    numberPatterns.split(';').forEach(function(numberPattern) {
-      var attributes = {};
+  var positive = true;
+  numberPatterns.split(';').forEach(function(numberPattern) {
+    var attributes = {};
 
-      numberPattern = _this._setPrefixesAndSuffixAttributes(numberPattern, attributes);
+    numberPattern = _this._setPrefixesAndSuffixAttributes(numberPattern, attributes);
+    var result = _this._getNumberFormat(numberPattern, attributes);
+    if(positive) {
+      format.positive = result;
+    }
+    else {
+      format.negative = result;
+    }
+    positive = false;
+  });
 
-      var result = _this._getNumberFormat(numberPattern, attributes);
-      if(positive) {
-        format.positive = result;
-      }
-      else {
-        format.negative = result;
-      }
-      positive = false;
-    });
-
-    return format;
-  }
+  return format;
 };
 
 /**
@@ -355,11 +368,15 @@ AST.NumberFormatPattern._setPrefixesAndSuffixAttributes = function(numberPattern
     , suffix = ''
     , hasEncounterNumberCharacters = false
     , hasEncounterSuffix = false
+    , hasEncounterFractionSeparator = false
     , currencyCharacterCounter = 0
     , index = 0
+    , fractions = ''
     , inQuote = false
     , formatLength = 0
-    , setPaddingCharacter = false;
+    , setPaddingCharacter = false
+    , rounding = ''
+    , roundingInteger = null;
 
   this.currentNumberPattern = numberPattern;
 
@@ -443,11 +460,27 @@ AST.NumberFormatPattern._setPrefixesAndSuffixAttributes = function(numberPattern
         continue;
     }
 
+    if(AST.NumberFormatPattern.Syntaxes.ROUNDING_CHARACTER.test(numberPattern[index])) {
+      if(hasEncounterFractionSeparator && rounding.length === 0) {
+        rounding += '.' + fractions;
+      }
+      rounding += numberPattern[index];
+    }
+
     formatLength++;
 
     if(AST.NumberFormatPattern.Syntaxes.NUMBER_CHARACTER.test(numberPattern[index])) {
       if(hasEncounterSuffix) {
         throw new TypeError('A number pattern can not exist after suffix pattern in ' + numberPattern);
+      }
+      if(numberPattern[index] === '.') {
+        hasEncounterFractionSeparator = true;
+      }
+      else if(hasEncounterFractionSeparator) {
+        fractions += '0';
+      }
+      if(rounding.length > 0 && /[#0]/.test(numberPattern[index])) {
+        rounding += '0';
       }
       hasEncounterNumberCharacters = true;
       result += numberPattern[index];
@@ -461,6 +494,23 @@ AST.NumberFormatPattern._setPrefixesAndSuffixAttributes = function(numberPattern
     else {
       hasEncounterSuffix = true;
       suffix += numberPattern[index];
+    }
+  }
+
+  if(rounding.length === 0) {
+    if(fractions.length === 0) {
+      attributes.rounding = 1;
+    }
+    else {
+      attributes.rounding = parseFloat('.' + fractions.substring(0, fractions.length - 1) + '1');
+    }
+  }
+  else {
+    if(rounding.charAt(0) === '.') {
+      attributes.rounding = parseFloat(rounding.substring(0, rounding.length));
+    }
+    else {
+      attributes.rounding = parseInt(rounding);
     }
   }
 

@@ -168,7 +168,7 @@ http.createServer(app).listen(project.interface.port, function() {
   console.log('Translation interface is now available in ' + url.green + '.');
   console.log('Close the interface using CTRL + C.');
   if(project.interface.autoOpen) {
-    console.log('opening web browser...');
+    console.log('Opening web browser...');
     setTimeout(function() {
       open(url);
     }, 1000);

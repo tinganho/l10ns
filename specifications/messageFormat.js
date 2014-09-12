@@ -120,6 +120,23 @@ describe('MessageFormat', function() {
         other: '{value} {unit}'
       });
     });
+
+    it('should read number sumbols', function() {
+      var messageFormat = new MessageFormat('en-US');
+      expect(messageFormat.numberSymbols).to.eql({
+        decimal: '.',
+        group: ',',
+        list: ';',
+        percentSign: '%',
+        plusSign: '+',
+        minusSign: '-',
+        exponential: 'E',
+        superscriptingExponent: '×',
+        perMille: '‰',
+        infinity: '∞',
+        nan: 'NaN'
+      });
+    });
   });
 
   describe('#parse(string)', function() {
@@ -726,6 +743,29 @@ describe('MessageFormat', function() {
         expect(messageFormat.messageAST[0].format.positive.integer.leftAbsentNumbers).to.equal(0);
         expect(messageFormat.messageAST[0].format.positive.integer.nonAbsentNumbers).to.equal(1);
         expect(messageFormat.messageAST[0].format.negative).to.equal(null);
+      });
+
+      it('should be able to parse rounding', function() {
+        messageFormat.parse('{variable1,number,010}');
+        expect(messageFormat.messageAST[0].format.positive.rounding).to.equal(10);
+        messageFormat.parse('{variable1,number,011}');
+        expect(messageFormat.messageAST[0].format.positive.rounding).to.equal(11);
+        messageFormat.parse('{variable1,number,0.010}');
+        expect(messageFormat.messageAST[0].format.positive.rounding).to.equal(0.01);
+        messageFormat.parse('{variable1,number,0.019}');
+        expect(messageFormat.messageAST[0].format.positive.rounding).to.equal(0.019);
+        messageFormat.parse('{variable1,number,00.0}');
+        expect(messageFormat.messageAST[0].format.positive.rounding).to.equal(0.1);
+        messageFormat.parse('{variable1,number,00.005}');
+        expect(messageFormat.messageAST[0].format.positive.rounding).to.equal(0.005);
+        messageFormat.parse('{variable1,number,00.105}');
+        expect(messageFormat.messageAST[0].format.positive.rounding).to.equal(0.105);
+        messageFormat.parse('{variable1,number,00}');
+        expect(messageFormat.messageAST[0].format.positive.rounding).to.equal(1);
+        messageFormat.parse('{variable1,number,###00}');
+        expect(messageFormat.messageAST[0].format.positive.rounding).to.equal(1);
+        messageFormat.parse('{variable1,number,50}');
+        expect(messageFormat.messageAST[0].format.positive.rounding).to.equal(50);
       });
 
       it('should throw an error if there exists two padding characters', function() {

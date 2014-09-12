@@ -20,7 +20,7 @@ var out='function(it) {\n  var string = \'\';\n'+(it.functionBody)+'\n  return s
 var out='function(cardinal) {\n';if(it.functionBody !== '  return \'other\';'){out+='  var cardinal = cardinal + \'\'\n    , n = cardinal\n    , i = parseInt(cardinal, 10)\n    , v = 0\n    , w = 0\n    , f = 0\n    , t = 0;\n\n  var hasFractionalDigitsSyntax = /\\.(\\d+)/;\n\n  if(hasFractionalDigitsSyntax.test(cardinal)) {\n    f = fractionalDigits.exec(cardinal)[1];\n    v = f.length;\n  }\n  if(hasFractionalDigitsSyntax.test(cardinal)) {\n    t = cardinal.replace(/0+$/, \'\');\n    t = fractionalDigits.exec(t)[1];\n    w = t.length;\n  }';}out+=(it.functionBody)+'\n},';return out;
 };
   tmpl['JavascriptWrapper']=function anonymous(it) {
-var out=';(function() {\n'+(it.localizationMap)+'\n\n'+(it.requireStatement)+'\n\n  if(typeof require === "function" && typeof exports === \'object\' && typeof module === \'object\') {\n    module.exports = requireLocale;\n  }\n  else if (typeof define === "function" && define.amd) {\n    define(function() {\n      return requireLocale;\n    });\n  }\n  else {\n    window.requireLocale = requireLocale;\n  }\n})();\n';return out;
+var out=';(function() {\n'+(it.roundUpFunction)+'\n\n'+(it.localizationMap)+'\n\n'+(it.requireStatement)+'\n\n  if(typeof require === "function" && typeof exports === \'object\' && typeof module === \'object\') {\n    module.exports = requireLocale;\n  }\n  else if (typeof define === "function" && define.amd) {\n    define(function() {\n      return requireLocale;\n    });\n  }\n  else {\n    window.requireLocale = requireLocale;\n  }\n})();\n';return out;
 };
   tmpl['LocalizationKeyValue']=function anonymous(it) {
 var out='\''+(it.key)+'\': '+(it.function);return out;
@@ -33,6 +33,9 @@ var out='var localizations = {\n'+(it.localizations)+'\n};';return out;
 };
   tmpl['NumberComparison']=function anonymous(it) {
 var out=''+(it.variableName);if(it.modulus){out+=' % '+(it.modulus);}out+=' '+(it.comparator)+' '+(it.value);return out;
+};
+  tmpl['NumberFormat']=function anonymous(it) {
+var out='var number = roundTo(it.'+(it.variableName)+', '+(it.roundTo)+')\n  , fractionDigits = number + \'\'.split(\'.\')[1]\n  , fractionDigitsLength = 0;\n\nif(typeof fractionDigits === \'string\') {\n  fractionDigitsLength = fractions.length;\n}\n\nif(fractionDigitsLength > ';it.maximumFractionDigitsout+=') {\n  fractionDigits = fractionDigits.substring(0, ';it.maximumFractionDigitsout+=');\n}';return out;
 };
   tmpl['OrdinalSwitchStatement']=function anonymous(it) {
 var out='var _case;\n'+(it.setCaseStatement)+'\nswitch(_case) {\n'+(it.switchBody)+'\n}';return out;
@@ -57,6 +60,9 @@ var out='function requireLocale(locale) {\n  return (function(locale) {\n    ret
 };
   tmpl['ReturnOtherStringStatement']=function anonymous(it) {
 var out='return \'other\';';return out;
+};
+  tmpl['RoundToFunction']=function anonymous(it) {
+var out='function roundTo(number, to) {\n  return Math.round(number / to) * to;\n}';return out;
 };
   tmpl['SelectSwitchStatement']=function anonymous(it) {
 var out='switch(it.'+(it.variableName)+') {\n'+(it.switchBody)+'\n}';return out;

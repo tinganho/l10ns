@@ -57,6 +57,7 @@ Compiler.prototype.run = function() {
   this._getLocalizationMap()
     .then(function(localizationMap) {
       var content = template['JavascriptWrapper']({
+        roundUpFunction: _this._indentSpaces(2, template['RoundToFunction']()),
         functionName: language.GET_LOCALIZATION_STRING_FUNCTION_NAME,
         localizationMap: _this._indentSpaces(2, localizationMap),
         requireStatement: _this._indentSpaces(2, template['RequireStatement']())
@@ -206,6 +207,9 @@ Compiler.prototype._getFunctionBody = function(messageAST) {
     else if(messageAST[index] instanceof MessageFormat.AST.Remaining) {
       result += template['Remaining']({ variableName: messageAST[index].variable.name, offset: messageAST[index].offset });
     }
+    else if(messageAST[index] instanceof MessageFormat.AST.NumberFormat) {
+      result += this._compileNumberFormat(messageAST[index]);
+    }
     else if(messageAST[index] instanceof MessageFormat.AST.ChoiceFormat) {
       result += this._compileChoiceFormat(messageAST[index]);
     }
@@ -225,6 +229,10 @@ Compiler.prototype._getFunctionBody = function(messageAST) {
   }
 
   return result;
+};
+
+Compiler.prototype._compileNumberFormat = function(numberFormat) {
+  console.log(numberFormat)
 };
 
 /**

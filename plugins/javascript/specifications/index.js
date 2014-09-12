@@ -6,6 +6,7 @@
  * @return {Object} representing dependencies
  * @api public
  */
+
 var getDependencies = function(localizations) {
   return {
     '../../libraries/file': {
