@@ -1,0 +1,11 @@
+var number = roundTo(it.{{=it.variableName}}, {{=it.roundTo}})
+  , fractionDigits = number + ''.split('.')[1]
+  , fractionDigitsLength = 0;
+
+if(typeof fractionDigits === 'string') {
+  fractionDigitsLength = fractions.length;
+}
+
+if(fractionDigitsLength > {{it.maximumFractionDigits}}) {
+  fractionDigits = fractionDigits.substring(0, {{it.maximumFractionDigits}});
+}
