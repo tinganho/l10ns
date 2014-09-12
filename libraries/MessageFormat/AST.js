@@ -368,7 +368,6 @@ AST.NumberFormatPattern._setPrefixesAndSuffixAttributes = function(numberPattern
     , suffix = ''
     , hasEncounterNumberCharacters = false
     , hasEncounterSuffix = false
-    , hasEncounterFractionSeparator = false
     , currencyCharacterCounter = 0
     , index = 0
     , fractions = ''
@@ -376,7 +375,6 @@ AST.NumberFormatPattern._setPrefixesAndSuffixAttributes = function(numberPattern
     , formatLength = 0
     , setPaddingCharacter = false
     , rounding = ''
-    , roundingInteger = null;
 
   this.currentNumberPattern = numberPattern;
 
@@ -460,26 +458,19 @@ AST.NumberFormatPattern._setPrefixesAndSuffixAttributes = function(numberPattern
         continue;
     }
 
-    if(AST.NumberFormatPattern.Syntaxes.ROUNDING_CHARACTER.test(numberPattern[index])) {
-      if(hasEncounterFractionSeparator && rounding.length === 0) {
-        rounding += '.' + fractions;
-      }
-      rounding += numberPattern[index];
-    }
-
     formatLength++;
 
     if(AST.NumberFormatPattern.Syntaxes.NUMBER_CHARACTER.test(numberPattern[index])) {
       if(hasEncounterSuffix) {
         throw new TypeError('A number pattern can not exist after suffix pattern in ' + numberPattern);
       }
+      if(AST.NumberFormatPattern.Syntaxes.ROUNDING_CHARACTER.test(numberPattern[index])) {
+        rounding += numberPattern[index];
+      }
       if(numberPattern[index] === '.') {
-        hasEncounterFractionSeparator = true;
+        rounding += '.';
       }
-      else if(hasEncounterFractionSeparator) {
-        fractions += '0';
-      }
-      if(rounding.length > 0 && /[#0]/.test(numberPattern[index])) {
+      if(rounding.length > 0 && /[0]/.test(numberPattern[index])) {
         rounding += '0';
       }
       hasEncounterNumberCharacters = true;
@@ -498,19 +489,14 @@ AST.NumberFormatPattern._setPrefixesAndSuffixAttributes = function(numberPattern
   }
 
   if(rounding.length === 0) {
-    if(fractions.length === 0) {
-      attributes.rounding = 1;
-    }
-    else {
-      attributes.rounding = parseFloat('.' + fractions.substring(0, fractions.length - 1) + '1');
-    }
+    attributes.rounding = 1;
   }
   else {
-    if(rounding.charAt(0) === '.') {
-      attributes.rounding = parseFloat(rounding.substring(0, rounding.length));
+    if(/^[0\.]+$/.test(rounding)) {
+      attributes.rounding = parseFloat(rounding.substring(0, rounding.length - 1) + '1');
     }
     else {
-      attributes.rounding = parseInt(rounding);
+      attributes.rounding = parseFloat(rounding);
     }
   }
 

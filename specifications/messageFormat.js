@@ -766,6 +766,10 @@ describe('MessageFormat', function() {
         expect(messageFormat.messageAST[0].format.positive.rounding).to.equal(1);
         messageFormat.parse('{variable1,number,50}');
         expect(messageFormat.messageAST[0].format.positive.rounding).to.equal(50);
+        messageFormat.parse('{variable1,number,50.000}');
+        expect(messageFormat.messageAST[0].format.positive.rounding).to.equal(50);
+        messageFormat.parse('{variable1,number,50.001}');
+        expect(messageFormat.messageAST[0].format.positive.rounding).to.equal(50.001);
       });
 
       it('should throw an error if there exists two padding characters', function() {

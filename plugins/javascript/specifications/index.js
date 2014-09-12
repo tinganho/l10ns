@@ -148,6 +148,25 @@ describe('Javascript Compiler', function() {
     });
   });
 
+  describe('NumberFormat', function() {
+    // it('should be able to compile an integer', function() {
+    //   var localizations = getLocalizations('{variable1, number, integer}')
+    //     , dependencies = getDependencies(localizations)
+    //     , compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+    //   compiler.run();
+    //   eventually(function() {
+    //     var functionBody =
+    //     'var string = \'\';\n' +
+    //     'return string;';
+    //     expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+    //       functionBody: indentSpaces(8, functionBody)
+    //     }));
+    //     done();
+    //   });
+    // });
+  });
+
   describe('ChoiceFormat', function() {
     it('should be able to compile with a single case', function(done) {
       var localizations = getLocalizations('{variable1, choice, 3#message1}')
