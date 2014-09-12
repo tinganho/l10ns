@@ -481,6 +481,43 @@ describe('MessageFormat', function() {
         expect(messageFormat.messageAST[0].format.negative).to.equal(null);
       });
 
+      it('should be able to parse a formatted argument with a single non-absent number with a rounding number', function() {
+        messageFormat.parse('{variable1,number,05}');
+        expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
+        expect(messageFormat.messageAST[0].argument).to.equal('05');
+        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormatPattern._FloatingNumberFormat);
+        expect(messageFormat.messageAST[0].format.positive.integer.leftAbsentNumbers).to.equal(0);
+        expect(messageFormat.messageAST[0].format.positive.integer.nonAbsentNumbers).to.equal(2);
+        expect(messageFormat.messageAST[0].format.positive.rounding).to.equal(5);
+        expect(messageFormat.messageAST[0].format.positive.fraction).to.equal(null);
+        expect(messageFormat.messageAST[0].format.positive.exponent).to.equal(null);
+        expect(messageFormat.messageAST[0].format.positive.paddingCharacter).to.equal(null);
+        expect(messageFormat.messageAST[0].format.positive.groupSize).to.equal(null);
+        expect(messageFormat.messageAST[0].format.positive.formatLength).to.equal(2);
+        expect(messageFormat.messageAST[0].format.negative).to.equal(null);
+      });
+
+      it('should be able to parse a formatted argument with a rounding numbers spanning integer and fraction', function() {
+        messageFormat.parse('{variable1,number,1.05}');
+        expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
+        expect(messageFormat.messageAST[0].argument).to.equal('1.05');
+        expect(messageFormat.messageAST[0].format.positive).to.be.an.instanceOf(AST.NumberFormatPattern._FloatingNumberFormat);
+        expect(messageFormat.messageAST[0].format.positive.integer).to.eql({
+          leftAbsentNumbers: 0,
+          nonAbsentNumbers: 1
+        });
+        expect(messageFormat.messageAST[0].format.positive.rounding).to.equal(1.05);
+        expect(messageFormat.messageAST[0].format.positive.fraction).to.eql({
+          nonAbsentNumbers: 2,
+          rightAbsentNumbers: 0
+        });
+        expect(messageFormat.messageAST[0].format.positive.exponent).to.equal(null);
+        expect(messageFormat.messageAST[0].format.positive.paddingCharacter).to.equal(null);
+        expect(messageFormat.messageAST[0].format.positive.groupSize).to.equal(null);
+        expect(messageFormat.messageAST[0].format.positive.formatLength).to.equal(4);
+        expect(messageFormat.messageAST[0].format.negative).to.equal(null);
+      });
+
       it('should be able to parse a formatted argument with multiple non-absent numbers', function() {
         messageFormat.parse('{variable1,number,00}');
         expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
