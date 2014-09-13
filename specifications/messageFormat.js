@@ -41,66 +41,6 @@ describe('MessageFormat', function() {
       });
     });
 
-    it('should read standard currency pattern', function() {
-      var messageFormat = new MessageFormat('en-US');
-      expect(messageFormat.standardCurrencyPattern.positive.prefix).to.equal('¤');
-      expect(messageFormat.standardCurrencyPattern.positive.groupSize).to.eql({
-        primary: 3,
-        secondary: 3
-      });
-      expect(messageFormat.standardCurrencyPattern.positive.currency).to.eql({
-        length: 1
-      });
-      expect(messageFormat.standardCurrencyPattern.positive.formatLength).to.equal(9);
-      expect(messageFormat.standardCurrencyPattern.positive.fraction).to.eql({
-        nonAbsentNumbers: 2,
-        rightAbsentNumbers: 0
-      });
-      expect(messageFormat.standardCurrencyPattern.positive.integer).to.eql({
-        leftAbsentNumbers: 3,
-        nonAbsentNumbers: 1
-      });
-    });
-
-    it('should read accounting currency pattern', function() {
-      var messageFormat = new MessageFormat('en-US');
-      expect(messageFormat.accountingCurrencyPattern.positive.prefix).to.equal('¤');
-      expect(messageFormat.accountingCurrencyPattern.positive.groupSize).to.eql({
-        primary: 3,
-        secondary: 3
-      });
-      expect(messageFormat.accountingCurrencyPattern.positive.currency).to.eql({
-        length: 1
-      });
-      expect(messageFormat.accountingCurrencyPattern.positive.formatLength).to.equal(9);
-      expect(messageFormat.accountingCurrencyPattern.positive.fraction).to.eql({
-        nonAbsentNumbers: 2,
-        rightAbsentNumbers: 0
-      });
-      expect(messageFormat.accountingCurrencyPattern.positive.integer).to.eql({
-        leftAbsentNumbers: 3,
-        nonAbsentNumbers: 1
-      });
-      expect(messageFormat.accountingCurrencyPattern.negative.prefix).to.equal('(¤');
-      expect(messageFormat.accountingCurrencyPattern.negative.suffix).to.equal(')');
-      expect(messageFormat.accountingCurrencyPattern.negative.groupSize).to.eql({
-        primary: 3,
-        secondary: 3
-      });
-      expect(messageFormat.accountingCurrencyPattern.negative.currency).to.eql({
-        length: 1
-      });
-      expect(messageFormat.accountingCurrencyPattern.negative.formatLength).to.equal(11);
-      expect(messageFormat.accountingCurrencyPattern.negative.fraction).to.eql({
-        nonAbsentNumbers: 2,
-        rightAbsentNumbers: 0
-      });
-      expect(messageFormat.accountingCurrencyPattern.negative.integer).to.eql({
-        leftAbsentNumbers: 3,
-        nonAbsentNumbers: 1
-      });
-    });
-
     it('should read currencies', function() {
       var messageFormat = new MessageFormat('en-US');
       expect(messageFormat.currencies).to.eql({ 'USD': {
@@ -108,8 +48,7 @@ describe('MessageFormat', function() {
         pluralRules: {
           one: 'US dollar',
           other: 'US dollars'
-        },
-        symbol: '$'
+        }
       }});
     });
 

@@ -248,7 +248,7 @@ describe('Javascript Compiler', function() {
         expect(number).to.equal('10,00,00,000');
       });
 
-      it('should be able to add trailing zeros whenever minimum fraction digits is no met', function() {
+      it('should be able to add trailing zeros whenever minimum fraction digits is not met', function() {
         var number = formatNumber({
           prefix: '',
           suffix: '',
@@ -348,21 +348,21 @@ describe('Javascript Compiler', function() {
         expect(number).to.equal('0.12');
       });
 
-      it('should not render fraction digits that are zero', function() {
+      it('should prepend zeros whenever minimum integers is not met', function() {
         var number = formatNumber({
           prefix: '',
           suffix: '',
-          roundTo: 0.001,
-          number: 0.1200,
+          roundTo: 1,
+          number: 1,
           percentage: false,
           permille: false,
           fraction: {
-            nonAbsentNumbers: 2,
-            rightAbsentNumbers: 1
+            nonAbsentNumbers: 0,
+            rightAbsentNumbers: 0
           },
           integer: {
-            nonAbsentNumbers: 1,
-            leftAbsentNumbers: 1
+            nonAbsentNumbers: 2,
+            leftAbsentNumbers: 0
           },
           groupSize: {
             primary: 3,
@@ -370,7 +370,7 @@ describe('Javascript Compiler', function() {
           },
           symbols: symbols
         });
-        expect(number).to.equal('0.12');
+        expect(number).to.equal('01');
       });
 
       it('should be able to render percentages', function() {
@@ -396,6 +396,72 @@ describe('Javascript Compiler', function() {
           symbols: symbols
         });
         expect(number).to.equal('12%');
+        var number = formatNumber({
+          prefix: '',
+          suffix: ' %',
+          roundTo: 0.001,
+          number: 0.1230,
+          percentage: true,
+          permille: false,
+          fraction: {
+            nonAbsentNumbers: 0,
+            rightAbsentNumbers: 0
+          },
+          integer: {
+            nonAbsentNumbers: 1,
+            leftAbsentNumbers: 1
+          },
+          groupSize: {
+            primary: 3,
+            secondary: 2
+          },
+          symbols: symbols
+        });
+        expect(number).to.equal('12 %');
+        var number = formatNumber({
+          prefix: '%',
+          suffix: '',
+          roundTo: 0.001,
+          number: 0.1230,
+          percentage: true,
+          permille: false,
+          fraction: {
+            nonAbsentNumbers: 0,
+            rightAbsentNumbers: 0
+          },
+          integer: {
+            nonAbsentNumbers: 1,
+            leftAbsentNumbers: 1
+          },
+          groupSize: {
+            primary: 3,
+            secondary: 2
+          },
+          symbols: symbols
+        });
+        expect(number).to.equal('%12');
+        var number = formatNumber({
+          prefix: '% ',
+          suffix: '',
+          roundTo: 0.001,
+          number: 0.1230,
+          percentage: true,
+          permille: false,
+          fraction: {
+            nonAbsentNumbers: 0,
+            rightAbsentNumbers: 0
+          },
+          integer: {
+            nonAbsentNumbers: 1,
+            leftAbsentNumbers: 1
+          },
+          groupSize: {
+            primary: 3,
+            secondary: 2
+          },
+          symbols: symbols
+        });
+        expect(number).to.equal('% 12');
       });
 
       it('should be able to render permille', function() {
@@ -421,6 +487,120 @@ describe('Javascript Compiler', function() {
           symbols: symbols
         });
         expect(number).to.equal('123‰');
+        var number = formatNumber({
+          prefix: '‰',
+          suffix: '',
+          roundTo: 0.001,
+          number: 0.1230,
+          percentage: false,
+          permille: true,
+          fraction: {
+            nonAbsentNumbers: 0,
+            rightAbsentNumbers: 0
+          },
+          integer: {
+            nonAbsentNumbers: 1,
+            leftAbsentNumbers: 1
+          },
+          groupSize: {
+            primary: 3,
+            secondary: 2
+          },
+          symbols: symbols
+        });
+        expect(number).to.equal('‰123');
+        var number = formatNumber({
+          prefix: '‰ ',
+          suffix: '',
+          roundTo: 0.001,
+          number: 0.1230,
+          percentage: false,
+          permille: true,
+          fraction: {
+            nonAbsentNumbers: 0,
+            rightAbsentNumbers: 0
+          },
+          integer: {
+            nonAbsentNumbers: 1,
+            leftAbsentNumbers: 1
+          },
+          groupSize: {
+            primary: 3,
+            secondary: 2
+          },
+          symbols: symbols
+        });
+        expect(number).to.equal('‰ 123');
+        var number = formatNumber({
+          prefix: '',
+          suffix: ' ‰',
+          roundTo: 0.001,
+          number: 0.1230,
+          percentage: false,
+          permille: true,
+          fraction: {
+            nonAbsentNumbers: 0,
+            rightAbsentNumbers: 0
+          },
+          integer: {
+            nonAbsentNumbers: 1,
+            leftAbsentNumbers: 1
+          },
+          groupSize: {
+            primary: 3,
+            secondary: 2
+          },
+          symbols: symbols
+        });
+        expect(number).to.equal('123 ‰');
+      });
+      it('should be able to render a prefix', function() {
+        var number = formatNumber({
+          prefix: '$',
+          suffix: '',
+          roundTo: 0.001,
+          number: 0.1230,
+          percentage: false,
+          permille: true,
+          fraction: {
+            nonAbsentNumbers: 0,
+            rightAbsentNumbers: 0
+          },
+          integer: {
+            nonAbsentNumbers: 1,
+            leftAbsentNumbers: 1
+          },
+          groupSize: {
+            primary: 3,
+            secondary: 2
+          },
+          symbols: symbols
+        });
+        expect(number).to.equal('$123');
+      });
+      it('should be able to render a suffix', function() {
+        var number = formatNumber({
+          prefix: '',
+          suffix: '$',
+          roundTo: 0.001,
+          number: 0.1230,
+          percentage: false,
+          permille: true,
+          fraction: {
+            nonAbsentNumbers: 0,
+            rightAbsentNumbers: 0
+          },
+          integer: {
+            nonAbsentNumbers: 1,
+            leftAbsentNumbers: 1
+          },
+          groupSize: {
+            primary: 3,
+            secondary: 2
+          },
+          symbols: symbols
+        });
+        expect(number).to.equal('123$');
       });
     });
   });

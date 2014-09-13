@@ -878,33 +878,6 @@ MessageFormat.prototype._readNumberFormatPatterns = function(localeDocument, lan
     throw new TypeError('No percentage pattern exist for ' + this.locale + ' in CLDR.');
   }
   this.percentagePattern = AST.NumberFormatPattern.parse(percentagePattern.text());
-
-  var standardCurrencyPattern;
-  if(localeDocument) {
-    standardCurrencyPattern = localeDocument.get(
-      '//ldml/numbers/currencyFormats[@numberSystem=\'latn\']/currencyFormatLength/currencyFormat[@type=\'standard\']/pattern');
-  }
-  if(!standardCurrencyPattern) {
-    standardCurrencyPattern = languageDocument.get(
-      '//ldml/numbers/currencyFormats[@numberSystem=\'latn\']/currencyFormatLength/currencyFormat[@type=\'standard\']/pattern');
-  }
-  if(!standardCurrencyPattern) {
-    throw new TypeError('No standard currency pattern exist for ' + this.locale + ' in CLDR.');
-  }
-  this.standardCurrencyPattern = AST.NumberFormatPattern.parse(standardCurrencyPattern.text());
-
-  var accountingCurrencyPattern;
-  if(localeDocument) {
-    accountingCurrencyPattern = localeDocument.get(
-      '//ldml/numbers/currencyFormats[@numberSystem=\'latn\']/currencyFormatLength/currencyFormat[@type=\'accounting\']/pattern');
-  }
-  if(!accountingCurrencyPattern) {
-    accountingCurrencyPattern = languageDocument.get(
-      '//ldml/numbers/currencyFormats[@numberSystem=\'latn\']/currencyFormatLength/currencyFormat[@type=\'accounting\']/pattern');
-  }
-  if(accountingCurrencyPattern) {
-    this.accountingCurrencyPattern = AST.NumberFormatPattern.parse(accountingCurrencyPattern.text());
-  }
 };
 
 /**
@@ -995,9 +968,6 @@ MessageFormat.prototype._readCurrencyData = function(localeDocument, languageDoc
               pluralRules: {}
             };
           }
-        }
-        else if(currencyName.name() === 'symbol') {
-          _this.currencies[currency]['symbol'] = currencyName.text();
         }
       });
     });

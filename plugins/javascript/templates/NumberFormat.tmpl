@@ -32,7 +32,7 @@ function formatNumber(it) {
   if(integerDigitsLength < minimumIntegerDigits) {
     var missingIntegerDigits = minimumIntegerDigits - integerDigitsLength;
     for(var index = 0; index < missingIntegerDigits; index++) {
-      fractionDigits += '0' + fractionDigits;
+      integerDigits = '0' + integerDigits;
     }
     integerDigitsLength = minimumIntegerDigits;
   }
@@ -52,7 +52,6 @@ function formatNumber(it) {
     integerDigits = newIntegerDigits.split('').reverse().join('');
   }
 
-
   if(fractionDigitsLength > maximumFractionDigits) {
     fractionDigits = fractionDigits.substring(0, maximumFractionDigits);
   }
@@ -62,6 +61,7 @@ function formatNumber(it) {
       fractionDigits += '0';
     }
   }
+
   var result = '';
   result += prefix;
   result += integerDigits;
