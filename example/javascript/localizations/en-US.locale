@@ -8,7 +8,7 @@
   "new": false,
   "text": "{",
   "timestamp": "2014-09-07T03:54:16.050Z",
-  "value": "{files, number, ##0.##}",
+  "value": "{files, number, ##0.00}",
   "variables": [
     "files",
     "people"

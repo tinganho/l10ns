@@ -26,7 +26,7 @@ var getDependencies = function(localizations) {
   };
 };
 
-eval(fs.readFileSync(path.join(__dirname, '../templates/NumberFormat.tmpl'), 'utf-8'));
+eval(fs.readFileSync(path.join(__dirname, '../templates/FormatNumberFunction.tmpl'), 'utf-8'));
 eval(fs.readFileSync(path.join(__dirname, '../templates/RoundToFunction.tmpl'), 'utf-8'));
 
 /**
@@ -159,6 +159,24 @@ describe('Javascript Compiler', function() {
   });
 
   describe('NumberFormat', function() {
+    describe('compilation', function() {
+      it('should be able to compile a non-absent number', function() {
+        var localizations = getLocalizations('{variable1, number, 0}')
+          , dependencies = getDependencies(localizations)
+          , compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+        compiler.run();
+        eventually(function() {
+          var functionBody =
+          'var string = \'\';\n' +
+          'return string;';
+          expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+            functionBody: indentSpaces(8, functionBody)
+          }));
+          done();
+        });
+      });
+    });
     var symbols = {
       decimal: '.',
       group: ',',
@@ -174,11 +192,9 @@ describe('Javascript Compiler', function() {
           number: 1000,
           percentage: false,
           permille: false,
-          fraction: null,
-          integer: {
-            nonAbsentNumbers: 1,
-            leftAbsentNumbers: 1
-          },
+          maximumFractionDigits: 0,
+          minimumFractionDigits: 0,
+          minimumIntegerDigits: 1,
           groupSize: {
             primary: 3,
             secondary: 3
@@ -197,10 +213,9 @@ describe('Javascript Compiler', function() {
           percentage: false,
           permille: false,
           fraction: null,
-          integer: {
-            nonAbsentNumbers: 1,
-            leftAbsentNumbers: 1
-          },
+          maximumFractionDigits: 0,
+          minimumFractionDigits: 0,
+          minimumIntegerDigits: 1,
           groupSize: {
             primary: 3,
             secondary: 3
@@ -215,11 +230,9 @@ describe('Javascript Compiler', function() {
           number: 1000000,
           percentage: false,
           permille: false,
-          fraction: null,
-          integer: {
-            nonAbsentNumbers: 1,
-            leftAbsentNumbers: 1
-          },
+          maximumFractionDigits: 0,
+          minimumFractionDigits: 0,
+          minimumIntegerDigits: 1,
           groupSize: {
             primary: 3,
             secondary: 2
@@ -234,11 +247,9 @@ describe('Javascript Compiler', function() {
           number: 100000000,
           percentage: false,
           permille: false,
-          fraction: null,
-          integer: {
-            nonAbsentNumbers: 1,
-            leftAbsentNumbers: 1
-          },
+          maximumFractionDigits: 0,
+          minimumFractionDigits: 0,
+          minimumIntegerDigits: 1,
           groupSize: {
             primary: 3,
             secondary: 2
@@ -256,14 +267,9 @@ describe('Javascript Compiler', function() {
           number: 0.2,
           percentage: false,
           permille: false,
-          fraction: {
-            nonAbsentNumbers: 2,
-            rightAbsentNumbers: 1
-          },
-          integer: {
-            nonAbsentNumbers: 1,
-            leftAbsentNumbers: 1
-          },
+          maximumFractionDigits: 3,
+          minimumFractionDigits: 2,
+          minimumIntegerDigits: 1,
           groupSize: {
             primary: 3,
             secondary: 2
@@ -281,14 +287,9 @@ describe('Javascript Compiler', function() {
           number: 0.1236,
           percentage: false,
           permille: false,
-          fraction: {
-            nonAbsentNumbers: 2,
-            rightAbsentNumbers: 1
-          },
-          integer: {
-            nonAbsentNumbers: 1,
-            leftAbsentNumbers: 1
-          },
+          maximumFractionDigits: 3,
+          minimumFractionDigits: 2,
+          minimumIntegerDigits: 1,
           groupSize: {
             primary: 3,
             secondary: 2
@@ -306,14 +307,9 @@ describe('Javascript Compiler', function() {
           number: 0.1333,
           percentage: false,
           permille: false,
-          fraction: {
-            nonAbsentNumbers: 2,
-            rightAbsentNumbers: 1
-          },
-          integer: {
-            nonAbsentNumbers: 1,
-            leftAbsentNumbers: 1
-          },
+          maximumFractionDigits: 3,
+          minimumFractionDigits: 2,
+          minimumIntegerDigits: 1,
           groupSize: {
             primary: 3,
             secondary: 2
@@ -331,14 +327,9 @@ describe('Javascript Compiler', function() {
           number: 0.1200,
           percentage: false,
           permille: false,
-          fraction: {
-            nonAbsentNumbers: 2,
-            rightAbsentNumbers: 1
-          },
-          integer: {
-            nonAbsentNumbers: 1,
-            leftAbsentNumbers: 1
-          },
+          maximumFractionDigits: 3,
+          minimumFractionDigits: 2,
+          minimumIntegerDigits: 1,
           groupSize: {
             primary: 3,
             secondary: 2
@@ -356,14 +347,9 @@ describe('Javascript Compiler', function() {
           number: 1,
           percentage: false,
           permille: false,
-          fraction: {
-            nonAbsentNumbers: 0,
-            rightAbsentNumbers: 0
-          },
-          integer: {
-            nonAbsentNumbers: 2,
-            leftAbsentNumbers: 0
-          },
+          maximumFractionDigits: 0,
+          minimumFractionDigits: 0,
+          minimumIntegerDigits: 2,
           groupSize: {
             primary: 3,
             secondary: 2
@@ -381,14 +367,9 @@ describe('Javascript Compiler', function() {
           number: 0.1230,
           percentage: true,
           permille: false,
-          fraction: {
-            nonAbsentNumbers: 0,
-            rightAbsentNumbers: 0
-          },
-          integer: {
-            nonAbsentNumbers: 1,
-            leftAbsentNumbers: 1
-          },
+          maximumFractionDigits: 0,
+          minimumFractionDigits: 0,
+          minimumIntegerDigits: 2,
           groupSize: {
             primary: 3,
             secondary: 2
@@ -403,14 +384,9 @@ describe('Javascript Compiler', function() {
           number: 0.1230,
           percentage: true,
           permille: false,
-          fraction: {
-            nonAbsentNumbers: 0,
-            rightAbsentNumbers: 0
-          },
-          integer: {
-            nonAbsentNumbers: 1,
-            leftAbsentNumbers: 1
-          },
+          maximumFractionDigits: 0,
+          minimumFractionDigits: 0,
+          minimumIntegerDigits: 2,
           groupSize: {
             primary: 3,
             secondary: 2
@@ -425,14 +401,9 @@ describe('Javascript Compiler', function() {
           number: 0.1230,
           percentage: true,
           permille: false,
-          fraction: {
-            nonAbsentNumbers: 0,
-            rightAbsentNumbers: 0
-          },
-          integer: {
-            nonAbsentNumbers: 1,
-            leftAbsentNumbers: 1
-          },
+          maximumFractionDigits: 0,
+          minimumFractionDigits: 0,
+          minimumIntegerDigits: 2,
           groupSize: {
             primary: 3,
             secondary: 2
@@ -447,14 +418,9 @@ describe('Javascript Compiler', function() {
           number: 0.1230,
           percentage: true,
           permille: false,
-          fraction: {
-            nonAbsentNumbers: 0,
-            rightAbsentNumbers: 0
-          },
-          integer: {
-            nonAbsentNumbers: 1,
-            leftAbsentNumbers: 1
-          },
+          maximumFractionDigits: 0,
+          minimumFractionDigits: 0,
+          minimumIntegerDigits: 2,
           groupSize: {
             primary: 3,
             secondary: 2

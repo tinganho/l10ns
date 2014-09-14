@@ -58,6 +58,7 @@ Compiler.prototype.run = function() {
     .then(function(localizationMap) {
       var content = template['JavascriptWrapper']({
         roundUpFunction: _this._indentSpaces(2, template['RoundToFunction']()),
+        formatNumberFunction: _this._indentSpaces(2, template['FormatNumberFunction']()),
         functionName: language.GET_LOCALIZATION_STRING_FUNCTION_NAME,
         localizationMap: _this._indentSpaces(2, localizationMap),
         requireStatement: _this._indentSpaces(2, template['RequireStatement']())
@@ -130,12 +131,17 @@ Compiler.prototype._getLocalizationMap = function() {
 
         localizationMap += template['LocalizationKeyValue']({
           key: '__getPluralKeyword',
-          function: _this._getPluralGetterFunctionString(messageFormat) + _this.linefeed
+          value: _this._getPluralGetterFunctionString(messageFormat) + _this.linefeed
         });
 
         localizationMap += template['LocalizationKeyValue']({
           key: '__getOrdinalKeyword',
-          function: _this._getOrdinalGetterFunctionString(messageFormat) + _this.linefeed
+          value: _this._getOrdinalGetterFunctionString(messageFormat) + _this.linefeed
+        });
+
+        localizationMap += template['LocalizationKeyValue']({
+          key: '__numberSymbols',
+          value: JSON.stringify(messageFormat.numberSymbols, null, 2).replace(/"/g, '\'') + _this.comma + _this.linefeed
         });
 
         for(var key in localizations[locale]) {
@@ -149,7 +155,7 @@ Compiler.prototype._getLocalizationMap = function() {
 
           localizationMap += template['LocalizationKeyValue']({
             key: key,
-            function: _function
+            value: _function
           });
 
           if(localizationsCount !== localizationsLength - 1 &&
@@ -233,7 +239,8 @@ Compiler.prototype._getFunctionBody = function(messageAST) {
 
 Compiler.prototype._compileNumberFormat = function(numberFormat) {
   var result = ''
-    , signs = ['positive', 'negative'];
+    , signs = ['positive', 'negative']
+    , _case = {};
 
   signs.forEach(function(sign) {
     var format = numberFormat.format[sign];
@@ -243,25 +250,36 @@ Compiler.prototype._compileNumberFormat = function(numberFormat) {
     }
 
     var minimumIntegerDigits = format.integer.nonAbsentNumbers
-      , minimumFractionDigits = null
-      , maximumFractionDigits = null;
+      , minimumFractionDigits = 0
+      , maximumFractionDigits = 0;
 
-    if(typeof format.fraction === 'object' &&
+    if(format.fraction &&
        typeof format.fraction.nonAbsentNumbers === 'number' &&
        typeof format.fraction.rightAbsentNumbers) {
       minimumFractionDigits = format.fraction.nonAbsentNumbers;
       maximumFractionDigits = minimumFractionDigits + format.fraction.rightAbsentNumbers;
     }
 
-    result += template['NumberFormat']({
+    _case[sign] = template['FormatNumber']({
       variableName: numberFormat.variable.name,
+      prefix: format.prefix,
+      suffix: format.suffix,
       roundTo: format.rounding,
+      percentage: format.percentage,
+      permille: format.permille,
+      currency: format.currency,
       minimumIntegerDigits: minimumIntegerDigits,
       minimumFractionDigits: minimumFractionDigits,
       maximumFractionDigits: maximumFractionDigits,
       groupSize: format.groupSize,
-      symbols: numberFormat.numberSymbols
+      locale: numberFormat.locale
     });
+  });
+
+  result += template['FormatNumberCondition']({
+    variableName: numberFormat.variable.name,
+    positive: this._indentSpaces(2, _case['positive']),
+    negative: this._indentSpaces(2, _case['negative'])
   });
 
   return result;

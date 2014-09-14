@@ -46,10 +46,6 @@ describe('MessageFormat', function() {
       expect(messageFormat.currencies).to.eql({
         'USD': {
           name: 'US Dollar',
-          symbols: {
-            local: '$',
-            global: 'US$'
-          },
           text: {
             local: {
               one: 'dollar',
@@ -175,6 +171,7 @@ describe('MessageFormat', function() {
     });
 
     require('./numberFormat');
+    require('./currencyFormat');
 
     describe('PluralFormat', function() {
       afterEach(function() {

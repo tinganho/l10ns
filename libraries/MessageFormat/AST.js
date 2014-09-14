@@ -65,6 +65,22 @@ AST.NumberFormat = function(locale, variable, argument, messageFormat) {
   );
 };
 
+
+/**
+ * AST class representing a CurrencyFormat
+ *
+ * @param {String} variable
+ * @param {String} argument
+ * @constructor
+ */
+
+AST.CurrencyFormat = function(locale, variable, argument, messageFormat) {
+  AST.NumberFormat.apply(this, arguments);
+  this.type = argument;
+};
+
+AST.CurrencyFormat.prototype = Object.create(AST.NumberFormat.prototype);
+
 /**
  * Namespace numnerformat pattern
  *
@@ -81,7 +97,7 @@ AST.NumberFormatPattern = {};
  */
 
 AST.NumberFormatPattern.Syntaxes = {
-  NUMBER_SIMPLE_ARGUMENTS: /^(integer|currency|percent)$/,
+  NUMBER_SIMPLE_ARGUMENTS: /^(integer|symbol|text|percent)$/,
   NUMBER_CHARACTER: /[#0-9\.E@\,\+\-;]/,
   ROUNDING_CHARACTER: /[1-9]/,
   SIGNIFICANT_PATTERN: /^(#*)(@+)(#*)$/,
@@ -168,7 +184,11 @@ AST.NumberFormatPattern.parse = function(argument, decimalPattern, percentagePat
         return decimalPattern;
       case 'percent':
         return percentagePattern;
-      case 'currency':
+      case 'symbol':
+        return standardCurrencyPattern;
+      case 'text':
+        standardCurrencyPattern.prefix = '';
+        standardCurrencyPattern.suffix = '';
         return standardCurrencyPattern;
     }
   }
@@ -557,6 +577,7 @@ AST.NumberFormatPattern._getPercentage = function(attributes) {
   if(attributes.permille || attributes.currency) {
     throw new TypeError('Can not set percentage whenever permille or currency are set in ' + this.currentNumberPattern);
   }
+
   return true;
 };
 
@@ -583,6 +604,7 @@ AST.NumberFormatPattern._getPermille = function(attributes, hasEncounterdNumberC
   if(attributes.percentage || attributes.currency) {
     throw new TypeError('Can not set permille whenever percentage or currency are set in ' + this.currentNumberPattern);
   }
+
   return true;
 };
 
@@ -614,14 +636,8 @@ AST.NumberFormatPattern._getCurrency = function(attributes, currencyCharacterCou
       throw new TypeError('Can not set both a currency prefix and suffix in ' + this.currentNumberPattern);
     }
   }
-  switch (currencyCharacterCounter){
-    case 1:
-     return { type: 'local' };
-    case 2:
-      return { type: 'global' };
-    case 3:
-      return { type: 'text' };
-  };
+
+  return true;
 };
 
 /**

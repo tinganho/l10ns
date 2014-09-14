@@ -1,0 +1,17 @@
+string += formatNumber({
+  number: it.{{=it.variableName}},
+  roundTo: {{=it.roundTo}},
+  prefix: '{{=it.prefix}}',
+  suffix: '{{=it.suffix}}',
+  percentage: {{=it.percentage}},
+  permille: {{=it.permille}},{{?it.currency}}
+  currency: {
+    type: '{{=it.currency.type}}',
+    context: '{{=it.currency.symbol}}'
+  },{{??}}
+  currency: null,{{?}}
+  minimumIntegerDigits: {{=it.minimumIntegerDigits}},
+  minimumFractionDigits: {{=it.minimumFractionDigits}},
+  maximumFractionDigits: {{=it.maximumFractionDigits}},
+  symbols: localizations['{{=it.locale}}'].__numberSymbols
+});

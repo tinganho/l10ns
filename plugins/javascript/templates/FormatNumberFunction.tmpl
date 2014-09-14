@@ -1,8 +1,5 @@
 function formatNumber(it) {
   var number = it.number
-    , minimumIntegerDigits = it.integer.nonAbsentNumbers
-    , minimumFractionDigits = null
-    , maximumFractionDigits = null
     , prefix = it.prefix
     , suffix = it.suffix
     , currencySymbol =
@@ -11,11 +8,6 @@ function formatNumber(it) {
          \\uFFE0\\uFFE1\\uFFE5\\uFFE6])'
     , startsWithCurrencySymbolSyntax = new RegExp('^' + currencySymbol)
     , endsWithCurrencySymbolSyntax = new RegExp(currencySymbol + '$');
-
-  if(it.fraction) {
-    minimumFractionDigits = it.fraction.nonAbsentNumbers;
-    maximumFractionDigits = minimumFractionDigits + it.fraction.rightAbsentNumbers;
-  }
 
   if(it.percentage) {
     prefix = prefix.replace('%', it.symbols.percent);
@@ -35,12 +27,12 @@ function formatNumber(it) {
     , fractionDigits = numberSplit[1] || ''
     , fractionDigitsLength = fractionDigits.length;
 
-  if(integerDigitsLength < minimumIntegerDigits) {
-    var missingIntegerDigits = minimumIntegerDigits - integerDigitsLength;
+  if(integerDigitsLength < it.minimumIntegerDigits) {
+    var missingIntegerDigits = it.minimumIntegerDigits - integerDigitsLength;
     for(var index = 0; index < missingIntegerDigits; index++) {
       integerDigits = '0' + integerDigits;
     }
-    integerDigitsLength = minimumIntegerDigits;
+    integerDigitsLength = it.minimumIntegerDigits;
   }
   if(it.groupSize) {
     var newIntegerDigits = '';
@@ -58,11 +50,11 @@ function formatNumber(it) {
     integerDigits = newIntegerDigits.split('').reverse().join('');
   }
 
-  if(fractionDigitsLength > maximumFractionDigits) {
-    fractionDigits = fractionDigits.substring(0, maximumFractionDigits);
+  if(fractionDigitsLength > it.maximumFractionDigits) {
+    fractionDigits = fractionDigits.substring(0, it.maximumFractionDigits);
   }
-  else if(fractionDigitsLength < minimumFractionDigits) {
-    var missingFractionDigits = minimumFractionDigits - fractionDigitsLength;
+  else if(fractionDigitsLength < it.minimumFractionDigits) {
+    var missingFractionDigits = it.minimumFractionDigits - fractionDigitsLength;
     for(var index = 0; index < missingFractionDigits; index++) {
       fractionDigits += '0';
     }

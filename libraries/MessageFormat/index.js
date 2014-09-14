@@ -267,6 +267,7 @@ MessageFormat.prototype._parseSwitchStatement = function(variable) {
   }
 
   switch(type) {
+    case 'currency':
     case 'number':
       switchStatement = this._parseSimpleFormat(type, variable);
       break;
@@ -316,13 +317,15 @@ MessageFormat.prototype._parseSimpleFormat = function(type, variable) {
     throw new TypeError('You must have a closing bracket in your simple format in ' + this.lexer.getLatestTokensLog());
   }
 
-  if(!/^(number|date|time|spellout|ordinal|duration)$/.test(type)) {
+  if(!/^(number|currency|date|time|spellout|ordinal|duration)$/.test(type)) {
     throw new TypeError('SimpleFormat has invalid type (number|date|time|spellout|ordinal|duration) in ' + this.lexer.getNextToken());
   }
 
   this.currentToken = this.lexer.getNextToken();
 
   switch(type) {
+    case 'currency':
+      return new AST.CurrencyFormat(this.locale, variable, argument, this);
     case 'number':
       return new AST.NumberFormat(this.locale, variable, argument, this);
   }
@@ -979,7 +982,6 @@ MessageFormat.prototype._readCurrencyData = function(localeDocument, languageDoc
           else {
             _this.currencies[currency] = {
               name: currencyName.text(),
-              symbols: currencySymbols[currency].symbols,
               text: {
                 local: currencySymbols[currency].text.local,
                 global: {}
