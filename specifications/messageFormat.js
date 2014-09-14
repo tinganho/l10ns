@@ -43,13 +43,25 @@ describe('MessageFormat', function() {
 
     it('should read currencies', function() {
       var messageFormat = new MessageFormat('en-US');
-      expect(messageFormat.currencies).to.eql({ 'USD': {
-        name: 'US Dollar',
-        pluralRules: {
-          one: 'US dollar',
-          other: 'US dollars'
+      expect(messageFormat.currencies).to.eql({
+        'USD': {
+          name: 'US Dollar',
+          symbols: {
+            local: '$',
+            global: 'US$'
+          },
+          text: {
+            local: {
+              one: 'dollar',
+              other: 'dollars'
+            },
+            global: {
+              one: 'US dollar',
+              other: 'US dollars'
+            }
+          }
         }
-      }});
+      });
     });
 
     it('should read currencie unit patterns', function() {

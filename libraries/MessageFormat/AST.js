@@ -614,8 +614,13 @@ AST.NumberFormatPattern._getCurrency = function(attributes, currencyCharacterCou
       throw new TypeError('Can not set both a currency prefix and suffix in ' + this.currentNumberPattern);
     }
   }
-  return {
-    length: currencyCharacterCounter
+  switch (currencyCharacterCounter){
+    case 1:
+     return { type: 'local' };
+    case 2:
+      return { type: 'global' };
+    case 3:
+      return { type: 'text' };
   };
 };
 

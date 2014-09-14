@@ -126,7 +126,7 @@ describe('NumberFormat', function() {
     expect(messageFormat.messageAST[0].format.positive.exponent).to.equal(null);
     expect(messageFormat.messageAST[0].format.positive.percentage).to.equal(null);
     expect(messageFormat.messageAST[0].format.positive.permille).to.equal(null);
-    expect(messageFormat.messageAST[0].format.positive.currency).to.eql({ length: 1 });
+    expect(messageFormat.messageAST[0].format.positive.currency).to.eql({ type: 'local' });
     expect(messageFormat.messageAST[0].format.positive.groupSize).to.equal(null);
     expect(messageFormat.messageAST[0].format.positive.formatLength).to.equal(2);
     expect(messageFormat.messageAST[0].format.negative).to.equal(null);
@@ -141,7 +141,7 @@ describe('NumberFormat', function() {
     expect(messageFormat.messageAST[0].format.positive.exponent).to.equal(null);
     expect(messageFormat.messageAST[0].format.positive.percentage).to.equal(null);
     expect(messageFormat.messageAST[0].format.positive.permille).to.equal(null);
-    expect(messageFormat.messageAST[0].format.positive.currency).to.eql({ length: 2 });
+    expect(messageFormat.messageAST[0].format.positive.currency).to.eql({ type: 'global' });
     expect(messageFormat.messageAST[0].format.positive.groupSize).to.equal(null);
     expect(messageFormat.messageAST[0].format.positive.formatLength).to.equal(3);
     expect(messageFormat.messageAST[0].format.negative).to.equal(null);
@@ -156,7 +156,7 @@ describe('NumberFormat', function() {
     expect(messageFormat.messageAST[0].format.positive.exponent).to.equal(null);
     expect(messageFormat.messageAST[0].format.positive.percentage).to.equal(null);
     expect(messageFormat.messageAST[0].format.positive.permille).to.equal(null);
-    expect(messageFormat.messageAST[0].format.positive.currency).to.eql({ length: 3 });
+    expect(messageFormat.messageAST[0].format.positive.currency).to.eql({ type: 'text' });
     expect(messageFormat.messageAST[0].format.positive.groupSize).to.equal(null);
     expect(messageFormat.messageAST[0].format.positive.formatLength).to.equal(4);
     expect(messageFormat.messageAST[0].format.negative).to.equal(null);
@@ -172,7 +172,7 @@ describe('NumberFormat', function() {
     expect(messageFormat.messageAST[0].format.positive.integer.nonAbsentNumbers).to.equal(1);
     expect(messageFormat.messageAST[0].format.positive.fraction).to.equal(null);
     expect(messageFormat.messageAST[0].format.positive.exponent).to.equal(null);
-    expect(messageFormat.messageAST[0].format.positive.currency).to.eql({ length: 1 });
+    expect(messageFormat.messageAST[0].format.positive.currency).to.eql({ type: 'local' });
     expect(messageFormat.messageAST[0].format.positive.groupSize).to.equal(null);
     expect(messageFormat.messageAST[0].format.positive.formatLength).to.equal(2);
     expect(messageFormat.messageAST[0].format.negative).to.equal(null);
@@ -185,7 +185,7 @@ describe('NumberFormat', function() {
     expect(messageFormat.messageAST[0].format.positive.integer.nonAbsentNumbers).to.equal(1);
     expect(messageFormat.messageAST[0].format.positive.fraction).to.equal(null);
     expect(messageFormat.messageAST[0].format.positive.exponent).to.equal(null);
-    expect(messageFormat.messageAST[0].format.positive.currency).to.eql({ length: 2 });
+    expect(messageFormat.messageAST[0].format.positive.currency).to.eql({ type: 'global' });
     expect(messageFormat.messageAST[0].format.positive.groupSize).to.equal(null);
     expect(messageFormat.messageAST[0].format.positive.formatLength).to.equal(3);
     expect(messageFormat.messageAST[0].format.negative).to.equal(null);
@@ -198,7 +198,7 @@ describe('NumberFormat', function() {
     expect(messageFormat.messageAST[0].format.positive.integer.nonAbsentNumbers).to.equal(1);
     expect(messageFormat.messageAST[0].format.positive.fraction).to.equal(null);
     expect(messageFormat.messageAST[0].format.positive.exponent).to.equal(null);
-    expect(messageFormat.messageAST[0].format.positive.currency).to.eql({ length: 3 });
+    expect(messageFormat.messageAST[0].format.positive.currency).to.eql({ type: 'text' });
     expect(messageFormat.messageAST[0].format.positive.groupSize).to.equal(null);
     expect(messageFormat.messageAST[0].format.positive.formatLength).to.equal(4);
     expect(messageFormat.messageAST[0].format.negative).to.equal(null);

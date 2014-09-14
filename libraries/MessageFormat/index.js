@@ -9,7 +9,8 @@ var Lexer = require('../Lexer')
   , fs = require('fs')
   , path = require('path')
   , LDML = require('../LDML')
-  , _ = require('underscore');
+  , _ = require('underscore')
+  , currencySymbols = require('./currencySymbols');
 
 /**
  * MessageFormat class
@@ -33,7 +34,6 @@ function MessageFormat(locale) {
   this.decimalPattern = null;
   this.percentagePattern = null;
   this.standardCurrencyPattern = null;
-  this.accountingCurrencyPattern = null;
   this.currencyUnitPatterns = null;
   this.currencies = {};
   this.currencyUnitPatterns = {};
@@ -878,6 +878,20 @@ MessageFormat.prototype._readNumberFormatPatterns = function(localeDocument, lan
     throw new TypeError('No percentage pattern exist for ' + this.locale + ' in CLDR.');
   }
   this.percentagePattern = AST.NumberFormatPattern.parse(percentagePattern.text());
+
+  var standardCurrencyPattern;
+  if(localeDocument) {
+    standardCurrencyPattern = localeDocument.get(
+      '//ldml/numbers/currencyFormats[@numberSystem=\'latn\']/currencyFormatLength/currencyFormat[@type=\'standard\']/pattern');
+  }
+  if(!standardCurrencyPattern) {
+    standardCurrencyPattern = languageDocument.get(
+      '//ldml/numbers/currencyFormats[@numberSystem=\'latn\']/currencyFormatLength/currencyFormat[@type=\'standard\']/pattern');
+  }
+  if(!standardCurrencyPattern) {
+    throw new TypeError('No standard currency pattern exist for ' + this.locale + ' in CLDR.');
+  }
+  this.standardCurrencyPattern = AST.NumberFormatPattern.parse(standardCurrencyPattern.text());
 };
 
 /**
@@ -960,12 +974,16 @@ MessageFormat.prototype._readCurrencyData = function(localeDocument, languageDoc
         if(currencyName.name() === 'displayName') {
           var count = currencyName.attr('count')
           if(count) {
-            _this.currencies[currency]['pluralRules'][count.value()] = currencyName.text();
+            _this.currencies[currency].text.global[count.value()] = currencyName.text();
           }
           else {
             _this.currencies[currency] = {
               name: currencyName.text(),
-              pluralRules: {}
+              symbols: currencySymbols[currency].symbols,
+              text: {
+                local: currencySymbols[currency].text.local,
+                global: {}
+              }
             };
           }
         }

@@ -554,14 +554,15 @@ describe('Javascript Compiler', function() {
         });
         expect(number).to.equal('123 ‰');
       });
+
       it('should be able to render a prefix', function() {
         var number = formatNumber({
           prefix: '$',
           suffix: '',
-          roundTo: 0.001,
-          number: 0.1230,
+          roundTo: 1,
+          number: 10,
           percentage: false,
-          permille: true,
+          permille: false,
           fraction: {
             nonAbsentNumbers: 0,
             rightAbsentNumbers: 0
@@ -576,16 +577,17 @@ describe('Javascript Compiler', function() {
           },
           symbols: symbols
         });
-        expect(number).to.equal('$123');
+        expect(number).to.equal('$10');
       });
+
       it('should be able to render a suffix', function() {
         var number = formatNumber({
           prefix: '',
           suffix: '$',
-          roundTo: 0.001,
-          number: 0.1230,
+          roundTo: 1,
+          number: 10,
           percentage: false,
-          permille: true,
+          permille: false,
           fraction: {
             nonAbsentNumbers: 0,
             rightAbsentNumbers: 0
@@ -600,7 +602,147 @@ describe('Javascript Compiler', function() {
           },
           symbols: symbols
         });
-        expect(number).to.equal('123$');
+        expect(number).to.equal('10$');
+      });
+
+      it('should be able to render currency', function() {
+        var number = formatNumber({
+          prefix: '¤',
+          suffix: '',
+          roundTo: 1,
+          number: 10,
+          percentage: false,
+          permille: false,
+          currency: {
+            symbol: '$'
+          },
+          fraction: {
+            nonAbsentNumbers: 0,
+            rightAbsentNumbers: 0
+          },
+          integer: {
+            nonAbsentNumbers: 1,
+            leftAbsentNumbers: 1
+          },
+          groupSize: {
+            primary: 3,
+            secondary: 2
+          },
+          symbols: symbols
+        });
+        expect(number).to.equal('$10');
+      });
+
+      it('should be able to append a space if a non-currency symbol surrounfs a digit', function() {
+        var number = formatNumber({
+          prefix: '¤',
+          suffix: '',
+          roundTo: 1,
+          number: 10,
+          percentage: false,
+          permille: false,
+          currency: {
+            symbol: '$NT'
+          },
+          fraction: {
+            nonAbsentNumbers: 0,
+            rightAbsentNumbers: 0
+          },
+          integer: {
+            nonAbsentNumbers: 1,
+            leftAbsentNumbers: 1
+          },
+          groupSize: {
+            primary: 3,
+            secondary: 2
+          },
+          symbols: symbols
+        });
+        expect(number).to.equal('$NT 10');
+      });
+
+      it('should not append a space if a non-currency symbol surrounfs a digit', function() {
+        var number = formatNumber({
+          prefix: '¤',
+          suffix: '',
+          roundTo: 1,
+          number: 10,
+          percentage: false,
+          permille: false,
+          currency: {
+            symbol: '$'
+          },
+          fraction: {
+            nonAbsentNumbers: 0,
+            rightAbsentNumbers: 0
+          },
+          integer: {
+            nonAbsentNumbers: 1,
+            leftAbsentNumbers: 1
+          },
+          groupSize: {
+            primary: 3,
+            secondary: 2
+          },
+          symbols: symbols
+        });
+        expect(number).to.equal('$10');
+      });
+
+      it('should be able to prepend a space if a non-currency symbol surrounfs a digit', function() {
+        var number = formatNumber({
+          prefix: '',
+          suffix: '¤',
+          roundTo: 1,
+          number: 10,
+          percentage: false,
+          permille: false,
+          currency: {
+            symbol: 'US$'
+          },
+          fraction: {
+            nonAbsentNumbers: 0,
+            rightAbsentNumbers: 0
+          },
+          integer: {
+            nonAbsentNumbers: 1,
+            leftAbsentNumbers: 1
+          },
+          groupSize: {
+            primary: 3,
+            secondary: 2
+          },
+          symbols: symbols
+        });
+        expect(number).to.equal('10 US$');
+      });
+
+      it('should not prepend a space if a non-currency symbol surrounfs a digit', function() {
+        var number = formatNumber({
+          prefix: '',
+          suffix: '¤',
+          roundTo: 1,
+          number: 10,
+          percentage: false,
+          permille: false,
+          currency: {
+            symbol: '$'
+          },
+          fraction: {
+            nonAbsentNumbers: 0,
+            rightAbsentNumbers: 0
+          },
+          integer: {
+            nonAbsentNumbers: 1,
+            leftAbsentNumbers: 1
+          },
+          groupSize: {
+            primary: 3,
+            secondary: 2
+          },
+          symbols: symbols
+        });
+        expect(number).to.equal('10$');
       });
     });
   });
