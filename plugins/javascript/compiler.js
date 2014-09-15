@@ -245,8 +245,8 @@ Compiler.prototype._compileNumberFormat = function(numberFormat) {
   signs.forEach(function(sign) {
     var format = numberFormat.format[sign];
     if(sign === 'negative' && format === null) {
-      numberFormat.format['positive'].prefix = numberFormat.format['positive'].prefix + '-';
-      format = numberFormat.format['positive'];
+      format = Object.create(numberFormat.format['positive']);
+      format.prefix = format.prefix + '-';
     }
 
     var minimumIntegerDigits = format.integer.nonAbsentNumbers
