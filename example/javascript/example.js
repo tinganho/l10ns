@@ -3,7 +3,7 @@ var requireLocale = require('./output/localizations')
 
 var localizations = {
   'locale1': l('INDEX1', {
-    'files': 1,
+    'files': 10000,
     'people': 1
   })
 };

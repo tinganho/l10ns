@@ -9,7 +9,12 @@ string += formatNumber({
     type: '{{=it.currency.type}}',
     context: '{{=it.currency.symbol}}'
   },{{??}}
-  currency: null,{{?}}
+  currency: null,{{?}}{{?it.groupSize}}
+  groupSize: {
+    primary: {{=it.groupSize.primary}},
+    secondary: {{=it.groupSize.secondary}}
+  },{{??}}
+  groupSize: null,{{?}}
   minimumIntegerDigits: {{=it.minimumIntegerDigits}},
   minimumFractionDigits: {{=it.minimumFractionDigits}},
   maximumFractionDigits: {{=it.maximumFractionDigits}},

@@ -88,6 +88,32 @@
   }
 
   var localizations = {
+    'zh-CN': {
+      '__getPluralKeyword': function(cardinal) {
+        return 'other';
+      },
+      '__getOrdinalKeyword': function(cardinal) {
+        return 'other';
+      },
+      '__numberSymbols': {
+        'decimal': '.',
+        'group': ',',
+        'list': ';',
+        'percentSign': '%',
+        'plusSign': '+',
+        'minusSign': '-',
+        'exponential': 'E',
+        'superscriptingExponent': '×',
+        'perMille': '‰',
+        'infinity': '∞',
+        'nan': 'NaN'
+      },
+      'INDEX1': function(it) {
+        var string = '';
+
+        return string;
+      }
+    },
     'en-US': {
       '__getPluralKeyword': function(cardinal) {
         var cardinal = cardinal + ''
@@ -163,59 +189,41 @@
         if(it.files >= 0) {
           string += formatNumber({
             number: it.files,
-            roundTo: 0.01,
+            roundTo: 1,
             prefix: '',
             suffix: '',
             percentage: null,
             permille: null,
             currency: null,
+            groupSize: {
+              primary: 3,
+              secondary: 3
+            },
             minimumIntegerDigits: 1,
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 3,
             symbols: localizations['en-US'].__numberSymbols
           });
         }
         else {
           string += formatNumber({
             number: it.files,
-            roundTo: 0.01,
+            roundTo: 1,
             prefix: '-',
             suffix: '',
             percentage: null,
             permille: null,
             currency: null,
+            groupSize: {
+              primary: 3,
+              secondary: 3
+            },
             minimumIntegerDigits: 1,
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 3,
             symbols: localizations['en-US'].__numberSymbols
           });
         }
-        return string;
-      }
-    },
-    'zh-CN': {
-      '__getPluralKeyword': function(cardinal) {
-        return 'other';
-      },
-      '__getOrdinalKeyword': function(cardinal) {
-        return 'other';
-      },
-      '__numberSymbols': {
-        'decimal': '.',
-        'group': ',',
-        'list': ';',
-        'percentSign': '%',
-        'plusSign': '+',
-        'minusSign': '-',
-        'exponential': 'E',
-        'superscriptingExponent': '×',
-        'perMille': '‰',
-        'infinity': '∞',
-        'nan': 'NaN'
-      },
-      'INDEX1': function(it) {
-        var string = '';
-
         return string;
       }
     }
