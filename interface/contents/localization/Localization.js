@@ -95,7 +95,11 @@ define(function(require) {
         .send(json)
         .end(function(error, response) {
           if(!error && response.status === 200) {
-            app.models.localizations.get(json.id).set(json);
+            var localizationInList = app.models.localizations.get(json.id);
+            if(localizationInList) {
+              localizationInList.set(json);
+            }
+
             if(typeof options.success === 'function') {
               options.success();
             }
