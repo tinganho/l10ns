@@ -95,14 +95,24 @@ describe('MessageFormat', function() {
       });
 
       it('should parse escaped sentences', function() {
-        messageFormat.parse('sentence\\{');
-        expect(messageFormat.messageAST[0].string).to.equal('sentence\\{');
+        messageFormat.parse('sentence\'{\'');
+        expect(messageFormat.messageAST[0].string).to.equal('sentence{');
         expect(messageFormat.messageAST.length).to.equal(1);
-        messageFormat.parse('sentence\\}');
-        expect(messageFormat.messageAST[0].string).to.equal('sentence\\}');
+        messageFormat.parse('sentence\'}\'');
+        expect(messageFormat.messageAST[0].string).to.equal('sentence}');
         expect(messageFormat.messageAST.length).to.equal(1);
-        messageFormat.parse('\\{sentence\\{');
-        expect(messageFormat.messageAST[0].string).to.equal('\\{sentence\\{');
+        messageFormat.parse('\'{\'sentence\'{\'');
+        expect(messageFormat.messageAST[0].string).to.equal('{sentence{');
+        expect(messageFormat.messageAST.length).to.equal(1);
+        messageFormat.parse('{variable1, choice, 1<\'|\'}');
+        expect(messageFormat.messageAST[0].values[0].messageAST[0].string).to.equal('|');
+        messageFormat.parse('{variable1, plural, other{\'#\'}}');
+        expect(messageFormat.messageAST[0].values['other'][0].string).to.equal('#');
+      });
+
+      it('should not escape if it does not percede a special character', function() {
+        messageFormat.parse('don\'t');
+        expect(messageFormat.messageAST[0].string).to.equal('don\'t');
         expect(messageFormat.messageAST.length).to.equal(1);
       });
 
@@ -117,6 +127,27 @@ describe('MessageFormat', function() {
           messageFormat.parse('sentence {');
         }
         expect(method).to.throw(TypeError, 'Could not parse variable in sentence {');
+      });
+
+      it('should throw an error if a missing ending quote is missing in sentence', function() {
+        function method() {
+          messageFormat.parse('sentence\'{');
+        }
+        expect(method).to.throw(TypeError, 'Escape message doesn\'t have an ending quote(\') in sentence\'{');
+      });
+
+      it('should throw en error if a missing ending quote is missing in a choice value', function() {
+        function method() {
+          messageFormat.parse('{variable1, choice, 1<\'|}');
+        }
+        expect(method).to.throw(TypeError, 'Escape message doesn\'t have an ending quote(\') in {variable1, choice, 1<\'|}');
+      });
+
+      it('should throw en error if a missing ending quote is missing in a plural value', function() {
+        function method() {
+          messageFormat.parse('{variable1, plural, other{\'#}}');
+        }
+        expect(method).to.throw(TypeError, 'Escape message doesn\'t have an ending quote(\') in {variable1, plural, other{\'#}}');
       });
     });
 

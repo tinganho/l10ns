@@ -37,11 +37,11 @@ Lexer.prototype.getNextToken = function() {
  */
 
 Lexer.prototype.nextToken = function() {
-  if((this.currentIndex + 1) > this.string.length) {
+  if((this.currentIndex) >= this.string.length) {
     return EOF;
   }
   else {
-    return this.string[this.currentIndex + 1]
+    return this.string[this.currentIndex];
   }
 };
 

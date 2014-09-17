@@ -52,7 +52,7 @@ function MessageFormat(locale) {
 MessageFormat.Characters = {
   STARTING_BRACKET: '{',
   ENDING_BRACKET: '}',
-  ESCAPE_CHARACTER: '\\',
+  ESCAPE_CHARACTER: '\'',
   REMAINING: '#',
   DIAGRAPH: '|',
   EMPTY: '',
@@ -113,12 +113,14 @@ MessageFormat.prototype.parse = function(message) {
 
 MessageFormat.prototype._parsePrimary = function(options) {
   options = _.defaults(options || {}, {
-    remaining: false
+    parseRemaining: false,
+    escapeCharacter: null
   });
 
-  this.shouldParseRemaining = options.remaining;
+  this.shouldParseRemaining = options.parseRemaining;
+  this.escapeCharacter = options.escapeCharacter;
 
-  if(options.remaining && this.currentToken === MessageFormat.Characters.REMAINING) {
+  if(options.parseRemaining && this.currentToken === MessageFormat.Characters.REMAINING) {
     var integerPattern = JSON.parse(JSON.stringify(this.decimalPattern.positive));
     integerPattern.fraction = null;
     return this._parseRemaining(options.variable, options.offset, integerPattern);
@@ -164,9 +166,23 @@ MessageFormat.prototype._parseSentence = function() {
       !(this.currentToken === MessageFormat.Characters.REMAINING && this.shouldParseRemaining) &&
         this.currentToken !== MessageFormat.Characters.DIAGRAPH) {
     if(this.currentToken === MessageFormat.Characters.ESCAPE_CHARACTER) {
-      sentence += this.currentToken;
-      this.currentToken = this.lexer.getNextToken();
-      sentence += this.currentToken;
+      var nextToken = this.lexer.nextToken();
+      if(nextToken === MessageFormat.Characters.STARTING_BRACKET ||
+         nextToken === MessageFormat.Characters.ENDING_BRACKET ||
+         nextToken === this.escapeCharacter) {
+        // Swallow '
+        this.currentToken = this.lexer.getNextToken();
+        while(this.currentToken !== MessageFormat.Characters.ESCAPE_CHARACTER) {
+          sentence += this.currentToken;
+          this.currentToken = this.lexer.getNextToken();
+          if(this.currentToken === MessageFormat.Characters.EOF) {
+            throw new TypeError('Escape message doesn\'t have an ending quote(\') in ' + this.lexer.getLatestTokensLog());
+          }
+        }
+      }
+      else {
+        sentence += this.currentToken;
+      }
     }
     else {
       sentence += this.currentToken;
@@ -386,7 +402,9 @@ MessageFormat.prototype._parseChoiceFormat = function(variable) {
     while(this.currentToken !== MessageFormat.Characters.DIAGRAPH &&
           this.currentToken !== MessageFormat.Characters.ENDING_BRACKET) {
       this.lastChoiceCase = null;
-      messageAST.push(this._parsePrimary());
+      messageAST.push(this._parsePrimary({
+        escapeCharacter: '|'
+      }));
     }
     this.lastChoiceCase = _case;
     var limit = this._getLimitFromCase(_case);
@@ -503,7 +521,8 @@ MessageFormat.prototype._parsePluralFormat = function(variable) {
       this.currentToken = this.lexer.getNextToken();
       while(this.currentToken !== MessageFormat.Characters.ENDING_BRACKET) {
         messageAST.push(this._parsePrimary({
-          remaining: true,
+          escapeCharacter: '#',
+          parseRemaining: true,
           offset: offset,
           variable: variable
         }));
@@ -565,7 +584,8 @@ MessageFormat.prototype._parseSelectordinalFormat = function(variable) {
       this.currentToken = this.lexer.getNextToken();
       while(this.currentToken !== MessageFormat.Characters.ENDING_BRACKET) {
         messageAST.push(this._parsePrimary({
-          remaining: true,
+          escapeCharacter: '#',
+          parseRemaining: true,
           offset: offset,
           variable: variable
         }));
