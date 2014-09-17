@@ -149,8 +149,8 @@ Compiler.prototype._getLocalizationMap = function() {
           var _function = template['Function']({
             functionBody: _this._indentSpaces(
               2,
-              _this._getFunctionBody(messageFormat.messageAST
-            ))
+              _this._getFunctionBody(messageFormat.messageAST, locale)
+            )
           });
 
           localizationMap += template['LocalizationKeyValue']({
@@ -200,7 +200,7 @@ Compiler.prototype._getLocalizationMap = function() {
  * @api private
  */
 
-Compiler.prototype._getFunctionBody = function(messageAST) {
+Compiler.prototype._getFunctionBody = function(messageAST, locale) {
   var result = '';
 
   for(var index = 0; index < messageAST.length; index++) {
@@ -211,7 +211,7 @@ Compiler.prototype._getFunctionBody = function(messageAST) {
       result += template['Variable']({ variableName: messageAST[index].name });
     }
     else if(messageAST[index] instanceof MessageFormat.AST.Remaining) {
-      result += template['Remaining']({ variableName: messageAST[index].variable.name, offset: messageAST[index].offset });
+      result += this._compileRemaining(messageAST[index], locale);
     }
     else if(messageAST[index] instanceof MessageFormat.AST.NumberFormat) {
       result += this._compileNumberFormat(messageAST[index]);
@@ -220,7 +220,7 @@ Compiler.prototype._getFunctionBody = function(messageAST) {
       result += this._compileChoiceFormat(messageAST[index]);
     }
     else if(messageAST[index] instanceof MessageFormat.AST.PluralFormat) {
-      result += this._compilePluralFormat(messageAST[index]);
+      result += this._compilePluralFormat(messageAST[index], locale);
     }
     else if(messageAST[index] instanceof MessageFormat.AST.SelectFormat) {
       result += this._compileSelectFormat(messageAST[index]);
@@ -237,41 +237,88 @@ Compiler.prototype._getFunctionBody = function(messageAST) {
   return result;
 };
 
+/**
+ * Compile remaining
+ *
+ * @param {AST.Remaining} remaining
+ * @param {String} locale
+ * @return {String}
+ * @api private
+ */
+
+Compiler.prototype._compileRemaining = function(remaining, locale) {
+  var pattern = remaining.pattern
+    , minimumIntegerDigits = pattern.integer.nonAbsentNumbers
+    , minimumFractionDigits = 0
+    , maximumFractionDigits = 0;
+
+  if(pattern.fraction &&
+     typeof pattern.fraction.nonAbsentNumbers === 'number' &&
+     typeof pattern.fraction.rightAbsentNumbers) {
+    minimumFractionDigits = pattern.fraction.nonAbsentNumbers;
+    maximumFractionDigits = minimumFractionDigits + pattern.fraction.rightAbsentNumbers;
+  }
+
+  return template['Remaining']({
+    variableName: remaining.variable.name,
+    offset: remaining.offset,
+    prefix: pattern.prefix,
+    suffix: pattern.suffix,
+    roundTo: pattern.rounding,
+    percentage: pattern.percentage,
+    permille: pattern.permille,
+    currency: pattern.currency,
+    minimumIntegerDigits: minimumIntegerDigits,
+    minimumFractionDigits: minimumFractionDigits,
+    maximumFractionDigits: maximumFractionDigits,
+    groupSize: pattern.groupSize,
+    locale: locale
+  });
+};
+
+/**
+ * Compile number format
+ *
+ * @param {AST.NumberFormat} numberFormat
+ * @return {String}
+ * @api private
+ */
+
 Compiler.prototype._compileNumberFormat = function(numberFormat) {
   var result = ''
     , signs = ['positive', 'negative']
     , _case = {};
 
   signs.forEach(function(sign) {
-    var format = numberFormat.format[sign];
-    if(sign === 'negative' && format === null) {
-      format = Object.create(numberFormat.format['positive']);
-      format.prefix = format.prefix + '-';
+    var pattern = numberFormat.pattern[sign];
+    if(sign === 'negative' && pattern === null) {
+      pattern = Object.create(numberFormat.pattern['positive']);
+      pattern.prefix = pattern.prefix + '-';
     }
 
-    var minimumIntegerDigits = format.integer.nonAbsentNumbers
+    var minimumIntegerDigits = pattern.integer.nonAbsentNumbers
       , minimumFractionDigits = 0
       , maximumFractionDigits = 0;
 
-    if(format.fraction &&
-       typeof format.fraction.nonAbsentNumbers === 'number' &&
-       typeof format.fraction.rightAbsentNumbers) {
-      minimumFractionDigits = format.fraction.nonAbsentNumbers;
-      maximumFractionDigits = minimumFractionDigits + format.fraction.rightAbsentNumbers;
+    if(pattern.fraction &&
+       typeof pattern.fraction.nonAbsentNumbers === 'number' &&
+       typeof pattern.fraction.rightAbsentNumbers) {
+      minimumFractionDigits = pattern.fraction.nonAbsentNumbers;
+      maximumFractionDigits = minimumFractionDigits + pattern.fraction.rightAbsentNumbers;
     }
 
     _case[sign] = template['FormatNumber']({
       variableName: numberFormat.variable.name,
-      prefix: format.prefix,
-      suffix: format.suffix,
-      roundTo: format.rounding,
-      percentage: format.percentage,
-      permille: format.permille,
-      currency: format.currency,
+      prefix: pattern.prefix,
+      suffix: pattern.suffix,
+      roundTo: pattern.rounding,
+      percentage: pattern.percentage,
+      permille: pattern.permille,
+      currency: pattern.currency,
       minimumIntegerDigits: minimumIntegerDigits,
       minimumFractionDigits: minimumFractionDigits,
       maximumFractionDigits: maximumFractionDigits,
-      groupSize: format.groupSize,
+      groupSize: pattern.groupSize,
       locale: numberFormat.locale
     });
   });
@@ -375,14 +422,14 @@ Compiler.prototype._compileSelectFormat = function(selectFormat) {
  * @api private
  */
 
-Compiler.prototype._compilePluralFormat = function(pluralFormat) {
+Compiler.prototype._compilePluralFormat = function(pluralFormat, locale) {
   var switchBody = ''
     , setCaseStatement = ''
     , exactCases = []
     , conditionOrder = 'if';
 
   for(var _case in pluralFormat.values) {
-    var caseBody = this._getFunctionBody(pluralFormat.values[_case]);
+    var caseBody = this._getFunctionBody(pluralFormat.values[_case], locale);
     if(_case !== 'other') {
       switchBody += template['Case']({
         case: _case,

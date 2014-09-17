@@ -57,7 +57,7 @@ AST.NumberFormat = function(locale, variable, argument, messageFormat) {
   this.argument = argument;
   this.numberSymbols = messageFormat.numberSymbols;
   this.currencies = messageFormat.currencies;
-  this.format = AST.NumberFormatPattern.parse(
+  this.pattern = AST.NumberFormatPattern.parse(
     argument,
     messageFormat.decimalPattern,
     messageFormat.percentagePattern,
@@ -125,7 +125,7 @@ AST.NumberFormatPattern._NumberFormat = function(attributes) {
   this.permille = typeof attributes.permille !== 'undefined' ? attributes.permille : null;
   this.currency = typeof attributes.currency !== 'undefined' ? attributes.currency : null;
   this.rounding = attributes.rounding;
-  this.formatLength = attributes.formatLength;
+  this.patternLength = attributes.patternLength;
 };
 
 /**
@@ -392,7 +392,7 @@ AST.NumberFormatPattern._setPrefixesAndSuffixAttributes = function(numberPattern
     , index = 0
     , fractions = ''
     , inQuote = false
-    , formatLength = 0
+    , patternLength = 0
     , setPaddingCharacter = false
     , rounding = ''
 
@@ -451,7 +451,7 @@ AST.NumberFormatPattern._setPrefixesAndSuffixAttributes = function(numberPattern
         else {
           prefix += '%';
         }
-        formatLength++;
+        patternLength++;
         continue;
       case '‰':
         attributes.permille = this._getPermille(attributes);
@@ -461,7 +461,7 @@ AST.NumberFormatPattern._setPrefixesAndSuffixAttributes = function(numberPattern
         else {
           prefix += '‰';
         }
-        formatLength++;
+        patternLength++;
         continue;
       case '¤':
         currencyCharacterCounter++;
@@ -474,11 +474,11 @@ AST.NumberFormatPattern._setPrefixesAndSuffixAttributes = function(numberPattern
         else {
           prefix += '¤';
         }
-        formatLength++;
+        patternLength++;
         continue;
     }
 
-    formatLength++;
+    patternLength++;
 
     if(AST.NumberFormatPattern.Syntaxes.NUMBER_CHARACTER.test(numberPattern[index])) {
       if(hasEncounterSuffix) {
@@ -530,7 +530,7 @@ AST.NumberFormatPattern._setPrefixesAndSuffixAttributes = function(numberPattern
   }
 
   // Format length
-  attributes.formatLength = formatLength;
+  attributes.patternLength = patternLength;
 
   return result;
 };
@@ -693,15 +693,18 @@ AST.SelectordinalFormat = function(locale, variable, values, offset) {
 };
 
 /**
- * AST class representing an ICU PluralFormat count '#'
+ * AST class representing an ICU PluralFormat remaining '#'
  *
  * @param {String} variable
+ * @param {Number} offset
+ * @param {Object} pattern A numner pattern object
  * @constructor
  */
 
-AST.Remaining = function(variable, offset) {
+AST.Remaining = function(variable, offset, pattern) {
   this.variable = variable;
   this.offset = offset;
+  this.pattern = pattern;
 };
 
 module.exports = AST;

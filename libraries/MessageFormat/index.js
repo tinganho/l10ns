@@ -116,8 +116,12 @@ MessageFormat.prototype._parsePrimary = function(options) {
     remaining: false
   });
 
+  this.shouldParseRemaining = options.remaining;
+
   if(options.remaining && this.currentToken === MessageFormat.Characters.REMAINING) {
-    return this._parseRemaining(options.variable, options.offset);
+    var integerPattern = JSON.parse(JSON.stringify(this.decimalPattern.positive));
+    integerPattern.fraction = null;
+    return this._parseRemaining(options.variable, options.offset, integerPattern);
   }
 
   switch(this.currentToken) {
@@ -131,15 +135,18 @@ MessageFormat.prototype._parsePrimary = function(options) {
 /**
  * Parse plural remaining
  *
+ * @param {AST.Variable} variable
+ * @param {Number} offset
+ * @param {Object} pattern
  * @return {AST.PluralRemaining}
  * @api private
  */
 
-MessageFormat.prototype._parseRemaining = function(variable, offset) {
+MessageFormat.prototype._parseRemaining = function(variable, offset, pattern) {
   // Swallow '#'
   this.currentToken = this.lexer.getNextToken();
 
-  return new AST.Remaining(variable, offset);
+  return new AST.Remaining(variable, offset, pattern);
 };
 
 /**
@@ -154,7 +161,7 @@ MessageFormat.prototype._parseSentence = function() {
   while(this.currentToken !== MessageFormat.Characters.EOF &&
         this.currentToken !== MessageFormat.Characters.STARTING_BRACKET &&
         this.currentToken !== MessageFormat.Characters.ENDING_BRACKET &&
-        this.currentToken !== MessageFormat.Characters.REMAINING &&
+      !(this.currentToken === MessageFormat.Characters.REMAINING && this.shouldParseRemaining) &&
         this.currentToken !== MessageFormat.Characters.DIAGRAPH) {
     if(this.currentToken === MessageFormat.Characters.ESCAPE_CHARACTER) {
       sentence += this.currentToken;

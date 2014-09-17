@@ -14,7 +14,7 @@ describe('MessageFormat', function() {
         secondary: 3
       });
       expect(messageFormat.decimalPattern.positive).to.include({
-        formatLength: 9,
+        patternLength: 9,
       });
       expect(messageFormat.decimalPattern.positive.integer).to.eql({
         leftAbsentNumbers: 3,
@@ -29,7 +29,7 @@ describe('MessageFormat', function() {
     it('should read percentage pattern', function() {
       var messageFormat = new MessageFormat('en-US');
       expect(messageFormat.percentagePattern.positive.percentage).to.equal(true);
-      expect(messageFormat.percentagePattern.positive.formatLength).to.equal(6);
+      expect(messageFormat.percentagePattern.positive.patternLength).to.equal(6);
       expect(messageFormat.percentagePattern.positive.suffix).to.equal('%');
       expect(messageFormat.percentagePattern.positive.groupSize).to.eql({
         primary: 3,

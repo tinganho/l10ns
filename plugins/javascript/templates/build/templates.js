@@ -62,7 +62,7 @@ var out='else if(it.'+(it.variableName)+' '+(it.limits.lower.type)+' '+(it.limit
 var out='('+(it.from)+' >= '+(it.variableName)+' && '+(it.variableName)+' <= '+(it.to)+')';return out;
 };
   tmpl['Remaining']=function anonymous(it) {
-var out='string += (it.'+(it.variableName)+' - '+(it.offset)+');';return out;
+var out='string += formatNumber({\n  number: it.'+(it.variableName)+' - '+(it.offset)+',\n  roundTo: '+(it.roundTo)+',\n  prefix: \''+(it.prefix)+'\',\n  suffix: \''+(it.suffix)+'\',\n  percentage: '+(it.percentage)+',\n  permille: '+(it.permille)+',';if(it.currency){out+='\n  currency: {\n    type: \''+(it.currency.type)+'\',\n    context: \''+(it.currency.symbol)+'\'\n  },';}else{out+='\n  currency: null,';}if(it.groupSize){out+='\n  groupSize: {\n    primary: '+(it.groupSize.primary)+',\n    secondary: '+(it.groupSize.secondary)+'\n  },';}else{out+='\n  groupSize: null,';}out+='\n  minimumIntegerDigits: '+(it.minimumIntegerDigits)+',\n  minimumFractionDigits: '+(it.minimumFractionDigits)+',\n  maximumFractionDigits: '+(it.maximumFractionDigits)+',\n  symbols: localizations[\''+(it.locale)+'\'].__numberSymbols\n});';return out;
 };
   tmpl['RequireStatement']=function anonymous(it) {
 var out='function requireLocale(locale) {\n  return (function(locale) {\n    return function l(key) {\n      if(!(locale in localizations)) {\n        return \'LOCALE_NOT_IN_LOCALIZATIONS: \' + locale;\n      }\n      if(!(key in localizations[locale])) {\n        return \'KEY_NOT_IN_LOCALIZATIONS: \' + key;\n      }\n      return localizations[locale][key].call(undefined, arguments[1]);\n    };\n  })(locale);\n};';return out;
