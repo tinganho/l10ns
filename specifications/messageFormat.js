@@ -106,11 +106,17 @@ describe('MessageFormat', function() {
         expect(messageFormat.messageAST.length).to.equal(1);
       });
 
+      it('should be able to parse a sentence only containing #', function() {
+        messageFormat.parse('#');
+        expect(messageFormat.messageAST[0].string).to.equal('#');
+        expect(messageFormat.messageAST.length).to.equal(1);
+      });
+
       it('should throw an error if an unescaped reserved character is used', function() {
         function method() {
           messageFormat.parse('sentence {');
         }
-        expect(method).to.throw(TypeError, 'Could not parse variable in sentence {')
+        expect(method).to.throw(TypeError, 'Could not parse variable in sentence {');
       });
     });
 
