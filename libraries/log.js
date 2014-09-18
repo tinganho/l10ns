@@ -29,7 +29,7 @@ Log.prototype.run = function(locale, type) {
 
   locale = locale || project.defaultLocale;
 
-  file.readLocalizationArray(project.store + '/' + locale + '.locale')
+  file.readLocalizationArray(project.store + '/' + locale + '.json')
     .then(function(localizations) {
       if(!localizations.length) {
         return log.log('No localizations.');

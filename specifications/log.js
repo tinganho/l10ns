@@ -13,7 +13,7 @@ describe('Log', function() {
       var log = new (proxyquire('../libraries/log', dependencies).Constructor);
       log.run(null, 'regular');
       dependencies['./file'].readLocalizationArray.should.have.been.calledOnce;
-      dependencies['./file'].readLocalizationArray.should.have.been.calledWith(project.store + '/' + project.defaultLocale + '.locale');
+      dependencies['./file'].readLocalizationArray.should.have.been.calledWith(project.store + '/' + project.defaultLocale + '.json');
     });
 
     it('should read given localization from storage', function() {
@@ -23,7 +23,7 @@ describe('Log', function() {
       var log = new (proxyquire('../libraries/log', dependencies).Constructor);
       log.run('locale1', 'regular');
       dependencies['./file'].readLocalizationArray.should.have.been.calledOnce;
-      dependencies['./file'].readLocalizationArray.should.have.been.calledWith(project.store + '/' + 'locale1.locale');
+      dependencies['./file'].readLocalizationArray.should.have.been.calledWith(project.store + '/' + 'locale1.json');
     });
 
     it('should print log', function(done) {
