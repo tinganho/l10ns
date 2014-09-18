@@ -37,7 +37,7 @@ module.exports = {
    * @value {RegExp}
    */
 
-  GET_LOCALIZATION_INNER_FUNCTION_CALL_SYNTAX: new RegExp('\\s+(?!(' + GET_LOCALIZATION_STRING_FUNCTION_NAME + '|' + GET_LOCALIZATION_STRING_USING_VARIABLES_FUNCTION_NAME + '))\\w+?\\((.*?\\s*?)*?\\)', 'g'),
+  GET_LOCALIZATION_INNER_FUNCTION_CALL_SYNTAX: new RegExp('\\s*(?!(' + GET_LOCALIZATION_STRING_FUNCTION_NAME + '|' + GET_LOCALIZATION_STRING_USING_VARIABLES_FUNCTION_NAME + '))\\w+?\\((?!' + GET_LOCALIZATION_STRING_FUNCTION_NAME + '|' + GET_LOCALIZATION_STRING_USING_VARIABLES_FUNCTION_NAME + ')(.*?\\s*?)*?\\)', 'g'),
 
   /** Translation vars regex should capture a match
    * of the whole translation var object literal in
@@ -53,7 +53,7 @@ module.exports = {
    * @value {RegExp}
    */
 
-  GET_LOCALIZATION_FUNCTION_CALL_SYNTAX: new RegExp('\\s+(' + GET_LOCALIZATION_STRING_FUNCTION_NAME + '|' + GET_LOCALIZATION_STRING_USING_VARIABLES_FUNCTION_NAME + ')\\((\'|")(.*?)\\2\\s*(\\\,\\s*\\{\\s*((.*?)|(\\s*?))+?\\s*\\})??\\s*\\)', 'g'),
+  GET_LOCALIZATION_FUNCTION_CALL_SYNTAX: new RegExp('\\s*(' + GET_LOCALIZATION_STRING_FUNCTION_NAME + '|' + GET_LOCALIZATION_STRING_USING_VARIABLES_FUNCTION_NAME + ')\\((\'|")(.*?)\\2\\s*(\\\,\\s*\\{\\s*((.*?)|(\\s*?))+?\\s*\\})??\\s*\\)', 'g'),
 
   /**
    * Translation key regex should capture a match
@@ -69,7 +69,7 @@ module.exports = {
    * @value {RegExp}
    */
 
-  LOCALIZATION_KEY_SYNTAX: new RegExp('\\s+(' + GET_LOCALIZATION_STRING_FUNCTION_NAME + '|' + GET_LOCALIZATION_STRING_USING_VARIABLES_FUNCTION_NAME + ')\\((\'|")(.+?)\\2[\,\)]'),
+  LOCALIZATION_KEY_SYNTAX: new RegExp('\\s*(' + GET_LOCALIZATION_STRING_FUNCTION_NAME + '|' + GET_LOCALIZATION_STRING_USING_VARIABLES_FUNCTION_NAME + ')\\((\'|")(.+?)\\2[\,\)]'),
 
   /**
    * Translation variables regex should capture a match
