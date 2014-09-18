@@ -93,7 +93,7 @@ describe('File', function() {
       file.outputFolderExists = true;
       file.writeLocalization('localizations', 'en-US');
       dependencies.fs.unlink.should.have.been.calledOnce;
-      dependencies.fs.unlink.should.have.been.calledWith(project.store + '/en-US.locale');
+      dependencies.fs.unlink.should.have.been.calledWith(project.store + '/en-US.json');
     });
 
     it('if unlinking returns an error(none ENOENT) it should reject', function() {
@@ -138,7 +138,7 @@ describe('File', function() {
       file._sortObject = stub().withArgs({ key: 'key1'}).returns({ key: 'key1'});
       file.writeLocalization(localizations, 'en-US');
       dependencies.fs.appendFile.should.have.been.calledOnce;
-      dependencies.fs.appendFile.should.have.been.calledWith('storage-folder/en-US.locale', '\n{\n  "key": "key1"\n}\n');
+      dependencies.fs.appendFile.should.have.been.calledWith('storage-folder/en-US.json', '[\n  {\n    "key": "key1"\n  }\n]');
       deferred.resolve.should.have.been.calledOnce;
     });
 
@@ -158,7 +158,7 @@ describe('File', function() {
       file._sortObject.withArgs({ key: 'key2'}).returns({ key: 'key2'});
       file.writeLocalization(localizations, 'en-US');
       dependencies.fs.appendFile.should.have.been.calledOnce;
-      dependencies.fs.appendFile.should.have.been.calledWith('storage-folder/en-US.locale', '\n{\n  "key": "key1"\n}\n\n{\n  "key": "key2"\n}\n');
+      dependencies.fs.appendFile.should.have.been.calledWith('storage-folder/en-US.json', '[\n  {\n    "key": "key1"\n  },\n  {\n    "key": "key2"\n  }\n]');
       deferred.resolve.should.have.been.calledOnce;
     });
 
@@ -202,7 +202,7 @@ describe('File', function() {
     it('should return a promise', function() {
       project.store = 'storage-folder';
       dependencies.q.defer = stub().returns({ promise: 'promise', resolve: function() {} });
-      dependencies.glob.sync = stub().withArgs(project.store + '/*.locale').returns([]);
+      dependencies.glob.sync = stub().withArgs(project.store + '/*.json').returns([]);
       var file = new (proxyquire('../libraries/file', dependencies).File);
       expect(file.readLocalizations()).to.eql('promise');
     });
@@ -210,7 +210,7 @@ describe('File', function() {
     it('if there is no files it should resolve to empty', function(done) {
       var deferred = { resolve: spy() };
       dependencies.q.defer = stub().returns(deferred);
-      dependencies.glob.sync = stub().withArgs(project.store + '/*.locale').returns([]);
+      dependencies.glob.sync = stub().withArgs(project.store + '/*.json').returns([]);
       var file = new (proxyquire('../libraries/file', dependencies).File);
       file.readLocalizations();
       eventually(function() {
@@ -223,19 +223,19 @@ describe('File', function() {
     it('should for each file read localization map', function() {
       var deferred = { resolve: spy() };
       dependencies.q.defer = stub().returns(deferred);
-      dependencies.glob.sync = stub().withArgs(project.store + '/*.locale').returns(['locale1.locale', 'locale2.locale']);
+      dependencies.glob.sync = stub().withArgs(project.store + '/*.json').returns(['locale1.json', 'locale2.json']);
       var file = new (proxyquire('../libraries/file', dependencies).File);
       file.readLocalizationMap = stub().returns(resolves());
       file.readLocalizations();
       file.readLocalizationMap.should.have.been.calledTwice;
-      file.readLocalizationMap.should.have.been.calledWith('locale1.locale');
-      file.readLocalizationMap.should.have.been.calledWith('locale2.locale');
+      file.readLocalizationMap.should.have.been.calledWith('locale1.json');
+      file.readLocalizationMap.should.have.been.calledWith('locale2.json');
     });
 
     it('should resolve to a localization map', function() {
       var deferred = { resolve: spy() };
       dependencies.q.defer = stub().returns(deferred);
-      dependencies.glob.sync = stub().withArgs(project.store + '/*.locale').returns(['locale1.locale', 'locale2.locale']);
+      dependencies.glob.sync = stub().withArgs(project.store + '/*.json').returns(['locale1.json', 'locale2.json']);
       var file = new (proxyquire('../libraries/file', dependencies).File);
       file.readLocalizationMap = stub().returns(resolvesTo('localizations'));
       file.readLocalizations();
@@ -248,7 +248,7 @@ describe('File', function() {
     it('if a locale is provided it should resolve to a localization map represnting that locale', function() {
       var deferred = { resolve: spy() };
       dependencies.q.defer = stub().returns(deferred);
-      dependencies.glob.sync = stub().withArgs(project.store + '/*.locale').returns(['locale1.locale', 'locale2.locale']);
+      dependencies.glob.sync = stub().withArgs(project.store + '/*.json').returns(['locale1.json', 'locale2.json']);
       var file = new (proxyquire('../libraries/file', dependencies).File);
       file.readLocalizationMap = stub().returns(resolvesTo('localizations'));
       file.readLocalizations('locale1');
@@ -261,13 +261,13 @@ describe('File', function() {
     it('should reject if a locale is provided, but there is no storage file for that locale', function(done) {
       var deferred = { reject: spy() };
       dependencies.q.defer = stub().returns(deferred);
-      dependencies.glob.sync = stub().withArgs(project.store + '/*.locale').returns(['locale1.locale', 'locale2.locale']);
+      dependencies.glob.sync = stub().withArgs(project.store + '/*.json').returns(['locale1.json', 'locale2.json']);
       var file = new (proxyquire('../libraries/file', dependencies).File);
       file.readLocalizationMap = stub().returns(resolvesTo('localizations'));
       file.readLocalizations('locale3');
       eventually(function() {
         deferred.reject.should.have.been.calledOnce;
-        deferred.reject.should.have.been.calledWith(new TypeError('The file locale3.locale does not exists.'));
+        deferred.reject.should.have.been.calledWith(new TypeError('The file locale3.json does not exists.'));
         done();
       });
     });
@@ -292,16 +292,16 @@ describe('File', function() {
       dependencies.q.defer = stub().returns(deferred);
       dependencies.fs.readFile = noop;
       var file = new (proxyquire('../libraries/file', dependencies).File);
-      expect(file.readLocalizationArray('storage-folder/locale1.locale')).to.equal('promise');
+      expect(file.readLocalizationArray('storage-folder/locale1.json')).to.equal('promise');
     });
 
     it('should read localization storage files', function() {
       dependencies.q.defer = stub().returns({});
       dependencies.fs.readFile = spy();
       var file = new (proxyquire('../libraries/file', dependencies).File);
-      file.readLocalizationArray('storage-folder/locale1.locale');
+      file.readLocalizationArray('storage-folder/locale1.json');
       dependencies.fs.readFile.should.have.been.calledOnce;
-      dependencies.fs.readFile.should.have.been.calledWith('storage-folder/locale1.locale');
+      dependencies.fs.readFile.should.have.been.calledWith('storage-folder/locale1.json');
     });
 
     it('should resolve to a localization array', function() {
@@ -309,10 +309,10 @@ describe('File', function() {
       dependencies.q.defer = stub().returns(deferred);
       dependencies.fs.readFile = stub();
       dependencies.fs.readFile
-        .withArgs('storage-folder/locale1.locale', { encoding: 'utf-8' })
-        .callsArgWith(2, null, '{ "key1": {}}\n{ "key2": {}}\n');
+        .withArgs('storage-folder/locale1.json', { encoding: 'utf-8' })
+        .callsArgWith(2, null, '[\n  {    "key1": {}\n  },\n  {    "key2": {}\n  }\n]');
       var file = new (proxyquire('../libraries/file', dependencies).File);
-      file.readLocalizationArray('storage-folder/locale1.locale');
+      file.readLocalizationArray('storage-folder/locale1.json');
       eventually(function() {
         deferred.resolve.should.have.been.calledOnce;
         deferred.resolve.should.have.been.calledWith([{ 'key1': {}}, {'key2': {}}]);
@@ -324,11 +324,11 @@ describe('File', function() {
       dependencies.q.defer = stub().returns(deferred);
       dependencies.fs.readFile = stub();
       dependencies.fs.readFile
-        .withArgs('storage-folder/locale1.locale', { encoding: 'utf-8' })
+        .withArgs('storage-folder/locale1.json', { encoding: 'utf-8' })
         .callsArgWith(2, 'error');
 
       var file = new (proxyquire('../libraries/file', dependencies).File);
-      file.readLocalizationArray('storage-folder/locale1.locale');
+      file.readLocalizationArray('storage-folder/locale1.json');
       eventually(function() {
         deferred.reject.should.have.been.calledOnce;
         deferred.reject.should.have.been.calledWith('error');
@@ -343,7 +343,7 @@ describe('File', function() {
       dependencies.q.defer = stub().returns(deferred);
       var file = new (proxyquire('../libraries/file', dependencies).File);
       file.readLocalizationArray = stub().returns(rejects());
-      expect(file.readLocalizationMap('storage-folder/locale1.locale')).to.equal('promise');
+      expect(file.readLocalizationMap('storage-folder/locale1.json')).to.equal('promise');
     });
 
     it('should transform localization array to a map', function(done) {
@@ -352,9 +352,9 @@ describe('File', function() {
       var file = new (proxyquire('../libraries/file', dependencies).File);
       var localizations = [{ key: 'key1' }, { key: 'key2'}];
       file.readLocalizationArray = stub()
-        .withArgs('storage-folder/locale1.locale')
+        .withArgs('storage-folder/locale1.json')
         .returns(resolvesTo(localizations));
-      file.readLocalizationMap('storage-folder/locale1.locale');
+      file.readLocalizationMap('storage-folder/locale1.json');
       eventually(function() {
         deferred.resolve.should.have.been.calledOnce;
         deferred.resolve.should.have.been.calledWith({ 'key1': { key: 'key1' }, 'key2': { key: 'key2' }});
@@ -367,7 +367,7 @@ describe('File', function() {
       dependencies.q.defer = stub().returns(deferred);
       var file = new (proxyquire('../libraries/file', dependencies).File);
       file.readLocalizationArray = stub().returns(rejectsWith('error'));
-      file.readLocalizationMap('storage-folder/locale1.locale');
+      file.readLocalizationMap('storage-folder/locale1.json');
       eventually(function() {
         deferred.reject.should.have.been.calledOnce;
         deferred.reject.should.have.been.calledWith('error');
@@ -383,7 +383,7 @@ describe('File', function() {
       dependencies.q.defer = stub().returns(deferred);
       dependencies.fs.readFile = noop;
       var file = new (proxyquire('../libraries/file', dependencies).File);
-      expect(file.readSearchLocalizations('storage-folder/locale1.locale')).to.equal('promise');
+      expect(file.readSearchLocalizations('storage-folder/locale1.json')).to.equal('promise');
     });
 
     it('should json parse cache', function() {
