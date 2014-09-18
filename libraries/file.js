@@ -88,20 +88,17 @@ File.prototype.writeLocalization = function(localizations, locale) {
     this.storageFolderExists = true;
   }
 
-  var p = project.store + '/' + locale + '.locale';
+  var p = project.store + '/' + locale + '.json';
   fs.unlink(p, function(error) {
       if(error && error.code !== 'ENOENT') {
         return deferred.reject(error);
       }
 
       var localizationString = _this.linefeed;
-
       for(var index = 0; index < localizations[locale].length; index++) {
-        localizationString += JSON.stringify(_this._sortObject(localizations[locale][index]), null, 2) + _this.linefeed;
-        if(index < localizations[locale].length - 1) {
-           localizationString += _this.linefeed;
-        }
+        localizations[locale][index] = _this._sortObject(localizations[locale][index]);
       }
+      localizationString = JSON.stringify(localizations[locale], null, 2);
       fs.appendFile(p, localizationString, function(error) {
           if(error) {
             return deferred.reject(error);
@@ -165,7 +162,7 @@ File.prototype.localizationMapToArray = function(localizations) {
 File.prototype.readLocalizations = function(locale) {
   var _this = this
     , deferred = Q.defer()
-    , files = glob.sync(project.store + '/*.locale')
+    , files = glob.sync(project.store + '/*.json')
     , localizations = {}
     , count = 0
     , endCount = files.length
@@ -184,14 +181,14 @@ File.prototype.readLocalizations = function(locale) {
           return;
         }
 
-        localizations[path.basename(file, '.locale')] = _localizations;
+        localizations[path.basename(file, '.json')] = _localizations;
         count++;
         if(count === endCount) {
           if(locale) {
             if(typeof localizations[locale] === 'undefined') {
               rejected = true;
               return deferred.reject(
-                new TypeError('The file ' + locale + '.locale does not exists.'));
+                new TypeError('The file ' + locale + '.json does not exists.'));
             }
             return deferred.resolve(localizations[locale]);
           }
@@ -241,7 +238,7 @@ File.prototype.readLocalizationArray = function(file) {
         return deferred.reject(error);
       }
 
-      deferred.resolve(JSON.parse('[' + content.replace(/\}\n+\{/g, '},{') + ']'));
+      deferred.resolve(JSON.parse(content));
     });
 
   return deferred.promise;
