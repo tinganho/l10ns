@@ -736,32 +736,6 @@ describe('Javascript Compiler', function() {
         expect(number).to.equal('10$');
       });
     });
-
-    it('should be able to render a significant number with one significant digit', function() {
-      var number = formatNumber({
-        prefix: '',
-        suffix: '¤',
-        roundTo: 1,
-        number: 10,
-        percentage: false,
-        permille: false,
-        currency: {
-          symbol: '$'
-        },
-        type: 'significant',
-        maximumFractionDigits: 0,
-        minimumFractionDigits: 0,
-        minimumIntegerDigits: 0,
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
-        groupSize: {
-          primary: 3,
-          secondary: 2
-        },
-        symbols: symbols
-      });
-      expect(number).to.equal('10$');
-    });
   });
 
   describe('ChoiceFormat', function() {
