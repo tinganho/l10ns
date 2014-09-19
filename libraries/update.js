@@ -144,7 +144,9 @@ Update.prototype.getNewLocalizations = function() {
                 return deferred.reject(new TypeError('You have defined a localization key ('
                   + key + ') with different variables.\n In file:' + file));
               }
-              newLocalizations[key].files.push(file);
+              if(newLocalizations[key].files.indexOf(file) === -1) {
+                newLocalizations[key].files.push(file);
+              }
             }
           });
         }
