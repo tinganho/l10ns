@@ -227,7 +227,7 @@ describe('Javascript Compiler', function() {
           maximumFractionDigits: 0,
           minimumFractionDigits: 0,
           minimumIntegerDigits: 1,
-          type: 'normal',
+          type: 'floating',
           groupSize: {
             primary: 3,
             secondary: 3
@@ -249,7 +249,7 @@ describe('Javascript Compiler', function() {
           maximumFractionDigits: 0,
           minimumFractionDigits: 0,
           minimumIntegerDigits: 1,
-          type: 'normal',
+          type: 'floating',
           groupSize: {
             primary: 3,
             secondary: 3
@@ -267,7 +267,7 @@ describe('Javascript Compiler', function() {
           maximumFractionDigits: 0,
           minimumFractionDigits: 0,
           minimumIntegerDigits: 1,
-          type: 'normal',
+          type: 'floating',
           groupSize: {
             primary: 3,
             secondary: 2
@@ -285,7 +285,7 @@ describe('Javascript Compiler', function() {
           maximumFractionDigits: 0,
           minimumFractionDigits: 0,
           minimumIntegerDigits: 1,
-          type: 'normal',
+          type: 'floating',
           groupSize: {
             primary: 3,
             secondary: 2
@@ -306,7 +306,7 @@ describe('Javascript Compiler', function() {
           maximumFractionDigits: 3,
           minimumFractionDigits: 2,
           minimumIntegerDigits: 1,
-          type: 'normal',
+          type: 'floating',
           groupSize: {
             primary: 3,
             secondary: 2
@@ -327,7 +327,7 @@ describe('Javascript Compiler', function() {
           maximumFractionDigits: 3,
           minimumFractionDigits: 2,
           minimumIntegerDigits: 1,
-          type: 'normal',
+          type: 'floating',
           groupSize: {
             primary: 3,
             secondary: 2
@@ -348,7 +348,7 @@ describe('Javascript Compiler', function() {
           maximumFractionDigits: 3,
           minimumFractionDigits: 2,
           minimumIntegerDigits: 1,
-          type: 'normal',
+          type: 'floating',
           groupSize: {
             primary: 3,
             secondary: 2
@@ -369,7 +369,7 @@ describe('Javascript Compiler', function() {
           maximumFractionDigits: 3,
           minimumFractionDigits: 2,
           minimumIntegerDigits: 1,
-          type: 'normal',
+          type: 'floating',
           groupSize: {
             primary: 3,
             secondary: 2
@@ -390,7 +390,7 @@ describe('Javascript Compiler', function() {
           maximumFractionDigits: 0,
           minimumFractionDigits: 0,
           minimumIntegerDigits: 2,
-          type: 'normal',
+          type: 'floating',
           groupSize: {
             primary: 3,
             secondary: 2
@@ -411,7 +411,7 @@ describe('Javascript Compiler', function() {
           maximumFractionDigits: 0,
           minimumFractionDigits: 0,
           minimumIntegerDigits: 2,
-          type: 'normal',
+          type: 'floating',
           groupSize: {
             primary: 3,
             secondary: 2
@@ -429,7 +429,7 @@ describe('Javascript Compiler', function() {
           maximumFractionDigits: 0,
           minimumFractionDigits: 0,
           minimumIntegerDigits: 2,
-          type: 'normal',
+          type: 'floating',
           groupSize: {
             primary: 3,
             secondary: 2
@@ -447,7 +447,7 @@ describe('Javascript Compiler', function() {
           maximumFractionDigits: 0,
           minimumFractionDigits: 0,
           minimumIntegerDigits: 2,
-          type: 'normal',
+          type: 'floating',
           groupSize: {
             primary: 3,
             secondary: 2
@@ -465,7 +465,7 @@ describe('Javascript Compiler', function() {
           maximumFractionDigits: 0,
           minimumFractionDigits: 0,
           minimumIntegerDigits: 2,
-          type: 'normal',
+          type: 'floating',
           groupSize: {
             primary: 3,
             secondary: 2
@@ -486,7 +486,7 @@ describe('Javascript Compiler', function() {
           maximumFractionDigits: 0,
           minimumFractionDigits: 0,
           minimumIntegerDigits: 1,
-          type: 'normal',
+          type: 'floating',
           groupSize: {
             primary: 3,
             secondary: 2
@@ -504,7 +504,7 @@ describe('Javascript Compiler', function() {
           maximumFractionDigits: 0,
           minimumFractionDigits: 0,
           minimumIntegerDigits: 1,
-          type: 'normal',
+          type: 'floating',
           groupSize: {
             primary: 3,
             secondary: 2
@@ -522,7 +522,7 @@ describe('Javascript Compiler', function() {
           maximumFractionDigits: 0,
           minimumFractionDigits: 0,
           minimumIntegerDigits: 1,
-          type: 'normal',
+          type: 'floating',
           groupSize: {
             primary: 3,
             secondary: 2
@@ -540,7 +540,7 @@ describe('Javascript Compiler', function() {
           maximumFractionDigits: 0,
           minimumFractionDigits: 0,
           minimumIntegerDigits: 1,
-          type: 'normal',
+          type: 'floating',
           groupSize: {
             primary: 3,
             secondary: 2
@@ -561,7 +561,7 @@ describe('Javascript Compiler', function() {
           maximumFractionDigits: 0,
           minimumFractionDigits: 0,
           minimumIntegerDigits: 1,
-          type: 'normal',
+          type: 'floating',
           groupSize: {
             primary: 3,
             secondary: 2
@@ -582,7 +582,7 @@ describe('Javascript Compiler', function() {
           maximumFractionDigits: 0,
           minimumFractionDigits: 0,
           minimumIntegerDigits: 1,
-          type: 'normal',
+          type: 'floating',
           groupSize: {
             primary: 3,
             secondary: 2
@@ -606,7 +606,7 @@ describe('Javascript Compiler', function() {
           maximumFractionDigits: 0,
           minimumFractionDigits: 0,
           minimumIntegerDigits: 1,
-          type: 'normal',
+          type: 'floating',
           groupSize: {
             primary: 3,
             secondary: 2
@@ -630,7 +630,7 @@ describe('Javascript Compiler', function() {
           maximumFractionDigits: 0,
           minimumFractionDigits: 0,
           minimumIntegerDigits: 1,
-          type: 'normal',
+          type: 'floating',
           groupSize: {
             primary: 3,
             secondary: 2
@@ -654,7 +654,7 @@ describe('Javascript Compiler', function() {
           maximumFractionDigits: 0,
           minimumFractionDigits: 0,
           minimumIntegerDigits: 1,
-          type: 'normal',
+          type: 'floating',
           groupSize: {
             primary: 3,
             secondary: 2
@@ -678,7 +678,7 @@ describe('Javascript Compiler', function() {
           maximumFractionDigits: 0,
           minimumFractionDigits: 0,
           minimumIntegerDigits: 1,
-          type: 'normal',
+          type: 'floating',
           groupSize: {
             primary: 3,
             secondary: 2
@@ -702,7 +702,7 @@ describe('Javascript Compiler', function() {
           maximumFractionDigits: 0,
           minimumFractionDigits: 0,
           minimumIntegerDigits: 1,
-          type: 'normal',
+          type: 'floating',
           groupSize: {
             primary: 3,
             secondary: 2
@@ -726,7 +726,7 @@ describe('Javascript Compiler', function() {
           maximumFractionDigits: 0,
           minimumFractionDigits: 0,
           minimumIntegerDigits: 1,
-          type: 'normal',
+          type: 'floating',
           groupSize: {
             primary: 3,
             secondary: 2
@@ -734,6 +734,318 @@ describe('Javascript Compiler', function() {
           symbols: symbols
         });
         expect(number).to.equal('10$');
+      });
+
+      it('should be able to format a significant integer number', function() {
+        var number = formatNumber({
+          type: 'significant',
+          prefix: '',
+          suffix: '',
+          roundTo: 1,
+          number: 11,
+          percentage: false,
+          permille: false,
+          currency: null,
+          maximumFractionDigits: 0,
+          minimumFractionDigits: 0,
+          minimumIntegerDigits: 0,
+          maximumSignificantDigits: 1,
+          minimumSignificantDigits: 1,
+          groupSize: {
+            primary: 3,
+            secondary: 2
+          },
+          symbols: symbols
+        });
+        expect(number).to.equal('10');
+      });
+
+      it('should be able to format a significant fraction number', function() {
+        var number = formatNumber({
+          type: 'significant',
+          prefix: '',
+          suffix: '',
+          roundTo: 1,
+          number: 0.1200,
+          percentage: false,
+          permille: false,
+          currency: null,
+          maximumFractionDigits: 0,
+          minimumFractionDigits: 0,
+          minimumIntegerDigits: 0,
+          maximumSignificantDigits: 2,
+          minimumSignificantDigits: 2,
+          groupSize: {
+            primary: 3,
+            secondary: 2
+          },
+          symbols: symbols
+        });
+        expect(number).to.equal('0.12');
+      });
+
+      it('should be able to format a significant fraction number by adding trailing zeros', function() {
+        var number = formatNumber({
+          type: 'significant',
+          prefix: '',
+          suffix: '',
+          roundTo: 1,
+          number: 0.1200,
+          percentage: false,
+          permille: false,
+          currency: null,
+          maximumFractionDigits: 0,
+          minimumFractionDigits: 0,
+          minimumIntegerDigits: 0,
+          maximumSignificantDigits: 3,
+          minimumSignificantDigits: 3,
+          groupSize: {
+            primary: 3,
+            secondary: 2
+          },
+          symbols: symbols
+        });
+        expect(number).to.equal('0.120');
+      });
+
+      it('should be able to format a significant integer and fraction number by adding trailing zeros', function() {
+        var number = formatNumber({
+          type: 'significant',
+          prefix: '',
+          suffix: '',
+          roundTo: 1,
+          number: 1.1200,
+          percentage: false,
+          permille: false,
+          currency: null,
+          maximumFractionDigits: 0,
+          minimumFractionDigits: 0,
+          minimumIntegerDigits: 0,
+          maximumSignificantDigits: 4,
+          minimumSignificantDigits: 4,
+          groupSize: {
+            primary: 3,
+            secondary: 2
+          },
+          symbols: symbols
+        });
+        expect(number).to.equal('1.120');
+      });
+
+      it('should be able to format a significant number with group separators', function() {
+        var number = formatNumber({
+          type: 'significant',
+          prefix: '',
+          suffix: '',
+          roundTo: 1,
+          number: 1120000,
+          percentage: false,
+          permille: false,
+          currency: null,
+          maximumFractionDigits: 0,
+          minimumFractionDigits: 0,
+          minimumIntegerDigits: 0,
+          maximumSignificantDigits: 4,
+          minimumSignificantDigits: 4,
+          groupSize: {
+            primary: 3,
+            secondary: 2
+          },
+          symbols: symbols
+        });
+        expect(number).to.equal('11,20,000');
+      });
+
+      it('should be able to format a significant fraction in percentage', function() {
+        var number = formatNumber({
+          type: 'significant',
+          prefix: '',
+          suffix: '%',
+          roundTo: 1,
+          number: 0.00789,
+          percentage: true,
+          permille: false,
+          currency: null,
+          maximumFractionDigits: 0,
+          minimumFractionDigits: 0,
+          minimumIntegerDigits: 0,
+          maximumSignificantDigits: 1,
+          minimumSignificantDigits: 1,
+          groupSize: {
+            primary: 3,
+            secondary: 2
+          },
+          symbols: symbols
+        });
+        expect(number).to.equal('0.8%');
+      });
+
+      it('should be able to format a significant integer in percentage', function() {
+        var number = formatNumber({
+          type: 'significant',
+          prefix: '',
+          suffix: '%',
+          roundTo: 1,
+          number: 0.789,
+          percentage: true,
+          permille: false,
+          currency: null,
+          maximumFractionDigits: 0,
+          minimumFractionDigits: 0,
+          minimumIntegerDigits: 0,
+          maximumSignificantDigits: 2,
+          minimumSignificantDigits: 2,
+          groupSize: {
+            primary: 3,
+            secondary: 2
+          },
+          symbols: symbols
+        });
+        expect(number).to.equal('79%');
+      });
+
+      it('should be able to format a significant integer and fraction in percentage', function() {
+        var number = formatNumber({
+          type: 'significant',
+          prefix: '',
+          suffix: '%',
+          roundTo: 1,
+          number: 0.789,
+          percentage: true,
+          permille: false,
+          currency: null,
+          maximumFractionDigits: 0,
+          minimumFractionDigits: 0,
+          minimumIntegerDigits: 0,
+          maximumSignificantDigits: 3,
+          minimumSignificantDigits: 3,
+          groupSize: {
+            primary: 3,
+            secondary: 2
+          },
+          symbols: symbols
+        });
+        expect(number).to.equal('78.9%');
+      });
+
+      it('should be able to format a significant number with group separators', function() {
+        var number = formatNumber({
+          type: 'significant',
+          prefix: '',
+          suffix: '%',
+          roundTo: 1,
+          number: 78900,
+          percentage: true,
+          permille: false,
+          currency: null,
+          maximumFractionDigits: 0,
+          minimumFractionDigits: 0,
+          minimumIntegerDigits: 0,
+          maximumSignificantDigits: 3,
+          minimumSignificantDigits: 3,
+          groupSize: {
+            primary: 3,
+            secondary: 2
+          },
+          symbols: symbols
+        });
+        expect(number).to.equal('78,90,000%');
+      });
+
+      it('should be able to format a significant fraction in percentage', function() {
+        var number = formatNumber({
+          type: 'significant',
+          prefix: '',
+          suffix: '‰',
+          roundTo: 1,
+          number: 0.000789,
+          percentage: false,
+          permille: true,
+          currency: null,
+          maximumFractionDigits: 0,
+          minimumFractionDigits: 0,
+          minimumIntegerDigits: 0,
+          maximumSignificantDigits: 1,
+          minimumSignificantDigits: 1,
+          groupSize: {
+            primary: 3,
+            secondary: 2
+          },
+          symbols: symbols
+        });
+        expect(number).to.equal('0.8‰');
+      });
+
+      it('should be able to format a significant integer in percentage', function() {
+        var number = formatNumber({
+          type: 'significant',
+          prefix: '',
+          suffix: '‰',
+          roundTo: 1,
+          number: 0.0789,
+          percentage: false,
+          permille: true,
+          currency: null,
+          maximumFractionDigits: 0,
+          minimumFractionDigits: 0,
+          minimumIntegerDigits: 0,
+          maximumSignificantDigits: 2,
+          minimumSignificantDigits: 2,
+          groupSize: {
+            primary: 3,
+            secondary: 2
+          },
+          symbols: symbols
+        });
+        expect(number).to.equal('79‰');
+      });
+
+      it('should be able to format a significant integer and fraction in percentage', function() {
+        var number = formatNumber({
+          type: 'significant',
+          prefix: '',
+          suffix: '‰',
+          roundTo: 1,
+          number: 0.0789,
+          percentage: false,
+          permille: true,
+          currency: null,
+          maximumFractionDigits: 0,
+          minimumFractionDigits: 0,
+          minimumIntegerDigits: 0,
+          maximumSignificantDigits: 3,
+          minimumSignificantDigits: 3,
+          groupSize: {
+            primary: 3,
+            secondary: 2
+          },
+          symbols: symbols
+        });
+        expect(number).to.equal('78.9‰');
+      });
+
+      it('should be able to format a significant number with group separators', function() {
+        var number = formatNumber({
+          type: 'significant',
+          prefix: '',
+          suffix: '‰',
+          roundTo: 1,
+          number: 789,
+          percentage: false,
+          permille: true,
+          currency: null,
+          maximumFractionDigits: 0,
+          minimumFractionDigits: 0,
+          minimumIntegerDigits: 0,
+          maximumSignificantDigits: 3,
+          minimumSignificantDigits: 3,
+          groupSize: {
+            primary: 3,
+            secondary: 2
+          },
+          symbols: symbols
+        });
+        expect(number).to.equal('7,89,000‰');
       });
     });
   });

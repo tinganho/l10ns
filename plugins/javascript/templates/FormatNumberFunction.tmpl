@@ -1,3 +1,8 @@
+function toSignficantDigits(number, digits) {
+  var multiple = Math.pow(10, digits - Math.floor(Math.log(number) / Math.LN10) - 1);
+  return Math.round(number * multiple) / multiple;
+}
+
 function formatNumber(it) {
   var number = it.number
     , prefix = it.prefix
@@ -19,7 +24,26 @@ function formatNumber(it) {
     suffix = suffix.replace('‰', it.symbols.permille);
     number = number * 1000;
   }
-  number = roundTo(number, it.roundTo);
+  if(it.type === 'significant') {
+    number = toSignficantDigits(number, it.maximumSignificantDigits) + '';
+    var difference = it.maximumSignificantDigits - it.minimumSignificantDigits;
+    if(difference > 0) {
+      number = number.replace(new RegExp('0{1,' + difference + '}$'), '');
+    }
+    var subtract = 0;
+    if(/^0\./.test(number)) {
+      subtract = 2;
+    }
+    else if(/\./.test(number)) {
+      subtract = 1;
+    }
+    while(number.length - subtract < it.minimumSignificantDigits) {
+      number += '0';
+    }
+  }
+  else {
+    number = roundTo(number, it.roundTo);
+  }
 
   var numberSplit = (number + '').split('.')
     , integerDigits = numberSplit[0]
@@ -27,7 +51,7 @@ function formatNumber(it) {
     , fractionDigits = numberSplit[1] || ''
     , fractionDigitsLength = fractionDigits.length;
 
-  if(integerDigitsLength < it.minimumIntegerDigits) {
+  if(it.type === 'floating' && integerDigitsLength < it.minimumIntegerDigits) {
     var missingIntegerDigits = it.minimumIntegerDigits - integerDigitsLength;
     for(var index = 0; index < missingIntegerDigits; index++) {
       integerDigits = '0' + integerDigits;
@@ -50,13 +74,15 @@ function formatNumber(it) {
     integerDigits = newIntegerDigits.split('').reverse().join('');
   }
 
-  if(fractionDigitsLength > it.maximumFractionDigits) {
-    fractionDigits = fractionDigits.substring(0, it.maximumFractionDigits);
-  }
-  else if(fractionDigitsLength < it.minimumFractionDigits) {
-    var missingFractionDigits = it.minimumFractionDigits - fractionDigitsLength;
-    for(var index = 0; index < missingFractionDigits; index++) {
-      fractionDigits += '0';
+  if(it.type === 'floating') {
+    if(fractionDigitsLength > it.maximumFractionDigits) {
+      fractionDigits = fractionDigits.substring(0, it.maximumFractionDigits);
+    }
+    else if(fractionDigitsLength < it.minimumFractionDigits) {
+      var missingFractionDigits = it.minimumFractionDigits - fractionDigitsLength;
+      for(var index = 0; index < missingFractionDigits; index++) {
+        fractionDigits += '0';
+      }
     }
   }
 

@@ -104,7 +104,7 @@ AST.NumberFormatPattern.Syntaxes = {
   EXPONENT_PATTERN: /^E(\+?)(0+)$/,
   FRACTION_PATTERN: /^([0-9]*)(#*)$/,
   INTEGER_PATTERN: /^(#*)([0-9]+)$/,
-  GROUP_SIZE_PATTERN: /(\,[0-9#]+)?\,([0-9#]+)(\.[0-9#]+)?$/
+  GROUP_SIZE_PATTERN: /(\,[0-9#@]+)?\,([0-9#@]+)(\.[0-9#@]+)?$/
 };
 
 /**
