@@ -21,7 +21,6 @@
       number += '0';
     }
 
-
     return number;
   }
 
@@ -290,6 +289,8 @@
             maximumIntegerDigits: 3,
             minimumFractionDigits: 0,
             maximumFractionDigits: 2,
+            minimumSignificantDigits: 0,
+            maximumSignificantDigits: 0,
             symbols: localizations['en-US'].__numberSymbols
           });
         }
@@ -312,6 +313,8 @@
             maximumIntegerDigits: 3,
             minimumFractionDigits: 0,
             maximumFractionDigits: 2,
+            minimumSignificantDigits: 0,
+            maximumSignificantDigits: 0,
             symbols: localizations['en-US'].__numberSymbols
           });
         }
