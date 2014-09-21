@@ -87,6 +87,17 @@
     }
     exponent += exponentNumber;
 
+    if(it.type === 'floating') {
+      if(it.minimumFractionDigits > 0) {
+        if(typeof mantissa[1] === 'undefined') {
+          mantissa[1] = '';
+        }
+        while(mantissa[1].length < it.minimumFractionDigits) {
+          mantissa[1] += '0';
+        }
+      }
+    }
+
     return {
       integer: mantissa[0],
       fraction: mantissa[1],

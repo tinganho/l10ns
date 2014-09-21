@@ -1041,7 +1041,7 @@ describe('Javascript Compiler', function() {
         expect(number).to.equal('7,89,000‰');
       });
 
-      it('should be able to format an exponent number with only minimum digits specified', function() {
+      it('should be able to format an exponent number with only minimum integer digits specified', function() {
         var number = formatNumber({
           type: 'floating',
           prefix: '',
@@ -1068,6 +1068,35 @@ describe('Javascript Compiler', function() {
           symbols: symbols
         });
         expect(number).to.equal('12E3');
+      });
+
+      it('should be able to format an exponent number with minimum fraction digits and minimum integer digits specified', function() {
+        var number = formatNumber({
+          type: 'floating',
+          prefix: '',
+          suffix: '',
+          roundTo: 1,
+          number: 12000,
+          percentage: false,
+          permille: false,
+          currency: null,
+          exponent: {
+            digits: 1,
+            plusSign: false
+          },
+          maximumFractionDigits: 4,
+          minimumFractionDigits: 2,
+          minimumIntegerDigits: 2,
+          maximumIntegerDigits: 2,
+          maximumSignificantDigits: 3,
+          minimumSignificantDigits: 3,
+          groupSize: {
+            primary: 3,
+            secondary: 2
+          },
+          symbols: symbols
+        });
+        expect(number).to.equal('12.00E3');
       });
 
       it('should be able to format an exponent number with exponent grouping(maximum digit specified)', function() {
