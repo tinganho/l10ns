@@ -5,7 +5,7 @@
 
   function toSignficantDigits(number, minimumSignificantDigits, maximumSignificantDigits) {
     var multiple = Math.pow(10, maximumSignificantDigits - Math.floor(Math.log(number) / Math.LN10) - 1);
-    number = Math.round(number * multiple) / multiple + '';
+    ;number = Math.round(number * multiple) / multiple + '';
     var difference = maximumSignificantDigits - minimumSignificantDigits;
     if(difference > 0 && /\./.test(difference)) {
       number = number.replace(new RegExp('0{1,' + difference + '}$'), '');
@@ -21,7 +21,7 @@
       number += '0';
     }
 
-    return number;
+    return number
   }
 
   function toExponentDigits(number, it) {
@@ -273,8 +273,8 @@
         if(it.files >= 0) {
           string += formatNumber({
             number: it.files,
-            type: 'floating',
-            roundTo: 0.1,
+            type: 'significant',
+            roundTo: 1,
             prefix: '',
             suffix: '',
             percentage: null,
@@ -285,20 +285,20 @@
               digits: 1,
               plusSign: false
             },
-            minimumIntegerDigits: 1,
-            maximumIntegerDigits: 3,
+            minimumIntegerDigits: 0,
+            maximumIntegerDigits: 0,
             minimumFractionDigits: 0,
-            maximumFractionDigits: 2,
-            minimumSignificantDigits: 0,
-            maximumSignificantDigits: 0,
+            maximumFractionDigits: 0,
+            minimumSignificantDigits: 1,
+            maximumSignificantDigits: 3,
             symbols: localizations['en-US'].__numberSymbols
           });
         }
         else {
           string += formatNumber({
             number: it.files,
-            type: 'floating',
-            roundTo: 0.1,
+            type: 'significant',
+            roundTo: 1,
             prefix: '-',
             suffix: '',
             percentage: null,
@@ -309,12 +309,12 @@
               digits: 1,
               plusSign: false
             },
-            minimumIntegerDigits: 1,
-            maximumIntegerDigits: 3,
+            minimumIntegerDigits: 0,
+            maximumIntegerDigits: 0,
             minimumFractionDigits: 0,
-            maximumFractionDigits: 2,
-            minimumSignificantDigits: 0,
-            maximumSignificantDigits: 0,
+            maximumFractionDigits: 0,
+            minimumSignificantDigits: 1,
+            maximumSignificantDigits: 3,
             symbols: localizations['en-US'].__numberSymbols
           });
         }

@@ -1157,7 +1157,7 @@ describe('Javascript Compiler', function() {
         expect(number).to.equal('8.7E-3');
       });
 
-      it('should be able to format an exponent number with specififed significant digits', function() {
+      it('should be able to format an exponent number with specififed significant digits with input of a small fraction', function() {
         var number = formatNumber({
           type: 'significant',
           prefix: '',
@@ -1184,6 +1184,35 @@ describe('Javascript Compiler', function() {
           symbols: symbols
         });
         expect(number).to.equal('8.7E-3');
+      });
+
+      it('should be able to format an exponent number with specififed significant digits with inpu of a big integer', function() {
+        var number = formatNumber({
+          type: 'significant',
+          prefix: '',
+          suffix: '',
+          roundTo: 1,
+          number: 1123000,
+          percentage: false,
+          permille: false,
+          currency: null,
+          exponent: {
+            digits: 1,
+            plusSign: false
+          },
+          maximumFractionDigits: 1,
+          minimumFractionDigits: 0,
+          minimumIntegerDigits: 1,
+          maximumIntegerDigits: 1,
+          maximumSignificantDigits: 3,
+          minimumSignificantDigits: 1,
+          groupSize: {
+            primary: 3,
+            secondary: 2
+          },
+          symbols: symbols
+        });
+        expect(number).to.equal('1.12E6');
       });
 
       it('should be able to format an exponent number with specififed significant digits by appending trailing zeros', function() {
@@ -1268,6 +1297,35 @@ describe('Javascript Compiler', function() {
           symbols: symbols
         });
         expect(number).to.equal('87E9');
+      });
+
+      it('should be able to format an exponent number with specififed significant digits by appending trailing zeros', function() {
+        var number = formatNumber({
+          type: 'significant',
+          prefix: '',
+          suffix: '',
+          roundTo: 1,
+          number: 0.00000087,
+          percentage: false,
+          permille: false,
+          currency: null,
+          exponent: {
+            digits: 1,
+            plusSign: true
+          },
+          maximumFractionDigits: 1,
+          minimumFractionDigits: 0,
+          minimumIntegerDigits: 1,
+          maximumIntegerDigits: 1,
+          maximumSignificantDigits: 3,
+          minimumSignificantDigits: 3,
+          groupSize: {
+            primary: 3,
+            secondary: 2
+          },
+          symbols: symbols
+        });
+        expect(number).to.equal('8.70E-7');
       });
     });
   });

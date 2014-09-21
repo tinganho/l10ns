@@ -248,8 +248,8 @@ Compiler.prototype._getFunctionBody = function(messageAST, locale) {
 
 Compiler.prototype._compileRemaining = function(remaining, locale) {
   var pattern = remaining.pattern
-    , minimumIntegerDigits = pattern.integer.nonAbsentNumbers
-      , maximumIntegerDigits = pattern.integer.nonAbsentNumbers + pattern.integer.leftAbsentNumbers
+    , minimumIntegerDigits = 0
+    , maximumIntegerDigits = 0
     , minimumFractionDigits = 0
     , maximumFractionDigits = 0
     , minimumSignificantDigits = 0
@@ -260,12 +260,19 @@ Compiler.prototype._compileRemaining = function(remaining, locale) {
     type = 'significant';
   }
 
-  if(type === 'floating' &&
-     pattern.fraction &&
-     typeof pattern.fraction.nonAbsentNumbers === 'number' &&
-     typeof pattern.fraction.rightAbsentNumbers) {
-    minimumFractionDigits = pattern.fraction.nonAbsentNumbers;
-    maximumFractionDigits = minimumFractionDigits + pattern.fraction.rightAbsentNumbers;
+  if(type === 'floating') {
+    if(pattern.fraction &&
+       typeof pattern.fraction.nonAbsentNumbers === 'number' &&
+       typeof pattern.fraction.rightAbsentNumbers === 'number') {
+      minimumFractionDigits = pattern.fraction.nonAbsentNumbers;
+      maximumFractionDigits = minimumFractionDigits + pattern.fraction.rightAbsentNumbers;
+    }
+    if(pattern.integer &&
+       typeof pattern.integer.nonAbsentNumbers === 'number' &&
+       typeof pattern.integer.leftAbsentNumbers === 'number') {
+      minimumIntegerDigits = pattern.integer.nonAbsentNumbers;
+      maximumIntegerDigits = pattern.integer.nonAbsentNumbers + pattern.integer.leftAbsentNumbers;
+    }
   }
   else if(type === 'significant') {
     minimumSignificantDigits = pattern.nonAbsentNumbers;
@@ -317,8 +324,8 @@ Compiler.prototype._compileNumberFormat = function(numberFormat) {
       pattern.prefix = pattern.prefix + '-';
     }
 
-    var minimumIntegerDigits = pattern.integer.nonAbsentNumbers
-      , maximumIntegerDigits = pattern.integer.nonAbsentNumbers + pattern.integer.leftAbsentNumbers
+    var minimumIntegerDigits = 0
+      , maximumIntegerDigits = 0
       , minimumFractionDigits = 0
       , maximumFractionDigits = 0
       , minimumSignificantDigits = 0
@@ -329,16 +336,23 @@ Compiler.prototype._compileNumberFormat = function(numberFormat) {
       type = 'significant';
     }
 
-    if(type === 'floating' &&
-       pattern.fraction &&
-       typeof pattern.fraction.nonAbsentNumbers === 'number' &&
-       typeof pattern.fraction.rightAbsentNumbers) {
-      minimumFractionDigits = pattern.fraction.nonAbsentNumbers;
-      maximumFractionDigits = minimumFractionDigits + pattern.fraction.rightAbsentNumbers;
+    if(type === 'floating') {
+      if(pattern.fraction &&
+         typeof pattern.fraction.nonAbsentNumbers === 'number' &&
+         typeof pattern.fraction.rightAbsentNumbers === 'number') {
+        minimumFractionDigits = pattern.fraction.nonAbsentNumbers;
+        maximumFractionDigits = minimumFractionDigits + pattern.fraction.rightAbsentNumbers;
+      }
+      if(pattern.integer &&
+         typeof pattern.integer.nonAbsentNumbers === 'number' &&
+         typeof pattern.integer.leftAbsentNumbers === 'number') {
+        minimumIntegerDigits = pattern.integer.nonAbsentNumbers;
+        maximumIntegerDigits = pattern.integer.nonAbsentNumbers + pattern.integer.leftAbsentNumbers;
+      }
     }
     else if(type === 'significant') {
       minimumSignificantDigits = pattern.nonAbsentNumbers;
-      maximumSignificantDigits = minimumSignificantDigits + pattern.rightAbsentNumbers;
+      maximumSignificantDigits = pattern.nonAbsentNumbers + pattern.rightAbsentNumbers;
     }
 
     _case[sign] = template['FormatNumber']({
