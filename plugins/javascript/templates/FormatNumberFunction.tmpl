@@ -1,8 +1,8 @@
 function toSignficantDigits(number, minimumSignificantDigits, maximumSignificantDigits) {
   var multiple = Math.pow(10, maximumSignificantDigits - Math.floor(Math.log(number) / Math.LN10) - 1);
-  number = Math.round(number * multiple) / multiple + '';
+  ;number = Math.round(number * multiple) / multiple + '';
   var difference = maximumSignificantDigits - minimumSignificantDigits;
-  if(difference > 0) {
+  if(difference > 0 && /\./.test(difference)) {
     number = number.replace(new RegExp('0{1,' + difference + '}$'), '');
   }
   var subtract = 0;
@@ -16,7 +16,7 @@ function toSignficantDigits(number, minimumSignificantDigits, maximumSignificant
     number += '0';
   }
 
-  return number;
+  return number
 }
 
 function toExponentDigits(number, it) {

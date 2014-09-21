@@ -3,8 +3,100 @@
     return Math.round(number / to) * to;
   }
 
+  function toSignficantDigits(number, minimumSignificantDigits, maximumSignificantDigits) {
+    var multiple = Math.pow(10, maximumSignificantDigits - Math.floor(Math.log(number) / Math.LN10) - 1);
+    number = Math.round(number * multiple) / multiple + '';
+    var difference = maximumSignificantDigits - minimumSignificantDigits;
+    if(difference > 0 && /\./.test(difference)) {
+      number = number.replace(new RegExp('0{1,' + difference + '}$'), '');
+    }
+    var subtract = 0;
+    if(/^0\./.test(number)) {
+      subtract = 2;
+    }
+    else if(/\./.test(number)) {
+      subtract = 1;
+    }
+    while(number.length - subtract < minimumSignificantDigits) {
+      number += '0';
+    }
+
+
+    return number;
+  }
+
+  function toExponentDigits(number, it) {
+    var minimumMantissaIntegerDigits = 1
+      , maximumMantissaIntegerDigits = Infinity
+      , exponentGrouping = 1
+      , minimumMantissaSignificantDigits
+      , maximumMantissaSignificantDigits
+      , exponentNumber = 0;
+
+    if(it.type === 'floating') {
+      if(it.maximumIntegerDigits === it.minimumIntegerDigits) {
+        minimumMantissaIntegerDigits = maximumMantissaIntegerDigits = it.minimumIntegerDigits;
+      }
+      else {
+        maximumMantissaIntegerDigits = it.maximumIntegerDigits;
+        exponentGrouping = it.maximumIntegerDigits;
+      }
+
+      minimumMantissaSignificantDigits = 1;
+      maximumMantissaSignificantDigits = it.minimumIntegerDigits + it.maximumFractionDigits;
+    }
+    else {
+      minimumMantissaIntegerDigits = maximumMantissaIntegerDigits = 1;
+      minimumMantissaSignificantDigits = it.minimumSignificantDigits;
+      maximumMantissaSignificantDigits = it.maximumSignificantDigits
+    }
+
+    if(number >= 1) {
+      var divider = Math.pow(10, exponentGrouping)
+        , integerLength = (number + '').replace(/\.\d+/, '').length;
+      while((integerLength < minimumMantissaIntegerDigits || integerLength > maximumMantissaIntegerDigits) &&
+            (exponentNumber + '').length === it.exponent.digits) {
+        number = number / divider;
+        exponentNumber += exponentGrouping;
+        integerLength = (number + '').replace(/\.\d+/, '').length;
+      }
+      if((exponentNumber + '').length !== it.exponent.digits) {
+        exponentNumber--;
+        number = number * divider;
+      }
+    }
+    else {
+      var multiplier = Math.pow(10, exponentGrouping)
+        , integerLength = (number + '').replace(/^0\.\d+/, '').replace(/\.\d+/, '').length;
+      while((integerLength < minimumMantissaIntegerDigits || integerLength > maximumMantissaIntegerDigits) &&
+            (Math.abs(exponentNumber) + '').length === it.exponent.digits) {
+        number = number * multiplier;
+        exponentNumber -= exponentGrouping;
+        integerLength = (number + '').replace(/^0\.\d+/, '').replace(/\.\d+/, '').length;
+      }
+      if((Math.abs(exponentNumber) + '').length !== it.exponent.digits) {
+        exponentNumber++;
+        number = number / multiplier;
+      }
+    }
+
+    var mantissa = toSignficantDigits(number, minimumMantissaSignificantDigits, maximumMantissaSignificantDigits)
+      , mantissa = mantissa.split('.')
+      , exponent = it.symbols.exponential;
+    if(it.exponent.plusSign && exponentNumber > 0) {
+      exponent += it.symbols.plusSign;
+    }
+    exponent += exponentNumber;
+
+    return {
+      integer: mantissa[0],
+      fraction: mantissa[1],
+      exponent: exponent
+    };
+  };
+
   function formatNumber(it) {
-    var number = it.number
+    var number = Math.abs(it.number)
       , prefix = it.prefix
       , suffix = it.suffix
       , currencySymbol =
@@ -15,53 +107,69 @@
       , endsWithCurrencySymbolSyntax = new RegExp(currencySymbol + '$');
 
     if(it.percentage) {
-      prefix = prefix.replace('%', it.symbols.percent);
-      suffix = suffix.replace('%', it.symbols.percent);
+      prefix = prefix.replace('%', it.symbols.percentSign);
+      suffix = suffix.replace('%', it.symbols.percentSign);
       number = number * 100;
     }
     else if(it.permille) {
-      prefix = prefix.replace('‰', it.symbols.permille);
-      suffix = suffix.replace('‰', it.symbols.permille);
+      prefix = prefix.replace('‰', it.symbols.perMille);
+      suffix = suffix.replace('‰', it.symbols.perMille);
       number = number * 1000;
     }
-    number = roundTo(number, it.roundTo);
 
-    var numberSplit = (number + '').split('.')
-      , integerDigits = numberSplit[0]
-      , integerDigitsLength = integerDigits.length
-      , fractionDigits = numberSplit[1] || ''
-      , fractionDigitsLength = fractionDigits.length;
-
-    if(integerDigitsLength < it.minimumIntegerDigits) {
-      var missingIntegerDigits = it.minimumIntegerDigits - integerDigitsLength;
-      for(var index = 0; index < missingIntegerDigits; index++) {
-        integerDigits = '0' + integerDigits;
-      }
-      integerDigitsLength = it.minimumIntegerDigits;
+    if(it.exponent) {
+      var exponent = toExponentDigits(number, it);
+      integerDigits = exponent.integer;
+      fractionDigits = exponent.fraction || '';
+      exponent = exponent.exponent;
     }
-    if(it.groupSize) {
-      var newIntegerDigits = '';
-      for(var index = integerDigitsLength - 1; index >= 0; index--) {
-        var primaryIndex = integerDigitsLength - it.groupSize.primary - 1;
-        if(index === primaryIndex) {
-          newIntegerDigits += it.symbols.group;
+    else if(it.type === 'significant') {
+      number = toSignficantDigits(number, it.minimumSignificantDigits, it.maximumSignificantDigits);
+    }
+    else {
+      number = roundTo(number, it.roundTo);
+    }
+
+    if(!it.exponent) {
+      var numberSplit = (number + '').split('.')
+        , integerDigits = numberSplit[0]
+        , integerDigitsLength = integerDigits.length
+        , fractionDigits = numberSplit[1] || ''
+        , fractionDigitsLength = fractionDigits.length;
+
+      if(it.type === 'floating' && integerDigitsLength < it.minimumIntegerDigits) {
+        var missingIntegerDigits = it.minimumIntegerDigits - integerDigitsLength;
+        for(var index = 0; index < missingIntegerDigits; index++) {
+          integerDigits = '0' + integerDigits;
         }
-        else if(index < primaryIndex && (primaryIndex - index) % it.groupSize.secondary === 0) {
-          newIntegerDigits += it.symbols.group;
-        }
-
-        newIntegerDigits += integerDigits.charAt(index);
+        integerDigitsLength = it.minimumIntegerDigits;
       }
-      integerDigits = newIntegerDigits.split('').reverse().join('');
-    }
+      if(it.groupSize) {
+        var newIntegerDigits = '';
+        for(var index = integerDigitsLength - 1; index >= 0; index--) {
+          var primaryIndex = integerDigitsLength - it.groupSize.primary - 1;
+          if(index === primaryIndex) {
+            newIntegerDigits += it.symbols.group;
+          }
+          else if(index < primaryIndex && (primaryIndex - index) % it.groupSize.secondary === 0) {
+            newIntegerDigits += it.symbols.group;
+          }
 
-    if(fractionDigitsLength > it.maximumFractionDigits) {
-      fractionDigits = fractionDigits.substring(0, it.maximumFractionDigits);
-    }
-    else if(fractionDigitsLength < it.minimumFractionDigits) {
-      var missingFractionDigits = it.minimumFractionDigits - fractionDigitsLength;
-      for(var index = 0; index < missingFractionDigits; index++) {
-        fractionDigits += '0';
+          newIntegerDigits += integerDigits.charAt(index);
+        }
+        integerDigits = newIntegerDigits.split('').reverse().join('');
+      }
+
+      if(it.type === 'floating') {
+        if(fractionDigitsLength > it.maximumFractionDigits) {
+          fractionDigits = fractionDigits.substring(0, it.maximumFractionDigits);
+        }
+        else if(fractionDigitsLength < it.minimumFractionDigits) {
+          var missingFractionDigits = it.minimumFractionDigits - fractionDigitsLength;
+          for(var index = 0; index < missingFractionDigits; index++) {
+            fractionDigits += '0';
+          }
+        }
       }
     }
 
@@ -82,38 +190,15 @@
     if(fractionDigits.length > 0) {
       result += it.symbols.decimal + fractionDigits;
     }
+    if(exponent) {
+      result += exponent;
+    }
     result += suffix;
 
     return result;
   }
 
   var localizations = {
-    'zh-CN': {
-      '__getPluralKeyword': function(cardinal) {
-        return 'other';
-      },
-      '__getOrdinalKeyword': function(cardinal) {
-        return 'other';
-      },
-      '__numberSymbols': {
-        'decimal': '.',
-        'group': ',',
-        'list': ';',
-        'percentSign': '%',
-        'plusSign': '+',
-        'minusSign': '-',
-        'exponential': 'E',
-        'superscriptingExponent': '×',
-        'perMille': '‰',
-        'infinity': '∞',
-        'nan': 'NaN'
-      },
-      'INDEX1': function(it) {
-        var string = '';
-
-        return string;
-      }
-    },
     'en-US': {
       '__getPluralKeyword': function(cardinal) {
         var cardinal = cardinal + ''
@@ -189,43 +274,97 @@
         if(it.files >= 0) {
           string += formatNumber({
             number: it.files,
-            roundTo: 1,
+            type: 'floating',
+            roundTo: 0.1,
             prefix: '',
             suffix: '',
             percentage: null,
             permille: null,
             currency: null,
-            groupSize: {
-              primary: 3,
-              secondary: 3
+            groupSize: null,
+            exponent: {
+              digits: 1,
+              plusSign: false
             },
             minimumIntegerDigits: 1,
+            maximumIntegerDigits: 3,
             minimumFractionDigits: 0,
-            maximumFractionDigits: 3,
+            maximumFractionDigits: 2,
             symbols: localizations['en-US'].__numberSymbols
           });
         }
         else {
           string += formatNumber({
             number: it.files,
-            roundTo: 1,
+            type: 'floating',
+            roundTo: 0.1,
             prefix: '-',
             suffix: '',
             percentage: null,
             permille: null,
             currency: null,
-            groupSize: {
-              primary: 3,
-              secondary: 3
+            groupSize: null,
+            exponent: {
+              digits: 1,
+              plusSign: false
             },
             minimumIntegerDigits: 1,
+            maximumIntegerDigits: 3,
             minimumFractionDigits: 0,
-            maximumFractionDigits: 3,
+            maximumFractionDigits: 2,
             symbols: localizations['en-US'].__numberSymbols
           });
         }
         return string;
-      }
+      },
+      'INDEX2': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEXA': function(it) {
+        var string = '';
+
+        return string;
+      },
+
+    },
+    'zh-CN': {
+      '__getPluralKeyword': function(cardinal) {
+        return 'other';
+      },
+      '__getOrdinalKeyword': function(cardinal) {
+        return 'other';
+      },
+      '__numberSymbols': {
+        'decimal': '.',
+        'group': ',',
+        'list': ';',
+        'percentSign': '%',
+        'plusSign': '+',
+        'minusSign': '-',
+        'exponential': 'E',
+        'superscriptingExponent': '×',
+        'perMille': '‰',
+        'infinity': '∞',
+        'nan': 'NaN'
+      },
+      'INDEX1': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX2': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEXA': function(it) {
+        var string = '';
+
+        return string;
+      },
+
     }
   };
 

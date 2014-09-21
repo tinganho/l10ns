@@ -172,6 +172,7 @@ describe('Javascript Compiler', function() {
           'if(it.variable1 >= 0) {\n' +
           '  string += formatNumber({\n' +
           '    number: it.variable1,\n' +
+          '    type: \'floating\',\n' +
           '    roundTo: 1,\n' +
           '    prefix: \'\',\n' +
           '    suffix: \'\',\n' +
@@ -179,7 +180,9 @@ describe('Javascript Compiler', function() {
           '    permille: null,\n' +
           '    currency: null,\n' +
           '    groupSize: null,\n' +
+          '    exponent: null,\n' +
           '    minimumIntegerDigits: 1,\n' +
+          '    maximumIntegerDigits: 1,\n' +
           '    minimumFractionDigits: 0,\n' +
           '    maximumFractionDigits: 0,\n' +
           '    symbols: localizations[\'en-US\'].__numberSymbols\n' +
@@ -188,6 +191,7 @@ describe('Javascript Compiler', function() {
           'else {\n' +
           '  string += formatNumber({\n' +
           '    number: it.variable1,\n' +
+          '    type: \'floating\',\n' +
           '    roundTo: 1,\n' +
           '    prefix: \'-\',\n' +
           '    suffix: \'\',\n' +
@@ -195,7 +199,9 @@ describe('Javascript Compiler', function() {
           '    permille: null,\n' +
           '    currency: null,\n' +
           '    groupSize: null,\n' +
+          '    exponent: null,\n' +
           '    minimumIntegerDigits: 1,\n' +
+          '    maximumIntegerDigits: 1,\n' +
           '    minimumFractionDigits: 0,\n' +
           '    maximumFractionDigits: 0,\n' +
           '    symbols: localizations[\'en-US\'].__numberSymbols\n' +

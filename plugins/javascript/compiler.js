@@ -249,6 +249,7 @@ Compiler.prototype._getFunctionBody = function(messageAST, locale) {
 Compiler.prototype._compileRemaining = function(remaining, locale) {
   var pattern = remaining.pattern
     , minimumIntegerDigits = pattern.integer.nonAbsentNumbers
+      , maximumIntegerDigits = pattern.integer.nonAbsentNumbers + pattern.integer.leftAbsentNumbers
     , minimumFractionDigits = 0
     , maximumFractionDigits = 0
     , minimumSignificantDigits = 0
@@ -282,12 +283,17 @@ Compiler.prototype._compileRemaining = function(remaining, locale) {
     permille: pattern.permille,
     currency: pattern.currency,
     minimumIntegerDigits: minimumIntegerDigits,
+    maximumIntegerDigits: maximumIntegerDigits,
     minimumFractionDigits: minimumFractionDigits,
     maximumFractionDigits: maximumFractionDigits,
     minimumSignificantDigits: minimumSignificantDigits,
     maximumSignificantDigits: maximumSignificantDigits,
     groupSize: pattern.groupSize,
-    locale: locale
+    locale: locale,
+    exponent: !pattern.exponent ? null : {
+      digits: pattern.exponent.nonAbsentNumbers,
+      plusSign: pattern.exponent.plusSign
+    }
   });
 };
 
@@ -312,6 +318,7 @@ Compiler.prototype._compileNumberFormat = function(numberFormat) {
     }
 
     var minimumIntegerDigits = pattern.integer.nonAbsentNumbers
+      , maximumIntegerDigits = pattern.integer.nonAbsentNumbers + pattern.integer.leftAbsentNumbers
       , minimumFractionDigits = 0
       , maximumFractionDigits = 0
       , minimumSignificantDigits = 0
@@ -344,12 +351,17 @@ Compiler.prototype._compileNumberFormat = function(numberFormat) {
       permille: pattern.permille,
       currency: pattern.currency,
       minimumIntegerDigits: minimumIntegerDigits,
+      maximumIntegerDigits: maximumIntegerDigits,
       minimumFractionDigits: minimumFractionDigits,
       maximumFractionDigits: maximumFractionDigits,
       minimumSignificantDigits: minimumSignificantDigits,
       maximumSignificantDigits: maximumSignificantDigits,
       groupSize: pattern.groupSize,
-      locale: numberFormat.locale
+      locale: numberFormat.locale,
+      exponent: !pattern.exponent ? null : {
+        digits: pattern.exponent.nonAbsentNumbers,
+        plusSign: pattern.exponent.showPositiveCharacter
+      }
     });
   });
 

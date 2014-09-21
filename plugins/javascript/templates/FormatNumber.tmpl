@@ -1,5 +1,6 @@
 string += formatNumber({
   number: it.{{=it.variableName}},
+  type: '{{=it.type}}',
   roundTo: {{=it.roundTo}},
   prefix: '{{=it.prefix}}',
   suffix: '{{=it.suffix}}',
@@ -14,8 +15,14 @@ string += formatNumber({
     primary: {{=it.groupSize.primary}},
     secondary: {{=it.groupSize.secondary}}
   },{{??}}
-  groupSize: null,{{?}}
+  groupSize: null,{{?}}{{?it.exponent}}
+  exponent: {
+    digits: {{=it.exponent.digits}},
+    plusSign: {{=it.exponent.plusSign}}
+  },{{??}}
+  exponent: null,{{?}}
   minimumIntegerDigits: {{=it.minimumIntegerDigits}},
+  maximumIntegerDigits: {{=it.maximumIntegerDigits}},
   minimumFractionDigits: {{=it.minimumFractionDigits}},
   maximumFractionDigits: {{=it.maximumFractionDigits}},
   symbols: localizations['{{=it.locale}}'].__numberSymbols
