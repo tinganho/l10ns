@@ -12,7 +12,8 @@ interface/public/styles/
 interface/public/scripts/
 interface/public/templates/**/*
 interface/vendor/**/*
-plugins/javascript/specifications/templates/build
+plugins/javascript/templates/build/
+plugins/javascript/specifications/templates/build/
 
 app/page/document/build/
 app/page/layout/build/

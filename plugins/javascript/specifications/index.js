@@ -1356,6 +1356,65 @@ describe('Javascript Compiler', function() {
         });
         expect(number).to.equal('8.70E-7');
       });
+
+      it('should be able to format a significant number with padding character', function() {
+        var number = formatNumber({
+          type: 'significant',
+          prefix: '$*#',
+          suffix: '',
+          roundTo: 1,
+          number: 0.00000087,
+          percentage: false,
+          permille: false,
+          currency: null,
+          exponent: {
+            digits: 1,
+            plusSign: true
+          },
+          maximumFractionDigits: 1,
+          minimumFractionDigits: 0,
+          minimumIntegerDigits: 1,
+          maximumIntegerDigits: 1,
+          maximumSignificantDigits: 3,
+          minimumSignificantDigits: 3,
+          groupSize: {
+            primary: 3,
+            secondary: 2
+          },
+          patternLength: 10,
+          paddingCharacter: '#',
+          symbols: symbols
+        });
+        expect(number).to.equal('$##8.70E-7');
+      });
+
+      it('should be able to format a floating number with padding character', function() {
+        var number = formatNumber({
+          type: 'floating',
+          prefix: '*#',
+          suffix: '',
+          roundTo: 1,
+          number: 1200,
+          percentage: false,
+          permille: false,
+          currency: null,
+          exponent: null,
+          maximumFractionDigits: 2,
+          minimumFractionDigits: 0,
+          minimumIntegerDigits: 2,
+          maximumIntegerDigits: 2,
+          maximumSignificantDigits: 3,
+          minimumSignificantDigits: 3,
+          groupSize: {
+            primary: 3,
+            secondary: 2
+          },
+          patternLength: 10,
+          paddingCharacter: '#',
+          symbols: symbols
+        });
+        expect(number).to.equal('#####1,200');
+      });
     });
   });
 

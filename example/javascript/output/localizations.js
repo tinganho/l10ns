@@ -5,7 +5,7 @@
 
   function toSignficantDigits(number, minimumSignificantDigits, maximumSignificantDigits) {
     var multiple = Math.pow(10, maximumSignificantDigits - Math.floor(Math.log(number) / Math.LN10) - 1);
-    ;number = Math.round(number * multiple) / multiple + '';
+    number = Math.round(number * multiple) / multiple + '';
     var difference = maximumSignificantDigits - minimumSignificantDigits;
     if(difference > 0 && /\./.test(difference)) {
       number = number.replace(new RegExp('0{1,' + difference + '}$'), '');
@@ -21,7 +21,7 @@
       number += '0';
     }
 
-    return number
+    return number;
   }
 
   function toExponentDigits(number, it) {
@@ -86,6 +86,17 @@
       exponent += it.symbols.plusSign;
     }
     exponent += exponentNumber;
+
+    if(it.type === 'floating') {
+      if(it.minimumFractionDigits > 0) {
+        if(typeof mantissa[1] === 'undefined') {
+          mantissa[1] = '';
+        }
+        while(mantissa[1].length < it.minimumFractionDigits) {
+          mantissa[1] += '0';
+        }
+      }
+    }
 
     return {
       integer: mantissa[0],
@@ -194,6 +205,19 @@
     }
     result += suffix;
 
+    if(it.paddingCharacter) {
+      var resultLength = result.length - 2;
+      result = result.replace(new RegExp('\\*\\' + it.paddingCharacter), function(match) {
+        var replacement = '';
+        while(resultLength < it.patternLength) {
+          replacement += it.paddingCharacter;
+          resultLength++;
+        }
+
+        return replacement;
+      });
+    }
+
     return result;
   }
 
@@ -275,7 +299,7 @@
             number: it.files,
             type: 'significant',
             roundTo: 1,
-            prefix: '',
+            prefix: '*#',
             suffix: '',
             percentage: null,
             permille: null,
@@ -291,7 +315,9 @@
             maximumFractionDigits: 0,
             minimumSignificantDigits: 1,
             maximumSignificantDigits: 3,
-            symbols: localizations['en-US'].__numberSymbols
+            symbols: localizations['en-US'].__numberSymbols,
+            paddingCharacter: '#',
+            patternLength: 7
           });
         }
         else {
@@ -299,7 +325,7 @@
             number: it.files,
             type: 'significant',
             roundTo: 1,
-            prefix: '-',
+            prefix: '*#-',
             suffix: '',
             percentage: null,
             permille: null,
@@ -315,7 +341,9 @@
             maximumFractionDigits: 0,
             minimumSignificantDigits: 1,
             maximumSignificantDigits: 3,
-            symbols: localizations['en-US'].__numberSymbols
+            symbols: localizations['en-US'].__numberSymbols,
+            paddingCharacter: '#',
+            patternLength: 7
           });
         }
         return string;

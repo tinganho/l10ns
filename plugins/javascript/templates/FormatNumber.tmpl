@@ -27,5 +27,8 @@ string += formatNumber({
   maximumFractionDigits: {{=it.maximumFractionDigits}},
   minimumSignificantDigits: {{=it.minimumSignificantDigits}},
   maximumSignificantDigits: {{=it.maximumSignificantDigits}},
-  symbols: localizations['{{=it.locale}}'].__numberSymbols
+  symbols: localizations['{{=it.locale}}'].__numberSymbols,{{?it.paddingCharacter}}
+  paddingCharacter: '{{=it.paddingCharacter}}',{{??}}
+  paddingCharacter: null,{{?}}
+  patternLength: {{=it.patternLength}}
 });

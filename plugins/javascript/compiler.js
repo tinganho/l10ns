@@ -300,7 +300,9 @@ Compiler.prototype._compileRemaining = function(remaining, locale) {
     exponent: !pattern.exponent ? null : {
       digits: pattern.exponent.nonAbsentNumbers,
       plusSign: pattern.exponent.plusSign
-    }
+    },
+    patternLength: pattern.patternLength,
+    paddingCharacter: pattern.paddingCharacter
   });
 };
 
@@ -375,7 +377,9 @@ Compiler.prototype._compileNumberFormat = function(numberFormat) {
       exponent: !pattern.exponent ? null : {
         digits: pattern.exponent.nonAbsentNumbers,
         plusSign: pattern.exponent.showPositiveCharacter
-      }
+      },
+      patternLength: pattern.patternLength,
+      paddingCharacter: pattern.paddingCharacter
     });
   });
 
