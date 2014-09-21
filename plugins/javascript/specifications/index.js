@@ -185,6 +185,8 @@ describe('Javascript Compiler', function() {
           '    maximumIntegerDigits: 1,\n' +
           '    minimumFractionDigits: 0,\n' +
           '    maximumFractionDigits: 0,\n' +
+          '    minimumSignificantDigits: 0,\n' +
+          '    maximumSignificantDigits: 0,\n' +
           '    symbols: localizations[\'en-US\'].__numberSymbols\n' +
           '  });\n' +
           '}\n' +
@@ -204,6 +206,8 @@ describe('Javascript Compiler', function() {
           '    maximumIntegerDigits: 1,\n' +
           '    minimumFractionDigits: 0,\n' +
           '    maximumFractionDigits: 0,\n' +
+          '    minimumSignificantDigits: 0,\n' +
+          '    maximumSignificantDigits: 0,\n' +
           '    symbols: localizations[\'en-US\'].__numberSymbols\n' +
           '  });\n' +
           '}\n' +
