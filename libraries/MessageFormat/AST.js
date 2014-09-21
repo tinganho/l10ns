@@ -100,7 +100,7 @@ AST.NumberFormatPattern.Syntaxes = {
   NUMBER_SIMPLE_ARGUMENTS: /^(integer|symbol|text|percent)$/,
   NUMBER_CHARACTER: /[#0-9\.E@\,\+\-;]/,
   ROUNDING_CHARACTER: /[1-9]/,
-  SIGNIFICANT_PATTERN: /^(#*)(@+)(#*)$/,
+  SIGNIFICANT_PATTERN: /^(#*)(@+)(#*)(E0+)?$/,
   EXPONENT_PATTERN: /^E(\+?)(0+)$/,
   FRACTION_PATTERN: /^([0-9]*)(#*)$/,
   INTEGER_PATTERN: /^(#*)([0-9]+)$/,
@@ -139,9 +139,9 @@ AST.NumberFormatPattern._NumberFormat = function(attributes) {
 AST.NumberFormatPattern._FloatingNumberFormat = function(attributes) {
   AST.NumberFormatPattern._NumberFormat.apply(this, arguments);
 
-  this.exponent = typeof attributes.exponent !== 'undefined' ? attributes.exponent : null;
   this.fraction = typeof attributes.fraction !== 'undefined' ? attributes.fraction : null;
   this.integer = attributes.integer;
+  this.exponent = typeof attributes.exponent !== 'undefined' ? attributes.exponent : null;
 };
 
 AST.NumberFormatPattern._FloatingNumberFormat.prototype = Object.create(AST.NumberFormatPattern._NumberFormat.prototype);
@@ -160,6 +160,7 @@ AST.NumberFormatPattern._SignificantNumberFormat = function(attributes) {
   this.leftAbsentNumbers = attributes.leftAbsentNumbers;
   this.nonAbsentNumbers = attributes.nonAbsentNumbers;
   this.rightAbsentNumbers = attributes.rightAbsentNumbers;
+  this.exponent = typeof attributes.exponent !== 'undefined' ? attributes.exponent : null;
 };
 
 AST.NumberFormatPattern._SignificantNumberFormat.prototype = Object.create(AST.NumberFormatPattern._NumberFormat.prototype);
@@ -328,7 +329,7 @@ AST.NumberFormatPattern._getFractionAttributes = function(integerAndFractionPatt
 /**
  * Get exponent attributes from a exponent pattern string
  *
- * @param {String} exponentPatter
+ * @param {String} exponentPattern
  * @return {Object}
  *
  *   {
@@ -368,6 +369,10 @@ AST.NumberFormatPattern._getSignificantNumberFormat = function(numberPattern, at
   attributes.leftAbsentNumbers = pattern[1].length;
   attributes.nonAbsentNumbers = pattern[2].length;
   attributes.rightAbsentNumbers = pattern[3].length;
+
+  if(pattern[4]) {
+    attributes.exponent = this._getExponentAttributes(pattern[4]);
+  }
 
   return new AST.NumberFormatPattern._SignificantNumberFormat(attributes);
 };

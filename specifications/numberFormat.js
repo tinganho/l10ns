@@ -192,7 +192,22 @@ describe('NumberFormat', function() {
     expect(messageFormat.messageAST[0].pattern.negative).to.equal(null);
   });
 
-  it('should be able to parse a patternted argument with a single non-absent number', function() {
+  it('should be able to parse a signifcant number pattern with exponent pattern', function() {
+    messageFormat.parse('{variable1,number,##@@#E0}');
+    expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
+    expect(messageFormat.messageAST[0].pattern.positive).to.be.an.instanceOf(AST.NumberFormatPattern._SignificantNumberFormat);
+    expect(messageFormat.messageAST[0].pattern.positive.leftAbsentNumbers).to.equal(2);
+    expect(messageFormat.messageAST[0].pattern.positive.nonAbsentNumbers).to.equal(2);
+    expect(messageFormat.messageAST[0].pattern.positive.rightAbsentNumbers).to.equal(1);
+    expect(messageFormat.messageAST[0].pattern.positive.exponent).to.eql({
+      nonAbsentNumbers: 1,
+      showPositiveCharacter: false
+    });
+    expect(messageFormat.messageAST[0].pattern.positive.patternLength).to.equal(7);
+    expect(messageFormat.messageAST[0].pattern.negative).to.equal(null);
+  });
+
+  it('should be able to parse a number pattern argument with a single non-absent number', function() {
     messageFormat.parse('{variable1,number,0}');
     expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
     expect(messageFormat.messageAST[0].argument).to.equal('0');
