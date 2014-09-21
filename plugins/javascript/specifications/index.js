@@ -187,7 +187,9 @@ describe('Javascript Compiler', function() {
           '    maximumFractionDigits: 0,\n' +
           '    minimumSignificantDigits: 0,\n' +
           '    maximumSignificantDigits: 0,\n' +
-          '    symbols: localizations[\'en-US\'].__numberSymbols\n' +
+          '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+          '    paddingCharacter: null,\n' +
+          '    patternLength: 1\n' +
           '  });\n' +
           '}\n' +
           'else {\n' +
@@ -208,7 +210,9 @@ describe('Javascript Compiler', function() {
           '    maximumFractionDigits: 0,\n' +
           '    minimumSignificantDigits: 0,\n' +
           '    maximumSignificantDigits: 0,\n' +
-          '    symbols: localizations[\'en-US\'].__numberSymbols\n' +
+          '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+          '    paddingCharacter: null,\n' +
+          '    patternLength: 1\n' +
           '  });\n' +
           '}\n' +
           'return string;';
