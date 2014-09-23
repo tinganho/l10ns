@@ -55,6 +55,10 @@ describe('MessageFormat', function() {
               one: 'US dollar',
               other: 'US dollars'
             }
+          },
+          symbols: {
+            local: '$',
+            global: 'US$'
           }
         }
       });

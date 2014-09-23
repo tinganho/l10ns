@@ -2,11 +2,24 @@
 module.exports = {
   'AED': {
     symbols: {
-      local: 'dh',
-      global: '\u062f.\u0625.'
+      local: 'د.إ',
+      global: 'Dhs'
     },
     text: {
-      local: null
+      local: {
+        one: 'فلس',
+        two: 'فلس',
+        few: 'فلس',
+        many: 'فلس',
+        other: 'فلس'
+      },
+      localUnitPattern: {
+        one: '{value} {unit}',
+        two: '{value} {unit}',
+        few: '{value} {unit}',
+        many: '{value} {unit}',
+        other: '{value} {unit}'
+      }
     }
   },
   'ALL': {
@@ -15,34 +28,62 @@ module.exports = {
       global: 'Lek'
     },
     text: {
-      local: null
+      local: {
+        one: 'lek',
+        other: 'lekë'
+      },
+      localUnitPattern: {
+        one: '{value} {unit}',
+        other: '{value} {unit}'
+      }
     }
   },
   'AUD': {
     symbols: {
-      locale: '$',
+      local: '$',
       global: 'AU$'
     },
     text: {
-      local: null
+      local: {
+        one: 'dollar',
+        other: 'dollars'
+      },
+      localUnitPattern: {
+        one: '{value} {unit}',
+        other: '{value} {unit}'
+      }
     }
   },
   'BDT': {
     symbols: {
-      local: '\u09F3',
+      local: '৳',
       global: 'Tk'
     },
     text: {
-      local: null
+      local: {
+        one: 'টাকা',
+        other: 'টাকা'
+      },
+      localUnitPattern: {
+        one: '{value} {unit}',
+        other: '{value} {unit}'
+      }
     }
   },
   'BGN': {
     symbols: {
-      local: 'lev',
+      local: 'лв',
       global: 'lev'
     },
     text: {
-      local: null
+      local: {
+        one: 'лев',
+        other: 'лева'
+      },
+      localUnitPattern: {
+        one: '{value} {unit}',
+        other: '{value} {unit}'
+      }
     }
   },
   'BRL': {
@@ -51,7 +92,14 @@ module.exports = {
       global: 'R$'
     },
     text: {
-      local: null
+      local: {
+        one: 'real',
+        other: 'reales'
+      },
+      localUnitPattern: {
+        one: '{value} {unit}',
+        other: '{value} {unit}'
+      }
     }
   },
   'CAD': {
@@ -60,16 +108,26 @@ module.exports = {
       global: 'C$'
     },
     text: {
-      local: null
+      local: {
+        one: 'dollar',
+        other: 'dollars'
+      },
+      localUnitPattern: {
+        one: '{value} {unit}',
+        other: '{value} {unit}'
+      }
     }
   },
   'CDF': {
     symbols: {
-      local: 'FrCD',
-      global: 'CDF'
+      local: 'FC',
+      global: 'FC'
     },
     text: {
-      local: null
+      local: {
+        one: 'franc',
+        other: 'francs'
+      }
     }
   },
   'CHF': {
@@ -98,6 +156,9 @@ module.exports = {
     text: {
       local: {
         other: '元'
+      },
+      localUnitPattern: {
+        other: '{value}{unit}'
       }
     }
   },

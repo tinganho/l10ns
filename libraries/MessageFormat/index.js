@@ -290,9 +290,11 @@ MessageFormat.prototype._parseSwitchStatement = function(variable) {
   }
 
   switch(type) {
-    case 'currency':
     case 'number':
       switchStatement = this._parseSimpleFormat(type, variable);
+      break;
+    case 'currency':
+      switchStatement = this._parseCurrencyFormat(variable);
       break;
     case 'choice':
       switchStatement = this._parseChoiceFormat(variable);
@@ -340,18 +342,67 @@ MessageFormat.prototype._parseSimpleFormat = function(type, variable) {
     throw new TypeError('You must have a closing bracket in your simple format in ' + this.lexer.getLatestTokensLog());
   }
 
-  if(!/^(number|currency|date|time|spellout|ordinal|duration)$/.test(type)) {
+  if(!/^(number|date|time|spellout|ordinal|duration)$/.test(type)) {
     throw new TypeError('SimpleFormat has invalid type (number|date|time|spellout|ordinal|duration) in ' + this.lexer.getNextToken());
   }
 
   this.currentToken = this.lexer.getNextToken();
 
   switch(type) {
-    case 'currency':
-      return new AST.CurrencyFormat(this.locale, variable, argument, this);
     case 'number':
       return new AST.NumberFormat(this.locale, variable, argument, this);
   }
+};
+
+/**
+ * Parse currency format
+ *
+ * @param {AST.Variable} variable
+ * @return {AST.CurrencyFormat}
+ * @api private
+ */
+
+MessageFormat.prototype._parseCurrencyFormat = function(variable) {
+  var context = ''
+    , type = '';
+
+  // Swallow comma
+  this.currentToken = this.lexer.getNextToken();
+  this._swallowWhiteSpace();
+  while(this._isAlphaNumeric(this.currentToken)) {
+    context += this.currentToken
+    this.currentToken = this.lexer.getNextToken();
+  }
+  this._swallowWhiteSpace();
+
+
+  if(this.currentToken !== MessageFormat.Characters.COMMA) {
+    throw new TypeError('Missing comma in currency format in ' + this.lexer.getLatestTokensLog());
+  }
+  // Swallow comma
+  this.currentToken = this.lexer.getNextToken();
+  this._swallowWhiteSpace();
+  while(this._isAlphaNumeric(this.currentToken)) {
+    type += this.currentToken
+    this.currentToken = this.lexer.getNextToken();
+  }
+  this._swallowWhiteSpace();
+
+  if(this.currentToken !== MessageFormat.Characters.ENDING_BRACKET) {
+    throw new TypeError('You must have a closing bracket in your currency format in ' + this.lexer.getLatestTokensLog());
+  }
+
+  // Swallow ending bracket
+  this.currentToken = this.lexer.getNextToken();
+
+  if(['local', 'global', 'auto'].indexOf(context) === -1) {
+    throw new TypeError('Third argument, context argument, must be either local, global or auto in ' + this.lexer.getLatestTokensLog());
+  }
+  if(['symbol', 'text'].indexOf(type) === -1) {
+    throw new TypeError('Fourth argument, type argument, must be either symbol or text in ' + this.lexer.getLatestTokensLog());
+  }
+
+  return new AST.CurrencyFormat(this.locale, variable, context, type, this);
 };
 
 /**
@@ -1012,7 +1063,8 @@ MessageFormat.prototype._readCurrencyData = function(localeDocument, languageDoc
               text: {
                 local: currencySymbols[currency].text.local,
                 global: {}
-              }
+              },
+              symbols: currencySymbols[currency].symbols
             };
           }
         }

@@ -25,7 +25,7 @@ Lexer.prototype.getNextToken = function() {
     return EOF;
   }
   else {
-    return this.string[this.currentIndex - 1]
+    return this.string[this.currentIndex - 1];
   }
 };
 

@@ -58,12 +58,13 @@ Search.prototype.readLocalizations = function() {
   file.readLocalizations()
     .then(function(localizations) {
       _this.localizations = localizations;
+      var locale = commands.locale || project.defaultLocale;
 
-      if(typeof _this.localizations[project.defaultLocale] === 'undefined') {
+      if(typeof _this.localizations[locale] === 'undefined') {
         throw new TypeError('Default locale is undefined');
       }
 
-      _this.localizations = _this.localizations[project.defaultLocale];
+      _this.localizations = _this.localizations[locale];
 
       for(var key in _this.localizations) {
         var localization = _this.localizations[key];
@@ -109,7 +110,7 @@ Search.prototype.queryOutput = function(q) {
   for(var i in res) {
     log.log((n === 10 ? '%' + n : ' %' + n).yellow
       + ' ' + this.docs[res[i].ref].key + ' | '
-      + this.docs[res[i].ref].text.green);
+      + this.docs[res[i].ref].value.green);
     cache.push(res[i]);
     n++;
   }

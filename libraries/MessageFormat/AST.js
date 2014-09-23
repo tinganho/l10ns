@@ -60,11 +60,9 @@ AST.NumberFormat = function(locale, variable, argument, messageFormat) {
   this.pattern = AST.NumberFormatPattern.parse(
     argument,
     messageFormat.decimalPattern,
-    messageFormat.percentagePattern,
-    messageFormat.standardCurrencyPattern
+    messageFormat.percentagePattern
   );
 };
-
 
 /**
  * AST class representing a CurrencyFormat
@@ -74,12 +72,14 @@ AST.NumberFormat = function(locale, variable, argument, messageFormat) {
  * @constructor
  */
 
-AST.CurrencyFormat = function(locale, variable, argument, messageFormat) {
-  AST.NumberFormat.apply(this, arguments);
-  this.type = argument;
+AST.CurrencyFormat = function(locale, variable, context, type, messageFormat) {
+  this.locale = locale;
+  this.variable = variable;
+  this.context = context;
+  this.type = type;
+  this.currencies = messageFormat.currencies;
+  this.pattern = messageFormat.standardCurrencyPattern;
 };
-
-AST.CurrencyFormat.prototype = Object.create(AST.NumberFormat.prototype);
 
 /**
  * Namespace numnerformat pattern
@@ -97,7 +97,7 @@ AST.NumberFormatPattern = {};
  */
 
 AST.NumberFormatPattern.Syntaxes = {
-  NUMBER_SIMPLE_ARGUMENTS: /^(integer|symbol|text|percent)$/,
+  NUMBER_SIMPLE_ARGUMENTS: /^(integer|percent)$/,
   NUMBER_CHARACTER: /[#0-9\.E@\,\+\-;]/,
   ROUNDING_CHARACTER: /[1-9]/,
   SIGNIFICANT_PATTERN: /^(#*)(@+)(#*)(E0+)?$/,
@@ -173,7 +173,7 @@ AST.NumberFormatPattern._SignificantNumberFormat.prototype = Object.create(AST.N
  * @api private
  */
 
-AST.NumberFormatPattern.parse = function(argument, decimalPattern, percentagePattern, standardCurrencyPattern) {
+AST.NumberFormatPattern.parse = function(argument, decimalPattern, percentagePattern) {
   var _this = this
     , numberPatterns = argument
     , format = { positive: null, negative: null };
@@ -185,12 +185,6 @@ AST.NumberFormatPattern.parse = function(argument, decimalPattern, percentagePat
         return decimalPattern;
       case 'percent':
         return percentagePattern;
-      case 'symbol':
-        return standardCurrencyPattern;
-      case 'text':
-        standardCurrencyPattern.prefix = '';
-        standardCurrencyPattern.suffix = '';
-        return standardCurrencyPattern;
     }
   }
   var positive = true;
