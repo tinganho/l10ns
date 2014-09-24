@@ -37,7 +37,13 @@ global.language = {
   GET_LOCALIZATION_FUNCTION_CALL_SYNTAX: /l\(['|"](.*?)['|"]\s*(\,\s*\{\s*((.*?)|(\s*?))+?\s*\})??\s*\)/g,
   GET_LOCALIZATION_INNER_FUNCTION_CALL_SYNTAX: /\s+(?!l)[.|\w]+?\((.*?\s*?)*?\)/g
 };
-global.project = { cache: {}};
+
+global.project = {
+  cache: {},
+  outputFile: '/Application/Localizations/Output/Localizations.js',
+  root: '/var/www'
+};
+
 global.program = {};
 global.text = {};
 global.commands = {};
