@@ -64,11 +64,12 @@ Compiler.prototype.run = function() {
         requireStatement: _this._indentSpaces(2, template['RequireStatement']())
       });
 
-      mkdirp(path.dirname(project.outputFile), function(error) {
+      var filePath = path.join(project.root, project.outputFile);
+      mkdirp(path.dirname(filePath), function(error) {
         if(error) {
           throw error;
         }
-        fs.writeFileSync(project.outputFile, content);
+        fs.writeFileSync(filePath, content);
       });
     })
     .fail(function(error) {
