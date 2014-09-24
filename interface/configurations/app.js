@@ -1,6 +1,6 @@
 
 var modRewrite = require('connect-modrewrite')
-  , modRewrites = require('./modRewrites')
+  , modRewrites = require('./modrewrites')
   , path = require('path')
   , helmet = require('helmet')
   , express = require('express')
