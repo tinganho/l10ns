@@ -94,8 +94,31 @@ describe('MessageFormat', function() {
     describe('Sentences', function() {
       it('should parse a sentence', function() {
         messageFormat.parse('sentence');
+        expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.Sentence);
         expect(messageFormat.messageAST[0].string).to.equal('sentence');
         expect(messageFormat.messageAST.length).to.equal(1);
+      });
+
+      it('should escape diagraph character in non-choice format context', function() {
+        messageFormat.parse('sentence1 | sentence2');
+        expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.Sentence);
+        expect(messageFormat.messageAST[0].string).to.equal('sentence1 | sentence2');
+        expect(messageFormat.messageAST.length).to.equal(1);
+
+        messageFormat.parse('{variable1, plural, other{sentence1 | sentence2}}');
+        expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.PluralFormat);
+        expect(messageFormat.messageAST[0].values['other'][0]).to.be.an.instanceOf(AST.Sentence);
+        expect(messageFormat.messageAST[0].values['other'][0].string).to.equal('sentence1 | sentence2');
+
+        messageFormat.parse('{variable1, select, other{sentence1 | sentence2}}');
+        expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.SelectFormat);
+        expect(messageFormat.messageAST[0].values['other'][0]).to.be.an.instanceOf(AST.Sentence);
+        expect(messageFormat.messageAST[0].values['other'][0].string).to.equal('sentence1 | sentence2');
+
+        messageFormat.parse('{variable1, selectordinal, other{sentence1 | sentence2}}');
+        expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.SelectordinalFormat);
+        expect(messageFormat.messageAST[0].values['other'][0]).to.be.an.instanceOf(AST.Sentence);
+        expect(messageFormat.messageAST[0].values['other'][0].string).to.equal('sentence1 | sentence2');
       });
 
       it('should parse escaped sentences', function() {

@@ -114,10 +114,12 @@ MessageFormat.prototype.parse = function(message) {
 MessageFormat.prototype._parsePrimary = function(options) {
   options = _.defaults(options || {}, {
     parseRemaining: false,
-    escapeCharacter: null
+    escapeCharacter: null,
+    shouldEscapeDiagraph: true
   });
 
   this.shouldParseRemaining = options.parseRemaining;
+  this.shouldEscapeDiagraph = options.shouldEscapeDiagraph;
   this.escapeCharacter = options.escapeCharacter;
 
   if(options.parseRemaining && this.currentToken === MessageFormat.Characters.REMAINING) {
@@ -163,8 +165,10 @@ MessageFormat.prototype._parseSentence = function() {
   while(this.currentToken !== MessageFormat.Characters.EOF &&
         this.currentToken !== MessageFormat.Characters.STARTING_BRACKET &&
         this.currentToken !== MessageFormat.Characters.ENDING_BRACKET &&
-      !(this.currentToken === MessageFormat.Characters.REMAINING && this.shouldParseRemaining) &&
-        this.currentToken !== MessageFormat.Characters.DIAGRAPH) {
+      !(this.currentToken === MessageFormat.Characters.REMAINING && this.shouldParseRemaining)) {
+    if(this.currentToken === MessageFormat.Characters.DIAGRAPH && !this.shouldEscapeDiagraph) {
+      break;
+    }
     if(this.currentToken === MessageFormat.Characters.ESCAPE_CHARACTER) {
       var nextToken = this.lexer.nextToken();
       if(nextToken === MessageFormat.Characters.STARTING_BRACKET ||
@@ -454,7 +458,8 @@ MessageFormat.prototype._parseChoiceFormat = function(variable) {
           this.currentToken !== MessageFormat.Characters.ENDING_BRACKET) {
       this.lastChoiceCase = null;
       messageAST.push(this._parsePrimary({
-        escapeCharacter: '|'
+        escapeCharacter: '|',
+        shouldEscapeDiagraph: false
       }));
     }
     this.lastChoiceCase = _case;
