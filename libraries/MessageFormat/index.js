@@ -399,8 +399,8 @@ MessageFormat.prototype._parseCurrencyFormat = function(variable) {
   // Swallow ending bracket
   this.currentToken = this.lexer.getNextToken();
 
-  if(['local', 'global', 'auto'].indexOf(context) === -1) {
-    throw new TypeError('Third argument, context argument, must be either local, global or auto in ' + this.lexer.getLatestTokensLog());
+  if(['local', 'global'].indexOf(context) === -1) {
+    throw new TypeError('Third argument, context argument, must be either local or global in ' + this.lexer.getLatestTokensLog());
   }
   if(['symbol', 'text'].indexOf(type) === -1) {
     throw new TypeError('Fourth argument, type argument, must be either symbol or text in ' + this.lexer.getLatestTokensLog());
