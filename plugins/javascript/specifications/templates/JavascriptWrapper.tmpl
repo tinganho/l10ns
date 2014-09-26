@@ -106,6 +106,16 @@
   };
 
   function formatNumber(it) {
+    if(typeof it.number !== 'number') {
+      return it.symbols.nan;
+    }
+    if(it.number === Infinity) {
+      return it.symbols.plusSign + it.symbols.infinity;
+    }
+    if(it.number === -Infinity) {
+      return it.symbols.minusSign + it.symbols.infinity;
+    }
+
     var number = Math.abs(it.number)
       , prefix = it.prefix
       , suffix = it.suffix
