@@ -20,6 +20,69 @@ var symbols = {
 };
 
 describe('formatNumber(Object)', function() {
+  it('should return a NaN whenever a non-number is used', function() {
+    var number = formatNumber({
+      prefix: '',
+      suffix: '',
+      roundTo: 1,
+      number: 'weofijwefio',
+      percentage: false,
+      permille: false,
+      maximumFractionDigits: 0,
+      minimumFractionDigits: 0,
+      minimumIntegerDigits: 1,
+      type: 'floating',
+      groupSize: {
+        primary: 3,
+        secondary: 3
+      },
+      symbols: symbols
+    });
+    expect(number).to.equal('NaN');
+  });
+
+  it('should return a +∞ whenever a positive infinity number is used', function() {
+    var number = formatNumber({
+      prefix: '',
+      suffix: '',
+      roundTo: 1,
+      number: Infinity,
+      percentage: false,
+      permille: false,
+      maximumFractionDigits: 0,
+      minimumFractionDigits: 0,
+      minimumIntegerDigits: 1,
+      type: 'floating',
+      groupSize: {
+        primary: 3,
+        secondary: 3
+      },
+      symbols: symbols
+    });
+    expect(number).to.equal('+∞');
+  });
+
+  it('should return a -∞ whenever a negative infinity number is used', function() {
+    var number = formatNumber({
+      prefix: '',
+      suffix: '',
+      roundTo: 1,
+      number: -Infinity,
+      percentage: false,
+      permille: false,
+      maximumFractionDigits: 0,
+      minimumFractionDigits: 0,
+      minimumIntegerDigits: 1,
+      type: 'floating',
+      groupSize: {
+        primary: 3,
+        secondary: 3
+      },
+      symbols: symbols
+    });
+    expect(number).to.equal('-∞');
+  });
+
   it('should be able to group primary', function() {
     var number = formatNumber({
       prefix: '',

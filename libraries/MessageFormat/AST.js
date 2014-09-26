@@ -98,6 +98,7 @@ AST.NumberFormatPattern = {};
 
 AST.NumberFormatPattern.Syntaxes = {
   NUMBER_SIMPLE_ARGUMENTS: /^(integer|percent)$/,
+  EXPONENT_CHARACTER: 'E',
   NUMBER_CHARACTER: /[#0-9\.E@\,\+\-;]/,
   ROUNDING_CHARACTER: /[1-9]/,
   SIGNIFICANT_PATTERN: /^(#*)(@+)(#*)(E0+)?$/,
@@ -387,6 +388,7 @@ AST.NumberFormatPattern._setPrefixesAndSuffixAttributes = function(numberPattern
     , suffix = ''
     , hasEncounterNumberCharacters = false
     , hasEncounterSuffix = false
+    , hasEncounterExponent = false
     , currencyCharacterCounter = 0
     , index = 0
     , fractions = ''
@@ -483,15 +485,22 @@ AST.NumberFormatPattern._setPrefixesAndSuffixAttributes = function(numberPattern
       if(hasEncounterSuffix) {
         throw new TypeError('A number pattern can not exist after suffix pattern in ' + numberPattern);
       }
-      if(AST.NumberFormatPattern.Syntaxes.ROUNDING_CHARACTER.test(numberPattern[index])) {
-        rounding += numberPattern[index];
+      if(!hasEncounterExponent) {
+        if(AST.NumberFormatPattern.Syntaxes.ROUNDING_CHARACTER.test(numberPattern[index])) {
+          rounding += numberPattern[index];
+        }
+        if(numberPattern[index] === '.') {
+          rounding += '.';
+        }
+        if(rounding.length > 0 && /[0]/.test(numberPattern[index])) {
+          rounding += '0';
+        }
       }
-      if(numberPattern[index] === '.') {
-        rounding += '.';
+
+      if(numberPattern[index] === AST.NumberFormatPattern.Syntaxes.EXPONENT_CHARACTER) {
+        hasEncounterExponent = true;
       }
-      if(rounding.length > 0 && /[0]/.test(numberPattern[index])) {
-        rounding += '0';
-      }
+
       hasEncounterNumberCharacters = true;
       result += numberPattern[index];
       continue;
