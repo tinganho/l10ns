@@ -12,7 +12,7 @@ var fs = require('fs')
   , mkdirp = require('mkdirp')
   , MessageFormat = require('../../libraries/MessageFormat')
   , defer = require('q').defer
-  , LDML = { AST: require('../../libraries/LDML/AST') };
+  , LDML = { AST: require('../../libraries/LDML/AST') };
 
 /**
  * Add terminal colors
