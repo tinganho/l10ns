@@ -43,6 +43,10 @@ describe('CurrencyFormat', function() {
           one: 'dollar',
           other: 'dollars'
         },
+        localUnitPattern: {
+          one: '{value} {unit}',
+          other: '{value} {unit}'
+        },
         global: {
           one: 'US dollar',
           other: 'US dollars'
@@ -50,7 +54,8 @@ describe('CurrencyFormat', function() {
       },
       symbols: {
         local: '$',
-        global: 'US$'
+        global: 'US$',
+        reverseGlobal: '$US'
       }
     });
   });

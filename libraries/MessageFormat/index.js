@@ -1066,7 +1066,8 @@ MessageFormat.prototype._readCurrencyData = function(localeDocument, languageDoc
             _this.currencies[currency] = {
               name: currencyName.text(),
               text: {
-                local: currencySymbols[currency].text.local,
+                local: currencySymbols[currency].text[_this.language].local,
+                localUnitPattern: currencySymbols[currency].text[_this.language].localUnitPattern,
                 global: {}
               },
               symbols: currencySymbols[currency].symbols

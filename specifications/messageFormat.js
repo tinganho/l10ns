@@ -51,6 +51,10 @@ describe('MessageFormat', function() {
               one: 'dollar',
               other: 'dollars'
             },
+            localUnitPattern: {
+              one: '{value} {unit}',
+              other: '{value} {unit}'
+            },
             global: {
               one: 'US dollar',
               other: 'US dollars'
@@ -58,7 +62,8 @@ describe('MessageFormat', function() {
           },
           symbols: {
             local: '$',
-            global: 'US$'
+            global: 'US$',
+            reverseGlobal: '$US'
           }
         }
       });
