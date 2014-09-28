@@ -1063,11 +1063,18 @@ MessageFormat.prototype._readCurrencyData = function(localeDocument, languageDoc
             _this.currencies[currency].text.global[count.value()] = currencyName.text();
           }
           else {
+            var localText = null, localUnitPattern = null;
+            if(currencySymbols[currency].text[_this.language] &&
+               currencySymbols[currency].text[_this.language].localUnitPattern) {
+              localText = currencySymbols[currency].text[_this.language].local;
+              localUnitPattern = currencySymbols[currency].text[_this.language].localUnitPattern;
+            }
+
             _this.currencies[currency] = {
               name: currencyName.text(),
               text: {
-                local: currencySymbols[currency].text[_this.language].local,
-                localUnitPattern: currencySymbols[currency].text[_this.language].localUnitPattern,
+                local: localText,
+                localUnitPattern: localUnitPattern,
                 global: {}
               },
               symbols: currencySymbols[currency].symbols
