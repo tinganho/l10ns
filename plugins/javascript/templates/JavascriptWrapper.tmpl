@@ -8,14 +8,14 @@
 {{=it.requireStatement}}
 
   if(typeof require === "function" && typeof exports === 'object' && typeof module === 'object') {
-    module.exports = requireLocale;
+    module.exports = requireLocalizations;
   }
   else if (typeof define === "function" && define.amd) {
     define(function() {
-      return requireLocale;
+      return requireLocalizations;
     });
   }
   else {
-    window.requireLocale = requireLocale;
+    window.requireLocalizations = requireLocalizations;
   }
 })();
