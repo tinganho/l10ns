@@ -53,6 +53,8 @@ AST.Variable = function(name) {
 
 AST.NumberFormat = function(locale, variable, argument, messageFormat) {
   this.locale = locale;
+  this.language = /^([a-z]+)\-/.exec(this.locale)[1];
+  this.region = /\-([A-Z]+)$/.exec(this.locale)[1];
   this.variable = variable;
   this.argument = argument;
   this.numberSymbols = messageFormat.numberSymbols;
@@ -74,11 +76,13 @@ AST.NumberFormat = function(locale, variable, argument, messageFormat) {
 
 AST.CurrencyFormat = function(locale, variable, context, type, messageFormat) {
   this.locale = locale;
+  this.language = /^([a-z]+)\-/.exec(this.locale)[1];
+  this.region = /\-([A-Z]+)$/.exec(this.locale)[1];
   this.variable = variable;
   this.context = context;
   this.type = type;
   this.currencies = messageFormat.currencies;
-  this.pattern = messageFormat.standardCurrencyPattern;
+  this.pattern = messageFormat.currencyPattern;
 };
 
 /**

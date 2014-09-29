@@ -1,14 +1,14 @@
-string += formatNumber({
-  number: it.{{=it.variableName}},
+formatNumber({{{?it.currency === 'symbol' || it.currency === 'text'}}
+  number: it.{{=it.variableName}}.value,{{??}}
+  number: it.{{=it.variableName}},{{?}}
   type: '{{=it.type}}',
   roundTo: {{=it.roundTo}},
   prefix: '{{=it.prefix}}',
   suffix: '{{=it.suffix}}',
   percentage: {{=it.percentage}},
-  permille: {{=it.permille}},{{?it.currency}}
+  permille: {{=it.permille}},{{?it.currency === 'symbol'}}
   currency: {
-    type: '{{=it.currency.type}}',
-    context: '{{=it.currency.symbol}}'
+    symbol: unit
   },{{??}}
   currency: null,{{?}}{{?it.groupSize}}
   groupSize: {

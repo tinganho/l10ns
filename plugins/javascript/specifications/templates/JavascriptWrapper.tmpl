@@ -302,6 +302,30 @@
         'infinity': '∞',
         'nan': 'NaN'
       },
+      '__currencies': {
+        'USD': {
+          'name': 'US Dollar',
+          'text': {
+            'local': {
+              'one': 'dollar',
+              'other': 'dollars'
+            },
+            'global': {
+              'one': 'US dollar',
+              'other': 'US dollars'
+            }
+          },
+          'symbol': {
+            'local': '$',
+            'global': 'US$',
+            'reverseGlobal': '$US'
+          }
+        }
+      },
+      '__currencyUnitPattern': {
+        'one': '{0} {1}',
+        'other': '{0} {1}'
+      },
       'key-1': function(it) {
 {{=it.functionBody}}
       }

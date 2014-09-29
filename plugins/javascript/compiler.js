@@ -43,6 +43,8 @@ var Compiler = function() {
   this.space = ' ';
   // and
   this.and = ' && ';
+  // append string
+  this.appendString = 'string += ';
 };
 
 /**
@@ -145,6 +147,16 @@ Compiler.prototype._getLocalizationMap = function() {
           value: JSON.stringify(messageFormat.numberSymbols, null, 2).replace(/"/g, '\'') + _this.comma + _this.linefeed
         });
 
+        localizationMap += template['LocalizationKeyValue']({
+          key: '__currencies',
+          value: JSON.stringify(messageFormat.currencies, null, 2).replace(/"/g, '\'') + _this.comma + _this.linefeed
+        });
+
+        localizationMap += template['LocalizationKeyValue']({
+          key: '__currencyUnitPattern',
+          value: JSON.stringify(messageFormat.currencyUnitPattern, null, 2).replace(/"/g, '\'') + _this.comma + _this.linefeed
+        });
+
         for(var key in localizations[locale]) {
           messageFormat.parse(localizations[locale][key].value);
           var _function = template['Function']({
@@ -216,6 +228,9 @@ Compiler.prototype._getFunctionBody = function(messageAST, locale) {
     }
     else if(messageAST[index] instanceof MessageFormat.AST.NumberFormat) {
       result += this._compileNumberFormat(messageAST[index]);
+    }
+    else if(messageAST[index] instanceof MessageFormat.AST.CurrencyFormat) {
+      result += this._compileCurrencyFormat(messageAST[index]);
     }
     else if(messageAST[index] instanceof MessageFormat.AST.ChoiceFormat) {
       result += this._compileChoiceFormat(messageAST[index]);
@@ -289,7 +304,7 @@ Compiler.prototype._compileRemaining = function(remaining, locale) {
     roundTo: pattern.rounding,
     percentage: pattern.percentage,
     permille: pattern.permille,
-    currency: pattern.currency,
+    currency: false,
     minimumIntegerDigits: minimumIntegerDigits,
     maximumIntegerDigits: maximumIntegerDigits,
     minimumFractionDigits: minimumFractionDigits,
@@ -366,7 +381,7 @@ Compiler.prototype._compileNumberFormat = function(numberFormat) {
       roundTo: pattern.rounding,
       percentage: pattern.percentage,
       permille: pattern.permille,
-      currency: pattern.currency,
+      currency: false,
       minimumIntegerDigits: minimumIntegerDigits,
       maximumIntegerDigits: maximumIntegerDigits,
       minimumFractionDigits: minimumFractionDigits,
@@ -386,9 +401,124 @@ Compiler.prototype._compileNumberFormat = function(numberFormat) {
 
   result += template['FormatNumberCondition']({
     variableName: numberFormat.variable.name,
-    positive: this._indentSpaces(2, _case['positive']),
-    negative: this._indentSpaces(2, _case['negative'])
+    positive: this._indentSpaces(2, this.appendString + _case['positive']),
+    negative: this._indentSpaces(2, this.appendString + _case['negative'])
   });
+
+  return result;
+};
+
+/**
+ * Compile currency format
+ *
+ * @param {AST.CurrencyFormat} currencyFormat
+ * @return {void}
+ * @api private
+ */
+
+Compiler.prototype._compileCurrencyFormat = function(currencyFormat) {
+  var result = ''
+    , signs = ['positive', 'negative']
+    , _case = {};
+
+  signs.forEach(function(sign) {
+    var pattern = currencyFormat.pattern[sign];
+    if(sign === 'negative' && (pattern === null || currencyFormat.type === 'text')) {
+      pattern = Object.create(currencyFormat.pattern['positive']);
+      pattern.prefix = pattern.prefix + '-';
+      pattern.patternLength++;
+    }
+
+    var minimumIntegerDigits = 0
+      , maximumIntegerDigits = 0
+      , minimumFractionDigits = 0
+      , maximumFractionDigits = 0
+      , minimumSignificantDigits = 0
+      , maximumSignificantDigits = 0
+      , type = 'floating';
+
+    if(pattern instanceof MessageFormat.AST.NumberFormatPattern._SignificantNumberFormat) {
+      type = 'significant';
+    }
+
+    if(type === 'floating') {
+      if(pattern.fraction &&
+         typeof pattern.fraction.nonAbsentNumbers === 'number' &&
+         typeof pattern.fraction.rightAbsentNumbers === 'number') {
+        minimumFractionDigits = pattern.fraction.nonAbsentNumbers;
+        maximumFractionDigits = minimumFractionDigits + pattern.fraction.rightAbsentNumbers;
+      }
+      if(pattern.integer &&
+         typeof pattern.integer.nonAbsentNumbers === 'number' &&
+         typeof pattern.integer.leftAbsentNumbers === 'number') {
+        minimumIntegerDigits = pattern.integer.nonAbsentNumbers;
+        maximumIntegerDigits = pattern.integer.nonAbsentNumbers + pattern.integer.leftAbsentNumbers;
+      }
+    }
+    else if(type === 'significant') {
+      minimumSignificantDigits = pattern.nonAbsentNumbers;
+      maximumSignificantDigits = pattern.nonAbsentNumbers + pattern.rightAbsentNumbers;
+    }
+
+    if(currencyFormat.type === 'text') {
+      pattern.prefix = pattern.prefix.replace(/¤/g, '');
+      pattern.suffix = pattern.suffix.replace(/¤/g, '');
+    }
+
+    _case[sign] = template['FormatNumber']({
+      variableName: currencyFormat.variable.name,
+      type: type,
+      prefix: pattern.prefix,
+      suffix: pattern.suffix,
+      roundTo: pattern.rounding,
+      percentage: pattern.percentage,
+      permille: pattern.permille,
+      currency: currencyFormat.type,
+      minimumIntegerDigits: minimumIntegerDigits,
+      maximumIntegerDigits: maximumIntegerDigits,
+      minimumFractionDigits: minimumFractionDigits,
+      maximumFractionDigits: maximumFractionDigits,
+      minimumSignificantDigits: minimumSignificantDigits,
+      maximumSignificantDigits: maximumSignificantDigits,
+      groupSize: pattern.groupSize,
+      locale: currencyFormat.locale,
+      exponent: !pattern.exponent ? null : {
+        digits: pattern.exponent.nonAbsentNumbers,
+        plusSign: pattern.exponent.showPositiveCharacter
+      },
+      patternLength: pattern.patternLength,
+      paddingCharacter: pattern.paddingCharacter
+    });
+  });
+
+  result += template['FormatCurrency']({
+    variableName: currencyFormat.variable.name,
+    locale: currencyFormat.locale,
+    currency: {
+      type: currencyFormat.type,
+      context: currencyFormat.context
+    }
+  }) + this.linefeed;
+
+  if(currencyFormat.type === 'symbol') {
+    result += template['FormatCurrencyCondition']({
+      variableName: currencyFormat.variable.name,
+      positive: this._indentSpaces(2, this.appendString + _case['positive']),
+      negative: this._indentSpaces(2, this.appendString + _case['negative'])
+    });
+  }
+  else {
+    result += template['FormatCurrencyTextCondition']({
+      variableName: currencyFormat.variable.name,
+      positive: this._indentSpaces(4, _case['positive']),
+      negative: this._indentSpaces(4, _case['negative']),
+      locale: currencyFormat.locale,
+      currency: {
+        type: currencyFormat.type,
+        context: currencyFormat.context
+      }
+    });
+  }
 
   return result;
 };

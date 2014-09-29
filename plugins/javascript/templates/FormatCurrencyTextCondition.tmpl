@@ -1,0 +1,10 @@
+var number;
+if(it.{{=it.variableName}}.value >= 0) {
+  number =
+{{=it.positive}}
+}
+else {
+  number =
+{{=it.negative}}
+}
+string += localizations['{{=it.locale}}'].__currencyUnitPattern[pluralKeyword].replace('{0}', number).replace('{1}', unit);

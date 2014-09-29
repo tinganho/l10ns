@@ -7,7 +7,7 @@
     "key": "INDEX1",
     "new": false,
     "timestamp": "2014-09-18T02:28:56.236Z",
-    "value": "{files, number, *###@##E0}",
+    "value": "{files, currency, local, text}",
     "variables": [
       "files",
       "people"

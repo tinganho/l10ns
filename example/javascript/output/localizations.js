@@ -106,6 +106,16 @@
   };
 
   function formatNumber(it) {
+    if(typeof it.number !== 'number') {
+      return it.symbols.nan;
+    }
+    if(it.number === Infinity) {
+      return it.symbols.plusSign + it.symbols.infinity;
+    }
+    if(it.number === -Infinity) {
+      return it.symbols.minusSign + it.symbols.infinity;
+    }
+
     var number = Math.abs(it.number)
       , prefix = it.prefix
       , suffix = it.suffix
@@ -292,60 +302,104 @@
         'infinity': '∞',
         'nan': 'NaN'
       },
+      '__currencies': {
+        'USD': {
+          'name': 'US Dollar',
+          'text': {
+            'local': {
+              'one': 'dollar',
+              'other': 'dollars'
+            },
+            'global': {
+              'one': 'US dollar',
+              'other': 'US dollars'
+            }
+          },
+          'symbol': {
+            'local': '$',
+            'global': 'US$',
+            'reverseGlobal': '$US'
+          }
+        }
+      },
+      '__currencyUnitPattern': {
+        'one': '{0} {1}',
+        'other': '{0} {1}'
+      },
       'INDEX1': function(it) {
         var string = '';
-        if(it.files >= 0) {
-          string += formatNumber({
-            number: it.files,
-            type: 'significant',
-            roundTo: 1,
-            prefix: '*#',
-            suffix: '',
-            percentage: null,
-            permille: null,
-            currency: null,
-            groupSize: null,
-            exponent: {
-              digits: 1,
-              plusSign: false
-            },
-            minimumIntegerDigits: 0,
-            maximumIntegerDigits: 0,
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0,
-            minimumSignificantDigits: 1,
-            maximumSignificantDigits: 3,
-            symbols: localizations['en-US'].__numberSymbols,
-            paddingCharacter: '#',
-            patternLength: 7
-          });
+        var unit;
+        if(it.files.value && it.files.code) {
+          if(!localizations['en-US'].__currencies[it.files.code]) {
+            throw new TypeError('Currency code ' + it.files.code + ' is not defined. Please define it on your l10ns.json file.');
+          }
+          var pluralKeyword = localizations['en-US'].__getPluralKeyword(it.files.value);
+          if(localizations['en-US'].__currencies[it.files.code]['text']['local']) {
+            unit = localizations['en-US'].__currencies[it.files.code]['text']['local'][pluralKeyword];
+          }
+          else {
+            unit = localizations['en-US'].__currencies[it.files.code]['text']['global'][pluralKeyword];
+          }
         }
         else {
-          string += formatNumber({
-            number: it.files,
-            type: 'significant',
-            roundTo: 1,
-            prefix: '*#-',
-            suffix: '',
-            percentage: null,
-            permille: null,
-            currency: null,
-            groupSize: null,
-            exponent: {
-              digits: 1,
-              plusSign: false
-            },
-            minimumIntegerDigits: 0,
-            maximumIntegerDigits: 0,
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0,
-            minimumSignificantDigits: 1,
-            maximumSignificantDigits: 3,
-            symbols: localizations['en-US'].__numberSymbols,
-            paddingCharacter: '#',
-            patternLength: 7
-          });
+          throw TypeError('`files` must be an object that has properties value and code.');
         }
+        var number;
+        if(it.files.value >= 0) {
+          number =
+            formatNumber({
+              number: it.files.value,
+              type: 'floating',
+              roundTo: 0.01,
+              prefix: '',
+              suffix: '',
+              percentage: null,
+              permille: null,
+              currency: null,
+              groupSize: {
+                primary: 3,
+                secondary: 3
+              },
+              exponent: null,
+              minimumIntegerDigits: 1,
+              maximumIntegerDigits: 4,
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+              minimumSignificantDigits: 0,
+              maximumSignificantDigits: 0,
+              symbols: localizations['en-US'].__numberSymbols,
+              paddingCharacter: null,
+              patternLength: 9
+            });
+        }
+        else {
+          number =
+            formatNumber({
+              number: it.files.value,
+              type: 'floating',
+              roundTo: 0.01,
+              prefix: '-',
+              suffix: '',
+              percentage: null,
+              permille: null,
+              currency: null,
+              groupSize: {
+                primary: 3,
+                secondary: 3
+              },
+              exponent: null,
+              minimumIntegerDigits: 1,
+              maximumIntegerDigits: 4,
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+              minimumSignificantDigits: 0,
+              maximumSignificantDigits: 0,
+              symbols: localizations['en-US'].__numberSymbols,
+              paddingCharacter: null,
+              patternLength: 9
+            });
+        }
+        string += localizations['en-US'].__currencyUnitPattern[pluralKeyword].replace('{0}', number).replace('{1}', unit);
         return string;
       },
       'INDEX2': function(it) {
@@ -379,6 +433,25 @@
         'perMille': '‰',
         'infinity': '∞',
         'nan': 'NaN'
+      },
+      '__currencies': {
+        'USD': {
+          'name': '美元',
+          'text': {
+            'local': null,
+            'global': {
+              'other': '美元'
+            }
+          },
+          'symbol': {
+            'local': '$',
+            'global': 'US$',
+            'reverseGlobal': '$US'
+          }
+        }
+      },
+      '__currencyUnitPattern': {
+        'other': '{0}{1}'
       },
       'INDEX1': function(it) {
         var string = '';

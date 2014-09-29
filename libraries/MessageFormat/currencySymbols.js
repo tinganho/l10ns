@@ -15,14 +15,6 @@ module.exports = {
           few: 'درهم',
           many: 'درهم',
           other: 'درهم'
-        },
-        localUnitPattern: {
-          zero: '{value} {unit}',
-          one: '{value} {unit}',
-          two: '{value} {unit}',
-          few: '{value} {unit}',
-          many: '{value} {unit}',
-          other: '{value} {unit}'
         }
       }
     }
@@ -38,10 +30,6 @@ module.exports = {
         local: {
           one: 'lek',
           other: 'lekë'
-        },
-        localUnitPattern: {
-          one: '{value} {unit}',
-          other: '{value} {unit}'
         }
       }
     }
@@ -57,10 +45,6 @@ module.exports = {
         local: {
           one: 'dollar',
           other: 'dollars'
-        },
-        localUnitPattern: {
-          one: '{value} {unit}',
-          other: '{value} {unit}'
         }
       }
     }
@@ -76,10 +60,6 @@ module.exports = {
         local: {
           one: 'টাকা',
           other: 'টাকা'
-        },
-        localUnitPattern: {
-          one: '{value} {unit}',
-          other: '{value} {unit}'
         }
       }
     }
@@ -95,10 +75,6 @@ module.exports = {
         local: {
           one: 'лев',
           other: 'лева'
-        },
-        localUnitPattern: {
-          one: '{value} {unit}',
-          other: '{value} {unit}'
         }
       }
     }
@@ -114,10 +90,6 @@ module.exports = {
         local: {
           one: 'real',
           other: 'reales'
-        },
-        localUnitPattern: {
-          one: '{value} {unit}',
-          other: '{value} {unit}'
         }
       }
     }
@@ -133,20 +105,12 @@ module.exports = {
         local: {
           one: 'dollar',
           other: 'dollars'
-        },
-        localUnitPattern: {
-          one: '{value} {unit}',
-          other: '{value} {unit}'
         }
       },
       fr: {
         local: {
           one: 'dollar',
           other: 'dollars'
-        },
-        localUnitPattern: {
-          one: '{value} {unit}',
-          other: '{value} {unit}'
         }
       }
     }
@@ -162,10 +126,6 @@ module.exports = {
         local: {
           one: 'franc',
           other: 'francs'
-        },
-        localUnitPattern: {
-          one: '{value} {unit}',
-          other: '{value} {unit}'
         }
       }
     }
@@ -181,30 +141,18 @@ module.exports = {
         local: {
           one: 'franco',
           other: 'franchi'
-        },
-        localUnitPattern: {
-          one: '{value} {unit}',
-          other: '{value} {unit}'
         }
       },
       de: {
         local: {
           one: 'Franken',
           other: 'Franken'
-        },
-        localUnitPattern: {
-          one: '{value} {unit}',
-          other: '{value} {unit}'
         }
       },
       fr: {
         local: {
           one: 'franc',
           other: 'francs'
-        },
-        localUnitPattern: {
-          one: '{value} {unit}',
-          other: '{value} {unit}'
         }
       }
     }
@@ -220,10 +168,6 @@ module.exports = {
         local: {
           one: 'peso',
           other: 'pesos'
-        },
-        localUnitPattern: {
-          one: '{value} {unit}',
-          other: '{value} {unit}'
         }
       }
     }
@@ -238,9 +182,6 @@ module.exports = {
       zh: {
         local: {
           other: '元'
-        },
-        localUnitPattern: {
-          other: '{value}{unit}'
         }
       }
     }
@@ -256,10 +197,6 @@ module.exports = {
         local: {
           one: 'peso',
           other: 'pesos'
-        },
-        localUnitPattern: {
-          one: '{value} {unit}',
-          other: '{value} {unit}'
         }
       }
     }
@@ -275,10 +212,6 @@ module.exports = {
         local: {
           one: 'colón',
           other: 'colones'
-        },
-        localUnitPattern: {
-          one: '{value} {unit}',
-          other: '{value} {unit}'
         }
       }
     }
@@ -295,12 +228,6 @@ module.exports = {
         few: 'koruny',
         many: 'koruny',
         other: 'korun'
-      },
-      localUnitPattern: {
-        one: '{value} {unit}',
-        few: '{value} {unit}',
-        many: '{value} {unit}',
-        other: '{value} {unit}'
       }
     }
   },
@@ -314,10 +241,6 @@ module.exports = {
         local: {
           one: 'krone',
           other: 'kroner'
-        },
-        localUnitPattern: {
-          one: '{value} {unit}',
-          other: '{value} {unit}'
         }
       }
     }
@@ -333,10 +256,6 @@ module.exports = {
         local: {
           one: 'peso',
           other: 'pesos'
-        },
-        localUnitPattern: {
-          one: '{value} {unit}',
-          other: '{value} {unit}'
         }
       }
     }
@@ -356,14 +275,6 @@ module.exports = {
           few: 'جنيه',
           many: 'جنيه',
           other: 'جنيه'
-        },
-        localUnitPattern: {
-          zero: '{value} {unit}',
-          one: '{value} {unit}',
-          two: '{value} {unit}',
-          few: '{value} {unit}',
-          many: '{value} {unit}',
-          other: '{value} {unit}'
         }
       }
     }
@@ -379,10 +290,6 @@ module.exports = {
         local: {
           one: 'ብር',
           other: 'ብር'
-        },
-        localUnitPattern: {
-          one: '{value} {unit}',
-          other: '{value} {unit}'
         }
       }
     }
@@ -415,9 +322,6 @@ module.exports = {
       zh: {
         local: {
           other: '元'
-        },
-        localUnitPattern: {
-          other: '{value}{unit}'
         }
       }
     }
@@ -433,11 +337,6 @@ module.exports = {
           one: 'kuna',
           few: 'kune',
           other: 'kuna'
-        },
-        localUnitPattern: {
-          one: '{value} {unit}',
-          few: '{value} {unit}',
-          other: '{value} {unit}'
         }
       }
     }
@@ -452,10 +351,6 @@ module.exports = {
         local: {
           one: 'forint',
           other: 'forint'
-        },
-        localUnitPattern: {
-          one: '{value} {unit}',
-          other: '{value} {unit}'
         }
       }
     }
@@ -469,17 +364,11 @@ module.exports = {
       id: {
         local: {
           other: 'Rupiah'
-        },
-        localUnitPattern: {
-          other: '{value} {unit}'
         }
       },
       ms: {
         local: {
           other: 'Rupiah'
-        },
-        localUnitPattern: {
-          other: '{value} {unit}'
         }
       }
     }
@@ -497,12 +386,6 @@ module.exports = {
           two: 'חדשים',
           many: 'חדשים',
           other: 'חדשים'
-        },
-        localUnitPattern: {
-          one: '{value} {unit}',
-          two: '{value} {unit}',
-          many: '{value} {unit}',
-          other: '{value} {unit}'
         }
       },
       ar: {
@@ -513,14 +396,6 @@ module.exports = {
           few: 'شيكل',
           many: 'شيكل',
           other: 'شيكل'
-        },
-        localUnitPattern: {
-          zero: '{value} {unit}',
-          one: '{value} {unit}',
-          two: '{value} {unit}',
-          few: '{value} {unit}',
-          many: '{value} {unit}',
-          other: '{value} {unit}'
         }
       }
     }
@@ -536,20 +411,12 @@ module.exports = {
         local: {
           one: 'rupee',
           other: 'rupees'
-        },
-        localUnitPattern: {
-          one: '{value} {unit}',
-          other: '{value} {unit}'
         }
       },
       hi: {
         local: {
           one: 'रुपया',
           other: 'रूपए'
-        },
-        localUnitPattern: {
-          one: '{value} {unit}',
-          other: '{value} {unit}'
         }
       }
     }
@@ -565,10 +432,6 @@ module.exports = {
         local: {
           one: 'ریال',
           other: 'ریال'
-        },
-        localUnitPattern: {
-          one: '{value} {unit}',
-          other: '{value} {unit}'
         }
       }
     }
@@ -584,10 +447,6 @@ module.exports = {
         local: {
           one: 'kóróna',
           other: 'krónur'
-        },
-        localUnitPattern: {
-          one: '{value} {unit}',
-          other: '{value} {unit}'
         }
       }
     }
@@ -603,10 +462,6 @@ module.exports = {
         local: {
           one: 'dollar',
           other: 'dollars'
-        },
-        localUnitPattern: {
-          one: '{value} {unit}',
-          other: '{value} {unit}'
         }
       }
     }
@@ -621,9 +476,6 @@ module.exports = {
       ja: {
         local: {
           other: '円'
-        },
-        localUnitPattern: {
-          other: '{value}{unit}'
         }
       }
     }
@@ -637,9 +489,6 @@ module.exports = {
       ko: {
         local: {
           other: '원'
-        },
-        localUnitPattern: {
-          other: '{value}{unit}'
         }
       }
     }
@@ -655,20 +504,12 @@ module.exports = {
         local: {
           one: 'ரூபாய்',
           other: 'ரூபாய்'
-        },
-        localUnitPattern: {
-          one: '{value} {unit}',
-          other: '{value} {unit}'
         }
       },
       si: {
         local: {
           one: 'රුපියල',
           other: 'රුපියල'
-        },
-        localUnitPattern: {
-          one: '{value}{unit}',
-          other: '{value}{unit}'
         }
       }
     }
@@ -686,12 +527,6 @@ module.exports = {
           few: 'litai',
           many: 'lito',
           other: 'litų'
-        },
-        localUnitPattern: {
-          one: '{value} {unit}',
-          few: '{value} {unit}',
-          many: '{value} {unit}',
-          other: '{value} {unit}'
         }
       }
     }
@@ -708,11 +543,6 @@ module.exports = {
           zero: 'lati',
           one: 'lats',
           other: 'lati'
-        },
-        localUnitPattern: {
-          zero: '{value} {unit}',
-          one: '{value} {unit}',
-          other: '{value} {unit}'
         }
       }
     }
@@ -727,10 +557,6 @@ module.exports = {
       local: {
         one: 'төгрөг',
         other: 'төгрөг'
-      },
-      localUnitPattern: {
-        one: '{value} {unit}',
-        other: '{value} {unit}'
       }
     }
   },
@@ -745,10 +571,6 @@ module.exports = {
         local: {
           one: 'peso',
           other: 'pesos'
-        },
-        localUnitPattern: {
-          one: '{value} {unit}',
-          other: '{value} {unit}'
         }
       }
     }
@@ -763,9 +585,6 @@ module.exports = {
       ms: {
         local: {
           other: 'Ringgit'
-        },
-        localUnitPattern: {
-          other: '{value} {unit}'
         }
       }
     }
@@ -781,10 +600,6 @@ module.exports = {
         local: {
           one: 'krone',
           other: 'kroner'
-        },
-        localUnitPattern: {
-          one: '{value} {unit}',
-          other: '{value} {unit}'
         }
       }
     }
@@ -800,10 +615,6 @@ module.exports = {
         local: {
           one: 'balboa',
           other: 'balboas'
-        },
-        localUnitPattern: {
-          one: '{value} {unit}',
-          other: '{value} {unit}'
         }
       }
     }
@@ -819,10 +630,6 @@ module.exports = {
         local: {
           one: 'peruano',
           other: 'peruanos'
-        },
-        localUnitPattern: {
-          one: '{value} {unit}',
-          other: '{value} {unit}'
         }
       }
     }
@@ -838,20 +645,12 @@ module.exports = {
         local: {
           one: 'peso',
           other: 'pesos'
-        },
-        localUnitPattern: {
-          one: '{value} {unit}',
-          other: '{value} {unit}'
         }
       },
       fil: {
         local: {
           one: 'peso',
           other: 'pesos'
-        },
-        localUnitPattern: {
-          one: '{value} {unit}',
-          other: '{value} {unit}'
         }
       }
     }
@@ -867,20 +666,12 @@ module.exports = {
         local: {
           one: 'rupee',
           other: 'rupees'
-        },
-        localUnitPattern: {
-          one: '{value} {unit}',
-          other: '{value} {unit}'
         }
       },
       ur: {
         local: {
           one: 'روپیہ',
           other: 'روپیہ'
-        },
-        localUnitPattern: {
-          one: '{value} {unit}',
-          other: '{value} {unit}'
         }
       }
     }
@@ -898,12 +689,6 @@ module.exports = {
           few: 'złote',
           many: 'złotych',
           other: 'złotego'
-        },
-        localUnitPattern: {
-          one: '{value} {unit}',
-          few: '{value} {unit}',
-          many: '{value} {unit}',
-          other: '{value} {unit}'
         }
       }
     }
@@ -920,11 +705,6 @@ module.exports = {
           one: 'leu',
           few: 'lei',
           other: 'lei'
-        },
-        localUnitPattern: {
-          one: '{value} {unit}',
-          few: '{value} {unit}',
-          other: '{value} {unit}'
         }
       }
     }
@@ -940,11 +720,6 @@ module.exports = {
           one: 'динар',
           few: 'динара',
           other: 'динара'
-        },
-        localUnitPattern: {
-          one: '{value} {unit}',
-          few: '{value} {unit}',
-          other: '{value} {unit}'
         }
       }
     }
@@ -961,11 +736,6 @@ module.exports = {
           one: 'рубль',
           many: 'рублей',
           other: 'рубля'
-        },
-        localUnitPattern: {
-          one: '{value} {unit}',
-          few: '{value} {unit}',
-          other: '{value} {unit}'
         }
       }
     }
@@ -984,14 +754,6 @@ module.exports = {
           few: 'ريال',
           many: 'ريال',
           other: 'ريال'
-        },
-        localUnitPattern: {
-          zero: '{value} {unit}',
-          one: '{value} {unit}',
-          two: '{value} {unit}',
-          few: '{value} {unit}',
-          many: '{value} {unit}',
-          other: '{value} {unit}'
         }
       }
     }
@@ -1006,10 +768,6 @@ module.exports = {
         local: {
           one: 'krona',
           other: 'kronor'
-        },
-        localUnitPattern: {
-          one: '{unit} {value}',
-          other: '{unit} {value}'
         }
       }
     }
@@ -1025,36 +783,22 @@ module.exports = {
         local: {
           one: 'dollar',
           other: 'dollars'
-        },
-        localUnitPattern: {
-          one: '{unit} {value}',
-          other: '{unit} {value}'
         }
       },
       ms: {
         local: {
           other: 'Dolar'
-        },
-        localUnitPattern: {
-          other: '{unit} {value}'
         }
       },
       ta: {
         local: {
           one: 'டாலர்',
           other: 'டாலர்'
-        },
-        localUnitPattern: {
-          one: '{unit} {value}',
-          other: '{unit} {value}'
         }
       },
       zh: {
         local: {
           other: '元'
-        },
-        localUnitPattern: {
-          other: '{unit}{value}'
         }
       }
     }
@@ -1069,9 +813,6 @@ module.exports = {
       th: {
         local: {
           other: 'บาท'
-        },
-        localUnitPattern: {
-          other: '{unit} {value}'
         }
       }
     }
@@ -1087,10 +828,6 @@ module.exports = {
         local: {
           one: 'lirası',
           other: 'lirası'
-        },
-        localUnitPattern: {
-          one: '{unit} {value}',
-          other: '{unit} {value}'
         }
       }
     }
@@ -1105,9 +842,6 @@ module.exports = {
       zh: {
         local: {
           other: '元'
-        },
-        localUnitPattern: {
-          other: '{value}{unit}'
         }
       }
     }
@@ -1123,10 +857,6 @@ module.exports = {
         local: {
           one: 'shilingi',
           other: 'shilingi'
-        },
-        localUnitPattern: {
-          one: '{value} {unit}',
-          other: '{value} {unit}'
         }
       }
     }
@@ -1143,11 +873,6 @@ module.exports = {
           one: 'гривна',
           many: 'гривен',
           other: 'гривны'
-        },
-        localUnitPattern: {
-          one: '{unit} {value}',
-          many: '{unit} {value}',
-          other: '{unit} {value}'
         }
       },
       uk: {
@@ -1156,12 +881,6 @@ module.exports = {
           few: 'гривні',
           many: 'гривень',
           other: 'гривні'
-        },
-        localUnitPattern: {
-          one: '{unit} {value}',
-          few: '{unit} {value}',
-          many: '{unit} {value}',
-          other: '{unit} {value}'
         }
       }
     }
@@ -1177,10 +896,6 @@ module.exports = {
         local: {
           one: 'dollar',
           other: 'dollars'
-        },
-        localUnitPattern: {
-          one: '{value} {unit}',
-          other: '{value} {unit}'
         }
       }
     }
@@ -1196,10 +911,6 @@ module.exports = {
         local: {
           one: 'peso',
           other: 'pesos'
-        },
-        localUnitPattern: {
-          one: '{value} {unit}',
-          other: '{value} {unit}'
         }
       }
     }
@@ -1213,9 +924,6 @@ module.exports = {
     text: {
       local: {
         other: 'đồng'
-      },
-      localUnitPattern: {
-        other: '{value} {unit}'
       }
     }
   },
@@ -1233,14 +941,6 @@ module.exports = {
         few: 'ريال',
         many: 'ريال',
         other: 'ريال'
-      },
-      localUnitPattern: {
-        zero: '{value} {unit}',
-        one: '{value} {unit}',
-        two: '{value} {unit}',
-        few: '{value} {unit}',
-        many: '{value} {unit}',
-        other: '{value} {unit}'
       }
     }
   },
@@ -1255,40 +955,24 @@ module.exports = {
         local: {
           one: 'rand',
           other: 'rand'
-        },
-        localUnitPattern: {
-          one: '{value} {unit}',
-          other: '{value} {unit}'
         }
       },
       en: {
         local: {
           one: 'rand',
           other: 'rand'
-        },
-        localUnitPattern: {
-          one: '{value} {unit}',
-          other: '{value} {unit}'
         }
       },
       xh: {
         local: {
           one: 'IRandi',
           other: 'IiRandi'
-        },
-        localUnitPattern: {
-          one: '{value} {unit}',
-          other: '{value} {unit}'
         }
       },
       zu: {
         local: {
           one: 'Rand',
           other: 'Rand'
-        },
-        localUnitPattern: {
-          one: '{value} {unit}',
-          other: '{value} {unit}'
         }
       }
     }

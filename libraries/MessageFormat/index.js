@@ -33,10 +33,9 @@ function MessageFormat(locale) {
   this.numberSymbols = {};
   this.decimalPattern = null;
   this.percentagePattern = null;
-  this.standardCurrencyPattern = null;
-  this.currencyUnitPatterns = null;
+  this.currencyPattern = null;
   this.currencies = {};
-  this.currencyUnitPatterns = {};
+  this.currencyUnitPattern = {};
   this._readPluralizationRules();
   this._readOrdinalRules();
   this._readNumberFormatsData();
@@ -379,7 +378,6 @@ MessageFormat.prototype._parseCurrencyFormat = function(variable) {
   }
   this._swallowWhiteSpace();
 
-
   if(this.currentToken !== MessageFormat.Characters.COMMA) {
     throw new TypeError('Missing comma in currency format in ' + this.lexer.getLatestTokensLog());
   }
@@ -399,11 +397,17 @@ MessageFormat.prototype._parseCurrencyFormat = function(variable) {
   // Swallow ending bracket
   this.currentToken = this.lexer.getNextToken();
 
-  if(['local', 'global'].indexOf(context) === -1) {
-    throw new TypeError('Third argument, context argument, must be either local or global in ' + this.lexer.getLatestTokensLog());
+  if(['local', 'global', 'reverseglobal'].indexOf(context) === -1) {
+    throw new TypeError('Third argument, context argument, must be either local, global or reverseglobal in ' + this.lexer.getLatestTokensLog());
   }
   if(['symbol', 'text'].indexOf(type) === -1) {
     throw new TypeError('Fourth argument, type argument, must be either symbol or text in ' + this.lexer.getLatestTokensLog());
+  }
+  if(type !== 'symbol' && context === 'reverseglobal') {
+    throw new TypeError('Third argument, context argument, can only be reverseglobal if type is symbol in ' + this.lexer.getLatestTokensLog())
+  }
+  if(context === 'reverseglobal') {
+    context = 'reverseGlobal';
   }
 
   return new AST.CurrencyFormat(this.locale, variable, context, type, this);
@@ -965,19 +969,19 @@ MessageFormat.prototype._readNumberFormatPatterns = function(localeDocument, lan
   }
   this.percentagePattern = AST.NumberFormatPattern.parse(percentagePattern.text());
 
-  var standardCurrencyPattern;
+  var currencyPattern;
   if(localeDocument) {
-    standardCurrencyPattern = localeDocument.get(
-      '//ldml/numbers/currencyFormats[@numberSystem=\'latn\']/currencyFormatLength/currencyFormat[@type=\'standard\']/pattern');
+    currencyPattern = localeDocument.get(
+      '//ldml/numbers/currencyFormats[@numberSystem=\'latn\']/currencyFormatLength/currencyFormat[@type=\'accounting\']/pattern');
   }
-  if(!standardCurrencyPattern) {
-    standardCurrencyPattern = languageDocument.get(
-      '//ldml/numbers/currencyFormats[@numberSystem=\'latn\']/currencyFormatLength/currencyFormat[@type=\'standard\']/pattern');
+  if(!currencyPattern) {
+    currencyPattern = languageDocument.get(
+      '//ldml/numbers/currencyFormats[@numberSystem=\'latn\']/currencyFormatLength/currencyFormat[@type=\'accounting\']/pattern');
   }
-  if(!standardCurrencyPattern) {
+  if(!currencyPattern) {
     throw new TypeError('No standard currency pattern exist for ' + this.locale + ' in CLDR.');
   }
-  this.standardCurrencyPattern = AST.NumberFormatPattern.parse(standardCurrencyPattern.text());
+  this.currencyPattern = AST.NumberFormatPattern.parse(currencyPattern.text());
 };
 
 /**
@@ -1037,7 +1041,7 @@ MessageFormat.prototype._readCurrencyData = function(localeDocument, languageDoc
   }
   currencyUnitPatterns.childNodes().forEach(function(pattern) {
     if(pattern.name() === 'unitPattern') {
-      _this.currencyUnitPatterns[pattern.attr('count').value()] = pattern.text().replace('0', 'value').replace('1', 'unit');
+      _this.currencyUnitPattern[pattern.attr('count').value()] = pattern.text();
     }
   });
 
@@ -1063,21 +1067,19 @@ MessageFormat.prototype._readCurrencyData = function(localeDocument, languageDoc
             _this.currencies[currency].text.global[count.value()] = currencyName.text();
           }
           else {
-            var localText = null, localUnitPattern = null;
+            var localText = null;
             if(currencySymbols[currency].text[_this.language] &&
-               currencySymbols[currency].text[_this.language].localUnitPattern) {
+               currencySymbols[currency].text[_this.language].local) {
               localText = currencySymbols[currency].text[_this.language].local;
-              localUnitPattern = currencySymbols[currency].text[_this.language].localUnitPattern;
             }
 
             _this.currencies[currency] = {
               name: currencyName.text(),
               text: {
                 local: localText,
-                localUnitPattern: localUnitPattern,
                 global: {}
               },
-              symbols: currencySymbols[currency].symbols
+              symbol: currencySymbols[currency].symbols
             };
           }
         }

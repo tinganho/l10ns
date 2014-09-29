@@ -43,16 +43,12 @@ describe('CurrencyFormat', function() {
           one: 'dollar',
           other: 'dollars'
         },
-        localUnitPattern: {
-          one: '{value} {unit}',
-          other: '{value} {unit}'
-        },
         global: {
           one: 'US dollar',
           other: 'US dollars'
         }
       },
-      symbols: {
+      symbol: {
         local: '$',
         global: 'US$',
         reverseGlobal: '$US'
@@ -64,7 +60,7 @@ describe('CurrencyFormat', function() {
     var method = function() {
       messageFormat.parse('{variable1, currency, notlocalorglobal, text}');
     };
-    expect(method).to.throw(TypeError, 'Third argument, context argument, must be either local or global in {variable1, currency, notlocalorglobal, text}');
+    expect(method).to.throw(TypeError, 'Third argument, context argument, must be either local, global or reverseglobal in {variable1, currency, notlocalorglobal, text}');
   });
 
   it('should throw an error if type is not text or symbol', function() {

@@ -51,16 +51,12 @@ describe('MessageFormat', function() {
               one: 'dollar',
               other: 'dollars'
             },
-            localUnitPattern: {
-              one: '{value} {unit}',
-              other: '{value} {unit}'
-            },
             global: {
               one: 'US dollar',
               other: 'US dollars'
             }
           },
-          symbols: {
+          symbol: {
             local: '$',
             global: 'US$',
             reverseGlobal: '$US'
@@ -69,11 +65,11 @@ describe('MessageFormat', function() {
       });
     });
 
-    it('should read currencie unit patterns', function() {
+    it('should read currency unit patterns', function() {
       var messageFormat = new MessageFormat('en-US');
-      expect(messageFormat.currencyUnitPatterns).to.eql({
-        one: '{value} {unit}',
-        other: '{value} {unit}'
+      expect(messageFormat.currencyUnitPattern).to.eql({
+        one: '{0} {1}',
+        other: '{0} {1}'
       });
     });
 

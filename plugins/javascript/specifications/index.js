@@ -161,6 +161,10 @@ describe('Javascript Compiler', function() {
     require('./formatNumber');
   });
 
+  describe('CurrencyFormat', function() {
+    require('./currencyCompilation');
+  });
+
   describe('ChoiceFormat', function() {
     it('should be able to compile with a single case', function(done) {
       var localizations = getLocalizations('{variable1, choice, 3#message1}')
