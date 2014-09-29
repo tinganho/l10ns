@@ -39,7 +39,7 @@ define(function(require) {
 
     bindDOM: function() {
       this._setElements();
-      this._addMouseInteractions();
+      this._addDesktopInteractions();
     },
 
     /**
@@ -61,6 +61,7 @@ define(function(require) {
         '_addChoiceFormatedText',
         '_addSelectordinalFormatedText',
         '_addNumberFormatedText',
+        '_addCurrencyFormatedText',
         '_addVariableFormatedText'
       );
     },
@@ -118,7 +119,7 @@ define(function(require) {
      * @api private
      */
 
-    _addMouseInteractions: function() {
+    _addDesktopInteractions: function() {
       this.$('[disabled]').removeAttr('disabled');
       this.$el.on('click', '.save', this._save);
       this.$textArea.on('change', this._resizeTextArea);
@@ -132,6 +133,7 @@ define(function(require) {
       this.$addChoiceButton.on('mousedown', this._addChoiceFormatedText);
       this.$addSelectordinalButton.on('mousedown', this._addSelectordinalFormatedText);
       this.$addNumberButton.on('mousedown', this._addNumberFormatedText);
+      this.$addCurrencyButton.on('mousedown', this._addCurrencyFormatedText);
       this.$variable.on('mousedown', this._addVariableFormatedText);
       this.$save.on('mouseup', this._save);
       this._resizeTextArea();
@@ -291,6 +293,22 @@ define(function(require) {
     },
 
     /**
+     * Add number formated text to textarea
+     *
+     * @return {void}
+     * @api private
+     */
+
+    _addCurrencyFormatedText: function() {
+      var variable = 'variable';
+      if(this.model.get('variables').length === 1) {
+        variable = this.model.get('variables')[0];
+      }
+      var text = '{' + variable + ', currency, local, symbol}'
+      this._replaceTextSelectionWithText(text);
+    },
+
+    /**
      * Set elements
      *
      * @return {void}
@@ -307,6 +325,7 @@ define(function(require) {
       this.$addChoiceButton = this.$('.localization-action-choice');
       this.$addSelectordinalButton = this.$('.localization-action-selectordinal');
       this.$addNumberButton = this.$('.localization-action-number');
+      this.$addCurrencyButton = this.$('.localization-action-currency');
       this.$messageText = this.$('.localization-message-text');
       this.$buttons = this.$('.localization-buttons');
       this.$save = this.$('.localization-save');
