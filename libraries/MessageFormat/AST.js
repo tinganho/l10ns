@@ -11,6 +11,8 @@ var _ = require('underscore');
 
 var AST = {};
 
+AST.date = require('./AST.date')
+
 /**
  * Cache used for lazy loading
  *

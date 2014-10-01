@@ -10,6 +10,11 @@ var AST = {};
 
 AST.date = {};
 
+/**
+ * Export AST.date
+ */
+
+module.exports = AST.date;
 
 /**
  * Era AST.
@@ -18,8 +23,8 @@ AST.date = {};
  * @constructor
  */
 
-AST.date.Era = function.Type) {
-  this.Type;
+AST.date.Era = function(type) {
+  this.type = type;
 };
 
 /**
@@ -44,8 +49,8 @@ AST.date.Era.Type = {
  * @constructor
  */
 
-AST.date.Year = function.Type, length) {
-  this.Type =.Type;
+AST.date.Year = function(type, length) {
+  this.type = type;
   this.length = length;
 };
 
@@ -481,7 +486,7 @@ AST.date.time.hour.TwelveHourStartingAtZero.Type = {
  * @contructor
  */
 
-AST.date.time.Hour.TwentyFourHourStartingAtOne = function(type) {
+AST.date.time.hour.TwentyFourHourStartingAtOne = function(type) {
   this.type = type;
 };
 
@@ -492,7 +497,7 @@ AST.date.time.Hour.TwentyFourHourStartingAtOne = function(type) {
  * @api public
  */
 
-AST.date.TwentyFourHourStartingAtOne.Type = {
+AST.date.time.hour.TwentyFourHourStartingAtOne.Type = {
   WITHOUT_ZERO_PADDING: 1,
   WITH_ZERO_PADDING: 2
 };
@@ -799,7 +804,7 @@ AST.date.timeZone.ISO8601WithoutZ = function(type) {
 };
 
 /**
- * ISO8601 time zone format with `Z` types.
+ * ISO8601 time zone format without `Z` types.
  *
  *   Example:
  *
