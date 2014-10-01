@@ -5,32 +5,32 @@
 var AST = {};
 
 /**
- * Use namespace AST.Date
+ * Use namespace AST.date
  */
 
-AST.Date = {};
+AST.date = {};
 
 
 /**
  * Era AST.
  *
- * @param {Era.Type} type
+ * @param {Era.Type}.Type
  * @constructor
  */
 
-AST.Date.Era = function(type) {
-  this.type;
+AST.date.Era = function.Type) {
+  this.Type;
 };
 
 /**
- * Era types. An Era type is specified by the `G` letter. 1-3 letters
- * means a abbreviated era type. e.g. G means AD. GGGG mean Anno Domini.
- * GGGGG means narrow era type or just using the letter A for Anno Domini.
+ * Era.Types. An Era.Type is specified by the `G` letter. 1-3 letters
+ * means a abbreviated era.Type. e.g. G means AD. GGGG mean Anno Domini.
+ * GGGGG means narrow era.Type or just using the letter A for Anno Domini.
  *
  * @enum {AST.Data.Era.Type}
  */
 
-AST.Data.Era.Type = {
+AST.date.Era.Type = {
  ABBREVIATED: 0,
  FULL: 1,
  NARROW: 2
@@ -39,24 +39,24 @@ AST.Data.Era.Type = {
 /**
  * Year AST
  *
- * @param {AST.Date.Year.Type} type
+ * @param {AST.date.Year.Type}.Type
  * @param {Number} length
  * @constructor
  */
 
-AST.Date.Year = function(type, length) {
-  this.type = type;
+AST.date.Year = function.Type, length) {
+  this.Type =.Type;
   this.length = length;
 };
 
 /**
- * Year types. There exists four different year types. CALENDAR_YEAR,
+ * Year.Types. There exists four different year.Types. CALENDAR_YEAR,
  * WEEK_BASED_YEAR, EXTENDED_YEAR and CYCLIC_YEAR.
  *
  * @enum {Number}
  */
 
-AST.Date.Year.Type = {
+AST.date.Year.Type = {
   CALENDAR: 0,
   WEEK_BASED: 1,
   EXTENDED: 2,
@@ -66,13 +66,13 @@ AST.Date.Year.Type = {
 /**
  * Quarter AST.
  *
- * @param {AST.Date.Quarter.Context} context
- * @param {AST.Date.Quarter.Type} type
+ * @param {AST.date.Quarter.Context} context
+ * @param {AST.date.Quarter.Type}.Type
  * @param {Number} length
  * @constructor
  */
 
-AST.Date.Quarter = function(context, type, length) {
+AST.date.Quarter = function(context, type, length) {
   this.type = type;
   this.length = length;
 };
@@ -84,13 +84,13 @@ AST.Date.Quarter = function(context, type, length) {
  * @enum {Number}
  */
 
-AST.Date.Quarter.Context = {
+AST.date.Quarter.Context = {
   FORMATED: 1,
   STAND_ALONE: 2,
 };
 
 /**
- * Quarter types.
+ * Quarter.Types.
  *
  * Examples:
  *
@@ -102,7 +102,7 @@ AST.Date.Quarter.Context = {
  * @enum {Number}
  */
 
-AST.Date.Quarter.Type = {
+AST.date.Quarter.Type = {
   ONE_DIGIT: 1,
   TWO_DIGIT: 2,
   ABBREVIATED: 3,
@@ -113,13 +113,13 @@ AST.Date.Quarter.Type = {
 /**
  * Month AST.
  *
- * @param {AST.Date.Month.Context} context
- * @param {AST.Date.Month.Type} type
+ * @param {AST.date.Month.Context} context
+ * @param {AST.date.Month.Type} type
  * @param {Number} length
  * @constructor
  */
 
-AST.Date.Month = function(context, type, length) {
+AST.date.Month = function(context, type, length) {
   this.type = type;
   this.length = length;
 };
@@ -131,13 +131,13 @@ AST.Date.Month = function(context, type, length) {
  * @enum {Number}
  */
 
-AST.Date.Month.Context = {
+AST.date.Month.Context = {
   FORMATED: 1,
   STAND_ALONE: 2,
 };
 
 /**
- * Quarter types.
+ * Quarter.Types.
  *
  * Examples:
  *
@@ -150,7 +150,7 @@ AST.Date.Month.Context = {
  * @enum {Number}
  */
 
-AST.Date.Month.Type = {
+AST.date.Month.Type = {
   ONE_DIGIT: 1,
   TWO_DIGIT: 2,
   SHORT: 3,
@@ -161,12 +161,24 @@ AST.Date.Month.Type = {
 /**
  * Week of year AST.
  *
- * @param {Number} length (1|2)
+ * @param {AST.date.WeekOfYear.Type} type
  * @constructor
  */
 
-AST.Date.WeekOfYear = function(length) {
-  this.length = length;
+AST.date.WeekOfYear = function(type) {
+  this.type = type;
+};
+
+/**
+ * Week of year.Types.
+ *
+ * @enum {Number}
+ * @api public
+ */
+
+AST.date.WeekOfYear.Type = {
+  WITHOUT_ZERO_PADDING: 1,
+  WITH_ZERO_PADDING: 2
 };
 
 /**
@@ -175,34 +187,59 @@ AST.Date.WeekOfYear = function(length) {
  * @constructor
  */
 
-AST.Date.WeekOfMonth = function() {};
+AST.date.WeekOfMonth = function() {};
 
 /**
  * Namespace Day
  */
 
-AST.Date.Day = {};
+AST.date.day = {};
 
 /**
  * Day of month AST.
  *
- * @param {Number(1..2)}  length
+ * @param {AST.date.day.DayOfMonth.Type} type
  * @constructor
  */
 
-AST.Date.Day.DayOfMonth = function(length) {
-  this.length = length;
+AST.date.day.DayOfMonth = function(type) {
+  this.type = type;
+};
+
+/**
+ * Week of year.Types.
+ *
+ * @enum {Number}
+ * @api public
+ */
+
+AST.date.day.DayOfMonth.Type = {
+  WITHOUT_ZERO_PADDING: 1,
+  WITH_ZERO_PADDING: 2
 };
 
 /**
  * Day of year AST.
  *
- * @param {Number(1..3)} length
+ * @param {AST.date.day.DayOfYear.Type}.Type
  * @constructor
  */
 
-AST.Date.Day.DayOfYear = function(length) {
-  this.length = length;
+AST.date.day.DayOfYear = function(type) {
+  this.type = type;
+};
+
+/**
+ * Week of year types.
+ *
+ * @enum {Number}
+ * @api public
+ */
+
+AST.date.day.DayOfYear.Type = {
+  WITHOUT_ZERO_PADDING: 1,
+  WITH_ONE_ZERO_PADDING: 2,
+  WITH_TWO_ZERO_PADDING: 3
 };
 
 /**
@@ -211,7 +248,7 @@ AST.Date.Day.DayOfYear = function(length) {
  * @constructor
  */
 
-AST.Date.Day.DayOfWeekInMonth = function() {};
+AST.date.day.DayOfWeekInMonth = function() {};
 
 /**
  * Day of week in month AST.
@@ -220,47 +257,48 @@ AST.Date.Day.DayOfWeekInMonth = function() {};
  * @constructor
  */
 
-AST.Date.Day.ModifiedJulianDay = function(length) {
+AST.date.day.ModifiedJulianDay = function(length) {
   this.length = length;
 };
+
+/**
+ * Namespace week day.
+ */
+
+AST.date.weekDay = {};
 
 /**
  * Regular WeekDay. A regular weekday.
  *
- *   Example:
- *
- *     n      string
- *     1..3   Tues
- *     4      Tuesday
- *     5      T
- *     6      Tu
- *
- * @param {Number(1..6)} length
+ * @param {AST.date.weekDay.RegularWeekDay.Type} type
  * @constructor
  */
 
-AST.Date.WeekDay.RegularWeekDay = function(length) {
-  this.length = length;
+AST.date.weekDay.RegularWeekDay = function(type) {
+  this.type = type;
 };
 
 /**
- * Regular WeekDay with no numeric value for starting order of the week day.
+ * Regular week day types.
  *
  *   Example:
  *
- *     n      string
- *     1..2   2
- *     3      Tues
- *     4      Tuesday
- *     5      T
- *     6      Tu
+ *     Type                 Output
  *
- * @param {Number(1..6)} length
- * @constructor
+ *     ONE_CHARACTER        T
+ *     TWO_CHARACTERS       Tu
+ *     FOUR_CHARACTERS      Tues
+ *     FULL                 Tuesday
+ *
+ * @enum {Number}
+ * @api public
  */
 
-AST.Date.WeekDay.RegularWeekDay = function(length) {
-  this.length = length;
+AST.date.weekDay.RegularWeekDay.Type = {
+  ONE_CHARACTER: 1,
+  TWO_CHARACTERS: 2,
+  FOUR_CHARACTERS: 3,
+  FULL: 4
 };
 
 /**
@@ -275,31 +313,83 @@ AST.Date.WeekDay.RegularWeekDay = function(length) {
  *     5      T
  *     6      Tu
  *
- * @param {Number(1..6)} length
+ * @param {AST.date.weekDay.LocalWeekDay.Type} type
  * @constructor
  */
 
-AST.Date.WeekDay.LocalWeekDay = function(length) {
-  this.length = length;
+AST.date.weekDay.LocalWeekDay = function(type) {
+  this.type = type;
 };
+
+/**
+ * Regular week day types.
+ *
+ *   Example:
+ *
+ *     Type                 Output
+ *
+ *     ONE_CHARACTER        T
+ *     TWO_CHARACTERS       Tu
+ *     FOUR_CHARACTERS      Tues
+ *     FULL                 Tuesday
+ *
+ * @enum {Number}
+ * @api public
+ */
+
+AST.date.weekDay.LocalWeekDay.Type = {
+  DIGITS_WITHOUT_ZERO_PADDING: 1,
+  DIGITS_WITH_ZERO_PADDING: 2,
+  ONE_CHARACTER: 3,
+  TWO_CHARACTERS: 4,
+  FOUR_CHARACTERS: 5,
+  FULL: 6
+};
+
 
 /**
  * Stand-alone regular WeekDay with numeric value for starting order of
  * the week day.
  *
- * @param {Number(1..6)} length
+ * @param {AST.date.weekDay.LocalStandAloneWeekDay.Type} type
  * @constructor
  */
 
-AST.Date.WeekDay.LocalStandAloneWeekDay = function(length) {
-  this.length = length;
+AST.date.weekDay.LocalStandAloneWeekDay = function(type) {
+  this.type = type;
 };
+
+/**
+ * Regular week day types.
+ *
+ *   Example:
+ *
+ *     Type                 Output
+ *
+ *     ONE_CHARACTER        T
+ *     TWO_CHARACTERS       Tu
+ *     FOUR_CHARACTERS      Tues
+ *     FULL                 Tuesday
+ *
+ * @enum {Number}
+ * @api public
+ */
+
+AST.date.weekDay.LocalStandAloneWeekDay.Type = {
+  DIGITS_WITHOUT_ZERO_PADDING: 1,
+  DIGITS_WITH_ZERO_PADDING: 2,
+  ONE_CHARACTER: 3,
+  TWO_CHARACTERS: 4,
+  FOUR_CHARACTERS: 5,
+  FULL: 6
+};
+
 
 /**
  * Namespace time
  */
 
-AST.Date.Time = {};
+AST.date.time = {};
 
 /**
  * Period of day AST.
@@ -307,74 +397,134 @@ AST.Date.Time = {};
  * @constructor
  */
 
-AST.Date.Time.Period = function() {};
+AST.date.time.Period = function() {};
 
 /**
  * Namespace hour
  */
 
-AST.Date.Time.Hour = {};
+AST.date.time.hour = {};
 
 /**
  * 12 hour [1-12] AST.
  *
- * @param {Number(1,2)} length. Length of two gives zero padding.
+ * @param {AST.date.TwelveHourStartingAtOne.Type} type
  * @contructor
  */
 
-AST.Date.Time.Hour.TwelveHourStartingAtOne = function(length) {
-  this.lenght = length;
+AST.date.time.hour.TwelveHourStartingAtOne = function(type) {
+  this.type = type;
+};
+
+/**
+ * 12 hours starting at 1.Types.
+ *
+ * @enum {Number}
+ * @api public
+ */
+
+AST.date.time.hour.TwelveHourStartingAtOne.Type = {
+  WITHOUT_ZERO_PADDING: 1,
+  WITH_ZERO_PADDING: 2
 };
 
 /**
  * 24 hour [0-23] AST.
  *
- * @param {Number(1,2)} length. Length of two gives zero padding.
+ * @param {AST.date.TwentyFourHourStartingAtZero.Type}.Type
  * @contructor
  */
 
-AST.Date.Time.Hour.TwentyFourHourStartingAtZero = function(length) {
+AST.date.time.hour.TwentyFourHourStartingAtZero = function(length) {
   this.lenght = length;
+};
+
+/**
+ * 24 hours starting at 0.Types.
+ *
+ * @enum {Number}
+ * @api public
+ */
+
+AST.date.time.hour.TwentyFourHourStartingAtZero.Type = {
+  WITHOUT_ZERO_PADDING: 1,
+  WITH_ZERO_PADDING: 2
 };
 
 /**
  * 12 hour [0-11] AST.
  *
- * @param {Number(1,2)} length. Length of two gives zero padding.
+ * @param {AST.date.TwelveHourStartingAtZero.Type} type
  * @contructor
  */
 
-AST.Date.Time.Hour.TwelveHourStartingAtZero = function(length) {
-  this.lenght = length;
+AST.date.time.hour.TwelveHourStartingAtZero = function(type) {
+  this.type = type;
+};
+
+/**
+ * 12 hours starting at 0.Types.
+ *
+ * @enum {Number}
+ * @api public
+ */
+
+AST.date.time.hour.TwelveHourStartingAtZero.Type = {
+  WITHOUT_ZERO_PADDING: 1,
+  WITH_ZERO_PADDING: 2
 };
 
 /**
  * 24 hour [1-24] AST.
  *
- * @param {Number(1,2)} length. Length of two gives zero padding.
+ * @param {AST.date.TwentyFourHourStartingAtOne.Type}.Type
  * @contructor
  */
 
-AST.Date.Time.Hour.TwentyFourHourStartingAtOne = function(length) {
-  this.lenght = length;
+AST.date.time.Hour.TwentyFourHourStartingAtOne = function(type) {
+  this.type = type;
+};
+
+/**
+ * 24 hours starting at 1.Types.
+ *
+ * @enum {Number}
+ * @api public
+ */
+
+AST.date.TwentyFourHourStartingAtOne.Type = {
+  WITHOUT_ZERO_PADDING: 1,
+  WITH_ZERO_PADDING: 2
 };
 
 /**
  * Minute AST.
  *
- * @param {Number(1,2)} length. Length of two gives zero padding.
+ * @param {AST.date.Minute.Type}.Type
  * @contructor
  */
 
-AST.Date.Minute = function(length) {
-  this.length = length;
+AST.date.Minute = function(type) {
+  this.type = type;
+};
+
+/**
+ * Minute.Types.
+ *
+ * @enum {Number}
+ * @api public
+ */
+
+AST.date.Minute.Type = {
+  WITHOUT_ZERO_PADDING: 1,
+  WITH_ZERO_PADDING: 2
 };
 
 /**
  * Namespace second
  */
 
-AST.Date.Second = {};
+AST.date.second = {};
 
 /**
  * Regular second AST.
@@ -383,8 +533,21 @@ AST.Date.Second = {};
  * @contructor
  */
 
-AST.Date.Second.RegularSecond = function(length) {
-  this.length = length;
+AST.date.second.RegularSecond = function(type) {
+  this.type = type;
+};
+
+/**
+ * Regular second.Types. Sepcify which kind of format in second output
+ * you want. Either with or without trailing zeros.
+ *
+ * @enum {Number}
+ * @api public
+ */
+
+AST.date.second.RegularSecond.Type = {
+  WITHOUT_ZERO_PADDING: 1,
+  WITH_ZERO_PADDING: 2
 };
 
 /**
@@ -394,7 +557,7 @@ AST.Date.Second.RegularSecond = function(length) {
  * @contructor
  */
 
-AST.Date.Second.FractionalSecond = function(length) {
+AST.date.second.FractionalSecond = function(length) {
   this.length = length;
 };
 
@@ -405,7 +568,7 @@ AST.Date.Second.FractionalSecond = function(length) {
  * @contructor
  */
 
-AST.Date.Second.MilliSecondInDay = function(length) {
+AST.date.second.MilliSecondInDay = function(length) {
   this.length = length;
 };
 
@@ -413,73 +576,133 @@ AST.Date.Second.MilliSecondInDay = function(length) {
  * Namespace time zone
  */
 
-AST.Date.Timezone = {};
+AST.date.timeZone = {};
 
 /**
  * Time zone in specific non location format AST.
  *
- * @param {Number(1..n)} length.
+ * @param {AST.date.timeZone.SpecificNonLocationFormat.Type}.Type
  * @contructor
  */
 
-AST.Date.Timezone.SpecificNonLocationFormat = function(length) {
-  this.length = length;
+AST.date.timeZone.SpecificNonLocationFormat = function(type) {
+  this.type = type;
+};
+
+/**
+ * Specific non-location format.Types.
+ *
+ *   Example:
+ *
+ *     Type    Output
+ *
+ *     SHORT   PDT
+ *     LONG    Pacific Daylight Time
+ *
+ * @enum {Number}
+ * @api public
+ */
+
+AST.date.timeZone.SpecificNonLocationFormat.Type = {
+  SHORT: 1,
+  LONG: 2
 };
 
 /**
  * Time zone in ISO8601 format AST.
  *
- *   Example:
- *
- *     length   string
- *     1..3     -08.00
- *     4        GMT-8:00
- *     5        -08:00 or -07:52:58
- *
- * @param {Number(1..5)} length.
+ * @param {AST.date.timeZone.ISO8601.Type}.Type
  * @contructor
  */
 
-AST.Date.Timezone.ISO8601 = function(length) {
-  this.length = length;
+AST.date.timeZone.ISO8601 = function(type) {
+  this.type = type;
 };
 
 /**
- * Time zone in localizaed GMT format.
+ * Time zone in ISO8601 format.Types.
  *
  *   Example:
  *
- *     length   string
- *     1        GMT-8
- *     4        GMT-08:00
+ *     Type                 Output
  *
- * @param {Number(1,4)} length.
- * @contructor
+ *     BASIC                -0800
+ *     LONG_LOCALIZED_GMT   GMT-8:00
+ *     EXTENDED             -08:00
+ *                          -07:52:58
+ *
+ * @enum {Number}
+ * @api public
  */
 
-AST.Date.Timezone.LocalizedGMTFormat = function(length) {
-  this.length = length;
+AST.date.timeZone.ISO8601.Type = {
+  BASIC: 1,
+  LONG_LOCALIZED_GMT: 2,
+  EXTENDED: 3
 };
 
 /**
- * Time zone in generic non location format.
+ * time zone in localizaed GMT format.
+ *
+ * @param {AST.date.timeZone.LocalizedGMTFormat.Type}.Type.
+ * @contructor
+ */
+
+AST.date.timeZone.LocalizedGMTFormat = function(type) {
+  this.type = type;
+};
+
+/**
+ * Localized GMT format.Types
  *
  *   Example:
  *
- *     length   string
- *     1        PT
- *     4        Pacific Time
+ *     Type       Output
  *
- * @param {Number(1,4)} length.
- * @contructor
+ *     SHORT      GMT-8
+ *     LONG       GMT-08:00
+ *
+ * @enum {Number}
+ * @api public
  */
 
-AST.Date.Timezone.GenericNonLocationFormat = function(length) {
-  this.length = length;
+AST.date.timeZone.LocalizedGMTFormat.Type = {
+  SHORT: 1,
+  LONG: 2
 };
 
 /**
- * Time zone in generic non location format.
+ * time zone in generic non location format
+ *
+ * @param {AST.date.timeZone.GenericNonLocationFormat.Type}.Type
+ * @contructor
+ */
+
+AST.date.timeZone.GenericNonLocationFormat = function(type) {
+  this.type = type;
+};
+
+/**
+ * Generice non location format.Types
+ *
+ *   Example:
+ *
+ *     Type          Output
+ *
+ *     ABBREVIATED   PT
+ *     FULL          Pacific time
+ *
+ * @enum {Number}
+ * @api public
+ */
+
+AST.date.timeZone.GenericNonLocationFormat.Type = {
+  ABBREVIATED: 1,
+  FULL: 2
+};
+
+/**
+ * time zone in generic non location format.
  *
  *   Example:
  *
@@ -493,7 +716,112 @@ AST.Date.Timezone.GenericNonLocationFormat = function(length) {
  * @contructor
  */
 
-AST.Date.Timezone.GenericLocationFormat = function(length) {
-  this.length = length;
+AST.date.timeZone.GenericLocationFormat = function(type) {
+  this.type = type;
 };
 
+/**
+ * Generice non location format.Types
+ *
+ *   Example:
+ *
+ *     Type                 Output
+ *
+ *     SHORT_TIME_ZONE_ID   uslax
+ *     LONG_TIME_ZONE_ID    America/Los_Angeles
+ *     CITY                 Los Angeles
+ *     GENERIC_LOCATION     Los Angeles Time
+ *
+ * @enum {Number}
+ * @api public
+ */
+
+AST.date.timeZone.GenericLocationFormat.Type = {
+  SHORT_TIME_ZONE_ID: 1,
+  LONG_TIME_ZONE_ID: 2,
+  CITY: 3,
+  GENERIC_LOCATION: 4
+};
+
+/**
+ * ISO8601 time zone format with `Z` representing zero time zone offset.
+ *
+ * @param {AST.date.timeZone.ISO8601WithZ.Type} type
+ * @constructor
+ */
+
+AST.date.timeZone.ISO8601WithZ = function(type) {
+  this.type = type;
+};
+
+/**
+ * ISO8601 time zone format with `Z` types.
+ *
+ *   Example:
+ *
+ *     Type                                                     Output
+ *
+ *     BASIC_FORMAT_WITH_OPTIONAL_MINUTES                       -08
+ *                                                              +0530
+ *                                                              Z
+ *     BASIC_FORMAT_WITH_MINUTES                                -0800
+ *                                                              Z
+ *     EXTENDED_FORMAT_WITH_HOURS_AND_MINUTES                   -08:00
+ *                                                              Z
+ *     BASIC_FORMAT_WITH_HOURS_MINUTES_AND_OPTIONAL_SECONDS     -0800
+ *                                                              -075258
+ *                                                              Z
+ *     EXTENDED_FORMAT_WITH_HOURS_MINUTES_AND_OPTIONAL_SECONDS  -08:00
+ *                                                              -07:52:58
+ *                                                              Z
+ *
+ * @enum {Number}
+ * @api public
+ */
+
+AST.date.timeZone.ISO8601WithZ.Type = {
+  BASIC_FORMAT_WITH_OPTIONAL_MINUTES: 1,
+  BASIC_FORMAT_WITH_MINUTES: 2,
+  EXTENDED_FORMAT_WITH_HOURS_AND_MINUTES: 3,
+  BASIC_FORMAT_WITH_HOURS_MINUTES_AND_OPTIONAL_SECONDS: 4,
+  EXTENDED_FORMAT_WITH_HOURS_MINUTES_AND_OPTIONAL_SECONDS: 5
+};
+
+/**
+ * ISO8601 time zone format without `Z` representing zero time zone offset.
+ *
+ * @param {AST.date.timeZone.ISO8601WithZ.Type} type
+ * @constructor
+ */
+
+AST.date.timeZone.ISO8601WithoutZ = function(type) {
+  this.type = type;
+};
+
+/**
+ * ISO8601 time zone format with `Z` types.
+ *
+ *   Example:
+ *
+ *     Type                                                     Output
+ *
+ *     BASIC_FORMAT_WITH_OPTIONAL_MINUTES                       -08
+ *                                                              +0530
+ *     BASIC_FORMAT_WITH_MINUTES                                -0800
+ *     EXTENDED_FORMAT_WITH_HOURS_AND_MINUTES                   -08:00
+ *     BASIC_FORMAT_WITH_HOURS_MINUTES_AND_OPTIONAL_SECONDS     -0800
+ *                                                              -075258
+ *     EXTENDED_FORMAT_WITH_HOURS_MINUTES_AND_OPTIONAL_SECONDS  -08:00
+ *                                                              -07:52:58
+ *
+ * @enum {Number}
+ * @api public
+ */
+
+AST.date.timeZone.ISO8601WithZ.Type = {
+  BASIC_FORMAT_WITH_OPTIONAL_MINUTES: 1,
+  BASIC_FORMAT_WITH_MINUTES: 2,
+  EXTENDED_FORMAT_WITH_HOURS_AND_MINUTES: 3,
+  BASIC_FORMAT_WITH_HOURS_MINUTES_AND_OPTIONAL_SECONDS: 4,
+  EXTENDED_FORMAT_WITH_HOURS_MINUTES_AND_OPTIONAL_SECONDS: 5
+};
