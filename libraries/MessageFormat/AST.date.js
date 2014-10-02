@@ -1,4 +1,7 @@
 
+var Lexer = require('../Lexer')
+  , EOF = -1;
+
 /**
  * Use namespace AST
  */
@@ -15,6 +18,102 @@ AST.date = {};
  */
 
 module.exports = AST.date;
+
+/**
+ * AST class representing an ICU DateFormat
+ *
+ * @param {String} variable
+ * @param {String} argument
+ * @constructor
+ */
+
+AST.date.DateFormat = function(locale, variable, argument, messageFormat) {
+  this.locale = locale;
+  this.language = /^([a-z]+)\-/.exec(this.locale)[1];
+  this.region = /\-([A-Z]+)$/.exec(this.locale)[1];
+  this.variable = variable;
+  this.argument = argument;
+  this.lexer = null;
+  this.AST = [];
+  this.parse(argument);
+};
+
+/**
+ * Date format identifiers
+ *
+ * @enum {Number}
+ * @api public
+ */
+
+AST.date.DateFormat.Identifier = {
+  ERA: 'G',
+  CALENDAR_YEAR: 'y',
+  WEEK_BASED_YEAR: 'Y',
+  EXTENDED_YEAR: 'u',
+  CYCLIC_YEAR: 'U',
+};
+
+/**
+ * Parse date format
+ *
+ * @param {String} string
+ * @return {Array} AST of the date
+ * @api public
+ */
+
+AST.date.DateFormat.prototype.parse = function(string) {
+  this.lexer = new Lexer(string);
+  this.currentToken = this.lexer.getNextToken();
+  switch(this.currentToken !== EOF) {
+    case AST.date.DateFormat.Identifier.ERA:
+      this._parseEra();
+      break;
+  }
+};
+
+/**
+ * Parse era G, GG and GGG for AD, Anno Domini and A.
+ *
+ * @return {void}
+ * @api public
+ */
+
+AST.date.DateFormat.prototype._parseEra = function() {
+  var length = this._getConsecutiveLength(3);
+  switch(length) {
+    case 1:
+      this.AST.push(new AST.date.Era(AST.date.Era.Type.ABBREVIATED));
+      break;
+    case 2:
+      this.AST.push(new AST.date.Era(AST.date.Era.Type.FULL));
+      break;
+    case 3:
+      this.AST.push(new AST.date.Era(AST.date.Era.Type.NARROW));
+      break;
+  }
+};
+
+/**
+ * Return consecutive length of a character
+ *
+ * @return {Number}
+ * @api private
+ */
+
+AST.date.DateFormat.prototype._getConsecutiveLength = function(max) {
+  var token = this.currentToken
+    , length = 0;
+
+  while(token === this.currentToken) {
+    length++;
+    this.currentToken = this.lexer.getNextToken();
+    if(length === max) {
+      break;
+    }
+  }
+
+  return length;
+};
 
 /**
  * Era AST.

@@ -96,6 +96,7 @@ describe('MessageFormat', function() {
     require('./variables');
     require('./numberFormat');
     require('./currencyFormat');
+    require('./dateFormat');
     require('./pluralFormat');
     require('./selectFormat');
     require('./choiceFormat');

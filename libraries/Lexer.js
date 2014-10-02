@@ -1,5 +1,6 @@
 
 var EOF = -1;
+
 /**
  * Lexer class
  *
