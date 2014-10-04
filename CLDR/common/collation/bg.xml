@@ -7,11 +7,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 8242 $"/>
-		<generation date="$Date: 2013-02-24 21:06:02 -0600 (Sun, 24 Feb 2013) $"/>
+		<version number="$Revision: 9614 $"/>
+		<generation date="$Date: 2014-01-07 06:59:31 -0600 (Tue, 07 Jan 2014) $"/>
 		<language type="bg"/> 
 	</identity>
-	<collations  validSubLocales="bg_BG">
+	<collations  >
 		<collation type="standard">
 			<settings reorder="Cyrl"/>
 			<suppress_contractions>[АаӘәГгЕеЖжЗзІіОоӨөКкУуЧчЫыЭэѴѵ]</suppress_contractions>

@@ -7,8 +7,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 -->
 
 <ldmlBCP47>
-    <version number="$Revision: 9198 $"/>
-    <generation date="$Date: 2013-08-12 16:14:45 -0500 (Mon, 12 Aug 2013) $"/>
+    <version number="$Revision: 10757 $"/>
+    <generation date="$Date: 2014-08-11 15:42:53 -0500 (Mon, 11 Aug 2014) $"/>
     <keyword>
         <key name="tz" description="Time zone key" alias="timezone">
             <type name="adalv" description="Andorra" alias="Europe/Andorra"/>
@@ -20,7 +20,7 @@ For terms of use, see http://www.unicode.org/copyright.html
             <type name="amevn" description="Yerevan, Armenia" alias="Asia/Yerevan"/>
             <type name="ancur" description="Curaçao" alias="America/Curacao"/>
             <type name="aolad" description="Luanda, Angola" alias="Africa/Luanda"/>
-            <type name="aqams" description="Amundsen-Scott Station, South Pole" alias="Antarctica/South_Pole"/>
+            <type name="aqams" description="Amundsen-Scott Station, South Pole" deprecated="true" preferred="nzakl"/>
             <type name="aqcas" description="Casey Station, Bailey Peninsula" alias="Antarctica/Casey"/>
             <type name="aqdav" description="Davis Station, Vestfold Hills" alias="Antarctica/Davis"/>
             <type name="aqddu" description="Dumont d'Urville Station, Terre Adélie" alias="Antarctica/DumontDUrville"/>
@@ -29,6 +29,7 @@ For terms of use, see http://www.unicode.org/copyright.html
             <type name="aqplm" description="Palmer Station, Anvers Island" alias="Antarctica/Palmer"/>
             <type name="aqrot" description="Rothera Station, Adelaide Island" alias="Antarctica/Rothera"/>
             <type name="aqsyw" description="Syowa Station, East Ongul Island" alias="Antarctica/Syowa"/>
+            <type name="aqtrl" description="Troll Station, Queen Maud Land" alias="Antarctica/Troll" since="26"/>
             <type name="aqvos" description="Vostok Station, Lake Vostok" alias="Antarctica/Vostok"/>
             <type name="arbue" description="Buenos Aires, Argentina" alias="America/Buenos_Aires America/Argentina/Buenos_Aires"/>
             <type name="arcor" description="Córdoba, Argentina" alias="America/Cordoba America/Argentina/Cordoba America/Rosario"/>
@@ -101,7 +102,7 @@ For terms of use, see http://www.unicode.org/copyright.html
             <type name="cahal" description="Halifax, Canada" alias="America/Halifax Canada/Atlantic"/>
             <type name="caiql" description="Iqaluit, Canada" alias="America/Iqaluit"/>
             <type name="camon" description="Moncton, Canada" alias="America/Moncton"/>
-            <type name="camtr" description="Montreal, Canada" alias="America/Montreal"/>
+            <type name="camtr" description="Montreal, Canada" deprecated="true" alias="America/Montreal"/>
             <type name="capnt" description="Pangnirtung, Canada" alias="America/Pangnirtung"/>
             <type name="careb" description="Resolute, Canada" alias="America/Resolute"/>
             <type name="careg" description="Regina, Canada" alias="America/Regina Canada/East-Saskatchewan Canada/Saskatchewan"/>
@@ -132,11 +133,11 @@ For terms of use, see http://www.unicode.org/copyright.html
             <type name="clipc" description="Easter Island, Chile" alias="Pacific/Easter Chile/EasterIsland"/>
             <type name="clscl" description="Santiago, Chile" alias="America/Santiago Chile/Continental"/>
             <type name="cmdla" description="Douala, Cameroon" alias="Africa/Douala"/>
-            <type name="cnckg" description="Chongqing, China" alias="Asia/Chongqing Asia/Chungking"/>
-            <type name="cnhrb" description="Harbin, China" alias="Asia/Harbin"/>
-            <type name="cnkhg" description="Kashgar, China" alias="Asia/Kashgar"/>
-            <type name="cnsha" description="Shanghai, China" alias="Asia/Shanghai PRC"/>
-            <type name="cnurc" description="Ürümqi, China" alias="Asia/Urumqi"/>
+            <type name="cnckg" description="Chongqing, China" deprecated="true" preferred="cnsha"/>
+            <type name="cnhrb" description="Harbin, China" deprecated="true" preferred="cnsha"/>
+            <type name="cnkhg" description="Kashgar, China" deprecated="true" preferred="cnurc"/>
+            <type name="cnsha" description="Shanghai, China" alias="Asia/Shanghai Asia/Chongqing Asia/Chungking Asia/Harbin PRC"/>
+            <type name="cnurc" description="Ürümqi, China" alias="Asia/Urumqi Asia/Kashgar"/>
             <type name="cobog" description="Bogotá, Colombia" alias="America/Bogota"/>
             <type name="crsjo" description="Costa Rica" alias="America/Costa_Rica"/>
             <type name="cst6cdt" description="POSIX style time zone for US Central Time" alias="CST6CDT" since="1.8"/>
@@ -297,7 +298,7 @@ For terms of use, see http://www.unicode.org/copyright.html
             <type name="npktm" description="Kathmandu, Nepal" alias="Asia/Katmandu Asia/Kathmandu"/>
             <type name="nrinu" description="Nauru" alias="Pacific/Nauru"/>
             <type name="nuiue" description="Niue" alias="Pacific/Niue"/>
-            <type name="nzakl" description="Auckland, New Zealand" alias="Pacific/Auckland NZ"/>
+            <type name="nzakl" description="Auckland, New Zealand" alias="Pacific/Auckland Antarctica/South_Pole NZ"/>
             <type name="nzcht" description="Chatham Islands, New Zealand" alias="Pacific/Chatham NZ-CHAT"/>
             <type name="ommct" description="Muscat, Oman" alias="Asia/Muscat"/>
             <type name="papty" description="Panama" alias="America/Panama"/>
@@ -322,6 +323,7 @@ For terms of use, see http://www.unicode.org/copyright.html
             <type name="rereu" description="Réunion" alias="Indian/Reunion"/>
             <type name="robuh" description="Bucharest, Romania" alias="Europe/Bucharest"/>
             <type name="rsbeg" description="Belgrade, Serbia" alias="Europe/Belgrade"/>
+            <type name="ruchita" description="Chita Zabaykalsky, Russia" alias="Asia/Chita" since="26"/>
             <type name="rudyr" description="Anadyr, Russia" alias="Asia/Anadyr"/>
             <type name="rugdx" description="Magadan, Russia" alias="Asia/Magadan"/>
             <type name="ruikt" description="Irkutsk, Russia" alias="Asia/Irkutsk"/>
@@ -334,6 +336,7 @@ For terms of use, see http://www.unicode.org/copyright.html
             <type name="ruoms" description="Omsk, Russia" alias="Asia/Omsk"/>
             <type name="ruovb" description="Novosibirsk, Russia" alias="Asia/Novosibirsk"/>
             <type name="rupkc" description="Kamchatka Peninsula, Russia" alias="Asia/Kamchatka"/>
+            <type name="rusred" description="Srednekolymsk, Russia" alias="Asia/Srednekolymsk" since="26"/>
             <type name="ruunera" description="Ust-Nera Oymyakonsky, Russia" alias="Asia/Ust-Nera" since="23"/>
             <type name="ruuus" description="Sakhalin, Russia" alias="Asia/Sakhalin"/>
             <type name="ruvog" description="Volgograd, Russia" alias="Europe/Volgograd"/>
@@ -392,7 +395,7 @@ For terms of use, see http://www.unicode.org/copyright.html
             <type name="usanc" description="Anchorage, United States" alias="America/Anchorage US/Alaska"/>
             <type name="usboi" description="Boise (Idaho), United States" alias="America/Boise"/>
             <type name="uschi" description="Chicago, United States" alias="America/Chicago US/Central"/>
-            <type name="usden" description="Denver, United States" alias="America/Denver US/Mountain"/>
+            <type name="usden" description="Denver, United States" alias="America/Denver America/Shiprock Navajo US/Mountain"/>
             <type name="usdet" description="Detroit, United States" alias="America/Detroit US/Michigan"/>
             <type name="ushnl" description="Honolulu, United States" alias="Pacific/Honolulu US/Hawaii"/>
             <type name="usind" description="Indianapolis, United States" alias="America/Indianapolis America/Fort_Wayne America/Indiana/Indianapolis US/East-Indiana"/>
@@ -404,7 +407,7 @@ For terms of use, see http://www.unicode.org/copyright.html
             <type name="usmnm" description="Menominee (Michigan), United States" alias="America/Menominee"/>
             <type name="usmtm" description="Metlakatla (Alaska), United States" alias="America/Metlakatla" since="1.9.1"/>
             <type name="usmoc" description="Monticello (Kentucky), United States" alias="America/Kentucky/Monticello"/>
-            <type name="usnavajo" description="Shiprock (Navajo), United States" alias="America/Shiprock Navajo"/>
+            <type name="usnavajo" description="Shiprock (Navajo), United States" deprecated="true" preferred="usden"/>
             <type name="usndcnt" description="Center (North Dakota), United States" alias="America/North_Dakota/Center"/>
             <type name="usndnsl" description="New Salem (North Dakota), United States" alias="America/North_Dakota/New_Salem"/>
             <type name="usnyc" description="New York, United States" alias="America/New_York US/Eastern"/>

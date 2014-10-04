@@ -6,8 +6,8 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 For terms of use, see http://www.unicode.org/copyright.html
 -->
 <supplementalData>
-  <version number="$Revision: 9146 $"/>
-	<generation date="$Date: 2013-08-07 01:01:14 -0500 (Wed, 07 Aug 2013) $"/>
+  <version number="$Revision: 9716 $"/>
+	<generation date="$Date: 2014-02-11 22:47:57 -0600 (Tue, 11 Feb 2014) $"/>
 	<transforms>
 		<transform source="Simplified" target="Traditional" direction="both">
 			<comment># Copyright (c) 2005-2007,2010 Apple Inc., Unicode Inc.,</comment>
@@ -161,7 +161,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<tRule>雨里↔雨裡;</tRule>
 			<tRule>雾里↔霧裡;</tRule>
 			<tRule>夜里↔夜裡;</tRule>
-			<tRule>省裡↔省裡;</tRule>
+			<tRule>省里↔省裡;</tRule>
 			<tRule>镇里↔鎮裡;</tRule>
 			<tRule>城里↔城裡;</tRule>
 			<tRule>市里↔市裡;</tRule>
@@ -244,7 +244,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<tRule>调干↔單幹;</tRule>
 			<tRule>枝干↔枝幹;</tRule>
 			<tRule>主干↔主幹;</tRule>
-			<tRule>＃</tRule>
+			<tRule>#</tRule>
 			<tRule>干贝↔干貝;</tRule>
 			<tRule>干犯↔干犯;</tRule>
 			<tRule>干戈↔干戈;</tRule>
@@ -532,7 +532,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<tRule>阳历↔陽曆;</tRule>
 			<tRule>阴历↔陰曆;</tRule>
 			<tRule>月历↔月曆;</tRule>
-			<tRule>＃</tRule>
+			<tRule>#</tRule>
 			<tRule>游历↔遊歷;</tRule>
 			<tRule>万年历↔萬年曆;</tRule>
 			<tRule>万历↔萬曆;</tRule>
@@ -637,7 +637,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<tRule>发廊↔髮廊;</tRule>
 			<tRule>发妻↔髮妻;</tRule>
 			<tRule>发型↔髮型;</tRule>
-			<tRule>＃ also governs 困</tRule>
+			<tRule># also governs 困</tRule>
 			<tRule>发困↔發睏;</tRule>
 			<tRule>卷土重来↔捲土重來;</tRule>
 			<tRule>卷心菜↔捲心菜;</tRule>
@@ -4149,6 +4149,9 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<tRule>龚↔龔;</tRule>
 			<tRule>龛↔龕;</tRule>
 			<tRule>龟↔龜;</tRule>
+			<comment># map some punctuation too</comment>
+			<tRule>“↔「;</tRule>
+			<tRule>”↔」;</tRule>
 		</transform>
 	</transforms>
 </supplementalData>

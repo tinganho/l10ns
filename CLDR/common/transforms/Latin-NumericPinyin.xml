@@ -6,8 +6,8 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 For terms of use, see http://www.unicode.org/copyright.html
 -->
 <supplementalData>
-  <version number="$Revision: 8242 $"/>
-	<generation date="$Date: 2013-02-24 21:06:02 -0600 (Sun, 24 Feb 2013) $"/>
+  <version number="$Revision: 10774 $"/>
+	<generation date="$Date: 2014-08-12 23:23:18 -0500 (Tue, 12 Aug 2014) $"/>
 	<transforms>
 		<transform source="Latin" target="NumericPinyin" direction="both">
 			<comment># According to the pinyin definitions I've been able to find:</comment>
@@ -29,7 +29,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<tRule>($tone) ( [i o n u {o n} {n g}]) → $2 &amp;Pinyin-NumericPinyin($1);</tRule>
 			<tRule>($tone) → &amp;Pinyin-NumericPinyin($1);</tRule>
 			<comment># The following backs up until it finds the right vowel, then deposits the tone</comment>
-			<tRule>$vowel = [aAeEiIoOuUüÜ {ü} {Ü} ];</tRule>
+			<tRule>$vowel = [aAeEiIoOuU {ü} {Ü} vV];</tRule>
 			<tRule>$consonant = [[a-z A-Z] - [$vowel]];</tRule>
 			<tRule>$digit = [1-5];</tRule>
 			<tRule>$1 &amp;NumericPinyin-Pinyin($3) $2 ← ([aAeE]) ($vowel* $consonant*) ($digit);</tRule>

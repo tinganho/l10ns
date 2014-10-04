@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
-<!-- Copyright © 1991-2013 Unicode, Inc.
+<!-- Copyright © 1991-2014 Unicode, Inc.
 CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
 For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 9280 $"/>
-		<generation date="$Date: 2013-08-27 13:07:13 -0500 (Tue, 27 Aug 2013) $"/>
+		<version number="$Revision: 10819 $"/>
+		<generation date="$Date: 2014-08-14 22:53:08 -0500 (Thu, 14 Aug 2014) $"/>
 		<language type="bn"/>
 		<territory type="IN"/>
 	</identity>
@@ -16,8 +16,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="ab">আবখাজিয়ান</language>
 			<language type="ace">অ্যাচাইনিজ</language>
 			<language type="ach">আকোলি</language>
-			<language type="afa">আফ্রো-এশিয়াটিক ভাষা</language>
-			<language type="alg">আলগোনকিউয়ান ভাষা</language>
 			<language type="anp" draft="contributed">আঙ্গিকা</language>
 			<language type="ch" draft="contributed">চামোরো</language>
 			<language type="chn" draft="contributed">চিনুক জার্গন</language>
@@ -28,10 +26,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="de_AT">অস্ট্রিয়ান জারমান</language>
 			<language type="doi">ডোগরি</language>
 			<language type="fr_CA">ক্যানাডিয়ান ফরাসী</language>
-			<language type="map" draft="contributed">অস্ট্রোনেসিয়ান</language>
 			<language type="or">উড়িয়া</language>
 			<language type="rup" draft="contributed">আরমেনিয়ান</language>
-			<language type="tut" draft="contributed">আলটাইক</language>
 			<language type="zbl" draft="contributed">ব্লিসসিম্বলস</language>
 		</languages>
 		<scripts>
@@ -130,11 +126,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<metazone type="French_Southern">
 				<long>
 					<standard draft="contributed">ফরাসি দক্ষিণ এবং আন্টার্কটিক সময়</standard>
-				</long>
-			</metazone>
-			<metazone type="Guyana">
-				<long>
-					<standard draft="contributed">গুয়ানা সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Indian_Ocean">

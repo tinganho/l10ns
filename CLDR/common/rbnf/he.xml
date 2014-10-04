@@ -7,8 +7,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
     <identity>
-        <version number="$Revision: 8242 $"/>
-        <generation date="$Date: 2013-02-24 21:06:02 -0600 (Sun, 24 Feb 2013) $"/>
+        <version number="$Revision: 10589 $"/>
+        <generation date="$Date: 2014-06-20 16:17:31 -0500 (Fri, 20 Jun 2014) $"/>
         <language type="he"/>
     </identity>
     <rbnf>
@@ -265,7 +265,6 @@ For terms of use, see http://www.unicode.org/copyright.html
                 <rbnfrule value="8">שמונת;</rbnfrule>
                 <rbnfrule value="9">תשעת;</rbnfrule>
                 <rbnfrule value="10">עשרת;</rbnfrule>
-                <rbnfrule value="0">=%spellout-cardinal-masculine= ;</rbnfrule>
             </ruleset>
             <ruleset type="and-masculine" access="private">
                 <rbnfrule value="1">ו=%%spellout-numbering-m=;</rbnfrule>

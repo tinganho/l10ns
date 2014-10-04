@@ -7,8 +7,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
     <identity>
-        <version number="$Revision: 8242 $"/>
-        <generation date="$Date: 2013-02-24 21:06:02 -0600 (Sun, 24 Feb 2013) $"/>
+        <version number="$Revision: 10778 $"/>
+        <generation date="$Date: 2014-08-13 02:22:00 -0500 (Wed, 13 Aug 2014) $"/>
         <language type="hi"/>
     </identity>
     <rbnf>
@@ -157,9 +157,28 @@ For terms of use, see http://www.unicode.org/copyright.html
             </ruleset>
         </rulesetGrouping>
         <rulesetGrouping type="OrdinalRules">
-            <ruleset type="digits-ordinal">
+            <ruleset type="digits-ordinal-masculine">
                 <rbnfrule value="-x">−→→;</rbnfrule>
-                <rbnfrule value="0">=#,##,##0=.;</rbnfrule>
+                <rbnfrule value="0">0;</rbnfrule>
+                <rbnfrule value="1">=#,##,##0=ला;</rbnfrule>
+                <rbnfrule value="2">=#,##,##0=रा;</rbnfrule>
+                <rbnfrule value="4">=#,##,##0=था;</rbnfrule>
+                <rbnfrule value="5">=#,##,##0=वाँ;</rbnfrule>
+                <rbnfrule value="6">=#,##,##0=टा;</rbnfrule>
+                <rbnfrule value="7">=#,##,##0=वाँ;</rbnfrule>
+            </ruleset>
+            <ruleset type="digits-ordinal-feminine">
+                <rbnfrule value="-x">−→→;</rbnfrule>
+                <rbnfrule value="0">0;</rbnfrule>
+                <rbnfrule value="1">=#,##,##0=ली;</rbnfrule>
+                <rbnfrule value="2">=#,##,##0=री;</rbnfrule>
+                <rbnfrule value="4">=#,##,##0=थी;</rbnfrule>
+                <rbnfrule value="5">=#,##,##0=वीँ;</rbnfrule>
+                <rbnfrule value="6">=#,##,##0=टी;</rbnfrule>
+                <rbnfrule value="7">=#,##,##0=वीँ;</rbnfrule>
+            </ruleset>
+            <ruleset type="digits-ordinal">
+                <rbnfrule value="0">=%digits-ordinal-masculine=;</rbnfrule>
             </ruleset>
         </rulesetGrouping>
     </rbnf>

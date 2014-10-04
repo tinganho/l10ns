@@ -31,20 +31,25 @@ function MessageFormat(locale) {
   this.lastChoiceCase = null;
   this.pluralKeywords = ['zero', 'one', 'two', 'few', 'many', 'other'];
   this.numberSymbols = {};
-  this.decimalPattern = null;
-  this.percentagePattern = null;
-  this.currencyPattern = null;
+  this.decimalPatterns = {};
+  this.percentagePatterns = {};
+  this.currencyPatterns = {};
   this.currencies = {};
+  this.localeDocument = null;
+  this.languageDocument = null;
+  this.rootDocument = null;
+  this._currentNumberSystem = 'latn';
   this.currencyUnitPattern = {};
   this._readPluralizationRules();
   this._readOrdinalRules();
+  this._readDocuments();
   this._readNumberFormatsData();
 };
 
 /**
  * Characters
  *
- * @type {Enum}
+ * @enum {String}
  * @api private
  */
 
@@ -57,6 +62,37 @@ MessageFormat.Characters = {
   EMPTY: '',
   COMMA: ',',
   EOF: -1
+};
+
+/**
+ * Numbering systems
+ *
+ * @enum {Number}
+ * @api public
+ */
+
+MessageFormat.NumberSystems = {
+  ARAB: 'arab',
+  ARABEXT: 'arabext',
+  BALI: 'bali',
+  BENG: 'beng',
+  DEVA: 'deva',
+  GUJR: 'gujr',
+  GURU: 'guru',
+  HANIDEC: 'hanidec',
+  KHMR: 'khmr',
+  KNDA: 'knda',
+  LAOO: 'laoo',
+  LATN: 'latn',
+  LIMB: 'limb',
+  MLYM: 'mlym',
+  MONG: 'mong',
+  MYMR: 'mymr',
+  ORYA: 'orya',
+  TAMLDEC: 'tamldec',
+  TELU: 'telu',
+  THAI: 'thai',
+  TIBT: 'tibt'
 };
 
 /**
@@ -122,7 +158,7 @@ MessageFormat.prototype._parsePrimary = function(options) {
   this.escapeCharacter = options.escapeCharacter;
 
   if(options.parseRemaining && this.currentToken === MessageFormat.Characters.REMAINING) {
-    var integerPattern = JSON.parse(JSON.stringify(this.decimalPattern.positive));
+    var integerPattern = AST.NumberFormatPattern.parse(this.decimalPatterns[this._currentNumberSystem]).positive;
     integerPattern.fraction = null;
     return this._parseRemaining(options.variable, options.offset, integerPattern);
   }
@@ -285,6 +321,21 @@ MessageFormat.prototype._parseSwitchStatement = function(variable) {
     type += this.currentToken;
     this.currentToken = this.lexer.getNextToken();
   }
+  if(this.currentToken === MessageFormat.Characters.NUMBER_SYSTEM_SEPARATOR) {
+    this.currentToken = this.lexer.getNextToken();
+    while(this._isAlphaNumeric(this.currentToken)) {
+      numberSystem += this.currentToken;
+      this.currentToken = this.lexer.getNextToken();
+    }
+
+    if(!MessageFormat.NumberSystems.hasOwnProperty(numberSystem)) {
+      throw new TypeError('No defined number system in l10ns called \'' + numberSystem + '\'');
+    }
+  }
+  else {
+    numberSystem = this.defaultNumberSystem;
+  }
+  this._currentNumberSystem = numberSystem;
 
   this._swallowWhiteSpace();
 
@@ -354,10 +405,17 @@ MessageFormat.prototype._parseSimpleFormat = function(type, variable) {
 
   switch(type) {
     case 'date':
-      console.log(argument);
       return new AST.date.DateFormat(this.locale, variable, argument, this);
     case 'number':
-      return new AST.NumberFormat(this.locale, variable, argument, this);
+      return new AST.NumberFormat(
+        this.locale,
+        variable,
+        argument,
+        this.numberSymbols[this._currentNumberSystem],
+        this.currencies,
+        AST.NumberFormatPattern.parse(this.decimalPatterns[this._currentNumberSystem]),
+        AST.NumberFormatPattern.parse(this.percentagePatterns[this._currentNumberSystem])
+      );
   }
 };
 
@@ -371,6 +429,7 @@ MessageFormat.prototype._parseSimpleFormat = function(type, variable) {
 
 MessageFormat.prototype._parseCurrencyFormat = function(variable) {
   var context = ''
+    , numberSystem = ''
     , type = '';
 
   // Swallow comma
@@ -380,7 +439,6 @@ MessageFormat.prototype._parseCurrencyFormat = function(variable) {
     context += this.currentToken
     this.currentToken = this.lexer.getNextToken();
   }
-  this._swallowWhiteSpace();
 
   if(this.currentToken !== MessageFormat.Characters.COMMA) {
     throw new TypeError('Missing comma in currency format in ' + this.lexer.getLatestTokensLog());
@@ -414,7 +472,7 @@ MessageFormat.prototype._parseCurrencyFormat = function(variable) {
     context = 'reverseGlobal';
   }
 
-  return new AST.CurrencyFormat(this.locale, variable, context, type, this);
+  return new AST.CurrencyFormat(this.locale, variable, context, type, this.currencies, AST.NumberFormatPattern.parse(this.currencyPatterns[this._currentNumberSystem]));
 };
 
 /**
@@ -909,6 +967,29 @@ MessageFormat.prototype._readOrdinalRules = function() {
 };
 
 /**
+ * Read LDML documents
+ *
+ * @return {void}
+ * @api private
+ */
+
+MessageFormat.prototype._readDocuments = function() {
+  var _this = this
+    , rootDocumentPath = path.join(__dirname, '../../CLDR/common/main/root.xml')
+    , localeDocumentPath = path.join(__dirname, '../../CLDR/common/main/' + this.language + '_' + this.region + '.xml')
+    , languageDocumentPath = path.join(__dirname, '../../CLDR/common/main/' + this.language + '.xml');
+
+  this.rootDocument = xml.parseXmlString(fs.readFileSync(rootDocumentPath, 'utf-8'), { noblanks: true })
+  if(fs.existsSync(localeDocumentPath)) {
+    this.localeDocument = xml.parseXmlString(fs.readFileSync(localeDocumentPath, 'utf-8'), { noblanks: true })
+  }
+
+  if(fs.existsSync(languageDocumentPath)) {
+    this.languageDocument = xml.parseXmlString(fs.readFileSync(languageDocumentPath, 'utf-8'), { noblanks: true })
+  }
+};
+
+/**
  * Read number format data such as currency, number symbols and different
  * number patterns.
  *
@@ -917,75 +998,87 @@ MessageFormat.prototype._readOrdinalRules = function() {
  */
 
 MessageFormat.prototype._readNumberFormatsData = function() {
-  var _this = this
-    , localeDocumentPath = path.join(__dirname, '../../CLDR/common/main/' + this.language + '_' + this.region + '.xml')
-    , languageDocumentPath = path.join(__dirname, '../../CLDR/common/main/' + this.language + '.xml')
-    , localeDocument = null
-    , languageDocument = null;
+  this._readNumberFormatPatterns();
+  this._readNumberSymbols();
+  this._readCurrencyData();
+};
 
-  if(fs.existsSync(localeDocumentPath)) {
-    localeDocument = xml.parseXmlString(fs.readFileSync(localeDocumentPath, 'utf-8'), { noblanks: true })
+/**
+ * Read XML node from CLDR
+ *
+ * @param {String} path
+ * @return {null|String}
+ */
+
+MessageFormat.prototype._getXMLNode = function(path) {
+  var node;
+  if(this.localeDocument) {
+    node = this.localeDocument.get(path);
   }
-  if(fs.existsSync(languageDocumentPath)) {
-    languageDocument = xml.parseXmlString(fs.readFileSync(languageDocumentPath, 'utf-8'), { noblanks: true })
+  if(!node) {
+    node = this.languageDocument.get(path);
+  }
+  if(!node) {
+    node = this.rootDocument.get(path);
   }
 
-  this._readNumberFormatPatterns(localeDocument, languageDocument)
-  this._readNumberSymbols(localeDocument, languageDocument);
-  this._readCurrencyData(localeDocument, languageDocument);
+  if(node.child(0).name() === 'alias') {
+    var relativePath = node.child(0).attr('path').value();
+    node = node.get(relativePath);
+  }
+
+  return node;
 };
 
 /**
  * Read number format patterns
  *
- * @param {XMLDocument} languageDocument Language specific main CLDR XML document
- * @param {XMLDocument} localeDocument Locale specific main CLDR XML document
  * @return {void}
  * @api private
  */
 
-MessageFormat.prototype._readNumberFormatPatterns = function(localeDocument, languageDocument) {
-  var decimalPattern;
-  if(localeDocument) {
-    decimalPattern = localeDocument.get(
-      '//ldml/numbers/decimalFormats[@numberSystem=\'latn\']/decimalFormatLength/decimalFormat/pattern');
-  }
-  if(!decimalPattern) {
-    decimalPattern = languageDocument.get(
-      '//ldml/numbers/decimalFormats[@numberSystem=\'latn\']/decimalFormatLength/decimalFormat/pattern');
-  }
-  if(!decimalPattern) {
-    throw new TypeError('No decimal pattern exist for ' + this.locale + ' in CLDR.');
-  }
-  this.decimalPattern = AST.NumberFormatPattern.parse(decimalPattern.text());
+MessageFormat.prototype._readNumberFormatPatterns = function() {
+  var pattern;
 
-  var percentagePattern;
-  if(localeDocument) {
-    percentagePattern = localeDocument.get(
-      '//ldml/numbers/percentFormats[@numberSystem=\'latn\']/percentFormatLength/percentFormat/pattern');
+  this.defaultNumberSystem = this._getXMLNode('//ldml/numbers/defaultNumberingSystem').text();
+  this.nativeNumberSystem = this._getXMLNode('//ldml/numbers/otherNumberingSystems/native').text();
+  for(var property in MessageFormat.NumberSystems) {
+    if(MessageFormat.NumberSystems.hasOwnProperty(property)) {
+      var numberSystem = MessageFormat.NumberSystems[property];
+      if(numberSystem !== this.nativeNumberSystem && numberSystem !== this.defaultNumberSystem) {
+        continue;
+      }
+      pattern = this._getXMLNode('//ldml/numbers/decimalFormats[@numberSystem=\'' + numberSystem + '\']');
+      this.decimalPatterns[numberSystem] = pattern.get('decimalFormatLength/decimalFormat/pattern').text();
+    }
   }
-  if(!percentagePattern) {
-    percentagePattern = languageDocument.get(
-      '//ldml/numbers/percentFormats[@numberSystem=\'latn\']/percentFormatLength/percentFormat/pattern');
-  }
-  if(!percentagePattern) {
-    throw new TypeError('No percentage pattern exist for ' + this.locale + ' in CLDR.');
-  }
-  this.percentagePattern = AST.NumberFormatPattern.parse(percentagePattern.text());
 
-  var currencyPattern;
-  if(localeDocument) {
-    currencyPattern = localeDocument.get(
-      '//ldml/numbers/currencyFormats[@numberSystem=\'latn\']/currencyFormatLength/currencyFormat[@type=\'accounting\']/pattern');
+  for(var property in MessageFormat.NumberSystems) {
+    if(MessageFormat.NumberSystems.hasOwnProperty(property)) {
+      var numberSystem = MessageFormat.NumberSystems[property];
+      if(numberSystem !== this.nativeNumberSystem && numberSystem !== this.defaultNumberSystem) {
+        continue;
+      }
+      pattern = this._getXMLNode('//ldml/numbers/percentFormats[@numberSystem=\'' + numberSystem + '\']');
+      this.percentagePatterns[numberSystem] = pattern.get('percentFormatLength/percentFormat/pattern').text();
+    }
   }
-  if(!currencyPattern) {
-    currencyPattern = languageDocument.get(
-      '//ldml/numbers/currencyFormats[@numberSystem=\'latn\']/currencyFormatLength/currencyFormat[@type=\'accounting\']/pattern');
+
+  for(var property in MessageFormat.NumberSystems) {
+    if(MessageFormat.NumberSystems.hasOwnProperty(property)) {
+      var numberSystem = MessageFormat.NumberSystems[property];
+      if(numberSystem !== this.nativeNumberSystem && numberSystem !== this.defaultNumberSystem) {
+        continue;
+      }
+      pattern = this._getXMLNode('//ldml/numbers/currencyFormats[@numberSystem=\'' + numberSystem + '\']');
+      var accountingNode = pattern.get('currencyFormatLength/currencyFormat[@type=\'accounting\']');
+      if(accountingNode.child(0).name() === 'alias') {
+        var relativePath = accountingNode.child(0).attr('path').value();
+        accountingNode = accountingNode.get(relativePath);
+      }
+      this.currencyPatterns[numberSystem] = accountingNode.get('pattern').text();
+    }
   }
-  if(!currencyPattern) {
-    throw new TypeError('No standard currency pattern exist for ' + this.locale + ' in CLDR.');
-  }
-  this.currencyPattern = AST.NumberFormatPattern.parse(currencyPattern.text());
 };
 
 /**
@@ -997,25 +1090,22 @@ MessageFormat.prototype._readNumberFormatPatterns = function(localeDocument, lan
  * @api private
  */
 
-MessageFormat.prototype._readNumberSymbols = function(languageDocument, localeDocument) {
+MessageFormat.prototype._readNumberSymbols = function(rootDocument, languageDocument, localeDocument) {
   var _this = this;
 
   var symbols;
-  if(localeDocument) {
-    symbols = localeDocument.get(
-      '//ldml/numbers/symbols');
-  }
-  if(!symbols) {
-    symbols = languageDocument.get(
-    '//ldml/numbers/symbols');
-  }
-  if(symbols) {
-    symbols.childNodes().forEach(function(symbol) {
-      _this.numberSymbols[symbol.name()] = symbol.text();
-    });
-  }
-  else {
-    throw TypeError('No number symbols exists for ' + this.locale + ' in CLDR.');
+  for(var property in MessageFormat.NumberSystems) {
+    if(MessageFormat.NumberSystems.hasOwnProperty(property)) {
+      var numberSystem = MessageFormat.NumberSystems[property];
+      if(numberSystem !== this.nativeNumberSystem && numberSystem !== this.defaultNumberSystem) {
+        continue;
+      }
+      symbols = this._getXMLNode('//ldml/numbers/symbols[@numberSystem=\'' + numberSystem + '\']');
+      this.numberSymbols[numberSystem] = {};
+      symbols.childNodes().forEach(function(symbol) {
+        _this.numberSymbols[numberSystem][symbol.name()] = symbol.text();
+      });
+    }
   }
 };
 
@@ -1028,17 +1118,17 @@ MessageFormat.prototype._readNumberSymbols = function(languageDocument, localeDo
  * @api private
  */
 
-MessageFormat.prototype._readCurrencyData = function(localeDocument, languageDocument) {
+MessageFormat.prototype._readCurrencyData = function() {
   var _this = this;
 
   var currencyUnitPatterns;
-  if(localeDocument) {
-    currencyUnitPatterns = localeDocument.get(
+  if(this.localeDocument) {
+    currencyUnitPatterns = this.localeDocument.get(
       '//ldml/numbers/currencyFormats[@numberSystem=\'latn\']');
   }
   if(!currencyUnitPatterns) {
-    currencyUnitPatterns = languageDocument.get(
-    '//ldml/numbers/currencyFormats[@numberSystem=\'latn\']');
+    currencyUnitPatterns = this.languageDocument.get(
+      '//ldml/numbers/currencyFormats[@numberSystem=\'latn\']');
   }
   if(!currencyUnitPatterns) {
     throw new TypeError('No currency unit pattern exist for ' + this.locale + ' in CLDR.');
@@ -1053,12 +1143,12 @@ MessageFormat.prototype._readCurrencyData = function(localeDocument, languageDoc
     Object.prototype.toString.call(project.currencies) === '[object Array]') {
     project.currencies.forEach(function(currency) {
       var currencyNames;
-      if(localeDocument) {
-        currencyNames = localeDocument.get(
+      if(_this.localeDocument) {
+        currencyNames = _this.localeDocument.get(
           '//ldml/numbers/currencies/currency[@type=\'' + currency + '\']');
       }
       if(!currencyNames) {
-        currencyNames = languageDocument.get(
+        currencyNames = _this.languageDocument.get(
           '//ldml/numbers/currencies/currency[@type=\'' + currency + '\']');
       }
       if(!currencyNames) {

@@ -1,5 +1,5 @@
 # ScriptMetadata.txt
-# Copyright © 1991-2013 Unicode, Inc.
+# Copyright © 1991-2014 Unicode, Inc.
 # CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
 # For terms of use, see http://www.unicode.org/copyright.html
 #
@@ -52,7 +52,7 @@
 # Note: For the most likely language for each script, see 
 #		http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/likely_subtags.html
 #
-Zyyy; 1; 0040; ZZ; -1; UNKNOWN; UNKNOWN; UNKNOWN; UNKNOWN; UNKNOWN; UNKNOWN
+Zyyy; 1; 0040; ZZ; -1; RECOMMENDED; UNKNOWN; UNKNOWN; UNKNOWN; UNKNOWN; UNKNOWN
 Latn; 2; 004C; IT; 1; RECOMMENDED; NO; NO; MIN; NO; YES
 Hani; 3; 5B57; CN; 3; RECOMMENDED; NO; YES; NO; YES; NO
 Hans; 3; 5B57; CN; 3; RECOMMENDED; NO; YES; NO; YES; NO
@@ -98,12 +98,12 @@ Copt; 40; 03E2; EG; 1; EXCLUSION; NO; NO; MIN; NO; YES
 Mong; 41; 1826; MN; 1; ASPIRATIONAL; NO; NO; YES; NO; NO
 Glag; 42; 2C00; BG; 1; EXCLUSION; NO; NO; NO; NO; YES
 Vaii; 43; A549; LR; 2; LIMITED_USE; NO; NO; NO; YES; NO
-Bali; 44; 1B05; ID; 1; LIMITED_USE; NO; YES; YES; NO; NO
+Bali; 44; 1B05; ID; 1; LIMITED_USE; NO; NO; YES; NO; NO
 Tfng; 45; 2D30; MA; 1; ASPIRATIONAL; NO; NO; NO; NO; NO
 Bamu; 46; A6A0; CM; 1; LIMITED_USE; NO; NO; MIN; YES; NO
 Batk; 47; 1BC0; ID; 1; LIMITED_USE; NO; NO; YES; NO; NO
 Cham; 48; AA00; VN; 1; LIMITED_USE; NO; NO; YES; NO; NO
-Java; 49; A984; ID; 1; LIMITED_USE; NO; YES; YES; NO; NO
+Java; 49; A984; ID; 1; LIMITED_USE; NO; NO; YES; NO; NO
 Kali; 50; A90A; MM; 1; LIMITED_USE; NO; NO; MIN; NO; NO
 Lepc; 51; 1C00; IN; 1; LIMITED_USE; NO; NO; YES; NO; NO
 Limb; 52; 1900; IN; 1; LIMITED_USE; NO; NO; YES; NO; NO
@@ -159,5 +159,28 @@ Shrd; 101; 11183; IN; 1; EXCLUSION; NO; NO; YES; NO; NO
 Sora; 102; 110D0; IN; 1; EXCLUSION; NO; NO; NO; NO; NO
 Takr; 103; 11680; IN; 1; EXCLUSION; NO; NO; YES; NO; NO
 Brai; 104; 2800; FR; -1; UNKNOWN; UNKNOWN; UNKNOWN; UNKNOWN; UNKNOWN; UNKNOWN
+Aghb; 105; 10537; RU; 1; EXCLUSION; NO; NO; NO; NO; NO
+Bass; 106; 16AE6; LR; 1; EXCLUSION; NO; NO; NO; NO; NO
+Dupl; 107; 1BC20; FR; 1; EXCLUSION; NO; NO; NO; YES; NO
+Elba; 108; 10500; AL; 1; EXCLUSION; NO; NO; NO; NO; NO
+Gran; 109; 11315; IN; 1; EXCLUSION; NO; NO; NO; NO; NO
+Hmng; 110; 16B1C; LA; 1; EXCLUSION; NO; NO; NO; NO; NO
+Khoj; 111; 11208; IN; 1; EXCLUSION; NO; NO; NO; NO; NO
+Lina; 112; 10647; GR; 1; EXCLUSION; NO; NO; NO; YES; NO
+Mahj; 113; 11152; IN; 1; EXCLUSION; NO; NO; NO; NO; NO
+Mani; 114; 10AD8; CN; 1; EXCLUSION; YES; NO; NO; NO; NO
+Mend; 115; 1E802; SL; 1; EXCLUSION; YES; NO; NO; YES; NO
+Modi; 116; 1160E; IN; 1; EXCLUSION; NO; NO; NO; NO; NO
+Mroo; 117; 16A4F; BD; 1; EXCLUSION; NO; NO; NO; NO; NO
+Narb; 118; 10A95; SA; 1; EXCLUSION; YES; NO; NO; NO; NO
+Nbat; 119; 10896; JO; 1; EXCLUSION; YES; NO; NO; NO; NO
+Palm; 120; 10873; SY; 1; EXCLUSION; YES; NO; NO; NO; NO
+Pauc; 121; 11AC0; MM; 1; EXCLUSION; NO; NO; NO; NO; NO
+Perm; 122; 1036B; RU; 1; EXCLUSION; NO; NO; NO; NO; NO
+Phlp; 123; 10B8F; CN; 1; EXCLUSION; YES; NO; NO; NO; NO
+Sidd; 124; 1158E; IN; 1; EXCLUSION; NO; NO; NO; NO; NO
+Sind; 125; 112BE; IN; 1; EXCLUSION; NO; NO; NO; NO; NO
+Tirh; 126; 11484; IN; 1; EXCLUSION; NO; NO; NO; NO; NO
+Wara; 127; 118B4; IN; 1; EXCLUSION; NO; NO; NO; NO; YES
 
 # EOF

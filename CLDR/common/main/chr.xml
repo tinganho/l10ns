@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
-<!-- Copyright © 1991-2013 Unicode, Inc.
+<!-- Copyright © 1991-2014 Unicode, Inc.
 CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
 For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 9315 $"/>
-		<generation date="$Date: 2013-09-05 11:52:00 -0500 (Thu, 05 Sep 2013) $"/>
+		<version number="$Revision: 10669 $"/>
+		<generation date="$Date: 2014-07-23 16:10:33 -0500 (Wed, 23 Jul 2014) $"/>
 		<language type="chr"/>
 	</identity>
 	<localeDisplayNames>
@@ -383,7 +383,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 							<month type="9">ᏚᎵ</month>
 							<month type="10">ᏚᏂ</month>
 							<month type="11">ᏅᏓ</month>
-							<month type="12">ᎤᏍ</month>
+							<month type="12">ᎥᏍ</month>
 						</monthWidth>
 						<monthWidth type="wide">
 							<month type="1">ᎤᏃᎸᏔᏅ</month>
@@ -397,7 +397,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 							<month type="9">ᏚᎵᏍᏗ</month>
 							<month type="10">ᏚᏂᏅᏗ</month>
 							<month type="11">ᏅᏓᏕᏆ</month>
-							<month type="12">ᎤᏍᎩᏱ</month>
+							<month type="12">ᎥᏍᎩᏱ</month>
 						</monthWidth>
 					</monthContext>
 					<monthContext type="stand-alone">
@@ -413,7 +413,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 							<month type="9">Ꮪ</month>
 							<month type="10">Ꮪ</month>
 							<month type="11">Ꮕ</month>
-							<month type="12">Ꭴ</month>
+							<month type="12">Ꭵ</month>
 						</monthWidth>
 					</monthContext>
 				</months>
@@ -797,32 +797,72 @@ For terms of use, see http://www.unicode.org/copyright.html
 	<units>
 		<unitLength type="long">
 			<unit type="duration-day">
+				<displayName draft="provisional">ᏧᏒᎯᏓ</displayName>
 				<unitPattern count="one">{0} ᏏᎦ</unitPattern>
 				<unitPattern count="other">{0} ᏧᏒᎯᏓ</unitPattern>
 			</unit>
 			<unit type="duration-hour">
+				<displayName draft="provisional">ᎢᏧᏣᎶᏓ</displayName>
 				<unitPattern count="one">{0} ᏑᏣᎶᏓ</unitPattern>
 				<unitPattern count="other">{0} ᎢᏧᏣᎶᏓ</unitPattern>
 			</unit>
 			<unit type="duration-minute">
+				<displayName draft="provisional">ᎢᏧᏔᏬᏍᏔᏅ</displayName>
 				<unitPattern count="one">{0} ᎢᏯᏔᏬᏍᏔᏅ</unitPattern>
 				<unitPattern count="other">{0} ᎢᏧᏔᏬᏍᏔᏅ</unitPattern>
 			</unit>
 			<unit type="duration-month">
+				<displayName draft="provisional">ᎢᏯᏅᏓ</displayName>
 				<unitPattern count="one">{0} ᏏᏅᏓ</unitPattern>
 				<unitPattern count="other">{0} ᎢᏯᏅᏓ</unitPattern>
 			</unit>
 			<unit type="duration-second">
+				<displayName draft="provisional">ᏗᏎᏢ</displayName>
 				<unitPattern count="one">{0} ᎠᏎᏢ</unitPattern>
 				<unitPattern count="other">{0} ᏗᏎᏢ</unitPattern>
 			</unit>
 			<unit type="duration-week">
+				<displayName draft="provisional">ᎢᏳᎾᏙᏓᏆᏍᏗ</displayName>
 				<unitPattern count="one">{0} ᏒᎾᏙᏓᏆᏍᏗ</unitPattern>
 				<unitPattern count="other">{0} ᎢᏳᎾᏙᏓᏆᏍᏗ</unitPattern>
 			</unit>
 			<unit type="duration-year">
+				<displayName draft="provisional">ᏧᏕᏘᏴᏓ</displayName>
 				<unitPattern count="one">{0} ᏑᏕᏘᏴᏓ</unitPattern>
 				<unitPattern count="other">{0} ᏧᏕᏘᏴᏓ</unitPattern>
+			</unit>
+		</unitLength>
+		<unitLength type="short">
+			<unit type="duration-day">
+				<displayName draft="provisional">ᏧᏒᎯᏓ</displayName>
+			</unit>
+			<unit type="duration-hour">
+				<displayName draft="provisional">ᎢᏧᏣᎶᏓ</displayName>
+			</unit>
+			<unit type="duration-minute">
+				<displayName draft="provisional">ᎢᏧᏔᏬᏍᏔᏅ</displayName>
+			</unit>
+			<unit type="duration-month">
+				<displayName draft="provisional">ᎢᏯᏅᏓ</displayName>
+			</unit>
+			<unit type="duration-second">
+				<displayName draft="provisional">ᏗᏎᏢ</displayName>
+			</unit>
+			<unit type="duration-week">
+				<displayName draft="provisional">ᎢᏳᎾᏙᏓᏆᏍᏗ</displayName>
+			</unit>
+			<unit type="duration-year">
+				<displayName draft="provisional">ᏧᏕᏘᏴᏓ</displayName>
+			</unit>
+		</unitLength>
+		<unitLength type="narrow">
+			<unit type="temperature-celsius">
+				<unitPattern count="one">{0}°C</unitPattern>
+				<unitPattern count="other">{0}°C</unitPattern>
+			</unit>
+			<unit type="temperature-fahrenheit">
+				<unitPattern count="one">{0}°</unitPattern>
+				<unitPattern count="other">{0}°</unitPattern>
 			</unit>
 		</unitLength>
 	</units>
@@ -833,4 +873,3 @@ For terms of use, see http://www.unicode.org/copyright.html
 		</messages>
 	</posix>
 </ldml>
-

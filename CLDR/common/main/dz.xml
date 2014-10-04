@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
-<!-- Copyright © 1991-2013 Unicode, Inc.
+<!-- Copyright © 1991-2014 Unicode, Inc.
 CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
 For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 9287 $"/>
-		<generation date="$Date: 2013-08-28 21:32:04 -0500 (Wed, 28 Aug 2013) $"/>
+		<version number="$Revision: 10669 $"/>
+		<generation date="$Date: 2014-07-23 16:10:33 -0500 (Wed, 23 Jul 2014) $"/>
 		<language type="dz"/>
 	</identity>
 	<localeDisplayNames>
@@ -22,12 +22,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="af">ཨཕ་རི་ཀཱནས་ཁ</language>
 			<language type="am">ཨམ་ཧ་རིཀ་ཁ</language>
 			<language type="ar">ཨེ་ར་བིཀ་ཁ</language>
-			<language type="art" draft="unconfirmed">བཟོ་བཟོཝ (གཞན)</language>
 			<language type="as">ཨ་ས་མིས་ཁ</language>
 			<language type="az">ཨ་ཛར་བྷའི་ཇཱན་ཁ</language>
 			<language type="be">བེལ་ཨ་རུས་ཁ</language>
 			<language type="bg">བཱལ་གེ་རི་ཡཱན་ཁ</language>
-			<language type="bh" draft="unconfirmed">བི་ཧ་ལི</language>
 			<language type="bn">བངྒ་ལ་ཁ</language>
 			<language type="bo">བོད་ཁ</language>
 			<language type="bs">བྷོས་ནི་ཡཱན་ཁ</language>
@@ -73,14 +71,12 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="haw">ཧ་ཝ་ཡིའི་ཁ</language>
 			<language type="he">ཧེ་བྲུ་ཁ</language>
 			<language type="hi">ཧིན་དི་ཁ</language>
-			<language type="him">ཧི་མ་ཅ་ལི་ཁ</language>
 			<language type="hr">ཀྲོ་ཨེ་ཤི་ཡཱན་ཁ</language>
 			<language type="ht">ཧེ་ཏི་ཡཱན་ཁ</language>
 			<language type="hu">ཧཱང་གྷ་རི་ཡཱན་ཁ</language>
 			<language type="hy">ཨར་མི་ནི་ཡཱན་ཁ</language>
 			<language type="id">ཨིན་ཌོ་ནེ་ཤི་ཡཱན་ཁ</language>
 			<language type="ig">ཨིག་བོ་ཁ</language>
-			<language type="inc">ཨིན་ཌིཀ་ཁ་སྐད</language>
 			<language type="is">ཨ་ཡིས་ལེན་ཌིཀ་ཁ</language>
 			<language type="it">ཨི་ཊ་ལི་ཡཱན་ཁ</language>
 			<language type="ja">ཇཱ་པཱ་ནིས་ཁ</language>
@@ -1289,9 +1285,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<zone type="Antarctica/Palmer">
 				<exemplarCity draft="unconfirmed">ཕཱལ་མར</exemplarCity>
 			</zone>
-			<zone type="Antarctica/South_Pole">
-				<exemplarCity draft="unconfirmed">སཱའུཐ་པོལ</exemplarCity>
-			</zone>
 			<zone type="Antarctica/Mawson">
 				<exemplarCity>མའུ་སཱོན</exemplarCity>
 			</zone>
@@ -1399,9 +1392,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</zone>
 			<zone type="America/Toronto">
 				<exemplarCity>ཊོ་རོན་ཊོ</exemplarCity>
-			</zone>
-			<zone type="America/Montreal">
-				<exemplarCity>མཱོནཊ་རི་ཡལ</exemplarCity>
 			</zone>
 			<zone type="America/Pangnirtung">
 				<exemplarCity>པེང་ནིར་ཏུང</exemplarCity>
@@ -2621,25 +2611,55 @@ For terms of use, see http://www.unicode.org/copyright.html
 	<units>
 		<unitLength type="long">
 			<unit type="duration-day">
+				<displayName draft="provisional">ཉིན་ཞག་</displayName>
 				<unitPattern count="other">ཉིན་ཞག་ {0}</unitPattern>
 			</unit>
 			<unit type="duration-hour">
+				<displayName draft="provisional">ཆུ་ཚོད་</displayName>
 				<unitPattern count="other">ཆུ་ཚོད་ {0}</unitPattern>
 			</unit>
 			<unit type="duration-minute">
+				<displayName draft="provisional">སྐར་མ་</displayName>
 				<unitPattern count="other">སྐར་མ་ {0}</unitPattern>
 			</unit>
 			<unit type="duration-month">
+				<displayName draft="provisional">ཟླཝ་</displayName>
 				<unitPattern count="other">ཟླཝ་ {0}</unitPattern>
 			</unit>
 			<unit type="duration-second">
+				<displayName draft="provisional">སྐར་ཆ་</displayName>
 				<unitPattern count="other">སྐར་ཆ་ {0}</unitPattern>
 			</unit>
 			<unit type="duration-week">
+				<displayName draft="provisional">བངུན་ཕྲག་</displayName>
 				<unitPattern count="other">བངུན་ཕྲག་ {0}</unitPattern>
 			</unit>
 			<unit type="duration-year">
+				<displayName draft="provisional">ལོ་འཁོར་</displayName>
 				<unitPattern count="other">ལོ་འཁོར་ {0}</unitPattern>
+			</unit>
+		</unitLength>
+		<unitLength type="short">
+			<unit type="duration-day">
+				<displayName draft="provisional">ཉིན་ཞག་</displayName>
+			</unit>
+			<unit type="duration-hour">
+				<displayName draft="provisional">ཆུ་ཚོད་</displayName>
+			</unit>
+			<unit type="duration-minute">
+				<displayName draft="provisional">སྐར་མ་</displayName>
+			</unit>
+			<unit type="duration-month">
+				<displayName draft="provisional">ཟླཝ་</displayName>
+			</unit>
+			<unit type="duration-second">
+				<displayName draft="provisional">སྐར་ཆ་</displayName>
+			</unit>
+			<unit type="duration-week">
+				<displayName draft="provisional">བངུན་ཕྲག་</displayName>
+			</unit>
+			<unit type="duration-year">
+				<displayName draft="provisional">ལོ་འཁོར་</displayName>
 			</unit>
 		</unitLength>
 	</units>
@@ -2658,4 +2678,3 @@ For terms of use, see http://www.unicode.org/copyright.html
 		</messages>
 	</posix>
 </ldml>
-

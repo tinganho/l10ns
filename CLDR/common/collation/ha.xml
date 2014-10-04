@@ -7,11 +7,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 8900 $"/>
-		<generation date="$Date: 2013-06-12 17:21:10 -0500 (Wed, 12 Jun 2013) $"/>
+		<version number="$Revision: 9614 $"/>
+		<generation date="$Date: 2014-01-07 06:59:31 -0600 (Tue, 07 Jan 2014) $"/>
 		<language type="ha"/> 
 	</identity>
-	<collations validSubLocales="ha_Latn ha_Latn_GH ha_Latn_NE ha_Latn_NG">
+	<collations >
 		<collation type="standard" references="Paul Newman: Hausa-English Dictionary ISBN 978-0-300-12246-6">
 			<cr><![CDATA[
 				&B<ɓ<<<Ɓ

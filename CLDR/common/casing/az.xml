@@ -6,25 +6,25 @@ For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 8983 $"/>
-		<generation date="$Date: 2013-07-01 18:21:57 -0500 (Mon, 01 Jul 2013) $"/>
+		<version number="$Revision: 9750 $"/>
+		<generation date="$Date: 2014-02-20 23:52:44 -0600 (Thu, 20 Feb 2014) $"/>
 		<language type="az"/>
 	</identity>
 	<metadata>
 		<casingData>
 			<casingItem type="calendar_field">lowercase</casingItem>
-			<casingItem type="displayName">titlecase</casingItem>
-			<casingItem type="displayName_count">titlecase</casingItem>
+			<casingItem type="currencyName">titlecase</casingItem>
+			<casingItem type="currencyName_count">titlecase</casingItem>
 			<casingItem type="era_abbr">lowercase</casingItem>
 			<casingItem type="era_name">lowercase</casingItem>
 			<casingItem type="era_narrow">lowercase</casingItem>
+			<casingItem type="keyValue">titlecase</casingItem>
 			<casingItem type="language">lowercase</casingItem>
 			<casingItem type="metazone_long">titlecase</casingItem>
+			<casingItem type="relative">lowercase</casingItem>
 			<casingItem type="script">lowercase</casingItem>
 			<casingItem type="symbol">lowercase</casingItem>
-			<casingItem type="tense">lowercase</casingItem>
 			<casingItem type="territory">titlecase</casingItem>
-			<casingItem type="type">titlecase</casingItem>
 		</casingData>
 	</metadata>
 </ldml>

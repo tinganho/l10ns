@@ -7,10 +7,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
     <identity>
-        <version number="$Revision: 8268 $"/>
-        <generation date="$Date: 2013-03-01 08:26:02 -0600 (Fri, 01 Mar 2013) $"/>
+        <version number="$Revision: 10121 $"/>
+        <generation date="$Date: 2014-04-18 08:44:10 -0500 (Fri, 18 Apr 2014) $"/>
         <language type="zh"/>
         <script type="Hant"/>
+        <territory type="HK"/>
     </identity>
     <rbnf>
         <rulesetGrouping type="SpelloutRules">

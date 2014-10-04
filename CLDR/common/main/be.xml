@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
-<!-- Copyright © 1991-2013 Unicode, Inc.
+<!-- Copyright © 1991-2014 Unicode, Inc.
 CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
 For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 9287 $"/>
-		<generation date="$Date: 2013-08-28 21:32:04 -0500 (Wed, 28 Aug 2013) $"/>
+		<version number="$Revision: 10739 $"/>
+		<generation date="$Date: 2014-08-07 12:54:13 -0500 (Thu, 07 Aug 2014) $"/>
 		<language type="be"/>
 	</identity>
 	<localeDisplayNames>
@@ -19,7 +19,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="ab">абхазская</language>
 			<language type="ady" draft="contributed">адыгейская</language>
 			<language type="af">афрыкаанс</language>
-			<language type="afa" draft="contributed">афра-азіяцкая мова</language>
 			<language type="akk" draft="contributed">акадзкая</language>
 			<language type="ale" draft="contributed">алеуцкая</language>
 			<language type="am">амхарская</language>
@@ -27,30 +26,23 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="ang">стараанглійская</language>
 			<language type="ar">арабская</language>
 			<language type="arc" draft="contributed">арамейская</language>
-			<language type="art" draft="contributed">штучная мова</language>
 			<language type="as">асамская</language>
 			<language type="ast" draft="contributed">астурыйская</language>
-			<language type="aus" draft="contributed">аўстралійская</language>
 			<language type="av" draft="contributed">аварская</language>
 			<language type="ay" draft="contributed">аймара</language>
 			<language type="az">азербайджанская</language>
 			<language type="ba">башкірская</language>
 			<language type="be">беларуская</language>
 			<language type="bg">балгарская</language>
-			<language type="bh">біхары</language>
 			<language type="bn">бенгальская</language>
 			<language type="br">брэтонская</language>
 			<language type="bs">баснійская</language>
 			<language type="bua" draft="contributed">бурацкая</language>
 			<language type="ca">каталонская</language>
-			<language type="cai" draft="contributed">мова індзейцаў Цэнтральнай Амерыкі</language>
-			<language type="cau" draft="contributed">каўказская мова</language>
 			<language type="ce">чачэнская</language>
-			<language type="cel" draft="contributed">кельцкая мова</language>
 			<language type="chb" draft="unconfirmed">чыбча</language>
 			<language type="cop">копцкая</language>
 			<language type="cs">чэшская</language>
-			<language type="cus" draft="unconfirmed">кушыцкая мова</language>
 			<language type="cv" draft="contributed">чувашская</language>
 			<language type="cy">валійская</language>
 			<language type="da">дацкая</language>
@@ -108,19 +100,16 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="luo" draft="unconfirmed">луо</language>
 			<language type="lv">латышская</language>
 			<language type="man" draft="unconfirmed">мандынга</language>
-			<language type="map" draft="contributed">аўстранезійская</language>
 			<language type="mas" draft="unconfirmed">масаі</language>
 			<language type="men" draft="unconfirmed">мендэ</language>
 			<language type="mg" draft="unconfirmed">мальгашская</language>
 			<language type="mk">македонская</language>
 			<language type="ml">малаяламская</language>
 			<language type="mn">мангольская</language>
-			<language type="mo">малдаўская</language>
 			<language type="mos" draft="unconfirmed">мосі</language>
 			<language type="mr">маратхі</language>
 			<language type="ms">малайская</language>
 			<language type="mt">мальтыйская</language>
-			<language type="nai" draft="unconfirmed">мова індзейцаў Паўночнай Амерыкі</language>
 			<language type="nb" draft="contributed">нарвэская букмал</language>
 			<language type="ne">непальская</language>
 			<language type="nl">галандская</language>
@@ -129,7 +118,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="no">нарвежская</language>
 			<language type="nog" draft="unconfirmed">нагайская</language>
 			<language type="non" draft="unconfirmed">старанарвежская</language>
-			<language type="nub" draft="unconfirmed">нубійская мова</language>
 			<language type="oc">правансальская</language>
 			<language type="oj" draft="unconfirmed">аджыбве</language>
 			<language type="or" draft="unconfirmed">орыя</language>
@@ -146,20 +134,16 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="raj" draft="unconfirmed">раджастханская</language>
 			<language type="rm" draft="unconfirmed">рэта-раманская</language>
 			<language type="ro">румынская</language>
+			<language type="ro_MD">малдаўская</language>
 			<language type="ru">руская</language>
 			<language type="sa">санскрыт</language>
 			<language type="sah">якуцкая</language>
-			<language type="sai" draft="unconfirmed">мова індзейцаў Паўднёвай Амерыкі</language>
 			<language type="sd">сіндхі</language>
-			<language type="sem" draft="unconfirmed">семіцкая мова</language>
 			<language type="sga" draft="unconfirmed">стараірландская</language>
-			<language type="sgn" draft="contributed">знакавая мова</language>
 			<language type="sh">сербска-харвацкая</language>
 			<language type="si">сінгальская</language>
-			<language type="sit" draft="unconfirmed">кітайска-тыбецкая мова</language>
 			<language type="sk">славацкая</language>
 			<language type="sl">славенская</language>
-			<language type="sla" draft="contributed">славянская мова</language>
 			<language type="so">самалійская</language>
 			<language type="sq">албанская</language>
 			<language type="sr">сербская</language>
@@ -168,7 +152,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="sv">шведская</language>
 			<language type="sw">суахілі</language>
 			<language type="ta">тамільская</language>
-			<language type="tai" draft="unconfirmed">мова таі</language>
 			<language type="te">тэлугу</language>
 			<language type="tg" draft="unconfirmed">таджыкская</language>
 			<language type="th">тайская</language>
@@ -177,15 +160,13 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="tlh">клінгон</language>
 			<language type="tr">турэцкая</language>
 			<language type="tt">татарская</language>
-			<language type="tup" draft="unconfirmed">мова тупі</language>
-			<language type="tut" draft="contributed">алтайская мова</language>
 			<language type="tyv" draft="unconfirmed">тувінская</language>
 			<language type="ug">уйгурская</language>
 			<language type="uk">украінская</language>
 			<language type="und">невядомая мова</language>
 			<language type="ur">урду</language>
 			<language type="uz">узбекская</language>
-			<language type="vi">в'етнамская</language>
+			<language type="vi">в’етнамская</language>
 			<language type="vo" draft="unconfirmed">валапюк</language>
 			<language type="xh">хоса</language>
 			<language type="yi" draft="contributed">ідыш</language>
@@ -237,7 +218,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="154">Паўночная Еўропа</territory>
 			<territory type="155">Заходняя Еўропа</territory>
 			<territory type="AD">Андора</territory>
-			<territory type="AE">Аб'яднаныя Арабскія Эміраты</territory>
+			<territory type="AE">Аб’яднаныя Арабскія Эміраты</territory>
 			<territory type="AF">Афганістан</territory>
 			<territory type="AG">Антыгуа і Барбуда</territory>
 			<territory type="AI">Ангілья</territory>
@@ -281,7 +262,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="CG">Конга</territory>
 			<territory type="CG" alt="variant">Рэспубліка Конга</territory>
 			<territory type="CH">Швейцарыя</territory>
-			<territory type="CI">Кот-д'Івуар</territory>
+			<territory type="CI">Кот-д’Івуар</territory>
 			<territory type="CK">Астравы Кука</territory>
 			<territory type="CL">Чылі</territory>
 			<territory type="CM">Камерун</territory>
@@ -385,7 +366,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="MK">Македонія, БЮР</territory>
 			<territory type="MK" alt="variant">Рэспубліка Македонія</territory>
 			<territory type="ML">Малі</territory>
-			<territory type="MM">М'янма</territory>
+			<territory type="MM">М’янма</territory>
 			<territory type="MN">Манголія</territory>
 			<territory type="MO">Макао, Кітай (САР)</territory>
 			<territory type="MO" alt="short">Макаа</territory>
@@ -420,7 +401,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="PH">Філіпіны</territory>
 			<territory type="PK">Пакістан</territory>
 			<territory type="PL">Польшча</territory>
-			<territory type="PM">Сен-П'ер і Мікелон</territory>
+			<territory type="PM">Сен-П’ер і Мікелон</territory>
 			<territory type="PN">Астравы Піткэрн</territory>
 			<territory type="PR">Пуэрта-Рыка</territory>
 			<territory type="PS">Палестынскія тэрыторыі</territory>
@@ -480,7 +461,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="VE">Венесуэла</territory>
 			<territory type="VG">Брытанскія Віргінскія астравы</territory>
 			<territory type="VI">Амерыканскія Віргінскія астравы</territory>
-			<territory type="VN">В'етнам</territory>
+			<territory type="VN">В’етнам</territory>
 			<territory type="VU">Вануату</territory>
 			<territory type="WF">Уоліс і Футуна</territory>
 			<territory type="WS">Самоа</territory>
@@ -495,18 +476,23 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<key type="calendar">каляндар</key>
 			<key type="collation">параўнаньне тэксту</key>
 			<key type="currency">валюта</key>
+			<key type="numbers">лічбы</key>
 		</keys>
 		<types>
 			<type type="buddhist" key="calendar">будысцкі каляндар</type>
 			<type type="chinese" key="calendar">кітайскі каляндар</type>
+			<type type="ducet" key="collation">стандартнае сартаванне Unicode</type>
 			<type type="gregorian" key="calendar">грэгарыянскі каляндар</type>
 			<type type="hebrew" key="calendar">іудэйскі каляндар</type>
 			<type type="islamic" key="calendar">мусульманскі каляндар</type>
 			<type type="islamic-civil" key="calendar">мусульманскі свецкі каляндар</type>
 			<type type="japanese" key="calendar">японскі каляндар</type>
+			<type type="search" key="collation">пошук</type>
+			<type type="standard" key="collation">стандартнае сартаванне</type>
 		</types>
 		<measurementSystemNames>
 			<measurementSystemName type="metric">метрычная</measurementSystemName>
+			<measurementSystemName type="UK">брытанская</measurementSystemName>
 			<measurementSystemName type="US">ЗША</measurementSystemName>
 		</measurementSystemNames>
 		<codePatterns>
@@ -1278,46 +1264,76 @@ For terms of use, see http://www.unicode.org/copyright.html
 	<units>
 		<unitLength type="long">
 			<unit type="duration-day">
+				<displayName draft="provisional">дня</displayName>
 				<unitPattern count="one">{0} дзень</unitPattern>
 				<unitPattern count="few">{0} дні</unitPattern>
 				<unitPattern count="many">{0} дзён</unitPattern>
 				<unitPattern count="other">{0} дня</unitPattern>
 			</unit>
 			<unit type="duration-hour">
+				<displayName draft="provisional">гадзіны</displayName>
 				<unitPattern count="one">{0} гадзіна</unitPattern>
 				<unitPattern count="few">{0} гадзіны</unitPattern>
 				<unitPattern count="many">{0} гадзін</unitPattern>
 				<unitPattern count="other">{0} гадзіны</unitPattern>
 			</unit>
 			<unit type="duration-minute">
+				<displayName draft="provisional">хвіліны</displayName>
 				<unitPattern count="one">{0} хвіліна</unitPattern>
 				<unitPattern count="few">{0} хвіліны</unitPattern>
 				<unitPattern count="many">{0} хвілін</unitPattern>
 				<unitPattern count="other">{0} хвіліны</unitPattern>
 			</unit>
 			<unit type="duration-month">
+				<displayName draft="provisional">месяца</displayName>
 				<unitPattern count="one">{0} месяц</unitPattern>
 				<unitPattern count="few">{0} месяца</unitPattern>
 				<unitPattern count="many">{0} месяцаў</unitPattern>
 				<unitPattern count="other">{0} месяца</unitPattern>
 			</unit>
 			<unit type="duration-second">
+				<displayName draft="provisional">сэкунды</displayName>
 				<unitPattern count="one">{0} сэкунда</unitPattern>
 				<unitPattern count="few">{0} сэкунды</unitPattern>
 				<unitPattern count="many">{0} сэкунд</unitPattern>
 				<unitPattern count="other">{0} сэкунды</unitPattern>
 			</unit>
 			<unit type="duration-week">
+				<displayName draft="provisional">тыдня</displayName>
 				<unitPattern count="one">{0} тыдзень</unitPattern>
 				<unitPattern count="few">{0} тыдні</unitPattern>
 				<unitPattern count="many">{0} тыдняў</unitPattern>
 				<unitPattern count="other">{0} тыдня</unitPattern>
 			</unit>
 			<unit type="duration-year">
+				<displayName draft="provisional">году</displayName>
 				<unitPattern count="one">{0} год</unitPattern>
 				<unitPattern count="few">{0} гады</unitPattern>
 				<unitPattern count="many">{0} гадоў</unitPattern>
 				<unitPattern count="other">{0} году</unitPattern>
+			</unit>
+		</unitLength>
+		<unitLength type="short">
+			<unit type="duration-day">
+				<displayName draft="provisional">дня</displayName>
+			</unit>
+			<unit type="duration-hour">
+				<displayName draft="provisional">гадзіны</displayName>
+			</unit>
+			<unit type="duration-minute">
+				<displayName draft="provisional">хвіліны</displayName>
+			</unit>
+			<unit type="duration-month">
+				<displayName draft="provisional">месяца</displayName>
+			</unit>
+			<unit type="duration-second">
+				<displayName draft="provisional">сэкунды</displayName>
+			</unit>
+			<unit type="duration-week">
+				<displayName draft="provisional">тыдня</displayName>
+			</unit>
+			<unit type="duration-year">
+				<displayName draft="provisional">году</displayName>
 			</unit>
 		</unitLength>
 	</units>

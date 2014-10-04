@@ -12,11 +12,11 @@ Draft: 2004-08-02
 By Pema geyleg <pema_geyleg@druknet.bt>
 -->
   <identity>
-		<version number="$Revision: 8900 $"/>
-		<generation date="$Date: 2013-06-12 17:21:10 -0500 (Wed, 12 Jun 2013) $"/>
+		<version number="$Revision: 9614 $"/>
+		<generation date="$Date: 2014-01-07 06:59:31 -0600 (Tue, 07 Jan 2014) $"/>
 		<language type="dz" />
   </identity>
-  <collations validSubLocales="dz_BT">
+  <collations >
         <collation type="standard" draft="unconfirmed" references="http://www.columbia.edu/~ph2046/iats/it/Chilton_slides.pdf">
 			<settings normalization="on" reorder="Tibt"/>
             <cr><![CDATA[

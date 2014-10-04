@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
-<!-- Copyright © 1991-2013 Unicode, Inc.
+<!-- Copyright © 1991-2014 Unicode, Inc.
 CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
 For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 9287 $"/>
-		<generation date="$Date: 2013-08-28 21:32:04 -0500 (Wed, 28 Aug 2013) $"/>
+		<version number="$Revision: 10739 $"/>
+		<generation date="$Date: 2014-08-07 12:54:13 -0500 (Thu, 07 Aug 2014) $"/>
 		<language type="mg"/>
 	</identity>
 	<localeDisplayNames>
@@ -93,8 +93,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="BY">Belarosy</territory>
 			<territory type="BZ">Belize</territory>
 			<territory type="CA">Kanada</territory>
-			<territory type="CD">Repoblikan'i Kongo</territory>
-			<territory type="CF">Repoblika Ivon'Afrika</territory>
+			<territory type="CD">Repoblikan’i Kongo</territory>
+			<territory type="CF">Repoblika Ivon’Afrika</territory>
 			<territory type="CG">Kôngô</territory>
 			<territory type="CH">Soisa</territory>
 			<territory type="CI">Côte d’Ivoire</territory>
@@ -107,7 +107,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="CU">Kiobà</territory>
 			<territory type="CV">Nosy Cap-Vert</territory>
 			<territory type="CY">Sypra</territory>
-			<territory type="CZ">Repoblikan'i Tseky</territory>
+			<territory type="CZ">Repoblikan’i Tseky</territory>
 			<territory type="DE">Alemaina</territory>
 			<territory type="DJ">Djiboti</territory>
 			<territory type="DK">Danmarka</territory>
@@ -270,7 +270,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="US">Etazonia</territory>
 			<territory type="UY">Orogoay</territory>
 			<territory type="UZ">Ozbekistan</territory>
-			<territory type="VA">Firenen'i Vatikana</territory>
+			<territory type="VA">Firenen’i Vatikana</territory>
 			<territory type="VC">Saint-Vincent-et-les Grenadines</territory>
 			<territory type="VE">Venezoelà</territory>
 			<territory type="VG">Nosy britanika virijiny</territory>
@@ -331,7 +331,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 						<dateFormatItem id="MMdd">dd/MM</dateFormatItem>
 						<dateFormatItem id="MMM">MMM</dateFormatItem>
 						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
-						<dateFormatItem id="MMMdd">dd MMM</dateFormatItem>
 						<dateFormatItem id="MMMEd">E d MMM</dateFormatItem>
 						<dateFormatItem id="MMMMd">d MMMM</dateFormatItem>
 						<dateFormatItem id="MMMMEd">E d MMMM</dateFormatItem>
@@ -449,8 +448,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 				</quarters>
 				<eras>
 					<eraNames>
-						<era type="0">Alohan'i JK</era>
-						<era type="1">Aorian'i JK</era>
+						<era type="0">Alohan’i JK</era>
+						<era type="1">Aorian’i JK</era>
 					</eraNames>
 					<eraAbbr>
 						<era type="0">BC</era>
@@ -510,7 +509,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 						<dateFormatItem id="MMdd">dd/MM</dateFormatItem>
 						<dateFormatItem id="MMM">MMM</dateFormatItem>
 						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
-						<dateFormatItem id="MMMdd">dd MMM</dateFormatItem>
 						<dateFormatItem id="MMMEd">E d MMM</dateFormatItem>
 						<dateFormatItem id="MMMMd">d MMMM</dateFormatItem>
 						<dateFormatItem id="MMMMEd">E d MMMM</dateFormatItem>

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <!--
-Copyright © 1991-2013 Unicode, Inc.
+Copyright © 1991-2014 Unicode, Inc.
 CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
 For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
     <identity>
-        <version number="$Revision: 8242 $"/>
-        <generation date="$Date: 2013-02-24 21:06:02 -0600 (Sun, 24 Feb 2013) $"/>
+        <version number="$Revision: 10856 $"/>
+        <generation date="$Date: 2014-08-20 14:02:39 -0500 (Wed, 20 Aug 2014) $"/>
         <language type="pl"/>
     </identity>
     <rbnf>
@@ -48,24 +48,14 @@ For terms of use, see http://www.unicode.org/copyright.html
                 <rbnfrule value="40">czterdzieści[ →→];</rbnfrule>
                 <rbnfrule value="50">←←dziesiąt[ →→];</rbnfrule>
                 <rbnfrule value="100">sto[ →→];</rbnfrule>
-                <rbnfrule value="200">←%spellout-cardinal-feminine←ście[ →→];</rbnfrule>
-                <rbnfrule value="300">←%spellout-cardinal-feminine←sta[ →→];</rbnfrule>
-                <rbnfrule value="500">←%spellout-cardinal-feminine←set[ →→];</rbnfrule>
-                <rbnfrule value="1000">←%spellout-cardinal-masculine← tysiąc[ →→];</rbnfrule>
-                <rbnfrule value="2000">←%spellout-cardinal-masculine← tysiące[ →→];</rbnfrule>
-                <rbnfrule value="5000">←%spellout-cardinal-masculine← tysięcy[ →→];</rbnfrule>
-                <rbnfrule value="1000000">←%spellout-cardinal-masculine← milion[ →→];</rbnfrule>
-                <rbnfrule value="2000000">←%spellout-cardinal-masculine← miliony[ →→];</rbnfrule>
-                <rbnfrule value="5000000">←%spellout-cardinal-masculine← milionów[ →→];</rbnfrule>
-                <rbnfrule value="1000000000">←%spellout-cardinal-masculine← miliard[ →→];</rbnfrule>
-                <rbnfrule value="2000000000">←%spellout-cardinal-masculine← miliardy[ →→];</rbnfrule>
-                <rbnfrule value="5000000000">←%spellout-cardinal-masculine← miliardów[ →→];</rbnfrule>
-                <rbnfrule value="1000000000000">←%spellout-cardinal-masculine← bilion[ →→];</rbnfrule>
-                <rbnfrule value="2000000000000">←%spellout-cardinal-masculine← biliony[ →→];</rbnfrule>
-                <rbnfrule value="5000000000000">←%spellout-cardinal-masculine← bilionów[ →→];</rbnfrule>
-                <rbnfrule value="1000000000000000">←%spellout-cardinal-masculine← biliard[ →→];</rbnfrule>
-                <rbnfrule value="2000000000000000">←%spellout-cardinal-masculine← biliardy[ →→];</rbnfrule>
-                <rbnfrule value="5000000000000000">←%spellout-cardinal-masculine← biliardów[ →→];</rbnfrule>
+                <rbnfrule value="200">dwieście[ →→];</rbnfrule>
+                <rbnfrule value="300">←←sta[ →→];</rbnfrule>
+                <rbnfrule value="500">←←set[ →→];</rbnfrule>
+                <rbnfrule value="1000">←%spellout-cardinal-masculine←$(cardinal,one{ tysiąc}few{ tysiące}other{ tysięcy})$[ →→];</rbnfrule>
+                <rbnfrule value="1000000">←%spellout-cardinal-masculine←$(cardinal,one{ milion}few{ miliony}other{ milionów})$[ →→];</rbnfrule>
+                <rbnfrule value="1000000000">←%spellout-cardinal-masculine←$(cardinal,one{ miliard}few{ miliardy}other{ miliardów})$[ →→];</rbnfrule>
+                <rbnfrule value="1000000000000">←%spellout-cardinal-masculine←$(cardinal,one{ bilion}few{ biliony}other{ bilionów})$[ →→];</rbnfrule>
+                <rbnfrule value="1000000000000000">←%spellout-cardinal-masculine←$(cardinal,one{ biliard}few{ biliardy}other{ biliardów})$[ →→];</rbnfrule>
                 <rbnfrule value="1000000000000000000">=#,##0=;</rbnfrule>
             </ruleset>
             <ruleset type="spellout-cardinal-neuter">
@@ -73,35 +63,7 @@ For terms of use, see http://www.unicode.org/copyright.html
                 <rbnfrule value="x.x">←← przecinek →%%spellout-fraction→;</rbnfrule>
                 <rbnfrule value="0">zero;</rbnfrule>
                 <rbnfrule value="1">jedno;</rbnfrule>
-                <rbnfrule value="2">=%%spellout-cardinal-neuter-priv=;</rbnfrule>
-            </ruleset>
-            <ruleset type="spellout-cardinal-neuter-priv" access="private">
-                <rbnfrule value="1">jeden;</rbnfrule>
                 <rbnfrule value="2">=%spellout-cardinal-masculine=;</rbnfrule>
-                <rbnfrule value="20">dwadzieścia[ →→];</rbnfrule>
-                <rbnfrule value="30">trzydzieści[ →→];</rbnfrule>
-                <rbnfrule value="40">czterdzieści[ →→];</rbnfrule>
-                <rbnfrule value="50">←←dziesiąt[ →→];</rbnfrule>
-                <rbnfrule value="100">sto[ →→];</rbnfrule>
-                <rbnfrule value="200">←%spellout-cardinal-feminine←ście[ →→];</rbnfrule>
-                <rbnfrule value="300">←%spellout-cardinal-feminine←sta[ →→];</rbnfrule>
-                <rbnfrule value="500">←%spellout-cardinal-feminine←set[ →→];</rbnfrule>
-                <rbnfrule value="1000">←%spellout-cardinal-masculine← tysiąc[ →→];</rbnfrule>
-                <rbnfrule value="2000">←%spellout-cardinal-masculine← tysiące[ →→];</rbnfrule>
-                <rbnfrule value="5000">←%spellout-cardinal-masculine← tysięcy[ →→];</rbnfrule>
-                <rbnfrule value="1000000">←%spellout-cardinal-masculine← milion[ →→];</rbnfrule>
-                <rbnfrule value="2000000">←%spellout-cardinal-masculine← miliony[ →→];</rbnfrule>
-                <rbnfrule value="5000000">←%spellout-cardinal-masculine← milionów[ →→];</rbnfrule>
-                <rbnfrule value="1000000000">←%spellout-cardinal-masculine← miliard[ →→];</rbnfrule>
-                <rbnfrule value="2000000000">←%spellout-cardinal-masculine← miliardy[ →→];</rbnfrule>
-                <rbnfrule value="5000000000">←%spellout-cardinal-masculine← miliardów[ →→];</rbnfrule>
-                <rbnfrule value="1000000000000">←%spellout-cardinal-masculine← bilion[ →→];</rbnfrule>
-                <rbnfrule value="2000000000000">←%spellout-cardinal-masculine← biliony[ →→];</rbnfrule>
-                <rbnfrule value="5000000000000">←%spellout-cardinal-masculine← bilionów[ →→];</rbnfrule>
-                <rbnfrule value="1000000000000000">←%spellout-cardinal-masculine← biliard[ →→];</rbnfrule>
-                <rbnfrule value="2000000000000000">←%spellout-cardinal-masculine← biliardy[ →→];</rbnfrule>
-                <rbnfrule value="5000000000000000">←%spellout-cardinal-masculine← biliardów[ →→];</rbnfrule>
-                <rbnfrule value="1000000000000000000">=#,##0=;</rbnfrule>
             </ruleset>
             <ruleset type="spellout-cardinal-feminine">
                 <rbnfrule value="-x">minus →→;</rbnfrule>
@@ -119,24 +81,14 @@ For terms of use, see http://www.unicode.org/copyright.html
                 <rbnfrule value="40">czterdzieści[ →→];</rbnfrule>
                 <rbnfrule value="50">←←dziesiąt[ →→];</rbnfrule>
                 <rbnfrule value="100">sto[ →→];</rbnfrule>
-                <rbnfrule value="200">←%spellout-cardinal-feminine←ście[ →→];</rbnfrule>
-                <rbnfrule value="300">←%spellout-cardinal-feminine←sta[ →→];</rbnfrule>
-                <rbnfrule value="500">←%spellout-cardinal-feminine←set[ →→];</rbnfrule>
-                <rbnfrule value="1000">←%spellout-cardinal-masculine← tysiąc[ →→];</rbnfrule>
-                <rbnfrule value="2000">←%spellout-cardinal-masculine← tysiące[ →→];</rbnfrule>
-                <rbnfrule value="5000">←%spellout-cardinal-masculine← tysięcy[ →→];</rbnfrule>
-                <rbnfrule value="1000000">←%spellout-cardinal-masculine← milion[ →→];</rbnfrule>
-                <rbnfrule value="2000000">←%spellout-cardinal-masculine← miliony[ →→];</rbnfrule>
-                <rbnfrule value="5000000">←%spellout-cardinal-masculine← milionów[ →→];</rbnfrule>
-                <rbnfrule value="1000000000">←%spellout-cardinal-masculine← miliard[ →→];</rbnfrule>
-                <rbnfrule value="2000000000">←%spellout-cardinal-masculine← miliardy[ →→];</rbnfrule>
-                <rbnfrule value="5000000000">←%spellout-cardinal-masculine← miliardów[ →→];</rbnfrule>
-                <rbnfrule value="1000000000000">←%spellout-cardinal-masculine← bilion[ →→];</rbnfrule>
-                <rbnfrule value="2000000000000">←%spellout-cardinal-masculine← biliony[ →→];</rbnfrule>
-                <rbnfrule value="5000000000000">←%spellout-cardinal-masculine← bilionów[ →→];</rbnfrule>
-                <rbnfrule value="1000000000000000">←%spellout-cardinal-masculine← biliard[ →→];</rbnfrule>
-                <rbnfrule value="2000000000000000">←%spellout-cardinal-masculine← biliardy[ →→];</rbnfrule>
-                <rbnfrule value="5000000000000000">←%spellout-cardinal-masculine← biliardów[ →→];</rbnfrule>
+                <rbnfrule value="200">dwieście[ →→];</rbnfrule>
+                <rbnfrule value="300">←←sta[ →→];</rbnfrule>
+                <rbnfrule value="500">←←set[ →→];</rbnfrule>
+                <rbnfrule value="1000">←%spellout-cardinal-masculine←$(cardinal,one{ tysiąc}few{ tysiące}other{ tysięcy})$[ →→];</rbnfrule>
+                <rbnfrule value="1000000">←%spellout-cardinal-masculine←$(cardinal,one{ milion}few{ miliony}other{ milionów})$[ →→];</rbnfrule>
+                <rbnfrule value="1000000000">←%spellout-cardinal-masculine←$(cardinal,one{ miliard}few{ miliardy}other{ miliardów})$[ →→];</rbnfrule>
+                <rbnfrule value="1000000000000">←%spellout-cardinal-masculine←$(cardinal,one{ bilion}few{ biliony}other{ bilionów})$[ →→];</rbnfrule>
+                <rbnfrule value="1000000000000000">←%spellout-cardinal-masculine←$(cardinal,one{ biliard}few{ biliardy}other{ biliardów})$[ →→];</rbnfrule>
                 <rbnfrule value="1000000000000000000">=#,##0=;</rbnfrule>
             </ruleset>
             <ruleset type="spellout-fraction" access="private">

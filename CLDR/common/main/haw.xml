@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
-<!-- Copyright © 1991-2013 Unicode, Inc.
+<!-- Copyright © 1991-2014 Unicode, Inc.
 CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
 For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 9315 $"/>
-		<generation date="$Date: 2013-09-05 11:52:00 -0500 (Thu, 05 Sep 2013) $"/>
+		<version number="$Revision: 10669 $"/>
+		<generation date="$Date: 2014-07-23 16:10:33 -0500 (Wed, 23 Jul 2014) $"/>
 		<language type="haw"/>
 	</identity>
 	<localeDisplayNames>
@@ -88,22 +88,22 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<dateFormats>
 					<dateFormatLength type="full">
 						<dateFormat>
-							<pattern draft="unconfirmed">EEEE, d MMMM y G</pattern>
+							<pattern draft="contributed">EEEE, d MMMM y G</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="long">
 						<dateFormat>
-							<pattern draft="unconfirmed">d MMMM y G</pattern>
+							<pattern draft="contributed">d MMMM y G</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="medium">
 						<dateFormat>
-							<pattern draft="unconfirmed">d MMM y G</pattern>
+							<pattern draft="contributed">d MMM y G</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="short">
 						<dateFormat>
-							<pattern draft="unconfirmed">d/M/yy GGGGG</pattern>
+							<pattern numbers="M=romanlow" draft="contributed">d/M/yy GGGGG</pattern>
 						</dateFormat>
 					</dateFormatLength>
 				</dateFormats>
@@ -166,47 +166,66 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<dateFormats>
 					<dateFormatLength type="full">
 						<dateFormat>
-							<pattern draft="unconfirmed">EEEE, d MMMM y</pattern>
+							<pattern draft="contributed">EEEE, d MMMM y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="long">
 						<dateFormat>
-							<pattern draft="unconfirmed">d MMMM y</pattern>
+							<pattern draft="contributed">d MMMM y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="medium">
 						<dateFormat>
-							<pattern draft="unconfirmed">d MMM y</pattern>
+							<pattern draft="contributed">d MMM y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="short">
 						<dateFormat>
-							<pattern draft="unconfirmed">d/M/yy</pattern>
+							<pattern numbers="M=romanlow" draft="contributed">d/M/yy</pattern>
 						</dateFormat>
 					</dateFormatLength>
 				</dateFormats>
 				<timeFormats>
 					<timeFormatLength type="full">
 						<timeFormat>
-							<pattern draft="unconfirmed">h:mm:ss a zzzz</pattern>
+							<pattern draft="contributed">h:mm:ss a zzzz</pattern>
 						</timeFormat>
 					</timeFormatLength>
 					<timeFormatLength type="long">
 						<timeFormat>
-							<pattern draft="unconfirmed">h:mm:ss a z</pattern>
+							<pattern draft="contributed">h:mm:ss a z</pattern>
 						</timeFormat>
 					</timeFormatLength>
 					<timeFormatLength type="medium">
 						<timeFormat>
-							<pattern draft="unconfirmed">h:mm:ss a</pattern>
+							<pattern draft="contributed">h:mm:ss a</pattern>
 						</timeFormat>
 					</timeFormatLength>
 					<timeFormatLength type="short">
 						<timeFormat>
-							<pattern draft="unconfirmed">h:mm a</pattern>
+							<pattern draft="contributed">h:mm a</pattern>
 						</timeFormat>
 					</timeFormatLength>
 				</timeFormats>
+				<dateTimeFormats>
+					<availableFormats>
+						<dateFormatItem id="Ed" draft="contributed">E d</dateFormatItem>
+						<dateFormatItem id="Gy" draft="contributed">y G</dateFormatItem>
+						<dateFormatItem id="GyMMM" draft="contributed">MMM y G</dateFormatItem>
+						<dateFormatItem id="GyMMMd" draft="contributed">d MMM y G</dateFormatItem>
+						<dateFormatItem id="GyMMMEd" draft="contributed">E, d MMM y G</dateFormatItem>
+						<dateFormatItem id="Md" draft="contributed">d/M</dateFormatItem>
+						<dateFormatItem id="MEd" draft="contributed">E, d/M</dateFormatItem>
+						<dateFormatItem id="MMMd" draft="contributed">d MMM</dateFormatItem>
+						<dateFormatItem id="MMMEd" draft="contributed">E, d MMM</dateFormatItem>
+						<dateFormatItem id="yM" draft="contributed">M/y</dateFormatItem>
+						<dateFormatItem id="yMd" draft="contributed">d/M/y</dateFormatItem>
+						<dateFormatItem id="yMEd" draft="contributed">E, d/M/y</dateFormatItem>
+						<dateFormatItem id="yMMM" draft="contributed">MMM y</dateFormatItem>
+						<dateFormatItem id="yMMMd" draft="contributed">d MMM y</dateFormatItem>
+						<dateFormatItem id="yMMMEd" draft="contributed">E, d MMM y</dateFormatItem>
+					</availableFormats>
+				</dateTimeFormats>
 			</calendar>
 		</calendars>
 		<timeZoneNames>
@@ -253,34 +272,73 @@ For terms of use, see http://www.unicode.org/copyright.html
 	<units>
 		<unitLength type="long">
 			<unit type="duration-day">
+				<displayName draft="provisional">lā</displayName>
 				<unitPattern count="one">{0} lā</unitPattern>
 				<unitPattern count="other">{0} lā</unitPattern>
 			</unit>
 			<unit type="duration-hour">
+				<displayName draft="provisional">hola</displayName>
 				<unitPattern count="one">{0} hola</unitPattern>
 				<unitPattern count="other">{0} hola</unitPattern>
 			</unit>
 			<unit type="duration-minute">
+				<displayName draft="provisional">minuke</displayName>
 				<unitPattern count="one">{0} minuke</unitPattern>
 				<unitPattern count="other">{0} minuke</unitPattern>
 			</unit>
 			<unit type="duration-month">
+				<displayName draft="provisional">mahina</displayName>
 				<unitPattern count="one">{0} mahina</unitPattern>
 				<unitPattern count="other">{0} mahina</unitPattern>
 			</unit>
 			<unit type="duration-second">
+				<displayName draft="provisional">kekona</displayName>
 				<unitPattern count="one">{0} kekona</unitPattern>
 				<unitPattern count="other">{0} kekona</unitPattern>
 			</unit>
 			<unit type="duration-week">
+				<displayName draft="provisional">pule</displayName>
 				<unitPattern count="one">{0} pule</unitPattern>
 				<unitPattern count="other">{0} pule</unitPattern>
 			</unit>
 			<unit type="duration-year">
+				<displayName draft="provisional">makahiki</displayName>
 				<unitPattern count="one">{0} makahiki</unitPattern>
 				<unitPattern count="other">{0} makahiki</unitPattern>
 			</unit>
 		</unitLength>
+		<unitLength type="short">
+			<unit type="duration-day">
+				<displayName draft="provisional">lā</displayName>
+			</unit>
+			<unit type="duration-hour">
+				<displayName draft="provisional">hola</displayName>
+			</unit>
+			<unit type="duration-minute">
+				<displayName draft="provisional">minuke</displayName>
+			</unit>
+			<unit type="duration-month">
+				<displayName draft="provisional">mahina</displayName>
+			</unit>
+			<unit type="duration-second">
+				<displayName draft="provisional">kekona</displayName>
+			</unit>
+			<unit type="duration-week">
+				<displayName draft="provisional">pule</displayName>
+			</unit>
+			<unit type="duration-year">
+				<displayName draft="provisional">makahiki</displayName>
+			</unit>
+		</unitLength>
+		<unitLength type="narrow">
+			<unit type="temperature-celsius">
+				<unitPattern count="one">{0}°C</unitPattern>
+				<unitPattern count="other">{0}°C</unitPattern>
+			</unit>
+			<unit type="temperature-fahrenheit">
+				<unitPattern count="one">{0}°</unitPattern>
+				<unitPattern count="other">{0}°</unitPattern>
+			</unit>
+		</unitLength>
 	</units>
 </ldml>
-

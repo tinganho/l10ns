@@ -53,18 +53,18 @@ AST.Variable = function(name) {
  * @constructor
  */
 
-AST.NumberFormat = function(locale, variable, argument, messageFormat) {
+AST.NumberFormat = function(locale, variable, argument, numberSymbols, currencies, decimalPattern, percentagePattern) {
   this.locale = locale;
   this.language = /^([a-z]+)\-/.exec(this.locale)[1];
   this.region = /\-([A-Z]+)$/.exec(this.locale)[1];
   this.variable = variable;
   this.argument = argument;
-  this.numberSymbols = messageFormat.numberSymbols;
-  this.currencies = messageFormat.currencies;
+  this.numberSymbols = numberSymbols;
+  this.currencies = currencies;
   this.pattern = AST.NumberFormatPattern.parse(
     argument,
-    messageFormat.decimalPattern,
-    messageFormat.percentagePattern
+    decimalPattern,
+    percentagePattern
   );
 };
 
@@ -76,15 +76,15 @@ AST.NumberFormat = function(locale, variable, argument, messageFormat) {
  * @constructor
  */
 
-AST.CurrencyFormat = function(locale, variable, context, type, messageFormat) {
+AST.CurrencyFormat = function(locale, variable, context, type, currencies, currencyPattern) {
   this.locale = locale;
   this.language = /^([a-z]+)\-/.exec(this.locale)[1];
   this.region = /\-([A-Z]+)$/.exec(this.locale)[1];
   this.variable = variable;
   this.context = context;
   this.type = type;
-  this.currencies = messageFormat.currencies;
-  this.pattern = messageFormat.currencyPattern;
+  this.currencies = currencies;
+  this.pattern = currencyPattern;
 };
 
 /**

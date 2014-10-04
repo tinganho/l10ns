@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
-<!-- Copyright © 1991-2013 Unicode, Inc.
+<!-- Copyright © 1991-2014 Unicode, Inc.
 CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
 For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 9287 $"/>
-		<generation date="$Date: 2013-08-28 21:32:04 -0500 (Wed, 28 Aug 2013) $"/>
+		<version number="$Revision: 10669 $"/>
+		<generation date="$Date: 2014-07-23 16:10:33 -0500 (Wed, 23 Jul 2014) $"/>
 		<language type="kok"/>
 	</identity>
 	<localeDisplayNames>
@@ -23,7 +23,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="ba">बष्किर</language>
 			<language type="be">बैलोरुसियन्</language>
 			<language type="bg">बल्गेरियन</language>
-			<language type="bh">बीहारी</language>
 			<language type="bi">बिसलमा</language>
 			<language type="bn">बंगाली</language>
 			<language type="bo">तिबेतियन</language>
@@ -87,7 +86,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="mk">मसीडोनियन्</language>
 			<language type="ml">मळियाळम</language>
 			<language type="mn">मंगोलियन्</language>
-			<language type="mo">मोल्डावियन्</language>
 			<language type="mr">मराठी</language>
 			<language type="ms">मलय</language>
 			<language type="mt">मालतीस्</language>
@@ -107,6 +105,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="rm">रहटो-रोमान्स्</language>
 			<language type="rn">किरुन्दी</language>
 			<language type="ro">रोमानियन्</language>
+			<language type="ro_MD">मोल्डावियन्</language>
 			<language type="ru">रष्यन्</language>
 			<language type="rw">किन्यार्वान्डा</language>
 			<language type="sa">संस्कृत</language>
@@ -328,4 +327,3 @@ For terms of use, see http://www.unicode.org/copyright.html
 		</currencyFormats>
 	</numbers>
 </ldml>
-

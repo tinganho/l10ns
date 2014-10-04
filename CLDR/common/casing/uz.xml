@@ -6,14 +6,14 @@ For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 9129 $"/>
-		<generation date="$Date: 2013-08-05 17:45:59 -0500 (Mon, 05 Aug 2013) $"/>
+		<version number="$Revision: 9750 $"/>
+		<generation date="$Date: 2014-02-20 23:52:44 -0600 (Thu, 20 Feb 2014) $"/>
 		<language type="uz"/>
 	</identity>
 	<metadata>
 		<casingData>
+			<casingItem type="currencyName">titlecase</casingItem>
 			<casingItem type="day_narrow">titlecase</casingItem>
-			<casingItem type="displayName">titlecase</casingItem>
 			<casingItem type="language">lowercase</casingItem>
 			<casingItem type="month_format_except_narrow">titlecase</casingItem>
 			<casingItem type="month_narrow">titlecase</casingItem>

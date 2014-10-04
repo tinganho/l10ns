@@ -6,8 +6,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 8983 $"/>
-		<generation date="$Date: 2013-07-01 18:21:57 -0500 (Mon, 01 Jul 2013) $"/>
+		<version number="$Revision: 9750 $"/>
+		<generation date="$Date: 2014-02-20 23:52:44 -0600 (Thu, 20 Feb 2014) $"/>
 		<language type="bem"/>
 	</identity>
 	<metadata>
@@ -22,8 +22,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<casingItem type="month_format_except_narrow">titlecase</casingItem>
 			<casingItem type="month_narrow">titlecase</casingItem>
 			<casingItem type="month_standalone_except_narrow">titlecase</casingItem>
+			<casingItem type="relative">titlecase</casingItem>
 			<casingItem type="symbol">titlecase</casingItem>
-			<casingItem type="tense">titlecase</casingItem>
 			<casingItem type="territory">titlecase</casingItem>
 		</casingData>
 	</metadata>

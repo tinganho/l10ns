@@ -9,36 +9,12 @@ describe('MessageFormat', function() {
   describe('#constructor', function() {
     it('should read decimal pattern', function() {
       var messageFormat = new MessageFormat('en-US');
-      expect(messageFormat.decimalPattern.positive.groupSize).to.eql({
-        primary: 3,
-        secondary: 3
-      });
-      expect(messageFormat.decimalPattern.positive).to.include({
-        patternLength: 9,
-      });
-      expect(messageFormat.decimalPattern.positive.integer).to.eql({
-        leftAbsentNumbers: 3,
-        nonAbsentNumbers: 1
-      });
-      expect(messageFormat.decimalPattern.positive.fraction).to.eql({
-        nonAbsentNumbers: 0,
-        rightAbsentNumbers: 3
-      });
+      expect(messageFormat.decimalPatterns['latn']).to.equal('#,##0.###');
     });
 
     it('should read percentage pattern', function() {
       var messageFormat = new MessageFormat('en-US');
-      expect(messageFormat.percentagePattern.positive.percentage).to.equal(true);
-      expect(messageFormat.percentagePattern.positive.patternLength).to.equal(6);
-      expect(messageFormat.percentagePattern.positive.suffix).to.equal('%');
-      expect(messageFormat.percentagePattern.positive.groupSize).to.eql({
-        primary: 3,
-        secondary: 3
-      });
-      expect(messageFormat.percentagePattern.positive.integer).to.eql({
-        leftAbsentNumbers: 3,
-        nonAbsentNumbers: 1
-      });
+      expect(messageFormat.percentagePatterns['latn']).to.equal('#,##0%')
     });
 
     it('should read currencies', function() {
@@ -76,17 +52,19 @@ describe('MessageFormat', function() {
     it('should read number sumbols', function() {
       var messageFormat = new MessageFormat('en-US');
       expect(messageFormat.numberSymbols).to.eql({
-        decimal: '.',
-        group: ',',
-        list: ';',
-        percentSign: '%',
-        plusSign: '+',
-        minusSign: '-',
-        exponential: 'E',
-        superscriptingExponent: '×',
-        perMille: '‰',
-        infinity: '∞',
-        nan: 'NaN'
+        latn: {
+          decimal: '.',
+          group: ',',
+          list: ';',
+          percentSign: '%',
+          plusSign: '+',
+          minusSign: '-',
+          exponential: 'E',
+          superscriptingExponent: '×',
+          perMille: '‰',
+          infinity: '∞',
+          nan: 'NaN'
+        }
       });
     });
   });

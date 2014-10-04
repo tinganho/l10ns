@@ -7,15 +7,20 @@ For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 8900 $"/>
-		<generation date="$Date: 2013-06-12 17:21:10 -0500 (Wed, 12 Jun 2013) $"/>
+		<version number="$Revision: 10814 $"/>
+		<generation date="$Date: 2014-08-14 17:10:08 -0500 (Thu, 14 Aug 2014) $"/>
 		<language type="et" /> 
 	</identity>
-		<collations  validSubLocales="et_EE">
-			<collation type="standard" >
+		<collations>
+			<collation type="standard">
+				<!-- v and w are separate letters as usual.
+					w is used only in load words; it is not in the Estonian alphabet.
+					http://en.wikipedia.org/wiki/Estonian_orthography
+					Dictionary of standard Estonian:
+					Alphabet: http://www.eki.ee/dict/qs/qs2013.html#tahestik
+					Place names: http://www.eki.ee/dict/qs/kohanimevalimik.pdf  -->
 				<cr><![CDATA[
 					&[before 1]T<š<<<Š<z<<<Z<ž<<<Ž
-					&v<<w<<<W
 					&[before 1]X<õ<<<Õ<ä<<<Ä<ö<<<Ö<ü<<<Ü
 				]]></cr>
 			</collation>

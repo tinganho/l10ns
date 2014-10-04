@@ -7,12 +7,12 @@ For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 8962 $"/>
-		<generation date="$Date: 2013-06-24 13:06:57 -0500 (Mon, 24 Jun 2013) $"/>
+		<version number="$Revision: 9614 $"/>
+		<generation date="$Date: 2014-01-07 06:59:31 -0600 (Tue, 07 Jan 2014) $"/>
 		<language type="zh" /> 
 		<script type="Hant" /> 
 	</identity>
-		<collations validSubLocales="zh_Hant_HK zh_Hant_MO zh_Hant_TW">
+		<collations >
 			<defaultCollation>stroke</defaultCollation>
 		</collations>
 </ldml>

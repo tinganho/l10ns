@@ -7,11 +7,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 9239 $"/>
-		<generation date="$Date: 2013-08-20 15:27:25 -0500 (Tue, 20 Aug 2013) $"/>
+		<version number="$Revision: 10815 $"/>
+		<generation date="$Date: 2014-08-14 17:22:34 -0500 (Thu, 14 Aug 2014) $"/>
 		<language type="ml" />
 	</identity>
-	<collations  validSubLocales="ml_IN">
+	<collations>
 		<collation type="standard" references="Sabdatharavali Malayalam Dictionary 23rd Ed. by Sahithya Pravarthaka Co-operative Society Ltd.">
 			<settings reorder="Mlym Latn Deva Arab Taml Knda Telu Beng Guru Gujr Orya Sinh"/><!-- native speaker's special list -->
 			<cr><![CDATA[
@@ -20,9 +20,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 				#
 				&ഃ<<ഽ
 				#
-				#  Archaic and modern AU-Signs are different only by tertiary.
+				#  Vowel sign AU ( ൌ) and AU length mark ( ൗ) need to differ
+				#  only on secondary level, not primary.
 				#
-				&ോ<ൗ<<<ൌ
+				&\u0D4C<<\u0D57
 				#
 				#  Pre-5.1 Chillus secondary equal to 5.1 chillus.
 				#  Chillus primary equal to their consonant_dead form.
