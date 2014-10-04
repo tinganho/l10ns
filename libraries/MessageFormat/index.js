@@ -61,7 +61,8 @@ MessageFormat.Characters = {
   DIAGRAPH: '|',
   EMPTY: '',
   COMMA: ',',
-  EOF: -1
+  EOF: -1,
+  NUMBER_SYSTEM_SEPARATOR: ':'
 };
 
 /**
@@ -94,6 +95,14 @@ MessageFormat.NumberSystems = {
   THAI: 'thai',
   TIBT: 'tibt'
 };
+
+/**
+ * Default number system.
+ *
+ * @type {String}
+ * @api public
+ */
+MessageFormat.DEFAULT_NUMBER_SYSTEM = 'latn';
 
 /**
  * Define what kind of variables is allowed on the parse string.
@@ -150,7 +159,8 @@ MessageFormat.prototype._parsePrimary = function(options) {
   options = _.defaults(options || {}, {
     parseRemaining: false,
     escapeCharacter: null,
-    shouldEscapeDiagraph: true
+    shouldEscapeDiagraph: true,
+    currentNumberSystem: this._currentNumberSystem
   });
 
   this.shouldParseRemaining = options.parseRemaining;
@@ -158,9 +168,14 @@ MessageFormat.prototype._parsePrimary = function(options) {
   this.escapeCharacter = options.escapeCharacter;
 
   if(options.parseRemaining && this.currentToken === MessageFormat.Characters.REMAINING) {
-    var integerPattern = AST.NumberFormatPattern.parse(this.decimalPatterns[this._currentNumberSystem]).positive;
+    var integerPattern = AST.NumberFormatPattern.parse(this.decimalPatterns[options.currentNumberSystem]).positive;
     integerPattern.fraction = null;
-    return this._parseRemaining(options.variable, options.offset, integerPattern);
+    return this._parseRemaining(
+      options.variable,
+      options.offset,
+      integerPattern,
+      options.currentNumberSystem
+    );
   }
 
   switch(this.currentToken) {
@@ -181,11 +196,11 @@ MessageFormat.prototype._parsePrimary = function(options) {
  * @api private
  */
 
-MessageFormat.prototype._parseRemaining = function(variable, offset, pattern) {
+MessageFormat.prototype._parseRemaining = function(variable, offset, pattern, numberSystem) {
   // Swallow '#'
   this.currentToken = this.lexer.getNextToken();
 
-  return new AST.Remaining(variable, offset, pattern);
+  return new AST.Remaining(variable, offset, pattern, numberSystem);
 };
 
 /**
@@ -311,7 +326,9 @@ MessageFormat.prototype._parseVariable = function() {
  */
 
 MessageFormat.prototype._parseSwitchStatement = function(variable) {
-  var type = '', switchStatement = null;
+  var type = ''
+    , numberSystem = ''
+    , switchStatement = null;
   // Swallow comma
   this.currentToken = this.lexer.getNextToken();
 
@@ -328,7 +345,7 @@ MessageFormat.prototype._parseSwitchStatement = function(variable) {
       this.currentToken = this.lexer.getNextToken();
     }
 
-    if(!MessageFormat.NumberSystems.hasOwnProperty(numberSystem)) {
+    if(!MessageFormat.NumberSystems.hasOwnProperty(numberSystem.toUpperCase())) {
       throw new TypeError('No defined number system in l10ns called \'' + numberSystem + '\'');
     }
   }
@@ -414,7 +431,8 @@ MessageFormat.prototype._parseSimpleFormat = function(type, variable) {
         this.numberSymbols[this._currentNumberSystem],
         this.currencies,
         AST.NumberFormatPattern.parse(this.decimalPatterns[this._currentNumberSystem]),
-        AST.NumberFormatPattern.parse(this.percentagePatterns[this._currentNumberSystem])
+        AST.NumberFormatPattern.parse(this.percentagePatterns[this._currentNumberSystem]),
+        this._currentNumberSystem
       );
   }
 };
@@ -472,7 +490,15 @@ MessageFormat.prototype._parseCurrencyFormat = function(variable) {
     context = 'reverseGlobal';
   }
 
-  return new AST.CurrencyFormat(this.locale, variable, context, type, this.currencies, AST.NumberFormatPattern.parse(this.currencyPatterns[this._currentNumberSystem]));
+  return new AST.CurrencyFormat(
+    this.locale,
+    variable,
+    context,
+    type,
+    this.currencies,
+    AST.NumberFormatPattern.parse(this.currencyPatterns[this._currentNumberSystem]),
+    this._currentNumberSystem
+  );
 };
 
 /**
@@ -641,12 +667,14 @@ MessageFormat.prototype._parsePluralFormat = function(variable) {
       }
       var messageAST = [];
       this.currentToken = this.lexer.getNextToken();
+      var currentNumberSystem = this._currentNumberSystem;
       while(this.currentToken !== MessageFormat.Characters.ENDING_BRACKET) {
         messageAST.push(this._parsePrimary({
           escapeCharacter: '#',
           parseRemaining: true,
           offset: offset,
-          variable: variable
+          variable: variable,
+          numberSystem: currentNumberSystem
         }));
       }
       values[_case] = messageAST;
@@ -1045,7 +1073,9 @@ MessageFormat.prototype._readNumberFormatPatterns = function() {
   for(var property in MessageFormat.NumberSystems) {
     if(MessageFormat.NumberSystems.hasOwnProperty(property)) {
       var numberSystem = MessageFormat.NumberSystems[property];
-      if(numberSystem !== this.nativeNumberSystem && numberSystem !== this.defaultNumberSystem) {
+      if(numberSystem !== this.nativeNumberSystem &&
+         numberSystem !== this.defaultNumberSystem &&
+         numberSystem !== MessageFormat.DEFAULT_NUMBER_SYSTEM) {
         continue;
       }
       pattern = this._getXMLNode('//ldml/numbers/decimalFormats[@numberSystem=\'' + numberSystem + '\']');
@@ -1056,7 +1086,9 @@ MessageFormat.prototype._readNumberFormatPatterns = function() {
   for(var property in MessageFormat.NumberSystems) {
     if(MessageFormat.NumberSystems.hasOwnProperty(property)) {
       var numberSystem = MessageFormat.NumberSystems[property];
-      if(numberSystem !== this.nativeNumberSystem && numberSystem !== this.defaultNumberSystem) {
+      if(numberSystem !== this.nativeNumberSystem &&
+         numberSystem !== this.defaultNumberSystem &&
+         numberSystem !== MessageFormat.DEFAULT_NUMBER_SYSTEM) {
         continue;
       }
       pattern = this._getXMLNode('//ldml/numbers/percentFormats[@numberSystem=\'' + numberSystem + '\']');
@@ -1067,11 +1099,16 @@ MessageFormat.prototype._readNumberFormatPatterns = function() {
   for(var property in MessageFormat.NumberSystems) {
     if(MessageFormat.NumberSystems.hasOwnProperty(property)) {
       var numberSystem = MessageFormat.NumberSystems[property];
-      if(numberSystem !== this.nativeNumberSystem && numberSystem !== this.defaultNumberSystem) {
+      if(numberSystem !== this.nativeNumberSystem &&
+         numberSystem !== this.defaultNumberSystem &&
+         numberSystem !== MessageFormat.DEFAULT_NUMBER_SYSTEM) {
         continue;
       }
       pattern = this._getXMLNode('//ldml/numbers/currencyFormats[@numberSystem=\'' + numberSystem + '\']');
       var accountingNode = pattern.get('currencyFormatLength/currencyFormat[@type=\'accounting\']');
+      if(!accountingNode) {
+        accountingNode = pattern.get('currencyFormatLength/currencyFormat[@type=\'standard\']');
+      }
       if(accountingNode.child(0).name() === 'alias') {
         var relativePath = accountingNode.child(0).attr('path').value();
         accountingNode = accountingNode.get(relativePath);
@@ -1097,7 +1134,9 @@ MessageFormat.prototype._readNumberSymbols = function(rootDocument, languageDocu
   for(var property in MessageFormat.NumberSystems) {
     if(MessageFormat.NumberSystems.hasOwnProperty(property)) {
       var numberSystem = MessageFormat.NumberSystems[property];
-      if(numberSystem !== this.nativeNumberSystem && numberSystem !== this.defaultNumberSystem) {
+      if(numberSystem !== this.nativeNumberSystem &&
+         numberSystem !== this.defaultNumberSystem &&
+         numberSystem !== MessageFormat.DEFAULT_NUMBER_SYSTEM) {
         continue;
       }
       symbols = this._getXMLNode('//ldml/numbers/symbols[@numberSystem=\'' + numberSystem + '\']');

@@ -53,7 +53,7 @@ AST.Variable = function(name) {
  * @constructor
  */
 
-AST.NumberFormat = function(locale, variable, argument, numberSymbols, currencies, decimalPattern, percentagePattern) {
+AST.NumberFormat = function(locale, variable, argument, numberSymbols, currencies, decimalPattern, percentagePattern, numberSystem) {
   this.locale = locale;
   this.language = /^([a-z]+)\-/.exec(this.locale)[1];
   this.region = /\-([A-Z]+)$/.exec(this.locale)[1];
@@ -66,6 +66,7 @@ AST.NumberFormat = function(locale, variable, argument, numberSymbols, currencie
     decimalPattern,
     percentagePattern
   );
+  this.numberSystem = numberSystem;
 };
 
 /**
@@ -76,7 +77,7 @@ AST.NumberFormat = function(locale, variable, argument, numberSymbols, currencie
  * @constructor
  */
 
-AST.CurrencyFormat = function(locale, variable, context, type, currencies, currencyPattern) {
+AST.CurrencyFormat = function(locale, variable, context, type, currencies, currencyPattern, numberSystem) {
   this.locale = locale;
   this.language = /^([a-z]+)\-/.exec(this.locale)[1];
   this.region = /\-([A-Z]+)$/.exec(this.locale)[1];
@@ -85,6 +86,7 @@ AST.CurrencyFormat = function(locale, variable, context, type, currencies, curre
   this.type = type;
   this.currencies = currencies;
   this.pattern = currencyPattern;
+  this.numberSystem = numberSystem;
 };
 
 /**
@@ -715,10 +717,11 @@ AST.SelectordinalFormat = function(locale, variable, values, offset) {
  * @constructor
  */
 
-AST.Remaining = function(variable, offset, pattern) {
+AST.Remaining = function(variable, offset, pattern, numberSystem) {
   this.variable = variable;
   this.offset = offset;
   this.pattern = pattern;
+  this.numberSystem = numberSystem;
 };
 
 module.exports = AST;

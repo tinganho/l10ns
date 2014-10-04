@@ -74,6 +74,7 @@ describe('MessageFormat', function() {
     require('./variables');
     require('./numberFormat');
     require('./currencyFormat');
+    require('./numberSystem');
     require('./dateFormat');
     require('./pluralFormat');
     require('./selectFormat');
