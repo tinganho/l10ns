@@ -36,4 +36,25 @@ describe('Number system', function() {
     expect(messageFormat.messageAST[0].values['other'][1]).to.be.an.instanceOf(AST.PluralFormat);
     expect(messageFormat.messageAST[0].values['other'][1].values['other'][0].numberSystem).to.equal('latn');
   });
+
+  it('should throw an error if a non-defined number system is used in plural format', function() {
+    var method = function() {
+      messageFormat.parse('{variable1, plural:nondefinednumbersystem, other{# sentence1}}');
+    };
+    expect(method).to.throw(TypeError, 'No defined number system in l10ns called \'nondefinednumbersystem\'');
+  });
+
+  it('should throw an error if a non-defined number system is used in number format', function() {
+    var method = function() {
+      messageFormat.parse('{variable1, number:nondefinednumbersystem, integer}');
+    };
+    expect(method).to.throw(TypeError, 'No defined number system in l10ns called \'nondefinednumbersystem\'');
+  });
+
+  it('should throw an error if a non-defined number system is used in number format', function() {
+    var method = function() {
+      messageFormat.parse('{variable1, currency:nondefinednumbersystem, local, symbol}');
+    };
+    expect(method).to.throw(TypeError, 'No defined number system in l10ns called \'nondefinednumbersystem\'');
+  });
 });
