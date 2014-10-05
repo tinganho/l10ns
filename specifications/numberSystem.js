@@ -19,7 +19,6 @@ describe('Number system', function() {
   it('should use the default number system defined in CLDR in plural remaining', function() {
     messageFormat.parse('{variable1, plural, other {# sentence1}}');
     expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.PluralFormat);
-    console.log(messageFormat.messageAST[0].values['other'][0]);
     expect(messageFormat.messageAST[0].values['other'][0].numberSystem).to.equal('arab');
   });
 
