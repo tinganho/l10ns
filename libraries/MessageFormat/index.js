@@ -424,6 +424,9 @@ MessageFormat.prototype._parseSimpleFormat = function(type, variable) {
     case 'date':
       return new AST.date.DateFormat(this.locale, variable, argument, this);
     case 'number':
+      if(!this.decimalPatterns.hasOwnProperty(this._currentNumberSystem)) {
+        throw new TypeError('Locale `' + this.locale + '` does not have `'  + this._currentNumberSystem + '` number system.');
+      }
       return new AST.NumberFormat(
         this.locale,
         variable,

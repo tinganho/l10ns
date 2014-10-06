@@ -10,7 +10,8 @@
     "value": "{files, currency, local, text}",
     "variables": [
       "files",
-      "people"
+      "code",
+      "value"
     ]
   },
   {
@@ -19,20 +20,6 @@
     ],
     "id": "zExEo9bpHy",
     "key": "INDEX2",
-    "new": false,
-    "timestamp": "2014-09-18T02:28:56.236Z",
-    "value": "",
-    "variables": [
-      "files",
-      "people"
-    ]
-  },
-  {
-    "files": [
-      "example/javascript/example.js"
-    ],
-    "id": "4LoLj7deC6",
-    "key": "INDEXA",
     "new": false,
     "timestamp": "2014-09-18T02:28:56.236Z",
     "value": "",

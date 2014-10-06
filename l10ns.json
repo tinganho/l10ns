@@ -4,7 +4,8 @@
       "programmingLanguage": "javascript",
       "locales": {
         "en-US": "English",
-        "zh-CN": "Chinese"
+        "zh-CN": "Chinese",
+        "ar-AE": "Arabic"
       },
       "quiet" : false,
       "defaultLocale": "en-US",

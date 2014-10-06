@@ -27,7 +27,7 @@ formatNumber({{{?it.currency === 'symbol' || it.currency === 'text'}}
   maximumFractionDigits: {{=it.maximumFractionDigits}},
   minimumSignificantDigits: {{=it.minimumSignificantDigits}},
   maximumSignificantDigits: {{=it.maximumSignificantDigits}},
-  symbols: localizations['{{=it.locale}}'].__numberSymbols,{{?it.paddingCharacter}}
+  symbols: localizations['{{=it.locale}}'].__numberSymbols['{{=it.numberSystem}}'],{{?it.paddingCharacter}}
   paddingCharacter: '{{=it.paddingCharacter}}',{{??}}
   paddingCharacter: null,{{?}}
   patternLength: {{=it.patternLength}}

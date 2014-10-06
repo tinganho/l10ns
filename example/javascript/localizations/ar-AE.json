@@ -3,11 +3,10 @@
     "files": [
       "example/javascript/example.js"
     ],
-    "id": "bzxz9BEjhK",
+    "id": "KG5xeMbBsq",
     "key": "INDEX1",
-    "new": false,
-    "timestamp": "2014-09-18T02:28:56.236Z",
-    "value": "",
+    "timestamp": "2014-10-06T04:13:00.727Z",
+    "value": "{people, plural, other{# wfwfej}}",
     "variables": [
       "files",
       "code",
@@ -18,10 +17,9 @@
     "files": [
       "example/javascript/example.js"
     ],
-    "id": "zExEo9bpHy",
+    "id": "9xoadyekso",
     "key": "INDEX2",
-    "new": false,
-    "timestamp": "2014-09-18T02:28:56.236Z",
+    "timestamp": "2014-10-06T04:13:00.727Z",
     "value": "",
     "variables": [
       "files",

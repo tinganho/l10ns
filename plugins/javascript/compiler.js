@@ -11,6 +11,7 @@ var fs = require('fs')
   , log = require('../../libraries/_log')
   , mkdirp = require('mkdirp')
   , MessageFormat = require('../../libraries/MessageFormat')
+  , digits = require('./digits')
   , defer = require('q').defer
   , LDML = { AST: require('../../libraries/LDML/AST') };
 
@@ -295,7 +296,7 @@ Compiler.prototype._compileRemaining = function(remaining, locale) {
     maximumSignificantDigits = minimumSignificantDigits + pattern.rightAbsentNumbers;
   }
 
-  return template['Remaining']({
+  result = template['Remaining']({
     variableName: remaining.variable.name,
     type: type,
     offset: remaining.offset,
@@ -313,6 +314,7 @@ Compiler.prototype._compileRemaining = function(remaining, locale) {
     maximumSignificantDigits: maximumSignificantDigits,
     groupSize: pattern.groupSize,
     locale: locale,
+    numberSystem: remaining.numberSystem,
     exponent: !pattern.exponent ? null : {
       digits: pattern.exponent.nonAbsentNumbers,
       plusSign: pattern.exponent.plusSign
@@ -320,6 +322,15 @@ Compiler.prototype._compileRemaining = function(remaining, locale) {
     patternLength: pattern.patternLength,
     paddingCharacter: pattern.paddingCharacter
   });
+
+  if(remaining.numberSystem !== 'latn') {
+    result += this.linefeed + template['ReplaceDigitBlock']({
+      variableName: 'string',
+      digits: digits[remaining.numberSystem]
+    })
+  }
+
+  return result;
 };
 
 /**
@@ -331,7 +342,8 @@ Compiler.prototype._compileRemaining = function(remaining, locale) {
  */
 
 Compiler.prototype._compileNumberFormat = function(numberFormat) {
-  var result = ''
+  var _this = this
+    , result = ''
     , signs = ['positive', 'negative']
     , _case = {};
 
@@ -373,7 +385,7 @@ Compiler.prototype._compileNumberFormat = function(numberFormat) {
       maximumSignificantDigits = pattern.nonAbsentNumbers + pattern.rightAbsentNumbers;
     }
 
-    _case[sign] = template['FormatNumber']({
+    _case[sign] = _this.appendString + template['FormatNumber']({
       variableName: numberFormat.variable.name,
       type: type,
       prefix: pattern.prefix,
@@ -390,6 +402,7 @@ Compiler.prototype._compileNumberFormat = function(numberFormat) {
       maximumSignificantDigits: maximumSignificantDigits,
       groupSize: pattern.groupSize,
       locale: numberFormat.locale,
+      numberSystem: numberFormat.numberSystem,
       exponent: !pattern.exponent ? null : {
         digits: pattern.exponent.nonAbsentNumbers,
         plusSign: pattern.exponent.showPositiveCharacter
@@ -401,9 +414,16 @@ Compiler.prototype._compileNumberFormat = function(numberFormat) {
 
   result += template['FormatNumberCondition']({
     variableName: numberFormat.variable.name,
-    positive: this._indentSpaces(2, this.appendString + _case['positive']),
-    negative: this._indentSpaces(2, this.appendString + _case['negative'])
+    positive: this._indentSpaces(2, _case['positive']),
+    negative: this._indentSpaces(2, _case['negative'])
   });
+
+  if(numberFormat.numberSystem !== 'latn') {
+    result += this.linefeed + template['ReplaceDigitBlock']({
+      variableName: 'string',
+      digits: digits[numberFormat.numberSystem]
+    })
+  }
 
   return result;
 };
@@ -482,6 +502,7 @@ Compiler.prototype._compileCurrencyFormat = function(currencyFormat) {
       maximumSignificantDigits: maximumSignificantDigits,
       groupSize: pattern.groupSize,
       locale: currencyFormat.locale,
+      numberSystem: currencyFormat.numberSystem,
       exponent: !pattern.exponent ? null : {
         digits: pattern.exponent.nonAbsentNumbers,
         plusSign: pattern.exponent.showPositiveCharacter
@@ -518,6 +539,13 @@ Compiler.prototype._compileCurrencyFormat = function(currencyFormat) {
         context: currencyFormat.context
       }
     });
+  }
+
+  if(currencyFormat.numberSystem !== 'latn') {
+    result += this.linefeed + template['ReplaceDigitBlock']({
+      variableName: 'string',
+      digits: digits[currencyFormat.numberSystem]
+    })
   }
 
   return result;
@@ -844,7 +872,7 @@ Compiler.prototype._getPluralComparisonString = function(comparison) {
       }
       else if(values[index] instanceof LDML.AST.Range) {
         result += template['RangeNumberComparison']({
-          variableName: values[index].vairable.name,
+          variableName: comparison.LHS.variable,
           from: values[index].from,
           to: values[index].to
         });

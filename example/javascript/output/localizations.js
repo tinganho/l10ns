@@ -232,6 +232,155 @@
   }
 
   var localizations = {
+    'ar-AE': {
+      '__getPluralKeyword': function(cardinal) {
+        var cardinal = cardinal + ''
+          , n = cardinal
+          , i = parseInt(cardinal, 10)
+          , v = 0
+          , w = 0
+          , f = 0
+          , t = 0;
+
+        var hasFractionalDigitsSyntax = /\.(\d+)/;
+
+        if(hasFractionalDigitsSyntax.test(cardinal)) {
+          f = fractionalDigits.exec(cardinal)[1];
+          v = f.length;
+        }
+        if(hasFractionalDigitsSyntax.test(cardinal)) {
+          t = cardinal.replace(/0+$/, '');
+          t = fractionalDigits.exec(t)[1];
+          w = t.length;
+        }
+        if(n === 0) {
+          return 'zero';
+        }
+        else if(n === 1) {
+          return 'one';
+        }
+        else if(n === 2) {
+          return 'two';
+        }
+        else if((3 >= n && n <= 10)) {
+          return 'few';
+        }
+        else if((11 >= n && n <= 99)) {
+          return 'many';
+        }
+        return 'other';
+      },
+      '__getOrdinalKeyword': function(cardinal) {
+        return 'other';
+      },
+      '__numberSymbols': {
+        'arab': {
+          'decimal': '٫',
+          'group': '٬',
+          'list': '؛',
+          'percentSign': '٪',
+          'plusSign': '‏+',
+          'comment': ' includes RLM before sign (002D) ',
+          'minusSign': '‏-',
+          'exponential': 'اس',
+          'superscriptingExponent': '×',
+          'perMille': '؉',
+          'infinity': '∞',
+          'nan': 'ليس رقم',
+          'timeSeparator': '،'
+        },
+        'latn': {
+          'decimal': '.',
+          'group': ',',
+          'list': ';',
+          'percentSign': '%',
+          'plusSign': '‎+',
+          'comment': ' includes LRM before sign (002D) ',
+          'minusSign': '‎-',
+          'exponential': 'E',
+          'superscriptingExponent': '×',
+          'perMille': '‰',
+          'infinity': '∞',
+          'nan': 'NaN',
+          'timeSeparator': ':'
+        }
+      },
+      '__currencies': {
+        'USD': {
+          'name': 'دولار أمريكي',
+          'text': {
+            'local': null,
+            'global': {
+              'zero': 'دولار أمريكي',
+              'one': 'دولار أمريكي',
+              'two': 'دولار أمريكي',
+              'few': 'دولار أمريكي',
+              'many': 'دولار أمريكي',
+              'other': 'دولار أمريكي'
+            }
+          },
+          'symbol': {
+            'local': '$',
+            'global': 'US$',
+            'reverseGlobal': '$US'
+          }
+        }
+      },
+      '__currencyUnitPattern': {
+        'zero': '{0} {1}',
+        'one': '{0} {1}',
+        'two': '{0} {1}',
+        'few': '{0} {1}',
+        'many': '{0} {1}',
+        'other': '{0} {1}'
+      },
+      'INDEX1': function(it) {
+        var string = '';
+        var _case;
+        _case = localizations['ar-AE'].__getPluralKeyword(it.people);
+        switch(_case) {
+          default:
+            string += formatNumber({
+              number: it.people - 0,
+              roundTo: 1,
+              prefix: '',
+              suffix: '',
+              percentage: null,
+              permille: null,
+              currency: null,
+              groupSize: {
+                primary: 3,
+                secondary: 3
+              },
+              minimumIntegerDigits: 1,
+              minimumFractionDigits: 0,
+              maximumFractionDigits: 0,
+              symbols: localizations['ar-AE'].__numberSymbols['arab']
+            });
+            string = string
+              .replace(/1/g, '١')
+              .replace(/2/g, '٢')
+              .replace(/3/g, '٣')
+              .replace(/4/g, '٤')
+              .replace(/5/g, '٥')
+              .replace(/6/g, '٦')
+              .replace(/7/g, '٧')
+              .replace(/8/g, '٨')
+              .replace(/9/g, '٩')
+              .replace(/0/g, '٠')
+
+            string += ' wfwfej';
+            break;
+        }
+        return string;
+      },
+      'INDEX2': function(it) {
+        var string = '';
+
+        return string;
+      },
+
+    },
     'en-US': {
       '__getPluralKeyword': function(cardinal) {
         var cardinal = cardinal + ''
@@ -290,17 +439,19 @@
         return 'other';
       },
       '__numberSymbols': {
-        'decimal': '.',
-        'group': ',',
-        'list': ';',
-        'percentSign': '%',
-        'plusSign': '+',
-        'minusSign': '-',
-        'exponential': 'E',
-        'superscriptingExponent': '×',
-        'perMille': '‰',
-        'infinity': '∞',
-        'nan': 'NaN'
+        'latn': {
+          'decimal': '.',
+          'group': ',',
+          'list': ';',
+          'percentSign': '%',
+          'plusSign': '+',
+          'minusSign': '-',
+          'exponential': 'E',
+          'superscriptingExponent': '×',
+          'perMille': '‰',
+          'infinity': '∞',
+          'nan': 'NaN'
+        }
       },
       '__currencies': {
         'USD': {
@@ -367,7 +518,7 @@
               maximumFractionDigits: 2,
               minimumSignificantDigits: 0,
               maximumSignificantDigits: 0,
-              symbols: localizations['en-US'].__numberSymbols,
+              symbols: localizations['en-US'].__numberSymbols['latn'],
               paddingCharacter: null,
               patternLength: 9
             });
@@ -394,20 +545,15 @@
               maximumFractionDigits: 2,
               minimumSignificantDigits: 0,
               maximumSignificantDigits: 0,
-              symbols: localizations['en-US'].__numberSymbols,
+              symbols: localizations['en-US'].__numberSymbols['latn'],
               paddingCharacter: null,
-              patternLength: 9
+              patternLength: 10
             });
         }
         string += localizations['en-US'].__currencyUnitPattern[pluralKeyword].replace('{0}', number).replace('{1}', unit);
         return string;
       },
       'INDEX2': function(it) {
-        var string = '';
-
-        return string;
-      },
-      'INDEXA': function(it) {
         var string = '';
 
         return string;
@@ -422,17 +568,34 @@
         return 'other';
       },
       '__numberSymbols': {
-        'decimal': '.',
-        'group': ',',
-        'list': ';',
-        'percentSign': '%',
-        'plusSign': '+',
-        'minusSign': '-',
-        'exponential': 'E',
-        'superscriptingExponent': '×',
-        'perMille': '‰',
-        'infinity': '∞',
-        'nan': 'NaN'
+        'hanidec': {
+          'decimal': '.',
+          'group': ',',
+          'list': ';',
+          'percentSign': '%',
+          'plusSign': '+',
+          'minusSign': '-',
+          'exponential': 'E',
+          'superscriptingExponent': '×',
+          'perMille': '‰',
+          'infinity': '∞',
+          'nan': 'NaN',
+          'timeSeparator': ':'
+        },
+        'latn': {
+          'decimal': '.',
+          'group': ',',
+          'list': ';',
+          'percentSign': '%',
+          'plusSign': '+',
+          'minusSign': '-',
+          'exponential': 'E',
+          'superscriptingExponent': '×',
+          'perMille': '‰',
+          'infinity': '∞',
+          'nan': 'NaN',
+          'timeSeparator': ':'
+        }
       },
       '__currencies': {
         'USD': {
@@ -463,16 +626,11 @@
 
         return string;
       },
-      'INDEXA': function(it) {
-        var string = '';
-
-        return string;
-      },
 
     }
   };
 
-  function requireLocale(locale) {
+  function requireLocalizations(locale) {
     return (function(locale) {
       return function l(key) {
         if(!(locale in localizations)) {
@@ -487,14 +645,14 @@
   };
 
   if(typeof require === "function" && typeof exports === 'object' && typeof module === 'object') {
-    module.exports = requireLocale;
+    module.exports = requireLocalizations;
   }
   else if (typeof define === "function" && define.amd) {
     define(function() {
-      return requireLocale;
+      return requireLocalizations;
     });
   }
   else {
-    window.requireLocale = requireLocale;
+    window.requireLocalizations = requireLocalizations;
   }
 })();
