@@ -1100,7 +1100,7 @@ describe('compilation', function() {
     });
   });
 
-  it('should be able to parse a floating number format with grouping', function(done) {
+  it('should be able to compile a floating number format with grouping', function(done) {
     var localizations = getLocalizations('{variable1, number, ##,00}')
       , dependencies = getDependencies(localizations)
       , compiler = proxyquire('../plugins/javascript/compiler', dependencies);
@@ -1169,7 +1169,7 @@ describe('compilation', function() {
     });
   });
 
-  it('should be able to parse a significant number format with grouping', function(done) {
+  it('should be able to compile a significant number format with grouping', function(done) {
     var localizations = getLocalizations('{variable1, number, ##,@@,###}')
       , dependencies = getDependencies(localizations)
       , compiler = proxyquire('../plugins/javascript/compiler', dependencies);
@@ -1238,7 +1238,7 @@ describe('compilation', function() {
     });
   });
 
-  it('should be able to parse a number format with padding characters', function(done) {
+  it('should be able to compile a number format with padding characters', function(done) {
     var localizations = getLocalizations('{variable1, number, *x########00}')
       , dependencies = getDependencies(localizations)
       , compiler = proxyquire('../plugins/javascript/compiler', dependencies);
@@ -1301,7 +1301,322 @@ describe('compilation', function() {
     });
   });
 
-  it('should be able to parse a number format with rounding', function(done) {
+  it('should be able to compile a number format with a local symbol currency', function(done) {
+    var localizations = getLocalizations('{variable1, number, ¤0}')
+      , dependencies = getDependencies(localizations)
+      , compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+    compiler.run();
+    eventually(function() {
+      var functionBody =
+      'var string = \'\';\n' +
+      'var unit;\n' +
+      'if(it.variable1.value && it.variable1.code) {\n' +
+      '  if(!localizations[\'en-US\'].__currencies[it.variable1.code]) {\n' +
+      '    throw new TypeError(\'Currency code \' + it.variable1.code + \' is not defined. Please define it on your l10ns.json file.\');\n' +
+      '  }\n' +
+      '  unit = localizations[\'en-US\'].__currencies[it.variable1.code][\'symbol\'][\'local\'];\n' +
+      '}\n' +
+      'else {\n' +
+      '  throw TypeError(\'`variable1` must be an object that has properties value and code.\');\n' +
+      '}\n' +
+      'if(it.variable1.value >= 0) {\n' +
+      '  string += formatNumber({\n' +
+      '    number: it.variable1.value,\n' +
+      '    type: \'floating\',\n' +
+      '    roundTo: 1,\n' +
+      '    prefix: \'¤\',\n' +
+      '    suffix: \'\',\n' +
+      '    percentage: null,\n' +
+      '    permille: null,\n' +
+      '    currency: {\n' +
+      '      symbol: unit\n' +
+      '    },\n' +
+      '    groupSize: null,\n' +
+      '    exponent: null,\n' +
+      '    minimumIntegerDigits: 1,\n' +
+      '    maximumIntegerDigits: 1,\n' +
+      '    minimumFractionDigits: 0,\n' +
+      '    maximumFractionDigits: 0,\n' +
+      '    minimumSignificantDigits: 0,\n' +
+      '    maximumSignificantDigits: 0,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    paddingCharacter: null,\n' +
+      '    patternLength: 2\n' +
+      '  });\n' +
+      '}\n' +
+      'else {\n' +
+      '  string += formatNumber({\n' +
+      '    number: it.variable1.value,\n' +
+      '    type: \'floating\',\n' +
+      '    roundTo: 1,\n' +
+      '    prefix: \'¤-\',\n' +
+      '    suffix: \'\',\n' +
+      '    percentage: null,\n' +
+      '    permille: null,\n' +
+      '    currency: {\n' +
+      '      symbol: unit\n' +
+      '    },\n' +
+      '    groupSize: null,\n' +
+      '    exponent: null,\n' +
+      '    minimumIntegerDigits: 1,\n' +
+      '    maximumIntegerDigits: 1,\n' +
+      '    minimumFractionDigits: 0,\n' +
+      '    maximumFractionDigits: 0,\n' +
+      '    minimumSignificantDigits: 0,\n' +
+      '    maximumSignificantDigits: 0,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    paddingCharacter: null,\n' +
+      '    patternLength: 2\n' +
+      '  });\n' +
+      '}\n' +
+      'return string;';
+      expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+        functionBody: indentSpaces(8, functionBody)
+      }));
+      done();
+    });
+  });
+
+  it('should be able to compile a number format with a global symbol currency', function(done) {
+    var localizations = getLocalizations('{variable1, number, ¤¤0}')
+      , dependencies = getDependencies(localizations)
+      , compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+    compiler.run();
+    eventually(function() {
+      var functionBody =
+      'var string = \'\';\n' +
+      'var unit;\n' +
+      'if(it.variable1.value && it.variable1.code) {\n' +
+      '  if(!localizations[\'en-US\'].__currencies[it.variable1.code]) {\n' +
+      '    throw new TypeError(\'Currency code \' + it.variable1.code + \' is not defined. Please define it on your l10ns.json file.\');\n' +
+      '  }\n' +
+      '  unit = localizations[\'en-US\'].__currencies[it.variable1.code][\'symbol\'][\'global\'];\n' +
+      '}\n' +
+      'else {\n' +
+      '  throw TypeError(\'`variable1` must be an object that has properties value and code.\');\n' +
+      '}\n' +
+      'if(it.variable1.value >= 0) {\n' +
+      '  string += formatNumber({\n' +
+      '    number: it.variable1.value,\n' +
+      '    type: \'floating\',\n' +
+      '    roundTo: 1,\n' +
+      '    prefix: \'¤\',\n' +
+      '    suffix: \'\',\n' +
+      '    percentage: null,\n' +
+      '    permille: null,\n' +
+      '    currency: {\n' +
+      '      symbol: unit\n' +
+      '    },\n' +
+      '    groupSize: null,\n' +
+      '    exponent: null,\n' +
+      '    minimumIntegerDigits: 1,\n' +
+      '    maximumIntegerDigits: 1,\n' +
+      '    minimumFractionDigits: 0,\n' +
+      '    maximumFractionDigits: 0,\n' +
+      '    minimumSignificantDigits: 0,\n' +
+      '    maximumSignificantDigits: 0,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    paddingCharacter: null,\n' +
+      '    patternLength: 2\n' +
+      '  });\n' +
+      '}\n' +
+      'else {\n' +
+      '  string += formatNumber({\n' +
+      '    number: it.variable1.value,\n' +
+      '    type: \'floating\',\n' +
+      '    roundTo: 1,\n' +
+      '    prefix: \'¤-\',\n' +
+      '    suffix: \'\',\n' +
+      '    percentage: null,\n' +
+      '    permille: null,\n' +
+      '    currency: {\n' +
+      '      symbol: unit\n' +
+      '    },\n' +
+      '    groupSize: null,\n' +
+      '    exponent: null,\n' +
+      '    minimumIntegerDigits: 1,\n' +
+      '    maximumIntegerDigits: 1,\n' +
+      '    minimumFractionDigits: 0,\n' +
+      '    maximumFractionDigits: 0,\n' +
+      '    minimumSignificantDigits: 0,\n' +
+      '    maximumSignificantDigits: 0,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    paddingCharacter: null,\n' +
+      '    patternLength: 2\n' +
+      '  });\n' +
+      '}\n' +
+      'return string;';
+      expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+        functionBody: indentSpaces(8, functionBody)
+      }));
+      done();
+    });
+  });
+
+  it('should be able to compile a number format with a local text currency', function(done) {
+    var localizations = getLocalizations('{variable1, number, ¤¤¤0}')
+      , dependencies = getDependencies(localizations)
+      , compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+    compiler.run();
+    eventually(function() {
+      var functionBody =
+      'var string = \'\';\n' +
+      'var unit;\n' +
+      'if(it.variable1.value && it.variable1.code) {\n' +
+      '  if(!localizations[\'en-US\'].__currencies[it.variable1.code]) {\n' +
+      '    throw new TypeError(\'Currency code \' + it.variable1.code + \' is not defined. Please define it on your l10ns.json file.\');\n' +
+      '  }\n' +
+      '  var pluralKeyword = localizations[\'en-US\'].__getPluralKeyword(it.variable1.value);\n' +
+      '  if(localizations[\'en-US\'].__currencies[it.variable1.code][\'text\'][\'local\']) {\n' +
+      '    unit = localizations[\'en-US\'].__currencies[it.variable1.code][\'text\'][\'local\'][pluralKeyword];\n' +
+      '  }\n' +
+      '  else {\n' +
+      '    unit = localizations[\'en-US\'].__currencies[it.variable1.code][\'text\'][\'global\'][pluralKeyword];\n' +
+      '  }\n' +
+      '}\n' +
+      'else {\n' +
+      '  throw TypeError(\'`variable1` must be an object that has properties value and code.\');\n' +
+      '}\n' +
+      'if(it.variable1.value >= 0) {\n' +
+      '  string += formatNumber({\n' +
+      '    number: it.variable1.value,\n' +
+      '    type: \'floating\',\n' +
+      '    roundTo: 1,\n' +
+      '    prefix: \'¤\',\n' +
+      '    suffix: \'\',\n' +
+      '    percentage: null,\n' +
+      '    permille: null,\n' +
+      '    currency: {\n' +
+      '      symbol: unit\n' +
+      '    },\n' +
+      '    groupSize: null,\n' +
+      '    exponent: null,\n' +
+      '    minimumIntegerDigits: 1,\n' +
+      '    maximumIntegerDigits: 1,\n' +
+      '    minimumFractionDigits: 0,\n' +
+      '    maximumFractionDigits: 0,\n' +
+      '    minimumSignificantDigits: 0,\n' +
+      '    maximumSignificantDigits: 0,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    paddingCharacter: null,\n' +
+      '    patternLength: 2\n' +
+      '  });\n' +
+      '}\n' +
+      'else {\n' +
+      '  string += formatNumber({\n' +
+      '    number: it.variable1.value,\n' +
+      '    type: \'floating\',\n' +
+      '    roundTo: 1,\n' +
+      '    prefix: \'¤-\',\n' +
+      '    suffix: \'\',\n' +
+      '    percentage: null,\n' +
+      '    permille: null,\n' +
+      '    currency: {\n' +
+      '      symbol: unit\n' +
+      '    },\n' +
+      '    groupSize: null,\n' +
+      '    exponent: null,\n' +
+      '    minimumIntegerDigits: 1,\n' +
+      '    maximumIntegerDigits: 1,\n' +
+      '    minimumFractionDigits: 0,\n' +
+      '    maximumFractionDigits: 0,\n' +
+      '    minimumSignificantDigits: 0,\n' +
+      '    maximumSignificantDigits: 0,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    paddingCharacter: null,\n' +
+      '    patternLength: 2\n' +
+      '  });\n' +
+      '}\n' +
+      'return string;';
+      expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+        functionBody: indentSpaces(8, functionBody)
+      }));
+      done();
+    });
+  });
+
+  it('should be able to compile a number format with a local text currency', function(done) {
+    var localizations = getLocalizations('{variable1, number, ¤¤¤¤0}')
+      , dependencies = getDependencies(localizations)
+      , compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+    compiler.run();
+    eventually(function() {
+      var functionBody =
+      'var string = \'\';\n' +
+      'var unit;\n' +
+      'if(it.variable1.value && it.variable1.code) {\n' +
+      '  if(!localizations[\'en-US\'].__currencies[it.variable1.code]) {\n' +
+      '    throw new TypeError(\'Currency code \' + it.variable1.code + \' is not defined. Please define it on your l10ns.json file.\');\n' +
+      '  }\n' +
+      '  var pluralKeyword = localizations[\'en-US\'].__getPluralKeyword(it.variable1.value);\n' +
+      '  unit = localizations[\'en-US\'].__currencies[it.variable1.code][\'text\'][\'global\'][pluralKeyword];\n' +
+      '}\n' +
+      'else {\n' +
+      '  throw TypeError(\'`variable1` must be an object that has properties value and code.\');\n' +
+      '}\n' +
+      'if(it.variable1.value >= 0) {\n' +
+      '  string += formatNumber({\n' +
+      '    number: it.variable1.value,\n' +
+      '    type: \'floating\',\n' +
+      '    roundTo: 1,\n' +
+      '    prefix: \'¤\',\n' +
+      '    suffix: \'\',\n' +
+      '    percentage: null,\n' +
+      '    permille: null,\n' +
+      '    currency: {\n' +
+      '      symbol: unit\n' +
+      '    },\n' +
+      '    groupSize: null,\n' +
+      '    exponent: null,\n' +
+      '    minimumIntegerDigits: 1,\n' +
+      '    maximumIntegerDigits: 1,\n' +
+      '    minimumFractionDigits: 0,\n' +
+      '    maximumFractionDigits: 0,\n' +
+      '    minimumSignificantDigits: 0,\n' +
+      '    maximumSignificantDigits: 0,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    paddingCharacter: null,\n' +
+      '    patternLength: 2\n' +
+      '  });\n' +
+      '}\n' +
+      'else {\n' +
+      '  string += formatNumber({\n' +
+      '    number: it.variable1.value,\n' +
+      '    type: \'floating\',\n' +
+      '    roundTo: 1,\n' +
+      '    prefix: \'¤-\',\n' +
+      '    suffix: \'\',\n' +
+      '    percentage: null,\n' +
+      '    permille: null,\n' +
+      '    currency: {\n' +
+      '      symbol: unit\n' +
+      '    },\n' +
+      '    groupSize: null,\n' +
+      '    exponent: null,\n' +
+      '    minimumIntegerDigits: 1,\n' +
+      '    maximumIntegerDigits: 1,\n' +
+      '    minimumFractionDigits: 0,\n' +
+      '    maximumFractionDigits: 0,\n' +
+      '    minimumSignificantDigits: 0,\n' +
+      '    maximumSignificantDigits: 0,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    paddingCharacter: null,\n' +
+      '    patternLength: 2\n' +
+      '  });\n' +
+      '}\n' +
+      'return string;';
+      expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+        functionBody: indentSpaces(8, functionBody)
+      }));
+      done();
+    });
+  });
+
+  it('should be able to compile a number format with rounding', function(done) {
     var localizations = getLocalizations('{variable1, number, #05}')
       , dependencies = getDependencies(localizations)
       , compiler = proxyquire('../plugins/javascript/compiler', dependencies);
@@ -1625,6 +1940,318 @@ describe('compilation', function() {
       '  .replace(/8/g, \'٨\')\n' +
       '  .replace(/9/g, \'٩\')\n' +
       '  .replace(/0/g, \'٠\')\n\n' +
+      'return string;';
+      expect(dependencies.fs.writeFileSync.args[0][1]).to.contain(indentSpaces(8, functionBody));
+      done();
+    });
+  });
+
+  it('should be able to compile arabic extended numerals', function(done) {
+    var localizations = {
+      'ur-IN': {
+        'key-1': {
+          value: '{variable1, number, 0}'
+        }
+      }
+    };
+    var dependencies = getDependencies(localizations)
+      , compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+    compiler.run();
+    eventually(function() {
+      var functionBody =
+      'var string = \'\';\n' +
+      'if(it.variable1 >= 0) {\n' +
+      '  string += formatNumber({\n' +
+      '    number: it.variable1,\n' +
+      '    type: \'floating\',\n' +
+      '    roundTo: 1,\n' +
+      '    prefix: \'\',\n' +
+      '    suffix: \'\',\n' +
+      '    percentage: null,\n' +
+      '    permille: null,\n' +
+      '    currency: null,\n' +
+      '    groupSize: null,\n' +
+      '    exponent: null,\n' +
+      '    minimumIntegerDigits: 1,\n' +
+      '    maximumIntegerDigits: 1,\n' +
+      '    minimumFractionDigits: 0,\n' +
+      '    maximumFractionDigits: 0,\n' +
+      '    minimumSignificantDigits: 0,\n' +
+      '    maximumSignificantDigits: 0,\n' +
+      '    symbols: localizations[\'ur-IN\'].__numberSymbols[\'arabext\'],\n' +
+      '    paddingCharacter: null,\n' +
+      '    patternLength: 1\n' +
+      '  });\n' +
+      '}\n' +
+      'else {\n' +
+      '  string += formatNumber({\n' +
+      '    number: it.variable1,\n' +
+      '    type: \'floating\',\n' +
+      '    roundTo: 1,\n' +
+      '    prefix: \'-\',\n' +
+      '    suffix: \'\',\n' +
+      '    percentage: null,\n' +
+      '    permille: null,\n' +
+      '    currency: null,\n' +
+      '    groupSize: null,\n' +
+      '    exponent: null,\n' +
+      '    minimumIntegerDigits: 1,\n' +
+      '    maximumIntegerDigits: 1,\n' +
+      '    minimumFractionDigits: 0,\n' +
+      '    maximumFractionDigits: 0,\n' +
+      '    minimumSignificantDigits: 0,\n' +
+      '    maximumSignificantDigits: 0,\n' +
+      '    symbols: localizations[\'ur-IN\'].__numberSymbols[\'arabext\'],\n' +
+      '    paddingCharacter: null,\n' +
+      '    patternLength: 1\n' +
+      '  });\n' +
+      '}\n' +
+      'string = string\n' +
+      '  .replace(/1/g, \'۱\')\n' +
+      '  .replace(/2/g, \'۲\')\n' +
+      '  .replace(/3/g, \'۳\')\n' +
+      '  .replace(/4/g, \'۴\')\n' +
+      '  .replace(/5/g, \'۵\')\n' +
+      '  .replace(/6/g, \'۶\')\n' +
+      '  .replace(/7/g, \'۷\')\n' +
+      '  .replace(/8/g, \'٨\')\n' +
+      '  .replace(/9/g, \'٩\')\n' +
+      '  .replace(/0/g, \'٠\')\n\n' +
+      'return string;';
+      expect(dependencies.fs.writeFileSync.args[0][1]).to.contain(indentSpaces(8, functionBody));
+      done();
+    });
+  });
+
+  it('should be able to compile bengali numerals', function(done) {
+    var localizations = {
+      'bn-BD': {
+        'key-1': {
+          value: '{variable1, number, 0}'
+        }
+      }
+    };
+    var dependencies = getDependencies(localizations)
+      , compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+    compiler.run();
+    eventually(function() {
+      var functionBody =
+      'var string = \'\';\n' +
+      'if(it.variable1 >= 0) {\n' +
+      '  string += formatNumber({\n' +
+      '    number: it.variable1,\n' +
+      '    type: \'floating\',\n' +
+      '    roundTo: 1,\n' +
+      '    prefix: \'\',\n' +
+      '    suffix: \'\',\n' +
+      '    percentage: null,\n' +
+      '    permille: null,\n' +
+      '    currency: null,\n' +
+      '    groupSize: null,\n' +
+      '    exponent: null,\n' +
+      '    minimumIntegerDigits: 1,\n' +
+      '    maximumIntegerDigits: 1,\n' +
+      '    minimumFractionDigits: 0,\n' +
+      '    maximumFractionDigits: 0,\n' +
+      '    minimumSignificantDigits: 0,\n' +
+      '    maximumSignificantDigits: 0,\n' +
+      '    symbols: localizations[\'bn-BD\'].__numberSymbols[\'beng\'],\n' +
+      '    paddingCharacter: null,\n' +
+      '    patternLength: 1\n' +
+      '  });\n' +
+      '}\n' +
+      'else {\n' +
+      '  string += formatNumber({\n' +
+      '    number: it.variable1,\n' +
+      '    type: \'floating\',\n' +
+      '    roundTo: 1,\n' +
+      '    prefix: \'-\',\n' +
+      '    suffix: \'\',\n' +
+      '    percentage: null,\n' +
+      '    permille: null,\n' +
+      '    currency: null,\n' +
+      '    groupSize: null,\n' +
+      '    exponent: null,\n' +
+      '    minimumIntegerDigits: 1,\n' +
+      '    maximumIntegerDigits: 1,\n' +
+      '    minimumFractionDigits: 0,\n' +
+      '    maximumFractionDigits: 0,\n' +
+      '    minimumSignificantDigits: 0,\n' +
+      '    maximumSignificantDigits: 0,\n' +
+      '    symbols: localizations[\'bn-BD\'].__numberSymbols[\'beng\'],\n' +
+      '    paddingCharacter: null,\n' +
+      '    patternLength: 1\n' +
+      '  });\n' +
+      '}\n' +
+      'string = string\n' +
+      '  .replace(/1/g, \'১\')\n' +
+      '  .replace(/2/g, \'২\')\n' +
+      '  .replace(/3/g, \'৩\')\n' +
+      '  .replace(/4/g, \'৪\')\n' +
+      '  .replace(/5/g, \'৫\')\n' +
+      '  .replace(/6/g, \'৬\')\n' +
+      '  .replace(/7/g, \'৭\')\n' +
+      '  .replace(/8/g, \'৮\')\n' +
+      '  .replace(/9/g, \'৯\')\n' +
+      '  .replace(/0/g, \'০\')\n\n' +
+      'return string;';
+      expect(dependencies.fs.writeFileSync.args[0][1]).to.contain(indentSpaces(8, functionBody));
+      done();
+    });
+  });
+
+  it('should be able to compile devanagari numerals', function(done) {
+    var localizations = {
+      'ne-IN': {
+        'key-1': {
+          value: '{variable1, number:deva, 0}'
+        }
+      }
+    };
+    var dependencies = getDependencies(localizations)
+      , compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+    compiler.run();
+    eventually(function() {
+      var functionBody =
+      'var string = \'\';\n' +
+      'if(it.variable1 >= 0) {\n' +
+      '  string += formatNumber({\n' +
+      '    number: it.variable1,\n' +
+      '    type: \'floating\',\n' +
+      '    roundTo: 1,\n' +
+      '    prefix: \'\',\n' +
+      '    suffix: \'\',\n' +
+      '    percentage: null,\n' +
+      '    permille: null,\n' +
+      '    currency: null,\n' +
+      '    groupSize: null,\n' +
+      '    exponent: null,\n' +
+      '    minimumIntegerDigits: 1,\n' +
+      '    maximumIntegerDigits: 1,\n' +
+      '    minimumFractionDigits: 0,\n' +
+      '    maximumFractionDigits: 0,\n' +
+      '    minimumSignificantDigits: 0,\n' +
+      '    maximumSignificantDigits: 0,\n' +
+      '    symbols: localizations[\'ne-IN\'].__numberSymbols[\'deva\'],\n' +
+      '    paddingCharacter: null,\n' +
+      '    patternLength: 1\n' +
+      '  });\n' +
+      '}\n' +
+      'else {\n' +
+      '  string += formatNumber({\n' +
+      '    number: it.variable1,\n' +
+      '    type: \'floating\',\n' +
+      '    roundTo: 1,\n' +
+      '    prefix: \'-\',\n' +
+      '    suffix: \'\',\n' +
+      '    percentage: null,\n' +
+      '    permille: null,\n' +
+      '    currency: null,\n' +
+      '    groupSize: null,\n' +
+      '    exponent: null,\n' +
+      '    minimumIntegerDigits: 1,\n' +
+      '    maximumIntegerDigits: 1,\n' +
+      '    minimumFractionDigits: 0,\n' +
+      '    maximumFractionDigits: 0,\n' +
+      '    minimumSignificantDigits: 0,\n' +
+      '    maximumSignificantDigits: 0,\n' +
+      '    symbols: localizations[\'ne-IN\'].__numberSymbols[\'deva\'],\n' +
+      '    paddingCharacter: null,\n' +
+      '    patternLength: 1\n' +
+      '  });\n' +
+      '}\n' +
+      'string = string\n' +
+      '  .replace(/1/g, \'१\')\n' +
+      '  .replace(/2/g, \'२\')\n' +
+      '  .replace(/3/g, \'३\')\n' +
+      '  .replace(/4/g, \'४\')\n' +
+      '  .replace(/5/g, \'५\')\n' +
+      '  .replace(/6/g, \'६\')\n' +
+      '  .replace(/7/g, \'७\')\n' +
+      '  .replace(/8/g, \'८\')\n' +
+      '  .replace(/9/g, \'९\')\n' +
+      '  .replace(/0/g, \'०\')\n\n' +
+      'return string;';
+      expect(dependencies.fs.writeFileSync.args[0][1]).to.contain(indentSpaces(8, functionBody));
+      done();
+    });
+  });
+
+  it('should be able to compile devanagari numerals', function(done) {
+    var localizations = {
+      'ne-IN': {
+        'key-1': {
+          value: '{variable1, number:deva, 0}'
+        }
+      }
+    };
+    var dependencies = getDependencies(localizations)
+      , compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+    compiler.run();
+    eventually(function() {
+      var functionBody =
+      'var string = \'\';\n' +
+      'if(it.variable1 >= 0) {\n' +
+      '  string += formatNumber({\n' +
+      '    number: it.variable1,\n' +
+      '    type: \'floating\',\n' +
+      '    roundTo: 1,\n' +
+      '    prefix: \'\',\n' +
+      '    suffix: \'\',\n' +
+      '    percentage: null,\n' +
+      '    permille: null,\n' +
+      '    currency: null,\n' +
+      '    groupSize: null,\n' +
+      '    exponent: null,\n' +
+      '    minimumIntegerDigits: 1,\n' +
+      '    maximumIntegerDigits: 1,\n' +
+      '    minimumFractionDigits: 0,\n' +
+      '    maximumFractionDigits: 0,\n' +
+      '    minimumSignificantDigits: 0,\n' +
+      '    maximumSignificantDigits: 0,\n' +
+      '    symbols: localizations[\'ne-IN\'].__numberSymbols[\'deva\'],\n' +
+      '    paddingCharacter: null,\n' +
+      '    patternLength: 1\n' +
+      '  });\n' +
+      '}\n' +
+      'else {\n' +
+      '  string += formatNumber({\n' +
+      '    number: it.variable1,\n' +
+      '    type: \'floating\',\n' +
+      '    roundTo: 1,\n' +
+      '    prefix: \'-\',\n' +
+      '    suffix: \'\',\n' +
+      '    percentage: null,\n' +
+      '    permille: null,\n' +
+      '    currency: null,\n' +
+      '    groupSize: null,\n' +
+      '    exponent: null,\n' +
+      '    minimumIntegerDigits: 1,\n' +
+      '    maximumIntegerDigits: 1,\n' +
+      '    minimumFractionDigits: 0,\n' +
+      '    maximumFractionDigits: 0,\n' +
+      '    minimumSignificantDigits: 0,\n' +
+      '    maximumSignificantDigits: 0,\n' +
+      '    symbols: localizations[\'ne-IN\'].__numberSymbols[\'deva\'],\n' +
+      '    paddingCharacter: null,\n' +
+      '    patternLength: 1\n' +
+      '  });\n' +
+      '}\n' +
+      'string = string\n' +
+      '  .replace(/1/g, \'१\')\n' +
+      '  .replace(/2/g, \'२\')\n' +
+      '  .replace(/3/g, \'३\')\n' +
+      '  .replace(/4/g, \'४\')\n' +
+      '  .replace(/5/g, \'५\')\n' +
+      '  .replace(/6/g, \'६\')\n' +
+      '  .replace(/7/g, \'७\')\n' +
+      '  .replace(/8/g, \'८\')\n' +
+      '  .replace(/9/g, \'९\')\n' +
+      '  .replace(/0/g, \'०\')\n\n' +
       'return string;';
       expect(dependencies.fs.writeFileSync.args[0][1]).to.contain(indentSpaces(8, functionBody));
       done();

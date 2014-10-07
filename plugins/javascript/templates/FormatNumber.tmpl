@@ -1,4 +1,4 @@
-formatNumber({{{?it.currency === 'symbol' || it.currency === 'text'}}
+formatNumber({{{?it.currency}}
   number: it.{{=it.variableName}}.value,{{??}}
   number: it.{{=it.variableName}},{{?}}
   type: '{{=it.type}}',
@@ -6,7 +6,7 @@ formatNumber({{{?it.currency === 'symbol' || it.currency === 'text'}}
   prefix: '{{=it.prefix}}',
   suffix: '{{=it.suffix}}',
   percentage: {{=it.percentage}},
-  permille: {{=it.permille}},{{?it.currency === 'symbol'}}
+  permille: {{=it.permille}},{{?it.currency}}
   currency: {
     symbol: unit
   },{{??}}

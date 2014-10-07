@@ -1,18 +1,33 @@
-var unit;
-if(it.{{=it.variableName}}.value && it.{{=it.variableName}}.code) {
-  if(!localizations['{{=it.locale}}'].__currencies[it.{{=it.variableName}}.code]) {
-    throw new TypeError('Currency code ' + it.{{=it.variableName}}.code + ' is not defined. Please define it on your l10ns.json file.');
-  }{{?it.currency.type === 'text'}}
-  var pluralKeyword = localizations['{{=it.locale}}'].__getPluralKeyword(it.{{=it.variableName}}.value);{{?it.currency.context === 'local'}}
-  if(localizations['{{=it.locale}}'].__currencies[it.{{=it.variableName}}.code]['text']['local']) {
-    unit = localizations['{{=it.locale}}'].__currencies[it.{{=it.variableName}}.code]['text']['local'][pluralKeyword];
-  }
-  else {
-    unit = localizations['{{=it.locale}}'].__currencies[it.{{=it.variableName}}.code]['text']['global'][pluralKeyword];
-  }{{??}}
-  unit = localizations['{{=it.locale}}'].__currencies[it.{{=it.variableName}}.code]['text']['global'][pluralKeyword];{{?}}{{??}}
-  unit = localizations['{{=it.locale}}'].__currencies[it.{{=it.variableName}}.code]['{{=it.currency.type}}']['{{=it.currency.context}}'];{{?}}
-}
-else {
-  throw TypeError('`{{=it.variableName}}` must be an object that has properties value and code.');
-}
+formatNumber({
+  number: it.{{=it.variableName}}.value,
+  type: '{{=it.type}}',
+  roundTo: {{=it.roundTo}},
+  prefix: '{{=it.prefix}}',
+  suffix: '{{=it.suffix}}',
+  percentage: {{=it.percentage}},
+  permille: {{=it.permille}},{{?it.currency === 'symbol'}}
+  currency: {
+    symbol: unit
+  },{{??}}
+  currency: null,{{?}}{{?it.groupSize}}
+  groupSize: {
+    primary: {{=it.groupSize.primary}},
+    secondary: {{=it.groupSize.secondary}}
+  },{{??}}
+  groupSize: null,{{?}}{{?it.exponent}}
+  exponent: {
+    digits: {{=it.exponent.digits}},
+    plusSign: {{=it.exponent.plusSign}}
+  },{{??}}
+  exponent: null,{{?}}
+  minimumIntegerDigits: {{=it.minimumIntegerDigits}},
+  maximumIntegerDigits: {{=it.maximumIntegerDigits}},
+  minimumFractionDigits: {{=it.minimumFractionDigits}},
+  maximumFractionDigits: {{=it.maximumFractionDigits}},
+  minimumSignificantDigits: {{=it.minimumSignificantDigits}},
+  maximumSignificantDigits: {{=it.maximumSignificantDigits}},
+  symbols: localizations['{{=it.locale}}'].__numberSymbols['{{=it.numberSystem}}'],{{?it.paddingCharacter}}
+  paddingCharacter: '{{=it.paddingCharacter}}',{{??}}
+  paddingCharacter: null,{{?}}
+  patternLength: {{=it.patternLength}}
+});

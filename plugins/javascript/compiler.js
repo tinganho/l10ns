@@ -393,7 +393,7 @@ Compiler.prototype._compileNumberFormat = function(numberFormat) {
       roundTo: pattern.rounding,
       percentage: pattern.percentage,
       permille: pattern.permille,
-      currency: false,
+      currency: pattern.currency,
       minimumIntegerDigits: minimumIntegerDigits,
       maximumIntegerDigits: maximumIntegerDigits,
       minimumFractionDigits: minimumFractionDigits,
@@ -412,11 +412,29 @@ Compiler.prototype._compileNumberFormat = function(numberFormat) {
     });
   });
 
-  result += template['FormatNumberCondition']({
-    variableName: numberFormat.variable.name,
-    positive: this._indentSpaces(2, _case['positive']),
-    negative: this._indentSpaces(2, _case['negative'])
-  });
+  if(numberFormat.pattern['positive'].currency) {
+    result += template['SetCurrencyUnitBlock']({
+      variableName: numberFormat.variable.name,
+      locale: numberFormat.locale,
+      currency: {
+        type: numberFormat.pattern['positive'].currency.type,
+        context: numberFormat.pattern['positive'].currency.context
+      }
+    }) + this.linefeed;
+
+    result += template['FormatCurrencyCondition']({
+      variableName: numberFormat.variable.name,
+      positive: this._indentSpaces(2, _case['positive']),
+      negative: this._indentSpaces(2, _case['negative'])
+    });
+  }
+  else {
+    result += template['FormatNumberCondition']({
+      variableName: numberFormat.variable.name,
+      positive: this._indentSpaces(2, _case['positive']),
+      negative: this._indentSpaces(2, _case['negative'])
+    });
+  }
 
   if(numberFormat.numberSystem !== 'latn') {
     result += this.linefeed + template['ReplaceDigitBlock']({
@@ -485,7 +503,7 @@ Compiler.prototype._compileCurrencyFormat = function(currencyFormat) {
       pattern.suffix = pattern.suffix.replace(/¤/g, '');
     }
 
-    _case[sign] = template['FormatNumber']({
+    _case[sign] = template['FormatCurrency']({
       variableName: currencyFormat.variable.name,
       type: type,
       prefix: pattern.prefix,
@@ -512,7 +530,7 @@ Compiler.prototype._compileCurrencyFormat = function(currencyFormat) {
     });
   });
 
-  result += template['FormatCurrency']({
+  result += template['SetCurrencyUnitBlock']({
     variableName: currencyFormat.variable.name,
     locale: currencyFormat.locale,
     currency: {
