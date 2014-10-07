@@ -799,5 +799,9 @@ describe('NumberFormat', function() {
       messageFormat.parse('{variable1, number, ¤¤¤¤ ¤0}');
     }
     expect(method).to.throw(TypeError, 'Can not set multiple currency unit sequences in `¤¤¤¤ ¤0`');
+    var method = function() {
+      messageFormat.parse('{variable1, number, ¤¤¤¤ 0¤}');
+    }
+    expect(method).to.throw(TypeError, 'Can not set multiple currency unit sequences in `¤¤¤¤ 0¤`');
   });
 });
