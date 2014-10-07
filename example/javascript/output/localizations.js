@@ -190,6 +190,10 @@
             fractionDigits += '0';
           }
         }
+
+        if(fractionDigits.length > it.minimumFractionDigits) {
+          fractionDigits = fractionDigits.replace(/[0]+$/, '');
+        }
       }
     }
 
@@ -245,12 +249,10 @@
         var hasFractionalDigitsSyntax = /\.(\d+)/;
 
         if(hasFractionalDigitsSyntax.test(cardinal)) {
-          f = fractionalDigits.exec(cardinal)[1];
+          f = hasFractionalDigitsSyntax.exec(cardinal)[1];
           v = f.length;
-        }
-        if(hasFractionalDigitsSyntax.test(cardinal)) {
           t = cardinal.replace(/0+$/, '');
-          t = fractionalDigits.exec(t)[1];
+          t = hasFractionalDigitsSyntax.exec(t)[1];
           w = t.length;
         }
         if(n === 0) {
@@ -342,7 +344,7 @@
           default:
             string += formatNumber({
               number: it.people - 0,
-              roundTo: 1,
+              roundTo: 0.001,
               prefix: '',
               suffix: '',
               percentage: null,
@@ -394,12 +396,10 @@
         var hasFractionalDigitsSyntax = /\.(\d+)/;
 
         if(hasFractionalDigitsSyntax.test(cardinal)) {
-          f = fractionalDigits.exec(cardinal)[1];
+          f = hasFractionalDigitsSyntax.exec(cardinal)[1];
           v = f.length;
-        }
-        if(hasFractionalDigitsSyntax.test(cardinal)) {
           t = cardinal.replace(/0+$/, '');
-          t = fractionalDigits.exec(t)[1];
+          t = hasFractionalDigitsSyntax.exec(t)[1];
           w = t.length;
         }
         if(i === 1 && v === 0) {
@@ -419,12 +419,10 @@
         var hasFractionalDigitsSyntax = /\.(\d+)/;
 
         if(hasFractionalDigitsSyntax.test(cardinal)) {
-          f = fractionalDigits.exec(cardinal)[1];
+          f = hasFractionalDigitsSyntax.exec(cardinal)[1];
           v = f.length;
-        }
-        if(hasFractionalDigitsSyntax.test(cardinal)) {
           t = cardinal.replace(/0+$/, '');
-          t = fractionalDigits.exec(t)[1];
+          t = hasFractionalDigitsSyntax.exec(t)[1];
           w = t.length;
         }
         if(n % 10 === 1 && n % 100 !== 11) {
@@ -514,7 +512,7 @@
               exponent: null,
               minimumIntegerDigits: 1,
               maximumIntegerDigits: 4,
-              minimumFractionDigits: 2,
+              minimumFractionDigits: 0,
               maximumFractionDigits: 2,
               minimumSignificantDigits: 0,
               maximumSignificantDigits: 0,
@@ -541,7 +539,7 @@
               exponent: null,
               minimumIntegerDigits: 1,
               maximumIntegerDigits: 4,
-              minimumFractionDigits: 2,
+              minimumFractionDigits: 0,
               maximumFractionDigits: 2,
               minimumSignificantDigits: 0,
               maximumSignificantDigits: 0,

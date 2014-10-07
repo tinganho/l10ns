@@ -204,6 +204,27 @@ describe('formatNumber(Object)', function() {
     expect(number).to.equal('0.124');
   });
 
+  it('should use not use trailing zeros on fractions whenever absent fraction digit is defined', function() {
+    var number = formatNumber({
+      prefix: '',
+      suffix: '',
+      roundTo: 0.01,
+      number: 0.1,
+      percentage: false,
+      permille: false,
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2,
+      minimumIntegerDigits: 1,
+      type: 'floating',
+      groupSize: {
+        primary: 3,
+        secondary: 2
+      },
+      symbols: symbols
+    });
+    expect(number).to.equal('0.1');
+  });
+
   it('should be able to render maximum fraction digits', function() {
     var number = formatNumber({
       prefix: '',

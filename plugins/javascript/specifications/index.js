@@ -499,7 +499,7 @@ describe('Javascript Compiler', function() {
         '    string += \'sentence1\';\n' +
         '    string += formatNumber({\n' +
         '      number: it.variable1 - 1,\n' +
-        '      roundTo: 1,\n' +
+        '      roundTo: 0.001,\n' +
         '      prefix: \'\',\n' +
         '      suffix: \'\',\n' +
         '      percentage: null,\n' +
@@ -512,7 +512,7 @@ describe('Javascript Compiler', function() {
         '      minimumIntegerDigits: 1,\n' +
         '      minimumFractionDigits: 0,\n' +
         '      maximumFractionDigits: 0,\n' +
-        '      symbols: localizations[\'en-US\'].__numberSymbols\n' +
+        '      symbols: localizations[\'en-US\'].__numberSymbols[\'latn\']\n' +
         '    });\n' +
         '    string += \'sentence2\';\n' +
         '    break;\n' +
@@ -544,7 +544,7 @@ describe('Javascript Compiler', function() {
         '  default:\n' +
         '    string += formatNumber({\n' +
         '      number: it.variable1 - 0,\n' +
-        '      roundTo: 1,\n' +
+        '      roundTo: 0.001,\n' +
         '      prefix: \'\',\n' +
         '      suffix: \'\',\n' +
         '      percentage: null,\n' +
@@ -557,7 +557,7 @@ describe('Javascript Compiler', function() {
         '      minimumIntegerDigits: 1,\n' +
         '      minimumFractionDigits: 0,\n' +
         '      maximumFractionDigits: 0,\n' +
-        '      symbols: localizations[\'en-US\'].__numberSymbols\n' +
+        '      symbols: localizations[\'en-US\'].__numberSymbols[\'latn\']\n' +
         '    });\n' +
         '    string += \' sentence2\';\n' +
         '    break;\n' +

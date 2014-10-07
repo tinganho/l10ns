@@ -474,9 +474,10 @@ AST.NumberFormatPattern._setPrefixesAndSuffixAttributes = function(numberPattern
         continue;
       case '¤':
         currencyCharacterCounter++;
-        attributes.currency = this._getCurrency(
+        index = this._setCurrency(
           attributes,
-          currencyCharacterCounter);
+          numberPattern,
+          index) - 1;
         if(hasEncounterNumberCharacters) {
           suffix += '¤';
         }
@@ -500,8 +501,13 @@ AST.NumberFormatPattern._setPrefixesAndSuffixAttributes = function(numberPattern
         if(numberPattern[index] === '.') {
           rounding += '.';
         }
-        if(rounding.length > 0 && /[0]/.test(numberPattern[index])) {
-          rounding += '0';
+        if(rounding.length > 0) {
+          if(/[0]/.test(numberPattern[index])) {
+            rounding += '0';
+          }
+          else if(/[#]/.test(numberPattern[index]) && /\./.test(rounding)) {
+            rounding += '0';
+          }
         }
       }
 
@@ -642,18 +648,48 @@ AST.NumberFormatPattern._getPermille = function(attributes, hasEncounterdNumberC
  * @api private
  */
 
-AST.NumberFormatPattern._getCurrency = function(attributes, currencyCharacterCounter, hasEncounterdNumberCharacters) {
+AST.NumberFormatPattern._setCurrency = function(attributes, numberPattern, index) {
   if(attributes.percentage || attributes.permille) {
-    throw new TypeError('Can not set currency whenever percentage or permille are set in ' + this.currentNumberPattern);
-  }
-  if(hasEncounterdNumberCharacters) {
-    if(typeof attributes.currency !== 'undefined' &&
-       typeof attributes.currency.position === 'prefix') {
-      throw new TypeError('Can not set both a currency prefix and suffix in ' + this.currentNumberPattern);
-    }
+    throw new TypeError('Can not set currency whenever percentage or permille are set in `' + this.currentNumberPattern + '`');
   }
 
-  return true;
+  if(attributes.currency) {
+    throw new TypeError('Can not set multiple currency unit sequences in `' + this.currentNumberPattern + '`');
+  }
+
+  attributes.currency = {};
+
+  var currentToken = numberPattern[index]
+    , length = 0;
+
+  while(currentToken === '¤') {
+    length++;
+    index++;
+    currentToken = numberPattern[index];
+  }
+
+  switch(length) {
+    case 1:
+      attributes.currency.context = 'local';
+      attributes.currency.type = 'symbol';
+      break;
+    case 2:
+      attributes.currency.context = 'global';
+      attributes.currency.type = 'symbol';
+      break;
+    case 3:
+      attributes.currency.context = 'local';
+      attributes.currency.type = 'text';
+      break;
+    case 4:
+      attributes.currency.context = 'global';
+      attributes.currency.type = 'text';
+      break;
+    default:
+      throw new TypeError('The consecutive currency character length can not exceed four in `' + this.currentNumberPattern + '`');
+  }
+
+  return index;
 };
 
 /**

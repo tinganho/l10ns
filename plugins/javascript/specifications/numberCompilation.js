@@ -26,7 +26,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 1\n' +
       '  });\n' +
@@ -49,7 +49,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 1\n' +
       '  });\n' +
@@ -89,7 +89,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 2\n' +
       '  });\n' +
@@ -112,7 +112,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 2\n' +
       '  });\n' +
@@ -152,7 +152,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 3\n' +
       '  });\n' +
@@ -175,7 +175,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 3\n' +
       '  });\n' +
@@ -215,7 +215,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 4\n' +
       '  });\n' +
@@ -238,7 +238,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 4\n' +
       '  });\n' +
@@ -278,7 +278,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 1,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 3\n' +
       '  });\n' +
@@ -301,7 +301,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 1,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 3\n' +
       '  });\n' +
@@ -327,7 +327,7 @@ describe('compilation', function() {
       '  string += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
-      '    roundTo: 0.1,\n' +
+      '    roundTo: 0.01,\n' +
       '    prefix: \'\',\n' +
       '    suffix: \'\',\n' +
       '    percentage: null,\n' +
@@ -341,7 +341,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 2,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 4\n' +
       '  });\n' +
@@ -350,7 +350,7 @@ describe('compilation', function() {
       '  string += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
-      '    roundTo: 0.1,\n' +
+      '    roundTo: 0.01,\n' +
       '    prefix: \'-\',\n' +
       '    suffix: \'\',\n' +
       '    percentage: null,\n' +
@@ -364,7 +364,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 2,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 4\n' +
       '  });\n' +
@@ -390,7 +390,7 @@ describe('compilation', function() {
       '  string += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
-      '    roundTo: 0.01,\n' +
+      '    roundTo: 0.001,\n' +
       '    prefix: \'\',\n' +
       '    suffix: \'\',\n' +
       '    percentage: null,\n' +
@@ -404,7 +404,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 3,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 5\n' +
       '  });\n' +
@@ -413,7 +413,7 @@ describe('compilation', function() {
       '  string += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
-      '    roundTo: 0.01,\n' +
+      '    roundTo: 0.001,\n' +
       '    prefix: \'-\',\n' +
       '    suffix: \'\',\n' +
       '    percentage: null,\n' +
@@ -427,7 +427,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 3,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 5\n' +
       '  });\n' +
@@ -453,7 +453,7 @@ describe('compilation', function() {
       '  string += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
-      '    roundTo: 0.01,\n' +
+      '    roundTo: 0.0001,\n' +
       '    prefix: \'\',\n' +
       '    suffix: \'\',\n' +
       '    percentage: null,\n' +
@@ -467,7 +467,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 4,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 6\n' +
       '  });\n' +
@@ -476,7 +476,7 @@ describe('compilation', function() {
       '  string += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
-      '    roundTo: 0.01,\n' +
+      '    roundTo: 0.0001,\n' +
       '    prefix: \'-\',\n' +
       '    suffix: \'\',\n' +
       '    percentage: null,\n' +
@@ -490,7 +490,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 4,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 6\n' +
       '  });\n' +
@@ -516,7 +516,7 @@ describe('compilation', function() {
       '  string += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
-      '    roundTo: 0.01,\n' +
+      '    roundTo: 0.0001,\n' +
       '    prefix: \'\',\n' +
       '    suffix: \'\',\n' +
       '    percentage: null,\n' +
@@ -533,7 +533,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 4,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 8\n' +
       '  });\n' +
@@ -542,7 +542,7 @@ describe('compilation', function() {
       '  string += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
-      '    roundTo: 0.01,\n' +
+      '    roundTo: 0.0001,\n' +
       '    prefix: \'-\',\n' +
       '    suffix: \'\',\n' +
       '    percentage: null,\n' +
@@ -559,7 +559,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 4,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 8\n' +
       '  });\n' +
@@ -585,7 +585,7 @@ describe('compilation', function() {
       '  string += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
-      '    roundTo: 0.01,\n' +
+      '    roundTo: 0.0001,\n' +
       '    prefix: \'\',\n' +
       '    suffix: \'\',\n' +
       '    percentage: null,\n' +
@@ -602,7 +602,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 4,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 9\n' +
       '  });\n' +
@@ -611,7 +611,7 @@ describe('compilation', function() {
       '  string += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
-      '    roundTo: 0.01,\n' +
+      '    roundTo: 0.0001,\n' +
       '    prefix: \'-\',\n' +
       '    suffix: \'\',\n' +
       '    percentage: null,\n' +
@@ -628,7 +628,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 4,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 9\n' +
       '  });\n' +
@@ -654,7 +654,7 @@ describe('compilation', function() {
       '  string += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
-      '    roundTo: 0.01,\n' +
+      '    roundTo: 0.0001,\n' +
       '    prefix: \'\',\n' +
       '    suffix: \'\',\n' +
       '    percentage: null,\n' +
@@ -671,7 +671,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 4,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 9\n' +
       '  });\n' +
@@ -680,7 +680,7 @@ describe('compilation', function() {
       '  string += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
-      '    roundTo: 0.01,\n' +
+      '    roundTo: 0.0001,\n' +
       '    prefix: \'-\',\n' +
       '    suffix: \'\',\n' +
       '    percentage: null,\n' +
@@ -697,7 +697,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 4,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 9\n' +
       '  });\n' +
@@ -737,7 +737,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 1,\n' +
       '    maximumSignificantDigits: 1,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 1\n' +
       '  });\n' +
@@ -760,7 +760,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 1,\n' +
       '    maximumSignificantDigits: 1,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 1\n' +
       '  });\n' +
@@ -800,7 +800,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 2,\n' +
       '    maximumSignificantDigits: 2,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 2\n' +
       '  });\n' +
@@ -823,7 +823,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 2,\n' +
       '    maximumSignificantDigits: 2,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 2\n' +
       '  });\n' +
@@ -863,7 +863,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 1,\n' +
       '    maximumSignificantDigits: 2,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 2\n' +
       '  });\n' +
@@ -886,7 +886,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 1,\n' +
       '    maximumSignificantDigits: 2,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 2\n' +
       '  });\n' +
@@ -926,7 +926,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 2,\n' +
       '    maximumSignificantDigits: 4,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 4\n' +
       '  });\n' +
@@ -949,7 +949,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 2,\n' +
       '    maximumSignificantDigits: 4,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 4\n' +
       '  });\n' +
@@ -992,7 +992,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 2,\n' +
       '    maximumSignificantDigits: 4,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 6\n' +
       '  });\n' +
@@ -1018,7 +1018,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 2,\n' +
       '    maximumSignificantDigits: 4,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 6\n' +
       '  });\n' +
@@ -1061,7 +1061,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 2,\n' +
       '    maximumSignificantDigits: 4,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 7\n' +
       '  });\n' +
@@ -1087,7 +1087,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 2,\n' +
       '    maximumSignificantDigits: 4,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 7\n' +
       '  });\n' +
@@ -1130,7 +1130,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 5\n' +
       '  });\n' +
@@ -1156,7 +1156,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 5\n' +
       '  });\n' +
@@ -1199,7 +1199,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 2,\n' +
       '    maximumSignificantDigits: 5,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 9\n' +
       '  });\n' +
@@ -1225,7 +1225,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 2,\n' +
       '    maximumSignificantDigits: 5,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 9\n' +
       '  });\n' +
@@ -1265,7 +1265,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: \'x\',\n' +
       '    patternLength: 10\n' +
       '  });\n' +
@@ -1288,7 +1288,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: \'x\',\n' +
       '    patternLength: 10\n' +
       '  });\n' +
@@ -1328,7 +1328,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 3\n' +
       '  });\n' +
@@ -1351,7 +1351,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 3\n' +
       '  });\n' +
@@ -1377,7 +1377,7 @@ describe('compilation', function() {
       '  string += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
-      '    roundTo: 0.01,\n' +
+      '    roundTo: 0.0001,\n' +
       '    prefix: \'\',\n' +
       '    suffix: \'%\',\n' +
       '    percentage: true,\n' +
@@ -1391,7 +1391,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 4,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 7\n' +
       '  });\n' +
@@ -1400,7 +1400,7 @@ describe('compilation', function() {
       '  string += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
-      '    roundTo: 0.01,\n' +
+      '    roundTo: 0.0001,\n' +
       '    prefix: \'-\',\n' +
       '    suffix: \'%\',\n' +
       '    percentage: true,\n' +
@@ -1414,7 +1414,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 4,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 7\n' +
       '  });\n' +
@@ -1440,7 +1440,7 @@ describe('compilation', function() {
       '  string += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
-      '    roundTo: 0.01,\n' +
+      '    roundTo: 0.0001,\n' +
       '    prefix: \'\',\n' +
       '    suffix: \'‰\',\n' +
       '    percentage: null,\n' +
@@ -1454,7 +1454,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 4,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 7\n' +
       '  });\n' +
@@ -1463,7 +1463,7 @@ describe('compilation', function() {
       '  string += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
-      '    roundTo: 0.01,\n' +
+      '    roundTo: 0.0001,\n' +
       '    prefix: \'-\',\n' +
       '    suffix: \'‰\',\n' +
       '    percentage: null,\n' +
@@ -1477,7 +1477,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 4,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 7\n' +
       '  });\n' +
@@ -1517,7 +1517,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 2\n' +
       '  });\n' +
@@ -1540,7 +1540,7 @@ describe('compilation', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 4\n' +
       '  });\n' +
@@ -1553,7 +1553,7 @@ describe('compilation', function() {
     });
   });
 
-  it('should be able to compile arabic numbers', function() {
+  it('should be able to compile arabic numbers', function(done) {
     var localizations = {
       'ar-AE': {
         'key-1': {
@@ -1581,14 +1581,14 @@ describe('compilation', function() {
       '    groupSize: null,\n' +
       '    exponent: null,\n' +
       '    minimumIntegerDigits: 1,\n' +
-      '    maximumIntegerDigits: 2,\n' +
+      '    maximumIntegerDigits: 1,\n' +
       '    minimumFractionDigits: 0,\n' +
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'ar-AE\'].__numberSymbols[\'arab\'],\n' +
       '    paddingCharacter: null,\n' +
-      '    patternLength: 2\n' +
+      '    patternLength: 1\n' +
       '  });\n' +
       '}\n' +
       'else {\n' +
@@ -1596,28 +1596,37 @@ describe('compilation', function() {
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 1,\n' +
-      '    prefix: \'(\',\n' +
-      '    suffix: \')\',\n' +
+      '    prefix: \'-\',\n' +
+      '    suffix: \'\',\n' +
       '    percentage: null,\n' +
       '    permille: null,\n' +
       '    currency: null,\n' +
       '    groupSize: null,\n' +
       '    exponent: null,\n' +
       '    minimumIntegerDigits: 1,\n' +
-      '    maximumIntegerDigits: 2,\n' +
+      '    maximumIntegerDigits: 1,\n' +
       '    minimumFractionDigits: 0,\n' +
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols,\n' +
+      '    symbols: localizations[\'ar-AE\'].__numberSymbols[\'arab\'],\n' +
       '    paddingCharacter: null,\n' +
-      '    patternLength: 4\n' +
+      '    patternLength: 1\n' +
       '  });\n' +
       '}\n' +
+      'string = string\n' +
+      '  .replace(/1/g, \'١\')\n' +
+      '  .replace(/2/g, \'٢\')\n' +
+      '  .replace(/3/g, \'٣\')\n' +
+      '  .replace(/4/g, \'٤\')\n' +
+      '  .replace(/5/g, \'٥\')\n' +
+      '  .replace(/6/g, \'٦\')\n' +
+      '  .replace(/7/g, \'٧\')\n' +
+      '  .replace(/8/g, \'٨\')\n' +
+      '  .replace(/9/g, \'٩\')\n' +
+      '  .replace(/0/g, \'٠\')\n\n' +
       'return string;';
-      expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
-        functionBody: indentSpaces(8, functionBody)
-      }));
+      expect(dependencies.fs.writeFileSync.args[0][1]).to.contain(indentSpaces(8, functionBody));
       done();
     });
   });

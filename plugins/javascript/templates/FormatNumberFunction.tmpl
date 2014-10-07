@@ -185,6 +185,10 @@ function formatNumber(it) {
           fractionDigits += '0';
         }
       }
+
+      if(fractionDigits.length > it.minimumFractionDigits) {
+        fractionDigits = fractionDigits.replace(/[0]+$/, '');
+      }
     }
   }
 

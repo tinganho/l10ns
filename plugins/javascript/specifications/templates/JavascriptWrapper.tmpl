@@ -190,6 +190,10 @@
             fractionDigits += '0';
           }
         }
+
+        if(fractionDigits.length > it.minimumFractionDigits) {
+          fractionDigits = fractionDigits.replace(/[0]+$/, '');
+        }
       }
     }
 
@@ -245,12 +249,10 @@
         var hasFractionalDigitsSyntax = /\.(\d+)/;
 
         if(hasFractionalDigitsSyntax.test(cardinal)) {
-          f = fractionalDigits.exec(cardinal)[1];
+          f = hasFractionalDigitsSyntax.exec(cardinal)[1];
           v = f.length;
-        }
-        if(hasFractionalDigitsSyntax.test(cardinal)) {
           t = cardinal.replace(/0+$/, '');
-          t = fractionalDigits.exec(t)[1];
+          t = hasFractionalDigitsSyntax.exec(t)[1];
           w = t.length;
         }
         if(i === 1 && v === 0) {
@@ -270,12 +272,10 @@
         var hasFractionalDigitsSyntax = /\.(\d+)/;
 
         if(hasFractionalDigitsSyntax.test(cardinal)) {
-          f = fractionalDigits.exec(cardinal)[1];
+          f = hasFractionalDigitsSyntax.exec(cardinal)[1];
           v = f.length;
-        }
-        if(hasFractionalDigitsSyntax.test(cardinal)) {
           t = cardinal.replace(/0+$/, '');
-          t = fractionalDigits.exec(t)[1];
+          t = hasFractionalDigitsSyntax.exec(t)[1];
           w = t.length;
         }
         if(n % 10 === 1 && n % 100 !== 11) {

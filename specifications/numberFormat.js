@@ -111,6 +111,158 @@ describe('NumberFormat', function() {
     expect(messageFormat.messageAST[0].pattern.negative).to.equal(null);
   });
 
+  it('should be able to parse a local symbol currency by setting it on the prefix', function() {
+    messageFormat.parse('{variable1,number,¤0}');
+    expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
+    expect(messageFormat.messageAST[0].argument).to.equal('¤0');
+    expect(messageFormat.messageAST[0].pattern.positive.integer.leftAbsentNumbers).to.equal(0);
+    expect(messageFormat.messageAST[0].pattern.positive.integer.nonAbsentNumbers).to.equal(1);
+    expect(messageFormat.messageAST[0].pattern.positive.fraction).to.equal(null);
+    expect(messageFormat.messageAST[0].pattern.positive.exponent).to.equal(null);
+    expect(messageFormat.messageAST[0].pattern.positive.percentage).to.equal(null);
+    expect(messageFormat.messageAST[0].pattern.positive.permille).to.equal(null);
+    expect(messageFormat.messageAST[0].pattern.positive.currency).to.eql({
+      context: 'local',
+      type: 'symbol'
+    });
+    expect(messageFormat.messageAST[0].pattern.positive.groupSize).to.equal(null);
+    expect(messageFormat.messageAST[0].pattern.positive.patternLength).to.equal(2);
+    expect(messageFormat.messageAST[0].pattern.negative).to.equal(null);
+  });
+
+  it('should be able to parse a global symbol currency by setting it on the prefix', function() {
+    messageFormat.parse('{variable1,number,¤¤0}');
+    expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
+    expect(messageFormat.messageAST[0].argument).to.equal('¤¤0');
+    expect(messageFormat.messageAST[0].pattern.positive.integer.leftAbsentNumbers).to.equal(0);
+    expect(messageFormat.messageAST[0].pattern.positive.integer.nonAbsentNumbers).to.equal(1);
+    expect(messageFormat.messageAST[0].pattern.positive.fraction).to.equal(null);
+    expect(messageFormat.messageAST[0].pattern.positive.exponent).to.equal(null);
+    expect(messageFormat.messageAST[0].pattern.positive.percentage).to.equal(null);
+    expect(messageFormat.messageAST[0].pattern.positive.permille).to.equal(null);
+    expect(messageFormat.messageAST[0].pattern.positive.currency).to.eql({
+      context: 'global',
+      type: 'symbol'
+    });
+    expect(messageFormat.messageAST[0].pattern.positive.groupSize).to.equal(null);
+    expect(messageFormat.messageAST[0].pattern.positive.patternLength).to.equal(2);
+    expect(messageFormat.messageAST[0].pattern.negative).to.equal(null);
+  });
+
+  it('should be able to parse a local text currency by setting it on the prefix', function() {
+    messageFormat.parse('{variable1,number,¤¤¤0}');
+    expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
+    expect(messageFormat.messageAST[0].argument).to.equal('¤¤¤0');
+    expect(messageFormat.messageAST[0].pattern.positive.integer.leftAbsentNumbers).to.equal(0);
+    expect(messageFormat.messageAST[0].pattern.positive.integer.nonAbsentNumbers).to.equal(1);
+    expect(messageFormat.messageAST[0].pattern.positive.fraction).to.equal(null);
+    expect(messageFormat.messageAST[0].pattern.positive.exponent).to.equal(null);
+    expect(messageFormat.messageAST[0].pattern.positive.percentage).to.equal(null);
+    expect(messageFormat.messageAST[0].pattern.positive.permille).to.equal(null);
+    expect(messageFormat.messageAST[0].pattern.positive.currency).to.eql({
+      context: 'local',
+      type: 'text'
+    });
+    expect(messageFormat.messageAST[0].pattern.positive.groupSize).to.equal(null);
+    expect(messageFormat.messageAST[0].pattern.positive.patternLength).to.equal(2);
+    expect(messageFormat.messageAST[0].pattern.negative).to.equal(null);
+  });
+
+  it('should be able to parse a local text currency by setting it on the prefix', function() {
+    messageFormat.parse('{variable1,number,¤¤¤¤0}');
+    expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
+    expect(messageFormat.messageAST[0].argument).to.equal('¤¤¤¤0');
+    expect(messageFormat.messageAST[0].pattern.positive.integer.leftAbsentNumbers).to.equal(0);
+    expect(messageFormat.messageAST[0].pattern.positive.integer.nonAbsentNumbers).to.equal(1);
+    expect(messageFormat.messageAST[0].pattern.positive.fraction).to.equal(null);
+    expect(messageFormat.messageAST[0].pattern.positive.exponent).to.equal(null);
+    expect(messageFormat.messageAST[0].pattern.positive.percentage).to.equal(null);
+    expect(messageFormat.messageAST[0].pattern.positive.permille).to.equal(null);
+    expect(messageFormat.messageAST[0].pattern.positive.currency).to.eql({
+      context: 'global',
+      type: 'text'
+    });
+    expect(messageFormat.messageAST[0].pattern.positive.groupSize).to.equal(null);
+    expect(messageFormat.messageAST[0].pattern.positive.patternLength).to.equal(2);
+    expect(messageFormat.messageAST[0].pattern.negative).to.equal(null);
+  });
+
+  it('should be able to parse a local symbol currency by setting it on the suffix', function() {
+    messageFormat.parse('{variable1,number,0¤}');
+    expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
+    expect(messageFormat.messageAST[0].argument).to.equal('0¤');
+    expect(messageFormat.messageAST[0].pattern.positive.integer.leftAbsentNumbers).to.equal(0);
+    expect(messageFormat.messageAST[0].pattern.positive.integer.nonAbsentNumbers).to.equal(1);
+    expect(messageFormat.messageAST[0].pattern.positive.fraction).to.equal(null);
+    expect(messageFormat.messageAST[0].pattern.positive.exponent).to.equal(null);
+    expect(messageFormat.messageAST[0].pattern.positive.percentage).to.equal(null);
+    expect(messageFormat.messageAST[0].pattern.positive.permille).to.equal(null);
+    expect(messageFormat.messageAST[0].pattern.positive.currency).to.eql({
+      context: 'local',
+      type: 'symbol'
+    });
+    expect(messageFormat.messageAST[0].pattern.positive.groupSize).to.equal(null);
+    expect(messageFormat.messageAST[0].pattern.positive.patternLength).to.equal(2);
+    expect(messageFormat.messageAST[0].pattern.negative).to.equal(null);
+  });
+
+  it('should be able to parse a global symbol currency by setting it on the suffix', function() {
+    messageFormat.parse('{variable1,number,0¤¤}');
+    expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
+    expect(messageFormat.messageAST[0].argument).to.equal('0¤¤');
+    expect(messageFormat.messageAST[0].pattern.positive.integer.leftAbsentNumbers).to.equal(0);
+    expect(messageFormat.messageAST[0].pattern.positive.integer.nonAbsentNumbers).to.equal(1);
+    expect(messageFormat.messageAST[0].pattern.positive.fraction).to.equal(null);
+    expect(messageFormat.messageAST[0].pattern.positive.exponent).to.equal(null);
+    expect(messageFormat.messageAST[0].pattern.positive.percentage).to.equal(null);
+    expect(messageFormat.messageAST[0].pattern.positive.permille).to.equal(null);
+    expect(messageFormat.messageAST[0].pattern.positive.currency).to.eql({
+      context: 'global',
+      type: 'symbol'
+    });
+    expect(messageFormat.messageAST[0].pattern.positive.groupSize).to.equal(null);
+    expect(messageFormat.messageAST[0].pattern.positive.patternLength).to.equal(2);
+    expect(messageFormat.messageAST[0].pattern.negative).to.equal(null);
+  });
+
+  it('should be able to parse a local text currency by setting it on the suffix', function() {
+    messageFormat.parse('{variable1,number,0¤¤¤}');
+    expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
+    expect(messageFormat.messageAST[0].argument).to.equal('0¤¤¤');
+    expect(messageFormat.messageAST[0].pattern.positive.integer.leftAbsentNumbers).to.equal(0);
+    expect(messageFormat.messageAST[0].pattern.positive.integer.nonAbsentNumbers).to.equal(1);
+    expect(messageFormat.messageAST[0].pattern.positive.fraction).to.equal(null);
+    expect(messageFormat.messageAST[0].pattern.positive.exponent).to.equal(null);
+    expect(messageFormat.messageAST[0].pattern.positive.percentage).to.equal(null);
+    expect(messageFormat.messageAST[0].pattern.positive.permille).to.equal(null);
+    expect(messageFormat.messageAST[0].pattern.positive.currency).to.eql({
+      context: 'local',
+      type: 'text'
+    });
+    expect(messageFormat.messageAST[0].pattern.positive.groupSize).to.equal(null);
+    expect(messageFormat.messageAST[0].pattern.positive.patternLength).to.equal(2);
+    expect(messageFormat.messageAST[0].pattern.negative).to.equal(null);
+  });
+
+  it('should be able to parse a local text currency by setting it on the suffix', function() {
+    messageFormat.parse('{variable1,number,0¤¤¤¤}');
+    expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
+    expect(messageFormat.messageAST[0].argument).to.equal('0¤¤¤¤');
+    expect(messageFormat.messageAST[0].pattern.positive.integer.leftAbsentNumbers).to.equal(0);
+    expect(messageFormat.messageAST[0].pattern.positive.integer.nonAbsentNumbers).to.equal(1);
+    expect(messageFormat.messageAST[0].pattern.positive.fraction).to.equal(null);
+    expect(messageFormat.messageAST[0].pattern.positive.exponent).to.equal(null);
+    expect(messageFormat.messageAST[0].pattern.positive.percentage).to.equal(null);
+    expect(messageFormat.messageAST[0].pattern.positive.permille).to.equal(null);
+    expect(messageFormat.messageAST[0].pattern.positive.currency).to.eql({
+      context: 'global',
+      type: 'text'
+    });
+    expect(messageFormat.messageAST[0].pattern.positive.groupSize).to.equal(null);
+    expect(messageFormat.messageAST[0].pattern.positive.patternLength).to.equal(2);
+    expect(messageFormat.messageAST[0].pattern.negative).to.equal(null);
+  });
+
   it('should be able to parse a signifcant number pattern with a single non-absent number', function() {
     messageFormat.parse('{variable1,number,@}');
     expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
@@ -589,14 +741,14 @@ describe('NumberFormat', function() {
     var method = function() {
       messageFormat.parse('{variable1,number,‰¤0}');
     };
-    expect(method).to.throw(TypeError, 'Can not set currency whenever percentage or permille are set in ‰¤0');
+    expect(method).to.throw(TypeError, 'Can not set currency whenever percentage or permille are set in `‰¤0`');
   });
 
   it('should throw an error if you set percentage and then set currency', function() {
     var method = function() {
       messageFormat.parse('{variable1,number,%¤0}');
     };
-    expect(method).to.throw(TypeError, 'Can not set currency whenever percentage or permille are set in %¤0');
+    expect(method).to.throw(TypeError, 'Can not set currency whenever percentage or permille are set in `%¤0`');
   });
 
   it('should throw an error if the number pattern does not have any non-absent numbers', function() {
@@ -629,9 +781,23 @@ describe('NumberFormat', function() {
 
   it('should throw an error if one undefined variable is used', function() {
     var method = function() {
-      messageFormat.setVariables(['variable2'])
+      messageFormat.setVariables(['variable2']);
       messageFormat.parse('{variable1,number, integer}');
     }
     expect(method).to.throw(TypeError, 'Variable \'variable1\' is not defined in \'{variable1,\'. Please tell your developer to add the variable to his source code and update translations.');
+  });
+
+  it('should throw an error if the consecutive currency character length exceeds four', function() {
+    var method = function() {
+      messageFormat.parse('{variable1, number, ¤¤¤¤¤0}');
+    }
+    expect(method).to.throw(TypeError, 'The consecutive currency character length can not exceed four in `¤¤¤¤¤0`');
+  });
+
+  it('should throw an error if multiple currency sequences is defined', function() {
+    var method = function() {
+      messageFormat.parse('{variable1, number, ¤¤¤¤ ¤0}');
+    }
+    expect(method).to.throw(TypeError, 'Can not set multiple currency unit sequences in `¤¤¤¤ ¤0`');
   });
 });

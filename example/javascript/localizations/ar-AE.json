@@ -5,6 +5,7 @@
     ],
     "id": "KG5xeMbBsq",
     "key": "INDEX1",
+    "new": false,
     "timestamp": "2014-10-06T04:13:00.727Z",
     "value": "{people, plural, other{# wfwfej}}",
     "variables": [
@@ -19,6 +20,7 @@
     ],
     "id": "9xoadyekso",
     "key": "INDEX2",
+    "new": false,
     "timestamp": "2014-10-06T04:13:00.727Z",
     "value": "",
     "variables": [

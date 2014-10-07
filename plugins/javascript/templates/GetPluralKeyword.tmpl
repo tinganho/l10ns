@@ -10,12 +10,10 @@ function(cardinal) {
   var hasFractionalDigitsSyntax = /\.(\d+)/;
 
   if(hasFractionalDigitsSyntax.test(cardinal)) {
-    f = fractionalDigits.exec(cardinal)[1];
+    f = hasFractionalDigitsSyntax.exec(cardinal)[1];
     v = f.length;
-  }
-  if(hasFractionalDigitsSyntax.test(cardinal)) {
     t = cardinal.replace(/0+$/, '');
-    t = fractionalDigits.exec(t)[1];
+    t = hasFractionalDigitsSyntax.exec(t)[1];
     w = t.length;
   }{{?}}{{=it.functionBody}}
 },
