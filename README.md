@@ -52,15 +52,15 @@ $ l10ns update
 Lets check which translation keys have been added:
 ```
 $ l10ns log
-%1 FIRSTNAME | NO TRANSLATION
-%2 LASTNAME | NO TRANSLATION
-%3 YOUR_AGE | NO TRANSLATION
-%4 YOU_HAVE_NUMBER_OF_CATS_AND_DOGS | NO TRANSLATION
+@1 FIRSTNAME | NO TRANSLATION
+@2 LASTNAME | NO TRANSLATION
+@3 YOUR_AGE | NO TRANSLATION
+@4 YOU_HAVE_NUMBER_OF_CATS_AND_DOGS | NO TRANSLATION
 ```
 Edit the last translation using `log reference`:
 ```
-$ l10ns set %1 "Firstname" # using default langague
-$ l10ns set %1 --locale=zh "名" # using chinese
+$ l10ns set @1 "Firstname" # using default langague
+$ l10ns set @1 --locale=zh "名" # using chinese
 ```
 Translation are now saved to a localization file. To compile to your source programming language:
 ```
