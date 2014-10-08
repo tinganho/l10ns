@@ -2,22 +2,22 @@
   "name": "l10ns",
   "description": "Effective translation workflow",
   "version": "0.15.9",
-  "homepage": "https://github.com/tinganho/get-translation",
+  "homepage": "https://github.com/tinganho/l10ns",
   "author": {
     "name": "Tingan Ho",
     "email": "tingan87@gmail.com"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/tinganho/get-translation.git"
+    "url": "git://github.com/tinganho/l10ns.git"
   },
   "bugs": {
-    "url": "https://github.com/tinganho/get-translation/issues"
+    "url": "https://github.com/tinganho/l10ns/issues"
   },
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/tinganho/get-translation/blob/master/LICENSE-MIT"
+      "url": "https://github.com/tinganho/l10ns/blob/master/LICENSE-MIT"
     }
   ],
   "bin": {
