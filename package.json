@@ -80,9 +80,21 @@
     "sinon-chai": "~2.5.0"
   },
   "keywords": [
+    "internationalization",
+    "localization",
+    "globalization",
+    "translation",
+    "tool",
+    "g11n",
     "i18n",
     "l10n",
-    "translation",
-    "cli"
+    "cli",
+    "icu",
+    "messageformat",
+    "pluralformat",
+    "selectformat",
+    "selectordinalformat",
+    "numberformat",
+    "dateformat"
   ]
 }
