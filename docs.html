@@ -52,22 +52,25 @@
           </li>
 
           <li class="side-menu-sub-item">
-            <a class="side-menu-anchor">SELECT FORMAT</a>
+            <a class="side-menu-anchor" href="#interpolation">INTERPOLATION</a>
           </li>
           <li class="side-menu-sub-item">
-            <a class="side-menu-anchor">PLURAL FORMAT</a>
+            <a class="side-menu-anchor" href="#selectformat">SELECT FORMAT</a>
           </li>
           <li class="side-menu-sub-item">
-            <a class="side-menu-anchor">CHOICE FORMAT</a>
+            <a class="side-menu-anchor" href="#pluralformat">PLURAL FORMAT</a>
           </li>
           <li class="side-menu-sub-item">
-            <a class="side-menu-anchor">SELECTORDINAL FORMAT</a>
+            <a class="side-menu-anchor" href="#choiceformat">CHOICE FORMAT</a>
           </li>
           <li class="side-menu-sub-item">
-            <a class="side-menu-anchor">NUMBER FORMAT</a>
+            <a class="side-menu-anchor" href="#selectordinalformat">SELECTORDINAL FORMAT</a>
           </li>
           <li class="side-menu-sub-item">
-            <a class="side-menu-anchor">CURRENCY FORMAT</a>
+            <a class="side-menu-anchor" href="#numberformat">NUMBER FORMAT</a>
+          </li>
+          <li class="side-menu-sub-item">
+            <a class="side-menu-anchor" href="#currencyformat">CURRENCY FORMAT</a>
           </li>
         </ul>
       </nav>
@@ -103,7 +106,7 @@ Create a new project folder <span class="focused">test</span> and initialize a n
 </code>
 
 <p>
-Now, create a source file <span class="focused">test.js`</span> with (at least) the following code:
+Now, create a source file <span class="focused">test.js</span> with (at least) the following code:
 </p>
 
 <code>
@@ -129,11 +132,11 @@ Lets check which translation keys have been added:
 <span class="yellow">@2</span> SIGN_UP__LASTNAME | NO TRANSLATION<br>
 </code>
 <p>
-Edit the last translation using `log reference`:
+Edit the last translation using log reference:
 </p>
 <code>
 <span class="blue">$</span> l10ns set @1 "Firstname" # using default langague<br>
-<span class="blue">$</span> l10ns set @1 --locale=zh "名" # using chinese<br>
+<span class="blue">$</span> l10ns set @1 -l zh-CN "名" # using chinese<br>
 </code>
 
 <p>
@@ -153,14 +156,180 @@ Lets set up a web interface for translator to use:
 </code>
 
 <a id="messageformat">
-  <h1>MessageFormat</h1>
+  <h1>Message Format</h1>
 </a>
 
-
 <p>
-ICU(International Component for Unicode) is an organization that creates a set of classes for C/C++ and Java for internationalizing different software application. ICU is used by many well know companies such as IBM, Apple and Google. MessageFormat is a component in ICU for formatting messages based on different locales. MessageFormat consist of SelectFormat, PluralFormat, SelectordinalFormat etc. for handling genus context, pluralization and ordinal messages. The L10ns project have chosen to implement ICU's MessagFormat because of efficient string format. A lot of investigation and experiments have been done before choosing this syntax. And we feel very comfortable with it. We will describe a couple of syntaxes below for formatting different messages. And it would be good if you share this to your translators.
+ICU(International Component for Unicode) is an organization that creates a set of classes for C/C++ and Java for internationalizing different software application. ICU is used by many well know companies such as IBM, Apple and Google. Message Format is a component in ICU for formatting messages based on different locales. Message Format consist of Select Format, Plural Format, Selectordinal Format etc. for handling genus context, pluralization and ordinal messages. The L10ns project have chosen to implement ICU's Message Format because of efficient string format. A lot of investigation and experiments have been done before choosing this syntax. And we feel very comfortable with it. We will describe a couple of syntaxes below for formatting different messages. And it would be good if you share this to your translators.
 </p>
 
+<a id="interpolation">
+  <h2>Interpolation</h2>
+</a>
+
+<p>
+In Message Format define interpolation variables using the syntax:
+</p>
+
+<code>
+{variable}
+</code>
+
+<p>
+Example of usage:
+</p>
+
+<code>
+{user1} likes {user2}.
+</code>
+
+<p>
+If <span class="focused">user1</span> is <span class="focused">Emma</span> and <span class="focused">user2</span> is <span class="focused">Albert</span>. The output will be:
+</p>
+
+<code>
+Emma likes Albert.
+</code>
+
+<a id="selectformat">
+  <h2>Select Format</h2>
+</a>
+
+<p>
+Select Format is primarily used for localizing genus context based message. But it can also be used for different kind of applications other than genus context based messages. Select Format takes a variable as an argument and the translator needs to define a set of cases and corresponding values for each case. The syntax for Select Format is:
+</p>
+
+<code>
+{variable, select, case-1{message-1}...case-n{message-n} other{message-other}}
+</code>
+
+<p>
+And it can be used for translating messages based on genus context:
+</p>
+
+<code>
+{gender, select, male{He} other{She}} likes the L10ns project.
+</code>
+
+<p>
+If <span class="focused">gender</span> equals <span class="focused">male</span>. The output will be:
+</p>
+
+<code>
+He likes the L10ns project.
+</code>
+
+<p>
+And If <span class="focused">gender</span> equals <span class="focused">female</span>. The output will be:
+</p>
+
+<code>
+She likes the L10ns project.
+</code>
+
+<a id="pluralformat">
+  <h2>Plural Format</h2>
+</a>
+
+<p>
+Plural Format is used for formatting messages based on different plural forms. The plural forms for each locale is defined by CLDR(Common Locale Data Repository). CLDR is a repository where many organization and companies participate for gathering locale specific data. CLDR currently defines 6 different kinds of plural forms, <span class="focused">zero</span>, <span class="focused">one</span>, <span class="focused">two</span>, <span class="focused">few</span>, <span class="focused">many</span> and <span class="focused">other</span>. Each plural form and the number of plural form may be different from locale to locale. For the English language there exists only two plural forms <span class="focused">one</span> and <span class="focused">other</span>. The Chinese language have only one plural form <span class="focused">other</span>. The Arabic language have 6 plural forms <span class="focused">zero</span>, <span class="focused">one</span>, <span class="focused">two</span>, <span class="focused">few</span>, <span class="focused">many</span> and <span class="focused">other</span>. Example numbers of each plural form will be provided if you translate your strings using the translation interface.
+</p>
+
+<code>
+{variable, plural, plural-form-1{message-1}...plural-form-n{messane-n} other{message-other}}
+</code>
+
+<p>
+Example usage for English:
+</p>
+
+<code>
+He likes {comments, plural, one{# comment} other{# comments}}.
+</code>
+
+<p>
+If <span class="focused">comments</span> equals 1. The output will be:
+</p>
+
+<code>
+He likes 1 comment.
+</code>
+
+<p>
+If <span class="focused">comments</span> equals 1000. The output will be:
+</p>
+
+<code>
+He likes 1,000 comments.
+</code>
+
+<p>
+In the above examples we use the <span class="focused">#</span> to interpolate the message with a count. The displayed count will always be formated to an integer using L10ns Number Format, thus the number separator <span class="focused">,</span>.
+</p>
+
+<p>
+We can also specify exact cases. Instead of using the plural forms. Notice: the plural form <span class="focused">one</span> is a name of a plural form. It doesn't exactly means the number one. In some languages the plural form <span class="focused">one</span> includes the number zero too. You specify an exact case by <span class="focused">n=</span>. Here is an example of a Plural Format with exact cases:
+</p>
+
+<code>
+There {files, plural, 0={is no files} one{is one file} other{is many files}}.
+</code>
+
+<p>
+Some times we want to interpolate a message with a count with an offset using <span class="focused">offset:n</span>:
+</p>
+
+<code>
+{people, plural, offset:1 =0{No one went.} =1{{user1} went.} =2{{user1} and {user2} went}.} other{{user1} and # others went}}.
+</code>
+
+<p>
+If you would have translated the above message in Arabic. You might want to use more plural forms than <span class="focused">other</span>. Because the word <span class="focused">others</span> have many plural forms. As a rule of thumb, always use the exact cases before the plural form cases!
+</p>
+
+<a id="choiceformat">
+  <h2>Choice Format</h2>
+</a>
+
+<p>
+Choice Format is used for translating different kind of messages for different value ranges.
+</p>
+
+<a id="selectordinalformat">
+  <h2>Selectordinal Format</h2>
+</a>
+
+<p>
+Selectordinal Format is used for formating messages with different ordinal forms. CLDR defines six types of ordinal forms <span class="focused">zero</span>, <span class="focused">one</span>, <span class="focused">two</span>, <span class="focused">few</span>, <span class="focused">many</span> and <span class="focused">other</span>. Each ordinal form and the number of ordinal forms may be different from locale to locale. In the English language there exists four ordinal forms <span class="focused">one</span>, <span class="focused">two</span>, <span class="focused">few</span> and <span class="focused">other</span> for formatting messages including <span class="focused">first</span>, <span class="focused">second</span>, <span class="focused">third</span> and <span class="focused">fourth</span> etc. And the ordinal form <span class="focused">one</span> doesn't necessarily corresponds to the number one. Sometimes the ordinal form <span class="focused">one</span> might corresponds to the number 1 and 2 and more, such as in the Swedish language. Same thing applies to all the ordinal forms. Example numbers of each ordinal form will be provided if you translate your strings using the translation interface.
+</p>
+
+<p>
+The syntax for Selectordinal Format is:
+</p>
+
+<code>
+{variable, selectordinal, ordinal-form-1{message-1} ordinal-form-n{message-n} other{message-other}}
+</code>
+
+<p>
+An example usage of Selectordinal Format:
+</p>
+
+<code>
+Go to the {variable, selectordinal, =0{ground} one{#st} two{#nd} few{#rd}} floor.
+</code>
+
+<p>
+The characters <span class="focused">#</span> and <span class="focused">=n</span> is used for specifying a number formated count and exact cases. And they work exactly the same as in Plural Format.
+</p>
+
+<a id="numberformat">
+  <h2>Number Format</h2>
+</a>
+
+<a id="currencyformat">
+  <h2>Currency Format</h2>
+</a>
       </div>
     </div>
   </div>
