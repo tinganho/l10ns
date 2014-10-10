@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>L10ns Documentation</title>
+<meta charset="utf-8">
+<meta name="description" content="L10ns documentation">
+<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico"/>
+<link rel="icon" type="image/x-icon" href="images/favicon.ico"/>
+<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,100' rel='stylesheet' type='text/css'>
+<link href="styles/normalize.css" rel="stylesheet" type="text/css">
+<link href="styles/components.css" rel="stylesheet" type="text/css">
+<link href="styles/docs-layout.css" rel="stylesheet" type="text/css">
+<link href="styles/docs-content.css" rel="stylesheet" type="text/css">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="viewport" content="width=device-width, user-scalable=no, minimal-ui">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="L10ns | Effective translation workflow">
+<meta name="twitter:description" content="CLI tool for effectively update translation keys, edit translations and open translation interface.">
+<meta name="twitter:creator" content="@tingan87">
+<meta name="twitter:image:src" content="http://tinganho.github.io/l10ns/images/CLIAndEditor.png">
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-51369650-1', 'l10ns.org');
+  ga('send', 'pageview');
+
+</script>
+</head>
+<body>
+  <div class="top-bar">
+    <nav class="navigation-bar">
+      <div class="logo-container">
+        <i class="logo"></i>
+      </div>
+      <h1 class="logo-title">Documentation</h1>
+    </nav>
+  </div>
+  <div class="body">
+    <div class="left-column">
+      <nav class="side-menu">
+        <ul class="side-menu-items">
+          <li class="side-menu-item">
+            <a class="side-menu-anchor" href="#gettingstarted">GETTING STARTED</a>
+          </li>
+
+          <li class="side-menu-item">
+            <a class="side-menu-anchor" href="#messageformat">MESSAGE FORMAT</a>
+          </li>
+
+          <li class="side-menu-sub-item">
+            <a class="side-menu-anchor">SELECT FORMAT</a>
+          </li>
+          <li class="side-menu-sub-item">
+            <a class="side-menu-anchor">PLURAL FORMAT</a>
+          </li>
+          <li class="side-menu-sub-item">
+            <a class="side-menu-anchor">CHOICE FORMAT</a>
+          </li>
+          <li class="side-menu-sub-item">
+            <a class="side-menu-anchor">SELECTORDINAL FORMAT</a>
+          </li>
+          <li class="side-menu-sub-item">
+            <a class="side-menu-anchor">NUMBER FORMAT</a>
+          </li>
+          <li class="side-menu-sub-item">
+            <a class="side-menu-anchor">CURRENCY FORMAT</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <div class="main-column">
+      <div class="text-body">
+
+<a id="gettingstarted">
+  <h1>Getting Started</h1>
+</a>
+
+<p>
+This guide helps you set up a new l10ns project. We currently only support Javascript.
+Though in the future you will hopefully see wider support for more programming languages.
+</p>
+
+<p>
+Install l10ns:
+</p>
+
+<code>
+<span class="blue">$</span> npm install l10ns -g
+</code>
+
+<p>
+Create a new project folder <span class="focused">test</span> and initialize a new translation project. The initialization guide will guide you through creating a project.
+</p>
+
+<code>
+<span class="blue">$</span> mkdir test<br>
+<span class="blue">$</span> cd test<br>
+<span class="blue">$</span> l10ns init
+</code>
+
+<p>
+Now, create a source file <span class="focused">test.js`</span> with (at least) the following code:
+</p>
+
+<code>
+<span class="blue">var</span> requireLocalizations = require(<span class="red">'path/to/output'</span>);<br>
+<span class="blue">var</span> l = requireLocalization(<span class="red">'en-US'</span>);<br>
+<span class="blue">var</span> firstname = l(<span class="red">'SIGN_UP__FIRSTNAME'</span>);<br>
+<span class="blue">var</span> lastname = l(<span class="red">'SIGN_UP__LASTNAME'</span>);
+</code>
+
+<p>
+Now, lets update translation keys from source. It will traverse your source code and looking for all <span class="focused">l()</span> calls:
+</p>
+
+<code>
+<span class="blue">$</span> l10ns update
+</code>
+<p>
+Lets check which translation keys have been added:
+</p>
+<code>
+<span class="blue">$</span> l10ns log<br>
+<span class="yellow">@1</span> SIGN_UP__FIRSTNAME | NO TRANSLATION<br>
+<span class="yellow">@2</span> SIGN_UP__LASTNAME | NO TRANSLATION<br>
+</code>
+<p>
+Edit the last translation using `log reference`:
+</p>
+<code>
+<span class="blue">$</span> l10ns set @1 "Firstname" # using default langague<br>
+<span class="blue">$</span> l10ns set @1 --locale=zh "名" # using chinese<br>
+</code>
+
+<p>
+Translation are now saved to a localization file. To compile to your source programming language:
+</p>
+
+<code>
+<span class="blue">$</span> l10ns compile
+</code>
+
+<p>
+Lets set up a web interface for translator to use:
+</p>
+
+<code>
+<span class="blue">$</span> l10ns interface
+</code>
+
+<a id="messageformat">
+  <h1>MessageFormat</h1>
+</a>
+
+
+<p>
+ICU(International Component for Unicode) is an organization that creates a set of classes for C/C++ and Java for internationalizing different software application. ICU is used by many well know companies such as IBM, Apple and Google. MessageFormat is a component in ICU for formatting messages based on different locales. MessageFormat consist of SelectFormat, PluralFormat, SelectordinalFormat etc. for handling genus context, pluralization and ordinal messages. The L10ns project have chosen to implement ICU's MessagFormat because of efficient string format. A lot of investigation and experiments have been done before choosing this syntax. And we feel very comfortable with it. We will describe a couple of syntaxes below for formatting different messages. And it would be good if you share this to your translators.
+</p>
+
+      </div>
+    </div>
+  </div>
+</body>
+</html>

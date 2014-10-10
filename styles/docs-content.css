@@ -1,0 +1,123 @@
+
+.navigation-bar {
+  position: relative;
+  width: 900px;
+  height: 28px;
+  margin: 0 auto;
+}
+
+.logo-container {
+  float: left;
+  position: relative;
+  height: 28px;
+  width: 28px;
+  line-height: 28px;
+}
+
+.logo {
+  width: 28px;
+  height: 28px;
+  background: url('../images/L10nsLogo.png');
+  background-size: 28px 28px;
+  display: inline-block;
+}
+
+@media(max-width: 800px) {
+  .logo {
+    font-weight: 200;
+  }
+}
+
+.logo-title {
+  float: left;
+  font-size: 20px;
+  font-weight: 300;
+  color: #fff;
+  line-height: 28px;
+  margin: 0 0 0 10px;
+  display: inline-block;
+}
+
+.side-menu {
+  background-color: #e2e2e2;
+  min-height: 100px;
+  overflow: hidden;
+  position: fixed;
+  width: 240px;
+}
+
+.side-menu-items {
+  padding: 40px 10px 10px 40px;
+}
+
+.side-menu-item {
+  color: #5a5a5a;
+  font-weight: 300;
+  font-size: 16px;
+  margin-bottom: 16px;
+  cursor: pointer;
+}
+
+.side-menu-sub-item {
+  color: #5a5a5a;
+  font-weight: 300;
+  font-size: 11px;
+  margin-bottom: 14px;
+  cursor: pointer;
+  text-indent: 20px;
+}
+
+.side-menu-item:active,
+.side-menu-sub-item:active {
+  opacity: 0.3;
+}
+
+.side-menu-anchor {
+  color: #5a5a5a;
+}
+
+.text-body {
+  overflow: hidden;
+  padding: 0 40px 120px 40px;
+  background-color: #e2e2e2;
+  min-height: 100px;
+}
+
+.text-body h1 {
+  color: #5a5a5a;
+  font-weight: 300;
+  margin: 40px 0;
+  font-size: 30px;
+  line-height: 32px;
+}
+
+.text-body p {
+  font-weight: 200;
+  color: #333;
+}
+
+code {
+  padding: 15px 20px;
+  color: #508187;
+  display: block;
+  background-color: #f5f5f5;
+  border-left: 5px solid #cde9f4;
+}
+
+code .yellow {
+  color: #d5ce3a;
+}
+
+.text-body .focused {
+  padding: 2px 8px;
+  border-radius: 2px;
+  background-color: #ccc;
+}
+
+@media(max-width: 500px) {
+  code {
+    padding: 10px 20px;
+    font-size: 11px;
+    margin: 40px 0;
+  }
+}
