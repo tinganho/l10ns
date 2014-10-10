@@ -69,6 +69,10 @@ a {
   line-height: 28px;
 }
 
+.menu-item:active {
+  opacity: 0.3;
+}
+
 .timeline-pin-container {
   display: table-cell;
   vertical-align: middle;

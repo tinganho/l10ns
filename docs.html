@@ -37,6 +37,7 @@
         <i class="logo"></i>
       </div>
       <h1 class="logo-title">Documentation</h1>
+      <a class="navigation-bar-home" href="./index.html">Home</a>
     </nav>
   </div>
   <div class="body">
@@ -316,7 +317,7 @@ An example usage of Selectordinal Format:
 </p>
 
 <code>
-Go to the {variable, selectordinal, =0{ground} one{#st} two{#nd} few{#rd}} floor.
+Go to the {floor, selectordinal, =0{ground} one{#st} two{#nd} few{#rd} other{#th}} floor.
 </code>
 
 <p>
@@ -330,6 +331,71 @@ The characters <span class="focused">#</span> and <span class="focused">=n</span
 <a id="currencyformat">
   <h2>Currency Format</h2>
 </a>
+
+<p>
+Currency Format is just a short-hand function for formating currency amounts. It is used for formating different currency formats for different locales. If you don't use any complex formatting with your currency amount use Currency Format. If you are doing any kind of complex formating with currency units involved use Number Format.
+</p>
+
+<code>
+{variable, currency, context, type}
+</code>
+
+<p>
+Context can take two values <span class="focused">local</span> or <span class="focused">global</span>. And type can also only takes two values <span class="focused">symbol</span> or <span class="focused">text</span>. We recommend using a <span class="focused">local</span> context if you are showing the currency amount to local people using a local language. Locale context in <span class="focused">en-US</span> will yield the symbol <span class="focused">$</span> or the text <span class="focused">dollar</span>. In all other cases use a <span class="focused">global</span> context. A global context in <span class="focused">en-US</span> and global context will yield the symbol <span class="focused">US$</span> or the text <span class="focused">US dollar</span>. For the French language, the currency symbol in a global context is usually before the region instead of after. So French people want to see <span class="focused">$US</span> instead of <span class="focused">$US</span>. For this use case we implemented a <span class="focused">reverseglobal</span> context.
+</p>
+
+<p>
+Example usage for formating the currency amount $50.00 in the locale <span class="focused">en-US</span>:
+</p>
+
+<code>
+{price, currency, local, symbol}
+</code>
+
+<p>
+Example usage for formating the currency amount US$50.00 in the locale <span class="focused">en-US</span>:
+</p>
+
+<code>
+{price, currency, global, symbol}
+</code>
+
+<p>
+Example usage for formating the currency amount 50.00 dollars in the locale <span class="focused">en-US</span>:
+</p>
+
+<code>
+{price, currency, local, text}
+</code>
+
+<p>
+Example usage for formating the currency amount 50.00 US dollars in the locale <span class="focused">en-US</span>:
+</p>
+
+<code>
+{price, currency, global, text}
+</code>
+
+<p>
+Example usage for formating the currency amount $US 50.00 in the locale <span class="focused">fr-CA</span>:
+</p>
+
+<code>
+{price, currency, reverseglobal, symbol}
+</code>
+
+<p>
+Having the opportunity to choose between using text or symbol is especially useful in Chinese and Japanese. In the Chinese language, some websites use the currency symbol ¥, but because the character 元 is so short, it is more frequent to use the character 元 instead of the symbol ¥.
+</p>
+
+<p>
+Notice 1: The default currency amounts for USD in locale <span class="focused">en-US</span> have two fraction digits and it is defined in CLDR. Some website don't want fractions because they only show integers. We recommned you to use Number Format for this use case.
+</p>
+
+<p>
+Notice 2: Some website use to wrap the currency symbols with the html tags <span class="focused">&lt;sup&gt;</span> or <span class="focused">&lt;sub&gt;</span>. Use Number Format for this use case.
+</p>
+
       </div>
     </div>
   </div>
