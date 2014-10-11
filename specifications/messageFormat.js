@@ -78,7 +78,6 @@ describe('MessageFormat', function() {
     require('./dateFormat');
     require('./pluralFormat');
     require('./selectFormat');
-    require('./choiceFormat');
     require('./selectordinalFormat');
   });
 });

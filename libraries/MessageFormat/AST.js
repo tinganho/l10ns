@@ -699,18 +699,6 @@ AST.NumberFormatPattern._setCurrency = function(attributes, numberPattern, index
  * @constructor
  */
 
-AST.ChoiceFormat = function(variable, values) {
-  this.variable = variable;
-  this.values = values;
-};
-
-/**
- * AST class representing an ICU SelectFormat
- *
- * @param {String} variable
- * @constructor
- */
-
 AST.SelectFormat = function(variable, values) {
   this.variable = variable;
   this.values = values;

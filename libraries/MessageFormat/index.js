@@ -368,9 +368,6 @@ MessageFormat.prototype._parseSwitchStatement = function(variable) {
     case 'currency':
       switchStatement = this._parseCurrencyFormat(variable);
       break;
-    case 'choice':
-      switchStatement = this._parseChoiceFormat(variable);
-      break;
     case 'select':
       switchStatement = this._parseSelectFormat(variable);
       break;
@@ -528,72 +525,6 @@ MessageFormat.prototype._getLimitFromCase = function(_case) {
   limit[2] = limit[2].replace('#', '>=').replace('<', '>')
 
   return limit;
-};
-
-/**
- * Parse ChoiceFormat
- *
- * @return {AST.ChoiceFormat}
- * @api private
- */
-
-MessageFormat.prototype._parseChoiceFormat = function(variable) {
-  var values = [];
-
-  // Swallow comma
-  this.currentToken = this.lexer.getNextToken();
-  this.lastChoiceCase = null;
-  var _case = this._getChoiceCase();
-  while(true) {
-    if(_case === MessageFormat.Characters.EMPTY) {
-      throw new TypeError('Missing choice case in ' + this.lexer.getLatestTokensLog());
-    }
-    var messageAST = [];
-    while(this.currentToken !== MessageFormat.Characters.DIAGRAPH &&
-          this.currentToken !== MessageFormat.Characters.ENDING_BRACKET) {
-      this.lastChoiceCase = null;
-      messageAST.push(this._parsePrimary({
-        escapeCharacter: '|',
-        shouldEscapeDiagraph: false
-      }));
-    }
-    this.lastChoiceCase = _case;
-    var limit = this._getLimitFromCase(_case);
-    var value = {
-      messageAST: messageAST,
-      limits: {
-        lower: {
-          value: limit[1],
-          type: limit[2]
-        }
-      }
-    };
-    values.push(value);
-    if(this.currentToken === MessageFormat.Characters.DIAGRAPH) {
-      // Swallow diagraph
-      this.currentToken = this.lexer.getNextToken();
-      _case = this._getChoiceCase();
-      if(_case !== MessageFormat.Characters.EMPTY) {
-        var limit = this._getLimitFromCase(_case);
-        value.limits.upper = {
-          value: limit[1],
-          type: limit[2].replace('>=', '<').replace('>', '<=')
-        };
-      }
-    }
-    else if(this.currentToken === MessageFormat.Characters.ENDING_BRACKET) {
-      // Swallow ending bracket of ChoiceFormat
-      this.currentToken = this.lexer.getNextToken();
-      value.limits.upper = {
-        value: Infinity,
-        type: '<='
-      };
-      return new AST.ChoiceFormat(variable, values);
-    }
-    else {
-      throw new TypeError('You must have a closing bracket in your plural format in ' + this.lexer.getLatestTokensLog());
-    }
-  }
 };
 
 /**
@@ -773,76 +704,6 @@ MessageFormat.prototype._parseSelectordinalFormat = function(variable) {
       }
     }
   }
-};
-
-/**
- * Get choice case
- *
- * @return {String}
- * @api private
- */
-
-MessageFormat.prototype._getChoiceCase = function() {
-  var _case = '';
-
-  this._swallowWhiteSpace();
-  while(/^[\d∞\-\.<#]$/.test(this.currentToken)) {
-    _case += this.currentToken;
-    this.currentToken = this.lexer.getNextToken();
-  }
-
-  if(!/^(\-?\d+\.?\d*[<#]|∞#|\-∞[<#])$/.test(_case)) {
-    throw new TypeError('Expected a ChoiceFormat case (n<, n#, ∞#, -∞<) in ' + this.lexer.getLatestTokensLog());
-  }
-
-  if(_case === this.lastChoiceCase) {
-    throw new TypeError('Same ChoiceFormat case in ' + this.lexer.getLatestTokensLog());
-  }
-
-  if(this.lastChoiceCase === null) {
-    this.lastChoiceCase = _case;
-
-    return _case;
-  }
-
-  var comparatorStringOfNewCase = _case.charAt(_case.length - 1)
-    , comparatorStringOfOldCase = this.lastChoiceCase.charAt(this.lastChoiceCase.length - 1)
-    , numberStringOfNewCase = _case.substring(0, _case.length - 1)
-    , numberStringOfOldCase = this.lastChoiceCase.substring(0, this.lastChoiceCase.length - 1)
-    , numberOfNewCase;
-
-  if(/^∞$/.test(numberStringOfNewCase)) {
-    numberOfNewCase = Infinity;
-  }
-  else if(/^\-∞$/.test(numberStringOfNewCase)) {
-    numberOfNewCase = -Infinity;
-  }
-  else {
-    numberOfNewCase = parseFloat(numberStringOfNewCase);
-  }
-
-  if(/^∞$/.test(numberStringOfOldCase)) {
-    numberOfOldCase = Infinity;
-  }
-  else if(/^\-∞$/.test(numberStringOfOldCase)) {
-    numberOfOldCase = -Infinity;
-  }
-  else {
-    numberOfOldCase = parseFloat(numberStringOfOldCase);
-  }
-
-  var hasBiggerValueThanPreviousCase = numberOfNewCase > numberOfOldCase;
-  if(numberStringOfNewCase === numberStringOfOldCase) {
-    hasBiggerValueThanPreviousCase = !(comparatorStringOfNewCase > comparatorStringOfOldCase);
-  }
-
-  if(!hasBiggerValueThanPreviousCase) {
-    throw new TypeError('Case \'' + _case + '\' needs to bigger than case \'' + this.lastChoiceCase + '\' in ' + this.lexer.getLatestTokensLog());
-  }
-
-  this.lastChoiceCase = _case;
-
-  return _case;
 };
 
 /**

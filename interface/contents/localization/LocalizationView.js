@@ -240,22 +240,6 @@ define(function(require) {
     },
 
     /**
-     * Add select formated text to textarea
-     *
-     * @return {void}
-     * @api private
-     */
-
-    _addChoiceFormatedText: function() {
-      var variable = 'variable';
-      if(this.model.get('variables').length === 1) {
-        variable = this.model.get('variables')[0];
-      }
-      var text = '{' + variable + ', choice, 1<message1|5#message2}';
-      this._replaceTextSelectionWithText(text);
-    },
-
-    /**
      * Add select ordinal formated text to textarea
      *
      * @return {void}

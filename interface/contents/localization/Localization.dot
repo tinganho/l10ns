@@ -20,9 +20,6 @@
         <a class="localization-action-anchor localization-action-select">select</a>
       </li>
       <li class="localization-action">
-        <a class="localization-action-anchor localization-action-choice">choice</a>
-      </li>
-      <li class="localization-action">
         <a class="localization-action-anchor localization-action-selectordinal">selectordinal</a>
       </li>
       <li class="localization-action">

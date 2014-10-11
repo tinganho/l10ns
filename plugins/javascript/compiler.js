@@ -233,9 +233,6 @@ Compiler.prototype._getFunctionBody = function(messageAST, locale) {
     else if(messageAST[index] instanceof MessageFormat.AST.CurrencyFormat) {
       result += this._compileCurrencyFormat(messageAST[index]);
     }
-    else if(messageAST[index] instanceof MessageFormat.AST.ChoiceFormat) {
-      result += this._compileChoiceFormat(messageAST[index]);
-    }
     else if(messageAST[index] instanceof MessageFormat.AST.PluralFormat) {
       result += this._compilePluralFormat(messageAST[index], locale);
     }
