@@ -666,12 +666,14 @@ MessageFormat.prototype._parseSelectordinalFormat = function(variable) {
       }
       var messageAST = [];
       this.currentToken = this.lexer.getNextToken();
+      var currentNumberSystem = this._currentNumberSystem;
       while(this.currentToken !== MessageFormat.Characters.ENDING_BRACKET) {
         messageAST.push(this._parsePrimary({
           escapeCharacter: '#',
           parseRemaining: true,
           offset: offset,
-          variable: variable
+          variable: variable,
+          numberSystem: currentNumberSystem
         }));
       }
       values[_case] = messageAST;
