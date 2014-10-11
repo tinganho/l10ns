@@ -121,6 +121,15 @@
   line-height: 26px;
 }
 
+.text-body h4 {
+  color: #5a5a5a;
+  font-weight: 300;
+  margin: 20px 0;
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 500;
+}
+
 .text-body a {
   color: #6699cc;
 }
@@ -132,6 +141,12 @@
 .text-body p {
   font-weight: 200;
   color: #333;
+}
+
+.text-body li {
+  font-weight: 300;
+  list-style-type: disc;
+  margin: 5px 0;
 }
 
 code {
@@ -160,7 +175,7 @@ code .yellow {
   }
 }
 
-.number-symbols {
+.text-body table {
   font-weight: 300;
   color: #333;
   display: block;
@@ -168,25 +183,25 @@ code .yellow {
   padding-bottom: 10px;
 }
 
-.number-symbols {
+.text-body table {
   border-left: 5px solid #cde9f4;
   background-color: #eee;
 }
 
-.number-symbols thead {
+.text-body thead {
   background-color: #eee;
 }
 
-.number-symbols thead tr {
+.text-body thead tr {
   height: 30px;
 }
 
-.number-symbols thead th {
+.text-body thead th {
   color: #5a5a5a;
   vertical-align: middle;
 }
-.number-symbols th,
-.number-symbols td {
+.text-body th,
+.text-body td {
   text-align: left;
   padding: 0 10px;
   vertical-align: top;

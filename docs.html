@@ -332,7 +332,7 @@ Argument in above can take the values <span class="focused">integer</span>, <spa
 The characters listed here are used in non-localized patterns. Localized patterns use the corresponding characters. Two exceptions are the currency sign and quote, which are not localized.
 </p>
 
-<table class="number-symbols">
+<table>
   <thead>
     <tr>
       <th>Symbol</th>
@@ -352,7 +352,7 @@ The characters listed here are used in non-localized patterns. Localized pattern
       <td>1-9</td>
       <td>Number</td>
       <td>Yes</td>
-      <td>'1' through '9' indicate rounding.</td>
+      <td><span class="focused">1</span> through <span class="focused">9</span> indicate rounding.</td>
     </tr>
     <tr>
       <td>@</td>
@@ -442,8 +442,6 @@ A <span class="focused">decimal pattern</span> pattern contains a postive and ne
 The grouping separator is a character that separates clusters of integer digits to make large numbers more legible. It commonly used for thousands, but in some locales it separates ten-thousands. The grouping size is the number of digits between the grouping separators, such as 3 for <span class="focused">100,000,000</span> or 4 for <span class="focused">1 0000 0000</span>. There are actually two different grouping sizes: One used for the least significant integer digits, the primary grouping size, and one used for all others, the secondary grouping size. In most locales these are the same, but sometimes they are different. For example, if the primary grouping interval is 3, and the secondary is 2, then this corresponds to the pattern <span class="focused">#,##,##0</span>, and the number 123456789 is formatted as <span class="focused">12,34,56,789</span>. If a pattern contains multiple grouping separators, the interval between the last one and the end of the integer defines the primary grouping size, and the interval between the last two defines the secondary grouping size. All others are ignored, so <span class="focused">#,##,###,####</span> == <span class="focused">###,###,####</span> == <span class="focused">##,#,###,####</span>.
 </p>
 
-
-
 <code>
 pattern&nbsp;&nbsp;&nbsp;&nbsp;:= subpattern (';' subpattern)?<br>
 subpattern := prefix? number exponent? suffix?<br>
@@ -465,8 +463,201 @@ Notation:<br>
   S-T      characters in S, except those in T<br>
 </code>
 
+<p>
+The first subpattern is for positive numbers. The second (optional) subpattern is for negative numbers.
+</p>
+<p>
+Not indicated in the BNF syntax above:
+</p>
+<ul>
+  <li>
+The grouping separator <span class="focused">,</span> can occur inside the integer and sigDigits elements, between any two pattern characters of that element, as long as the integer or sigDigits element is not followed by the exponent element.
+  </li>
+  <li>
+Two grouping intervals are recognized: That between the decimal point and the first grouping symbol, and that between the first and second grouping symbols. These intervals are identical in most locales, but in some locales they differ. For example, the pattern <span class="focused">#,##,###</span> formats the number 123456789 as <span class="focused">12,34,56,789</span>.
+  </li>
+  <li>
+The pad specifier padSpec may appear before the prefix, after the prefix, before the suffix, after the suffix, or not at all.
+  </li>
+  <li>
+In place of <span class="focused">0</span>, the digits <span class="focused">1</span> through <span class="focused">9</span> may be used to indicate a rounding increment.
+  </li>
+</ul>
 
+<h4>Formatting</h4>
 
+<p>
+Formatting is guided by several parameters, all of which can be specified either using a pattern or using the API. The following description applies to formats that do not use scientific notation or significant digits.
+</p>
+<p>
+If the number of actual integer digits exceeds the maximum integer digits, then only the least significant digits are shown. For example, 1997 is formatted as <span class="focused">97</span> if the maximum integer digits is set to 2.
+</p>
+<p>
+If the number of actual integer digits is less than the minimum integer digits, then leading zeros are added. For example, 1997 is formatted as <span class="focused">01997</span> if the minimum integer digits is set to 5.
+</p>
+<p>
+If the number of actual fraction digits exceeds the maximum fraction digits, then rounding is performed to the maximum fraction digits. For example, 0.125 is formatted as <span class="focused">0.12</span> if the maximum fraction digits is 2. This behavior can be changed by specifying a rounding increment and/or a rounding mode.
+</p>
+<p>
+If the number of actual fraction digits is less than the minimum fraction digits, then trailing zeros are added. For example, 0.125 is formatted as <span class="focused">0.1250</span> if the mimimum fraction digits is set to 4.
+</p>
+<p>
+Trailing fractional zeros are not displayed if they occur j positions after the decimal, where j is less than the maximum fraction digits. For example, 0.10004 is formatted as <span class="focused">0.1</span> if the maximum fraction digits is four or less.
+</p>
+
+<h4>Special Values</h4>
+
+<p>
+<span class="focused">NaN</span> is represented as a single character, typically <span class="focused">\uFFFD</span>. This character is determined by CLDR. This is the only value for which the prefixes and suffixes are not used.
+</p>
+<p>
+Infinity is represented as a single character, typically <span class="focused">\u221E</span>, with the positive or negative prefixes and suffixes applied. The infinity character is determined by CLDR.
+</p>
+
+<h4>Scientific Notation</h4>
+
+<p>
+Numbers in scientific notation are expressed as the product of a mantissa and a power of ten, for example, 1234 can be expressed as 1.234 x 103. The mantissa is typically in the half-open interval [1.0, 10.0) or sometimes [0.0, 1.0), but it need not be. Number Format supports arbitrary mantissas. Number Format can be instructed to use scientific notation through the API or through the pattern. In a pattern, the exponent character immediately followed by one or more digit characters indicates scientific notation. Example: <span class="focused">0.###E0</span> formats the number 1234 as <span class="focused">1.234E3</span>.
+</p>
+
+<ul>
+<li>
+The number of digit characters after the exponent character gives the minimum exponent digit count. There is no maximum. Negative exponents are formatted using the localized minus sign, not the prefix and suffix from the pattern. This allows patterns such as <span class="focused">0.###E0 m/s</span>. To prefix positive exponents with a localized plus sign, specify <span class="focused">+</span> between the exponent and the digits: <span class="focused">0.###E+0</span> will produce formats <span class="focused">1E+1</span>, <span class="focused">1E+0</span>, <span class="focused">1E-1</span>, etc. (In localized patterns, use the localized plus sign rather than <span class="focused">+</span>).
+</li>
+<li>
+The minimum number of integer digits is achieved by adjusting the exponent. Example: 0.00123 formatted with <span class="focused">00.###E0</span> yields <span class="focused">12.3E-4</span>. This only happens if there is no maximum number of integer digits. If there is a maximum, then the minimum number of integer digits is fixed at one.
+</li>
+<li>
+The maximum number of integer digits, if present, specifies the exponent grouping. The most common use of this is to generate engineering notation, in which the exponent is a multiple of three, e.g., <span class="focused">##0.###E0</span>. The number 12345 is formatted using <span class="focused">##0.####E0</span> as <span class="focused">12.345E3</span>.
+</li>
+<li>
+When using scientific notation, the formatter controls the digit counts using significant digits logic. The maximum number of significant digits limits the total number of integer and fraction digits that will be shown in the mantissa; it does not affect parsing. For example, 12345 formatted with <span class="focused">##0.##E0</span> is <span class="focused">12.3E3</span>. See the section on significant digits for more details.
+</li>
+<li>
+The number of significant digits shown is determined as follows: If a significant pattern is not used, then the minimum number of significant digits shown is one, and the maximum number of significant digits shown is the sum of the minimum integer and maximum fraction digits, and is unaffected by the maximum integer digits. If this sum is zero, then all significant digits are shown. If a significant pattern is used, then the significant digit counts are specified by minimum significant digits and maximum significant digits. In this case, the number of integer digits is fixed at one, and there is no exponent grouping.
+</li>
+<li>
+Exponential patterns may not contain grouping separators.
+</li>
+</ul>
+
+<h4>Significant Digits</h4>
+
+<p>
+Number Format has two ways of controlling how many digits are shows: (a) significant digits counts, or (b) integer and fraction digit counts. Integer and fraction digit counts are described above. When a formatter is using significant digits counts, the number of integer and fraction digits is not specified directly, and the formatter settings for these counts are ignored. Instead, the formatter uses however many integer and fraction digits are required to display the specified number of significant digits. Examples:
+</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Pattern</th>
+      <th>Min. sign. digits</th>
+      <th>Max. sign. digits</th>
+      <th>Number</th>
+      <th>Output</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>@@@</td>
+      <td>3</td>
+      <td>3</td>
+      <td>12345</td>
+      <td>12300</td>
+    </tr>
+    <tr>
+      <td>@@@</td>
+      <td>3</td>
+      <td>3</td>
+      <td>0.12345</td>
+      <td>0.123</td>
+    </tr>
+    <tr>
+      <td>@@##</td>
+      <td>2</td>
+      <td>4</td>
+      <td>3.14159</td>
+      <td>3.142</td>
+    </tr>
+    <tr>
+      <td>@@##</td>
+      <td>2</td>
+      <td>4</td>
+      <td>1.23004</td>
+      <td>1.23</td>
+    </tr>
+  </tbody>
+</table>
+
+<ul>
+<li>
+Significant digit counts may be expressed using patterns that specify a minimum and maximum number of significant digits. These are indicated by the <span class="focused">@</span> and <span class="focused">#</span> characters. The minimum number of significant digits is the number of <span class="focused">@</span> characters. The maximum number of significant digits is the number of <span class="focused">@</span> characters plus the number of <span class="focused">#</span> characters following on the right. For example, the pattern <span class="focused">@@@</span> indicates exactly 3 significant digits. The pattern <span class="focused">@##</span> indicates from 1 to 3 significant digits. Trailing zero digits to the right of the decimal separator are suppressed after the minimum number of significant digits have been shown. For example, the pattern <span class="focused">@##</span> formats the number 0.1203 as <span class="focused">0.12</span>.
+</li>
+<li>
+If a pattern uses significant digits, it may not contain a decimal separator, nor the '0' pattern character. Patterns such as <span class="focused">@00</span> or <span class="focused">@.###</span> are disallowed.
+</li>
+<li>
+Any number of <span class="focused">#</span> characters may be prepended to the left of the leftmost <span class="focused">@</span> character. These have no effect on the minimum and maximum significant digits counts, but may be used to position grouping separators. For example, <span class="focused">#,#@#</span> indicates a minimum of one significant digits, a maximum of two significant digits, and a grouping size of three.
+</li>
+<li>
+In order to enable significant digits formatting, use a pattern containing the '@' pattern character.
+</li>
+<li>
+In order to disable significant digits formatting, use a pattern that does not contain the <span class="focused">@</span> pattern character.
+</li>
+<li>
+The number of significant digits has no effect on parsing.
+</li>
+<li>
+Significant digits may be used together with exponential notation. Such patterns are equivalent to a normal exponential pattern with a minimum and maximum integer digit count of one, a minimum fraction digit count of minimum significant digits minus 1, and a maximum fraction digit count of maximum significant digits minus 1. For example, the pattern <span class="focused">@@###E0</span> is equivalent to <span class="focused">0.0###E0</span>.
+</li>
+</ul>
+
+<h4>Padding</h4>
+
+<p>
+Number Format supports padding the result to a specific width. Padding may be specified either through the syntax. In a pattern the pad escape character, followed by a single pad character, causes padding to be parsed and formatted. The pad escape character is <span class="focused">*</span>. For example, <span class="focused">$*x#,##0.00</span> formats 123 to <span class="focused">$xx123.00</span>, and 1234 to <span class="focused">$1,234.00</span>.
+</p>
+
+<ul>
+<li>
+When padding is in effect, the width of the positive subpattern, including prefix and suffix, determines the format width. For example, in the pattern <span class="focused">* #0 o''clock</span>, the format width is 10.
+</li>
+<li>
+The width is counted in 16-bit code units.
+</li>
+<li>
+Some parameters which usually do not matter have meaning when padding is used, because the pattern width is significant with padding. In the pattern <span class="focused">* ##,##,#,##0.##</span>, the format width is 14. The initial characters <span class="focused">##,##,</span> do not affect the grouping size or maximum integer digits, but they do affect the format width.
+</li>
+<li>
+Padding may be inserted at one of four locations: before the prefix, after the prefix, before the suffix, or after the suffix. If there is no prefix, before the prefix and after the prefix are equivalent, likewise for the suffix.
+</li>
+<li>
+When specified in a pattern, the 32-bit code point immediately following the pad escape is the pad character. This may be any character, including a special pattern character. That is, the pad escape escapes the following character. If there is no character after the pad escape, then the pattern is illegal.
+</li>
+</ul>
+
+<h4>Rounding</h4>
+
+<p>
+Number Format supports rounding to a specific increment. For example, 1230 rounded to the nearest 50 is 1250. 1.234 rounded to the nearest 0.65 is 1.3. To specify a rounding increment include the increment in the pattern itself. <span class="focused">#,#50</span> specifies a rounding increment of 0.05.
+</p>
+
+<ul>
+<li>
+Rounding only affects the string produced by formatting. It does not affect parsing or change any numerical values.
+</li>
+<li>
+Some locales use rounding in their currency formats to reflect the smallest currency denomination.
+</li>
+<li>
+In a pattern, digits <span class="focused">1</span> through <span class="focused">9</span> specify rounding, but otherwise behave identically to digit <span class="focused">0</span>.
+</li>
+</ul>
+
+<p>
+In the absense of an explicit rounding increment numbers are rounded to their formatted width.
+</p>
 
 <a id="currencyformat">
   <h2>Currency Format</h2>
