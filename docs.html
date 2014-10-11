@@ -124,17 +124,21 @@ Now, lets update translation keys from source. It will traverse your source code
 <code>
 <span class="blue">$</span> l10ns update
 </code>
+
 <p>
 Lets check which translation keys have been added:
 </p>
+
 <code>
 <span class="blue">$</span> l10ns log<br>
 <span class="yellow">@1</span> SIGN_UP__FIRSTNAME | NO TRANSLATION<br>
 <span class="yellow">@2</span> SIGN_UP__LASTNAME | NO TRANSLATION<br>
 </code>
+
 <p>
 Edit the last translation using log reference:
 </p>
+
 <code>
 <span class="blue">$</span> l10ns set @1 "Firstname" # using default langague<br>
 <span class="blue">$</span> l10ns set @1 -l zh-CN "名" # using chinese<br>
@@ -321,7 +325,37 @@ The characters <span class="focused">#</span> and <span class="focused">=n</span
 </a>
 
 <p>
-Argument in above can take the values <span class="focused">integer</span>, <span class="focused">percentage</span>, <span class="focused">permille</span> or a <span class="focused">decimal pattern</span>. A <span class="focused">decimal pattern</span> is described below.
+The syntax for Number Format is:
+</p>
+
+<code>
+{variable, number, argument}
+</code>
+
+<p>
+Argument in above can take the values <span class="focused">integer</span>, <span class="focused">percent</span>, <span class="focused">permille</span> or a <span class="focused">decimal pattern</span>. A <span class="focused">decimal pattern</span> is described in next section.
+</p>
+
+<p>An example for formatting integer:</p>
+
+<code>
+{variable, number, integer}
+</code>
+
+<p>An example for formatting percentage:</p>
+
+<code>
+{variable, number, percent}
+</code>
+
+<p>An example for formatting a custom pattern:</p>
+
+<code>
+{variable, number, #,##0.00}
+</code>
+
+<p>
+Please see the next section for decimal pattern for customizing your number formatting.
 </p>
 
 <a id="decimalpattern">
@@ -548,45 +582,45 @@ Number Format has two ways of controlling how many digits are shows: (a) signifi
 </p>
 
 <table>
-  <thead>
-    <tr>
-      <th>Pattern</th>
-      <th>Min. sign. digits</th>
-      <th>Max. sign. digits</th>
-      <th>Number</th>
-      <th>Output</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>@@@</td>
-      <td>3</td>
-      <td>3</td>
-      <td>12345</td>
-      <td>12300</td>
-    </tr>
-    <tr>
-      <td>@@@</td>
-      <td>3</td>
-      <td>3</td>
-      <td>0.12345</td>
-      <td>0.123</td>
-    </tr>
-    <tr>
-      <td>@@##</td>
-      <td>2</td>
-      <td>4</td>
-      <td>3.14159</td>
-      <td>3.142</td>
-    </tr>
-    <tr>
-      <td>@@##</td>
-      <td>2</td>
-      <td>4</td>
-      <td>1.23004</td>
-      <td>1.23</td>
-    </tr>
-  </tbody>
+<thead>
+<tr>
+<th>Pattern</th>
+<th>Min. sign. digits</th>
+<th>Max. sign. digits</th>
+<th>Number</th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>@@@</td>
+<td>3</td>
+<td>3</td>
+<td>12345</td>
+<td>12300</td>
+</tr>
+<tr>
+<td>@@@</td>
+<td>3</td>
+<td>3</td>
+<td>0.12345</td>
+<td>0.123</td>
+</tr>
+<tr>
+<td>@@##</td>
+<td>2</td>
+<td>4</td>
+<td>3.14159</td>
+<td>3.142</td>
+</tr>
+<tr>
+<td>@@##</td>
+<td>2</td>
+<td>4</td>
+<td>1.23004</td>
+<td>1.23</td>
+</tr>
+</tbody>
 </table>
 
 <ul>
