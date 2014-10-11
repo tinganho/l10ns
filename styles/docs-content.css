@@ -8,7 +8,7 @@
 
 .navigation-bar-home {
   float: right;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 300;
   color: #fff;
   line-height: 28px;
@@ -113,12 +113,26 @@
   line-height: 26px;
 }
 
+.text-body h3 {
+  color: #5a5a5a;
+  font-weight: 300;
+  margin: 20px 0;
+  font-size: 20px;
+  line-height: 26px;
+}
+
+.text-body a {
+  color: #6699cc;
+}
+
+.text-body a:active {
+  opacity: 0.3;
+}
+
 .text-body p {
   font-weight: 200;
   color: #333;
 }
-
-
 
 code {
   padding: 15px 20px;
@@ -144,4 +158,36 @@ code .yellow {
     font-size: 11px;
     margin: 40px 0;
   }
+}
+
+.number-symbols {
+  font-weight: 300;
+  color: #333;
+  display: block;
+  overflow: hidden;
+  padding-bottom: 10px;
+}
+
+.number-symbols {
+  border-left: 5px solid #cde9f4;
+  background-color: #eee;
+}
+
+.number-symbols thead {
+  background-color: #eee;
+}
+
+.number-symbols thead tr {
+  height: 30px;
+}
+
+.number-symbols thead th {
+  color: #5a5a5a;
+  vertical-align: middle;
+}
+.number-symbols th,
+.number-symbols td {
+  text-align: left;
+  padding: 0 10px;
+  vertical-align: top;
 }

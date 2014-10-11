@@ -62,13 +62,13 @@
             <a class="side-menu-anchor" href="#pluralformat">PLURAL FORMAT</a>
           </li>
           <li class="side-menu-sub-item">
-            <a class="side-menu-anchor" href="#choiceformat">CHOICE FORMAT</a>
-          </li>
-          <li class="side-menu-sub-item">
             <a class="side-menu-anchor" href="#selectordinalformat">SELECTORDINAL FORMAT</a>
           </li>
           <li class="side-menu-sub-item">
             <a class="side-menu-anchor" href="#numberformat">NUMBER FORMAT</a>
+          </li>
+          <li class="side-menu-sub-item">
+            <a class="side-menu-anchor" href="#numberformat">DECIMAL PATTERN</a>
           </li>
           <li class="side-menu-sub-item">
             <a class="side-menu-anchor" href="#currencyformat">CURRENCY FORMAT</a>
@@ -288,20 +288,12 @@ Some times we want to interpolate a message with a count with an offset using <s
 If you would have translated the above message in Arabic. You might want to use more plural forms than <span class="focused">other</span>. Because the word <span class="focused">others</span> have many plural forms. As a rule of thumb, always use the exact cases before the plural form cases!
 </p>
 
-<a id="choiceformat">
-  <h2>Choice Format</h2>
-</a>
-
-<p>
-Choice Format is used for translating different kind of messages for different value ranges.
-</p>
-
 <a id="selectordinalformat">
   <h2>Selectordinal Format</h2>
 </a>
 
 <p>
-Selectordinal Format is used for formating messages with different ordinal forms. CLDR defines six types of ordinal forms <span class="focused">zero</span>, <span class="focused">one</span>, <span class="focused">two</span>, <span class="focused">few</span>, <span class="focused">many</span> and <span class="focused">other</span>. Each ordinal form and the number of ordinal forms may be different from locale to locale. In the English language there exists four ordinal forms <span class="focused">one</span>, <span class="focused">two</span>, <span class="focused">few</span> and <span class="focused">other</span> for formatting messages including <span class="focused">first</span>, <span class="focused">second</span>, <span class="focused">third</span> and <span class="focused">fourth</span> etc. And the ordinal form <span class="focused">one</span> doesn't necessarily corresponds to the number one. Sometimes the ordinal form <span class="focused">one</span> might corresponds to the number 1 and 2 and more, such as in the Swedish language. Same thing applies to all the ordinal forms. Example numbers of each ordinal form will be provided if you translate your strings using the translation interface.
+Selectordinal Format is used for formating messages with different ordinal forms. CLDR defines six types of ordinal forms <span class="focused">zero</span>, <span class="focused">one</span>, <span class="focused">two</span>, <span class="focused">few</span>, <span class="focused">many</span> and <span class="focused">other</span>. Each ordinal form and the number of ordinal forms may be different from locale to locale. In the English language there exists four ordinal forms <span class="focused">one</span>, <span class="focused">two</span>, <span class="focused">few</span> and <span class="focused">other</span> for formatting messages including <span class="focused">first</span>, <span class="focused">second</span>, <span class="focused">third</span> and <span class="focused">fourth</span> etc. And the ordinal form <span class="focused">one</span> doesn't necessarily corresponds to the number one. Sometimes the ordinal form <span class="focused">one</span> might corresponds to the number 1, 2 and more, such as in the Swedish language. Same thing applies to all the ordinal forms. Example numbers of each ordinal form will be provided if you translate your strings using the translation interface.
 </p>
 
 <p>
@@ -327,6 +319,154 @@ The characters <span class="focused">#</span> and <span class="focused">=n</span
 <a id="numberformat">
   <h2>Number Format</h2>
 </a>
+
+<p>
+Argument in above can take the values <span class="focused">integer</span>, <span class="focused">percentage</span>, <span class="focused">permille</span> or a <span class="focused">decimal pattern</span>. A <span class="focused">decimal pattern</span> is described below.
+</p>
+
+<a id="decimalpattern">
+  <h3>Decimal pattern</h3>
+</a>
+
+<p>
+The characters listed here are used in non-localized patterns. Localized patterns use the corresponding characters. Two exceptions are the currency sign and quote, which are not localized.
+</p>
+
+<table class="number-symbols">
+  <thead>
+    <tr>
+      <th>Symbol</th>
+      <th>Location</th>
+      <th>Localized</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>Number</td>
+      <td>Yes</td>
+      <td>Digit.</td>
+    </tr>
+    <tr>
+      <td>1-9</td>
+      <td>Number</td>
+      <td>Yes</td>
+      <td>'1' through '9' indicate rounding.</td>
+    </tr>
+    <tr>
+      <td>@</td>
+      <td>Number</td>
+      <td>No</td>
+      <td>Significant digit.</td>
+    </tr>
+    <tr>
+      <td>#</td>
+      <td>Number</td>
+      <td>Yes</td>
+      <td>Digit, zero shows as absent.</td>
+    </tr>
+    <tr>
+      <td>.</td>
+      <td>Number</td>
+      <td>Yes</td>
+      <td>Decimal separator or monetary decimal separator.</td>
+    </tr>
+    <tr>
+      <td>-</td>
+      <td>Number</td>
+      <td>Yes</td>
+      <td>Minus sign.</td>
+    </tr>
+    <tr>
+      <td>,</td>
+      <td>Number</td>
+      <td>Yes</td>
+      <td>Grouping separator.</td>
+    </tr>
+    <tr>
+      <td>E</td>
+      <td>Number</td>
+      <td>Yes</td>
+      <td>Separates mantissa and exponent in scientific notation. Need not be quoted in prefix or suffix.</td>
+    </tr>
+    <tr>
+      <td>+</td>
+      <td>Exponent</td>
+      <td>Yes</td>
+      <td>Prefix positive exponents with localized plus sign. Need not be quoted in prefix or suffix.</td>
+    </tr>
+    <tr>
+      <td>;</td>
+      <td>Subpattern boundary</td>
+      <td>Yes</td>
+      <td>Separates positive and negative subpatterns.</td>
+    </tr>
+    <tr>
+      <td>%</td>
+      <td>Prefix or suffix</td>
+      <td>Yes</td>
+      <td>Multiply by 100 and show as percentage.</td>
+    </tr>
+    <tr>
+      <td>‰</td>
+      <td>Prefix or suffix</td>
+      <td>Yes</td>
+      <td>Multiply by 1000 and show as per mille.</td>
+    </tr>
+    <tr>
+      <td>¤</td>
+      <td>Prefix or suffix</td>
+      <td>No</td>
+      <td>One consecutive currency symbol will be replaced with a local symbol such as <span class="focused">$</span>. Two consecutive symbols will be replaced with a global symbol such as <span class="focused">US$</span>. Three consecutive symbols will be replaced with a local text such as <span class="focused">dollars</span>. Four consecutive symbols will be replaced with a global text such as <span class="focused">US dollars</span>.</td>
+    </tr>
+    <tr>
+      <td>'</td>
+      <td>Prefix or suffix</td>
+      <td>No</td>
+      <td>Used to quote special characters in a prefix or suffix, for example, <span class="focused">'#'#</span> formats 123 to <span class="focused">#123</span>. To create a single quote itself, use two in a row: <span class="focused"># o''clock</span>.</td>
+    </tr>
+    <tr>
+      <td>*</td>
+      <td>Prefix or suffix boundary</td>
+      <td>Yes</td>
+      <td>Pad escape, precedes pad character.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>
+A <span class="focused">decimal pattern</span> pattern contains a postive and negative subpattern, for example, <span class="focused">#,##0.00;(#,##0.00)</span>. Each subpattern has a prefix, a numeric part, and a suffix. If there is no explicit negative subpattern, the negative subpattern is the localized minus sign prefixed to the positive subpattern. That is, <span class="focused">0.00</span> alone is equivalent to <span class="focused">0.00;-0.00</span>. If there is an explicit negative subpattern, it serves only to specify the negative prefix and suffix; the number of digits, minimal digits, and other characteristics are ignored in the negative subpattern. That means that <span class="focused">#,##0.0#;(#)</span> has precisely the same result as <span class="focused">#,##0.0#;(#,##0.0#)</span>.
+</p>
+<p>
+The grouping separator is a character that separates clusters of integer digits to make large numbers more legible. It commonly used for thousands, but in some locales it separates ten-thousands. The grouping size is the number of digits between the grouping separators, such as 3 for <span class="focused">100,000,000</span> or 4 for <span class="focused">1 0000 0000</span>. There are actually two different grouping sizes: One used for the least significant integer digits, the primary grouping size, and one used for all others, the secondary grouping size. In most locales these are the same, but sometimes they are different. For example, if the primary grouping interval is 3, and the secondary is 2, then this corresponds to the pattern <span class="focused">#,##,##0</span>, and the number 123456789 is formatted as <span class="focused">12,34,56,789</span>. If a pattern contains multiple grouping separators, the interval between the last one and the end of the integer defines the primary grouping size, and the interval between the last two defines the secondary grouping size. All others are ignored, so <span class="focused">#,##,###,####</span> == <span class="focused">###,###,####</span> == <span class="focused">##,#,###,####</span>.
+</p>
+
+
+
+<code>
+pattern&nbsp;&nbsp;&nbsp;&nbsp;:= subpattern (';' subpattern)?<br>
+subpattern := prefix? number exponent? suffix?<br>
+number&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:= (integer ('.' fraction)?) | sigDigits<br>
+prefix&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:= '\u0000'..'\uFFFD' - specialCharacters<br>
+suffix&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:= '\u0000'..'\uFFFD' - specialCharacters<br>
+integer&nbsp;&nbsp;&nbsp;&nbsp;:= '#'* '0'* '0'<br>
+fraction&nbsp;&nbsp;&nbsp;:= '0'* '#'*<br>
+sigDigits&nbsp;&nbsp;:= '#'* '@' '@'* '#'*<br>
+exponent&nbsp;&nbsp;&nbsp;:= 'E' '+'? '0'* '0'<br>
+padSpec&nbsp;&nbsp;&nbsp;&nbsp;:= '*' padChar<br>
+padChar&nbsp;&nbsp;&nbsp;&nbsp;:= '\u0000'..'\uFFFD' - quote<br>
+<br>
+Notation:<br>
+  X*       0 or more instances of X<br>
+  X?       0 or 1 instances of X<br>
+  X|Y      either X or Y<br>
+  C..D     any character from C up to D, inclusive<br>
+  S-T      characters in S, except those in T<br>
+</code>
+
+
+
 
 <a id="currencyformat">
   <h2>Currency Format</h2>
