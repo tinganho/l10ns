@@ -58,7 +58,6 @@ define(function(require) {
         '_resizeTextArea',
         '_addPluralFormatedText',
         '_addSelectFormatedText',
-        '_addChoiceFormatedText',
         '_addSelectordinalFormatedText',
         '_addNumberFormatedText',
         '_addCurrencyFormatedText',

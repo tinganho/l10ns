@@ -9,23 +9,7 @@
     "timestamp": "2014-09-18T02:28:56.236Z",
     "value": "",
     "variables": [
-      "files",
-      "code",
-      "value"
-    ]
-  },
-  {
-    "files": [
-      "example/javascript/example.js"
-    ],
-    "id": "zExEo9bpHy",
-    "key": "INDEX2",
-    "new": false,
-    "timestamp": "2014-09-18T02:28:56.236Z",
-    "value": "",
-    "variables": [
-      "files",
-      "people"
+      "floor"
     ]
   }
 ]

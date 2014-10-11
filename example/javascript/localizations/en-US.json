@@ -7,25 +7,9 @@
     "key": "INDEX1",
     "new": false,
     "timestamp": "2014-09-18T02:28:56.236Z",
-    "value": "{files, number, ¤¤¤¤#,##0.00}",
+    "value": "{floor, selectordinal, =0{ground floor} =1{first floor} one {#st floor} two {#nd floor} few {#rd floor} other {#th floor}}",
     "variables": [
-      "files",
-      "code",
-      "value"
-    ]
-  },
-  {
-    "files": [
-      "example/javascript/example.js"
-    ],
-    "id": "zExEo9bpHy",
-    "key": "INDEX2",
-    "new": false,
-    "timestamp": "2014-09-18T02:28:56.236Z",
-    "value": "",
-    "variables": [
-      "files",
-      "people"
+      "floor"
     ]
   }
 ]
