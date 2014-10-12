@@ -48,6 +48,19 @@
           </li>
 
           <li class="side-menu-item">
+            <a class="side-menu-anchor" href="#developer">DEVELOPER</a>
+          </li>
+          <li class="side-menu-sub-item">
+            <a class="side-menu-anchor" href="#import">IMPORT</a>
+          </li>
+          <li class="side-menu-sub-item">
+            <a class="side-menu-anchor" href="#usage">USAGE</a>
+          </li>
+          <li class="side-menu-sub-item">
+            <a class="side-menu-anchor" href="#namingkeys">NAMING KEYS</a>
+          </li>
+
+          <li class="side-menu-item">
             <a class="side-menu-anchor" href="#messageformat">MESSAGE FORMAT</a>
           </li>
 
@@ -67,7 +80,7 @@
             <a class="side-menu-anchor" href="#numberformat">NUMBER FORMAT</a>
           </li>
           <li class="side-menu-sub-item">
-            <a class="side-menu-anchor" href="#numberformat">DECIMAL PATTERN</a>
+            <a class="side-menu-anchor" href="#decimalpattern">DECIMAL PATTERN</a>
           </li>
           <li class="side-menu-sub-item">
             <a class="side-menu-anchor" href="#currencyformat">CURRENCY FORMAT</a>
@@ -159,8 +172,122 @@ Lets set up a web interface for translator to use:
 <span class="blue">$</span> l10ns interface
 </code>
 
+<a id="developer">
+<h1>Developer</h1>
+</a>
+
+<a id="import">
+<h2>Import</h2>
+</a>
+
+<p>
+The outputted code form L10ns lets you import it with CommonJS and AMD.
+</p>
+
+<code>
+var requireLocalizations = require(<span class="red">'path/to/output'</span>);
+</code>
+
+<p>
+You can also simply import it with HTML <span class="focused">script</span> tag.
+</p>
+
+<code>
+&lt;script type=<span class="red">&quot;text/javascript&quot;</span> src=<span class="red">&quot;path/to/output&quot;</span>&gt;&lt;/script&gt;
+</code>
+
+<p>
+For usage just require the locale you need and set it to the variable <span class="focused">l</span>. It is very important that you set it to the variable <span class="focused">l</span>. Because that is used for parsing your source code later on to update your translation keys.
+</p>
+
+<code>
+var l = requireLocalizations(<span class="red">'en-US'</span>);
+</code>
+
+<p>
+For express servers. If a locale cookie is not set we recommend parsing the <span class="focused">Accept-Language</span> header and set a supported locale on the cookie. And then set the global variable <span class="focused">l</span> in a middleware.
+</p>
+
+<code>
+app.configure(function(req, res, next) {<br>
+&nbsp;&nbsp;global.l = requireLocalization(req.cookies.locale);<br>
+});
+</code>
+
+<a id="usage">
+<h2>Usage</h2>
+</a>
+
+<p>
+L10ns provides a simple getter <span class="focused">l</span> for getting your localized strings.
+</p>
+
+<code>
+l(<span class="red">'TRANSLATION_KEY'</span>[, Data]);
+</code>
+
+<p>
+Example usage of a simple getter:
+</p>
+
+<code>
+l(<span class="red">'SIGN_UP__FIRSTNAME'</span>);
+</code>
+
+<p>
+Example usage of a more complex getter:
+</p>
+
+<code>
+l(<span class="red">'FEED__COMMENTS'</span>, {<br>
+&nbsp;&nbsp;gender: <span class="red">'male'</span><br>
+&nbsp;&nbsp;comments: <span class="red">100</span><br>
+});
+</code>
+
+<p>
+Just run <span class="focused">l10ns update</span> in your terminal. And it will extract all the translation keys and all the defined variables.
+</p>
+
+<a id="namingkeys">
+<h2>Naming keys</h2>
+</a>
+
+<p>
+We recommend set your translation keys with capital letters. And namespace it with a content type as the first part of the key. And the other part should be a name describing the string. Use double underscore <span class="focused">__</span> for namespacing.
+</p>
+
+<code>
+l(<span class="red">'CONTENT_TYPE__STRING_NAME'</span>);
+</code>
+
+<p>
+You need to namespace the translation keys, because some times the same string name can be used on different content. For example: a header for a document has the translation key <span class="focused">HEADER</span>, which is used in more than one place might have different localized strings on different pages. To solve this problem use a content type as a prefix namespace. If there exists a header for a login page, use <span class="focused">LOGIN__HEADER</span> as a translation key. If there exists a header for a sign up page, use <span class="focused">SIGN_UP__HEADER</span> as a translation key.
+</p>
+
+<p>
+For those strings that spans multiple content types. We recommend namespace them with
+<span class="focused">DEFAULT</span>.
+</p>
+
+<code>
+l(<span class="red">'DEFAULT__CANCEL'</span>);
+</code>
+
+<p>
+Do not use normal spoken English sentences as translation keys. We do not recommend this because it contain no namespace. And it is bad for maintenance since if you want to change a string you need to change the translation key too.
+</p>
+
+<p>
+Example of a bad translation key:
+</p>
+
+<code>
+l(<span class="red">'Hide this button'</span>);
+</code>
+
 <a id="messageformat">
-  <h1>Message Format</h1>
+<h1>Message Format</h1>
 </a>
 
 <p>
@@ -168,7 +295,7 @@ ICU(International Component for Unicode) is an organization that creates a set o
 </p>
 
 <a id="interpolation">
-  <h2>Interpolation</h2>
+<h2>Interpolation</h2>
 </a>
 
 <p>
@@ -196,7 +323,7 @@ Emma likes Albert.
 </code>
 
 <a id="selectformat">
-  <h2>Select Format</h2>
+<h2>Select Format</h2>
 </a>
 
 <p>
@@ -232,7 +359,7 @@ She likes the L10ns project.
 </code>
 
 <a id="pluralformat">
-  <h2>Plural Format</h2>
+<h2>Plural Format</h2>
 </a>
 
 <p>
@@ -577,7 +704,7 @@ Exponential patterns may not contain grouping separators.
 <h4>Significant Digits</h4>
 
 <p>
-Number Format has two ways of controlling how many digits are shows: (a) significant digits counts, or (b) integer and fraction digit counts. Integer and fraction digit counts are described above. When a formatter is using significant digits counts, the number of integer and fraction digits is not specified directly, and the formatter settings for these counts are ignored. Instead, the formatter uses however many integer and fraction digits are required to display the specified number of significant digits. Examples:
+Number Format has two ways of controlling how many digits are shown: (a) significant digits counts, or (b) integer and fraction digit counts. Integer and fraction digit counts are described above. When a formatter is using significant digits counts, the number of integer and fraction digits is not specified directly, and the formatter settings for these counts are ignored. Instead, the formatter uses however many integer and fraction digits are required to display the specified number of significant digits. Examples:
 </p>
 
 <table>
