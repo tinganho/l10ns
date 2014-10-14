@@ -158,6 +158,7 @@ Compiler.prototype._getLocalizationMap = function() {
           value: JSON.stringify(messageFormat.currencyUnitPattern, null, 2).replace(/"/g, '\'') + _this.comma + _this.linefeed
         });
 
+        var localizationsCount = 0;
         for(var key in localizations[locale]) {
           messageFormat.parse(localizations[locale][key].value);
           var _function = template['Function']({
@@ -177,6 +178,8 @@ Compiler.prototype._getLocalizationMap = function() {
             localizationMap += _this.comma;
             localizationMap += _this.linefeed;
           }
+
+          localizationsCount++;
         }
 
         localizationsMap += template['LocalizationMap']({
@@ -184,7 +187,7 @@ Compiler.prototype._getLocalizationMap = function() {
           map: _this._indentSpaces(2, localizationMap)
         });
 
-        if(localesCount !== localesLength - 2 &&
+        if(localesCount !== localesLength - 1 &&
            localesLength > 1) {
           localizationsMap += _this.comma;
           localizationsMap += _this.linefeed;

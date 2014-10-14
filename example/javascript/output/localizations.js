@@ -336,6 +336,11 @@
         'many': '{0} {1}',
         'other': '{0} {1}'
       },
+      'INDEX2': function(it) {
+        var string = '';
+
+        return string;
+      },
       'INDEX1': function(it) {
         var string = '';
         var _case;
@@ -469,6 +474,11 @@
         'one': '{0} {1}',
         'other': '{0} {1}'
       },
+      'INDEX2': function(it) {
+        var string = '';
+
+        return string;
+      },
       'INDEX1': function(it) {
         var string = '';
         var _case;
@@ -570,7 +580,8 @@
         }
         return string;
       }
-    }'zh-CN': {
+    },
+    'zh-CN': {
       '__getPluralKeyword': function(cardinal) {
         return 'other';
       },
@@ -626,13 +637,17 @@
       '__currencyUnitPattern': {
         'other': '{0}{1}'
       },
+      'INDEX2': function(it) {
+        var string = '';
+
+        return string;
+      },
       'INDEX1': function(it) {
         var string = '';
 
         return string;
       }
-    },
-
+    }
   };
 
   function requireLocalizations(locale) {
