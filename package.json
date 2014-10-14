@@ -1,7 +1,7 @@
 {
   "name": "l10ns",
   "description": "Effective translation workflow",
-  "version": "0.15.17",
+  "version": "0.15.18",
   "homepage": "https://github.com/tinganho/l10ns",
   "author": {
     "name": "Tingan Ho",
