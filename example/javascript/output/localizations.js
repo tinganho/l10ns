@@ -377,68 +377,6 @@
         return string;
       }
     },
-    'zh-CN': {
-      '__getPluralKeyword': function(cardinal) {
-        return 'other';
-      },
-      '__getOrdinalKeyword': function(cardinal) {
-        return 'other';
-      },
-      '__numberSymbols': {
-        'hanidec': {
-          'decimal': '.',
-          'group': ',',
-          'list': ';',
-          'percentSign': '%',
-          'plusSign': '+',
-          'minusSign': '-',
-          'exponential': 'E',
-          'superscriptingExponent': '×',
-          'perMille': '‰',
-          'infinity': '∞',
-          'nan': 'NaN',
-          'timeSeparator': ':'
-        },
-        'latn': {
-          'decimal': '.',
-          'group': ',',
-          'list': ';',
-          'percentSign': '%',
-          'plusSign': '+',
-          'minusSign': '-',
-          'exponential': 'E',
-          'superscriptingExponent': '×',
-          'perMille': '‰',
-          'infinity': '∞',
-          'nan': 'NaN',
-          'timeSeparator': ':'
-        }
-      },
-      '__currencies': {
-        'USD': {
-          'name': '美元',
-          'text': {
-            'local': null,
-            'global': {
-              'other': '美元'
-            }
-          },
-          'symbol': {
-            'local': '$',
-            'global': 'US$',
-            'reverseGlobal': '$US'
-          }
-        }
-      },
-      '__currencyUnitPattern': {
-        'other': '{0}{1}'
-      },
-      'INDEX1': function(it) {
-        var string = '';
-
-        return string;
-      }
-    },
     'en-US': {
       '__getPluralKeyword': function(cardinal) {
         var cardinal = cardinal + ''
@@ -632,7 +570,69 @@
         }
         return string;
       }
-    }
+    }'zh-CN': {
+      '__getPluralKeyword': function(cardinal) {
+        return 'other';
+      },
+      '__getOrdinalKeyword': function(cardinal) {
+        return 'other';
+      },
+      '__numberSymbols': {
+        'hanidec': {
+          'decimal': '.',
+          'group': ',',
+          'list': ';',
+          'percentSign': '%',
+          'plusSign': '+',
+          'minusSign': '-',
+          'exponential': 'E',
+          'superscriptingExponent': '×',
+          'perMille': '‰',
+          'infinity': '∞',
+          'nan': 'NaN',
+          'timeSeparator': ':'
+        },
+        'latn': {
+          'decimal': '.',
+          'group': ',',
+          'list': ';',
+          'percentSign': '%',
+          'plusSign': '+',
+          'minusSign': '-',
+          'exponential': 'E',
+          'superscriptingExponent': '×',
+          'perMille': '‰',
+          'infinity': '∞',
+          'nan': 'NaN',
+          'timeSeparator': ':'
+        }
+      },
+      '__currencies': {
+        'USD': {
+          'name': '美元',
+          'text': {
+            'local': null,
+            'global': {
+              'other': '美元'
+            }
+          },
+          'symbol': {
+            'local': '$',
+            'global': 'US$',
+            'reverseGlobal': '$US'
+          }
+        }
+      },
+      '__currencyUnitPattern': {
+        'other': '{0}{1}'
+      },
+      'INDEX1': function(it) {
+        var string = '';
+
+        return string;
+      }
+    },
+
   };
 
   function requireLocalizations(locale) {

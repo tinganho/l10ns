@@ -105,6 +105,19 @@ $padding: 40px;
   &.has-error {
     color: #f35f5f;
   }
+
+  b {
+    font-weight: 500;
+  }
+
+  a {
+    color: #69c;
+    text-decoration: none;
+
+    &:active {
+      opacity: 0.3;
+    }
+  }
 }
 
 .localization-buttons {

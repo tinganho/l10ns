@@ -828,7 +828,7 @@ MessageFormat.prototype._readPluralizationRules = function() {
   pluralRules.childNodes().forEach(function(pluralRule) {
     var _case = pluralRule.attr('count').value();
     _this.pluralRules[_case] = LDML.parse(pluralRule.text());
-    _this.integers = LDML.integerExample;
+    _this.pluralRules[_case].example = LDML.integerExample;
   });
 };
 
@@ -856,7 +856,7 @@ MessageFormat.prototype._readOrdinalRules = function() {
   ordinalRules.childNodes().forEach(function(pluralRule) {
     var _case = pluralRule.attr('count').value();
     _this.ordinalRules[_case] = LDML.parse(pluralRule.text());
-    _this.integers = LDML.integerExample;
+    _this.ordinalRules[_case].example = LDML.integerExample;
   });
 };
 

@@ -129,7 +129,6 @@ define(function(require) {
       this.$textArea.on('keydown', this._resizeTextArea);
       this.$addPluralButton.on('mousedown', this._addPluralFormatedText);
       this.$addSelectButton.on('mousedown', this._addSelectFormatedText);
-      this.$addChoiceButton.on('mousedown', this._addChoiceFormatedText);
       this.$addSelectordinalButton.on('mousedown', this._addSelectordinalFormatedText);
       this.$addNumberButton.on('mousedown', this._addNumberFormatedText);
       this.$addCurrencyButton.on('mousedown', this._addCurrencyFormatedText);
@@ -199,6 +198,7 @@ define(function(require) {
       }
 
       this._replaceTextSelectionWithText(text);
+      this.$messageText.removeClass('has-error').html(_this.model.get('message'));
     },
 
     /**
@@ -220,6 +220,12 @@ define(function(require) {
       }
       text += '}';
       this._replaceTextSelectionWithText(text);
+      var exampleText = 'Example numbers of CLDR\'s plural forms:<br>';
+      var pluralRules = this.model.get('pluralRules');
+      for(var rule in pluralRules) {
+        exampleText += '<b>' + rule + '</b>: ' + pluralRules[rule].example.slice(0, 4).join(', ') + ' ';
+      }
+      this.$messageText.removeClass('has-error').html(exampleText);
     },
 
     /**
@@ -236,6 +242,7 @@ define(function(require) {
       }
       var text = '{' + variable + ', select , other {message-other}}';
       this._replaceTextSelectionWithText(text);
+      this.$messageText.removeClass('has-error').html('Please add the missing cases in your select format.');
     },
 
     /**
@@ -257,6 +264,12 @@ define(function(require) {
       }
       text += '}';
       this._replaceTextSelectionWithText(text);
+      var exampleText = 'Example numbers of CLDR\'s ordinal forms:<br>';
+      var ordinalRules = this.model.get('ordinalRules');
+      for(var rule in ordinalRules) {
+        exampleText += '<b>' + rule + '</b>: ' + ordinalRules[rule].example.slice(0, 4).join(', ') + ' ';
+      }
+      this.$messageText.removeClass('has-error').html(exampleText);
     },
 
     /**
@@ -273,6 +286,11 @@ define(function(require) {
       }
       var text = '{' + variable + ', number, integer}'
       this._replaceTextSelectionWithText(text);
+      this.$messageText.removeClass('has-error').html(
+        'You can provide integer, percentage, permille and a decimal pattern ' +
+        'as an argument. For greater customization please use <a href="http://' +
+        'l10ns.org/docs.html#decimalpattern" target="_blank">decimal pattern</a>.'
+      );
     },
 
     /**
@@ -289,6 +307,12 @@ define(function(require) {
       }
       var text = '{' + variable + ', currency, local, symbol}'
       this._replaceTextSelectionWithText(text);
+      this.$messageText.removeClass('has-error').html(
+        'Arguments should be a <b>local</b>(context) <b>symbol</b>(type) for <b>$</b><br>' +
+        'Arguments should be a <b>global</b>(context) <b>symbol</b>(type) for <b>US$</b><br>' +
+        'Arguments should be a <b>local</b>(context) <b>text</b>(type) for <b>dollar</b><br>' +
+        'Arguments should be a <b>global</b>(context) <b>text</b>(type) for <b>US dollar</b><br>'
+      );
     },
 
     /**
@@ -305,7 +329,6 @@ define(function(require) {
       this.$textAreaHeightHelper = this.$('.localization-textarea-height-helper');
       this.$addPluralButton = this.$('.localization-action-plural');
       this.$addSelectButton = this.$('.localization-action-select');
-      this.$addChoiceButton = this.$('.localization-action-choice');
       this.$addSelectordinalButton = this.$('.localization-action-selectordinal');
       this.$addNumberButton = this.$('.localization-action-number');
       this.$addCurrencyButton = this.$('.localization-action-currency');

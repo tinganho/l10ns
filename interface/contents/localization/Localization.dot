@@ -14,10 +14,10 @@
   <div class="localization-input">
     <ul class="localization-actions">
       <li class="localization-action">
-        <a class="localization-action-anchor localization-action-plural">plural</a>
+        <a class="localization-action-anchor localization-action-select">select</a>
       </li>
       <li class="localization-action">
-        <a class="localization-action-anchor localization-action-select">select</a>
+        <a class="localization-action-anchor localization-action-plural">plural</a>
       </li>
       <li class="localization-action">
         <a class="localization-action-anchor localization-action-selectordinal">selectordinal</a>

@@ -184,7 +184,7 @@ Compiler.prototype._getLocalizationMap = function() {
           map: _this._indentSpaces(2, localizationMap)
         });
 
-        if(localesCount !== localesLength - 1 &&
+        if(localesCount !== localesLength - 2 &&
            localesLength > 1) {
           localizationsMap += _this.comma;
           localizationsMap += _this.linefeed;
