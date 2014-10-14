@@ -173,8 +173,7 @@ Compiler.prototype._getLocalizationMap = function() {
             value: _function
           });
 
-          if(localizationsCount !== localizationsLength - 1 &&
-            localizationsLength > 1) {
+          if(localizationsCount !== localizationsLength - 1) {
             localizationMap += _this.comma;
             localizationMap += _this.linefeed;
           }
@@ -187,8 +186,7 @@ Compiler.prototype._getLocalizationMap = function() {
           map: _this._indentSpaces(2, localizationMap)
         });
 
-        if(localesCount !== localesLength - 1 &&
-           localesLength > 1) {
+        if(localesCount !== localesLength - 1) {
           localizationsMap += _this.comma;
           localizationsMap += _this.linefeed;
         }

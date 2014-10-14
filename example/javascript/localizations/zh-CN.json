@@ -3,18 +3,6 @@
     "files": [
       "example/javascript/example.js"
     ],
-    "id": "pLo6GAAruj",
-    "key": "INDEX2",
-    "timestamp": "2014-10-14T01:08:11.713Z",
-    "value": "",
-    "variables": [
-      "floor"
-    ]
-  },
-  {
-    "files": [
-      "example/javascript/example.js"
-    ],
     "id": "bzxz9BEjhK",
     "key": "INDEX1",
     "new": false,
