@@ -52,7 +52,9 @@ AST.date.DateFormat.Identifiers = {
   EXTENDED_YEAR: 'u',
   CYCLIC_YEAR: 'U',
   FORMATED_QUARTER: 'Q',
-  STAND_ALONE_QUARTER: 'q'
+  STAND_ALONE_QUARTER: 'q',
+  FORMATED_MONTH: 'M',
+  STAND_ALONE_MONTH: 'L'
 };
 
 /**
@@ -82,6 +84,10 @@ AST.date.DateFormat.prototype.parse = function(string) {
       case AST.date.DateFormat.Identifiers.FORMATED_QUARTER:
       case AST.date.DateFormat.Identifiers.STAND_ALONE_QUARTER:
         this.AST.push(this._parseQuarter());
+        break;
+      case AST.date.DateFormat.Identifiers.FORMATED_MONTH:
+      case AST.date.DateFormat.Identifiers.STAND_ALONE_MONTH:
+        this.AST.push(this._parseMonth());
         break;
     }
   }
@@ -185,6 +191,48 @@ AST.date.DateFormat.prototype._parseQuarter = function() {
   }
 
   return new AST.date.Quarter(context, format);
+};
+
+/**
+ * Parse month identifiers (M, L)
+ *
+ * @return {void}
+ * @api public
+ */
+
+AST.date.DateFormat.prototype._parseMonth = function() {
+  var context;
+  switch(this.currentToken) {
+    case AST.date.DateFormat.Identifiers.FORMATED_MONTH:
+      context = AST.date.Month.Context.FORMATED;
+      break;
+    case AST.date.DateFormat.Identifiers.STAND_ALONE_MONTH:
+      context = AST.date.Month.Context.STAND_ALONE;
+      break;
+  }
+
+  var length = this._getConsecutiveLength(5);
+
+  var format;
+  switch(length) {
+    case 1:
+      format = AST.date.Month.Formats.NUMERIC;
+      break;
+    case 2:
+      format = AST.date.Month.Formats.NUMERIC_WITH_PADDING;
+      break;
+    case 3:
+      format = AST.date.Month.Formats.SHORT;
+      break;
+    case 4:
+      format = AST.date.Month.Formats.WIDE;
+      break;
+    case 5:
+      format = AST.date.Month.Formats.NARROW;
+      break;
+  }
+
+  return new AST.date.Month(context, format);
 };
 
 /**
@@ -325,38 +373,16 @@ AST.date.Quarter.Formats = {
 };
 
 /**
- * Quarter.Types.
- *
- * Examples:
- *
- *   ONE_DIGIT = 1
- *   TWO_DIGIT = 01
- *   ABBREVIATED = Q2
- *   WIDE = 2nd quarter
- *
- * @enum {Number}
- */
-
-AST.date.Quarter.Type = {
-  ONE_DIGIT: 1,
-  TWO_DIGIT: 2,
-  ABBREVIATED: 3,
-  WIDE: 4
-};
-
-
-/**
  * Month AST.
  *
  * @param {AST.date.Month.Context} context
- * @param {AST.date.Month.Types} type
- * @param {Number} length
+ * @param {AST.date.Month.Formats} format
  * @constructor
  */
 
-AST.date.Month = function(context, type, length) {
-  this.type = type;
-  this.length = length;
+AST.date.Month = function(context, format) {
+  this.context = context;
+  this.format = format;
 };
 
 /**
@@ -367,8 +393,8 @@ AST.date.Month = function(context, type, length) {
  */
 
 AST.date.Month.Context = {
-  FORMATED: 1,
-  STAND_ALONE: 2,
+  FORMATED: 0,
+  STAND_ALONE: 1,
 };
 
 /**
@@ -376,8 +402,8 @@ AST.date.Month.Context = {
  *
  * Examples:
  *
- *   ONE_DIGIT = 9
- *   TWO_DIGIT = 09
+ *   NUMERIC = 9
+ *   NUMBERIC_WITH_PADDING = 09
  *   SHORT = Sept
  *   WIDE = September
  *   NARROW = S
@@ -385,9 +411,9 @@ AST.date.Month.Context = {
  * @enum {Number}
  */
 
-AST.date.Month.Types = {
-  ONE_DIGIT: 1,
-  TWO_DIGIT: 2,
+AST.date.Month.Formats = {
+  NUMERIC: 1,
+  NUMBERIC_WITH_PADDING: 2,
   SHORT: 3,
   WIDE: 4,
   NARROW: 5
