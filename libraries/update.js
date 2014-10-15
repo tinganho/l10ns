@@ -176,7 +176,12 @@ Update.prototype._mergeWithOldLocalizations = function(newLocalizations) {
   file.readLocalizations()
     .then(function(oldLocalizations) {
       var newLocalizationsCopy = {}
-        , now = (new Date).toISOString();
+        , now = (new Date).toISOString()
+        , defaultIds = {};
+
+      for(var key in oldLocalizations[project.defaultLocale]) {
+        defaultIds[key] = oldLocalizations[project.defaultLocale][key].id;
+      }
 
       for(var locale in project.locales) {
         newLocalizationsCopy[locale] = JSON.parse(JSON.stringify(newLocalizations));
@@ -190,11 +195,15 @@ Update.prototype._mergeWithOldLocalizations = function(newLocalizations) {
             // Set timestamp
             newLocalizationsCopy[locale] = merger.mergeTimeStamp(_new, old, key);
             // Assign id
-            newLocalizationsCopy[locale] = merger.mergeId(_new, old, key);
+            newLocalizationsCopy[locale] = merger.mergeId(_new, defaultIds, key);
           }
           else {
+            newLocalizationsCopy[locale][key].new = true;
             newLocalizationsCopy[locale][key].value = '';
             newLocalizationsCopy[locale][key].timestamp = now;
+            if(key in defaultIds) {
+              newLocalizationsCopy[locale][key].id = defaultIds[key];
+            }
 
             if(locale === project.defaultLocale) {
               console.log('[added]'.green + ' ' + key);

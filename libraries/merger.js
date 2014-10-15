@@ -56,11 +56,12 @@ Merger.prototype.mergeTimeStamp = function(newLocalizations, oldLocalizations, k
  * @api public
  */
 
-Merger.prototype.mergeId = function(newLocalizations, oldLocalizations, key) {
+Merger.prototype.mergeId = function(newLocalizations, defaultIds, key) {
   var now = parseInt(Date.now() / 1000, 10);
-  if(key in oldLocalizations && 'id' in oldLocalizations[key]) {
+
+  if(key in defaultIds) {
     newLocalizations[key].new = false;
-    newLocalizations[key].id = oldLocalizations[key].id;
+    newLocalizations[key].id = defaultIds[key];
   }
   else {
     newLocalizations[key].new = true;

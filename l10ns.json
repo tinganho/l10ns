@@ -5,7 +5,8 @@
       "locales": {
         "en-US": "English",
         "zh-CN": "Chinese",
-        "ar-AE": "Arabic"
+        "ar-AE": "Arabic",
+        "ja-JP": "Japanese"
       },
       "quiet" : false,
       "defaultLocale": "en-US",

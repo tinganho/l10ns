@@ -3,11 +3,11 @@
     "files": [
       "example/javascript/example.js"
     ],
-    "id": "bzxz9BEjhK",
+    "id": "nKo6pgdphy",
     "key": "INDEX1",
     "new": false,
-    "timestamp": "2014-09-18T02:28:56.236Z",
-    "value": "{floor, selectordinal, =0{ground floor} =1{first floor} one {#st floor} two {#nd floor} few {#rd floor} other {#th floor}}",
+    "timestamp": "2014-10-15T07:22:56.178Z",
+    "value": "",
     "variables": [
       "floor"
     ]
