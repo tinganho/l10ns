@@ -225,6 +225,8 @@ define(function(require) {
       for(var rule in pluralRules) {
         exampleText += '<b>' + rule + '</b>: ' + pluralRules[rule].example.slice(0, 4).join(', ') + ' ';
       }
+      exampleText += '<br>';
+      exampleText += 'For more info please checkout our <a href="http://l10ns.org/docs.html#pluralformat" target="_blank">docs</a>.';
       this.$messageText.removeClass('has-error').html(exampleText);
     },
 
@@ -242,7 +244,10 @@ define(function(require) {
       }
       var text = '{' + variable + ', select , other {message-other}}';
       this._replaceTextSelectionWithText(text);
-      this.$messageText.removeClass('has-error').html('Please add the missing cases in your select format.');
+      var exampleText = 'Please add the missing cases in your select format.';
+      exampleText += '<br>';
+      exampleText += 'For more info please checkout our <a href="http://l10ns.org/docs.html#selectformat" target="_blank">docs</a>.';
+      this.$messageText.removeClass('has-error').html(exampleText);
     },
 
     /**
@@ -269,6 +274,8 @@ define(function(require) {
       for(var rule in ordinalRules) {
         exampleText += '<b>' + rule + '</b>: ' + ordinalRules[rule].example.slice(0, 4).join(', ') + ' ';
       }
+      exampleText += '<br>';
+      exampleText += 'For more info please checkout our <a href="http://l10ns.org/docs.html#selectordinalformat" target="_blank">docs</a>.';
       this.$messageText.removeClass('has-error').html(exampleText);
     },
 
@@ -311,7 +318,8 @@ define(function(require) {
         'Arguments should be a <b>local</b>(context) <b>symbol</b>(type) for <b>$</b><br>' +
         'Arguments should be a <b>global</b>(context) <b>symbol</b>(type) for <b>US$</b><br>' +
         'Arguments should be a <b>local</b>(context) <b>text</b>(type) for <b>dollar</b><br>' +
-        'Arguments should be a <b>global</b>(context) <b>text</b>(type) for <b>US dollar</b><br>'
+        'Arguments should be a <b>global</b>(context) <b>text</b>(type) for <b>US dollar</b><br>' +
+        'For more info please checkout our <a href="http://l10ns.org/docs.html#currencyformat" target="_blank">docs</a>.'
       );
     },
 
