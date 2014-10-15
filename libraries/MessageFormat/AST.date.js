@@ -45,12 +45,14 @@ AST.date.DateFormat = function(locale, variable, argument, messageFormat) {
  * @api public
  */
 
-AST.date.DateFormat.Identifier = {
+AST.date.DateFormat.Identifiers = {
   ERA: 'G',
   CALENDAR_YEAR: 'y',
   WEEK_BASED_YEAR: 'Y',
   EXTENDED_YEAR: 'u',
   CYCLIC_YEAR: 'U',
+  FORMATED_QUARTER: 'Q',
+  STAND_ALONE_QUARTER: 'q'
 };
 
 /**
@@ -64,10 +66,24 @@ AST.date.DateFormat.Identifier = {
 AST.date.DateFormat.prototype.parse = function(string) {
   this.lexer = new Lexer(string);
   this.currentToken = this.lexer.getNextToken();
-  switch(this.currentToken !== EOF) {
-    case AST.date.DateFormat.Identifier.ERA:
-      this._parseEra();
-      break;
+  while(this.currentToken !== EOF) {
+    switch(this.currentToken) {
+      case AST.date.DateFormat.Identifiers.ERA:
+        this.AST.push(this._parseEra());
+        break;
+      case AST.date.DateFormat.Identifiers.CALENDAR_YEAR:
+      case AST.date.DateFormat.Identifiers.WEEK_BASED_YEAR:
+      case AST.date.DateFormat.Identifiers.EXTENDED_YEAR:
+        this.AST.push(this._parseYear());
+        break;
+      case AST.date.DateFormat.Identifiers.CYCLIC_YEAR:
+        this.AST.push(this._parseCyclicYear());
+        break;
+      case AST.date.DateFormat.Identifiers.FORMATED_QUARTER:
+      case AST.date.DateFormat.Identifiers.STAND_ALONE_QUARTER:
+        this.AST.push(this._parseQuarter());
+        break;
+    }
   }
 };
 
@@ -79,18 +95,96 @@ AST.date.DateFormat.prototype.parse = function(string) {
  */
 
 AST.date.DateFormat.prototype._parseEra = function() {
-  var length = this._getConsecutiveLength(3);
-  switch(length) {
-    case 1:
-      this.AST.push(new AST.date.Era(AST.date.Era.Type.ABBREVIATED));
+  var length = this._getConsecutiveLength(5);
+  if(length <= 3) {
+    return new AST.date.Era(AST.date.Era.Types.ABBREVIATED);
+  }
+  else if(length === 4) {
+    return new AST.date.Era(AST.date.Era.Types.FULL);
+  }
+  else {
+    return new AST.date.Era(AST.date.Era.Types.NARROW);
+  }
+};
+
+/**
+ * Parse year identifiers (y). Length specifies zero padding. Two identifiers
+ * is used for specifying max length of 2.
+ *
+ * @return {void}
+ * @api public
+ */
+
+AST.date.DateFormat.prototype._parseYear = function() {
+  var type;
+  switch(this.currentToken) {
+    case AST.date.DateFormat.Identifiers.CALENDAR_YEAR:
+      type = AST.date.Year.Types.CALENDAR;
       break;
-    case 2:
-      this.AST.push(new AST.date.Era(AST.date.Era.Type.FULL));
+    case AST.date.DateFormat.Identifiers.WEEK_BASED_YEAR:
+      type = AST.date.Year.Types.WEEK_BASED;
       break;
-    case 3:
-      this.AST.push(new AST.date.Era(AST.date.Era.Type.NARROW));
+    case AST.date.DateFormat.Identifiers.EXTENDED_YEAR:
+      type = AST.date.Year.Types.EXTENDED;
       break;
   }
+
+  var length = this._getConsecutiveLength();
+
+  return new AST.date.Year(type, length);
+};
+
+/**
+ * Parse cyclic years identifiers (U).
+ *
+ * @return {void}
+ * @api public
+ */
+
+AST.date.DateFormat.prototype._parseCyclicYear = function() {
+  // swallow 'U'
+  this._getConsecutiveLength(5);
+
+  return new AST.date.CyclicYear(AST.date.CyclicYear.Types.ABBREVIATED);
+};
+
+/**
+ * Parse quarter identifiers (Q, q)
+ *
+ * @return {void}
+ * @api public
+ */
+
+AST.date.DateFormat.prototype._parseQuarter = function() {
+  var context;
+  switch(this.currentToken) {
+    case AST.date.DateFormat.Identifiers.FORMATED_QUARTER:
+      context = AST.date.Quarter.Context.FORMATED;
+      break;
+    case AST.date.DateFormat.Identifiers.STAND_ALONE_QUARTER:
+      context = AST.date.Quarter.Context.STAND_ALONE;
+      break;
+  }
+
+  var length = this._getConsecutiveLength(4);
+
+  var format;
+  switch(length) {
+    case 1:
+      format = AST.date.Quarter.Formats.NUMERIC;
+      break;
+    case 2:
+      format = AST.date.Quarter.Formats.NUMERIC_WITH_PADDING;
+      break;
+    case 3:
+      format = AST.date.Quarter.Formats.ABBREVIATED;
+      break;
+    case 4:
+      format = AST.date.Quarter.Formats.FULL;
+      break;
+  }
+
+  return new AST.date.Quarter(context, format);
 };
 
 /**
@@ -107,7 +201,7 @@ AST.date.DateFormat.prototype._getConsecutiveLength = function(max) {
   while(token === this.currentToken) {
     length++;
     this.currentToken = this.lexer.getNextToken();
-    if(length === max) {
+    if(max && length === max) {
       break;
     }
   }
@@ -122,8 +216,8 @@ AST.date.DateFormat.prototype._getConsecutiveLength = function(max) {
  * @constructor
  */
 
-AST.date.Era = function(type) {
-  this.type = type;
+AST.date.Era = function(format) {
+  this.format = format;
 };
 
 /**
@@ -134,7 +228,7 @@ AST.date.Era = function(type) {
  * @enum {AST.Data.Era.Type}
  */
 
-AST.date.Era.Type = {
+AST.date.Era.Types = {
  ABBREVIATED: 0,
  FULL: 1,
  NARROW: 2
@@ -143,7 +237,7 @@ AST.date.Era.Type = {
 /**
  * Year AST
  *
- * @param {AST.date.Year.Type}.Type
+ * @param {AST.date.Year.Types} type
  * @param {Number} length
  * @constructor
  */
@@ -160,25 +254,48 @@ AST.date.Year = function(type, length) {
  * @enum {Number}
  */
 
-AST.date.Year.Type = {
+AST.date.Year.Types = {
   CALENDAR: 0,
   WEEK_BASED: 1,
   EXTENDED: 2,
   CYCLIC: 3
 };
 
+
+/**
+ * Year AST
+ *
+ * @param {AST.date.CyclicYear.Types} type
+ * @constructor
+ */
+
+AST.date.CyclicYear = function(format) {
+  this.format = format;
+};
+
+
+/**
+ * Cyclic year types, Currently on abbreviated.
+ *
+ * @enum {Number}
+ */
+
+AST.date.CyclicYear.Types = {
+  ABBREVIATED: 0
+};
+
 /**
  * Quarter AST.
  *
  * @param {AST.date.Quarter.Context} context
- * @param {AST.date.Quarter.Type}.Type
+ * @param {AST.date.Quarter.Formats} format
  * @param {Number} length
  * @constructor
  */
 
-AST.date.Quarter = function(context, type, length) {
-  this.type = type;
-  this.length = length;
+AST.date.Quarter = function(context, format) {
+  this.context = context;
+  this.format = format;
 };
 
 /**
@@ -189,8 +306,22 @@ AST.date.Quarter = function(context, type, length) {
  */
 
 AST.date.Quarter.Context = {
-  FORMATED: 1,
-  STAND_ALONE: 2,
+  FORMATED: 0,
+  STAND_ALONE: 1,
+};
+
+/**
+ * Quarter context. Formated context is used along with other values. Stand alones
+ * means that they stand alone and not being formated with other values.
+ *
+ * @enum {Number}
+ */
+
+AST.date.Quarter.Formats = {
+  NUMERIC: 0,
+  NUMERIC_WITH_PADDING: 1,
+  ABBREVIATED: 2,
+  FULL: 3
 };
 
 /**
@@ -218,7 +349,7 @@ AST.date.Quarter.Type = {
  * Month AST.
  *
  * @param {AST.date.Month.Context} context
- * @param {AST.date.Month.Type} type
+ * @param {AST.date.Month.Types} type
  * @param {Number} length
  * @constructor
  */
@@ -241,7 +372,7 @@ AST.date.Month.Context = {
 };
 
 /**
- * Quarter.Types.
+ * Quarter types
  *
  * Examples:
  *
@@ -254,7 +385,7 @@ AST.date.Month.Context = {
  * @enum {Number}
  */
 
-AST.date.Month.Type = {
+AST.date.Month.Types = {
   ONE_DIGIT: 1,
   TWO_DIGIT: 2,
   SHORT: 3,

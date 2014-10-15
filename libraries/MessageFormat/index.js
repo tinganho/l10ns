@@ -102,6 +102,7 @@ MessageFormat.NumberSystems = {
  * @type {String}
  * @api public
  */
+
 MessageFormat.DEFAULT_NUMBER_SYSTEM = 'latn';
 
 /**
