@@ -77,7 +77,7 @@ $ l10ns interface
 
 ## Documentation
 
-For more information please checkoout our official documentation
+For more information please checkoot our [official documentation](http://l10ns.org/docs.html)
 
 ## License
 Copyright (c) 2014 Tingan Ho
