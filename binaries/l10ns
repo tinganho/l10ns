@@ -13,7 +13,9 @@ var commands = require('commander')
   , program = require('../configurations/program')
   , text = require('../configurations/text')
   , utilities = require('../libraries/utilities')
-  , log = require('../libraries/_log');
+  , log = require('../libraries/_log')
+  , updateNotifier = require('update-notifier')
+  , package = require('../package.json');
 
 /**
  * Project paths
@@ -231,6 +233,17 @@ commands
         console.log(error.message);
       });
   });
+
+var notifier = updateNotifier({
+  packageName: package.name,
+  packageVersion: package.version,
+  updateCheckInterval: 1
+});
+
+if(notifier.update && notifier.update.latest !== notifier.update.current) {
+  console.log('Update available: ' + notifier.update.latest);
+  console.log('Run ' + '`npm install l10ns -g`'.green + '\n');
+}
 
 if(process.argv.length >= 3 && ['init', 'interface', 'search', 'log', 'update', 'compile', 'set', 'configs'].indexOf(process.argv[2]) === -1) {
   process.argv[2] = '--help';

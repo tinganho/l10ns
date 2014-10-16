@@ -260,17 +260,6 @@ CLI.prototype.search = function(q) {
 };
 
 /**
- * Open translation interface
- *
- * @return {void}
- * @api public
- */
-
-CLI.prototype.interface = function() {
-  require('../app/server').server();
-};
-
-/**
  * Compile language
  *
  * @return {void}
