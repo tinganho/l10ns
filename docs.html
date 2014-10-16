@@ -884,14 +884,14 @@ Currency Format is just a short-hand function for formating currency amounts. It
 </code>
 
 <p>
-Currency Format takes a Javascript object containing properties <span class="focused">code</span> and <span class="focused">value</span> as an argument. <span class="focused">Code</span> must be an <span class="focused">ISO 4217</span> currency code and value must be of type number.
+Currency Format takes a Javascript object containing properties <span class="focused">code</span> and <span class="focused">amount</span> as an argument. <span class="focused">Code</span> must be an <span class="focused">ISO 4217</span> currency code and <span class="focused">amount</span> must be of type number.
 </p>
 
 <code>
 l(<span class="red">'TRANSLATION_KEY'</span>, {<br>
 &nbsp;&nbsp;price: {<br>
 &nbsp;&nbsp;&nbsp;&nbsp;code: <span class="red">'USD'</span>,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;value: <span class="red">1000</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;amount: <span class="red">1000</span><br>
 &nbsp;&nbsp;}<br>
 });
 </code>
