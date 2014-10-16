@@ -4,7 +4,6 @@
 [![Version](https://img.shields.io/npm/v/l10ns.svg?style=flat-square)](https://www.npmjs.org/package/l10ns)
 [![Download](http://img.shields.io/npm/dm/l10ns.svg?style=flat-square)](https://www.npmjs.org/package/l10ns)
 
-
 ==============
 Effective translation workflow.
 
