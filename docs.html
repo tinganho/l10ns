@@ -354,7 +354,6 @@ l(<span class="red">'TRANSLATION_KEY'</span>, {<br>
 });
 </code>
 
-
 <p>
 And it can be used for translating messages based on genus context:
 </p>
@@ -400,7 +399,6 @@ l(<span class="red">'TRANSLATION_KEY'</span>, {<br>
 &nbsp;&nbsp;dogs: <span class="red">3</span><br>
 });
 </code>
-
 
 <p>
 Example usage for English:
@@ -511,6 +509,19 @@ Number Format takes a number as an argument.
 <code>
 l(<span class="red">'TRANSLATION_KEY'</span>, {<br>
 &nbsp;&nbsp;price: <span class="red">1000</span><br>
+});
+</code>
+
+<p>
+If your number format contains a <span class="focused">decimal pattern</span> with a currency symbol <span class="focused">¤</span>, then Number Format takes a Javascript object containing properties <span class="focused">code</span> and <span class="focused">amount</span> as an argument. <span class="focused">Code</span> must be an <span class="focused">ISO 4217</span> currency code and <span class="focused">amount</span> must be of type number.
+</p>
+
+<code>
+l(<span class="red">'TRANSLATION_KEY'</span>, {<br>
+&nbsp;&nbsp;price: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;code: <span class="red">'USD'</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;amount: <span class="red">1000</span><br>
+&nbsp;&nbsp;}<br>
 });
 </code>
 
