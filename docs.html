@@ -240,7 +240,7 @@ Example usage of a more complex getter:
 
 <code>
 l(<span class="red">'FEED__COMMENTS'</span>, {<br>
-&nbsp;&nbsp;gender: <span class="red">'male'</span><br>
+&nbsp;&nbsp;gender: <span class="red">'male'</span>,<br>
 &nbsp;&nbsp;comments: <span class="red">100</span><br>
 });
 </code>
@@ -307,6 +307,16 @@ In Message Format define interpolation variables using the syntax:
 </code>
 
 <p>
+Interpolation takes a string or a number as an argument.
+</p>
+
+<code>
+l(<span class="red">'TRANSLATION_KEY'</span>, {<br>
+&nbsp;&nbsp;user: <span class="red">'Albert'</span><br>
+});
+</code>
+
+<p>
 Example of usage:
 </p>
 
@@ -333,6 +343,17 @@ Select Format is primarily used for localizing genus context based message. But 
 <code>
 {variable, select, case-1{message-1}...case-n{message-n} other{message-other}}
 </code>
+
+<p>
+Select Format takes a string as an argument.
+</p>
+
+<code>
+l(<span class="red">'TRANSLATION_KEY'</span>, {<br>
+&nbsp;&nbsp;gender: <span class="red">'male'</span><br>
+});
+</code>
+
 
 <p>
 And it can be used for translating messages based on genus context:
@@ -369,6 +390,17 @@ Plural Format is used for formatting messages based on different plural forms. T
 <code>
 {variable, plural, plural-form-1{message-1}...plural-form-n{messane-n} other{message-other}}
 </code>
+
+<p>
+Plural Format takes a number as an argument.
+</p>
+
+<code>
+l(<span class="red">'TRANSLATION_KEY'</span>, {<br>
+&nbsp;&nbsp;dogs: <span class="red">3</span><br>
+});
+</code>
+
 
 <p>
 Example usage for English:
@@ -435,6 +467,16 @@ The syntax for Selectordinal Format is:
 </code>
 
 <p>
+Selectordinal Format takes a number as an argument.
+</p>
+
+<code>
+l(<span class="red">'TRANSLATION_KEY'</span>, {<br>
+&nbsp;&nbsp;floor: <span class="red">3</span><br>
+});
+</code>
+
+<p>
 An example usage of Selectordinal Format:
 </p>
 
@@ -461,6 +503,16 @@ The syntax for Number Format is:
 <p>
 Argument in above can take the values <span class="focused">integer</span>, <span class="focused">percent</span>, <span class="focused">permille</span> or a <span class="focused">decimal pattern</span>. A <span class="focused">decimal pattern</span> is described in next section.
 </p>
+
+<p>
+Number Format takes a number as an argument.
+</p>
+
+<code>
+l(<span class="red">'TRANSLATION_KEY'</span>, {<br>
+&nbsp;&nbsp;price: <span class="red">1000</span><br>
+});
+</code>
 
 <p>An example for formatting integer:</p>
 
@@ -829,6 +881,19 @@ Currency Format is just a short-hand function for formating currency amounts. It
 
 <code>
 {variable, currency, context, type}
+</code>
+
+<p>
+Currency Format takes a Javascript object containing properties <span class="focused">code</span> and <span class="focused">value</span> as an argument. <span class="focused">Code</span> must be an <span class="focused">ISO 4217</span> currency code and value must be of type number.
+</p>
+
+<code>
+l(<span class="red">'TRANSLATION_KEY'</span>, {<br>
+&nbsp;&nbsp;price: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;code: <span class="red">'USD'</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;value: <span class="red">1000</span><br>
+&nbsp;&nbsp;}<br>
+});
 </code>
 
 <p>
