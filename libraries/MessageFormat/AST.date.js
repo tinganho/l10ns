@@ -54,7 +54,9 @@ AST.date.DateFormat.Identifiers = {
   FORMATED_QUARTER: 'Q',
   STAND_ALONE_QUARTER: 'q',
   FORMATED_MONTH: 'M',
-  STAND_ALONE_MONTH: 'L'
+  STAND_ALONE_MONTH: 'L',
+  WEEK_OF_YEAR: 'w',
+  WEEK_OF_MONTH: 'W'
 };
 
 /**
@@ -89,6 +91,10 @@ AST.date.DateFormat.prototype.parse = function(string) {
       case AST.date.DateFormat.Identifiers.STAND_ALONE_MONTH:
         this.AST.push(this._parseMonth());
         break;
+      case AST.date.DateFormat.Identifiers.WEEK_OF_YEAR:
+      case AST.date.DateFormat.Identifiers.WEEK_OF_MONTH:
+        this.AST.push(this._parseWeek());
+        break;
     }
   }
 };
@@ -96,8 +102,8 @@ AST.date.DateFormat.prototype.parse = function(string) {
 /**
  * Parse era G, GG and GGG for AD, Anno Domini and A.
  *
- * @return {void}
- * @api public
+ * @return {AST.date.Era}
+ * @api private
  */
 
 AST.date.DateFormat.prototype._parseEra = function() {
@@ -117,8 +123,8 @@ AST.date.DateFormat.prototype._parseEra = function() {
  * Parse year identifiers (y). Length specifies zero padding. Two identifiers
  * is used for specifying max length of 2.
  *
- * @return {void}
- * @api public
+ * @return {AST.date.Year}
+ * @api private
  */
 
 AST.date.DateFormat.prototype._parseYear = function() {
@@ -143,8 +149,8 @@ AST.date.DateFormat.prototype._parseYear = function() {
 /**
  * Parse cyclic years identifiers (U).
  *
- * @return {void}
- * @api public
+ * @return {AST.date.CyclicYear}
+ * @api private
  */
 
 AST.date.DateFormat.prototype._parseCyclicYear = function() {
@@ -157,8 +163,8 @@ AST.date.DateFormat.prototype._parseCyclicYear = function() {
 /**
  * Parse quarter identifiers (Q, q)
  *
- * @return {void}
- * @api public
+ * @return {AST.date.Quarter}
+ * @api private
  */
 
 AST.date.DateFormat.prototype._parseQuarter = function() {
@@ -196,8 +202,8 @@ AST.date.DateFormat.prototype._parseQuarter = function() {
 /**
  * Parse month identifiers (M, L)
  *
- * @return {void}
- * @api public
+ * @return {AST.date.Month}
+ * @api private
  */
 
 AST.date.DateFormat.prototype._parseMonth = function() {
@@ -233,6 +239,36 @@ AST.date.DateFormat.prototype._parseMonth = function() {
   }
 
   return new AST.date.Month(context, format);
+};
+
+/**
+ * Parse week identifiers (w, W)
+ *
+ * @return {AST.date.Month}
+ * @api private
+ */
+
+AST.date.DateFormat.prototype._parseWeek = function() {
+  var type, length, format;
+  switch(this.currentToken) {
+    case AST.date.DateFormat.Identifiers.WEEK_OF_YEAR:
+      type = AST.date.Week.Types.WEEK_OF_YEAR;
+      length = this._getConsecutiveLength(2);
+      if(length === 1) {
+        format = AST.date.Week.Formats.NUMERIC;
+      }
+      else {
+        format = AST.date.Week.Formats.NUMERIC_WITH_PADDING;
+      }
+      break;
+    case AST.date.DateFormat.Identifiers.WEEK_OF_MONTH:
+      type = AST.date.Week.Types.WEEK_OF_MONTH;
+      this._getConsecutiveLength(1);
+      format = AST.date.Week.Formats.NUMERIC;
+      break;
+  }
+
+  return new AST.date.Week(type, format);
 };
 
 /**
@@ -355,7 +391,7 @@ AST.date.Quarter = function(context, format) {
 
 AST.date.Quarter.Context = {
   FORMATED: 0,
-  STAND_ALONE: 1,
+  STAND_ALONE: 1
 };
 
 /**
@@ -394,7 +430,7 @@ AST.date.Month = function(context, format) {
 
 AST.date.Month.Context = {
   FORMATED: 0,
-  STAND_ALONE: 1,
+  STAND_ALONE: 1
 };
 
 /**
@@ -412,43 +448,49 @@ AST.date.Month.Context = {
  */
 
 AST.date.Month.Formats = {
-  NUMERIC: 1,
-  NUMBERIC_WITH_PADDING: 2,
-  SHORT: 3,
-  WIDE: 4,
-  NARROW: 5
+  NUMERIC: 0,
+  NUMBERIC_WITH_PADDING: 1,
+  SHORT: 2,
+  WIDE: 3,
+  NARROW: 4
 };
 
 /**
  * Week of year AST.
  *
- * @param {AST.date.WeekOfYear.Type} type
+ * @param {AST.date.Week.Types} type
+ * @pram {AST.date.Week.Formats} format
  * @constructor
  */
 
-AST.date.WeekOfYear = function(type) {
+AST.date.Week = function(type, format) {
   this.type = type;
+  this.format = format;
 };
 
 /**
- * Week of year.Types.
+ * Week types.
  *
  * @enum {Number}
  * @api public
  */
 
-AST.date.WeekOfYear.Type = {
-  WITHOUT_ZERO_PADDING: 1,
-  WITH_ZERO_PADDING: 2
+AST.date.Week.Types = {
+  WEEK_OF_YEAR: 0,
+  WEEK_OF_MONTH: 1
 };
 
 /**
- * Week of month AST.
+ * Week formats
  *
- * @constructor
+ * @enum {Number}
+ * @api public
  */
 
-AST.date.WeekOfMonth = function() {};
+AST.date.Week.Formats = {
+  NUMERIC: 0,
+  NUMERIC_WITH_PADDING: 1
+};
 
 /**
  * Namespace Day

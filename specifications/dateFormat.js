@@ -282,7 +282,7 @@ describe('DateFormat', function() {
       expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.Month.Formats.NARROW);
     });
 
-    it('should begin with a new formated quarter when maxium consecutive identifiers have been reached', function() {
+    it('should begin with a new formated quarter when maximum consecutive identifiers have been exceeded', function() {
       messageFormat.parse('{variable1, date, LLLLLL}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
       expect(messageFormat.messageAST[0].AST.length).to.equal(2);
@@ -292,6 +292,56 @@ describe('DateFormat', function() {
       expect(messageFormat.messageAST[0].AST[1]).to.be.an.instanceOf(AST.date.Month);
       expect(messageFormat.messageAST[0].AST[1].context).to.equal(AST.date.Month.Context.STAND_ALONE);
       expect(messageFormat.messageAST[0].AST[1].format).to.equal(AST.date.Month.Formats.NUMERIC);
+    });
+  });
+
+  describe('Week', function() {
+    it('should be able to parse a week of year identifier', function() {
+      messageFormat.parse('{variable1, date, w}');
+      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.Week);
+      expect(messageFormat.messageAST[0].AST[0].type).to.equal(AST.date.Week.Types.WEEK_OF_YEAR);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.Week.Formats.NUMERIC);
+    });
+
+    it('should be able to parse two consecutive week of year identifiers', function() {
+      messageFormat.parse('{variable1, date, ww}');
+      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.Week);
+      expect(messageFormat.messageAST[0].AST[0].type).to.equal(AST.date.Week.Types.WEEK_OF_YEAR);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.Week.Formats.NUMERIC_WITH_PADDING);
+    });
+
+    it('should begin with a new week of year when maximum consecutive identifiers have been exceeded', function() {
+      messageFormat.parse('{variable1, date, www}');
+      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
+      expect(messageFormat.messageAST[0].AST.length).to.equal(2);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.Week);
+      expect(messageFormat.messageAST[0].AST[0].type).to.equal(AST.date.Week.Types.WEEK_OF_YEAR);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.Week.Formats.NUMERIC_WITH_PADDING);
+      expect(messageFormat.messageAST[0].AST[1]).to.be.an.instanceOf(AST.date.Week);
+      expect(messageFormat.messageAST[0].AST[1].type).to.equal(AST.date.Week.Types.WEEK_OF_YEAR);
+      expect(messageFormat.messageAST[0].AST[1].format).to.equal(AST.date.Week.Formats.NUMERIC);
+    });
+
+    it('should be able to parse a week of month identifier', function() {
+      messageFormat.parse('{variable1, date, W}');
+      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.Week);
+      expect(messageFormat.messageAST[0].AST[0].type).to.equal(AST.date.Week.Types.WEEK_OF_MONTH);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.Week.Formats.NUMERIC);
+    });
+
+    it('should begin with a new week of month when maximum consecutive identifiers have been exceeded', function() {
+      messageFormat.parse('{variable1, date, WW}');
+      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
+      expect(messageFormat.messageAST[0].AST.length).to.equal(2);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.Week);
+      expect(messageFormat.messageAST[0].AST[0].type).to.equal(AST.date.Week.Types.WEEK_OF_MONTH);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.Week.Formats.NUMERIC);
+      expect(messageFormat.messageAST[0].AST[1]).to.be.an.instanceOf(AST.date.Week);
+      expect(messageFormat.messageAST[0].AST[1].type).to.equal(AST.date.Week.Types.WEEK_OF_MONTH);
+      expect(messageFormat.messageAST[0].AST[1].format).to.equal(AST.date.Week.Formats.NUMERIC);
     });
   });
 });
