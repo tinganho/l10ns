@@ -75,6 +75,10 @@ Lets set up a web interface for translator to use:
 $ l10ns interface
 ```
 
+## Documentation
+
+For more information please checkoout our official documentation
+
 ## License
 Copyright (c) 2014 Tingan Ho
 Licensed under the MIT license.
