@@ -1,5 +1,5 @@
-[![Stories in Ready](https://badge.waffle.io/tinganho/l10ns.png?label=ready&title=Ready)](https://waffle.io/tinganho/l10ns)
-l10ns [![Build Status](https://travis-ci.org/tinganho/l10ns.png)](https://travis-ci.org/tinganho/l10ns)
+
+l10ns [![Build Status](http://img.shields.io/travis/tinganho/l10ns.svg?style=flat-square)](https://travis-ci.org/tinganho/l10ns)
 ==============
 Effective translation workflow.
 
