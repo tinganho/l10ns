@@ -1,7 +1,7 @@
 
 #l10ns 
 [![Build Status](http://img.shields.io/travis/tinganho/l10ns.svg?style=flat-square)](https://travis-ci.org/tinganho/l10ns)
-[![Version][https://img.shields.io/npm/v/l10ns.svg?style=flat-square](https://www.npmjs.org/package/l10ns)
+[![Version](https://img.shields.io/npm/v/l10ns.svg?style=flat-square)](https://www.npmjs.org/package/l10ns)
 
 ==============
 Effective translation workflow.
