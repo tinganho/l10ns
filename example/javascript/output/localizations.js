@@ -338,42 +338,7 @@
       },
       'INDEX1': function(it) {
         var string = '';
-        var _case;
-        _case = localizations['ar-AE'].__getPluralKeyword(it.people);
-        switch(_case) {
-          default:
-            string += formatNumber({
-              number: it.people - 0,
-              roundTo: 0.001,
-              prefix: '',
-              suffix: '',
-              percentage: null,
-              permille: null,
-              currency: null,
-              groupSize: {
-                primary: 3,
-                secondary: 3
-              },
-              minimumIntegerDigits: 1,
-              minimumFractionDigits: 0,
-              maximumFractionDigits: 0,
-              symbols: localizations['ar-AE'].__numberSymbols['arab']
-            });
-            string = string
-              .replace(/1/g, '١')
-              .replace(/2/g, '٢')
-              .replace(/3/g, '٣')
-              .replace(/4/g, '٤')
-              .replace(/5/g, '٥')
-              .replace(/6/g, '٦')
-              .replace(/7/g, '٧')
-              .replace(/8/g, '٨')
-              .replace(/9/g, '٩')
-              .replace(/0/g, '٠')
 
-            string += ' wfwfej';
-            break;
-        }
         return string;
       }
     },
@@ -471,103 +436,121 @@
       },
       'INDEX1': function(it) {
         var string = '';
-        var _case;
-        if(it.floor === 0) {
-          _case = '=' + 0;
-        }else if(it.floor === 1) {
-          _case = '=' + 1;
+        var unit;
+        if(it.floor.amount && it.floor.code) {
+          if(!localizations['en-US'].__currencies[it.floor.code]) {
+            throw new TypeError('Currency code ' + it.floor.code + ' is not defined. Please define it on your l10ns.json file.');
+          }
+          var pluralKeyword = localizations['en-US'].__getPluralKeyword(it.floor.amount);
+          unit = localizations['en-US'].__currencies[it.floor.code]['text']['global'][pluralKeyword];
         }
         else {
-          _case = localizations['en-US'].__getOrdinalKeyword(it.floor);
+          throw TypeError('`floor` must be an object that has properties amount and code.');
         }
-        switch(_case) {
-          case '=0':
-            string += 'ground floor';
-            break;
-          case '=1':
-            string += 'first floor';
-            break;
-          case 'one':
-            string += formatNumber({
-              number: it.floor - 0,
-              roundTo: 0.001,
-              prefix: '',
-              suffix: '',
-              percentage: null,
-              permille: null,
-              currency: null,
-              groupSize: {
-                primary: 3,
-                secondary: 3
-              },
-              minimumIntegerDigits: 1,
-              minimumFractionDigits: 0,
-              maximumFractionDigits: 0,
-              symbols: localizations['en-US'].__numberSymbols['latn']
-            });
-            string += 'st floor';
-            break;
-          case 'two':
-            string += formatNumber({
-              number: it.floor - 0,
-              roundTo: 0.001,
-              prefix: '',
-              suffix: '',
-              percentage: null,
-              permille: null,
-              currency: null,
-              groupSize: {
-                primary: 3,
-                secondary: 3
-              },
-              minimumIntegerDigits: 1,
-              minimumFractionDigits: 0,
-              maximumFractionDigits: 0,
-              symbols: localizations['en-US'].__numberSymbols['latn']
-            });
-            string += 'nd floor';
-            break;
-          case 'few':
-            string += formatNumber({
-              number: it.floor - 0,
-              roundTo: 0.001,
-              prefix: '',
-              suffix: '',
-              percentage: null,
-              permille: null,
-              currency: null,
-              groupSize: {
-                primary: 3,
-                secondary: 3
-              },
-              minimumIntegerDigits: 1,
-              minimumFractionDigits: 0,
-              maximumFractionDigits: 0,
-              symbols: localizations['en-US'].__numberSymbols['latn']
-            });
-            string += 'rd floor';
-            break;
-          default:
-            string += formatNumber({
-              number: it.floor - 0,
-              roundTo: 0.001,
-              prefix: '',
-              suffix: '',
-              percentage: null,
-              permille: null,
-              currency: null,
-              groupSize: {
-                primary: 3,
-                secondary: 3
-              },
-              minimumIntegerDigits: 1,
-              minimumFractionDigits: 0,
-              maximumFractionDigits: 0,
-              symbols: localizations['en-US'].__numberSymbols['latn']
-            });
-            string += 'th floor';
-            break;
+        if(it.floor.amount >= 0) {
+          string += formatNumber({
+            number: it.floor.amount,
+            type: 'floating',
+            roundTo: 0.01,
+            prefix: '',
+            suffix: '¤',
+            percentage: null,
+            permille: null,
+            currency: {
+              symbol: unit
+            },
+            groupSize: {
+              primary: 3,
+              secondary: 3
+            },
+            exponent: null,
+            minimumIntegerDigits: 1,
+            maximumIntegerDigits: 4,
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+            minimumSignificantDigits: 0,
+            maximumSignificantDigits: 0,
+            symbols: localizations['en-US'].__numberSymbols['latn'],
+            paddingCharacter: null,
+            patternLength: 9
+          });
         }
+        else {
+          string += formatNumber({
+            number: it.floor.amount,
+            type: 'floating',
+            roundTo: 0.01,
+            prefix: '-',
+            suffix: '¤',
+            percentage: null,
+            permille: null,
+            currency: {
+              symbol: unit
+            },
+            groupSize: {
+              primary: 3,
+              secondary: 3
+            },
+            exponent: null,
+            minimumIntegerDigits: 1,
+            maximumIntegerDigits: 4,
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+            minimumSignificantDigits: 0,
+            maximumSignificantDigits: 0,
+            symbols: localizations['en-US'].__numberSymbols['latn'],
+            paddingCharacter: null,
+            patternLength: 9
+          });
+        }
+        return string;
+      }
+    },
+    'ja-JP': {
+      '__getPluralKeyword': function(cardinal) {
+        return 'other';
+      },
+      '__getOrdinalKeyword': function(cardinal) {
+        return 'other';
+      },
+      '__numberSymbols': {
+        'latn': {
+          'decimal': '.',
+          'group': ',',
+          'list': ';',
+          'percentSign': '%',
+          'plusSign': '+',
+          'minusSign': '-',
+          'exponential': 'E',
+          'superscriptingExponent': '×',
+          'perMille': '‰',
+          'infinity': '∞',
+          'nan': 'NaN',
+          'timeSeparator': ':'
+        }
+      },
+      '__currencies': {
+        'USD': {
+          'name': '米ドル',
+          'text': {
+            'local': null,
+            'global': {
+              'other': '米ドル'
+            }
+          },
+          'symbol': {
+            'local': '$',
+            'global': 'US$',
+            'reverseGlobal': '$US'
+          }
+        }
+      },
+      '__currencyUnitPattern': {
+        'other': '{0} {1}'
+      },
+      'INDEX1': function(it) {
+        var string = '';
+
         return string;
       }
     },

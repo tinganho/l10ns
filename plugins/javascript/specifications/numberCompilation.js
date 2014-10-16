@@ -1311,18 +1311,18 @@ describe('compilation', function() {
       var functionBody =
       'var string = \'\';\n' +
       'var unit;\n' +
-      'if(it.variable1.value && it.variable1.code) {\n' +
+      'if(it.variable1.amount && it.variable1.code) {\n' +
       '  if(!localizations[\'en-US\'].__currencies[it.variable1.code]) {\n' +
       '    throw new TypeError(\'Currency code \' + it.variable1.code + \' is not defined. Please define it on your l10ns.json file.\');\n' +
       '  }\n' +
       '  unit = localizations[\'en-US\'].__currencies[it.variable1.code][\'symbol\'][\'local\'];\n' +
       '}\n' +
       'else {\n' +
-      '  throw TypeError(\'`variable1` must be an object that has properties value and code.\');\n' +
+      '  throw TypeError(\'`variable1` must be an object that has properties amount and code.\');\n' +
       '}\n' +
-      'if(it.variable1.value >= 0) {\n' +
+      'if(it.variable1.amount >= 0) {\n' +
       '  string += formatNumber({\n' +
-      '    number: it.variable1.value,\n' +
+      '    number: it.variable1.amount,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 1,\n' +
       '    prefix: \'¤\',\n' +
@@ -1347,7 +1347,7 @@ describe('compilation', function() {
       '}\n' +
       'else {\n' +
       '  string += formatNumber({\n' +
-      '    number: it.variable1.value,\n' +
+      '    number: it.variable1.amount,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 1,\n' +
       '    prefix: \'¤-\',\n' +
@@ -1388,18 +1388,18 @@ describe('compilation', function() {
       var functionBody =
       'var string = \'\';\n' +
       'var unit;\n' +
-      'if(it.variable1.value && it.variable1.code) {\n' +
+      'if(it.variable1.amount && it.variable1.code) {\n' +
       '  if(!localizations[\'en-US\'].__currencies[it.variable1.code]) {\n' +
       '    throw new TypeError(\'Currency code \' + it.variable1.code + \' is not defined. Please define it on your l10ns.json file.\');\n' +
       '  }\n' +
       '  unit = localizations[\'en-US\'].__currencies[it.variable1.code][\'symbol\'][\'global\'];\n' +
       '}\n' +
       'else {\n' +
-      '  throw TypeError(\'`variable1` must be an object that has properties value and code.\');\n' +
+      '  throw TypeError(\'`variable1` must be an object that has properties amount and code.\');\n' +
       '}\n' +
-      'if(it.variable1.value >= 0) {\n' +
+      'if(it.variable1.amount >= 0) {\n' +
       '  string += formatNumber({\n' +
-      '    number: it.variable1.value,\n' +
+      '    number: it.variable1.amount,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 1,\n' +
       '    prefix: \'¤\',\n' +
@@ -1424,7 +1424,7 @@ describe('compilation', function() {
       '}\n' +
       'else {\n' +
       '  string += formatNumber({\n' +
-      '    number: it.variable1.value,\n' +
+      '    number: it.variable1.amount,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 1,\n' +
       '    prefix: \'¤-\',\n' +
@@ -1465,11 +1465,11 @@ describe('compilation', function() {
       var functionBody =
       'var string = \'\';\n' +
       'var unit;\n' +
-      'if(it.variable1.value && it.variable1.code) {\n' +
+      'if(it.variable1.amount && it.variable1.code) {\n' +
       '  if(!localizations[\'en-US\'].__currencies[it.variable1.code]) {\n' +
       '    throw new TypeError(\'Currency code \' + it.variable1.code + \' is not defined. Please define it on your l10ns.json file.\');\n' +
       '  }\n' +
-      '  var pluralKeyword = localizations[\'en-US\'].__getPluralKeyword(it.variable1.value);\n' +
+      '  var pluralKeyword = localizations[\'en-US\'].__getPluralKeyword(it.variable1.amount);\n' +
       '  if(localizations[\'en-US\'].__currencies[it.variable1.code][\'text\'][\'local\']) {\n' +
       '    unit = localizations[\'en-US\'].__currencies[it.variable1.code][\'text\'][\'local\'][pluralKeyword];\n' +
       '  }\n' +
@@ -1478,11 +1478,11 @@ describe('compilation', function() {
       '  }\n' +
       '}\n' +
       'else {\n' +
-      '  throw TypeError(\'`variable1` must be an object that has properties value and code.\');\n' +
+      '  throw TypeError(\'`variable1` must be an object that has properties amount and code.\');\n' +
       '}\n' +
-      'if(it.variable1.value >= 0) {\n' +
+      'if(it.variable1.amount >= 0) {\n' +
       '  string += formatNumber({\n' +
-      '    number: it.variable1.value,\n' +
+      '    number: it.variable1.amount,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 1,\n' +
       '    prefix: \'¤\',\n' +
@@ -1507,7 +1507,7 @@ describe('compilation', function() {
       '}\n' +
       'else {\n' +
       '  string += formatNumber({\n' +
-      '    number: it.variable1.value,\n' +
+      '    number: it.variable1.amount,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 1,\n' +
       '    prefix: \'¤-\',\n' +
@@ -1548,19 +1548,19 @@ describe('compilation', function() {
       var functionBody =
       'var string = \'\';\n' +
       'var unit;\n' +
-      'if(it.variable1.value && it.variable1.code) {\n' +
+      'if(it.variable1.amount && it.variable1.code) {\n' +
       '  if(!localizations[\'en-US\'].__currencies[it.variable1.code]) {\n' +
       '    throw new TypeError(\'Currency code \' + it.variable1.code + \' is not defined. Please define it on your l10ns.json file.\');\n' +
       '  }\n' +
-      '  var pluralKeyword = localizations[\'en-US\'].__getPluralKeyword(it.variable1.value);\n' +
+      '  var pluralKeyword = localizations[\'en-US\'].__getPluralKeyword(it.variable1.amount);\n' +
       '  unit = localizations[\'en-US\'].__currencies[it.variable1.code][\'text\'][\'global\'][pluralKeyword];\n' +
       '}\n' +
       'else {\n' +
-      '  throw TypeError(\'`variable1` must be an object that has properties value and code.\');\n' +
+      '  throw TypeError(\'`variable1` must be an object that has properties amount and code.\');\n' +
       '}\n' +
-      'if(it.variable1.value >= 0) {\n' +
+      'if(it.variable1.amount >= 0) {\n' +
       '  string += formatNumber({\n' +
-      '    number: it.variable1.value,\n' +
+      '    number: it.variable1.amount,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 1,\n' +
       '    prefix: \'¤\',\n' +
@@ -1585,7 +1585,7 @@ describe('compilation', function() {
       '}\n' +
       'else {\n' +
       '  string += formatNumber({\n' +
-      '    number: it.variable1.value,\n' +
+      '    number: it.variable1.amount,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 1,\n' +
       '    prefix: \'¤-\',\n' +

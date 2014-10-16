@@ -3,7 +3,10 @@ var requireLocale = require('./output/localizations')
 
 var localizations = {
   'locale1': l('INDEX1', {
-    'floor': 0
+    'floor': {
+      code: 'USD',
+      amount: 1200
+    }
   })
 };
 
