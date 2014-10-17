@@ -17,7 +17,7 @@ L10ns - Effective translation workflow
 * Problem translating number/currency formats.
 * Problem translating date formats.
 
-L10ns deals with all the translation problem mentioned above. It manage syncing translation keys between your source code and your localization storage. You can compile translations and open a translation interface by a CLI method. It supports ICU's message format and reads data directly from CLDR for for translating multiple complex translations.
+L10ns deals with all the translation problem mentioned above. It manage syncing translation keys between your source code and your localization storage. You can compile translations and open a translation interface by a CLI method. It supports ICU's message format and reads data directly from CLDR for translating multiple complex translations.
 
 ## Installation
 
