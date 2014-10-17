@@ -132,6 +132,9 @@ AST.date.DateFormat.prototype.parse = function(string) {
       case AST.date.DateFormat.Identifiers.TWENTY_FOUR_HOURS_STARTING_AT_ONE:
         this.AST.push(this._parseHour());
         break;
+      case AST.date.DateFormat.Identifiers.MINUTE:
+        this.AST.push(this._parseMinute());
+        break;
     }
   }
 };
@@ -438,7 +441,10 @@ AST.date.DateFormat.prototype._parseWeekDay = function() {
  */
 
 AST.date.DateFormat.prototype._parseHour = function() {
-  var type, length, format;
+  var type;
+  var length;
+  var format;
+
   switch(this.currentToken) {
     case AST.date.DateFormat.Identifiers.TWELVE_HOURS_STARTING_AT_ONE:
       type = AST.date.time.Hour.Types.TWELVE_HOURS_STARTING_AT_ONE;
@@ -466,6 +472,27 @@ AST.date.DateFormat.prototype._parseHour = function() {
 };
 
 /**
+ * Parse minute identifier (m)
+ *
+ * @return {AST.date.Minute}
+ * @api private
+ */
+
+AST.date.DateFormat.prototype._parseMinute = function() {
+  var length = this._getConsecutiveLength(2);
+  var format;
+
+  if(length === 1) {
+    format = AST.date.time.Minute.Formats.NUMERIC;
+  }
+  else {
+    format = AST.date.time.Minute.Formats.NUMERIC_WITH_PADDING;
+  }
+
+  return new AST.date.time.Minute(format);
+};
+
+/**
  * Return consecutive length of a character
  *
  * @return {Number}
@@ -473,8 +500,8 @@ AST.date.DateFormat.prototype._parseHour = function() {
  */
 
 AST.date.DateFormat.prototype._getConsecutiveLength = function(max) {
-  var token = this.currentToken
-    , length = 0;
+  var token = this.currentToken;
+  var length = 0;
 
   while(token === this.currentToken) {
     length++;
@@ -942,24 +969,24 @@ AST.date.time.Hour.Formats = {
 /**
  * Minute AST.
  *
- * @param {AST.date.Minute.Type}.Type
+ * @param {AST.date.time.Minute.Formats} format
  * @contructor
  */
 
-AST.date.Minute = function(type) {
-  this.type = type;
+AST.date.time.Minute = function(format) {
+  this.format = format;
 };
 
 /**
- * Minute.Types.
+ * Minute formats.
  *
  * @enum {Number}
  * @api public
  */
 
-AST.date.Minute.Type = {
-  WITHOUT_ZERO_PADDING: 1,
-  WITH_ZERO_PADDING: 2
+AST.date.time.Minute.Formats = {
+  NUMERIC: 1,
+  NUMERIC_WITH_PADDING: 2
 };
 
 /**

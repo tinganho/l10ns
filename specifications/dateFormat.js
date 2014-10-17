@@ -710,4 +710,30 @@ describe('DateFormat', function() {
       expect(messageFormat.messageAST[0].AST[1].format).to.equal(AST.date.time.Hour.Formats.NUMERIC);
     });
   });
+
+  describe('Minute', function() {
+    it('should be able to parse a minute identifier', function() {
+      messageFormat.parse('{variable1, date, m}');
+      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.time.Minute);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.time.Minute.Formats.NUMERIC);
+    });
+
+    it('should be able to parse two consecutive minute identifiers', function() {
+      messageFormat.parse('{variable1, date, mm}');
+      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.time.Minute);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.time.Minute.Formats.NUMERIC_WITH_PADDING);
+    });
+
+    it('should begin with a new minute if maximum consecutive identifiers have been exceeded', function() {
+      messageFormat.parse('{variable1, date, mmm}');
+      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
+      expect(messageFormat.messageAST[0].AST.length).to.equal(2);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.time.Minute);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.time.Minute.Formats.NUMERIC_WITH_PADDING);
+      expect(messageFormat.messageAST[0].AST[1]).to.be.an.instanceOf(AST.date.time.Minute);
+      expect(messageFormat.messageAST[0].AST[1].format).to.equal(AST.date.time.Minute.Formats.NUMERIC);
+    });
+  });
 });
