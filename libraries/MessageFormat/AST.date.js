@@ -56,7 +56,23 @@ AST.date.DateFormat.Identifiers = {
   FORMATED_MONTH: 'M',
   STAND_ALONE_MONTH: 'L',
   WEEK_OF_YEAR: 'w',
-  WEEK_OF_MONTH: 'W'
+  WEEK_OF_MONTH: 'W',
+  DAY_OF_MONTH: 'd',
+  DAY_OF_YEAR: 'D',
+  DAY_OF_WEEK_IN_MONTH: 'F',
+  MODIFIED_JULIAN_DAY: 'g',
+  DAY_OF_WEEK: 'E',
+  LOCAL_DAY_OF_WEEK: 'e',
+  STAND_ALONE_LOCAL_DAY_OF_WEEK: 'c',
+  PERIOD: 'a',
+  TWELVE_HOURS_STARTING_AT_ONE: 'h',
+  TWENTY_FOUR_HOURS_STARTING_AT_ZERO: 'H',
+  TWELVE_HOURS_STARTING_AT_ZERO: 'K',
+  TWENTY_FOUR_HOURS_STARTING_AT_ONE: 'k',
+  MINUTE: 'm',
+  SECOND: 's',
+  FRACTIONAL_SECOND: 'S',
+  MILLI_SECONDS_IN_DAY: 'A'
 };
 
 /**
@@ -94,6 +110,27 @@ AST.date.DateFormat.prototype.parse = function(string) {
       case AST.date.DateFormat.Identifiers.WEEK_OF_YEAR:
       case AST.date.DateFormat.Identifiers.WEEK_OF_MONTH:
         this.AST.push(this._parseWeek());
+        break;
+      case AST.date.DateFormat.Identifiers.DAY_OF_MONTH:
+      case AST.date.DateFormat.Identifiers.DAY_OF_YEAR:
+      case AST.date.DateFormat.Identifiers.DAY_OF_WEEK_IN_MONTH:
+      case AST.date.DateFormat.Identifiers.MODIFIED_JULIAN_DAY:
+        this.AST.push(this._parseDay());
+        break;
+      case AST.date.DateFormat.Identifiers.DAY_OF_WEEK:
+      case AST.date.DateFormat.Identifiers.LOCAL_DAY_OF_WEEK:
+      case AST.date.DateFormat.Identifiers.STAND_ALONE_LOCAL_DAY_OF_WEEK:
+        this.AST.push(this._parseWeekDay());
+        break;
+      case AST.date.DateFormat.Identifiers.PERIOD:
+        this._getConsecutiveLength(1);
+        this.AST.push(new AST.date.time.Period());
+        break;
+      case AST.date.DateFormat.Identifiers.TWELVE_HOURS_STARTING_AT_ONE:
+      case AST.date.DateFormat.Identifiers.TWENTY_FOUR_HOURS_STARTING_AT_ZERO:
+      case AST.date.DateFormat.Identifiers.TWELVE_HOURS_STARTING_AT_ZERO:
+      case AST.date.DateFormat.Identifiers.TWENTY_FOUR_HOURS_STARTING_AT_ONE:
+        this.AST.push(this._parseHour());
         break;
     }
   }
@@ -272,6 +309,163 @@ AST.date.DateFormat.prototype._parseWeek = function() {
 };
 
 /**
+ * Parse week identifiers (d, D, F, g)
+ *
+ * @return {AST.date.day.DayOfMonth|AST.date.day.DayOfYear
+ * |AST.date.day.DayOfWeekInMonth|AST.date.day.ModifiedJulianDay}
+ * @api private
+ */
+
+AST.date.DateFormat.prototype._parseDay = function() {
+  var type, length, format;
+  switch(this.currentToken) {
+    case AST.date.DateFormat.Identifiers.DAY_OF_MONTH:
+      length = this._getConsecutiveLength(2);
+      if(length === 1) {
+        format = AST.date.day.DayOfMonth.Formats.NUMERIC;
+      }
+      else {
+        format = AST.date.day.DayOfMonth.Formats.NUMERIC_WITH_PADDING;
+      }
+      return new AST.date.day.DayOfMonth(format);
+    case AST.date.DateFormat.Identifiers.DAY_OF_YEAR:
+      length = this._getConsecutiveLength(3);
+      switch(length) {
+        case 1:
+          format = AST.date.day.DayOfYear.Formats.WITHOUT_PADDING;
+          break;
+        case 2:
+          format = AST.date.day.DayOfYear.Formats.WITH_ONE_ZERO_PADDING;
+          break;
+        case 3:
+          format = AST.date.day.DayOfYear.Formats.WITH_TWO_ZERO_PADDING;
+          break;
+      }
+      return new AST.date.day.DayOfYear(format);
+    case AST.date.DateFormat.Identifiers.DAY_OF_WEEK_IN_MONTH:
+      this._getConsecutiveLength(1);
+      return new AST.date.day.DayOfWeekInMonth;
+    default:
+      length = this._getConsecutiveLength();
+      return new AST.date.day.ModifiedJulianDay(length);
+  }
+};
+
+/**
+ * Parse week day identifiers (E, e, c)
+ *
+ * @return {AST.date.weekDay.DayOfWeek|AST.date.weekDay.LocalDayOfWeek
+ * |AST.date.weekDay.StandAloneLocalDayOfWeek}
+ * @api private
+ */
+
+AST.date.DateFormat.prototype._parseWeekDay = function() {
+  var type, length, format;
+  switch(this.currentToken) {
+    case AST.date.DateFormat.Identifiers.DAY_OF_WEEK:
+      length = this._getConsecutiveLength(6);
+      if(length <= 3) {
+        format = AST.date.weekDay.DayOfWeek.Formats.SHORT;
+      }
+      else {
+        switch(length) {
+          case 4:
+            format = AST.date.weekDay.DayOfWeek.Formats.FULL;
+            break;
+          case 5:
+            format = AST.date.weekDay.DayOfWeek.Formats.NARROW;
+            break;
+          case 6:
+            format = AST.date.weekDay.DayOfWeek.Formats.ABBREVIATED;
+            break;
+        }
+      }
+      return new AST.date.weekDay.DayOfWeek(format);
+    case AST.date.DateFormat.Identifiers.LOCAL_DAY_OF_WEEK:
+      length = this._getConsecutiveLength(6);
+      switch(length) {
+        case 1:
+          format = AST.date.weekDay.LocalDayOfWeek.Formats.NUMERIC;
+          break;
+        case 2:
+          format = AST.date.weekDay.LocalDayOfWeek.Formats.NUMERIC_WITH_PADDING;
+          break;
+        case 3:
+          format = AST.date.weekDay.LocalDayOfWeek.Formats.SHORT;
+          break;
+        case 4:
+          format = AST.date.weekDay.LocalDayOfWeek.Formats.FULL;
+          break;
+        case 5:
+          format = AST.date.weekDay.LocalDayOfWeek.Formats.NARROW;
+          break;
+        case 6:
+          format = AST.date.weekDay.LocalDayOfWeek.Formats.ABBREVIATED;
+          break;
+      }
+      return new AST.date.weekDay.LocalDayOfWeek(format);
+    default:
+      length = this._getConsecutiveLength(6);
+      switch(length) {
+        case 1:
+          format = AST.date.weekDay.StandAloneLocalDayOfWeek.Formats.NUMERIC;
+          break;
+        case 2:
+          format = AST.date.weekDay.StandAloneLocalDayOfWeek.Formats.NUMERIC_WITH_PADDING;
+          break;
+        case 3:
+          format = AST.date.weekDay.StandAloneLocalDayOfWeek.Formats.SHORT;
+          break;
+        case 4:
+          format = AST.date.weekDay.StandAloneLocalDayOfWeek.Formats.FULL;
+          break;
+        case 5:
+          format = AST.date.weekDay.StandAloneLocalDayOfWeek.Formats.NARROW;
+          break;
+        case 6:
+          format = AST.date.weekDay.StandAloneLocalDayOfWeek.Formats.ABBREVIATED;
+          break;
+      }
+      return new AST.date.weekDay.StandAloneLocalDayOfWeek(format);
+  }
+};
+
+/**
+ * Parse hour identifiers (h, H, K, k)
+ *
+ * @return {AST.date.Hour}
+ * @api private
+ */
+
+AST.date.DateFormat.prototype._parseHour = function() {
+  var type, length, format;
+  switch(this.currentToken) {
+    case AST.date.DateFormat.Identifiers.TWELVE_HOURS_STARTING_AT_ONE:
+      type = AST.date.time.Hour.Types.TWELVE_HOURS_STARTING_AT_ONE;
+      break;
+    case AST.date.DateFormat.Identifiers.TWENTY_FOUR_HOURS_STARTING_AT_ZERO:
+      type = AST.date.time.Hour.Types.TWENTY_FOUR_HOURS_STARTING_AT_ZERO;
+      break;
+    case AST.date.DateFormat.Identifiers.TWELVE_HOURS_STARTING_AT_ZERO:
+      type = AST.date.time.Hour.Types.TWELVE_HOURS_STARTING_AT_ZERO;
+      break;
+    case AST.date.DateFormat.Identifiers.TWENTY_FOUR_HOURS_STARTING_AT_ONE:
+      type = AST.date.time.Hour.Types.TWENTY_FOUR_HOURS_STARTING_AT_ONE;
+      break;
+  }
+
+  length = this._getConsecutiveLength(2);
+  if(length === 1) {
+    format = AST.date.time.Hour.Formats.NUMERIC;
+  }
+  else {
+    format = AST.date.time.Hour.Formats.NUMERIC_WITH_PADDING;
+  }
+
+  return new AST.date.time.Hour(type, format);
+};
+
+/**
  * Return consecutive length of a character
  *
  * @return {Number}
@@ -313,9 +507,9 @@ AST.date.Era = function(format) {
  */
 
 AST.date.Era.Types = {
- ABBREVIATED: 0,
- FULL: 1,
- NARROW: 2
+ ABBREVIATED: 1,
+ FULL: 2,
+ NARROW: 3
 };
 
 /**
@@ -339,10 +533,10 @@ AST.date.Year = function(type, length) {
  */
 
 AST.date.Year.Types = {
-  CALENDAR: 0,
-  WEEK_BASED: 1,
-  EXTENDED: 2,
-  CYCLIC: 3
+  CALENDAR: 1,
+  WEEK_BASED: 2,
+  EXTENDED: 3,
+  CYCLIC: 4
 };
 
 
@@ -365,7 +559,7 @@ AST.date.CyclicYear = function(format) {
  */
 
 AST.date.CyclicYear.Types = {
-  ABBREVIATED: 0
+  ABBREVIATED: 1
 };
 
 /**
@@ -390,8 +584,8 @@ AST.date.Quarter = function(context, format) {
  */
 
 AST.date.Quarter.Context = {
-  FORMATED: 0,
-  STAND_ALONE: 1
+  FORMATED: 1,
+  STAND_ALONE: 2
 };
 
 /**
@@ -402,10 +596,10 @@ AST.date.Quarter.Context = {
  */
 
 AST.date.Quarter.Formats = {
-  NUMERIC: 0,
-  NUMERIC_WITH_PADDING: 1,
-  ABBREVIATED: 2,
-  FULL: 3
+  NUMERIC: 1,
+  NUMERIC_WITH_PADDING: 2,
+  ABBREVIATED: 3,
+  FULL: 4
 };
 
 /**
@@ -429,8 +623,8 @@ AST.date.Month = function(context, format) {
  */
 
 AST.date.Month.Context = {
-  FORMATED: 0,
-  STAND_ALONE: 1
+  FORMATED: 1,
+  STAND_ALONE: 2
 };
 
 /**
@@ -439,7 +633,7 @@ AST.date.Month.Context = {
  * Examples:
  *
  *   NUMERIC = 9
- *   NUMBERIC_WITH_PADDING = 09
+ *   NUMERIC_WITH_PADDING = 09
  *   SHORT = Sept
  *   WIDE = September
  *   NARROW = S
@@ -448,11 +642,11 @@ AST.date.Month.Context = {
  */
 
 AST.date.Month.Formats = {
-  NUMERIC: 0,
-  NUMBERIC_WITH_PADDING: 1,
-  SHORT: 2,
-  WIDE: 3,
-  NARROW: 4
+  NUMERIC: 1,
+  NUMERIC_WITH_PADDING: 2,
+  SHORT: 3,
+  WIDE: 4,
+  NARROW: 5
 };
 
 /**
@@ -476,8 +670,8 @@ AST.date.Week = function(type, format) {
  */
 
 AST.date.Week.Types = {
-  WEEK_OF_YEAR: 0,
-  WEEK_OF_MONTH: 1
+  WEEK_OF_YEAR: 1,
+  WEEK_OF_MONTH: 2
 };
 
 /**
@@ -488,8 +682,8 @@ AST.date.Week.Types = {
  */
 
 AST.date.Week.Formats = {
-  NUMERIC: 0,
-  NUMERIC_WITH_PADDING: 1
+  NUMERIC: 1,
+  NUMERIC_WITH_PADDING: 2
 };
 
 /**
@@ -501,12 +695,12 @@ AST.date.day = {};
 /**
  * Day of month AST.
  *
- * @param {AST.date.day.DayOfMonth.Type} type
+ * @param {AST.date.day.DayOfMonth.Formats} format
  * @constructor
  */
 
-AST.date.day.DayOfMonth = function(type) {
-  this.type = type;
+AST.date.day.DayOfMonth = function(format) {
+  this.format = format;
 };
 
 /**
@@ -516,20 +710,20 @@ AST.date.day.DayOfMonth = function(type) {
  * @api public
  */
 
-AST.date.day.DayOfMonth.Type = {
-  WITHOUT_ZERO_PADDING: 1,
-  WITH_ZERO_PADDING: 2
+AST.date.day.DayOfMonth.Formats = {
+  NUMERIC: 1,
+  NUMERIC_WITH_PADDING: 2
 };
 
 /**
  * Day of year AST.
  *
- * @param {AST.date.day.DayOfYear.Type}.Type
+ * @param {AST.date.day.DayOfYear.Formats} format
  * @constructor
  */
 
-AST.date.day.DayOfYear = function(type) {
-  this.type = type;
+AST.date.day.DayOfYear = function(format) {
+  this.format = format;
 };
 
 /**
@@ -539,8 +733,8 @@ AST.date.day.DayOfYear = function(type) {
  * @api public
  */
 
-AST.date.day.DayOfYear.Type = {
-  WITHOUT_ZERO_PADDING: 1,
+AST.date.day.DayOfYear.Formats = {
+  WITHOUT_PADDING: 1,
   WITH_ONE_ZERO_PADDING: 2,
   WITH_TWO_ZERO_PADDING: 3
 };
@@ -571,41 +765,41 @@ AST.date.day.ModifiedJulianDay = function(length) {
 AST.date.weekDay = {};
 
 /**
- * Regular WeekDay. A regular weekday.
+ * Day of week.
  *
- * @param {AST.date.weekDay.RegularWeekDay.Type} type
+ * @param {AST.date.weekDay.RegularWeekDay.Formats} format
  * @constructor
  */
 
-AST.date.weekDay.RegularWeekDay = function(type) {
-  this.type = type;
+AST.date.weekDay.DayOfWeek = function(format) {
+  this.format = format;
 };
 
 /**
- * Regular week day types.
+ * Day of week formats.
  *
  *   Example:
  *
  *     Type                 Output
  *
- *     ONE_CHARACTER        T
- *     TWO_CHARACTERS       Tu
- *     FOUR_CHARACTERS      Tues
+ *     SHORT                Tue
  *     FULL                 Tuesday
+ *     NARROW               T
+ *     ABBREVIATED          Tu
  *
  * @enum {Number}
  * @api public
  */
 
-AST.date.weekDay.RegularWeekDay.Type = {
-  ONE_CHARACTER: 1,
-  TWO_CHARACTERS: 2,
-  FOUR_CHARACTERS: 3,
-  FULL: 4
+AST.date.weekDay.DayOfWeek.Formats = {
+  SHORT: 1,
+  FULL: 2,
+  NARROW: 3,
+  ABBREVIATED: 4
 };
 
 /**
- * Regular WeekDay with numeric value for starting order of the week day.
+ * Local day of week.
  *
  *   Example:
  *
@@ -616,75 +810,78 @@ AST.date.weekDay.RegularWeekDay.Type = {
  *     5      T
  *     6      Tu
  *
- * @param {AST.date.weekDay.LocalWeekDay.Type} type
+ * @param {AST.date.weekDay.LocalDayOfWeek.Formats} format
  * @constructor
  */
 
-AST.date.weekDay.LocalWeekDay = function(type) {
-  this.type = type;
+AST.date.weekDay.LocalDayOfWeek = function(format) {
+  this.format = format;
 };
 
 /**
- * Regular week day types.
+ * Local day of week formats.
  *
  *   Example:
  *
  *     Type                 Output
  *
- *     ONE_CHARACTER        T
- *     TWO_CHARACTERS       Tu
- *     FOUR_CHARACTERS      Tues
+ *     NUMERIC              2
+ *     NUMERIC_WITH_PADDING 02
+ *     SHORT                Tue
  *     FULL                 Tuesday
+ *     NARROW               T
+ *     ABBREVIATED          Tu
  *
  * @enum {Number}
  * @api public
  */
 
-AST.date.weekDay.LocalWeekDay.Type = {
-  DIGITS_WITHOUT_ZERO_PADDING: 1,
-  DIGITS_WITH_ZERO_PADDING: 2,
-  ONE_CHARACTER: 3,
-  TWO_CHARACTERS: 4,
-  FOUR_CHARACTERS: 5,
-  FULL: 6
+AST.date.weekDay.LocalDayOfWeek.Formats = {
+  NUMERIC: 1,
+  NUMERIC_WITH_PADDING: 2,
+  SHORT : 3,
+  FULL: 4,
+  NARROW: 5,
+  ABBREVIATED: 6,
 };
 
 
 /**
- * Stand-alone regular WeekDay with numeric value for starting order of
- * the week day.
+ * Stand-alone local day of week.
  *
- * @param {AST.date.weekDay.LocalStandAloneWeekDay.Type} type
+ * @param {AST.date.weekDay.LocalStandAloneWeekDay.Type} format
  * @constructor
  */
 
-AST.date.weekDay.LocalStandAloneWeekDay = function(type) {
-  this.type = type;
+AST.date.weekDay.StandAloneLocalDayOfWeek = function(format) {
+  this.format = format;
 };
 
 /**
- * Regular week day types.
+ * Stand-alone local day of week formats.
  *
  *   Example:
  *
  *     Type                 Output
  *
- *     ONE_CHARACTER        T
- *     TWO_CHARACTERS       Tu
- *     FOUR_CHARACTERS      Tues
+ *     NUMERIC              2
+ *     NUMERIC_WITH_PADDING 02
+ *     SHORT                Tue
  *     FULL                 Tuesday
+ *     NARROW               T
+ *     ABBREVIATED          Tu
  *
  * @enum {Number}
  * @api public
  */
 
-AST.date.weekDay.LocalStandAloneWeekDay.Type = {
-  DIGITS_WITHOUT_ZERO_PADDING: 1,
-  DIGITS_WITH_ZERO_PADDING: 2,
-  ONE_CHARACTER: 3,
-  TWO_CHARACTERS: 4,
-  FOUR_CHARACTERS: 5,
-  FULL: 6
+AST.date.weekDay.StandAloneLocalDayOfWeek.Formats = {
+  NUMERIC: 1,
+  NUMERIC_WITH_PADDING: 2,
+  SHORT : 3,
+  FULL: 4,
+  NARROW: 5,
+  ABBREVIATED: 6,
 };
 
 
@@ -703,101 +900,43 @@ AST.date.time = {};
 AST.date.time.Period = function() {};
 
 /**
- * Namespace hour
- */
-
-AST.date.time.hour = {};
-
-/**
- * 12 hour [1-12] AST.
+ * Hour.
  *
- * @param {AST.date.TwelveHourStartingAtOne.Type} type
- * @contructor
+ * @param {AST.date.time.Hour.Types} type
+ * @param {AST.date.time.Hour.Formats} format
+ * @constructor
+ * @api public
  */
 
-AST.date.time.hour.TwelveHourStartingAtOne = function(type) {
+AST.date.time.Hour = function(type, format) {
   this.type = type;
+  this.format = format;
 };
 
 /**
- * 12 hours starting at 1.Types.
+ * Hour types.
  *
- * @enum {Number}
+ * @enum {Numbers}
  * @api public
  */
 
-AST.date.time.hour.TwelveHourStartingAtOne.Type = {
-  WITHOUT_ZERO_PADDING: 1,
-  WITH_ZERO_PADDING: 2
+AST.date.time.Hour.Types = {
+  TWELVE_HOURS_STARTING_AT_ONE: 1,
+  TWENTY_FOUR_HOURS_STARTING_AT_ZERO: 2,
+  TWELVE_HOURS_STARTING_AT_ZERO: 3,
+  TWENTY_FOUR_HOURS_STARTING_AT_ONE: 4
 };
 
 /**
- * 24 hour [0-23] AST.
+ * Hour formats.
  *
- * @param {AST.date.TwentyFourHourStartingAtZero.Type}.Type
- * @contructor
- */
-
-AST.date.time.hour.TwentyFourHourStartingAtZero = function(length) {
-  this.lenght = length;
-};
-
-/**
- * 24 hours starting at 0.Types.
- *
- * @enum {Number}
+ * @enum {Numbers}
  * @api public
  */
 
-AST.date.time.hour.TwentyFourHourStartingAtZero.Type = {
-  WITHOUT_ZERO_PADDING: 1,
-  WITH_ZERO_PADDING: 2
-};
-
-/**
- * 12 hour [0-11] AST.
- *
- * @param {AST.date.TwelveHourStartingAtZero.Type} type
- * @contructor
- */
-
-AST.date.time.hour.TwelveHourStartingAtZero = function(type) {
-  this.type = type;
-};
-
-/**
- * 12 hours starting at 0.Types.
- *
- * @enum {Number}
- * @api public
- */
-
-AST.date.time.hour.TwelveHourStartingAtZero.Type = {
-  WITHOUT_ZERO_PADDING: 1,
-  WITH_ZERO_PADDING: 2
-};
-
-/**
- * 24 hour [1-24] AST.
- *
- * @param {AST.date.TwentyFourHourStartingAtOne.Type}.Type
- * @contructor
- */
-
-AST.date.time.hour.TwentyFourHourStartingAtOne = function(type) {
-  this.type = type;
-};
-
-/**
- * 24 hours starting at 1.Types.
- *
- * @enum {Number}
- * @api public
- */
-
-AST.date.time.hour.TwentyFourHourStartingAtOne.Type = {
-  WITHOUT_ZERO_PADDING: 1,
-  WITH_ZERO_PADDING: 2
+AST.date.time.Hour.Formats = {
+  NUMERIC: 1,
+  NUMERIC_WITH_PADDING: 2
 };
 
 /**
