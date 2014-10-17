@@ -135,6 +135,11 @@ AST.date.DateFormat.prototype.parse = function(string) {
       case AST.date.DateFormat.Identifiers.MINUTE:
         this.AST.push(this._parseMinute());
         break;
+      case AST.date.DateFormat.Identifiers.SECOND:
+      case AST.date.DateFormat.Identifiers.FRACTIONAL_SECOND:
+      case AST.date.DateFormat.Identifiers.MILLI_SECONDS_IN_DAY:
+        this.AST.push(this._parseSecond());
+        break;
     }
   }
 };
@@ -490,6 +495,38 @@ AST.date.DateFormat.prototype._parseMinute = function() {
   }
 
   return new AST.date.time.Minute(format);
+};
+
+/**
+ * Parse second identifier (s, S, A)
+ *
+ * @return {AST.date.time.second.Second
+ * |AST.date.time.second.FractionalSecond}
+ * @api private
+ */
+
+AST.date.DateFormat.prototype._parseSecond = function() {
+  var type;
+  var length;
+  var format;
+
+  switch(this.currentToken) {
+    case AST.date.DateFormat.Identifiers.SECOND:
+      length = this._getConsecutiveLength(2);
+      if(length === 1) {
+        format = AST.date.time.second.Second.Formats.NUMERIC;
+      }
+      else {
+        format = AST.date.time.second.Second.Formats.NUMERIC_WITH_PADDING;
+      }
+      return new AST.date.time.second.Second(format);
+    case AST.date.DateFormat.Identifiers.FRACTIONAL_SECOND:
+      length = this._getConsecutiveLength();
+      return new AST.date.time.second.FractionalSecond(length);
+    case AST.date.DateFormat.Identifiers.MILLI_SECONDS_IN_DAY:
+      length = this._getConsecutiveLength();
+      return new AST.date.time.second.MilliSecondInDay(length);
+  }
 };
 
 /**
@@ -993,30 +1030,29 @@ AST.date.time.Minute.Formats = {
  * Namespace second
  */
 
-AST.date.second = {};
+AST.date.time.second = {};
 
 /**
- * Regular second AST.
+ * Second AST.
  *
- * @param {Number(1,2)} length. Length of two gives zero padding.
+ * @param {AST.date.second.Second.Formats} format
  * @contructor
  */
 
-AST.date.second.RegularSecond = function(type) {
-  this.type = type;
+AST.date.time.second.Second = function(format) {
+  this.format = format;
 };
 
 /**
- * Regular second.Types. Sepcify which kind of format in second output
- * you want. Either with or without trailing zeros.
+ * Seconds formats.
  *
  * @enum {Number}
  * @api public
  */
 
-AST.date.second.RegularSecond.Type = {
-  WITHOUT_ZERO_PADDING: 1,
-  WITH_ZERO_PADDING: 2
+AST.date.time.second.Second.Formats = {
+  NUMERIC: 1,
+  NUMERIC_WITH_PADDING: 2
 };
 
 /**
@@ -1026,7 +1062,7 @@ AST.date.second.RegularSecond.Type = {
  * @contructor
  */
 
-AST.date.second.FractionalSecond = function(length) {
+AST.date.time.second.FractionalSecond = function(length) {
   this.length = length;
 };
 
@@ -1037,7 +1073,7 @@ AST.date.second.FractionalSecond = function(length) {
  * @contructor
  */
 
-AST.date.second.MilliSecondInDay = function(length) {
+AST.date.time.second.MilliSecondInDay = function(length) {
   this.length = length;
 };
 

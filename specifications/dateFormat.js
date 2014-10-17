@@ -736,4 +736,52 @@ describe('DateFormat', function() {
       expect(messageFormat.messageAST[0].AST[1].format).to.equal(AST.date.time.Minute.Formats.NUMERIC);
     });
   });
+
+  describe('Second', function() {
+    it('should be able to parse a second identifier', function() {
+      messageFormat.parse('{variable1, date, s}');
+      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.time.second.Second);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.time.second.Second.Formats.NUMERIC);
+    });
+
+    it('should be able to parse two consecutive second identifiers', function() {
+      messageFormat.parse('{variable1, date, ss}');
+      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.time.second.Second);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.time.second.Second.Formats.NUMERIC_WITH_PADDING);
+    });
+
+    it('should begin with a new second if maximum consecutive identifiers have been exceeded', function() {
+      messageFormat.parse('{variable1, date, sss}');
+      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
+      expect(messageFormat.messageAST[0].AST.length).to.equal(2);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.time.second.Second);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.time.second.Second.Formats.NUMERIC_WITH_PADDING);
+      expect(messageFormat.messageAST[0].AST[1]).to.be.an.instanceOf(AST.date.time.second.Second);
+      expect(messageFormat.messageAST[0].AST[1].format).to.equal(AST.date.time.second.Second.Formats.NUMERIC);
+    });
+
+    it('should be able to parse fractional seconds identifiers', function() {
+      messageFormat.parse('{variable1, date, S}');
+      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.time.second.FractionalSecond);
+      expect(messageFormat.messageAST[0].AST[0].length).to.equal(1);
+      messageFormat.parse('{variable1, date, SS}');
+      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.time.second.FractionalSecond);
+      expect(messageFormat.messageAST[0].AST[0].length).to.equal(2);
+    });
+
+    it('should be able to parse millisecond in day identifiers', function() {
+      messageFormat.parse('{variable1, date, A}');
+      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.time.second.MilliSecondInDay);
+      expect(messageFormat.messageAST[0].AST[0].length).to.equal(1);
+      messageFormat.parse('{variable1, date, AA}');
+      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.time.second.MilliSecondInDay);
+      expect(messageFormat.messageAST[0].AST[0].length).to.equal(2);
+    });
+  });
 });
