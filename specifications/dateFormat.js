@@ -784,4 +784,79 @@ describe('DateFormat', function() {
       expect(messageFormat.messageAST[0].AST[0].length).to.equal(2);
     });
   });
+
+  describe('TimeZone', function() {
+    it('should be able to parse a specific non-location time zone identifier', function() {
+      messageFormat.parse('{variable1, date, z}');
+      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.timeZone.SpecificNonLocationTimeZone);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.timeZone.SpecificNonLocationTimeZone.Formats.SHORT);
+    });
+
+    it('should be able to parse two consecutive specific non-location time zone identifiers', function() {
+      messageFormat.parse('{variable1, date, zz}');
+      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.timeZone.SpecificNonLocationTimeZone);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.timeZone.SpecificNonLocationTimeZone.Formats.SHORT);
+    });
+
+    it('should be able to parse two consecutive specific non-location time zone identifiers', function() {
+      messageFormat.parse('{variable1, date, zzz}');
+      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.timeZone.SpecificNonLocationTimeZone);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.timeZone.SpecificNonLocationTimeZone.Formats.SHORT);
+    });
+
+    it('should be able to parse two consecutive specific non-location time zone identifiers', function() {
+      messageFormat.parse('{variable1, date, zzzz}');
+      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.timeZone.SpecificNonLocationTimeZone);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.timeZone.SpecificNonLocationTimeZone.Formats.LONG);
+    });
+
+    it('should begin with a new specific non-location time zone if maximum consecutive length have been exceeded', function() {
+      messageFormat.parse('{variable1, date, zzzzz}');
+      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
+      expect(messageFormat.messageAST[0].AST.length).to.equal(2);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.timeZone.SpecificNonLocationTimeZone);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.timeZone.SpecificNonLocationTimeZone.Formats.LONG);
+      expect(messageFormat.messageAST[0].AST[1]).to.be.an.instanceOf(AST.date.timeZone.SpecificNonLocationTimeZone);
+      expect(messageFormat.messageAST[0].AST[1].format).to.equal(AST.date.timeZone.SpecificNonLocationTimeZone.Formats.SHORT);
+    });
+
+    it('should be able to parse a ISO 8601 time zone identifier', function() {
+      messageFormat.parse('{variable1, date, Z}');
+      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.timeZone.ISO8601TimeZone);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.timeZone.ISO8601TimeZone.Formats.BASIC);
+    });
+
+    it('should be able to parse two consecutive ISO 8601 time zone identifiers', function() {
+      messageFormat.parse('{variable1, date, ZZ}');
+      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.timeZone.ISO8601TimeZone);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.timeZone.ISO8601TimeZone.Formats.BASIC);
+    });
+
+    it('should be able to parse three consecutive ISO 8601 time zone identifiers', function() {
+      messageFormat.parse('{variable1, date, ZZZ}');
+      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.timeZone.ISO8601TimeZone);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.timeZone.ISO8601TimeZone.Formats.BASIC);
+    });
+
+    it('should be able to parse four consecutive ISO 8601 time zone identifiers', function() {
+      messageFormat.parse('{variable1, date, ZZZZ}');
+      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.timeZone.ISO8601TimeZone);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.timeZone.ISO8601TimeZone.Formats.LONG_LOCALIZED_GMT);
+    });
+
+    it('should be able to parse five consecutive ISO 8601 time zone identifiers', function() {
+      messageFormat.parse('{variable1, date, ZZZZZ}');
+      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.timeZone.ISO8601TimeZone);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.timeZone.ISO8601TimeZone.Formats.EXTENDED);
+    });
+  });
 });
