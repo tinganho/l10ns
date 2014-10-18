@@ -11,19 +11,6 @@ global.inServer = true;
 global.inClient = false;
 
 /**
- * Environmental vars dependencies
- */
-
-if(!process.env.NODE_ENV) {
-  console.log('[' + ':('.red + ']' + ' You forgot to set your environmental variable NODE_ENV?'.yellow);
-  process.kill();
-}
-else if(!/development|staging|production/.test(process.env.NODE_ENV)) {
-  console.log('[' + ':('.red + ']' + ' NODE_ENV must have the value development|staging|production'.yellow);
-  process.kill();
-}
-
-/**
  * Sets global vars pcf and cf
  */
 
@@ -31,26 +18,7 @@ if(typeof fromBinary === 'undefined') {
   require('../binaries/gt');
 }
 
-/**
- * Set ENV
- */
-
-var ENV;
-switch(process.env.NODE_ENV) {
-  case 'development':
-    ENV = 'DEV';
-    break;
-  case 'staging':
-    ENV = 'STAG';
-    break;
-  case 'production':
-    ENV = 'PROD';
-    break;
-  default:
-    ENV = 'DEV';
-    break;
-}
-global.ENV = ENV;
+global.ENV = 'development';
 
 /**
  * Module dependencies.

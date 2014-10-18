@@ -117,18 +117,6 @@ var configurations = {
 };
 
 /**
- * Remove environmental prefixes
- */
-
-configurations = configuration.formatConfigurations(configurations);
-
-/**
- * Merge external configs
- */
-
-configurations = configuration.mergeExternalConfigurations(configurations, process.env.EXTERNAL_CLIENT_CORE_CONFIGURATIONS);
-
-/**
  * Export config
  */
 
