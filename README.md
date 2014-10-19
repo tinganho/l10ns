@@ -4,6 +4,7 @@ L10ns - Effective translation workflow
 [![Build Status](http://img.shields.io/travis/tinganho/l10ns.svg?style=flat-square)](https://travis-ci.org/tinganho/l10ns)
 [![Version](https://img.shields.io/npm/v/l10ns.svg?style=flat-square)](https://www.npmjs.org/package/l10ns)
 [![Download](http://img.shields.io/npm/dm/l10ns.svg?style=flat-square)](https://www.npmjs.org/package/l10ns)
+[![Gratipay](http://img.shields.io/gratipay/JSFiddle.svg)](https://gratipay.com/tinganho)
 
 ## Today's translation problems
 
