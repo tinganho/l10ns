@@ -170,7 +170,6 @@ MessageFormat.prototype._parsePrimary = function(options) {
 
   if(options.parseRemaining && this.currentToken === MessageFormat.Characters.REMAINING) {
     var integerPattern = AST.NumberFormatPattern.parse(this.decimalPatterns[options.currentNumberSystem]).positive;
-    integerPattern.fraction = null;
     return this._parseRemaining(
       options.variable,
       options.offset,

@@ -336,7 +336,7 @@ describe('Javascript Compiler', function() {
         '      },\n' +
         '      minimumIntegerDigits: 1,\n' +
         '      minimumFractionDigits: 0,\n' +
-        '      maximumFractionDigits: 0,\n' +
+        '      maximumFractionDigits: 3,\n' +
         '      symbols: localizations[\'en-US\'].__numberSymbols[\'latn\']\n' +
         '    });\n' +
         '    string += \'sentence2\';\n' +
@@ -381,7 +381,7 @@ describe('Javascript Compiler', function() {
         '      },\n' +
         '      minimumIntegerDigits: 1,\n' +
         '      minimumFractionDigits: 0,\n' +
-        '      maximumFractionDigits: 0,\n' +
+        '      maximumFractionDigits: 3,\n' +
         '      symbols: localizations[\'en-US\'].__numberSymbols[\'latn\']\n' +
         '    });\n' +
         '    string += \' sentence2\';\n' +
@@ -875,7 +875,7 @@ describe('Javascript Compiler', function() {
         '      },\n' +
         '      minimumIntegerDigits: 1,\n' +
         '      minimumFractionDigits: 0,\n' +
-        '      maximumFractionDigits: 0,\n' +
+        '      maximumFractionDigits: 3,\n' +
         '      symbols: localizations[\'en-US\'].__numberSymbols[\'latn\']\n' +
         '    });\n' +
         '    string += \' sentence2\';\n' +
