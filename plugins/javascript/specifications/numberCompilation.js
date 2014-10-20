@@ -55,7 +55,7 @@ describe('compilation', function() {
       '  });\n' +
       '}\n' +
       'return string;';
-      expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+      expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
       }));
       done();
@@ -118,7 +118,7 @@ describe('compilation', function() {
       '  });\n' +
       '}\n' +
       'return string;';
-      expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+      expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
       }));
       done();
@@ -181,7 +181,7 @@ describe('compilation', function() {
       '  });\n' +
       '}\n' +
       'return string;';
-      expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+      expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
       }));
       done();
@@ -244,7 +244,7 @@ describe('compilation', function() {
       '  });\n' +
       '}\n' +
       'return string;';
-      expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+      expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
       }));
       done();
@@ -307,7 +307,7 @@ describe('compilation', function() {
       '  });\n' +
       '}\n' +
       'return string;';
-      expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+      expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
       }));
       done();
@@ -370,7 +370,7 @@ describe('compilation', function() {
       '  });\n' +
       '}\n' +
       'return string;';
-      expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+      expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
       }));
       done();
@@ -433,7 +433,7 @@ describe('compilation', function() {
       '  });\n' +
       '}\n' +
       'return string;';
-      expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+      expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
       }));
       done();
@@ -496,7 +496,7 @@ describe('compilation', function() {
       '  });\n' +
       '}\n' +
       'return string;';
-      expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+      expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
       }));
       done();
@@ -565,7 +565,7 @@ describe('compilation', function() {
       '  });\n' +
       '}\n' +
       'return string;';
-      expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+      expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
       }));
       done();
@@ -634,7 +634,7 @@ describe('compilation', function() {
       '  });\n' +
       '}\n' +
       'return string;';
-      expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+      expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
       }));
       done();
@@ -703,7 +703,7 @@ describe('compilation', function() {
       '  });\n' +
       '}\n' +
       'return string;';
-      expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+      expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
       }));
       done();
@@ -766,7 +766,7 @@ describe('compilation', function() {
       '  });\n' +
       '}\n' +
       'return string;';
-      expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+      expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
       }));
       done();
@@ -829,7 +829,7 @@ describe('compilation', function() {
       '  });\n' +
       '}\n' +
       'return string;';
-      expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+      expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
       }));
       done();
@@ -892,7 +892,7 @@ describe('compilation', function() {
       '  });\n' +
       '}\n' +
       'return string;';
-      expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+      expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
       }));
       done();
@@ -955,7 +955,7 @@ describe('compilation', function() {
       '  });\n' +
       '}\n' +
       'return string;';
-      expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+      expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
       }));
       done();
@@ -1024,7 +1024,7 @@ describe('compilation', function() {
       '  });\n' +
       '}\n' +
       'return string;';
-      expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+      expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
       }));
       done();
@@ -1093,7 +1093,7 @@ describe('compilation', function() {
       '  });\n' +
       '}\n' +
       'return string;';
-      expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+      expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
       }));
       done();
@@ -1162,7 +1162,7 @@ describe('compilation', function() {
       '  });\n' +
       '}\n' +
       'return string;';
-      expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+      expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
       }));
       done();
@@ -1231,7 +1231,7 @@ describe('compilation', function() {
       '  });\n' +
       '}\n' +
       'return string;';
-      expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+      expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
       }));
       done();
@@ -1294,7 +1294,7 @@ describe('compilation', function() {
       '  });\n' +
       '}\n' +
       'return string;';
-      expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+      expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
       }));
       done();
@@ -1371,7 +1371,7 @@ describe('compilation', function() {
       '  });\n' +
       '}\n' +
       'return string;';
-      expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+      expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
       }));
       done();
@@ -1448,7 +1448,7 @@ describe('compilation', function() {
       '  });\n' +
       '}\n' +
       'return string;';
-      expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+      expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
       }));
       done();
@@ -1531,7 +1531,7 @@ describe('compilation', function() {
       '  });\n' +
       '}\n' +
       'return string;';
-      expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+      expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
       }));
       done();
@@ -1609,7 +1609,7 @@ describe('compilation', function() {
       '  });\n' +
       '}\n' +
       'return string;';
-      expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+      expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
       }));
       done();
@@ -1672,7 +1672,7 @@ describe('compilation', function() {
       '  });\n' +
       '}\n' +
       'return string;';
-      expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+      expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
       }));
       done();
@@ -1735,7 +1735,7 @@ describe('compilation', function() {
       '  });\n' +
       '}\n' +
       'return string;';
-      expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+      expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
       }));
       done();
@@ -1798,7 +1798,7 @@ describe('compilation', function() {
       '  });\n' +
       '}\n' +
       'return string;';
-      expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+      expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
       }));
       done();
@@ -1861,7 +1861,7 @@ describe('compilation', function() {
       '  });\n' +
       '}\n' +
       'return string;';
-      expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+      expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
       }));
       done();
@@ -1941,7 +1941,7 @@ describe('compilation', function() {
       '  .replace(/9/g, \'٩\')\n' +
       '  .replace(/0/g, \'٠\')\n\n' +
       'return string;';
-      expect(dependencies.fs.writeFileSync.args[0][1]).to.contain(indentSpaces(8, functionBody));
+      expect(dependencies.fs.writeFileSync.args[1][1]).to.contain(indentSpaces(8, functionBody));
       done();
     });
   });
@@ -2019,7 +2019,7 @@ describe('compilation', function() {
       '  .replace(/9/g, \'٩\')\n' +
       '  .replace(/0/g, \'٠\')\n\n' +
       'return string;';
-      expect(dependencies.fs.writeFileSync.args[0][1]).to.contain(indentSpaces(8, functionBody));
+      expect(dependencies.fs.writeFileSync.args[1][1]).to.contain(indentSpaces(8, functionBody));
       done();
     });
   });
@@ -2097,7 +2097,7 @@ describe('compilation', function() {
       '  .replace(/9/g, \'৯\')\n' +
       '  .replace(/0/g, \'০\')\n\n' +
       'return string;';
-      expect(dependencies.fs.writeFileSync.args[0][1]).to.contain(indentSpaces(8, functionBody));
+      expect(dependencies.fs.writeFileSync.args[1][1]).to.contain(indentSpaces(8, functionBody));
       done();
     });
   });
@@ -2175,7 +2175,7 @@ describe('compilation', function() {
       '  .replace(/9/g, \'९\')\n' +
       '  .replace(/0/g, \'०\')\n\n' +
       'return string;';
-      expect(dependencies.fs.writeFileSync.args[0][1]).to.contain(indentSpaces(8, functionBody));
+      expect(dependencies.fs.writeFileSync.args[1][1]).to.contain(indentSpaces(8, functionBody));
       done();
     });
   });
@@ -2253,7 +2253,7 @@ describe('compilation', function() {
       '  .replace(/9/g, \'९\')\n' +
       '  .replace(/0/g, \'०\')\n\n' +
       'return string;';
-      expect(dependencies.fs.writeFileSync.args[0][1]).to.contain(indentSpaces(8, functionBody));
+      expect(dependencies.fs.writeFileSync.args[1][1]).to.contain(indentSpaces(8, functionBody));
       done();
     });
   });

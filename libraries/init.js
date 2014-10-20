@@ -53,7 +53,7 @@ Init.prototype.run = function() {
   })
   .then(function(folder) {
     _this.json.store = folder;
-    _this.json.outputFile = folder + 'output/localizations.js';
+    _this.json.output = folder + 'output';
     _this._setDefaultSrc();
     _this._writeProject();
     process.exit();

@@ -58,22 +58,70 @@ var Compiler = function() {
 Compiler.prototype.run = function() {
   var _this = this;
   this._getLocalizationMap()
-    .then(function(localizationMap) {
+    .then(function(localizationsMap) {
+      var localesCount = 0;
+      var localesLength = Object.keys(localizationsMap).length
+      var allLocalizations = '';
+
+      if(project.outputFile) {
+        throw new TypeError('`outputFile` is no longer in use, please use just `output`.');
+      }
+
+      if(!project.output) {
+        throw new TypeError('You must define an output in your l10ns.json file.');
+      }
+
+
+      for(var locale in localizationsMap) {
+        var stringMap = template['LocalizationsMap']({
+          localizations: _this._indentSpaces(2, localizationsMap[locale])
+        });
+
+        var content = template['JavascriptWrapper']({
+          roundUpFunction: _this._indentSpaces(2, template['RoundToFunction']()),
+          formatNumberFunction: _this._indentSpaces(2, template['FormatNumberFunction']()),
+          functionName: language.GET_LOCALIZATION_STRING_FUNCTION_NAME,
+          localizationMap: _this._indentSpaces(2, stringMap),
+          functionBlock: _this._indentSpaces(2, template['LocalizationGetter']({
+            locale: locale
+          })),
+          moduleExportBlock: _this._indentSpaces(2, template['ModuleExportBlock']({
+            variableName: 'l'
+          }))
+        });
+
+        var filePath = path.join(project.root, project.output) + '/' + locale + '.js';
+        mkdirp.sync(path.dirname(filePath));
+        fs.writeFileSync(filePath, content);
+
+        allLocalizations += localizationsMap[locale];
+
+        if(localesCount !== localesLength - 1) {
+          allLocalizations += _this.comma;
+          allLocalizations += _this.linefeed;
+        }
+
+        localesCount++;
+      }
+
+      var stringMap = template['LocalizationsMap']({
+        localizations: _this._indentSpaces(2, allLocalizations)
+      });
+
       var content = template['JavascriptWrapper']({
         roundUpFunction: _this._indentSpaces(2, template['RoundToFunction']()),
         formatNumberFunction: _this._indentSpaces(2, template['FormatNumberFunction']()),
         functionName: language.GET_LOCALIZATION_STRING_FUNCTION_NAME,
-        localizationMap: _this._indentSpaces(2, localizationMap),
-        requireStatement: _this._indentSpaces(2, template['RequireStatement']())
+        localizationMap: _this._indentSpaces(2, stringMap),
+        functionBlock: _this._indentSpaces(2, template['RequireLocalizations']()),
+        moduleExportBlock: _this._indentSpaces(2, template['ModuleExportBlock']({
+          variableName: 'requireLocalizations'
+        }))
       });
 
-      var filePath = path.join(project.root, project.outputFile);
-      mkdirp(path.dirname(filePath), function(error) {
-        if(error) {
-          throw error;
-        }
-        fs.writeFileSync(filePath, content);
-      });
+      var filePath = path.join(project.root, project.output) + '/all.js';
+      mkdirp.sync(path.dirname(filePath));
+      fs.writeFileSync(filePath, content);
     })
     .fail(function(error) {
       if(commands.stack && error && error.stack) {
@@ -123,7 +171,7 @@ Compiler.prototype._getLocalizationMap = function() {
   var _this = this, deferred = defer();
   file.readLocalizations()
     .then(function(localizations) {
-      var localizationsMap = ''
+      var localizationsMap = {}
         , localesLength = Object.keys(localizations).length
         , localesCount = 0;
 
@@ -181,24 +229,13 @@ Compiler.prototype._getLocalizationMap = function() {
           localizationsCount++;
         }
 
-        localizationsMap += template['LocalizationMap']({
+        localizationsMap[locale] = template['LocalizationMap']({
           locale: locale,
           map: _this._indentSpaces(2, localizationMap)
         });
-
-        if(localesCount !== localesLength - 1) {
-          localizationsMap += _this.comma;
-          localizationsMap += _this.linefeed;
-        }
-
-        localesCount++;
       }
 
-      var result = template['LocalizationsMap']({
-        localizations: _this._indentSpaces(2, localizationsMap)
-      });
-
-      deferred.resolve(result);
+      deferred.resolve(localizationsMap);
     })
     .fail(function(error) {
       deferred.reject(error);

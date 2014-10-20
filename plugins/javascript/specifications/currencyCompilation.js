@@ -75,7 +75,7 @@ describe('compilation', function() {
       '  });\n' +
       '}\n' +
       'return string;';
-      expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+      expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
       }));
       done();
@@ -158,7 +158,7 @@ describe('compilation', function() {
       '  });\n' +
       '}\n' +
       'return string;';
-      expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+      expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
       }));
       done();
@@ -241,7 +241,7 @@ describe('compilation', function() {
       '  });\n' +
       '}\n' +
       'return string;';
-      expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+      expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
       }));
       done();
@@ -330,7 +330,7 @@ describe('compilation', function() {
       '}\n' +
       'string += localizations[\'en-US\'].__currencyUnitPattern[pluralKeyword].replace(\'{0}\', number).replace(\'{1}\', unit);\n' +
       'return string;';
-      expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+      expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
       }));
       done();
@@ -414,7 +414,7 @@ describe('compilation', function() {
       '}\n' +
       'string += localizations[\'en-US\'].__currencyUnitPattern[pluralKeyword].replace(\'{0}\', number).replace(\'{1}\', unit);\n' +
       'return string;';
-      expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+      expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
       }));
       done();

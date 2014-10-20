@@ -5,17 +5,7 @@
 
 {{=it.localizationMap}}
 
-{{=it.requireStatement}}
+{{=it.functionBlock}}
 
-  if(typeof require === "function" && typeof exports === 'object' && typeof module === 'object') {
-    module.exports = requireLocalizations;
-  }
-  else if (typeof define === "function" && define.amd) {
-    define(function() {
-      return requireLocalizations;
-    });
-  }
-  else {
-    window.requireLocalizations = requireLocalizations;
-  }
+{{=it.moduleExportBlock}}
 })();

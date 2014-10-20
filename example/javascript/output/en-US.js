@@ -376,248 +376,25 @@
         }
         return string;
       }
-    },
-    'ja-JP': {
-      '__getPluralKeyword': function(cardinal) {
-        return 'other';
-      },
-      '__getOrdinalKeyword': function(cardinal) {
-        return 'other';
-      },
-      '__numberSymbols': {
-        'latn': {
-          'decimal': '.',
-          'group': ',',
-          'list': ';',
-          'percentSign': '%',
-          'plusSign': '+',
-          'minusSign': '-',
-          'exponential': 'E',
-          'superscriptingExponent': '×',
-          'perMille': '‰',
-          'infinity': '∞',
-          'nan': 'NaN',
-          'timeSeparator': ':'
-        }
-      },
-      '__currencies': {
-        'USD': {
-          'name': '米ドル',
-          'text': {
-            'local': null,
-            'global': {
-              'other': '米ドル'
-            }
-          },
-          'symbol': {
-            'local': '$',
-            'global': 'US$',
-            'reverseGlobal': '$US'
-          }
-        }
-      },
-      '__currencyUnitPattern': {
-        'other': '{0} {1}'
-      },
-      'INDEX1': function(it) {
-        var string = '';
-
-        return string;
-      }
-    },
-    'ar-AE': {
-      '__getPluralKeyword': function(cardinal) {
-        var cardinal = cardinal + ''
-          , n = cardinal
-          , i = parseInt(cardinal, 10)
-          , v = 0
-          , w = 0
-          , f = 0
-          , t = 0;
-
-        var hasFractionalDigitsSyntax = /\.(\d+)/;
-
-        if(hasFractionalDigitsSyntax.test(cardinal)) {
-          f = hasFractionalDigitsSyntax.exec(cardinal)[1];
-          v = f.length;
-          t = cardinal.replace(/0+$/, '');
-          t = hasFractionalDigitsSyntax.exec(t)[1];
-          w = t.length;
-        }
-        if(n === 0) {
-          return 'zero';
-        }
-        else if(n === 1) {
-          return 'one';
-        }
-        else if(n === 2) {
-          return 'two';
-        }
-        else if((3 >= n && n <= 10)) {
-          return 'few';
-        }
-        else if((11 >= n && n <= 99)) {
-          return 'many';
-        }
-        return 'other';
-      },
-      '__getOrdinalKeyword': function(cardinal) {
-        return 'other';
-      },
-      '__numberSymbols': {
-        'arab': {
-          'decimal': '٫',
-          'group': '٬',
-          'list': '؛',
-          'percentSign': '٪',
-          'plusSign': '‏+',
-          'comment': ' includes RLM before sign (002D) ',
-          'minusSign': '‏-',
-          'exponential': 'اس',
-          'superscriptingExponent': '×',
-          'perMille': '؉',
-          'infinity': '∞',
-          'nan': 'ليس رقم',
-          'timeSeparator': '،'
-        },
-        'latn': {
-          'decimal': '.',
-          'group': ',',
-          'list': ';',
-          'percentSign': '%',
-          'plusSign': '‎+',
-          'comment': ' includes LRM before sign (002D) ',
-          'minusSign': '‎-',
-          'exponential': 'E',
-          'superscriptingExponent': '×',
-          'perMille': '‰',
-          'infinity': '∞',
-          'nan': 'NaN',
-          'timeSeparator': ':'
-        }
-      },
-      '__currencies': {
-        'USD': {
-          'name': 'دولار أمريكي',
-          'text': {
-            'local': null,
-            'global': {
-              'zero': 'دولار أمريكي',
-              'one': 'دولار أمريكي',
-              'two': 'دولار أمريكي',
-              'few': 'دولار أمريكي',
-              'many': 'دولار أمريكي',
-              'other': 'دولار أمريكي'
-            }
-          },
-          'symbol': {
-            'local': '$',
-            'global': 'US$',
-            'reverseGlobal': '$US'
-          }
-        }
-      },
-      '__currencyUnitPattern': {
-        'zero': '{0} {1}',
-        'one': '{0} {1}',
-        'two': '{0} {1}',
-        'few': '{0} {1}',
-        'many': '{0} {1}',
-        'other': '{0} {1}'
-      },
-      'INDEX1': function(it) {
-        var string = '';
-
-        return string;
-      }
-    },
-    'zh-CN': {
-      '__getPluralKeyword': function(cardinal) {
-        return 'other';
-      },
-      '__getOrdinalKeyword': function(cardinal) {
-        return 'other';
-      },
-      '__numberSymbols': {
-        'hanidec': {
-          'decimal': '.',
-          'group': ',',
-          'list': ';',
-          'percentSign': '%',
-          'plusSign': '+',
-          'minusSign': '-',
-          'exponential': 'E',
-          'superscriptingExponent': '×',
-          'perMille': '‰',
-          'infinity': '∞',
-          'nan': 'NaN',
-          'timeSeparator': ':'
-        },
-        'latn': {
-          'decimal': '.',
-          'group': ',',
-          'list': ';',
-          'percentSign': '%',
-          'plusSign': '+',
-          'minusSign': '-',
-          'exponential': 'E',
-          'superscriptingExponent': '×',
-          'perMille': '‰',
-          'infinity': '∞',
-          'nan': 'NaN',
-          'timeSeparator': ':'
-        }
-      },
-      '__currencies': {
-        'USD': {
-          'name': '美元',
-          'text': {
-            'local': null,
-            'global': {
-              'other': '美元'
-            }
-          },
-          'symbol': {
-            'local': '$',
-            'global': 'US$',
-            'reverseGlobal': '$US'
-          }
-        }
-      },
-      '__currencyUnitPattern': {
-        'other': '{0}{1}'
-      },
-      'INDEX1': function(it) {
-        var string = '';
-
-        return string;
-      }
     }
   };
 
-  function requireLocalizations(locale) {
-    return (function(locale) {
-      return function l(key) {
-        if(!(locale in localizations)) {
-          return 'LOCALE_NOT_IN_LOCALIZATIONS: ' + locale;
-        }
-        if(!(key in localizations[locale])) {
-          return 'KEY_NOT_IN_LOCALIZATIONS: ' + key;
-        }
-        return localizations[locale][key].call(undefined, arguments[1]);
-      };
-    })(locale);
-  };
+  function l(key) {
+    if(!(key in localizations['en-US'])) {
+    	throw new TypeError('Key `' + key + '` not in en-US localizations');
+    }
+    return localizations['en-US'][key].call(undefined, arguments[1]);
+  }
 
   if(typeof require === "function" && typeof exports === 'object' && typeof module === 'object') {
-    module.exports = requireLocalizations;
+    module.exports = l;
   }
   else if (typeof define === "function" && define.amd) {
     define(function() {
-      return requireLocalizations;
+      return l;
     });
   }
   else {
-    window.requireLocalizations = requireLocalizations;
+    window.l = l;
   }
 })();

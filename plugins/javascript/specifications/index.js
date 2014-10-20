@@ -19,7 +19,7 @@ global.getDependencies = function(localizations) {
     '../../libraries/file': {
       readLocalizations: stub().returns(resolvesTo(localizations))
     },
-    'mkdirp': stub().callsArgWith(1, null),
+    'mkdirp': { sync: stub() },
     fs: {
       writeFileSync: spy()
     }
@@ -89,7 +89,7 @@ describe('Javascript Compiler', function() {
         'var string = \'\';\n' +
         'string += \'sentence1\';\n' +
         'return string;';
-        expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
         }));
         done();
@@ -109,7 +109,7 @@ describe('Javascript Compiler', function() {
         'string += it.variable1;\n' +
         'string += \'sentence2\';\n' +
         'return string;';
-        expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
         }));
         done();
@@ -129,7 +129,7 @@ describe('Javascript Compiler', function() {
         'var string = \'\';\n' +
         'string += it.variable1;\n' +
         'return string;';
-        expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
         }));
         done();
@@ -148,7 +148,7 @@ describe('Javascript Compiler', function() {
         'string += it.variable1;\n' +
         'string += it.variable2;\n' +
         'return string;';
-        expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
         }));
         done();
@@ -183,7 +183,7 @@ describe('Javascript Compiler', function() {
         '    break;\n' +
         '}\n' +
         'return string;';
-        expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
         }));
         done();
@@ -210,7 +210,7 @@ describe('Javascript Compiler', function() {
         '    break;\n' +
         '}\n' +
         'return string;';
-        expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
         }));
         done();
@@ -242,7 +242,7 @@ describe('Javascript Compiler', function() {
         '    break;\n' +
         '}\n' +
         'return string;';
-        expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
         }));
         done();
@@ -269,7 +269,7 @@ describe('Javascript Compiler', function() {
         '    break;\n' +
         '}\n' +
         'return string;';
-        expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
         }));
         done();
@@ -297,7 +297,7 @@ describe('Javascript Compiler', function() {
         '    break;\n' +
         '}\n' +
         'return string;';
-        expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
         }));
         done();
@@ -343,7 +343,7 @@ describe('Javascript Compiler', function() {
         '    break;\n' +
         '}\n' +
         'return string;';
-        expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
         }));
         done();
@@ -388,7 +388,7 @@ describe('Javascript Compiler', function() {
         '    break;\n' +
         '}\n' +
         'return string;';
-        expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
         }));
         done();
@@ -424,7 +424,7 @@ describe('Javascript Compiler', function() {
         '    break;\n' +
         '}\n' +
         'return string;';
-        expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
         }));
         done();
@@ -458,7 +458,7 @@ describe('Javascript Compiler', function() {
         '    break;\n' +
         '}\n' +
         'return string;';
-        expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
         }));
         done();
@@ -494,7 +494,7 @@ describe('Javascript Compiler', function() {
         '    break;\n' +
         '}\n' +
         'return string;';
-        expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
         }));
         done();
@@ -518,7 +518,7 @@ describe('Javascript Compiler', function() {
         '    break;\n' +
         '}\n' +
         'return string;';
-        expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
         }));
         done();
@@ -546,7 +546,7 @@ describe('Javascript Compiler', function() {
         '    break;\n' +
         '}\n' +
         'return string;';
-        expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
         }));
         done();
@@ -571,7 +571,7 @@ describe('Javascript Compiler', function() {
         '    break;\n' +
         '}\n' +
         'return string;';
-        expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
         }));
         done();
@@ -597,7 +597,7 @@ describe('Javascript Compiler', function() {
         '    break;\n' +
         '}\n' +
         'return string;';
-        expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
         }));
         done();
@@ -629,7 +629,7 @@ describe('Javascript Compiler', function() {
         '    break;\n' +
         '}\n' +
         'return string;';
-        expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
         }));
         done();
@@ -663,7 +663,7 @@ describe('Javascript Compiler', function() {
         '    break;\n' +
         '}\n' +
         'return string;';
-        expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
         }));
         done();
@@ -697,7 +697,7 @@ describe('Javascript Compiler', function() {
         '    break;\n' +
         '}\n' +
         'return string;';
-        expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
         }));
         done();
@@ -723,7 +723,7 @@ describe('Javascript Compiler', function() {
         '    break;\n' +
         '}\n' +
         'return string;';
-        expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
         }));
         done();
@@ -750,7 +750,7 @@ describe('Javascript Compiler', function() {
         '    break;\n' +
         '}\n' +
         'return string;';
-        expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
         }));
         done();
@@ -782,7 +782,7 @@ describe('Javascript Compiler', function() {
         '    break;\n' +
         '}\n' +
         'return string;';
-        expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
         }));
         done();
@@ -809,7 +809,7 @@ describe('Javascript Compiler', function() {
         '    break;\n' +
         '}\n' +
         'return string;';
-        expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
         }));
         done();
@@ -837,7 +837,7 @@ describe('Javascript Compiler', function() {
         '    break;\n' +
         '}\n' +
         'return string;';
-        expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
         }));
         done();
@@ -882,7 +882,7 @@ describe('Javascript Compiler', function() {
         '    break;\n' +
         '}\n' +
         'return string;';
-        expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
         }));
         done();
@@ -916,7 +916,7 @@ describe('Javascript Compiler', function() {
         '    break;\n' +
         '}\n' +
         'return string;';
-        expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
         }));
         done();
@@ -952,7 +952,7 @@ describe('Javascript Compiler', function() {
         '    break;\n' +
         '}\n' +
         'return string;';
-        expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
         }));
         done();
@@ -988,7 +988,7 @@ describe('Javascript Compiler', function() {
         '    break;\n' +
         '}\n' +
         'return string;';
-        expect(dependencies.fs.writeFileSync.args[0][1]).to.eql(template['JavascriptWrapper']({
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
         }));
         done();

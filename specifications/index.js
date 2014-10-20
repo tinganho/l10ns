@@ -40,7 +40,7 @@ global.language = {
 
 global.project = {
   cache: {},
-  outputFile: '/Application/Localizations/Output/Localizations.js',
+  output: '/Application/Localizations/Output',
   root: '/var/www'
 };
 

@@ -14,7 +14,7 @@
         "USD"
       ],
       "store": "example/javascript/localizations",
-      "outputFile": "example/javascript/output/localizations.js",
+      "output": "example/javascript/output",
       "source": ["example/javascript/**/*.js"],
       "interface" : {
         "autoOpen": false,
