@@ -123,7 +123,7 @@ Now, create a source file <span class="focused">test.js</span> with (at least) t
 </p>
 
 <code>
-<span class="blue">var</span> requireLocalizations = require(<span class="red">'path/to/output'</span>);<br>
+<span class="blue">var</span> requireLocalizations = require(<span class="red">'path/to/output/all.js'</span>);<br>
 <span class="blue">var</span> l = requireLocalization(<span class="red">'en-US'</span>);<br>
 <span class="blue">var</span> firstname = l(<span class="red">'SIGN_UP__FIRSTNAME'</span>);<br>
 <span class="blue">var</span> lastname = l(<span class="red">'SIGN_UP__LASTNAME'</span>);
@@ -185,7 +185,7 @@ The outputted code form L10ns lets you import it with CommonJS and AMD.
 </p>
 
 <code>
-var requireLocalizations = require(<span class="red">'path/to/output'</span>);
+var requireLocalizations = require(<span class="red">'path/to/output/all.js'</span>);
 </code>
 
 <p>
@@ -193,7 +193,7 @@ You can also simply import it with HTML <span class="focused">script</span> tag.
 </p>
 
 <code>
-&lt;script type=<span class="red">&quot;text/javascript&quot;</span> src=<span class="red">&quot;path/to/output&quot;</span>&gt;&lt;/script&gt;
+&lt;script type=<span class="red">&quot;text/javascript&quot;</span> src=<span class="red">&quot;path/to/output/all.js&quot;</span>&gt;&lt;/script&gt;
 </code>
 
 <p>
@@ -202,6 +202,22 @@ For usage just require the locale you need and set it to the variable <span clas
 
 <code>
 var l = requireLocalizations(<span class="red">'en-US'</span>);
+</code>
+
+<p>
+You can also simply require each locale directly. And there will be no need to call <span class="focused">requireLocalizations()</span>.
+<p>
+
+<code>
+var l = require('/path/to/output/en-US');
+</code>
+
+<p>
+Or if you are in a browser:
+</p>
+
+<code>
+&lt;script type=<span class="red">&quot;text/javascript&quot;</span> src=<span class="red">&quot;path/to/output/en-US.js&quot;</span>&gt;&lt;/script&gt;
 </code>
 
 <p>
