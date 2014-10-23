@@ -9,38 +9,38 @@ describe('DateFormat', function() {
       messageFormat.parse('{variable1, date, G}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
       expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.Era);
-      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.Era.Types.ABBREVIATED);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.Era.Formats.ABBREVIATED);
       messageFormat.parse('{variable1, date, GG}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
       expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.Era);
-      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.Era.Types.ABBREVIATED);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.Era.Formats.ABBREVIATED);
       messageFormat.parse('{variable1, date, GGG}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
       expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.Era);
-      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.Era.Types.ABBREVIATED);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.Era.Formats.ABBREVIATED);
     });
 
     it('should be able to parse a full era format', function() {
       messageFormat.parse('{variable1, date, GGGG}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
       expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.Era);
-      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.Era.Types.FULL);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.Era.Formats.FULL);
     });
 
     it('should be able to parse a full narrow format', function() {
       messageFormat.parse('{variable1, date, GGGGG}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
       expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.Era);
-      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.Era.Types.NARROW);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.Era.Formats.NARROW);
     });
 
     it('should begin use a new identifier(s) if exceeding length of 5', function() {
       messageFormat.parse('{variable1, date, GGGGGG}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
       expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.Era);
-      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.Era.Types.NARROW);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.Era.Formats.NARROW);
       expect(messageFormat.messageAST[0].AST[1]).to.be.an.instanceOf(AST.date.Era);
-      expect(messageFormat.messageAST[0].AST[1].format).to.equal(AST.date.Era.Types.ABBREVIATED);
+      expect(messageFormat.messageAST[0].AST[1].format).to.equal(AST.date.Era.Formats.ABBREVIATED);
     });
   });
 
@@ -980,7 +980,6 @@ describe('DateFormat', function() {
     it('should be able to parse a ISO 8601 with Z time zone identifier', function() {
       messageFormat.parse('{variable1, date, X}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
-      console.log(messageFormat.messageAST[0].AST)
       expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.timeZone.ISO8601WithZTimeZone);
       expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.timeZone.ISO8601WithZTimeZone.Formats.BASIC_FORMAT_WITH_OPTIONAL_MINUTES);
     });
@@ -1026,7 +1025,6 @@ describe('DateFormat', function() {
     it('should be able to parse a ISO 8601 without Z time zone identifier', function() {
       messageFormat.parse('{variable1, date, x}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
-      console.log(messageFormat.messageAST[0].AST)
       expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.timeZone.ISO8601WithoutZTimeZone);
       expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.timeZone.ISO8601WithoutZTimeZone.Formats.BASIC_FORMAT_WITH_OPTIONAL_MINUTES);
     });

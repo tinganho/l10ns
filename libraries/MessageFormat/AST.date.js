@@ -34,6 +34,7 @@ AST.date.DateFormat = function(locale, variable, argument, messageFormat) {
   this.variable = variable;
   this.argument = argument;
   this.lexer = null;
+  this.CLDR = messageFormat.date;
   this.AST = [];
   this.parse(argument);
 };
@@ -170,13 +171,13 @@ AST.date.DateFormat.prototype.parse = function(string) {
 AST.date.DateFormat.prototype._parseEra = function() {
   var length = this._getConsecutiveLength(5);
   if(length <= 3) {
-    return new AST.date.Era(AST.date.Era.Types.ABBREVIATED);
+    return new AST.date.Era(AST.date.Era.Formats.ABBREVIATED);
   }
   else if(length === 4) {
-    return new AST.date.Era(AST.date.Era.Types.FULL);
+    return new AST.date.Era(AST.date.Era.Formats.FULL);
   }
   else {
-    return new AST.date.Era(AST.date.Era.Types.NARROW);
+    return new AST.date.Era(AST.date.Era.Formats.NARROW);
   }
 };
 
@@ -697,7 +698,7 @@ AST.date.DateFormat.prototype._getConsecutiveLength = function(max) {
 /**
  * Era AST.
  *
- * @param {Era.Type}.Type
+ * @param {AST.date.Era.Formats}. format
  * @constructor
  */
 
@@ -713,7 +714,7 @@ AST.date.Era = function(format) {
  * @enum {AST.Data.Era.Type}
  */
 
-AST.date.Era.Types = {
+AST.date.Era.Formats = {
  ABBREVIATED: 1,
  FULL: 2,
  NARROW: 3

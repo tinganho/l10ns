@@ -35,6 +35,7 @@ function MessageFormat(locale) {
   this.percentagePatterns = {};
   this.currencyPatterns = {};
   this.currencies = {};
+  this.date = {};
   this.localeDocument = null;
   this.languageDocument = null;
   this.rootDocument = null;
@@ -44,6 +45,7 @@ function MessageFormat(locale) {
   this._readOrdinalRules();
   this._readDocuments();
   this._readNumberFormatsData();
+  this._readDateData();
 };
 
 /**
@@ -916,7 +918,7 @@ MessageFormat.prototype._getXMLNode = function(path) {
     node = this.rootDocument.get(path);
   }
 
-  if(node.child(0).name() === 'alias') {
+  if(node && typeof node.child === 'function' && node.child(0).name() === 'alias') {
     var relativePath = node.child(0).attr('path').value();
     node = node.get(relativePath);
   }
@@ -1017,8 +1019,6 @@ MessageFormat.prototype._readNumberSymbols = function(rootDocument, languageDocu
 /**
  * Read currency data
  *
- * @param {XMLDocument} languageDocument Language specific main CLDR XML document
- * @param {XMLDocument} localeDocument Locale specific main CLDR XML document
  * @return {void}
  * @api private
  */
@@ -1085,6 +1085,40 @@ MessageFormat.prototype._readCurrencyData = function() {
       });
     });
   }
+};
+
+/**
+ * Read date data
+ *
+ * @return {void}
+ * @api private
+ */
+
+MessageFormat.prototype._readDateData = function() {
+  // Era
+  var eraFullBC = this._getXMLNode('//calendar[@type="gregorian"]/eras/eraNames/era[@type=\'0\']').text();
+  var eraFullAD = this._getXMLNode('//calendar[@type="gregorian"]/eras/eraNames/era[@type=\'1\']').text();
+  var eraAbbreviatedBC = this._getXMLNode('//calendar[@type="gregorian"]/eras/eraAbbr/era[@type=\'0\']').text();
+  var eraAbbreviatedAD = this._getXMLNode('//calendar[@type="gregorian"]/eras/eraAbbr/era[@type=\'1\']').text();
+  var eraNarrowBC = this._getXMLNode('//eras/eraNarrow/era[@type="0"]').text(); // Problem selecting gregorian calendar
+  var eraNarrowAD = this._getXMLNode('//eras/eraNarrow/era[@type="1"]').text(); // Problem selecting gregorian calendar
+
+  this.date['era'] = {
+    full: {
+      BC: eraFullBC,
+      AD: eraFullAD
+    },
+    abbreviated: {
+      BC: eraAbbreviatedBC,
+      AD: eraAbbreviatedAD
+    },
+    narrow: {
+      BC: eraNarrowBC,
+      AD: eraNarrowAD
+    }
+  };
+
+
 };
 
 /**

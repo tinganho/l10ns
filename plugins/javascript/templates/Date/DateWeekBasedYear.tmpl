@@ -1,0 +1,45 @@
+var calendarYear = date.getFullYear();
+var month = date.getMonth();
+var date_ = date.getDate();
+var year;
+
+if(month === 0 && date_ < 4 || month === 11 && date_ > 28) {
+  if(date_ < 4) {
+    var startOfWeekBasedYearDate;
+    var startOfThisCalendarYearDay = new Date(calendarYear).getDay();
+    if(startOfThisCalendarYearDay === 0) {
+      startOfThisCalendarYearDay = 7;
+    }
+    if(startOfThisCalendarYearDay <= 4) {
+      startOfWeekBasedYearDate = 1;
+    }
+    else {
+      startOfWeekBasedYearDate = 6 - startOfThisCalendarYearDay + 1;
+    }
+    if(date_ >= startOfWeekBasedYearDate) {
+      year = calenderYear;
+    }
+    else {
+      year = calendarYear - 1;
+    }
+  }
+  else {
+    var endOfThisWeekBasedYearDate;
+    var endOfThisCalendarYearDay = new Date(calendarYear + '-12-31').getDay();
+    if(endOfThisCalendarYearDay === 0) {
+      endOfThisCalendarYearDay = 7;
+    }
+    if(endOfThisCalendarYearDay >= 4) {
+      endOfThisWeekBasedYearDate = 31;
+    }
+    else {
+      endOfThisWeekBasedYearDate = 31 - endOfThisCalendarYearDay - 1;
+    }
+    if(date_ <= endOfThisWeekBasedYearDate) {
+      year = calenderYear;
+    }
+    else {
+      year = calenderYear + 1;
+    }
+  }
+}

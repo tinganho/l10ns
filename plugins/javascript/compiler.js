@@ -268,6 +268,9 @@ Compiler.prototype._getFunctionBody = function(messageAST, locale) {
     else if(messageAST[index] instanceof MessageFormat.AST.NumberFormat) {
       result += this._compileNumberFormat(messageAST[index]);
     }
+    else if(messageAST[index] instanceof MessageFormat.AST.date.DateFormat) {
+      result += this._compileDateFormat(messageAST[index]);
+    }
     else if(messageAST[index] instanceof MessageFormat.AST.CurrencyFormat) {
       result += this._compileCurrencyFormat(messageAST[index]);
     }
@@ -482,6 +485,62 @@ Compiler.prototype._compileNumberFormat = function(numberFormat) {
 };
 
 /**
+ * Compile date format
+ *
+ * @param {AST.DateFormat} dateFormat
+ * @return {void}
+ * @api private
+ */
+
+Compiler.prototype._compileDateFormat = function(dateFormat) {
+  var result = template['SetDateBlock']({
+    variableName: dateFormat.variable.name
+  });
+
+  result += this.linefeed;
+
+  dateFormat.AST.forEach(function(component) {
+    if(component instanceof MessageFormat.AST.date.Era) {
+      var eraFormat;
+      switch(component.format) {
+        case MessageFormat.AST.date.Era.Formats.ABBREVIATED:
+          eraFormat = 'abbreviated';
+          break;
+        case MessageFormat.AST.date.Era.Formats.FULL:
+          eraFormat = 'full';
+          break;
+        case MessageFormat.AST.date.Era.Formats.NARROW:
+          eraFormat = 'narrow';
+          break;
+      }
+      result += template['DateEra']({
+        AD: dateFormat.CLDR.era[eraFormat].AD,
+        BC: dateFormat.CLDR.era[eraFormat].BC
+      });
+    }
+    else if(component instanceof MessageFormat.AST.date.Year) {
+      switch(component.type) {
+        case MessageFormat.AST.date.Year.Types.CALENDAR:
+          result += template['DateCalendarYear']({
+            length: component.length
+          });
+          break;
+        case MessageFormat.AST.date.Year.Types.WEEK_BASED:
+          yearType = 'weekBased';
+          break;
+        case MessageFormat.AST.date.Year.Types.EXTENDED:
+          yearType = 'extended';
+          break;
+      }
+
+
+    }
+  });
+
+  return result;
+};
+
+/**
  * Compile currency format
  *
  * @param {AST.CurrencyFormat} currencyFormat
@@ -599,52 +658,6 @@ Compiler.prototype._compileCurrencyFormat = function(currencyFormat) {
       variableName: 'string',
       digits: digits[currencyFormat.numberSystem]
     })
-  }
-
-  return result;
-};
-
-/**
- * Compile choice format
- *
- * @param {AST.ChoiceFormat} choiceFormat
- * @return {String}
- * @api private
- */
-
-Compiler.prototype._compileChoiceFormat = function(choiceFormat) {
-  var valuesLength = Object.keys(choiceFormat.values).length
-    , valuesCount = 0
-    , result = '';
-
-  for(var index = 0; index < choiceFormat.values.length; index++) {
-    if(valuesLength === 1) {
-      result += this._getFunctionBody(choiceFormat.values[index].messageAST);
-    }
-    else {
-      if(index === 0) {
-        result += template['FirstRangeCondition']({
-          variableName: choiceFormat.variable.name,
-          lowestLimit: choiceFormat.values[index].limits.lower.value,
-          limits: choiceFormat.values[index].limits,
-          type: choiceFormat.values[index].limits.lower.type.replace('>=', '<').replace('>', '<='),
-          body: this._indentSpaces(2, this._getFunctionBody(choiceFormat.values[index].messageAST))
-        });
-        result += this.linefeed;
-      }
-      else {
-        result += template['RangeCondition']({
-          variableName: choiceFormat.variable.name,
-          limits: choiceFormat.values[index].limits,
-          body: this._indentSpaces(2, this._getFunctionBody(choiceFormat.values[index].messageAST))
-        });
-        if(index !== valuesLength - 1) {
-          result += this.linefeed;
-        }
-      }
-    }
-
-    valuesCount++;
   }
 
   return result;

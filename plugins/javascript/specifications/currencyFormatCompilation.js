@@ -1,4 +1,4 @@
-describe('compilation', function() {
+describe('CurrencyFormat', function() {
   it('should be able to compile a currency format with a local symbol', function(done) {
     var localizations = getLocalizations('{variable1, currency, local, symbol}')
       , dependencies = getDependencies(localizations)

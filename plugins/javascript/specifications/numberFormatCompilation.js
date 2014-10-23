@@ -1,4 +1,4 @@
-describe('compilation', function() {
+describe('NumberFormat', function() {
   it('should be able to compile a non-absent integer', function(done) {
     var localizations = getLocalizations('{variable1, number, 0}')
       , dependencies = getDependencies(localizations)
