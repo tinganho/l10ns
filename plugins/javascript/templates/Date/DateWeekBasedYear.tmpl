@@ -17,7 +17,7 @@ if(month === 0 && date_ < 4 || month === 11 && date_ > 28) {
       startOfWeekBasedYearDate = 6 - startOfThisCalendarYearDay + 1;
     }
     if(date_ >= startOfWeekBasedYearDate) {
-      year = calenderYear;
+      year = calendarYear;
     }
     else {
       year = calendarYear - 1;
@@ -36,10 +36,10 @@ if(month === 0 && date_ < 4 || month === 11 && date_ > 28) {
       endOfThisWeekBasedYearDate = 31 - endOfThisCalendarYearDay - 1;
     }
     if(date_ <= endOfThisWeekBasedYearDate) {
-      year = calenderYear;
+      year = calendarYear;
     }
     else {
-      year = calenderYear + 1;
+      year = calendarYear + 1;
     }
   }
 }

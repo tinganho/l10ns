@@ -493,6 +493,8 @@ Compiler.prototype._compileNumberFormat = function(numberFormat) {
  */
 
 Compiler.prototype._compileDateFormat = function(dateFormat) {
+  var _this = this;
+
   var result = template['SetDateBlock']({
     variableName: dateFormat.variable.name
   });
@@ -521,19 +523,21 @@ Compiler.prototype._compileDateFormat = function(dateFormat) {
     else if(component instanceof MessageFormat.AST.date.Year) {
       switch(component.type) {
         case MessageFormat.AST.date.Year.Types.CALENDAR:
-          result += template['DateCalendarYear']({
+          result += template['SetYear']() + _this.linefeed;
+          result += template['FormatYear']({
             length: component.length
           });
           break;
         case MessageFormat.AST.date.Year.Types.WEEK_BASED:
-          yearType = 'weekBased';
+          result += template['DateWeekBasedYear']() + _this.linefeed;
+          result += template['FormatYear']({
+            length: component.length
+          });
           break;
         case MessageFormat.AST.date.Year.Types.EXTENDED:
           yearType = 'extended';
           break;
       }
-
-
     }
   });
 

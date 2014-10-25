@@ -1,5 +1,4 @@
-var year = date.getFullYear() + '';{{?it.length != 2}}
-if(year.length >= {{=it.length}}) {
+{{?it.length != 2}}if(year.length >= {{=it.length}}) {
   string += year;
 }
 else {
@@ -8,8 +7,7 @@ else {
     string += '0';
   }
   string += year;
-}{{??}}
-if(year.length < 2) {
+}{{??}}if(year.length < 2) {
   string += '0';
 }
 else {
