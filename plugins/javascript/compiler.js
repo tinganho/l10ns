@@ -478,7 +478,7 @@ Compiler.prototype._compileNumberFormat = function(numberFormat) {
     result += this.linefeed + template['ReplaceDigitBlock']({
       variableName: 'string',
       digits: digits[numberFormat.numberSystem]
-    })
+    });
   }
 
   return result;
@@ -534,10 +534,66 @@ Compiler.prototype._compileDateFormat = function(dateFormat) {
             length: component.length
           });
           break;
-        case MessageFormat.AST.date.Year.Types.EXTENDED:
-          yearType = 'extended';
+      }
+    }
+    else if(component instanceof MessageFormat.AST.date.Quarter) {
+      var quarterContext;
+      var quarterFormat;
+      var quarterStrings;
+
+      switch(component.context) {
+        case MessageFormat.AST.date.Quarter.Contexts.FORMATED:
+          quarterContext = 'formated';
+          break;
+        case MessageFormat.AST.date.Quarter.Contexts.STAND_ALONE:
+          quarterContext = 'standalone';
           break;
       }
+      switch(component.format) {
+        case MessageFormat.AST.date.Quarter.Formats.NUMERIC:
+          quarterStrings = {
+            Q1: '1',
+            Q2: '2',
+            Q3: '3',
+            Q4: '4'
+          };
+          break;
+        case MessageFormat.AST.date.Quarter.Formats.NUMERIC_WITH_PADDING:
+          quarterStrings = {
+            Q1: '01',
+            Q2: '02',
+            Q3: '03',
+            Q4: '04'
+          };
+          break;
+        case MessageFormat.AST.date.Quarter.Formats.ABBREVIATED:
+          quarterStrings = dateFormat.CLDR.quarter[quarterContext]['abbreviated'];
+          break;
+        case MessageFormat.AST.date.Quarter.Formats.WIDE:
+          quarterStrings = dateFormat.CLDR.quarter[quarterContext]['wide'];
+          break;
+      }
+
+      if(component.format === MessageFormat.AST.date.Quarter.Formats.NUMERIC ||
+         component.format === MessageFormat.AST.date.Quarter.Formats.NUMERIC_WITH_PADDING) {
+        if(dateFormat.numberSystem !== 'latn') {
+          for(var quarter in quarterStrings) {
+            quarterStrings[quarter] = quarterStrings[quarter]
+              .replace(/1/g, digits[dateFormat.numberSystem]['1'])
+              .replace(/2/g, digits[dateFormat.numberSystem]['2'])
+              .replace(/3/g, digits[dateFormat.numberSystem]['3'])
+              .replace(/4/g, digits[dateFormat.numberSystem]['4'])
+              .replace(/5/g, digits[dateFormat.numberSystem]['5'])
+              .replace(/6/g, digits[dateFormat.numberSystem]['6'])
+              .replace(/7/g, digits[dateFormat.numberSystem]['7'])
+              .replace(/8/g, digits[dateFormat.numberSystem]['8'])
+              .replace(/9/g, digits[dateFormat.numberSystem]['9'])
+              .replace(/0/g, digits[dateFormat.numberSystem]['0']);
+          }
+        }
+      }
+
+      result += template['DateQuarter'](quarterStrings);
     }
   });
 

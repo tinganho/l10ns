@@ -285,7 +285,7 @@ describe('DateFormat', function() {
   });
 
   describe('Quarter', function() {
-    it('we', function() {
+    it('should be able to compile a formated numeric quarter', function(done) {
       var localizations = getLocalizations('{variable1, date, Q}');
       var dependencies = getDependencies(localizations);
       var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
@@ -293,6 +293,183 @@ describe('DateFormat', function() {
       compiler.run();
       eventually(function() {
         var functionBody = setDateBlock +
+          'var quarter = Math.floor(date.getMonth() / 3);\n' +
+          'var quarterStrings = [\n' +
+          '  \'1\',\n' +
+          '  \'2\',\n' +
+          '  \'3\',\n' +
+          '  \'4\'\n' +
+          '];\n' +
+          'string += quarterStrings[quarter];\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to compile a formated numeric with padding quarter', function(done) {
+      var localizations = getLocalizations('{variable1, date, QQ}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var quarter = Math.floor(date.getMonth() / 3);\n' +
+          'var quarterStrings = [\n' +
+          '  \'01\',\n' +
+          '  \'02\',\n' +
+          '  \'03\',\n' +
+          '  \'04\'\n' +
+          '];\n' +
+          'string += quarterStrings[quarter];\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to compile a formated abbreviated quarter', function(done) {
+      var localizations = getLocalizations('{variable1, date, QQQ}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var quarter = Math.floor(date.getMonth() / 3);\n' +
+          'var quarterStrings = [\n' +
+          '  \'Q1\',\n' +
+          '  \'Q2\',\n' +
+          '  \'Q3\',\n' +
+          '  \'Q4\'\n' +
+          '];\n' +
+          'string += quarterStrings[quarter];\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to compile a formated wide quarter', function(done) {
+      var localizations = getLocalizations('{variable1, date, QQQQ}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var quarter = Math.floor(date.getMonth() / 3);\n' +
+          'var quarterStrings = [\n' +
+          '  \'1st quarter\',\n' +
+          '  \'2nd quarter\',\n' +
+          '  \'3rd quarter\',\n' +
+          '  \'4th quarter\'\n' +
+          '];\n' +
+          'string += quarterStrings[quarter];\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+
+    it('should be able to compile a stand-alone numeric quarter', function(done) {
+      var localizations = getLocalizations('{variable1, date, q}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var quarter = Math.floor(date.getMonth() / 3);\n' +
+          'var quarterStrings = [\n' +
+          '  \'1\',\n' +
+          '  \'2\',\n' +
+          '  \'3\',\n' +
+          '  \'4\'\n' +
+          '];\n' +
+          'string += quarterStrings[quarter];\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to compile a stand-alone numeric with padding quarter', function(done) {
+      var localizations = getLocalizations('{variable1, date, qq}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var quarter = Math.floor(date.getMonth() / 3);\n' +
+          'var quarterStrings = [\n' +
+          '  \'01\',\n' +
+          '  \'02\',\n' +
+          '  \'03\',\n' +
+          '  \'04\'\n' +
+          '];\n' +
+          'string += quarterStrings[quarter];\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to compile a stand-alone abbreviated quarter', function(done) {
+      var localizations = getLocalizations('{variable1, date, qqq}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var quarter = Math.floor(date.getMonth() / 3);\n' +
+          'var quarterStrings = [\n' +
+          '  \'Q1\',\n' +
+          '  \'Q2\',\n' +
+          '  \'Q3\',\n' +
+          '  \'Q4\'\n' +
+          '];\n' +
+          'string += quarterStrings[quarter];\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to compile a stand-alone wider quarter', function(done) {
+      var localizations = getLocalizations('{variable1, date, qqqq}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var quarter = Math.floor(date.getMonth() / 3);\n' +
+          'var quarterStrings = [\n' +
+          '  \'Q1\',\n' +
+          '  \'Q2\',\n' +
+          '  \'Q3\',\n' +
+          '  \'Q4\'\n' +
+          '];\n' +
+          'string += quarterStrings[quarter];\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)

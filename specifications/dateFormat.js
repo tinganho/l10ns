@@ -104,7 +104,7 @@ describe('DateFormat', function() {
       messageFormat.parse('{variable1, date, Q}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
       expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.Quarter);
-      expect(messageFormat.messageAST[0].AST[0].context).to.equal(AST.date.Quarter.Context.FORMATED);
+      expect(messageFormat.messageAST[0].AST[0].context).to.equal(AST.date.Quarter.Contexts.FORMATED);
       expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.Quarter.Formats.NUMERIC);
     });
 
@@ -112,7 +112,7 @@ describe('DateFormat', function() {
       messageFormat.parse('{variable1, date, QQ}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
       expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.Quarter);
-      expect(messageFormat.messageAST[0].AST[0].context).to.equal(AST.date.Quarter.Context.FORMATED);
+      expect(messageFormat.messageAST[0].AST[0].context).to.equal(AST.date.Quarter.Contexts.FORMATED);
       expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.Quarter.Formats.NUMERIC_WITH_PADDING);
     });
 
@@ -120,7 +120,7 @@ describe('DateFormat', function() {
       messageFormat.parse('{variable1, date, QQQ}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
       expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.Quarter);
-      expect(messageFormat.messageAST[0].AST[0].context).to.equal(AST.date.Quarter.Context.FORMATED);
+      expect(messageFormat.messageAST[0].AST[0].context).to.equal(AST.date.Quarter.Contexts.FORMATED);
       expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.Quarter.Formats.ABBREVIATED);
     });
 
@@ -128,8 +128,8 @@ describe('DateFormat', function() {
       messageFormat.parse('{variable1, date, QQQQ}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
       expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.Quarter);
-      expect(messageFormat.messageAST[0].AST[0].context).to.equal(AST.date.Quarter.Context.FORMATED);
-      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.Quarter.Formats.FULL);
+      expect(messageFormat.messageAST[0].AST[0].context).to.equal(AST.date.Quarter.Contexts.FORMATED);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.Quarter.Formats.WIDE);
     });
 
     it('shoud begin with a new formated quarter when maxium consecutive identifiers have been reached', function() {
@@ -137,10 +137,10 @@ describe('DateFormat', function() {
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
       expect(messageFormat.messageAST[0].AST.length).to.equal(2);
       expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.Quarter);
-      expect(messageFormat.messageAST[0].AST[0].context).to.equal(AST.date.Quarter.Context.FORMATED);
-      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.Quarter.Formats.FULL);
+      expect(messageFormat.messageAST[0].AST[0].context).to.equal(AST.date.Quarter.Contexts.FORMATED);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.Quarter.Formats.WIDE);
       expect(messageFormat.messageAST[0].AST[1]).to.be.an.instanceOf(AST.date.Quarter);
-      expect(messageFormat.messageAST[0].AST[1].context).to.equal(AST.date.Quarter.Context.FORMATED);
+      expect(messageFormat.messageAST[0].AST[1].context).to.equal(AST.date.Quarter.Contexts.FORMATED);
       expect(messageFormat.messageAST[0].AST[1].format).to.equal(AST.date.Quarter.Formats.NUMERIC);
     });
 
@@ -148,7 +148,7 @@ describe('DateFormat', function() {
       messageFormat.parse('{variable1, date, q}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
       expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.Quarter);
-      expect(messageFormat.messageAST[0].AST[0].context).to.equal(AST.date.Quarter.Context.STAND_ALONE);
+      expect(messageFormat.messageAST[0].AST[0].context).to.equal(AST.date.Quarter.Contexts.STAND_ALONE);
       expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.Quarter.Formats.NUMERIC);
     });
 
@@ -156,7 +156,7 @@ describe('DateFormat', function() {
       messageFormat.parse('{variable1, date, qq}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
       expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.Quarter);
-      expect(messageFormat.messageAST[0].AST[0].context).to.equal(AST.date.Quarter.Context.STAND_ALONE);
+      expect(messageFormat.messageAST[0].AST[0].context).to.equal(AST.date.Quarter.Contexts.STAND_ALONE);
       expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.Quarter.Formats.NUMERIC_WITH_PADDING);
     });
 
@@ -164,7 +164,7 @@ describe('DateFormat', function() {
       messageFormat.parse('{variable1, date, qqq}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
       expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.Quarter);
-      expect(messageFormat.messageAST[0].AST[0].context).to.equal(AST.date.Quarter.Context.STAND_ALONE);
+      expect(messageFormat.messageAST[0].AST[0].context).to.equal(AST.date.Quarter.Contexts.STAND_ALONE);
       expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.Quarter.Formats.ABBREVIATED);
     });
 
@@ -172,8 +172,8 @@ describe('DateFormat', function() {
       messageFormat.parse('{variable1, date, qqqq}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
       expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.Quarter);
-      expect(messageFormat.messageAST[0].AST[0].context).to.equal(AST.date.Quarter.Context.STAND_ALONE);
-      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.Quarter.Formats.FULL);
+      expect(messageFormat.messageAST[0].AST[0].context).to.equal(AST.date.Quarter.Contexts.STAND_ALONE);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.Quarter.Formats.WIDE);
     });
 
     it('shoud begin with a new stand-alone quarter when maxium consecutive identifiers have been reached', function() {
@@ -181,10 +181,10 @@ describe('DateFormat', function() {
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
       expect(messageFormat.messageAST[0].AST.length).to.equal(2);
       expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.Quarter);
-      expect(messageFormat.messageAST[0].AST[0].context).to.equal(AST.date.Quarter.Context.STAND_ALONE);
-      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.Quarter.Formats.FULL);
+      expect(messageFormat.messageAST[0].AST[0].context).to.equal(AST.date.Quarter.Contexts.STAND_ALONE);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.Quarter.Formats.WIDE);
       expect(messageFormat.messageAST[0].AST[1]).to.be.an.instanceOf(AST.date.Quarter);
-      expect(messageFormat.messageAST[0].AST[1].context).to.equal(AST.date.Quarter.Context.STAND_ALONE);
+      expect(messageFormat.messageAST[0].AST[1].context).to.equal(AST.date.Quarter.Contexts.STAND_ALONE);
       expect(messageFormat.messageAST[0].AST[1].format).to.equal(AST.date.Quarter.Formats.NUMERIC);
     });
   });
@@ -194,7 +194,7 @@ describe('DateFormat', function() {
       messageFormat.parse('{variable1, date, M}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
       expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.Month);
-      expect(messageFormat.messageAST[0].AST[0].context).to.equal(AST.date.Month.Context.FORMATED);
+      expect(messageFormat.messageAST[0].AST[0].context).to.equal(AST.date.Month.Contexts.FORMATED);
       expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.Month.Formats.NUMERIC);
     });
 
@@ -202,7 +202,7 @@ describe('DateFormat', function() {
       messageFormat.parse('{variable1, date, MM}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
       expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.Month);
-      expect(messageFormat.messageAST[0].AST[0].context).to.equal(AST.date.Month.Context.FORMATED);
+      expect(messageFormat.messageAST[0].AST[0].context).to.equal(AST.date.Month.Contexts.FORMATED);
       expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.Month.Formats.NUMERIC_WITH_PADDING);
     });
 
@@ -210,7 +210,7 @@ describe('DateFormat', function() {
       messageFormat.parse('{variable1, date, MMM}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
       expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.Month);
-      expect(messageFormat.messageAST[0].AST[0].context).to.equal(AST.date.Month.Context.FORMATED);
+      expect(messageFormat.messageAST[0].AST[0].context).to.equal(AST.date.Month.Contexts.FORMATED);
       expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.Month.Formats.SHORT);
     });
 
@@ -218,7 +218,7 @@ describe('DateFormat', function() {
       messageFormat.parse('{variable1, date, MMMM}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
       expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.Month);
-      expect(messageFormat.messageAST[0].AST[0].context).to.equal(AST.date.Month.Context.FORMATED);
+      expect(messageFormat.messageAST[0].AST[0].context).to.equal(AST.date.Month.Contexts.FORMATED);
       expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.Month.Formats.WIDE);
     });
 
@@ -226,7 +226,7 @@ describe('DateFormat', function() {
       messageFormat.parse('{variable1, date, MMMMM}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
       expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.Month);
-      expect(messageFormat.messageAST[0].AST[0].context).to.equal(AST.date.Month.Context.FORMATED);
+      expect(messageFormat.messageAST[0].AST[0].context).to.equal(AST.date.Month.Contexts.FORMATED);
       expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.Month.Formats.NARROW);
     });
 
@@ -235,10 +235,10 @@ describe('DateFormat', function() {
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
       expect(messageFormat.messageAST[0].AST.length).to.equal(2);
       expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.Month);
-      expect(messageFormat.messageAST[0].AST[0].context).to.equal(AST.date.Month.Context.FORMATED);
+      expect(messageFormat.messageAST[0].AST[0].context).to.equal(AST.date.Month.Contexts.FORMATED);
       expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.Month.Formats.NARROW);
       expect(messageFormat.messageAST[0].AST[1]).to.be.an.instanceOf(AST.date.Month);
-      expect(messageFormat.messageAST[0].AST[1].context).to.equal(AST.date.Month.Context.FORMATED);
+      expect(messageFormat.messageAST[0].AST[1].context).to.equal(AST.date.Month.Contexts.FORMATED);
       expect(messageFormat.messageAST[0].AST[1].format).to.equal(AST.date.Month.Formats.NUMERIC);
     });
 
@@ -246,7 +246,7 @@ describe('DateFormat', function() {
       messageFormat.parse('{variable1, date, L}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
       expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.Month);
-      expect(messageFormat.messageAST[0].AST[0].context).to.equal(AST.date.Month.Context.STAND_ALONE);
+      expect(messageFormat.messageAST[0].AST[0].context).to.equal(AST.date.Month.Contexts.STAND_ALONE);
       expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.Month.Formats.NUMERIC);
     });
 
@@ -254,7 +254,7 @@ describe('DateFormat', function() {
       messageFormat.parse('{variable1, date, LL}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
       expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.Month);
-      expect(messageFormat.messageAST[0].AST[0].context).to.equal(AST.date.Month.Context.STAND_ALONE);
+      expect(messageFormat.messageAST[0].AST[0].context).to.equal(AST.date.Month.Contexts.STAND_ALONE);
       expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.Month.Formats.NUMERIC_WITH_PADDING);
     });
 
@@ -262,7 +262,7 @@ describe('DateFormat', function() {
       messageFormat.parse('{variable1, date, LLL}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
       expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.Month);
-      expect(messageFormat.messageAST[0].AST[0].context).to.equal(AST.date.Month.Context.STAND_ALONE);
+      expect(messageFormat.messageAST[0].AST[0].context).to.equal(AST.date.Month.Contexts.STAND_ALONE);
       expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.Month.Formats.SHORT);
     });
 
@@ -270,7 +270,7 @@ describe('DateFormat', function() {
       messageFormat.parse('{variable1, date, LLLL}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
       expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.Month);
-      expect(messageFormat.messageAST[0].AST[0].context).to.equal(AST.date.Month.Context.STAND_ALONE);
+      expect(messageFormat.messageAST[0].AST[0].context).to.equal(AST.date.Month.Contexts.STAND_ALONE);
       expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.Month.Formats.WIDE);
     });
 
@@ -278,7 +278,7 @@ describe('DateFormat', function() {
       messageFormat.parse('{variable1, date, LLLLL}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
       expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.Month);
-      expect(messageFormat.messageAST[0].AST[0].context).to.equal(AST.date.Month.Context.STAND_ALONE);
+      expect(messageFormat.messageAST[0].AST[0].context).to.equal(AST.date.Month.Contexts.STAND_ALONE);
       expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.Month.Formats.NARROW);
     });
 
@@ -287,10 +287,10 @@ describe('DateFormat', function() {
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
       expect(messageFormat.messageAST[0].AST.length).to.equal(2);
       expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.Month);
-      expect(messageFormat.messageAST[0].AST[0].context).to.equal(AST.date.Month.Context.STAND_ALONE);
+      expect(messageFormat.messageAST[0].AST[0].context).to.equal(AST.date.Month.Contexts.STAND_ALONE);
       expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.Month.Formats.NARROW);
       expect(messageFormat.messageAST[0].AST[1]).to.be.an.instanceOf(AST.date.Month);
-      expect(messageFormat.messageAST[0].AST[1].context).to.equal(AST.date.Month.Context.STAND_ALONE);
+      expect(messageFormat.messageAST[0].AST[1].context).to.equal(AST.date.Month.Contexts.STAND_ALONE);
       expect(messageFormat.messageAST[0].AST[1].format).to.equal(AST.date.Month.Formats.NUMERIC);
     });
   });

@@ -421,7 +421,7 @@ MessageFormat.prototype._parseSimpleFormat = function(type, variable) {
 
   switch(type) {
     case 'date':
-      return new AST.date.DateFormat(this.locale, variable, argument, this);
+      return new AST.date.DateFormat(this.locale, variable, argument, this.date, this._currentNumberSystem);
     case 'number':
       if(!this.decimalPatterns.hasOwnProperty(this._currentNumberSystem)) {
         throw new TypeError('Locale `' + this.locale + '` does not have `'  + this._currentNumberSystem + '` number system.');
@@ -918,7 +918,7 @@ MessageFormat.prototype._getXMLNode = function(path) {
     node = this.rootDocument.get(path);
   }
 
-  if(node && typeof node.child === 'function' && node.child(0).name() === 'alias') {
+  while(node && typeof node.child === 'function' && node.child(0).name() === 'alias') {
     var relativePath = node.child(0).attr('path').value();
     node = node.get(relativePath);
   }
@@ -1118,7 +1118,41 @@ MessageFormat.prototype._readDateData = function() {
     }
   };
 
+  var abbreviatedFormatedQuarter = this._getXMLNode('//calendar[@type="gregorian"]/quarters/quarterContext[@type="format"]/quarterWidth[@type="abbreviated"]');
+  var wideFormatedQuarter = this._getXMLNode('//calendar[@type="gregorian"]/quarters/quarterContext[@type="format"]/quarterWidth[@type="wide"]');
+  var abbreviatedStandaloneQuarter = this._getXMLNode('//calendar[@type="gregorian"]/quarters/quarterContext[@type="stand-alone"]/quarterWidth[@type="abbreviated"]');
+  var wideStandaloneQuarter = this._getXMLNode('//calendar[@type="gregorian"]/quarters/quarterContext[@type="stand-alone"]/quarterWidth[@type="wide"]');
 
+  this.date['quarter'] = {
+    formated: {
+      abbreviated: {
+        'Q1' : abbreviatedFormatedQuarter.get('./quarter[@type="1"]').text(),
+        'Q2' : abbreviatedFormatedQuarter.get('./quarter[@type="2"]').text(),
+        'Q3' : abbreviatedFormatedQuarter.get('./quarter[@type="3"]').text(),
+        'Q4' : abbreviatedFormatedQuarter.get('./quarter[@type="4"]').text()
+      },
+      wide: {
+        'Q1' : wideFormatedQuarter.get('./quarter[@type="1"]').text(),
+        'Q2' : wideFormatedQuarter.get('./quarter[@type="2"]').text(),
+        'Q3' : wideFormatedQuarter.get('./quarter[@type="3"]').text(),
+        'Q4' : wideFormatedQuarter.get('./quarter[@type="4"]').text()
+      }
+    },
+    standalone: {
+      abbreviated: {
+        'Q1' : abbreviatedStandaloneQuarter.get('./quarter[@type="1"]').text(),
+        'Q2' : abbreviatedStandaloneQuarter.get('./quarter[@type="2"]').text(),
+        'Q3' : abbreviatedStandaloneQuarter.get('./quarter[@type="3"]').text(),
+        'Q4' : abbreviatedStandaloneQuarter.get('./quarter[@type="4"]').text()
+      },
+      wide: {
+        'Q1' : wideStandaloneQuarter.get('./quarter[@type="1"]').text(),
+        'Q2' : wideStandaloneQuarter.get('./quarter[@type="2"]').text(),
+        'Q3' : wideStandaloneQuarter.get('./quarter[@type="3"]').text(),
+        'Q4' : wideStandaloneQuarter.get('./quarter[@type="4"]').text()
+      }
+    }
+  };
 };
 
 /**

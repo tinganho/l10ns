@@ -27,16 +27,17 @@ module.exports = AST.date;
  * @constructor
  */
 
-AST.date.DateFormat = function(locale, variable, argument, messageFormat) {
+AST.date.DateFormat = function(locale, variable, argument, CLDR, numberSystem) {
   this.locale = locale;
   this.language = /^([a-z]+)\-/.exec(this.locale)[1];
   this.region = /\-([A-Z]+)$/.exec(this.locale)[1];
   this.variable = variable;
   this.argument = argument;
   this.lexer = null;
-  this.CLDR = messageFormat.date;
+  this.CLDR = CLDR;
   this.AST = [];
   this.parse(argument);
+  this.numberSystem = numberSystem;
 };
 
 /**
@@ -233,10 +234,10 @@ AST.date.DateFormat.prototype._parseQuarter = function() {
   var context;
   switch(this.currentToken) {
     case AST.date.DateFormat.Identifiers.FORMATED_QUARTER:
-      context = AST.date.Quarter.Context.FORMATED;
+      context = AST.date.Quarter.Contexts.FORMATED;
       break;
     case AST.date.DateFormat.Identifiers.STAND_ALONE_QUARTER:
-      context = AST.date.Quarter.Context.STAND_ALONE;
+      context = AST.date.Quarter.Contexts.STAND_ALONE;
       break;
   }
 
@@ -254,7 +255,7 @@ AST.date.DateFormat.prototype._parseQuarter = function() {
       format = AST.date.Quarter.Formats.ABBREVIATED;
       break;
     case 4:
-      format = AST.date.Quarter.Formats.FULL;
+      format = AST.date.Quarter.Formats.WIDE;
       break;
   }
 
@@ -272,10 +273,10 @@ AST.date.DateFormat.prototype._parseMonth = function() {
   var context;
   switch(this.currentToken) {
     case AST.date.DateFormat.Identifiers.FORMATED_MONTH:
-      context = AST.date.Month.Context.FORMATED;
+      context = AST.date.Month.Contexts.FORMATED;
       break;
     case AST.date.DateFormat.Identifiers.STAND_ALONE_MONTH:
-      context = AST.date.Month.Context.STAND_ALONE;
+      context = AST.date.Month.Contexts.STAND_ALONE;
       break;
   }
 
@@ -773,7 +774,7 @@ AST.date.CyclicYear.Types = {
 /**
  * Quarter AST.
  *
- * @param {AST.date.Quarter.Context} context
+ * @param {AST.date.Quarter.Contexts} context
  * @param {AST.date.Quarter.Formats} format
  * @param {Number} length
  * @constructor
@@ -791,7 +792,7 @@ AST.date.Quarter = function(context, format) {
  * @enum {Number}
  */
 
-AST.date.Quarter.Context = {
+AST.date.Quarter.Contexts = {
   FORMATED: 1,
   STAND_ALONE: 2
 };
@@ -807,7 +808,7 @@ AST.date.Quarter.Formats = {
   NUMERIC: 1,
   NUMERIC_WITH_PADDING: 2,
   ABBREVIATED: 3,
-  FULL: 4
+  WIDE: 4
 };
 
 /**
@@ -830,7 +831,7 @@ AST.date.Month = function(context, format) {
  * @enum {Number}
  */
 
-AST.date.Month.Context = {
+AST.date.Month.Contexts = {
   FORMATED: 1,
   STAND_ALONE: 2
 };
