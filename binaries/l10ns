@@ -27,6 +27,11 @@ if(typeof process.argv[2] === 'undefined') {
   process.argv[2] = '--help';
 }
 
+if(process.argv[2] === '--version' || process.argv[2] === '-v') {
+  console.log(pjson.version);
+  return;
+}
+
 var processRequest = (process.argv.length >= 2 && process.argv[2] !== 'init' && process.argv[2] !== '--help' &&  process.argv[2] !== '-h');
 
 if(processRequest && !l10nsPath) {
