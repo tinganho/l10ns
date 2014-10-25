@@ -118,7 +118,7 @@ describe('DateFormat', function() {
         var functionBody = setDateBlock +
           'var year = date.getFullYear() + \'\';\n' +
           'if(year.length < 2) {\n' +
-          '  string += \'0\';\n' +
+          '  string += \'0\' + year;\n' +
           '}\n' +
           'else {\n' +
           '  string += year.substring(year.length - 2, year.length);\n' +
@@ -212,7 +212,7 @@ describe('DateFormat', function() {
       });
     });
 
-    it('block should set week based year correctly', function() {
+    it('week based year block should set week based year correctly', function() {
       var function_ = 'function test_weekBasedYearBlock(it) {\n' +
         'var string = \'\';\n' +
         dateTemplates['SetDateBlock']({
@@ -241,6 +241,64 @@ describe('DateFormat', function() {
       expect(test_weekBasedYearBlock({ date: new Date('2010-01-02') })).to.equal('2009');
       expect(test_weekBasedYearBlock({ date: new Date('2010-01-03') })).to.equal('2009');
       expect(test_weekBasedYearBlock({ date: new Date('2010-01-04') })).to.equal('2010');
+    });
+
+    it('format year block of length 1 should format without padding', function() {
+      var function_ = 'function test_formatYearBlock() {\n' +
+        'var string = \'\';\n' +
+        'var year = \'208\';\n' +
+        dateTemplates['FormatYear']({ length: 1 }) + '\n' +
+        'return string; }';
+        eval(function_);
+      expect(test_formatYearBlock()).to.equal('208');
+    });
+
+    it('format year block should pad with zero whenever minimum length is not met', function() {
+      var function_ = 'function test_formatYearBlock() {\n' +
+        'var string = \'\';\n' +
+        'var year = \'8\';\n' +
+        dateTemplates['FormatYear']({ length: 2 }) + '\n' +
+        'return string; }';
+        eval(function_);
+      expect(test_formatYearBlock()).to.equal('08');
+    });
+
+    it('format year block of length 2 should add padding with zero', function() {
+      var function_ = 'function test_formatYearBlock() {\n' +
+        'var string = \'\';\n' +
+        'var year = \'8\';\n' +
+        dateTemplates['FormatYear']({ length: 2 }) + '\n' +
+        'return string; }';
+        eval(function_);
+      expect(test_formatYearBlock()).to.equal('08');
+    });
+
+    it('format year block of length 2 should truncate year string', function() {
+      var function_ = 'function test_formatYearBlock() {\n' +
+        'var string = \'\';\n' +
+        'var year = \'2008\';\n' +
+        dateTemplates['FormatYear']({ length: 2 }) + '\n' +
+        'return string; }';
+        eval(function_);
+      expect(test_formatYearBlock()).to.equal('08');
+    });
+  });
+
+  describe('Quarter', function() {
+    it('we', function() {
+      var localizations = getLocalizations('{variable1, date, Q}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
     });
   });
 });
