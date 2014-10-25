@@ -221,9 +221,26 @@ describe('DateFormat', function() {
         dateTemplates['DateWeekBasedYear']() + '\n' +
         dateTemplates['FormatYear']({ length: 3 }) + '\n' +
         'return string; }';
-        console.log(function_)
         eval(function_);
-      expect(test_weekBasedYearBlock({ date: new Date('2001-12-31')})).to.equal('2002');
+      expect(test_weekBasedYearBlock({ date: new Date('2005-1-1') })).to.equal('2004');
+      expect(test_weekBasedYearBlock({ date: new Date('2005-1-2') })).to.equal('2004');
+      expect(test_weekBasedYearBlock({ date: new Date('2005-1-3') })).to.equal('2005');
+      expect(test_weekBasedYearBlock({ date: new Date('2005-12-31') })).to.equal('2005');
+      expect(test_weekBasedYearBlock({ date: new Date('2006-1-1') })).to.equal('2005');
+      expect(test_weekBasedYearBlock({ date: new Date('2006-1-2') })).to.equal('2006');
+      expect(test_weekBasedYearBlock({ date: new Date('2007-1-1') })).to.equal('2007');
+      expect(test_weekBasedYearBlock({ date: new Date('2007-12-30') })).to.equal('2007');
+      expect(test_weekBasedYearBlock({ date: new Date('2007-12-31') })).to.equal('2008');
+      expect(test_weekBasedYearBlock({ date: new Date('2008-01-01') })).to.equal('2008');
+      expect(test_weekBasedYearBlock({ date: new Date('2008-12-28') })).to.equal('2008');
+      expect(test_weekBasedYearBlock({ date: new Date('2008-12-29') })).to.equal('2009');
+      expect(test_weekBasedYearBlock({ date: new Date('2008-12-30') })).to.equal('2009');
+      expect(test_weekBasedYearBlock({ date: new Date('2008-12-31') })).to.equal('2009');
+      expect(test_weekBasedYearBlock({ date: new Date('2009-01-01') })).to.equal('2009');
+      expect(test_weekBasedYearBlock({ date: new Date('2010-01-01') })).to.equal('2009');
+      expect(test_weekBasedYearBlock({ date: new Date('2010-01-02') })).to.equal('2009');
+      expect(test_weekBasedYearBlock({ date: new Date('2010-01-03') })).to.equal('2009');
+      expect(test_weekBasedYearBlock({ date: new Date('2010-01-04') })).to.equal('2010');
     });
   });
 });

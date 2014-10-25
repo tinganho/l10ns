@@ -6,7 +6,7 @@ var year;
 if(month === 0 && date_ < 4 || month === 11 && date_ > 28) {
   if(date_ < 4) {
     var startOfWeekBasedYearDate;
-    var startOfThisCalendarYearDay = new Date(calendarYear).getDay();
+    var startOfThisCalendarYearDay = new Date(calendarYear + '-01-01').getDay();
     if(startOfThisCalendarYearDay === 0) {
       startOfThisCalendarYearDay = 7;
     }
@@ -14,7 +14,7 @@ if(month === 0 && date_ < 4 || month === 11 && date_ > 28) {
       startOfWeekBasedYearDate = 1;
     }
     else {
-      startOfWeekBasedYearDate = 6 - startOfThisCalendarYearDay + 1;
+      startOfWeekBasedYearDate = 7 - startOfThisCalendarYearDay + 2;
     }
     if(date_ >= startOfWeekBasedYearDate) {
       year = calendarYear;
@@ -33,7 +33,7 @@ if(month === 0 && date_ < 4 || month === 11 && date_ > 28) {
       endOfThisWeekBasedYearDate = 31;
     }
     else {
-      endOfThisWeekBasedYearDate = 31 - endOfThisCalendarYearDay - 1;
+      endOfThisWeekBasedYearDate = 31 - endOfThisCalendarYearDay;
     }
     if(date_ <= endOfThisWeekBasedYearDate) {
       year = calendarYear;
@@ -42,4 +42,7 @@ if(month === 0 && date_ < 4 || month === 11 && date_ > 28) {
       year = calendarYear + 1;
     }
   }
+}
+else {
+  year = calendarYear;
 }
