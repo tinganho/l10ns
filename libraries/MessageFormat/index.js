@@ -1153,6 +1153,104 @@ MessageFormat.prototype._readDateData = function() {
       }
     }
   };
+
+  var abbreviatedFormatedMonth = this._getXMLNode('//calendar[@type="gregorian"]/months/monthContext[@type="format"]/monthWidth[@type="abbreviated"]');
+  var wideFormatedMonth = this._getXMLNode('//calendar[@type="gregorian"]/months/monthContext[@type="format"]/monthWidth[@type="wide"]');
+  var narrowFormatedMonth = this._getXMLNode('//calendar[@type="gregorian"]/months/monthContext[@type="format"]/monthWidth[@type="narrow"]');
+  var abbreviatedStandaloneMonth = this._getXMLNode('//calendar[@type="gregorian"]/months/monthContext[@type="stand-alone"]/monthWidth[@type="abbreviated"]');
+  var wideStandaloneMonth = this._getXMLNode('//calendar[@type="gregorian"]/months/monthContext[@type="stand-alone"]/monthWidth[@type="wide"]');
+  var narrowStandaloneMonth = this._getXMLNode('//calendar[@type="gregorian"]/months/monthContext[@type="stand-alone"]/monthWidth[@type="narrow"]');
+
+  this.date['month'] = {
+    formated: {
+      abbreviated: {
+        '1' : abbreviatedFormatedMonth.get('./month[@type="1"]').text(),
+        '2' : abbreviatedFormatedMonth.get('./month[@type="2"]').text(),
+        '3' : abbreviatedFormatedMonth.get('./month[@type="3"]').text(),
+        '4' : abbreviatedFormatedMonth.get('./month[@type="4"]').text(),
+        '5' : abbreviatedFormatedMonth.get('./month[@type="5"]').text(),
+        '6' : abbreviatedFormatedMonth.get('./month[@type="6"]').text(),
+        '7' : abbreviatedFormatedMonth.get('./month[@type="7"]').text(),
+        '8' : abbreviatedFormatedMonth.get('./month[@type="8"]').text(),
+        '9' : abbreviatedFormatedMonth.get('./month[@type="9"]').text(),
+        '10' : abbreviatedFormatedMonth.get('./month[@type="10"]').text(),
+        '11' : abbreviatedFormatedMonth.get('./month[@type="11"]').text(),
+        '12' : abbreviatedFormatedMonth.get('./month[@type="12"]').text()
+      },
+      wide: {
+        '1' : wideFormatedMonth.get('./month[@type="1"]').text(),
+        '2' : wideFormatedMonth.get('./month[@type="2"]').text(),
+        '3' : wideFormatedMonth.get('./month[@type="3"]').text(),
+        '4' : wideFormatedMonth.get('./month[@type="4"]').text(),
+        '5' : wideFormatedMonth.get('./month[@type="5"]').text(),
+        '6' : wideFormatedMonth.get('./month[@type="6"]').text(),
+        '7' : wideFormatedMonth.get('./month[@type="7"]').text(),
+        '8' : wideFormatedMonth.get('./month[@type="8"]').text(),
+        '9' : wideFormatedMonth.get('./month[@type="9"]').text(),
+        '10' : wideFormatedMonth.get('./month[@type="10"]').text(),
+        '11' : wideFormatedMonth.get('./month[@type="11"]').text(),
+        '12' : wideFormatedMonth.get('./month[@type="12"]').text()
+      },
+      narrow: {
+        '1' : narrowFormatedMonth.get('./month[@type="1"]').text(),
+        '2' : narrowFormatedMonth.get('./month[@type="2"]').text(),
+        '3' : narrowFormatedMonth.get('./month[@type="3"]').text(),
+        '4' : narrowFormatedMonth.get('./month[@type="4"]').text(),
+        '5' : narrowFormatedMonth.get('./month[@type="5"]').text(),
+        '6' : narrowFormatedMonth.get('./month[@type="6"]').text(),
+        '7' : narrowFormatedMonth.get('./month[@type="7"]').text(),
+        '8' : narrowFormatedMonth.get('./month[@type="8"]').text(),
+        '9' : narrowFormatedMonth.get('./month[@type="9"]').text(),
+        '10' : narrowFormatedMonth.get('./month[@type="10"]').text(),
+        '11' : narrowFormatedMonth.get('./month[@type="11"]').text(),
+        '12' : narrowFormatedMonth.get('./month[@type="12"]').text()
+      }
+    },
+    standalone: {
+      abbreviated: {
+        '1' : abbreviatedStandaloneMonth.get('./month[@type="1"]').text(),
+        '2' : abbreviatedStandaloneMonth.get('./month[@type="2"]').text(),
+        '3' : abbreviatedStandaloneMonth.get('./month[@type="3"]').text(),
+        '4' : abbreviatedStandaloneMonth.get('./month[@type="4"]').text(),
+        '5' : abbreviatedStandaloneMonth.get('./month[@type="5"]').text(),
+        '6' : abbreviatedStandaloneMonth.get('./month[@type="6"]').text(),
+        '7' : abbreviatedStandaloneMonth.get('./month[@type="7"]').text(),
+        '8' : abbreviatedStandaloneMonth.get('./month[@type="8"]').text(),
+        '9' : abbreviatedStandaloneMonth.get('./month[@type="9"]').text(),
+        '10' : abbreviatedStandaloneMonth.get('./month[@type="10"]').text(),
+        '11' : abbreviatedStandaloneMonth.get('./month[@type="11"]').text(),
+        '12' : abbreviatedStandaloneMonth.get('./month[@type="12"]').text()
+      },
+      wide: {
+        '1' : wideStandaloneMonth.get('./month[@type="1"]').text(),
+        '2' : wideStandaloneMonth.get('./month[@type="2"]').text(),
+        '3' : wideStandaloneMonth.get('./month[@type="3"]').text(),
+        '4' : wideStandaloneMonth.get('./month[@type="4"]').text(),
+        '5' : wideStandaloneMonth.get('./month[@type="5"]').text(),
+        '6' : wideStandaloneMonth.get('./month[@type="6"]').text(),
+        '7' : wideStandaloneMonth.get('./month[@type="7"]').text(),
+        '8' : wideStandaloneMonth.get('./month[@type="8"]').text(),
+        '9' : wideStandaloneMonth.get('./month[@type="9"]').text(),
+        '10' : wideStandaloneMonth.get('./month[@type="10"]').text(),
+        '11' : wideStandaloneMonth.get('./month[@type="11"]').text(),
+        '12' : wideStandaloneMonth.get('./month[@type="12"]').text()
+      },
+      narrow: {
+        '1' : narrowStandaloneMonth.get('./month[@type="1"]').text(),
+        '2' : narrowStandaloneMonth.get('./month[@type="2"]').text(),
+        '3' : narrowStandaloneMonth.get('./month[@type="3"]').text(),
+        '4' : narrowStandaloneMonth.get('./month[@type="4"]').text(),
+        '5' : narrowStandaloneMonth.get('./month[@type="5"]').text(),
+        '6' : narrowStandaloneMonth.get('./month[@type="6"]').text(),
+        '7' : narrowStandaloneMonth.get('./month[@type="7"]').text(),
+        '8' : narrowStandaloneMonth.get('./month[@type="8"]').text(),
+        '9' : narrowStandaloneMonth.get('./month[@type="9"]').text(),
+        '10' : narrowStandaloneMonth.get('./month[@type="10"]').text(),
+        '11' : narrowStandaloneMonth.get('./month[@type="11"]').text(),
+        '12' : narrowStandaloneMonth.get('./month[@type="12"]').text()
+      }
+    }
+  };
 };
 
 /**

@@ -9,7 +9,9 @@ var setDateBlock =
   '}\n' +
   'else {\n' +
   '  date = it.variable1;\n' +
-  '}\n';
+  '}\n' +
+  'var month = date.getMonth();\n' +
+  'var date_ = date.getDate();\n';
 
 describe('DateFormat', function() {
   describe('Era', function() {
@@ -477,5 +479,318 @@ describe('DateFormat', function() {
         done();
       });
     });
+  });
+
+  describe('Months', function() {
+    it('should be able to compile a formated numeric month', function(done) {
+      var localizations = getLocalizations('{variable1, date, M}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var monthStrings = [\n' +
+          '  \'1\',\n' +
+          '  \'2\',\n' +
+          '  \'3\',\n' +
+          '  \'4\',\n' +
+          '  \'5\',\n' +
+          '  \'6\',\n' +
+          '  \'7\',\n' +
+          '  \'8\',\n' +
+          '  \'9\',\n' +
+          '  \'10\',\n' +
+          '  \'11\',\n' +
+          '  \'12\'\n' +
+          '];\n' +
+          'string += monthStrings[month];\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to compile a formated numeric with padding month', function(done) {
+      var localizations = getLocalizations('{variable1, date, MM}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var monthStrings = [\n' +
+          '  \'01\',\n' +
+          '  \'02\',\n' +
+          '  \'03\',\n' +
+          '  \'04\',\n' +
+          '  \'05\',\n' +
+          '  \'06\',\n' +
+          '  \'07\',\n' +
+          '  \'08\',\n' +
+          '  \'09\',\n' +
+          '  \'10\',\n' +
+          '  \'11\',\n' +
+          '  \'12\'\n' +
+          '];\n' +
+          'string += monthStrings[month];\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to compile a formated abbreviated month', function(done) {
+      var localizations = getLocalizations('{variable1, date, MMM}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var monthStrings = [\n' +
+          '  \'Jan\',\n' +
+          '  \'Feb\',\n' +
+          '  \'Mar\',\n' +
+          '  \'Apr\',\n' +
+          '  \'May\',\n' +
+          '  \'Jun\',\n' +
+          '  \'Jul\',\n' +
+          '  \'Aug\',\n' +
+          '  \'Sep\',\n' +
+          '  \'Oct\',\n' +
+          '  \'Nov\',\n' +
+          '  \'Dec\'\n' +
+          '];\n' +
+          'string += monthStrings[month];\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to compile a formated wide month', function(done) {
+      var localizations = getLocalizations('{variable1, date, MMMM}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var monthStrings = [\n' +
+          '  \'January\',\n' +
+          '  \'February\',\n' +
+          '  \'March\',\n' +
+          '  \'April\',\n' +
+          '  \'May\',\n' +
+          '  \'June\',\n' +
+          '  \'July\',\n' +
+          '  \'August\',\n' +
+          '  \'September\',\n' +
+          '  \'October\',\n' +
+          '  \'November\',\n' +
+          '  \'December\'\n' +
+          '];\n' +
+          'string += monthStrings[month];\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to compile a formated narrow month', function(done) {
+      var localizations = getLocalizations('{variable1, date, MMMMM}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var monthStrings = [\n' +
+          '  \'1\',\n' +
+          '  \'2\',\n' +
+          '  \'3\',\n' +
+          '  \'4\',\n' +
+          '  \'5\',\n' +
+          '  \'6\',\n' +
+          '  \'7\',\n' +
+          '  \'8\',\n' +
+          '  \'9\',\n' +
+          '  \'10\',\n' +
+          '  \'11\',\n' +
+          '  \'12\'\n' +
+          '];\n' +
+          'string += monthStrings[month];\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to compile a stand-alone numeric month', function(done) {
+      var localizations = getLocalizations('{variable1, date, L}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var monthStrings = [\n' +
+          '  \'1\',\n' +
+          '  \'2\',\n' +
+          '  \'3\',\n' +
+          '  \'4\',\n' +
+          '  \'5\',\n' +
+          '  \'6\',\n' +
+          '  \'7\',\n' +
+          '  \'8\',\n' +
+          '  \'9\',\n' +
+          '  \'10\',\n' +
+          '  \'11\',\n' +
+          '  \'12\'\n' +
+          '];\n' +
+          'string += monthStrings[month];\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to compile a stand-alone numeric with padding month', function(done) {
+      var localizations = getLocalizations('{variable1, date, LL}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var monthStrings = [\n' +
+          '  \'01\',\n' +
+          '  \'02\',\n' +
+          '  \'03\',\n' +
+          '  \'04\',\n' +
+          '  \'05\',\n' +
+          '  \'06\',\n' +
+          '  \'07\',\n' +
+          '  \'08\',\n' +
+          '  \'09\',\n' +
+          '  \'10\',\n' +
+          '  \'11\',\n' +
+          '  \'12\'\n' +
+          '];\n' +
+          'string += monthStrings[month];\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to compile a stand-alone abbreviated month', function(done) {
+      var localizations = getLocalizations('{variable1, date, LLL}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var monthStrings = [\n' +
+          '  \'M01\',\n' +
+          '  \'M02\',\n' +
+          '  \'M03\',\n' +
+          '  \'M04\',\n' +
+          '  \'M05\',\n' +
+          '  \'M06\',\n' +
+          '  \'M07\',\n' +
+          '  \'M08\',\n' +
+          '  \'M09\',\n' +
+          '  \'M10\',\n' +
+          '  \'M11\',\n' +
+          '  \'M12\'\n' +
+          '];\n' +
+          'string += monthStrings[month];\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to compile a stand-alone wide month', function(done) {
+      var localizations = getLocalizations('{variable1, date, LLLL}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var monthStrings = [\n' +
+          '  \'M01\',\n' +
+          '  \'M02\',\n' +
+          '  \'M03\',\n' +
+          '  \'M04\',\n' +
+          '  \'M05\',\n' +
+          '  \'M06\',\n' +
+          '  \'M07\',\n' +
+          '  \'M08\',\n' +
+          '  \'M09\',\n' +
+          '  \'M10\',\n' +
+          '  \'M11\',\n' +
+          '  \'M12\'\n' +
+          '];\n' +
+          'string += monthStrings[month];\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to compile a stand-alone narrow month', function(done) {
+      var localizations = getLocalizations('{variable1, date, LLLLL}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var monthStrings = [\n' +
+          '  \'J\',\n' +
+          '  \'F\',\n' +
+          '  \'M\',\n' +
+          '  \'A\',\n' +
+          '  \'M\',\n' +
+          '  \'J\',\n' +
+          '  \'J\',\n' +
+          '  \'A\',\n' +
+          '  \'S\',\n' +
+          '  \'O\',\n' +
+          '  \'N\',\n' +
+          '  \'D\'\n' +
+          '];\n' +
+          'string += monthStrings[month];\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
   });
 });

@@ -595,6 +595,85 @@ Compiler.prototype._compileDateFormat = function(dateFormat) {
 
       result += template['DateQuarter'](quarterStrings);
     }
+    else if(component instanceof MessageFormat.AST.date.Month) {
+      var monthContext;
+      var monthFormat;
+      var monthStrings;
+
+      switch(component.context) {
+        case MessageFormat.AST.date.Month.Contexts.FORMATED:
+          monthContext = 'formated';
+          break;
+        case MessageFormat.AST.date.Month.Contexts.STAND_ALONE:
+          monthContext = 'standalone';
+          break;
+      }
+
+      switch(component.format) {
+        case MessageFormat.AST.date.Month.Formats.NUMERIC:
+          monthStrings = {
+            '1': '1',
+            '2': '2',
+            '3': '3',
+            '4': '4',
+            '5': '5',
+            '6': '6',
+            '7': '7',
+            '8': '8',
+            '9': '9',
+            '10': '10',
+            '11': '11',
+            '12': '12'
+          };
+          break;
+        case MessageFormat.AST.date.Month.Formats.NUMERIC_WITH_PADDING:
+          monthStrings = {
+            '1': '01',
+            '2': '02',
+            '3': '03',
+            '4': '04',
+            '5': '05',
+            '6': '06',
+            '7': '07',
+            '8': '08',
+            '9': '09',
+            '10': '10',
+            '11': '11',
+            '12': '12'
+          };
+          break;
+        case MessageFormat.AST.date.Month.Formats.SHORT:
+          monthStrings = dateFormat.CLDR.month[monthContext]['abbreviated'];
+          break;
+        case MessageFormat.AST.date.Month.Formats.WIDE:
+          monthStrings = dateFormat.CLDR.month[monthContext]['wide'];
+          break;
+        case MessageFormat.AST.date.Month.Formats.NARROW:
+          monthStrings = dateFormat.CLDR.month[monthContext]['narrow'];
+          break;
+      }
+
+      if(component.format === MessageFormat.AST.date.Month.Formats.NUMERIC ||
+         component.format === MessageFormat.AST.date.Month.Formats.NUMERIC_WITH_PADDING) {
+        if(dateFormat.numberSystem !== 'latn') {
+          for(var quarter in quarterStrings) {
+            monthStrings[quarter] = monthStrings[quarter]
+              .replace(/1/g, digits[dateFormat.numberSystem]['1'])
+              .replace(/2/g, digits[dateFormat.numberSystem]['2'])
+              .replace(/3/g, digits[dateFormat.numberSystem]['3'])
+              .replace(/4/g, digits[dateFormat.numberSystem]['4'])
+              .replace(/5/g, digits[dateFormat.numberSystem]['5'])
+              .replace(/6/g, digits[dateFormat.numberSystem]['6'])
+              .replace(/7/g, digits[dateFormat.numberSystem]['7'])
+              .replace(/8/g, digits[dateFormat.numberSystem]['8'])
+              .replace(/9/g, digits[dateFormat.numberSystem]['9'])
+              .replace(/0/g, digits[dateFormat.numberSystem]['0']);
+          }
+        }
+      }
+
+      result += template['DateMonth']({ monthStrings: monthStrings });
+    }
   });
 
   return result;
