@@ -1,6 +1,6 @@
 {
   "name": "l10ns",
-  "description": "Effective translation workflow with ICU messageformat",
+  "description": "Tooling for ICU messageformat and i18n workflow",
   "version": "0.16.2",
   "homepage": "https://github.com/tinganho/l10ns",
   "author": {
