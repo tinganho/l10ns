@@ -1,0 +1,15 @@
+var year = date.getFullYear();
+var firstWeekday = new Date(year, month, 1).getDay();
+if(firstWeekday === 0) {
+  firstWeekday = 7;
+}
+var lastDateOfMonth = new Date(year, month + 1, 0).getDate();
+var secondWeekStartDate = 9 - firstWeekday;
+var offsetDate = date_ - secondWeekStartDate + 1;
+if(date_ < secondWeekStartDate) {
+  week = 1;
+}
+var week = 1 + Math.ceil(offsetDate / 7);{{?it.numeralReplace}}
+week += '';
+{{=it.numeralReplace}}{{?}}
+string += week;

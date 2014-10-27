@@ -732,7 +732,17 @@ Compiler.prototype._compileDateFormat = function(dateFormat) {
         }
       }
       else {
-
+        if(dateFormat.numberSystem !== 'latn') {
+          result += template['DateWeekOfMonth']({
+            numeralReplace: template['NumeralReplace']({
+              variableName: 'week',
+              digits: digits[dateFormat.numberSystem]
+            })
+          });
+        }
+        else {
+          result += template['DateWeekOfMonth']({});
+        }
       }
     }
   });
