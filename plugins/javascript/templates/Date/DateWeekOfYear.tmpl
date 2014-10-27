@@ -1,0 +1,9 @@
+var dateCopy = new Date(+date);
+dateCopy.setHours(0,0,0);
+dateCopy.setDate(dateCopy.getDate()+4-(dateCopy.getDay()||7));
+var week = Math.ceil((((dateCopy-new Date(dateCopy.getFullYear(),0,1))/8.64e7)+1)/7) + '';{{?it.padding}}
+if(week.length === 1) {
+  week = '0' + week;
+}{{?}}{{?it.numeralReplace}}
+{{=it.numeralReplace}}{{?}}
+string += week;

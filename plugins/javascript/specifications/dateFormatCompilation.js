@@ -92,16 +92,18 @@ describe('DateFormat', function() {
       eventually(function() {
         var functionBody = setDateBlock +
           'var year = date.getFullYear() + \'\';\n' +
+          'var yearString = \'\';\n' +
           'if(year.length >= 1) {\n' +
-          '  string += year;\n' +
+          '  yearString = year;\n' +
           '}\n' +
           'else {\n' +
           '  var difference = 1 - year.length;\n' +
           '  for(var i = 0; i < difference; i++) {\n' +
-          '    string += \'0\';\n' +
+          '    yearString += \'0\';\n' +
           '  }\n' +
-          '  string += year;\n' +
+          '  yearString += year;\n' +
           '}\n' +
+          'string += yearString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -119,12 +121,14 @@ describe('DateFormat', function() {
       eventually(function() {
         var functionBody = setDateBlock +
           'var year = date.getFullYear() + \'\';\n' +
+          'var yearString = \'\';\n' +
           'if(year.length < 2) {\n' +
-          '  string += \'0\' + year;\n' +
+          '  yearString += \'0\' + year;\n' +
           '}\n' +
           'else {\n' +
-          '  string += year.substring(year.length - 2, year.length);\n' +
+          '  yearString += year.substring(year.length - 2, year.length);\n' +
           '}\n' +
+          'string += yearString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -142,16 +146,18 @@ describe('DateFormat', function() {
       eventually(function() {
         var functionBody = setDateBlock +
           'var year = date.getFullYear() + \'\';\n' +
+          'var yearString = \'\';\n' +
           'if(year.length >= 4) {\n' +
-          '  string += year;\n' +
+          '  yearString = year;\n' +
           '}\n' +
           'else {\n' +
           '  var difference = 4 - year.length;\n' +
           '  for(var i = 0; i < difference; i++) {\n' +
-          '    string += \'0\';\n' +
+          '    yearString += \'0\';\n' +
           '  }\n' +
-          '  string += year;\n' +
+          '  yearString += year;\n' +
           '}\n' +
+          'string += yearString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -160,7 +166,7 @@ describe('DateFormat', function() {
       });
     });
 
-    it('should be able to compile a calendar year of length 1', function(done) {
+    it('should be able to compile a week based year of length 1', function(done) {
       var localizations = getLocalizations('{variable1, date, Y}');
       var dependencies = getDependencies(localizations);
       var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
@@ -178,7 +184,7 @@ describe('DateFormat', function() {
       });
     });
 
-    it('should be able to compile a calendar year of length 2', function(done) {
+    it('should be able to compile a week based year of length 2', function(done) {
       var localizations = getLocalizations('{variable1, date, YY}');
       var dependencies = getDependencies(localizations);
       var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
@@ -196,7 +202,7 @@ describe('DateFormat', function() {
       });
     });
 
-    it('should be able to compile a calendar year of length bigger than 2', function(done) {
+    it('should be able to compile a week based year of length bigger than 2', function(done) {
       var localizations = getLocalizations('{variable1, date, YYY}');
       var dependencies = getDependencies(localizations);
       var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
@@ -283,6 +289,51 @@ describe('DateFormat', function() {
         'return string; }';
         eval(function_);
       expect(test_formatYearBlock()).to.equal('08');
+    });
+
+
+    it('should be able to compile a year with a different number system than latin', function(done) {
+      var localizations = {
+        'ar-AE': {
+          'key-1': {
+            value: '{variable1, date, y}'
+          }
+        }
+      };
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var year = date.getFullYear() + \'\';\n' +
+          'var yearString = \'\';\n' +
+          'if(year.length >= 1) {\n' +
+          '  yearString = year;\n' +
+          '}\n' +
+          'else {\n' +
+          '  var difference = 1 - year.length;\n' +
+          '  for(var i = 0; i < difference; i++) {\n' +
+          '    yearString += \'0\';\n' +
+          '  }\n' +
+          '  yearString += year;\n' +
+          '}\n' +
+          'yearString = yearString\n' +
+          '  .replace(/1/g, \'١\')\n' +
+          '  .replace(/2/g, \'٢\')\n' +
+          '  .replace(/3/g, \'٣\')\n' +
+          '  .replace(/4/g, \'٤\')\n' +
+          '  .replace(/5/g, \'٥\')\n' +
+          '  .replace(/6/g, \'٦\')\n' +
+          '  .replace(/7/g, \'٧\')\n' +
+          '  .replace(/8/g, \'٨\')\n' +
+          '  .replace(/9/g, \'٩\')\n' +
+          '  .replace(/0/g, \'٠\');\n' +
+          'string += yearString;\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.include(indentSpaces(8, functionBody));
+        done();
+      });
     });
   });
 
@@ -791,6 +842,119 @@ describe('DateFormat', function() {
         done();
       });
     });
+  });
 
+  describe('Week', function() {
+    it('should be able to compile a numeric week of year', function(done) {
+      var localizations = getLocalizations('{variable1, date, w}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var dateCopy = new Date(+date);\n' +
+          'dateCopy.setHours(0,0,0);\n' +
+          'dateCopy.setDate(dateCopy.getDate()+4-(dateCopy.getDay()||7));\n' +
+          'var week = Math.ceil((((dateCopy-new Date(dateCopy.getFullYear(),0,1))/8.64e7)+1)/7) + \'\';\n' +
+          'string += week;\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to compile a numeric with padding week of year', function(done) {
+      var localizations = getLocalizations('{variable1, date, ww}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var dateCopy = new Date(+date);\n' +
+          'dateCopy.setHours(0,0,0);\n' +
+          'dateCopy.setDate(dateCopy.getDate()+4-(dateCopy.getDay()||7));\n' +
+          'var week = Math.ceil((((dateCopy-new Date(dateCopy.getFullYear(),0,1))/8.64e7)+1)/7) + \'\';\n' +
+          'if(week.length === 1) {\n' +
+          '  week = \'0\' + week;\n' +
+          '}\n' +
+          'string += week;\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to compile a numeric(with padding) week of year with different numbering system than latin', function(done) {
+      var localizations = {
+        'ar-AE': {
+          'key-1': {
+            value: '{variable1, date, ww}'
+          }
+        }
+      };
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var dateCopy = new Date(+date);\n' +
+          'dateCopy.setHours(0,0,0);\n' +
+          'dateCopy.setDate(dateCopy.getDate()+4-(dateCopy.getDay()||7));\n' +
+          'var week = Math.ceil((((dateCopy-new Date(dateCopy.getFullYear(),0,1))/8.64e7)+1)/7) + \'\';\n' +
+          'if(week.length === 1) {\n' +
+          '  week = \'0\' + week;\n' +
+          '}\n' +
+          'week = week\n' +
+          '  .replace(/1/g, \'١\')\n' +
+          '  .replace(/2/g, \'٢\')\n' +
+          '  .replace(/3/g, \'٣\')\n' +
+          '  .replace(/4/g, \'٤\')\n' +
+          '  .replace(/5/g, \'٥\')\n' +
+          '  .replace(/6/g, \'٦\')\n' +
+          '  .replace(/7/g, \'٧\')\n' +
+          '  .replace(/8/g, \'٨\')\n' +
+          '  .replace(/9/g, \'٩\')\n' +
+          '  .replace(/0/g, \'٠\');\n' +
+          'string += week;\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.include(indentSpaces(8, functionBody));
+        done();
+      });
+    });
+
+    it('week of year block should return the current numeric week of year', function() {
+      function getWeekOfYearFunctionString(date) {
+        return 'function test_weekOfYearBlock() {\n' +
+          'var string = \'\';\n' +
+          'var date = new Date(\'' + date + '\');\n' +
+          dateTemplates['DateWeekOfYear']({}) + '\n' +
+          'return string; }';
+      };
+      eval(getWeekOfYearFunctionString('2007-12-30'));
+      expect(test_weekOfYearBlock()).to.equal('52');
+      eval(getWeekOfYearFunctionString('2007-12-31'));
+      expect(test_weekOfYearBlock()).to.equal('1');
+      eval(getWeekOfYearFunctionString('2008-01-01'));
+      expect(test_weekOfYearBlock()).to.equal('1');
+      eval(getWeekOfYearFunctionString('2008-01-07'));
+      expect(test_weekOfYearBlock()).to.equal('2');
+      eval(getWeekOfYearFunctionString('2008-12-29'));
+      expect(test_weekOfYearBlock()).to.equal('1');
+      eval(getWeekOfYearFunctionString('2008-12-30'));
+      expect(test_weekOfYearBlock()).to.equal('1');
+      eval(getWeekOfYearFunctionString('2008-12-31'));
+      expect(test_weekOfYearBlock()).to.equal('1');
+      eval(getWeekOfYearFunctionString('2009-01-04'));
+      expect(test_weekOfYearBlock()).to.equal('1');
+      eval(getWeekOfYearFunctionString('2009-01-05'));
+      expect(test_weekOfYearBlock()).to.equal('2');
+    });
   });
 });

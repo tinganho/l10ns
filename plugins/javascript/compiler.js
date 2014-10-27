@@ -524,15 +524,37 @@ Compiler.prototype._compileDateFormat = function(dateFormat) {
       switch(component.type) {
         case MessageFormat.AST.date.Year.Types.CALENDAR:
           result += template['SetYear']() + _this.linefeed;
-          result += template['FormatYear']({
-            length: component.length
-          });
+          if(dateFormat.numberSystem !== 'latn') {
+            result += template['FormatYear']({
+              length: component.length,
+              numeralReplace: template['NumeralReplace']({
+                variableName: 'yearString',
+                digits: digits[dateFormat.numberSystem]
+              })
+            });
+          }
+          else {
+            result += template['FormatYear']({
+              length: component.length
+            });
+          }
           break;
         case MessageFormat.AST.date.Year.Types.WEEK_BASED:
           result += template['DateWeekBasedYear']() + _this.linefeed;
-          result += template['FormatYear']({
-            length: component.length
-          });
+          if(dateFormat.numberSystem !== 'latn') {
+            result += template['FormatYear']({
+              length: component.length,
+              numeralReplace: template['NumeralReplace']({
+                variableName: 'yearString',
+                digits: digits[dateFormat.numberSystem]
+              })
+            });
+          }
+          else {
+            result += template['FormatYear']({
+              length: component.length
+            });
+          }
           break;
       }
     }
@@ -673,6 +695,45 @@ Compiler.prototype._compileDateFormat = function(dateFormat) {
       }
 
       result += template['DateMonth']({ monthStrings: monthStrings });
+    }
+    else if(component instanceof MessageFormat.AST.date.Week) {
+      if(component.type === MessageFormat.AST.date.Week.Types.WEEK_OF_YEAR) {
+        if(component.format === MessageFormat.AST.date.Week.Formats.NUMERIC) {
+          if(dateFormat.numberSystem !== 'latn') {
+            result += template['DateWeekOfYear']({
+              padding: false,
+              numeralReplace: template['NumeralReplace']({
+                variableName: 'week',
+                digits: digits[dateFormat.numberSystem]
+              })
+            });
+          }
+          else {
+            result += template['DateWeekOfYear']({
+              padding: false
+            });
+          }
+        }
+        else {
+          if(dateFormat.numberSystem !== 'latn') {
+            result += template['DateWeekOfYear']({
+              padding: true,
+              numeralReplace: template['NumeralReplace']({
+                variableName: 'week',
+                digits: digits[dateFormat.numberSystem]
+              })
+            });
+          }
+          else {
+            result += template['DateWeekOfYear']({
+              padding: true
+            });
+          }
+        }
+      }
+      else {
+
+      }
     }
   });
 

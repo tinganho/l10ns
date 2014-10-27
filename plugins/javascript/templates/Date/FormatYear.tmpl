@@ -1,15 +1,18 @@
+var yearString = '';
 {{?it.length != 2}}if(year.length >= {{=it.length}}) {
-  string += year;
+  yearString = year;
 }
 else {
   var difference = {{=it.length}} - year.length;
   for(var i = 0; i < difference; i++) {
-    string += '0';
+    yearString += '0';
   }
-  string += year;
+  yearString += year;
 }{{??}}if(year.length < 2) {
-  string += '0' + year;
+  yearString += '0' + year;
 }
 else {
-  string += year.substring(year.length - 2, year.length);
-}{{?}}
+  yearString += year.substring(year.length - 2, year.length);
+}{{?}}{{?it.numeralReplace}}
+{{=it.numeralReplace}}{{?}}
+string += yearString;
