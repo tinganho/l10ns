@@ -1,0 +1,6 @@
+var dateString = date_ + '';{{?it.padding}}
+if(dateString.length === 1) {
+  dateString = '0' + dateString;
+}{{?}}{{?it.numeralReplace}}
+{{=it.numeralReplace}}{{?}}
+string += dateString;

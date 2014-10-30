@@ -374,21 +374,21 @@ describe('DateFormat', function() {
       messageFormat.parse('{variable1, date, D}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
       expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.day.DayOfYear);
-      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.day.DayOfYear.Formats.WITHOUT_PADDING);
+      expect(messageFormat.messageAST[0].AST[0].length).to.equal(1);
     });
 
     it('should be able to parse two consecutive day of year identifiers', function() {
       messageFormat.parse('{variable1, date, DD}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
       expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.day.DayOfYear);
-      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.day.DayOfYear.Formats.WITH_ONE_ZERO_PADDING);
+      expect(messageFormat.messageAST[0].AST[0].length).to.equal(2);
     });
 
     it('should be able to parse three consecutive day of year identifiers', function() {
       messageFormat.parse('{variable1, date, DDD}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
       expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.day.DayOfYear);
-      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.day.DayOfYear.Formats.WITH_TWO_ZERO_PADDING);
+      expect(messageFormat.messageAST[0].AST[0].length).to.equal(3);
     });
 
     it('should begin with a new day of year when maximum consecutive identifiers have been exceeded', function() {
@@ -396,9 +396,9 @@ describe('DateFormat', function() {
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
       expect(messageFormat.messageAST[0].AST.length).to.equal(2);
       expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.day.DayOfYear);
-      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.day.DayOfYear.Formats.WITH_TWO_ZERO_PADDING);
+      expect(messageFormat.messageAST[0].AST[0].length).to.equal(3);
       expect(messageFormat.messageAST[0].AST[1]).to.be.an.instanceOf(AST.date.day.DayOfYear);
-      expect(messageFormat.messageAST[0].AST[1].format).to.equal(AST.date.day.DayOfYear.Formats.WITHOUT_PADDING);
+      expect(messageFormat.messageAST[0].AST[1].length).to.equal(1);
     });
 
     it('should be able to parse a day of week in month identifier', function() {

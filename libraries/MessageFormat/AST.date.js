@@ -356,18 +356,7 @@ AST.date.DateFormat.prototype._parseDay = function() {
       return new AST.date.day.DayOfMonth(format);
     case AST.date.DateFormat.Identifiers.DAY_OF_YEAR:
       length = this._getConsecutiveLength(3);
-      switch(length) {
-        case 1:
-          format = AST.date.day.DayOfYear.Formats.WITHOUT_PADDING;
-          break;
-        case 2:
-          format = AST.date.day.DayOfYear.Formats.WITH_ONE_ZERO_PADDING;
-          break;
-        case 3:
-          format = AST.date.day.DayOfYear.Formats.WITH_TWO_ZERO_PADDING;
-          break;
-      }
-      return new AST.date.day.DayOfYear(format);
+      return new AST.date.day.DayOfYear(length);
     case AST.date.DateFormat.Identifiers.DAY_OF_WEEK_IN_MONTH:
       this._getConsecutiveLength(1);
       return new AST.date.day.DayOfWeekInMonth;
@@ -931,21 +920,8 @@ AST.date.day.DayOfMonth.Formats = {
  * @constructor
  */
 
-AST.date.day.DayOfYear = function(format) {
-  this.format = format;
-};
-
-/**
- * Week of year types.
- *
- * @enum {Number}
- * @api public
- */
-
-AST.date.day.DayOfYear.Formats = {
-  WITHOUT_PADDING: 1,
-  WITH_ONE_ZERO_PADDING: 2,
-  WITH_TWO_ZERO_PADDING: 3
+AST.date.day.DayOfYear = function(length) {
+  this.length = length;
 };
 
 /**

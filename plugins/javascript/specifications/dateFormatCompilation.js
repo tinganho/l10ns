@@ -1067,4 +1067,189 @@ describe('DateFormat', function() {
       expect(test_weekOfMonthBlock()).to.equal('6');
     });
   });
+
+  describe('Day', function() {
+    it('should be able to complile a numeric date', function(done) {
+      var localizations = getLocalizations('{variable1, date, d}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var dateString = date_ + \'\';\n' +
+          'string += dateString;\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to complile a numeric with padding date', function(done) {
+      var localizations = getLocalizations('{variable1, date, dd}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var dateString = date_ + \'\';\n' +
+          'if(dateString.length === 1) {\n' +
+          '  dateString = \'0\' + dateString;\n' +
+          '}\n' +
+          'string += dateString;\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to compile a numeric with diffrent number system than latin', function(done) {
+      var localizations = {
+        'ar-AE': {
+          'key-1': {
+            value: '{variable1, date, dd}'
+          }
+        }
+      };
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var dateString = date_ + \'\';\n' +
+          'if(dateString.length === 1) {\n' +
+          '  dateString = \'0\' + dateString;\n' +
+          '}\n' +
+          'dateString = dateString\n' +
+          '  .replace(/1/g, \'١\')\n' +
+          '  .replace(/2/g, \'٢\')\n' +
+          '  .replace(/3/g, \'٣\')\n' +
+          '  .replace(/4/g, \'٤\')\n' +
+          '  .replace(/5/g, \'٥\')\n' +
+          '  .replace(/6/g, \'٦\')\n' +
+          '  .replace(/7/g, \'٧\')\n' +
+          '  .replace(/8/g, \'٨\')\n' +
+          '  .replace(/9/g, \'٩\')\n' +
+          '  .replace(/0/g, \'٠\');\n' +
+          'string += dateString;\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.include(indentSpaces(8, functionBody));
+        done();
+      });
+    });
+
+    it('should be able to compile a day of year with minimum length of 1', function(done) {
+      var localizations = getLocalizations('{variable1, date, D}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var start = new Date(date.getFullYear(), 0, 0);\n' +
+          'var diff = now - start;\n' +
+          'var oneDay = 1000 * 60 * 60 * 24;\n' +
+          'var day = Math.floor(diff / oneDay) + \'\';\n' +
+          'string += day;\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to compile a day of year with minimum length of 2', function(done) {
+      var localizations = getLocalizations('{variable1, date, DD}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var start = new Date(date.getFullYear(), 0, 0);\n' +
+          'var diff = now - start;\n' +
+          'var oneDay = 1000 * 60 * 60 * 24;\n' +
+          'var day = Math.floor(diff / oneDay) + \'\';\n' +
+          'for(day.length < 2) {\n' +
+          '  day = \'0\' + day;\n' +
+          '}\n' +
+          'string += day;\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to compile a day of year with minimum length of 3', function(done) {
+      var localizations = getLocalizations('{variable1, date, DDD}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var start = new Date(date.getFullYear(), 0, 0);\n' +
+          'var diff = now - start;\n' +
+          'var oneDay = 1000 * 60 * 60 * 24;\n' +
+          'var day = Math.floor(diff / oneDay) + \'\';\n' +
+          'for(day.length < 3) {\n' +
+          '  day = \'0\' + day;\n' +
+          '}\n' +
+          'string += day;\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to compile a day of year with a different number system than latin', function(done) {
+      var localizations = {
+        'ar-AE': {
+          'key-1': {
+            value: '{variable1, date, DDD}'
+          }
+        }
+      };
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var start = new Date(date.getFullYear(), 0, 0);\n' +
+          'var diff = now - start;\n' +
+          'var oneDay = 1000 * 60 * 60 * 24;\n' +
+          'var day = Math.floor(diff / oneDay) + \'\';\n' +
+          'for(day.length < 3) {\n' +
+          '  day = \'0\' + day;\n' +
+          '}\n' +
+          'day = day\n' +
+          '  .replace(/1/g, \'١\')\n' +
+          '  .replace(/2/g, \'٢\')\n' +
+          '  .replace(/3/g, \'٣\')\n' +
+          '  .replace(/4/g, \'٤\')\n' +
+          '  .replace(/5/g, \'٥\')\n' +
+          '  .replace(/6/g, \'٦\')\n' +
+          '  .replace(/7/g, \'٧\')\n' +
+          '  .replace(/8/g, \'٨\')\n' +
+          '  .replace(/9/g, \'٩\')\n' +
+          '  .replace(/0/g, \'٠\');\n' +
+          'string += day;\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.include(indentSpaces(8, functionBody));
+        done();
+      });
+    });
+  });
 });

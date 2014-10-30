@@ -745,6 +745,58 @@ Compiler.prototype._compileDateFormat = function(dateFormat) {
         }
       }
     }
+    else if(component instanceof MessageFormat.AST.date.day.DayOfMonth) {
+      var dateDigits;
+      if(dateFormat.numberSystem !== 'latn') {
+        dateDigits = template['NumeralReplace']({
+          variableName: 'dateString',
+          digits: digits[dateFormat.numberSystem]
+        });
+      }
+      if(component.format === MessageFormat.AST.date.day.DayOfMonth.Formats.NUMERIC) {
+        result += template['DateDate']({
+          numeralReplace: dateDigits
+        });
+      }
+      else {
+        result += template['DateDate']({
+          padding: true,
+          numeralReplace: dateDigits
+        });
+      }
+    }
+    else if(component instanceof MessageFormat.AST.date.day.DayOfYear) {
+      var dayOfYearDigits;
+      var dayOfYearLength;
+      var dayOfYearPadding;
+      var dayOfYearNumeralReplace;
+
+      if(dateFormat.numberSystem !== 'latn') {
+        dayOfYearDigits = template['NumeralReplace']({
+          variableName: 'dateString',
+          digits: digits[dateFormat.numberSystem]
+        });
+      }
+
+      if(component.length > 1) {
+        dayOfYearPadding = template['DatePadding']({
+          minimum: component.length,
+          variableName: 'day'
+        });
+      }
+
+      if(dateFormat.numberSystem !== 'latn') {
+        dayOfYearNumeralReplace = template['NumeralReplace']({
+          variableName: 'day',
+          digits: digits[dateFormat.numberSystem]
+        });
+      }
+
+      result += template['DateDayOfYear']({
+        padding: dayOfYearPadding,
+        numeralReplace: dayOfYearNumeralReplace
+      });
+    }
   });
 
   return result;
