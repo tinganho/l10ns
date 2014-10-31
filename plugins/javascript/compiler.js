@@ -797,6 +797,20 @@ Compiler.prototype._compileDateFormat = function(dateFormat) {
         numeralReplace: dayOfYearNumeralReplace
       });
     }
+    else if(component instanceof MessageFormat.AST.date.day.DayOfWeekInMonth) {
+      var dayofWeekInMonthNumeralReplace;
+
+      if(dateFormat.numberSystem !== 'latn') {
+        dayofWeekInMonthNumeralReplace = template['NumeralReplace']({
+          variableName: 'day',
+          digits: digits[dateFormat.numberSystem]
+        });
+      }
+
+      result += template['DateDayOfWeekInMonth']({
+        numeralReplace: dayOfYearNumeralReplace
+      });
+    }
   });
 
   return result;

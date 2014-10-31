@@ -1251,5 +1251,55 @@ describe('DateFormat', function() {
         done();
       });
     });
+
+    it('set day in week in month block should set count correctly', function() {
+      var getFunctionString = function(year, month, date) {
+        return 'function test_setDayOfWeekInMonthBlock() {' +
+          'var string = \'\';\n' +
+          'var year = ' + year + ';\n' +
+          'var month = ' + month + ';\n' +
+          'var date_ = ' + date + ';\n' +
+          dateTemplates['DateDayOfWeekInMonth']({}) + '\n' +
+          'return string; }';
+      }
+      eval(getFunctionString(2014, 2, 28));
+      expect(test_setDayOfWeekInMonthBlock()).to.equal('4');
+      eval(getFunctionString(2014, 3, 7));
+      expect(test_setDayOfWeekInMonthBlock()).to.equal('1');
+      eval(getFunctionString(2014, 3, 14));
+      expect(test_setDayOfWeekInMonthBlock()).to.equal('2');
+      eval(getFunctionString(2014, 3, 21));
+      expect(test_setDayOfWeekInMonthBlock()).to.equal('3');
+      eval(getFunctionString(2014, 3, 28));
+      expect(test_setDayOfWeekInMonthBlock()).to.equal('4');
+    });
+
+    it('should be able to compile a day of week in month', function(done) {
+      var localizations = getLocalizations('{variable1, date, F}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var currentMonth = month;\n' +
+          'var currentDate = date_;\n' +
+          'var count = 0;\n' +
+          'var exploringDate;\n' +
+          'while(currentMonth === month) {\n' +
+          '  currentDate =  currentDate - 7;\n' +
+          '  exploringDate = new Date(year, month, currentDate);\n' +
+          '  currentMonth = exploringDate.getMonth();\n' +
+          '  count++;\n' +
+          '}\n' +
+          'count += \'\';\n' +
+          'string += count;\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
   });
 });

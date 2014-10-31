@@ -507,8 +507,10 @@ AST.date.DateFormat.prototype._parseMinute = function() {
 /**
  * Parse second identifier (s, S, A)
  *
- * @return {AST.date.time.second.Second
- * |AST.date.time.second.FractionalSecond}
+ * @return {
+ *  AST.date.time.second.Second |
+ *  AST.date.time.second.FractionalSecond
+ * }
  * @api private
  */
 

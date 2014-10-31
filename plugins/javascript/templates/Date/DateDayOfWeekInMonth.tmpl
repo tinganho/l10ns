@@ -1,0 +1,13 @@
+var currentMonth = month;
+var currentDate = date_;
+var count = 0;
+var exploringDate;
+while(currentMonth === month) {
+  currentDate =  currentDate - 7;
+  exploringDate = new Date(year, month, currentDate);
+  currentMonth = exploringDate.getMonth();
+  count++;
+}
+count += '';{{?it.numeralReplace}}
+{{=it.numeralReplace}}{{?}}
+string += count;
