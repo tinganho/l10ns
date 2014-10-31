@@ -802,13 +802,13 @@ Compiler.prototype._compileDateFormat = function(dateFormat) {
 
       if(dateFormat.numberSystem !== 'latn') {
         dayofWeekInMonthNumeralReplace = template['NumeralReplace']({
-          variableName: 'day',
+          variableName: 'count',
           digits: digits[dateFormat.numberSystem]
         });
       }
 
       result += template['DateDayOfWeekInMonth']({
-        numeralReplace: dayOfYearNumeralReplace
+        numeralReplace: dayofWeekInMonthNumeralReplace
       });
     }
   });

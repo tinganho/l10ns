@@ -1301,5 +1301,48 @@ describe('DateFormat', function() {
         done();
       });
     });
+
+    it('should be able to compile a day of week in month in different number system than latin', function(done) {
+      var localizations = {
+        'ar-AE': {
+          'key-1': {
+            value: '{variable1, date, F}'
+          }
+        }
+      };
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var currentMonth = month;\n' +
+          'var currentDate = date_;\n' +
+          'var count = 0;\n' +
+          'var exploringDate;\n' +
+          'while(currentMonth === month) {\n' +
+          '  currentDate =  currentDate - 7;\n' +
+          '  exploringDate = new Date(year, month, currentDate);\n' +
+          '  currentMonth = exploringDate.getMonth();\n' +
+          '  count++;\n' +
+          '}\n' +
+          'count += \'\';\n' +
+          'count = count\n' +
+          '  .replace(/1/g, \'١\')\n' +
+          '  .replace(/2/g, \'٢\')\n' +
+          '  .replace(/3/g, \'٣\')\n' +
+          '  .replace(/4/g, \'٤\')\n' +
+          '  .replace(/5/g, \'٥\')\n' +
+          '  .replace(/6/g, \'٦\')\n' +
+          '  .replace(/7/g, \'٧\')\n' +
+          '  .replace(/8/g, \'٨\')\n' +
+          '  .replace(/9/g, \'٩\')\n' +
+          '  .replace(/0/g, \'٠\');\n' +
+          'string += count;\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.include(indentSpaces(8, functionBody));
+        done();
+      });
+    });
   });
 });
