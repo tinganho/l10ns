@@ -1347,7 +1347,7 @@ describe('DateFormat', function() {
   });
 
   describe('Weekday', function() {
-    it('should be able to compile a short day of week', function(done) {
+    it('should be able to compile a abbreviated day of week', function(done) {
       var localizations = getLocalizations('{variable1, date, E}');
       var dependencies = getDependencies(localizations);
       var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
@@ -1411,7 +1411,72 @@ describe('DateFormat', function() {
         }));
         done();
       });
+    });
 
+    it('should be able to compile a narrow day of week', function(done) {
+      var localizations = getLocalizations('{variable1, date, EEEEE}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var days = [\n' +
+          '  \'M\',\n' +
+          '  \'T\',\n' +
+          '  \'W\',\n' +
+          '  \'T\',\n' +
+          '  \'F\',\n' +
+          '  \'S\',\n' +
+          '  \'S\'\n' +
+          '];\n' +
+          'var day = date.getDay();\n' +
+          'if(day === 0) {\n' +
+          '  day = 6;\n' +
+          '}\n'+
+          'else {\n' +
+          '  day--;\n' +
+          '}\n' +
+          'string += days[day];\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to compile a narrow day of week', function(done) {
+      var localizations = getLocalizations('{variable1, date, EEEEEE}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var days = [\n' +
+          '  \'Mo\',\n' +
+          '  \'Tu\',\n' +
+          '  \'We\',\n' +
+          '  \'Th\',\n' +
+          '  \'Fr\',\n' +
+          '  \'Sa\',\n' +
+          '  \'Su\'\n' +
+          '];\n' +
+          'var day = date.getDay();\n' +
+          'if(day === 0) {\n' +
+          '  day = 6;\n' +
+          '}\n'+
+          'else {\n' +
+          '  day--;\n' +
+          '}\n' +
+          'string += days[day];\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
     });
   });
 });
