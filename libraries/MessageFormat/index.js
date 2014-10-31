@@ -1251,6 +1251,94 @@ MessageFormat.prototype._readDateData = function() {
       }
     }
   };
+
+  var shortFormatedDay = this._getXMLNode('//calendar[@type="gregorian"]/days/dayContext[@type="format"]/dayWidth[@type="short"]');
+  var wideFormatedDay = this._getXMLNode('//calendar[@type="gregorian"]/days/dayContext[@type="format"]/dayWidth[@type="wide"]');
+  var abbreviatedFormatedDay = this._getXMLNode('//calendar[@type="gregorian"]/days/dayContext[@type="format"]/dayWidth[@type="abbreviated"]');
+  var narrowFormatedDay = this._getXMLNode('//calendar[@type="gregorian"]/days/dayContext[@type="format"]/dayWidth[@type="narrow"]');
+  var shortStandaloneDay = this._getXMLNode('//calendar[@type="gregorian"]/days/dayContext[@type="stand-alone"]/dayWidth[@type="short"]');
+  var wideStandaloneDay = this._getXMLNode('//calendar[@type="gregorian"]/days/dayContext[@type="stand-alone"]/dayWidth[@type="wide"]');
+  var abbreviatedStandaloneDay = this._getXMLNode('//calendar[@type="gregorian"]/days/dayContext[@type="stand-alone"]/dayWidth[@type="abbreviated"]');
+  var narrowStandaloneDay = this._getXMLNode('//calendar[@type="gregorian"]/days/dayContext[@type="stand-alone"]/dayWidth[@type="narrow"]');
+
+  this.date['day'] = {
+    formated: {
+      short: {
+        'mon':  shortFormatedDay.get('./day[@type="mon"]').text(),
+        'tue':  shortFormatedDay.get('./day[@type="tue"]').text(),
+        'wed':  shortFormatedDay.get('./day[@type="wed"]').text(),
+        'thu':  shortFormatedDay.get('./day[@type="thu"]').text(),
+        'fri':  shortFormatedDay.get('./day[@type="fri"]').text(),
+        'sat':  shortFormatedDay.get('./day[@type="sat"]').text(),
+        'sun':  shortFormatedDay.get('./day[@type="sun"]').text()
+      },
+      wide: {
+        'mon':  wideFormatedDay.get('./day[@type="mon"]').text(),
+        'tue':  wideFormatedDay.get('./day[@type="tue"]').text(),
+        'wed':  wideFormatedDay.get('./day[@type="wed"]').text(),
+        'thu':  wideFormatedDay.get('./day[@type="thu"]').text(),
+        'fri':  wideFormatedDay.get('./day[@type="fri"]').text(),
+        'sat':  wideFormatedDay.get('./day[@type="sat"]').text(),
+        'sun':  wideFormatedDay.get('./day[@type="sun"]').text()
+      },
+      abbreviated: {
+        'mon':  abbreviatedFormatedDay.get('./day[@type="mon"]').text(),
+        'tue':  abbreviatedFormatedDay.get('./day[@type="tue"]').text(),
+        'wed':  abbreviatedFormatedDay.get('./day[@type="wed"]').text(),
+        'thu':  abbreviatedFormatedDay.get('./day[@type="thu"]').text(),
+        'fri':  abbreviatedFormatedDay.get('./day[@type="fri"]').text(),
+        'sat':  abbreviatedFormatedDay.get('./day[@type="sat"]').text(),
+        'sun':  abbreviatedFormatedDay.get('./day[@type="sun"]').text()
+      },
+      narrow: {
+        'mon':  narrowFormatedDay.get('./day[@type="mon"]').text(),
+        'tue':  narrowFormatedDay.get('./day[@type="tue"]').text(),
+        'wed':  narrowFormatedDay.get('./day[@type="wed"]').text(),
+        'thu':  narrowFormatedDay.get('./day[@type="thu"]').text(),
+        'fri':  narrowFormatedDay.get('./day[@type="fri"]').text(),
+        'sat':  narrowFormatedDay.get('./day[@type="sat"]').text(),
+        'sun':  narrowFormatedDay.get('./day[@type="sun"]').text()
+      }
+    },
+    standalone: {
+      short: {
+        'mon':  shortStandaloneDay.get('./day[@type="mon"]').text(),
+        'tue':  shortStandaloneDay.get('./day[@type="tue"]').text(),
+        'wed':  shortStandaloneDay.get('./day[@type="wed"]').text(),
+        'thu':  shortStandaloneDay.get('./day[@type="thu"]').text(),
+        'fri':  shortStandaloneDay.get('./day[@type="fri"]').text(),
+        'sat':  shortStandaloneDay.get('./day[@type="sat"]').text(),
+        'sun':  shortStandaloneDay.get('./day[@type="sun"]').text()
+      },
+      wide: {
+        'mon':  wideStandaloneDay.get('./day[@type="mon"]').text(),
+        'tue':  wideStandaloneDay.get('./day[@type="tue"]').text(),
+        'wed':  wideStandaloneDay.get('./day[@type="wed"]').text(),
+        'thu':  wideStandaloneDay.get('./day[@type="thu"]').text(),
+        'fri':  wideStandaloneDay.get('./day[@type="fri"]').text(),
+        'sat':  wideStandaloneDay.get('./day[@type="sat"]').text(),
+        'sun':  wideStandaloneDay.get('./day[@type="sun"]').text()
+      },
+      abbreviated: {
+        'mon':  abbreviatedStandaloneDay.get('./day[@type="mon"]').text(),
+        'tue':  abbreviatedStandaloneDay.get('./day[@type="tue"]').text(),
+        'wed':  abbreviatedStandaloneDay.get('./day[@type="wed"]').text(),
+        'thu':  abbreviatedStandaloneDay.get('./day[@type="thu"]').text(),
+        'fri':  abbreviatedStandaloneDay.get('./day[@type="fri"]').text(),
+        'sat':  abbreviatedStandaloneDay.get('./day[@type="sat"]').text(),
+        'sun':  abbreviatedStandaloneDay.get('./day[@type="sun"]').text()
+      },
+      narrow: {
+        'mon':  narrowStandaloneDay.get('./day[@type="mon"]').text(),
+        'tue':  narrowStandaloneDay.get('./day[@type="tue"]').text(),
+        'wed':  narrowStandaloneDay.get('./day[@type="wed"]').text(),
+        'thu':  narrowStandaloneDay.get('./day[@type="thu"]').text(),
+        'fri':  narrowStandaloneDay.get('./day[@type="fri"]').text(),
+        'sat':  narrowStandaloneDay.get('./day[@type="sat"]').text(),
+        'sun':  narrowStandaloneDay.get('./day[@type="sun"]').text()
+      }
+    }
+  };
 };
 
 /**

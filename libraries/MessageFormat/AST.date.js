@@ -380,18 +380,18 @@ AST.date.DateFormat.prototype._parseWeekDay = function() {
     case AST.date.DateFormat.Identifiers.DAY_OF_WEEK:
       length = this._getConsecutiveLength(6);
       if(length <= 3) {
-        format = AST.date.weekDay.DayOfWeek.Formats.SHORT;
+        format = AST.date.weekDay.DayOfWeek.Formats.ABBREVIATED;
       }
       else {
         switch(length) {
           case 4:
-            format = AST.date.weekDay.DayOfWeek.Formats.FULL;
+            format = AST.date.weekDay.DayOfWeek.Formats.WIDE;
             break;
           case 5:
             format = AST.date.weekDay.DayOfWeek.Formats.NARROW;
             break;
           case 6:
-            format = AST.date.weekDay.DayOfWeek.Formats.ABBREVIATED;
+            format = AST.date.weekDay.DayOfWeek.Formats.SHORT;
             break;
         }
       }
@@ -406,16 +406,16 @@ AST.date.DateFormat.prototype._parseWeekDay = function() {
           format = AST.date.weekDay.LocalDayOfWeek.Formats.NUMERIC_WITH_PADDING;
           break;
         case 3:
-          format = AST.date.weekDay.LocalDayOfWeek.Formats.SHORT;
+          format = AST.date.weekDay.LocalDayOfWeek.Formats.ABBREVIATED;
           break;
         case 4:
-          format = AST.date.weekDay.LocalDayOfWeek.Formats.FULL;
+          format = AST.date.weekDay.LocalDayOfWeek.Formats.WIDE;
           break;
         case 5:
           format = AST.date.weekDay.LocalDayOfWeek.Formats.NARROW;
           break;
         case 6:
-          format = AST.date.weekDay.LocalDayOfWeek.Formats.ABBREVIATED;
+          format = AST.date.weekDay.LocalDayOfWeek.Formats.SHORT;
           break;
       }
       return new AST.date.weekDay.LocalDayOfWeek(format);
@@ -429,16 +429,16 @@ AST.date.DateFormat.prototype._parseWeekDay = function() {
           format = AST.date.weekDay.StandAloneLocalDayOfWeek.Formats.NUMERIC_WITH_PADDING;
           break;
         case 3:
-          format = AST.date.weekDay.StandAloneLocalDayOfWeek.Formats.SHORT;
+          format = AST.date.weekDay.StandAloneLocalDayOfWeek.Formats.ABBREVIATED;
           break;
         case 4:
-          format = AST.date.weekDay.StandAloneLocalDayOfWeek.Formats.FULL;
+          format = AST.date.weekDay.StandAloneLocalDayOfWeek.Formats.WIDE;
           break;
         case 5:
           format = AST.date.weekDay.StandAloneLocalDayOfWeek.Formats.NARROW;
           break;
         case 6:
-          format = AST.date.weekDay.StandAloneLocalDayOfWeek.Formats.ABBREVIATED;
+          format = AST.date.weekDay.StandAloneLocalDayOfWeek.Formats.SHORT;
           break;
       }
       return new AST.date.weekDay.StandAloneLocalDayOfWeek(format);
@@ -970,7 +970,7 @@ AST.date.weekDay.DayOfWeek = function(format) {
  *     Type                 Output
  *
  *     SHORT                Tue
- *     FULL                 Tuesday
+ *     WIDE                 Tuesday
  *     NARROW               T
  *     ABBREVIATED          Tu
  *
@@ -980,7 +980,7 @@ AST.date.weekDay.DayOfWeek = function(format) {
 
 AST.date.weekDay.DayOfWeek.Formats = {
   SHORT: 1,
-  FULL: 2,
+  WIDE: 2,
   NARROW: 3,
   ABBREVIATED: 4
 };
@@ -1015,7 +1015,7 @@ AST.date.weekDay.LocalDayOfWeek = function(format) {
  *     NUMERIC              2
  *     NUMERIC_WITH_PADDING 02
  *     SHORT                Tue
- *     FULL                 Tuesday
+ *     WIDE                 Tuesday
  *     NARROW               T
  *     ABBREVIATED          Tu
  *
@@ -1027,9 +1027,9 @@ AST.date.weekDay.LocalDayOfWeek.Formats = {
   NUMERIC: 1,
   NUMERIC_WITH_PADDING: 2,
   SHORT : 3,
-  FULL: 4,
+  WIDE: 4,
   NARROW: 5,
-  ABBREVIATED: 6,
+  ABBREVIATED: 6
 };
 
 
@@ -1054,7 +1054,7 @@ AST.date.weekDay.StandAloneLocalDayOfWeek = function(format) {
  *     NUMERIC              2
  *     NUMERIC_WITH_PADDING 02
  *     SHORT                Tue
- *     FULL                 Tuesday
+ *     WIDE                 Tuesday
  *     NARROW               T
  *     ABBREVIATED          Tu
  *
@@ -1066,7 +1066,7 @@ AST.date.weekDay.StandAloneLocalDayOfWeek.Formats = {
   NUMERIC: 1,
   NUMERIC_WITH_PADDING: 2,
   SHORT : 3,
-  FULL: 4,
+  WIDE: 4,
   NARROW: 5,
   ABBREVIATED: 6,
 };

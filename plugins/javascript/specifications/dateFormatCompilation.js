@@ -1345,4 +1345,73 @@ describe('DateFormat', function() {
       });
     });
   });
+
+  describe('Weekday', function() {
+    it('should be able to compile a short day of week', function(done) {
+      var localizations = getLocalizations('{variable1, date, E}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var days = [\n' +
+          '  \'Mon\',\n' +
+          '  \'Tue\',\n' +
+          '  \'Wed\',\n' +
+          '  \'Thu\',\n' +
+          '  \'Fri\',\n' +
+          '  \'Sat\',\n' +
+          '  \'Sun\'\n' +
+          '];\n' +
+          'var day = date.getDay();\n' +
+          'if(day === 0) {\n' +
+          '  day = 6;\n' +
+          '}\n'+
+          'else {\n' +
+          '  day--;\n' +
+          '}\n' +
+          'string += days[day];\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to compile a wide day of week', function(done) {
+      var localizations = getLocalizations('{variable1, date, EEEE}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var days = [\n' +
+          '  \'Monday\',\n' +
+          '  \'Tuesday\',\n' +
+          '  \'Wednesday\',\n' +
+          '  \'Thursday\',\n' +
+          '  \'Friday\',\n' +
+          '  \'Saturday\',\n' +
+          '  \'Sunday\'\n' +
+          '];\n' +
+          'var day = date.getDay();\n' +
+          'if(day === 0) {\n' +
+          '  day = 6;\n' +
+          '}\n'+
+          'else {\n' +
+          '  day--;\n' +
+          '}\n' +
+          'string += days[day];\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+
+    });
+  });
 });

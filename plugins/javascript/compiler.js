@@ -811,6 +811,28 @@ Compiler.prototype._compileDateFormat = function(dateFormat) {
         numeralReplace: dayofWeekInMonthNumeralReplace
       });
     }
+    else if(component instanceof MessageFormat.AST.date.weekDay.DayOfWeek) {
+      var dayOfWeekStrings;
+
+      switch(component.format) {
+        case MessageFormat.AST.date.weekDay.DayOfWeek.Formats.ABBREVIATED:
+          dayOfWeekStrings = dateFormat.CLDR.day['formated']['abbreviated'];
+          break;
+        case MessageFormat.AST.date.weekDay.DayOfWeek.Formats.WIDE:
+          dayOfWeekStrings = dateFormat.CLDR.day['formated']['wide'];
+          break;
+        case MessageFormat.AST.date.weekDay.DayOfWeek.Formats.NARROW:
+          dayOfWeekStrings = dateFormat.CLDR.day['formated']['narrow'];
+          break;
+        default:
+          dayOfWeekStrings = dateFormat.CLDR.day['formated']['short'];
+          break;
+      }
+
+      result += template['DateDayOfWeek']({
+        days: dayOfWeekStrings
+      });
+    }
   });
 
   return result;
