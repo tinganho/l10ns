@@ -4,6 +4,7 @@ var dateTemplates = require('../templates/build/templates');
 var setDateBlock =
   'var string = \'\';\n' +
   'var date;\n' +
+  'var dateString = \'\';\n' +
   'if(typeof it.variable1 === \'string\') {\n' +
   '  date = new Date(it.variable1);\n' +
   '}\n' +
@@ -881,7 +882,8 @@ describe('DateFormat', function() {
           'if(week.length === 1) {\n' +
           '  week = \'0\' + week;\n' +
           '}\n' +
-          'string += week;\n' +
+          'dateString += week;\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -890,52 +892,13 @@ describe('DateFormat', function() {
       });
     });
 
-    it('should be able to compile a numeric(with padding) week of year with different numbering system than latin', function(done) {
-      var localizations = {
-        'ar-AE': {
-          'key-1': {
-            value: '{variable1, date, ww}'
-          }
-        }
-      };
-      var dependencies = getDependencies(localizations);
-      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
-
-      compiler.run();
-      eventually(function() {
-        var functionBody = setDateBlock +
-          'var dateCopy = new Date(+date);\n' +
-          'dateCopy.setHours(0,0,0);\n' +
-          'dateCopy.setDate(dateCopy.getDate()+4-(dateCopy.getDay()||7));\n' +
-          'var week = Math.ceil((((dateCopy-new Date(dateCopy.getFullYear(),0,1))/8.64e7)+1)/7) + \'\';\n' +
-          'if(week.length === 1) {\n' +
-          '  week = \'0\' + week;\n' +
-          '}\n' +
-          'week = week\n' +
-          '  .replace(/1/g, \'١\')\n' +
-          '  .replace(/2/g, \'٢\')\n' +
-          '  .replace(/3/g, \'٣\')\n' +
-          '  .replace(/4/g, \'٤\')\n' +
-          '  .replace(/5/g, \'٥\')\n' +
-          '  .replace(/6/g, \'٦\')\n' +
-          '  .replace(/7/g, \'٧\')\n' +
-          '  .replace(/8/g, \'٨\')\n' +
-          '  .replace(/9/g, \'٩\')\n' +
-          '  .replace(/0/g, \'٠\');\n' +
-          'string += week;\n' +
-          'return string;';
-        expect(dependencies.fs.writeFileSync.args[1][1]).to.include(indentSpaces(8, functionBody));
-        done();
-      });
-    });
-
     it('week of year block should return the current numeric week of year', function() {
       function getWeekOfYearFunctionString(date) {
         return 'function test_weekOfYearBlock() {\n' +
-          'var string = \'\';\n' +
+          'var dateString = \'\';\n' +
           'var date = new Date(\'' + date + '\');\n' +
           dateTemplates['DateWeekOfYear']({}) + '\n' +
-          'return string; }';
+          'return dateString; }';
       };
       eval(getWeekOfYearFunctionString('2007-12-30'));
       expect(test_weekOfYearBlock()).to.equal('52');
@@ -976,8 +939,9 @@ describe('DateFormat', function() {
           'if(date_ < secondWeekStartDate) {\n' +
           '  week = 1;\n' +
           '}\n' +
-          'var week = 1 + Math.ceil(offsetDate / 7);\n' +
-          'string += week;\n' +
+          'var week = 1 + Math.ceil(offsetDate / 7) + \'\';\n' +
+          'dateString += week;\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -986,60 +950,15 @@ describe('DateFormat', function() {
       });
     });
 
-    it('should be able to compile a week of month in a different number system than latin', function(done) {
-      var localizations = {
-        'ar-AE': {
-          'key-1': {
-            value: '{variable1, date, W}'
-          }
-        }
-      };
-      var dependencies = getDependencies(localizations);
-      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
-
-      compiler.run();
-      eventually(function() {
-        var functionBody = setDateBlock +
-          'var year = date.getFullYear();\n' +
-          'var firstWeekday = new Date(year, month, 1).getDay();\n' +
-          'if(firstWeekday === 0) {\n' +
-          '  firstWeekday = 7;\n' +
-          '}\n' +
-          'var lastDateOfMonth = new Date(year, month + 1, 0).getDate();\n' +
-          'var secondWeekStartDate = 9 - firstWeekday;\n' +
-          'var offsetDate = date_ - secondWeekStartDate + 1;\n' +
-          'if(date_ < secondWeekStartDate) {\n' +
-          '  week = 1;\n' +
-          '}\n' +
-          'var week = 1 + Math.ceil(offsetDate / 7);\n' +
-          'week += \'\';\n' +
-          'week = week\n' +
-          '  .replace(/1/g, \'١\')\n' +
-          '  .replace(/2/g, \'٢\')\n' +
-          '  .replace(/3/g, \'٣\')\n' +
-          '  .replace(/4/g, \'٤\')\n' +
-          '  .replace(/5/g, \'٥\')\n' +
-          '  .replace(/6/g, \'٦\')\n' +
-          '  .replace(/7/g, \'٧\')\n' +
-          '  .replace(/8/g, \'٨\')\n' +
-          '  .replace(/9/g, \'٩\')\n' +
-          '  .replace(/0/g, \'٠\');\n' +
-          'string += week;\n' +
-          'return string;';
-        expect(dependencies.fs.writeFileSync.args[1][1]).to.include(indentSpaces(8, functionBody));
-        done();
-      });
-    });
-
     it('week of month block should return current week of month', function() {
       function getWeekOfMonthFunctionString(date) {
         return 'function test_weekOfMonthBlock() {\n' +
-          'var string = \'\';\n' +
+          'var dateString = \'\';\n' +
           'var date = new Date(\'' + date + '\');\n' +
           'var month = date.getMonth();\n' +
           'var date_ = date.getDate();\n' +
           dateTemplates['DateWeekOfMonth']({}) + '\n' +
-          'return string; }';
+          'return dateString; }';
       };
       eval(getWeekOfMonthFunctionString('2013-02-01'));
       expect(test_weekOfMonthBlock()).to.equal('1');
@@ -1077,7 +996,8 @@ describe('DateFormat', function() {
       compiler.run();
       eventually(function() {
         var functionBody = setDateBlock +
-          'var dateString = date_ + \'\';\n' +
+          'var dayOfMonthString = date_ + \'\';\n' +
+          'dateString += dayOfMonthString;\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -1095,51 +1015,16 @@ describe('DateFormat', function() {
       compiler.run();
       eventually(function() {
         var functionBody = setDateBlock +
-          'var dateString = date_ + \'\';\n' +
-          'if(dateString.length === 1) {\n' +
-          '  dateString = \'0\' + dateString;\n' +
+          'var dayOfMonthString = date_ + \'\';\n' +
+          'if(dayOfMonthString.length === 1) {\n' +
+          '  dayOfMonthString = \'0\' + dayOfMonthString;\n' +
           '}\n' +
+          'dateString += dayOfMonthString;\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
         }));
-        done();
-      });
-    });
-
-    it('should be able to compile a numeric with diffrent number system than latin', function(done) {
-      var localizations = {
-        'ar-AE': {
-          'key-1': {
-            value: '{variable1, date, dd}'
-          }
-        }
-      };
-      var dependencies = getDependencies(localizations);
-      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
-
-      compiler.run();
-      eventually(function() {
-        var functionBody = setDateBlock +
-          'var dateString = date_ + \'\';\n' +
-          'if(dateString.length === 1) {\n' +
-          '  dateString = \'0\' + dateString;\n' +
-          '}\n' +
-          'dateString = dateString\n' +
-          '  .replace(/1/g, \'١\')\n' +
-          '  .replace(/2/g, \'٢\')\n' +
-          '  .replace(/3/g, \'٣\')\n' +
-          '  .replace(/4/g, \'٤\')\n' +
-          '  .replace(/5/g, \'٥\')\n' +
-          '  .replace(/6/g, \'٦\')\n' +
-          '  .replace(/7/g, \'٧\')\n' +
-          '  .replace(/8/g, \'٨\')\n' +
-          '  .replace(/9/g, \'٩\')\n' +
-          '  .replace(/0/g, \'٠\');\n' +
-          'string += dateString;\n' +
-          'return string;';
-        expect(dependencies.fs.writeFileSync.args[1][1]).to.include(indentSpaces(8, functionBody));
         done();
       });
     });
@@ -1156,7 +1041,8 @@ describe('DateFormat', function() {
           'var diff = now - start;\n' +
           'var oneDay = 1000 * 60 * 60 * 24;\n' +
           'var day = Math.floor(diff / oneDay) + \'\';\n' +
-          'string += day;\n' +
+          'dateString += day;\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -1180,7 +1066,8 @@ describe('DateFormat', function() {
           'for(day.length < 2) {\n' +
           '  day = \'0\' + day;\n' +
           '}\n' +
-          'string += day;\n' +
+          'dateString += day;\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -1204,7 +1091,8 @@ describe('DateFormat', function() {
           'for(day.length < 3) {\n' +
           '  day = \'0\' + day;\n' +
           '}\n' +
-          'string += day;\n' +
+          'dateString += day;\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -1213,54 +1101,15 @@ describe('DateFormat', function() {
       });
     });
 
-    it('should be able to compile a day of year with a different number system than latin', function(done) {
-      var localizations = {
-        'ar-AE': {
-          'key-1': {
-            value: '{variable1, date, DDD}'
-          }
-        }
-      };
-      var dependencies = getDependencies(localizations);
-      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
-
-      compiler.run();
-      eventually(function() {
-        var functionBody = setDateBlock +
-          'var start = new Date(date.getFullYear(), 0, 0);\n' +
-          'var diff = now - start;\n' +
-          'var oneDay = 1000 * 60 * 60 * 24;\n' +
-          'var day = Math.floor(diff / oneDay) + \'\';\n' +
-          'for(day.length < 3) {\n' +
-          '  day = \'0\' + day;\n' +
-          '}\n' +
-          'day = day\n' +
-          '  .replace(/1/g, \'١\')\n' +
-          '  .replace(/2/g, \'٢\')\n' +
-          '  .replace(/3/g, \'٣\')\n' +
-          '  .replace(/4/g, \'٤\')\n' +
-          '  .replace(/5/g, \'٥\')\n' +
-          '  .replace(/6/g, \'٦\')\n' +
-          '  .replace(/7/g, \'٧\')\n' +
-          '  .replace(/8/g, \'٨\')\n' +
-          '  .replace(/9/g, \'٩\')\n' +
-          '  .replace(/0/g, \'٠\');\n' +
-          'string += day;\n' +
-          'return string;';
-        expect(dependencies.fs.writeFileSync.args[1][1]).to.include(indentSpaces(8, functionBody));
-        done();
-      });
-    });
-
     it('set day in week in month block should set count correctly', function() {
       var getFunctionString = function(year, month, date) {
         return 'function test_setDayOfWeekInMonthBlock() {' +
-          'var string = \'\';\n' +
+          'var dateString = \'\';\n' +
           'var year = ' + year + ';\n' +
           'var month = ' + month + ';\n' +
           'var date_ = ' + date + ';\n' +
           dateTemplates['DateDayOfWeekInMonth']({}) + '\n' +
-          'return string; }';
+          'return dateString; }';
       }
       eval(getFunctionString(2014, 2, 28));
       expect(test_setDayOfWeekInMonthBlock()).to.equal('4');
@@ -1293,54 +1142,12 @@ describe('DateFormat', function() {
           '  count++;\n' +
           '}\n' +
           'count += \'\';\n' +
-          'string += count;\n' +
+          'dateString += count;\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
         }));
-        done();
-      });
-    });
-
-    it('should be able to compile a day of week in month in different number system than latin', function(done) {
-      var localizations = {
-        'ar-AE': {
-          'key-1': {
-            value: '{variable1, date, F}'
-          }
-        }
-      };
-      var dependencies = getDependencies(localizations);
-      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
-
-      compiler.run();
-      eventually(function() {
-        var functionBody = setDateBlock +
-          'var currentMonth = month;\n' +
-          'var currentDate = date_;\n' +
-          'var count = 0;\n' +
-          'var exploringDate;\n' +
-          'while(currentMonth === month) {\n' +
-          '  currentDate =  currentDate - 7;\n' +
-          '  exploringDate = new Date(year, month, currentDate);\n' +
-          '  currentMonth = exploringDate.getMonth();\n' +
-          '  count++;\n' +
-          '}\n' +
-          'count += \'\';\n' +
-          'count = count\n' +
-          '  .replace(/1/g, \'١\')\n' +
-          '  .replace(/2/g, \'٢\')\n' +
-          '  .replace(/3/g, \'٣\')\n' +
-          '  .replace(/4/g, \'٤\')\n' +
-          '  .replace(/5/g, \'٥\')\n' +
-          '  .replace(/6/g, \'٦\')\n' +
-          '  .replace(/7/g, \'٧\')\n' +
-          '  .replace(/8/g, \'٨\')\n' +
-          '  .replace(/9/g, \'٩\')\n' +
-          '  .replace(/0/g, \'٠\');\n' +
-          'string += count;\n' +
-          'return string;';
-        expect(dependencies.fs.writeFileSync.args[1][1]).to.include(indentSpaces(8, functionBody));
         done();
       });
     });
@@ -1371,7 +1178,8 @@ describe('DateFormat', function() {
           'else {\n' +
           '  day--;\n' +
           '}\n' +
-          'string += days[day];\n' +
+          'dateString += days[day];\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -1404,7 +1212,8 @@ describe('DateFormat', function() {
           'else {\n' +
           '  day--;\n' +
           '}\n' +
-          'string += days[day];\n' +
+          'dateString += days[day];\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -1437,7 +1246,8 @@ describe('DateFormat', function() {
           'else {\n' +
           '  day--;\n' +
           '}\n' +
-          'string += days[day];\n' +
+          'dateString += days[day];\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -1470,7 +1280,8 @@ describe('DateFormat', function() {
           'else {\n' +
           '  day--;\n' +
           '}\n' +
-          'string += days[day];\n' +
+          'dateString += days[day];\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -1492,7 +1303,8 @@ describe('DateFormat', function() {
           '  day = 7;\n' +
           '}\n' +
           'day += \'\';\n' +
-          'string += day;\n' +
+          'dateString += day;\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -1515,7 +1327,8 @@ describe('DateFormat', function() {
           '}\n' +
           'day += \'\';\n' +
           'day = \'0\' + day;\n' +
-          'string += day;\n' +
+          'dateString += day;\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -1548,7 +1361,8 @@ describe('DateFormat', function() {
           'else {\n' +
           '  day--;\n' +
           '}\n' +
-          'string += days[day];\n' +
+          'dateString += days[day];\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -1581,7 +1395,8 @@ describe('DateFormat', function() {
           'else {\n' +
           '  day--;\n' +
           '}\n' +
-          'string += days[day];\n' +
+          'dateString += days[day];\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -1614,7 +1429,8 @@ describe('DateFormat', function() {
           'else {\n' +
           '  day--;\n' +
           '}\n' +
-          'string += days[day];\n' +
+          'dateString += days[day];\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -1647,7 +1463,8 @@ describe('DateFormat', function() {
           'else {\n' +
           '  day--;\n' +
           '}\n' +
-          'string += days[day];\n' +
+          'dateString += days[day];\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -1669,7 +1486,8 @@ describe('DateFormat', function() {
           '  day = 7;\n' +
           '}\n' +
           'day += \'\';\n' +
-          'string += day;\n' +
+          'dateString += day;\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -1692,7 +1510,8 @@ describe('DateFormat', function() {
           '}\n' +
           'day += \'\';\n' +
           'day = \'0\' + day;\n' +
-          'string += day;\n' +
+          'dateString += day;\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -1725,7 +1544,8 @@ describe('DateFormat', function() {
           'else {\n' +
           '  day--;\n' +
           '}\n' +
-          'string += days[day];\n' +
+          'dateString += days[day];\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -1758,7 +1578,8 @@ describe('DateFormat', function() {
           'else {\n' +
           '  day--;\n' +
           '}\n' +
-          'string += days[day];\n' +
+          'dateString += days[day];\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -1791,7 +1612,8 @@ describe('DateFormat', function() {
           'else {\n' +
           '  day--;\n' +
           '}\n' +
-          'string += days[day];\n' +
+          'dateString += days[day];\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -1824,7 +1646,8 @@ describe('DateFormat', function() {
           'else {\n' +
           '  day--;\n' +
           '}\n' +
-          'string += days[day];\n' +
+          'dateString += days[day];\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)

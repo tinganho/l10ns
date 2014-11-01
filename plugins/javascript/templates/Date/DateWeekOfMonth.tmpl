@@ -9,7 +9,5 @@ var offsetDate = date_ - secondWeekStartDate + 1;
 if(date_ < secondWeekStartDate) {
   week = 1;
 }
-var week = 1 + Math.ceil(offsetDate / 7);{{?it.numeralReplace}}
-week += '';
-{{=it.numeralReplace}}{{?}}
-string += week;
+var week = 1 + Math.ceil(offsetDate / 7) + '';
+dateString += week;

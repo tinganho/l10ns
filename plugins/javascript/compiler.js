@@ -754,12 +754,12 @@ Compiler.prototype._compileDateFormat = function(dateFormat) {
         });
       }
       if(component.format === MessageFormat.AST.date.day.DayOfMonth.Formats.NUMERIC) {
-        result += template['DateDate']({
+        result += template['DateDayOfMonth']({
           numeralReplace: dateDigits
         });
       }
       else {
-        result += template['DateDate']({
+        result += template['DateDayOfMonth']({
           padding: true,
           numeralReplace: dateDigits
         });
@@ -871,6 +871,15 @@ Compiler.prototype._compileDateFormat = function(dateFormat) {
       });
     }
   });
+
+  if(dateFormat.numberSystem !== 'latn') {
+    result += template['NumeralReplace']({
+      variableName: 'dateString',
+      digits: digits[dateFormat.numberSystem]
+    });
+  }
+
+  result += this.linefeed + 'string += dateString;';
 
   return result;
 };
