@@ -833,6 +833,43 @@ Compiler.prototype._compileDateFormat = function(dateFormat) {
         days: dayOfWeekStrings
       });
     }
+    else if(component instanceof MessageFormat.AST.date.weekDay.LocalDayOfWeek) {
+      var localDayOfWeekStrings;
+      var localDayOfWeekContext;
+      var localDayOfWeekPadding;
+
+      if(component.context === MessageFormat.AST.date.weekDay.LocalDayOfWeek.Contexts.FORMATED) {
+        localDayOfWeekContext = 'formated';
+      }
+      else {
+        localDayOfWeekContext = 'standalone';
+      }
+
+      switch(component.format) {
+        case MessageFormat.AST.date.weekDay.LocalDayOfWeek.Formats.NUMERIC_WITH_PADDING:
+          localDayOfWeekPadding = true;
+        case MessageFormat.AST.date.weekDay.LocalDayOfWeek.Formats.NUMERIC:
+          return result += template['DateLocalDayOfWeekDigit']({
+            padding: localDayOfWeekPadding
+          });
+        case MessageFormat.AST.date.weekDay.LocalDayOfWeek.Formats.ABBREVIATED:
+          localDayOfWeekStrings = dateFormat.CLDR.day[localDayOfWeekContext]['abbreviated'];
+          break;
+        case MessageFormat.AST.date.weekDay.LocalDayOfWeek.Formats.WIDE:
+          localDayOfWeekStrings = dateFormat.CLDR.day[localDayOfWeekContext]['wide'];
+          break;
+        case MessageFormat.AST.date.weekDay.LocalDayOfWeek.Formats.NARROW:
+          localDayOfWeekStrings = dateFormat.CLDR.day[localDayOfWeekContext]['narrow'];
+          break;
+        default:
+          localDayOfWeekStrings = dateFormat.CLDR.day[localDayOfWeekContext]['short'];
+          break;
+      }
+
+      result += template['DateDayOfWeek']({
+        days: localDayOfWeekStrings
+      });
+    }
   });
 
   return result;

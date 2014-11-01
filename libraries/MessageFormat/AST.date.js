@@ -418,30 +418,30 @@ AST.date.DateFormat.prototype._parseWeekDay = function() {
           format = AST.date.weekDay.LocalDayOfWeek.Formats.SHORT;
           break;
       }
-      return new AST.date.weekDay.LocalDayOfWeek(format);
+      return new AST.date.weekDay.LocalDayOfWeek(AST.date.weekDay.LocalDayOfWeek.Contexts.FORMATED, format);
     default:
       length = this._getConsecutiveLength(6);
       switch(length) {
         case 1:
-          format = AST.date.weekDay.StandAloneLocalDayOfWeek.Formats.NUMERIC;
+          format = AST.date.weekDay.LocalDayOfWeek.Formats.NUMERIC;
           break;
         case 2:
-          format = AST.date.weekDay.StandAloneLocalDayOfWeek.Formats.NUMERIC_WITH_PADDING;
+          format = AST.date.weekDay.LocalDayOfWeek.Formats.NUMERIC_WITH_PADDING;
           break;
         case 3:
-          format = AST.date.weekDay.StandAloneLocalDayOfWeek.Formats.ABBREVIATED;
+          format = AST.date.weekDay.LocalDayOfWeek.Formats.ABBREVIATED;
           break;
         case 4:
-          format = AST.date.weekDay.StandAloneLocalDayOfWeek.Formats.WIDE;
+          format = AST.date.weekDay.LocalDayOfWeek.Formats.WIDE;
           break;
         case 5:
-          format = AST.date.weekDay.StandAloneLocalDayOfWeek.Formats.NARROW;
+          format = AST.date.weekDay.LocalDayOfWeek.Formats.NARROW;
           break;
         case 6:
-          format = AST.date.weekDay.StandAloneLocalDayOfWeek.Formats.SHORT;
+          format = AST.date.weekDay.LocalDayOfWeek.Formats.SHORT;
           break;
       }
-      return new AST.date.weekDay.StandAloneLocalDayOfWeek(format);
+      return new AST.date.weekDay.LocalDayOfWeek(AST.date.weekDay.LocalDayOfWeek.Contexts.STAND_ALONE, format);
   }
 };
 
@@ -997,12 +997,25 @@ AST.date.weekDay.DayOfWeek.Formats = {
  *     5      T
  *     6      Tu
  *
+ * @param {AST.date.weekDay.LocalDayOfWeek.Contexts} context
  * @param {AST.date.weekDay.LocalDayOfWeek.Formats} format
  * @constructor
  */
 
-AST.date.weekDay.LocalDayOfWeek = function(format) {
+AST.date.weekDay.LocalDayOfWeek = function(context, format) {
+  this.context = context;
   this.format = format;
+};
+
+/**
+ * Local day of week context
+ *
+ * @enum {Number}
+ */
+
+AST.date.weekDay.LocalDayOfWeek.Contexts = {
+  FORMATED: 1,
+  STAND_ALONE: 2
 };
 
 /**
@@ -1031,46 +1044,6 @@ AST.date.weekDay.LocalDayOfWeek.Formats = {
   NARROW: 5,
   ABBREVIATED: 6
 };
-
-
-/**
- * Stand-alone local day of week.
- *
- * @param {AST.date.weekDay.LocalStandAloneWeekDay.Type} format
- * @constructor
- */
-
-AST.date.weekDay.StandAloneLocalDayOfWeek = function(format) {
-  this.format = format;
-};
-
-/**
- * Stand-alone local day of week formats.
- *
- *   Example:
- *
- *     Type                 Output
- *
- *     NUMERIC              2
- *     NUMERIC_WITH_PADDING 02
- *     SHORT                Tue
- *     WIDE                 Tuesday
- *     NARROW               T
- *     ABBREVIATED          Tu
- *
- * @enum {Number}
- * @api public
- */
-
-AST.date.weekDay.StandAloneLocalDayOfWeek.Formats = {
-  NUMERIC: 1,
-  NUMERIC_WITH_PADDING: 2,
-  SHORT : 3,
-  WIDE: 4,
-  NARROW: 5,
-  ABBREVIATED: 6,
-};
-
 
 /**
  * Namespace time

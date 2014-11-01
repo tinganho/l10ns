@@ -1478,5 +1478,359 @@ describe('DateFormat', function() {
         done();
       });
     });
+
+    it('should be able to compile a formated numeric local day of week', function(done) {
+      var localizations = getLocalizations('{variable1, date, e}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var day = date.getDay();\n' +
+          'if(day === 0) {\n' +
+          '  day = 7;\n' +
+          '}\n' +
+          'day += \'\';\n' +
+          'string += day;\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to compile a formated numeric with padding local day of week', function(done) {
+      var localizations = getLocalizations('{variable1, date, ee}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var day = date.getDay();\n' +
+          'if(day === 0) {\n' +
+          '  day = 7;\n' +
+          '}\n' +
+          'day += \'\';\n' +
+          'day = \'0\' + day;\n' +
+          'string += day;\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to compile a formated abbreviated local day of week', function(done) {
+      var localizations = getLocalizations('{variable1, date, eee}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var days = [\n' +
+          '  \'Mon\',\n' +
+          '  \'Tue\',\n' +
+          '  \'Wed\',\n' +
+          '  \'Thu\',\n' +
+          '  \'Fri\',\n' +
+          '  \'Sat\',\n' +
+          '  \'Sun\'\n' +
+          '];\n' +
+          'var day = date.getDay();\n' +
+          'if(day === 0) {\n' +
+          '  day = 6;\n' +
+          '}\n'+
+          'else {\n' +
+          '  day--;\n' +
+          '}\n' +
+          'string += days[day];\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to compile a formated wide local day of week', function(done) {
+      var localizations = getLocalizations('{variable1, date, eeee}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var days = [\n' +
+          '  \'Monday\',\n' +
+          '  \'Tuesday\',\n' +
+          '  \'Wednesday\',\n' +
+          '  \'Thursday\',\n' +
+          '  \'Friday\',\n' +
+          '  \'Saturday\',\n' +
+          '  \'Sunday\'\n' +
+          '];\n' +
+          'var day = date.getDay();\n' +
+          'if(day === 0) {\n' +
+          '  day = 6;\n' +
+          '}\n'+
+          'else {\n' +
+          '  day--;\n' +
+          '}\n' +
+          'string += days[day];\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to compile a formated narrow local day of week', function(done) {
+      var localizations = getLocalizations('{variable1, date, eeeee}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var days = [\n' +
+          '  \'M\',\n' +
+          '  \'T\',\n' +
+          '  \'W\',\n' +
+          '  \'T\',\n' +
+          '  \'F\',\n' +
+          '  \'S\',\n' +
+          '  \'S\'\n' +
+          '];\n' +
+          'var day = date.getDay();\n' +
+          'if(day === 0) {\n' +
+          '  day = 6;\n' +
+          '}\n'+
+          'else {\n' +
+          '  day--;\n' +
+          '}\n' +
+          'string += days[day];\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to compile a formated short local day of week', function(done) {
+      var localizations = getLocalizations('{variable1, date, eeeeee}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var days = [\n' +
+          '  \'Mo\',\n' +
+          '  \'Tu\',\n' +
+          '  \'We\',\n' +
+          '  \'Th\',\n' +
+          '  \'Fr\',\n' +
+          '  \'Sa\',\n' +
+          '  \'Su\'\n' +
+          '];\n' +
+          'var day = date.getDay();\n' +
+          'if(day === 0) {\n' +
+          '  day = 6;\n' +
+          '}\n'+
+          'else {\n' +
+          '  day--;\n' +
+          '}\n' +
+          'string += days[day];\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to compile a stand-alone numeric local day of week', function(done) {
+      var localizations = getLocalizations('{variable1, date, c}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var day = date.getDay();\n' +
+          'if(day === 0) {\n' +
+          '  day = 7;\n' +
+          '}\n' +
+          'day += \'\';\n' +
+          'string += day;\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to compile a stand-alone numeric with padding local day of week', function(done) {
+      var localizations = getLocalizations('{variable1, date, cc}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var day = date.getDay();\n' +
+          'if(day === 0) {\n' +
+          '  day = 7;\n' +
+          '}\n' +
+          'day += \'\';\n' +
+          'day = \'0\' + day;\n' +
+          'string += day;\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to compile a stand-alone abbreviated local day of week', function(done) {
+      var localizations = getLocalizations('{variable1, date, ccc}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var days = [\n' +
+          '  \'Mon\',\n' +
+          '  \'Tue\',\n' +
+          '  \'Wed\',\n' +
+          '  \'Thu\',\n' +
+          '  \'Fri\',\n' +
+          '  \'Sat\',\n' +
+          '  \'Sun\'\n' +
+          '];\n' +
+          'var day = date.getDay();\n' +
+          'if(day === 0) {\n' +
+          '  day = 6;\n' +
+          '}\n'+
+          'else {\n' +
+          '  day--;\n' +
+          '}\n' +
+          'string += days[day];\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to compile a stand-alone wide local day of week', function(done) {
+      var localizations = getLocalizations('{variable1, date, cccc}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var days = [\n' +
+          '  \'Mon\',\n' +
+          '  \'Tue\',\n' +
+          '  \'Wed\',\n' +
+          '  \'Thu\',\n' +
+          '  \'Fri\',\n' +
+          '  \'Sat\',\n' +
+          '  \'Sun\'\n' +
+          '];\n' +
+          'var day = date.getDay();\n' +
+          'if(day === 0) {\n' +
+          '  day = 6;\n' +
+          '}\n'+
+          'else {\n' +
+          '  day--;\n' +
+          '}\n' +
+          'string += days[day];\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to compile a stand-alone narrow local day of week', function(done) {
+      var localizations = getLocalizations('{variable1, date, ccccc}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var days = [\n' +
+          '  \'M\',\n' +
+          '  \'T\',\n' +
+          '  \'W\',\n' +
+          '  \'T\',\n' +
+          '  \'F\',\n' +
+          '  \'S\',\n' +
+          '  \'S\'\n' +
+          '];\n' +
+          'var day = date.getDay();\n' +
+          'if(day === 0) {\n' +
+          '  day = 6;\n' +
+          '}\n'+
+          'else {\n' +
+          '  day--;\n' +
+          '}\n' +
+          'string += days[day];\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to compile a stand-alone short local day of week', function(done) {
+      var localizations = getLocalizations('{variable1, date, cccccc}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var days = [\n' +
+          '  \'Mon\',\n' +
+          '  \'Tue\',\n' +
+          '  \'Wed\',\n' +
+          '  \'Thu\',\n' +
+          '  \'Fri\',\n' +
+          '  \'Sat\',\n' +
+          '  \'Sun\'\n' +
+          '];\n' +
+          'var day = date.getDay();\n' +
+          'if(day === 0) {\n' +
+          '  day = 6;\n' +
+          '}\n'+
+          'else {\n' +
+          '  day--;\n' +
+          '}\n' +
+          'string += days[day];\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
   });
 });
