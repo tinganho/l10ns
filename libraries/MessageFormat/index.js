@@ -1339,6 +1339,13 @@ MessageFormat.prototype._readDateData = function() {
       }
     }
   };
+
+  var abbreviatedFormatedPeriod = this._getXMLNode('//calendar[@type="gregorian"]/dayPeriods/dayPeriodContext[@type="format"]/dayPeriodWidth[@type="abbreviated"]');
+
+  this.date['period'] = {
+    am: abbreviatedFormatedPeriod.get('./dayPeriod[@type="am"]').text(),
+    pm: abbreviatedFormatedPeriod.get('./dayPeriod[@type="pm"]').text()
+  };
 };
 
 /**

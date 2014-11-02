@@ -871,6 +871,11 @@ Compiler.prototype._compileDateFormat = function(dateFormat) {
         days: localDayOfWeekStrings
       });
     }
+    else if(component instanceof MessageFormat.AST.date.time.Period) {
+      result += template['DatePeriod']({
+        period: dateFormat.CLDR.period
+      });
+    }
   });
 
   if(dateFormat.numberSystem !== 'latn') {
