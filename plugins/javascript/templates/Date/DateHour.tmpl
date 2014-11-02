@@ -1,0 +1,17 @@
+var hours = date.getHours();{{?it.start === 0 && it.length === 24}}{{??it.start === 1 && it.length === 24}}
+if(hours === 0) {
+  hours = 24;
+}{{??it.start === 0 && it.length === 12}}
+if(hours > 11) {
+  hours = hours - 12;
+}{{??}}
+if(hours > 11) {
+  hours = hours - 12;
+}
+if(hours === 0) {
+  hours = 12;
+}{{?}}{{?it.padding}}
+if(hours < 10) {
+  hours = '0' + hours;
+}{{?}}
+dateString += hours;

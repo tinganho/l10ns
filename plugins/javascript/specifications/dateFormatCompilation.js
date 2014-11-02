@@ -1665,6 +1665,197 @@ describe('DateFormat', function() {
     });
   });
 
+  describe('Hour', function() {
+    it('should be able to compile a twelve hour starting at zero with no padding', function(done) {
+      var localizations = getLocalizations('{variable1, date, K}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var hours = date.getHours();\n' +
+          'if(hours > 11) {\n' +
+          '  hours = hours - 12;\n' +
+          '}\n' +
+          'dateString += hours;\n' +
+          'string += dateString;\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+
+    it('should be able to compile a twelve hour starting at zero with padding', function(done) {
+      var localizations = getLocalizations('{variable1, date, KK}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var hours = date.getHours();\n' +
+          'if(hours > 11) {\n' +
+          '  hours = hours - 12;\n' +
+          '}\n' +
+          'if(hours < 10) {\n' +
+          '  hours = \'0\' + hours;\n' +
+          '}\n' +
+          'dateString += hours;\n' +
+          'string += dateString;\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to compile a twelve hour starting at one with no padding', function(done) {
+      var localizations = getLocalizations('{variable1, date, h}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var hours = date.getHours();\n' +
+          'if(hours > 11) {\n' +
+          '  hours = hours - 12;\n' +
+          '}\n' +
+          'if(hours === 0) {\n' +
+          '  hours = 12;\n' +
+          '}\n' +
+          'dateString += hours;\n' +
+          'string += dateString;\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to compile a twelve hour starting at one with padding', function(done) {
+      var localizations = getLocalizations('{variable1, date, hh}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var hours = date.getHours();\n' +
+          'if(hours > 11) {\n' +
+          '  hours = hours - 12;\n' +
+          '}\n' +
+          'if(hours === 0) {\n' +
+          '  hours = 12;\n' +
+          '}\n' +
+          'if(hours < 10) {\n' +
+          '  hours = \'0\' + hours;\n' +
+          '}\n' +
+          'dateString += hours;\n' +
+          'string += dateString;\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to compile a twelve hour starting at one with padding', function(done) {
+      var localizations = getLocalizations('{variable1, date, H}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var hours = date.getHours();\n' +
+          'dateString += hours;\n' +
+          'string += dateString;\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to compile a twelve hour starting at one with padding', function(done) {
+      var localizations = getLocalizations('{variable1, date, HH}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var hours = date.getHours();\n' +
+          'if(hours < 10) {\n' +
+          '  hours = \'0\' + hours;\n' +
+          '}\n' +
+          'dateString += hours;\n' +
+          'string += dateString;\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to compile a twelve hour starting at one with padding', function(done) {
+      var localizations = getLocalizations('{variable1, date, k}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var hours = date.getHours();\n' +
+          'if(hours === 0) {\n' +
+          '  hours = 24;\n' +
+          '}\n' +
+          'dateString += hours;\n' +
+          'string += dateString;\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to compile a twelve hour starting at one with padding', function(done) {
+      var localizations = getLocalizations('{variable1, date, kk}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var hours = date.getHours();\n' +
+          'if(hours === 0) {\n' +
+          '  hours = 24;\n' +
+          '}\n' +
+          'if(hours < 10) {\n' +
+          '  hours = \'0\' + hours;\n' +
+          '}\n' +
+          'dateString += hours;\n' +
+          'string += dateString;\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+  });
+
   describe('Number system', function() {
     it('should be able to compile with an another number system', function(done) {
       var localizations = {

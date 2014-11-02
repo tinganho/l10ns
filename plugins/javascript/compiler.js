@@ -876,6 +876,40 @@ Compiler.prototype._compileDateFormat = function(dateFormat) {
         period: dateFormat.CLDR.period
       });
     }
+    else if(component instanceof MessageFormat.AST.date.time.Hour) {
+      var startHour;
+      var hourLength;
+      var hourPadding;
+
+      switch(component.type) {
+        case MessageFormat.AST.date.time.Hour.Types.TWELVE_HOURS_STARTING_AT_ZERO:
+          startHour = 0;
+          hourLength = 12;
+          break;
+        case MessageFormat.AST.date.time.Hour.Types.TWELVE_HOURS_STARTING_AT_ONE:
+          startHour = 1;
+          hourLength = 12;
+          break;
+        case MessageFormat.AST.date.time.Hour.Types.TWENTY_FOUR_HOURS_STARTING_AT_ZERO:
+          startHour = 0;
+          hourLength = 24;
+          break;
+        default:
+          startHour = 1;
+          hourLength = 24;
+          break;
+      }
+
+      if(component.format === MessageFormat.AST.date.time.Hour.Formats.NUMERIC_WITH_PADDING) {
+        hourPadding = true;
+      }
+
+      result += template['DateHour']({
+        start: startHour,
+        length: hourLength,
+        padding: hourPadding
+      });
+    }
   });
 
   if(dateFormat.numberSystem !== 'latn') {
