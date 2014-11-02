@@ -524,37 +524,15 @@ Compiler.prototype._compileDateFormat = function(dateFormat) {
       switch(component.type) {
         case MessageFormat.AST.date.Year.Types.CALENDAR:
           result += template['SetYear']() + _this.linefeed;
-          if(dateFormat.numberSystem !== 'latn') {
-            result += template['FormatYear']({
-              length: component.length,
-              numeralReplace: template['NumeralReplace']({
-                variableName: 'yearString',
-                digits: digits[dateFormat.numberSystem]
-              })
-            });
-          }
-          else {
-            result += template['FormatYear']({
-              length: component.length
-            });
-          }
+          result += template['FormatYear']({
+            length: component.length
+          });
           break;
         case MessageFormat.AST.date.Year.Types.WEEK_BASED:
           result += template['DateWeekBasedYear']() + _this.linefeed;
-          if(dateFormat.numberSystem !== 'latn') {
-            result += template['FormatYear']({
-              length: component.length,
-              numeralReplace: template['NumeralReplace']({
-                variableName: 'yearString',
-                digits: digits[dateFormat.numberSystem]
-              })
-            });
-          }
-          else {
-            result += template['FormatYear']({
-              length: component.length
-            });
-          }
+          result += template['FormatYear']({
+            length: component.length
+          });
           break;
       }
     }
@@ -594,25 +572,6 @@ Compiler.prototype._compileDateFormat = function(dateFormat) {
         case MessageFormat.AST.date.Quarter.Formats.WIDE:
           quarterStrings = dateFormat.CLDR.quarter[quarterContext]['wide'];
           break;
-      }
-
-      if(component.format === MessageFormat.AST.date.Quarter.Formats.NUMERIC ||
-         component.format === MessageFormat.AST.date.Quarter.Formats.NUMERIC_WITH_PADDING) {
-        if(dateFormat.numberSystem !== 'latn') {
-          for(var quarter in quarterStrings) {
-            quarterStrings[quarter] = quarterStrings[quarter]
-              .replace(/1/g, digits[dateFormat.numberSystem]['1'])
-              .replace(/2/g, digits[dateFormat.numberSystem]['2'])
-              .replace(/3/g, digits[dateFormat.numberSystem]['3'])
-              .replace(/4/g, digits[dateFormat.numberSystem]['4'])
-              .replace(/5/g, digits[dateFormat.numberSystem]['5'])
-              .replace(/6/g, digits[dateFormat.numberSystem]['6'])
-              .replace(/7/g, digits[dateFormat.numberSystem]['7'])
-              .replace(/8/g, digits[dateFormat.numberSystem]['8'])
-              .replace(/9/g, digits[dateFormat.numberSystem]['9'])
-              .replace(/0/g, digits[dateFormat.numberSystem]['0']);
-          }
-        }
       }
 
       result += template['DateQuarter'](quarterStrings);
@@ -675,108 +634,38 @@ Compiler.prototype._compileDateFormat = function(dateFormat) {
           break;
       }
 
-      if(component.format === MessageFormat.AST.date.Month.Formats.NUMERIC ||
-         component.format === MessageFormat.AST.date.Month.Formats.NUMERIC_WITH_PADDING) {
-        if(dateFormat.numberSystem !== 'latn') {
-          for(var quarter in quarterStrings) {
-            monthStrings[quarter] = monthStrings[quarter]
-              .replace(/1/g, digits[dateFormat.numberSystem]['1'])
-              .replace(/2/g, digits[dateFormat.numberSystem]['2'])
-              .replace(/3/g, digits[dateFormat.numberSystem]['3'])
-              .replace(/4/g, digits[dateFormat.numberSystem]['4'])
-              .replace(/5/g, digits[dateFormat.numberSystem]['5'])
-              .replace(/6/g, digits[dateFormat.numberSystem]['6'])
-              .replace(/7/g, digits[dateFormat.numberSystem]['7'])
-              .replace(/8/g, digits[dateFormat.numberSystem]['8'])
-              .replace(/9/g, digits[dateFormat.numberSystem]['9'])
-              .replace(/0/g, digits[dateFormat.numberSystem]['0']);
-          }
-        }
-      }
-
       result += template['DateMonth']({ monthStrings: monthStrings });
     }
     else if(component instanceof MessageFormat.AST.date.Week) {
       if(component.type === MessageFormat.AST.date.Week.Types.WEEK_OF_YEAR) {
         if(component.format === MessageFormat.AST.date.Week.Formats.NUMERIC) {
-          if(dateFormat.numberSystem !== 'latn') {
-            result += template['DateWeekOfYear']({
-              padding: false,
-              numeralReplace: template['NumeralReplace']({
-                variableName: 'week',
-                digits: digits[dateFormat.numberSystem]
-              })
-            });
-          }
-          else {
-            result += template['DateWeekOfYear']({
-              padding: false
-            });
-          }
-        }
-        else {
-          if(dateFormat.numberSystem !== 'latn') {
-            result += template['DateWeekOfYear']({
-              padding: true,
-              numeralReplace: template['NumeralReplace']({
-                variableName: 'week',
-                digits: digits[dateFormat.numberSystem]
-              })
-            });
-          }
-          else {
-            result += template['DateWeekOfYear']({
-              padding: true
-            });
-          }
-        }
-      }
-      else {
-        if(dateFormat.numberSystem !== 'latn') {
-          result += template['DateWeekOfMonth']({
-            numeralReplace: template['NumeralReplace']({
-              variableName: 'week',
-              digits: digits[dateFormat.numberSystem]
-            })
+          result += template['DateWeekOfYear']({
+            padding: false
           });
         }
         else {
-          result += template['DateWeekOfMonth']({});
+          result += template['DateWeekOfYear']({
+            padding: true
+          });
         }
+      }
+      else {
+        result += template['DateWeekOfMonth']({});
       }
     }
     else if(component instanceof MessageFormat.AST.date.day.DayOfMonth) {
-      var dateDigits;
-      if(dateFormat.numberSystem !== 'latn') {
-        dateDigits = template['NumeralReplace']({
-          variableName: 'dateString',
-          digits: digits[dateFormat.numberSystem]
-        });
-      }
       if(component.format === MessageFormat.AST.date.day.DayOfMonth.Formats.NUMERIC) {
-        result += template['DateDayOfMonth']({
-          numeralReplace: dateDigits
-        });
+        result += template['DateDayOfMonth']({});
       }
       else {
         result += template['DateDayOfMonth']({
-          padding: true,
-          numeralReplace: dateDigits
+          padding: true
         });
       }
     }
     else if(component instanceof MessageFormat.AST.date.day.DayOfYear) {
-      var dayOfYearDigits;
       var dayOfYearLength;
       var dayOfYearPadding;
-      var dayOfYearNumeralReplace;
-
-      if(dateFormat.numberSystem !== 'latn') {
-        dayOfYearDigits = template['NumeralReplace']({
-          variableName: 'dateString',
-          digits: digits[dateFormat.numberSystem]
-        });
-      }
 
       if(component.length > 1) {
         dayOfYearPadding = template['DatePadding']({
@@ -785,31 +674,12 @@ Compiler.prototype._compileDateFormat = function(dateFormat) {
         });
       }
 
-      if(dateFormat.numberSystem !== 'latn') {
-        dayOfYearNumeralReplace = template['NumeralReplace']({
-          variableName: 'day',
-          digits: digits[dateFormat.numberSystem]
-        });
-      }
-
       result += template['DateDayOfYear']({
-        padding: dayOfYearPadding,
-        numeralReplace: dayOfYearNumeralReplace
+        padding: dayOfYearPadding
       });
     }
     else if(component instanceof MessageFormat.AST.date.day.DayOfWeekInMonth) {
-      var dayofWeekInMonthNumeralReplace;
-
-      if(dateFormat.numberSystem !== 'latn') {
-        dayofWeekInMonthNumeralReplace = template['NumeralReplace']({
-          variableName: 'count',
-          digits: digits[dateFormat.numberSystem]
-        });
-      }
-
-      result += template['DateDayOfWeekInMonth']({
-        numeralReplace: dayofWeekInMonthNumeralReplace
-      });
+      result += template['DateDayOfWeekInMonth']();
     }
     else if(component instanceof MessageFormat.AST.date.weekDay.DayOfWeek) {
       var dayOfWeekStrings;
@@ -873,7 +743,7 @@ Compiler.prototype._compileDateFormat = function(dateFormat) {
   });
 
   if(dateFormat.numberSystem !== 'latn') {
-    result += template['NumeralReplace']({
+    result += this.linefeed + template['ReplaceDigitBlock']({
       variableName: 'dateString',
       digits: digits[dateFormat.numberSystem]
     });

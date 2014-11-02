@@ -25,11 +25,12 @@ describe('DateFormat', function() {
       eventually(function() {
         var functionBody = setDateBlock +
           'if(date.getFullYear() >= 0) {\n' +
-          '  string += \'AD\';\n' +
+          '  dateString += \'AD\';\n' +
           '}\n' +
           'else {\n' +
-          '  string += \'BC\';\n' +
+          '  dateString += \'BC\';\n' +
           '}\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -47,11 +48,12 @@ describe('DateFormat', function() {
       eventually(function() {
         var functionBody = setDateBlock +
           'if(date.getFullYear() >= 0) {\n' +
-          '  string += \'Anno Domini\';\n' +
+          '  dateString += \'Anno Domini\';\n' +
           '}\n' +
           'else {\n' +
-          '  string += \'Before Christ\';\n' +
+          '  dateString += \'Before Christ\';\n' +
           '}\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -69,11 +71,12 @@ describe('DateFormat', function() {
       eventually(function() {
         var functionBody = setDateBlock +
           'if(date.getFullYear() >= 0) {\n' +
-          '  string += \'A\';\n' +
+          '  dateString += \'A\';\n' +
           '}\n' +
           'else {\n' +
-          '  string += \'B\';\n' +
+          '  dateString += \'B\';\n' +
           '}\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -104,7 +107,8 @@ describe('DateFormat', function() {
           '  }\n' +
           '  yearString += year;\n' +
           '}\n' +
-          'string += yearString;\n' +
+          'dateString += yearString;\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -129,7 +133,8 @@ describe('DateFormat', function() {
           'else {\n' +
           '  yearString += year.substring(year.length - 2, year.length);\n' +
           '}\n' +
-          'string += yearString;\n' +
+          'dateString += yearString;\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -158,7 +163,8 @@ describe('DateFormat', function() {
           '  }\n' +
           '  yearString += year;\n' +
           '}\n' +
-          'string += yearString;\n' +
+          'dateString += yearString;\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -177,6 +183,7 @@ describe('DateFormat', function() {
         var functionBody = setDateBlock +
           dateTemplates['DateWeekBasedYear']() + '\n' +
           dateTemplates['FormatYear']({ length: 1 }) + '\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -195,6 +202,7 @@ describe('DateFormat', function() {
         var functionBody = setDateBlock +
           dateTemplates['DateWeekBasedYear']() + '\n' +
           dateTemplates['FormatYear']({ length: 2 }) + '\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -213,6 +221,7 @@ describe('DateFormat', function() {
         var functionBody = setDateBlock +
           dateTemplates['DateWeekBasedYear']() + '\n' +
           dateTemplates['FormatYear']({ length: 3 }) + '\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -223,13 +232,13 @@ describe('DateFormat', function() {
 
     it('week based year block should set week based year correctly', function() {
       var function_ = 'function test_weekBasedYearBlock(it) {\n' +
-        'var string = \'\';\n' +
+        'var dateString = \'\';\n' +
         dateTemplates['SetDateBlock']({
           variableName: 'date'
         }) + '\n' +
         dateTemplates['DateWeekBasedYear']() + '\n' +
         dateTemplates['FormatYear']({ length: 3 }) + '\n' +
-        'return string; }';
+        'return dateString; }';
         eval(function_);
       expect(test_weekBasedYearBlock({ date: new Date('2005-1-1') })).to.equal('2004');
       expect(test_weekBasedYearBlock({ date: new Date('2005-1-2') })).to.equal('2004');
@@ -254,87 +263,42 @@ describe('DateFormat', function() {
 
     it('format year block of length 1 should format without padding', function() {
       var function_ = 'function test_formatYearBlock() {\n' +
-        'var string = \'\';\n' +
+        'var dateString = \'\';\n' +
         'var year = \'208\';\n' +
         dateTemplates['FormatYear']({ length: 1 }) + '\n' +
-        'return string; }';
+        'return dateString; }';
         eval(function_);
       expect(test_formatYearBlock()).to.equal('208');
     });
 
     it('format year block should pad with zero whenever minimum length is not met', function() {
       var function_ = 'function test_formatYearBlock() {\n' +
-        'var string = \'\';\n' +
+        'var dateString = \'\';\n' +
         'var year = \'8\';\n' +
         dateTemplates['FormatYear']({ length: 2 }) + '\n' +
-        'return string; }';
+        'return dateString; }';
         eval(function_);
       expect(test_formatYearBlock()).to.equal('08');
     });
 
     it('format year block of length 2 should add padding with zero', function() {
       var function_ = 'function test_formatYearBlock() {\n' +
-        'var string = \'\';\n' +
+        'var dateString = \'\';\n' +
         'var year = \'8\';\n' +
         dateTemplates['FormatYear']({ length: 2 }) + '\n' +
-        'return string; }';
+        'return dateString; }';
         eval(function_);
       expect(test_formatYearBlock()).to.equal('08');
     });
 
     it('format year block of length 2 should truncate year string', function() {
       var function_ = 'function test_formatYearBlock() {\n' +
-        'var string = \'\';\n' +
+        'var dateString = \'\';\n' +
         'var year = \'2008\';\n' +
         dateTemplates['FormatYear']({ length: 2 }) + '\n' +
-        'return string; }';
+        'return dateString; }';
         eval(function_);
       expect(test_formatYearBlock()).to.equal('08');
-    });
-
-
-    it('should be able to compile a year with a different number system than latin', function(done) {
-      var localizations = {
-        'ar-AE': {
-          'key-1': {
-            value: '{variable1, date, y}'
-          }
-        }
-      };
-      var dependencies = getDependencies(localizations);
-      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
-
-      compiler.run();
-      eventually(function() {
-        var functionBody = setDateBlock +
-          'var year = date.getFullYear() + \'\';\n' +
-          'var yearString = \'\';\n' +
-          'if(year.length >= 1) {\n' +
-          '  yearString = year;\n' +
-          '}\n' +
-          'else {\n' +
-          '  var difference = 1 - year.length;\n' +
-          '  for(var i = 0; i < difference; i++) {\n' +
-          '    yearString += \'0\';\n' +
-          '  }\n' +
-          '  yearString += year;\n' +
-          '}\n' +
-          'yearString = yearString\n' +
-          '  .replace(/1/g, \'١\')\n' +
-          '  .replace(/2/g, \'٢\')\n' +
-          '  .replace(/3/g, \'٣\')\n' +
-          '  .replace(/4/g, \'٤\')\n' +
-          '  .replace(/5/g, \'٥\')\n' +
-          '  .replace(/6/g, \'٦\')\n' +
-          '  .replace(/7/g, \'٧\')\n' +
-          '  .replace(/8/g, \'٨\')\n' +
-          '  .replace(/9/g, \'٩\')\n' +
-          '  .replace(/0/g, \'٠\');\n' +
-          'string += yearString;\n' +
-          'return string;';
-        expect(dependencies.fs.writeFileSync.args[1][1]).to.include(indentSpaces(8, functionBody));
-        done();
-      });
     });
   });
 
@@ -354,7 +318,8 @@ describe('DateFormat', function() {
           '  \'3\',\n' +
           '  \'4\'\n' +
           '];\n' +
-          'string += quarterStrings[quarter];\n' +
+          'dateString += quarterStrings[quarter];\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -378,7 +343,8 @@ describe('DateFormat', function() {
           '  \'03\',\n' +
           '  \'04\'\n' +
           '];\n' +
-          'string += quarterStrings[quarter];\n' +
+          'dateString += quarterStrings[quarter];\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -402,7 +368,8 @@ describe('DateFormat', function() {
           '  \'Q3\',\n' +
           '  \'Q4\'\n' +
           '];\n' +
-          'string += quarterStrings[quarter];\n' +
+          'dateString += quarterStrings[quarter];\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -426,7 +393,8 @@ describe('DateFormat', function() {
           '  \'3rd quarter\',\n' +
           '  \'4th quarter\'\n' +
           '];\n' +
-          'string += quarterStrings[quarter];\n' +
+          'dateString += quarterStrings[quarter];\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -451,7 +419,8 @@ describe('DateFormat', function() {
           '  \'3\',\n' +
           '  \'4\'\n' +
           '];\n' +
-          'string += quarterStrings[quarter];\n' +
+          'dateString += quarterStrings[quarter];\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -475,7 +444,8 @@ describe('DateFormat', function() {
           '  \'03\',\n' +
           '  \'04\'\n' +
           '];\n' +
-          'string += quarterStrings[quarter];\n' +
+          'dateString += quarterStrings[quarter];\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -499,7 +469,8 @@ describe('DateFormat', function() {
           '  \'Q3\',\n' +
           '  \'Q4\'\n' +
           '];\n' +
-          'string += quarterStrings[quarter];\n' +
+          'dateString += quarterStrings[quarter];\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -523,7 +494,8 @@ describe('DateFormat', function() {
           '  \'Q3\',\n' +
           '  \'Q4\'\n' +
           '];\n' +
-          'string += quarterStrings[quarter];\n' +
+          'dateString += quarterStrings[quarter];\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -556,7 +528,8 @@ describe('DateFormat', function() {
           '  \'11\',\n' +
           '  \'12\'\n' +
           '];\n' +
-          'string += monthStrings[month];\n' +
+          'dateString += monthStrings[month];\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -587,7 +560,8 @@ describe('DateFormat', function() {
           '  \'11\',\n' +
           '  \'12\'\n' +
           '];\n' +
-          'string += monthStrings[month];\n' +
+          'dateString += monthStrings[month];\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -618,7 +592,8 @@ describe('DateFormat', function() {
           '  \'Nov\',\n' +
           '  \'Dec\'\n' +
           '];\n' +
-          'string += monthStrings[month];\n' +
+          'dateString += monthStrings[month];\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -649,7 +624,8 @@ describe('DateFormat', function() {
           '  \'November\',\n' +
           '  \'December\'\n' +
           '];\n' +
-          'string += monthStrings[month];\n' +
+          'dateString += monthStrings[month];\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -680,7 +656,8 @@ describe('DateFormat', function() {
           '  \'11\',\n' +
           '  \'12\'\n' +
           '];\n' +
-          'string += monthStrings[month];\n' +
+          'dateString += monthStrings[month];\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -711,7 +688,8 @@ describe('DateFormat', function() {
           '  \'11\',\n' +
           '  \'12\'\n' +
           '];\n' +
-          'string += monthStrings[month];\n' +
+          'dateString += monthStrings[month];\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -742,7 +720,8 @@ describe('DateFormat', function() {
           '  \'11\',\n' +
           '  \'12\'\n' +
           '];\n' +
-          'string += monthStrings[month];\n' +
+          'dateString += monthStrings[month];\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -773,7 +752,8 @@ describe('DateFormat', function() {
           '  \'M11\',\n' +
           '  \'M12\'\n' +
           '];\n' +
-          'string += monthStrings[month];\n' +
+          'dateString += monthStrings[month];\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -804,7 +784,8 @@ describe('DateFormat', function() {
           '  \'M11\',\n' +
           '  \'M12\'\n' +
           '];\n' +
-          'string += monthStrings[month];\n' +
+          'dateString += monthStrings[month];\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -835,7 +816,8 @@ describe('DateFormat', function() {
           '  \'N\',\n' +
           '  \'D\'\n' +
           '];\n' +
-          'string += monthStrings[month];\n' +
+          'dateString += monthStrings[month];\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -858,7 +840,8 @@ describe('DateFormat', function() {
           'dateCopy.setHours(0,0,0);\n' +
           'dateCopy.setDate(dateCopy.getDate()+4-(dateCopy.getDay()||7));\n' +
           'var week = Math.ceil((((dateCopy-new Date(dateCopy.getFullYear(),0,1))/8.64e7)+1)/7) + \'\';\n' +
-          'string += week;\n' +
+          'dateString += week;\n' +
+          'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
@@ -1652,6 +1635,42 @@ describe('DateFormat', function() {
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
           functionBody: indentSpaces(8, functionBody)
         }));
+        done();
+      });
+    });
+  });
+
+  describe('Number system', function() {
+    it('should be able to compile with an another number system', function(done) {
+      var localizations = {
+        'ar-AE': {
+          'key-1': {
+            value: '{variable1, date, d}'
+          }
+        }
+      };
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var dayOfMonthString = date_ + \'\';\n' +
+          'dateString += dayOfMonthString;\n' +
+          'dateString = dateString\n' +
+          '  .replace(/1/g, \'١\')\n' +
+          '  .replace(/2/g, \'٢\')\n' +
+          '  .replace(/3/g, \'٣\')\n' +
+          '  .replace(/4/g, \'٤\')\n' +
+          '  .replace(/5/g, \'٥\')\n' +
+          '  .replace(/6/g, \'٦\')\n' +
+          '  .replace(/7/g, \'٧\')\n' +
+          '  .replace(/8/g, \'٨\')\n' +
+          '  .replace(/9/g, \'٩\')\n' +
+          '  .replace(/0/g, \'٠\');\n' +
+          'string += dateString;\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.include(indentSpaces(8, functionBody));
         done();
       });
     });

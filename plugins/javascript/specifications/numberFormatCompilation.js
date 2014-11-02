@@ -1939,7 +1939,7 @@ describe('NumberFormat', function() {
       '  .replace(/7/g, \'٧\')\n' +
       '  .replace(/8/g, \'٨\')\n' +
       '  .replace(/9/g, \'٩\')\n' +
-      '  .replace(/0/g, \'٠\')\n\n' +
+      '  .replace(/0/g, \'٠\');\n' +
       'return string;';
       expect(dependencies.fs.writeFileSync.args[1][1]).to.contain(indentSpaces(8, functionBody));
       done();
@@ -2017,7 +2017,7 @@ describe('NumberFormat', function() {
       '  .replace(/7/g, \'۷\')\n' +
       '  .replace(/8/g, \'٨\')\n' +
       '  .replace(/9/g, \'٩\')\n' +
-      '  .replace(/0/g, \'٠\')\n\n' +
+      '  .replace(/0/g, \'٠\');\n' +
       'return string;';
       expect(dependencies.fs.writeFileSync.args[1][1]).to.contain(indentSpaces(8, functionBody));
       done();
@@ -2095,7 +2095,7 @@ describe('NumberFormat', function() {
       '  .replace(/7/g, \'৭\')\n' +
       '  .replace(/8/g, \'৮\')\n' +
       '  .replace(/9/g, \'৯\')\n' +
-      '  .replace(/0/g, \'০\')\n\n' +
+      '  .replace(/0/g, \'০\');\n' +
       'return string;';
       expect(dependencies.fs.writeFileSync.args[1][1]).to.contain(indentSpaces(8, functionBody));
       done();
@@ -2173,87 +2173,9 @@ describe('NumberFormat', function() {
       '  .replace(/7/g, \'७\')\n' +
       '  .replace(/8/g, \'८\')\n' +
       '  .replace(/9/g, \'९\')\n' +
-      '  .replace(/0/g, \'०\')\n\n' +
+      '  .replace(/0/g, \'०\');\n' +
       'return string;';
-      expect(dependencies.fs.writeFileSync.args[1][1]).to.contain(indentSpaces(8, functionBody));
-      done();
-    });
-  });
-
-  it('should be able to compile devanagari numerals', function(done) {
-    var localizations = {
-      'ne-IN': {
-        'key-1': {
-          value: '{variable1, number:deva, 0}'
-        }
-      }
-    };
-    var dependencies = getDependencies(localizations)
-      , compiler = proxyquire('../plugins/javascript/compiler', dependencies);
-
-    compiler.run();
-    eventually(function() {
-      var functionBody =
-      'var string = \'\';\n' +
-      'if(it.variable1 >= 0) {\n' +
-      '  string += formatNumber({\n' +
-      '    number: it.variable1,\n' +
-      '    type: \'floating\',\n' +
-      '    roundTo: 1,\n' +
-      '    prefix: \'\',\n' +
-      '    suffix: \'\',\n' +
-      '    percentage: null,\n' +
-      '    permille: null,\n' +
-      '    currency: null,\n' +
-      '    groupSize: null,\n' +
-      '    exponent: null,\n' +
-      '    minimumIntegerDigits: 1,\n' +
-      '    maximumIntegerDigits: 1,\n' +
-      '    minimumFractionDigits: 0,\n' +
-      '    maximumFractionDigits: 0,\n' +
-      '    minimumSignificantDigits: 0,\n' +
-      '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'ne-IN\'].__numberSymbols[\'deva\'],\n' +
-      '    paddingCharacter: null,\n' +
-      '    patternLength: 1\n' +
-      '  });\n' +
-      '}\n' +
-      'else {\n' +
-      '  string += formatNumber({\n' +
-      '    number: it.variable1,\n' +
-      '    type: \'floating\',\n' +
-      '    roundTo: 1,\n' +
-      '    prefix: \'-\',\n' +
-      '    suffix: \'\',\n' +
-      '    percentage: null,\n' +
-      '    permille: null,\n' +
-      '    currency: null,\n' +
-      '    groupSize: null,\n' +
-      '    exponent: null,\n' +
-      '    minimumIntegerDigits: 1,\n' +
-      '    maximumIntegerDigits: 1,\n' +
-      '    minimumFractionDigits: 0,\n' +
-      '    maximumFractionDigits: 0,\n' +
-      '    minimumSignificantDigits: 0,\n' +
-      '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'ne-IN\'].__numberSymbols[\'deva\'],\n' +
-      '    paddingCharacter: null,\n' +
-      '    patternLength: 1\n' +
-      '  });\n' +
-      '}\n' +
-      'string = string\n' +
-      '  .replace(/1/g, \'१\')\n' +
-      '  .replace(/2/g, \'२\')\n' +
-      '  .replace(/3/g, \'३\')\n' +
-      '  .replace(/4/g, \'४\')\n' +
-      '  .replace(/5/g, \'५\')\n' +
-      '  .replace(/6/g, \'६\')\n' +
-      '  .replace(/7/g, \'७\')\n' +
-      '  .replace(/8/g, \'८\')\n' +
-      '  .replace(/9/g, \'९\')\n' +
-      '  .replace(/0/g, \'०\')\n\n' +
-      'return string;';
-      expect(dependencies.fs.writeFileSync.args[1][1]).to.contain(indentSpaces(8, functionBody));
+      expect(dependencies.fs.writeFileSync.args[1][1]).to.include(indentSpaces(8, functionBody));
       done();
     });
   });

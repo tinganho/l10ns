@@ -218,7 +218,7 @@ describe('LDML', function() {
       expect(LDMLPlural_.integerExample).to.eql(['1']);
     });
 
-    it('should parse decimal exampl', function() {
+    it('should parse decimal example', function() {
       LDMLPlural_.parse('n = 1 @decimal 1.0, 1.00, 1.000');
       expect(LDMLPlural_.decimalExample).to.eql(['1.0', '1.00', '1.000']);
     });
