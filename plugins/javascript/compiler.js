@@ -910,6 +910,16 @@ Compiler.prototype._compileDateFormat = function(dateFormat) {
         padding: hourPadding
       });
     }
+    else if(component instanceof MessageFormat.AST.date.time.Minute) {
+      var minutePadding;
+      if(component.format === MessageFormat.AST.date.time.Minute.Formats.NUMERIC_WITH_PADDING) {
+        minutePadding = true;
+      }
+
+      result += template['DateMinute']({
+        padding: minutePadding
+      });
+    }
   });
 
   if(dateFormat.numberSystem !== 'latn') {

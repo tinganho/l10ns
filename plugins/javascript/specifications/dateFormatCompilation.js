@@ -1856,6 +1856,49 @@ describe('DateFormat', function() {
     });
   });
 
+  describe('Minute', function() {
+    it('should be able to compile minute with no padding', function(done) {
+      var localizations = getLocalizations('{variable1, date, m}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var minutes = date.getMinutes();\n' +
+          'dateString += minutes;\n' +
+          'string += dateString;\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to compile minute with padding', function(done) {
+      var localizations = getLocalizations('{variable1, date, mm}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var minutes = date.getMinutes();\n' +
+          'if(minutes < 10) {\n' +
+          '  minutes = \'0\' + minutes;\n' +
+          '}\n' +
+          'dateString += minutes;\n' +
+          'string += dateString;\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+  });
+
   describe('Number system', function() {
     it('should be able to compile with an another number system', function(done) {
       var localizations = {
