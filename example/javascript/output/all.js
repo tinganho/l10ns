@@ -338,7 +338,71 @@
       },
       'INDEX1': function(it) {
         var string = '';
-
+        var numberString = '';
+        if(it.floor >= 0) {
+          numberString += formatNumber({
+            number: it.floor,
+            type: 'floating',
+            roundTo: 0.001,
+            prefix: '',
+            suffix: '',
+            percentage: null,
+            permille: null,
+            currency: null,
+            groupSize: {
+              primary: 3,
+              secondary: 3
+            },
+            exponent: null,
+            minimumIntegerDigits: 1,
+            maximumIntegerDigits: 4,
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 3,
+            minimumSignificantDigits: 0,
+            maximumSignificantDigits: 0,
+            symbols: localizations['ar-AE'].__numberSymbols['arab'],
+            paddingCharacter: null,
+            patternLength: 9
+          });
+        }
+        else {
+          numberString += formatNumber({
+            number: it.floor,
+            type: 'floating',
+            roundTo: 0.001,
+            prefix: '-',
+            suffix: '',
+            percentage: null,
+            permille: null,
+            currency: null,
+            groupSize: {
+              primary: 3,
+              secondary: 3
+            },
+            exponent: null,
+            minimumIntegerDigits: 1,
+            maximumIntegerDigits: 4,
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 3,
+            minimumSignificantDigits: 0,
+            maximumSignificantDigits: 0,
+            symbols: localizations['ar-AE'].__numberSymbols['arab'],
+            paddingCharacter: null,
+            patternLength: 9
+          });
+        }
+        numberString = numberString
+          .replace(/1/g, '١')
+          .replace(/2/g, '٢')
+          .replace(/3/g, '٣')
+          .replace(/4/g, '٤')
+          .replace(/5/g, '٥')
+          .replace(/6/g, '٦')
+          .replace(/7/g, '٧')
+          .replace(/8/g, '٨')
+          .replace(/9/g, '٩')
+          .replace(/0/g, '٠');
+        string += numberString;
         return string;
       }
     },
@@ -436,50 +500,60 @@
       },
       'INDEX1': function(it) {
         var string = '';
-        var _case;
-        _case = localizations['en-US'].__getPluralKeyword(it.floor);
-        switch(_case) {
-          case 'one':
-            string += formatNumber({
-              number: it.floor - 0,
-              roundTo: 0.001,
-              prefix: '',
-              suffix: '',
-              percentage: null,
-              permille: null,
-              currency: null,
-              groupSize: {
-                primary: 3,
-                secondary: 3
-              },
-              minimumIntegerDigits: 1,
-              minimumFractionDigits: 0,
-              maximumFractionDigits: 3,
-              symbols: localizations['en-US'].__numberSymbols['latn']
-            });
-            string += ' floor';
-            break;
-          default:
-            string += formatNumber({
-              number: it.floor - 0,
-              roundTo: 0.001,
-              prefix: '',
-              suffix: '',
-              percentage: null,
-              permille: null,
-              currency: null,
-              groupSize: {
-                primary: 3,
-                secondary: 3
-              },
-              minimumIntegerDigits: 1,
-              minimumFractionDigits: 0,
-              maximumFractionDigits: 3,
-              symbols: localizations['en-US'].__numberSymbols['latn']
-            });
-            string += ' floors';
-            break;
+        var numberString = '';
+        if(it.floor >= 0) {
+          numberString += formatNumber({
+            number: it.floor,
+            type: 'floating',
+            roundTo: 0.001,
+            prefix: '',
+            suffix: '',
+            percentage: null,
+            permille: null,
+            currency: null,
+            groupSize: {
+              primary: 3,
+              secondary: 3
+            },
+            exponent: null,
+            minimumIntegerDigits: 1,
+            maximumIntegerDigits: 4,
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 3,
+            minimumSignificantDigits: 0,
+            maximumSignificantDigits: 0,
+            symbols: localizations['en-US'].__numberSymbols['latn'],
+            paddingCharacter: null,
+            patternLength: 9
+          });
         }
+        else {
+          numberString += formatNumber({
+            number: it.floor,
+            type: 'floating',
+            roundTo: 0.001,
+            prefix: '-',
+            suffix: '',
+            percentage: null,
+            permille: null,
+            currency: null,
+            groupSize: {
+              primary: 3,
+              secondary: 3
+            },
+            exponent: null,
+            minimumIntegerDigits: 1,
+            maximumIntegerDigits: 4,
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 3,
+            minimumSignificantDigits: 0,
+            maximumSignificantDigits: 0,
+            symbols: localizations['en-US'].__numberSymbols['latn'],
+            paddingCharacter: null,
+            patternLength: 9
+          });
+        }
+        string += numberString;
         return string;
       }
     },

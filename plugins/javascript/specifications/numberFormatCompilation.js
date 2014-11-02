@@ -8,8 +8,9 @@ describe('NumberFormat', function() {
     eventually(function() {
       var functionBody =
       'var string = \'\';\n' +
+      'var numberString = \'\';\n' +
       'if(it.variable1 >= 0) {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 1,\n' +
@@ -32,7 +33,7 @@ describe('NumberFormat', function() {
       '  });\n' +
       '}\n' +
       'else {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 1,\n' +
@@ -54,6 +55,7 @@ describe('NumberFormat', function() {
       '    patternLength: 1\n' +
       '  });\n' +
       '}\n' +
+      'string += numberString;\n' +
       'return string;';
       expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
@@ -71,8 +73,9 @@ describe('NumberFormat', function() {
     eventually(function() {
       var functionBody =
       'var string = \'\';\n' +
+      'var numberString = \'\';\n' +
       'if(it.variable1 >= 0) {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 1,\n' +
@@ -95,7 +98,7 @@ describe('NumberFormat', function() {
       '  });\n' +
       '}\n' +
       'else {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 1,\n' +
@@ -117,6 +120,7 @@ describe('NumberFormat', function() {
       '    patternLength: 2\n' +
       '  });\n' +
       '}\n' +
+      'string += numberString;\n' +
       'return string;';
       expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
@@ -134,8 +138,9 @@ describe('NumberFormat', function() {
     eventually(function() {
       var functionBody =
       'var string = \'\';\n' +
+      'var numberString = \'\';\n' +
       'if(it.variable1 >= 0) {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 1,\n' +
@@ -158,7 +163,7 @@ describe('NumberFormat', function() {
       '  });\n' +
       '}\n' +
       'else {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 1,\n' +
@@ -180,6 +185,7 @@ describe('NumberFormat', function() {
       '    patternLength: 3\n' +
       '  });\n' +
       '}\n' +
+      'string += numberString;\n' +
       'return string;';
       expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
@@ -197,8 +203,9 @@ describe('NumberFormat', function() {
     eventually(function() {
       var functionBody =
       'var string = \'\';\n' +
+      'var numberString = \'\';\n' +
       'if(it.variable1 >= 0) {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 1,\n' +
@@ -221,7 +228,7 @@ describe('NumberFormat', function() {
       '  });\n' +
       '}\n' +
       'else {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 1,\n' +
@@ -243,6 +250,7 @@ describe('NumberFormat', function() {
       '    patternLength: 4\n' +
       '  });\n' +
       '}\n' +
+      'string += numberString;\n' +
       'return string;';
       expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
@@ -260,8 +268,9 @@ describe('NumberFormat', function() {
     eventually(function() {
       var functionBody =
       'var string = \'\';\n' +
+      'var numberString = \'\';\n' +
       'if(it.variable1 >= 0) {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 0.1,\n' +
@@ -284,7 +293,7 @@ describe('NumberFormat', function() {
       '  });\n' +
       '}\n' +
       'else {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 0.1,\n' +
@@ -306,6 +315,7 @@ describe('NumberFormat', function() {
       '    patternLength: 3\n' +
       '  });\n' +
       '}\n' +
+      'string += numberString;\n' +
       'return string;';
       expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
@@ -323,8 +333,9 @@ describe('NumberFormat', function() {
     eventually(function() {
       var functionBody =
       'var string = \'\';\n' +
+      'var numberString = \'\';\n' +
       'if(it.variable1 >= 0) {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 0.01,\n' +
@@ -347,7 +358,7 @@ describe('NumberFormat', function() {
       '  });\n' +
       '}\n' +
       'else {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 0.01,\n' +
@@ -369,6 +380,7 @@ describe('NumberFormat', function() {
       '    patternLength: 4\n' +
       '  });\n' +
       '}\n' +
+      'string += numberString;\n' +
       'return string;';
       expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
@@ -386,8 +398,9 @@ describe('NumberFormat', function() {
     eventually(function() {
       var functionBody =
       'var string = \'\';\n' +
+      'var numberString = \'\';\n' +
       'if(it.variable1 >= 0) {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 0.001,\n' +
@@ -410,7 +423,7 @@ describe('NumberFormat', function() {
       '  });\n' +
       '}\n' +
       'else {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 0.001,\n' +
@@ -432,6 +445,7 @@ describe('NumberFormat', function() {
       '    patternLength: 5\n' +
       '  });\n' +
       '}\n' +
+      'string += numberString;\n' +
       'return string;';
       expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
@@ -449,8 +463,9 @@ describe('NumberFormat', function() {
     eventually(function() {
       var functionBody =
       'var string = \'\';\n' +
+      'var numberString = \'\';\n' +
       'if(it.variable1 >= 0) {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 0.0001,\n' +
@@ -473,7 +488,7 @@ describe('NumberFormat', function() {
       '  });\n' +
       '}\n' +
       'else {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 0.0001,\n' +
@@ -495,6 +510,7 @@ describe('NumberFormat', function() {
       '    patternLength: 6\n' +
       '  });\n' +
       '}\n' +
+      'string += numberString;\n' +
       'return string;';
       expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
@@ -512,8 +528,9 @@ describe('NumberFormat', function() {
     eventually(function() {
       var functionBody =
       'var string = \'\';\n' +
+      'var numberString = \'\';\n' +
       'if(it.variable1 >= 0) {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 0.0001,\n' +
@@ -539,7 +556,7 @@ describe('NumberFormat', function() {
       '  });\n' +
       '}\n' +
       'else {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 0.0001,\n' +
@@ -564,6 +581,7 @@ describe('NumberFormat', function() {
       '    patternLength: 8\n' +
       '  });\n' +
       '}\n' +
+      'string += numberString;\n' +
       'return string;';
       expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
@@ -581,8 +599,9 @@ describe('NumberFormat', function() {
     eventually(function() {
       var functionBody =
       'var string = \'\';\n' +
+      'var numberString = \'\';\n' +
       'if(it.variable1 >= 0) {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 0.0001,\n' +
@@ -608,7 +627,7 @@ describe('NumberFormat', function() {
       '  });\n' +
       '}\n' +
       'else {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 0.0001,\n' +
@@ -633,6 +652,7 @@ describe('NumberFormat', function() {
       '    patternLength: 9\n' +
       '  });\n' +
       '}\n' +
+      'string += numberString;\n' +
       'return string;';
       expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
@@ -650,8 +670,9 @@ describe('NumberFormat', function() {
     eventually(function() {
       var functionBody =
       'var string = \'\';\n' +
+      'var numberString = \'\';\n' +
       'if(it.variable1 >= 0) {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 0.0001,\n' +
@@ -677,7 +698,7 @@ describe('NumberFormat', function() {
       '  });\n' +
       '}\n' +
       'else {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 0.0001,\n' +
@@ -702,6 +723,7 @@ describe('NumberFormat', function() {
       '    patternLength: 9\n' +
       '  });\n' +
       '}\n' +
+      'string += numberString;\n' +
       'return string;';
       expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
@@ -719,8 +741,9 @@ describe('NumberFormat', function() {
     eventually(function() {
       var functionBody =
       'var string = \'\';\n' +
+      'var numberString = \'\';\n' +
       'if(it.variable1 >= 0) {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'significant\',\n' +
       '    roundTo: 1,\n' +
@@ -743,7 +766,7 @@ describe('NumberFormat', function() {
       '  });\n' +
       '}\n' +
       'else {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'significant\',\n' +
       '    roundTo: 1,\n' +
@@ -765,6 +788,7 @@ describe('NumberFormat', function() {
       '    patternLength: 1\n' +
       '  });\n' +
       '}\n' +
+      'string += numberString;\n' +
       'return string;';
       expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
@@ -782,8 +806,9 @@ describe('NumberFormat', function() {
     eventually(function() {
       var functionBody =
       'var string = \'\';\n' +
+      'var numberString = \'\';\n' +
       'if(it.variable1 >= 0) {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'significant\',\n' +
       '    roundTo: 1,\n' +
@@ -806,7 +831,7 @@ describe('NumberFormat', function() {
       '  });\n' +
       '}\n' +
       'else {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'significant\',\n' +
       '    roundTo: 1,\n' +
@@ -828,6 +853,7 @@ describe('NumberFormat', function() {
       '    patternLength: 2\n' +
       '  });\n' +
       '}\n' +
+      'string += numberString;\n' +
       'return string;';
       expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
@@ -845,8 +871,9 @@ describe('NumberFormat', function() {
     eventually(function() {
       var functionBody =
       'var string = \'\';\n' +
+      'var numberString = \'\';\n' +
       'if(it.variable1 >= 0) {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'significant\',\n' +
       '    roundTo: 1,\n' +
@@ -869,7 +896,7 @@ describe('NumberFormat', function() {
       '  });\n' +
       '}\n' +
       'else {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'significant\',\n' +
       '    roundTo: 1,\n' +
@@ -891,6 +918,7 @@ describe('NumberFormat', function() {
       '    patternLength: 2\n' +
       '  });\n' +
       '}\n' +
+      'string += numberString;\n' +
       'return string;';
       expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
@@ -908,8 +936,9 @@ describe('NumberFormat', function() {
     eventually(function() {
       var functionBody =
       'var string = \'\';\n' +
+      'var numberString = \'\';\n' +
       'if(it.variable1 >= 0) {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'significant\',\n' +
       '    roundTo: 1,\n' +
@@ -932,7 +961,7 @@ describe('NumberFormat', function() {
       '  });\n' +
       '}\n' +
       'else {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'significant\',\n' +
       '    roundTo: 1,\n' +
@@ -954,6 +983,7 @@ describe('NumberFormat', function() {
       '    patternLength: 4\n' +
       '  });\n' +
       '}\n' +
+      'string += numberString;\n' +
       'return string;';
       expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
@@ -971,8 +1001,9 @@ describe('NumberFormat', function() {
     eventually(function() {
       var functionBody =
       'var string = \'\';\n' +
+      'var numberString = \'\';\n' +
       'if(it.variable1 >= 0) {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'significant\',\n' +
       '    roundTo: 1,\n' +
@@ -998,7 +1029,7 @@ describe('NumberFormat', function() {
       '  });\n' +
       '}\n' +
       'else {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'significant\',\n' +
       '    roundTo: 1,\n' +
@@ -1023,6 +1054,7 @@ describe('NumberFormat', function() {
       '    patternLength: 6\n' +
       '  });\n' +
       '}\n' +
+      'string += numberString;\n' +
       'return string;';
       expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
@@ -1040,8 +1072,9 @@ describe('NumberFormat', function() {
     eventually(function() {
       var functionBody =
       'var string = \'\';\n' +
+      'var numberString = \'\';\n' +
       'if(it.variable1 >= 0) {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'significant\',\n' +
       '    roundTo: 1,\n' +
@@ -1067,7 +1100,7 @@ describe('NumberFormat', function() {
       '  });\n' +
       '}\n' +
       'else {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'significant\',\n' +
       '    roundTo: 1,\n' +
@@ -1092,6 +1125,7 @@ describe('NumberFormat', function() {
       '    patternLength: 7\n' +
       '  });\n' +
       '}\n' +
+      'string += numberString;\n' +
       'return string;';
       expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
@@ -1109,8 +1143,9 @@ describe('NumberFormat', function() {
     eventually(function() {
       var functionBody =
       'var string = \'\';\n' +
+      'var numberString = \'\';\n' +
       'if(it.variable1 >= 0) {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 1,\n' +
@@ -1136,7 +1171,7 @@ describe('NumberFormat', function() {
       '  });\n' +
       '}\n' +
       'else {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 1,\n' +
@@ -1161,6 +1196,7 @@ describe('NumberFormat', function() {
       '    patternLength: 5\n' +
       '  });\n' +
       '}\n' +
+      'string += numberString;\n' +
       'return string;';
       expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
@@ -1178,8 +1214,9 @@ describe('NumberFormat', function() {
     eventually(function() {
       var functionBody =
       'var string = \'\';\n' +
+      'var numberString = \'\';\n' +
       'if(it.variable1 >= 0) {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'significant\',\n' +
       '    roundTo: 1,\n' +
@@ -1205,7 +1242,7 @@ describe('NumberFormat', function() {
       '  });\n' +
       '}\n' +
       'else {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'significant\',\n' +
       '    roundTo: 1,\n' +
@@ -1230,6 +1267,7 @@ describe('NumberFormat', function() {
       '    patternLength: 9\n' +
       '  });\n' +
       '}\n' +
+      'string += numberString;\n' +
       'return string;';
       expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
@@ -1247,8 +1285,9 @@ describe('NumberFormat', function() {
     eventually(function() {
       var functionBody =
       'var string = \'\';\n' +
+      'var numberString = \'\';\n' +
       'if(it.variable1 >= 0) {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 1,\n' +
@@ -1271,7 +1310,7 @@ describe('NumberFormat', function() {
       '  });\n' +
       '}\n' +
       'else {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 1,\n' +
@@ -1293,6 +1332,7 @@ describe('NumberFormat', function() {
       '    patternLength: 10\n' +
       '  });\n' +
       '}\n' +
+      'string += numberString;\n' +
       'return string;';
       expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
@@ -1310,6 +1350,7 @@ describe('NumberFormat', function() {
     eventually(function() {
       var functionBody =
       'var string = \'\';\n' +
+      'var numberString = \'\';\n' +
       'var unit;\n' +
       'if(it.variable1.amount && it.variable1.code) {\n' +
       '  if(!localizations[\'en-US\'].__currencies[it.variable1.code]) {\n' +
@@ -1321,7 +1362,7 @@ describe('NumberFormat', function() {
       '  throw TypeError(\'`variable1` must be an object that has properties amount and code.\');\n' +
       '}\n' +
       'if(it.variable1.amount >= 0) {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1.amount,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 1,\n' +
@@ -1346,7 +1387,7 @@ describe('NumberFormat', function() {
       '  });\n' +
       '}\n' +
       'else {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1.amount,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 1,\n' +
@@ -1370,6 +1411,7 @@ describe('NumberFormat', function() {
       '    patternLength: 2\n' +
       '  });\n' +
       '}\n' +
+      'string += numberString;\n' +
       'return string;';
       expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
@@ -1387,6 +1429,7 @@ describe('NumberFormat', function() {
     eventually(function() {
       var functionBody =
       'var string = \'\';\n' +
+      'var numberString = \'\';\n' +
       'var unit;\n' +
       'if(it.variable1.amount && it.variable1.code) {\n' +
       '  if(!localizations[\'en-US\'].__currencies[it.variable1.code]) {\n' +
@@ -1398,7 +1441,7 @@ describe('NumberFormat', function() {
       '  throw TypeError(\'`variable1` must be an object that has properties amount and code.\');\n' +
       '}\n' +
       'if(it.variable1.amount >= 0) {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1.amount,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 1,\n' +
@@ -1423,7 +1466,7 @@ describe('NumberFormat', function() {
       '  });\n' +
       '}\n' +
       'else {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1.amount,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 1,\n' +
@@ -1447,6 +1490,7 @@ describe('NumberFormat', function() {
       '    patternLength: 2\n' +
       '  });\n' +
       '}\n' +
+      'string += numberString;\n' +
       'return string;';
       expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
@@ -1464,6 +1508,7 @@ describe('NumberFormat', function() {
     eventually(function() {
       var functionBody =
       'var string = \'\';\n' +
+      'var numberString = \'\';\n' +
       'var unit;\n' +
       'if(it.variable1.amount && it.variable1.code) {\n' +
       '  if(!localizations[\'en-US\'].__currencies[it.variable1.code]) {\n' +
@@ -1481,7 +1526,7 @@ describe('NumberFormat', function() {
       '  throw TypeError(\'`variable1` must be an object that has properties amount and code.\');\n' +
       '}\n' +
       'if(it.variable1.amount >= 0) {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1.amount,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 1,\n' +
@@ -1506,7 +1551,7 @@ describe('NumberFormat', function() {
       '  });\n' +
       '}\n' +
       'else {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1.amount,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 1,\n' +
@@ -1530,6 +1575,7 @@ describe('NumberFormat', function() {
       '    patternLength: 2\n' +
       '  });\n' +
       '}\n' +
+      'string += numberString;\n' +
       'return string;';
       expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
@@ -1547,6 +1593,7 @@ describe('NumberFormat', function() {
     eventually(function() {
       var functionBody =
       'var string = \'\';\n' +
+      'var numberString = \'\';\n' +
       'var unit;\n' +
       'if(it.variable1.amount && it.variable1.code) {\n' +
       '  if(!localizations[\'en-US\'].__currencies[it.variable1.code]) {\n' +
@@ -1559,7 +1606,7 @@ describe('NumberFormat', function() {
       '  throw TypeError(\'`variable1` must be an object that has properties amount and code.\');\n' +
       '}\n' +
       'if(it.variable1.amount >= 0) {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1.amount,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 1,\n' +
@@ -1584,7 +1631,7 @@ describe('NumberFormat', function() {
       '  });\n' +
       '}\n' +
       'else {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1.amount,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 1,\n' +
@@ -1608,6 +1655,7 @@ describe('NumberFormat', function() {
       '    patternLength: 2\n' +
       '  });\n' +
       '}\n' +
+      'string += numberString;\n' +
       'return string;';
       expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
@@ -1625,8 +1673,9 @@ describe('NumberFormat', function() {
     eventually(function() {
       var functionBody =
       'var string = \'\';\n' +
+      'var numberString = \'\';\n' +
       'if(it.variable1 >= 0) {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 5,\n' +
@@ -1649,7 +1698,7 @@ describe('NumberFormat', function() {
       '  });\n' +
       '}\n' +
       'else {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 5,\n' +
@@ -1671,6 +1720,7 @@ describe('NumberFormat', function() {
       '    patternLength: 3\n' +
       '  });\n' +
       '}\n' +
+      'string += numberString;\n' +
       'return string;';
       expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
@@ -1688,8 +1738,9 @@ describe('NumberFormat', function() {
     eventually(function() {
       var functionBody =
       'var string = \'\';\n' +
+      'var numberString = \'\';\n' +
       'if(it.variable1 >= 0) {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 0.0001,\n' +
@@ -1712,7 +1763,7 @@ describe('NumberFormat', function() {
       '  });\n' +
       '}\n' +
       'else {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 0.0001,\n' +
@@ -1734,6 +1785,7 @@ describe('NumberFormat', function() {
       '    patternLength: 7\n' +
       '  });\n' +
       '}\n' +
+      'string += numberString;\n' +
       'return string;';
       expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
@@ -1751,8 +1803,9 @@ describe('NumberFormat', function() {
     eventually(function() {
       var functionBody =
       'var string = \'\';\n' +
+      'var numberString = \'\';\n' +
       'if(it.variable1 >= 0) {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 0.0001,\n' +
@@ -1775,7 +1828,7 @@ describe('NumberFormat', function() {
       '  });\n' +
       '}\n' +
       'else {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 0.0001,\n' +
@@ -1797,6 +1850,7 @@ describe('NumberFormat', function() {
       '    patternLength: 7\n' +
       '  });\n' +
       '}\n' +
+      'string += numberString;\n' +
       'return string;';
       expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
@@ -1814,8 +1868,9 @@ describe('NumberFormat', function() {
     eventually(function() {
       var functionBody =
       'var string = \'\';\n' +
+      'var numberString = \'\';\n' +
       'if(it.variable1 >= 0) {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 1,\n' +
@@ -1838,7 +1893,7 @@ describe('NumberFormat', function() {
       '  });\n' +
       '}\n' +
       'else {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 1,\n' +
@@ -1860,6 +1915,7 @@ describe('NumberFormat', function() {
       '    patternLength: 4\n' +
       '  });\n' +
       '}\n' +
+      'string += numberString;\n' +
       'return string;';
       expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
@@ -1883,8 +1939,9 @@ describe('NumberFormat', function() {
     eventually(function() {
       var functionBody =
       'var string = \'\';\n' +
+      'var numberString = \'\';\n' +
       'if(it.variable1 >= 0) {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 1,\n' +
@@ -1907,7 +1964,7 @@ describe('NumberFormat', function() {
       '  });\n' +
       '}\n' +
       'else {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 1,\n' +
@@ -1929,7 +1986,7 @@ describe('NumberFormat', function() {
       '    patternLength: 1\n' +
       '  });\n' +
       '}\n' +
-      'string = string\n' +
+      'numberString = numberString\n' +
       '  .replace(/1/g, \'١\')\n' +
       '  .replace(/2/g, \'٢\')\n' +
       '  .replace(/3/g, \'٣\')\n' +
@@ -1940,6 +1997,7 @@ describe('NumberFormat', function() {
       '  .replace(/8/g, \'٨\')\n' +
       '  .replace(/9/g, \'٩\')\n' +
       '  .replace(/0/g, \'٠\');\n' +
+      'string += numberString;\n' +
       'return string;';
       expect(dependencies.fs.writeFileSync.args[1][1]).to.contain(indentSpaces(8, functionBody));
       done();
@@ -1961,8 +2019,9 @@ describe('NumberFormat', function() {
     eventually(function() {
       var functionBody =
       'var string = \'\';\n' +
+      'var numberString = \'\';\n' +
       'if(it.variable1 >= 0) {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 1,\n' +
@@ -1985,7 +2044,7 @@ describe('NumberFormat', function() {
       '  });\n' +
       '}\n' +
       'else {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 1,\n' +
@@ -2007,7 +2066,7 @@ describe('NumberFormat', function() {
       '    patternLength: 1\n' +
       '  });\n' +
       '}\n' +
-      'string = string\n' +
+      'numberString = numberString\n' +
       '  .replace(/1/g, \'۱\')\n' +
       '  .replace(/2/g, \'۲\')\n' +
       '  .replace(/3/g, \'۳\')\n' +
@@ -2018,6 +2077,7 @@ describe('NumberFormat', function() {
       '  .replace(/8/g, \'٨\')\n' +
       '  .replace(/9/g, \'٩\')\n' +
       '  .replace(/0/g, \'٠\');\n' +
+      'string += numberString;\n' +
       'return string;';
       expect(dependencies.fs.writeFileSync.args[1][1]).to.contain(indentSpaces(8, functionBody));
       done();
@@ -2039,8 +2099,9 @@ describe('NumberFormat', function() {
     eventually(function() {
       var functionBody =
       'var string = \'\';\n' +
+      'var numberString = \'\';\n' +
       'if(it.variable1 >= 0) {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 1,\n' +
@@ -2063,7 +2124,7 @@ describe('NumberFormat', function() {
       '  });\n' +
       '}\n' +
       'else {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 1,\n' +
@@ -2085,7 +2146,7 @@ describe('NumberFormat', function() {
       '    patternLength: 1\n' +
       '  });\n' +
       '}\n' +
-      'string = string\n' +
+      'numberString = numberString\n' +
       '  .replace(/1/g, \'১\')\n' +
       '  .replace(/2/g, \'২\')\n' +
       '  .replace(/3/g, \'৩\')\n' +
@@ -2096,6 +2157,7 @@ describe('NumberFormat', function() {
       '  .replace(/8/g, \'৮\')\n' +
       '  .replace(/9/g, \'৯\')\n' +
       '  .replace(/0/g, \'০\');\n' +
+      'string += numberString;\n' +
       'return string;';
       expect(dependencies.fs.writeFileSync.args[1][1]).to.contain(indentSpaces(8, functionBody));
       done();
@@ -2117,8 +2179,9 @@ describe('NumberFormat', function() {
     eventually(function() {
       var functionBody =
       'var string = \'\';\n' +
+      'var numberString = \'\';\n' +
       'if(it.variable1 >= 0) {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 1,\n' +
@@ -2141,7 +2204,7 @@ describe('NumberFormat', function() {
       '  });\n' +
       '}\n' +
       'else {\n' +
-      '  string += formatNumber({\n' +
+      '  numberString += formatNumber({\n' +
       '    number: it.variable1,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 1,\n' +
@@ -2163,7 +2226,7 @@ describe('NumberFormat', function() {
       '    patternLength: 1\n' +
       '  });\n' +
       '}\n' +
-      'string = string\n' +
+      'numberString = numberString\n' +
       '  .replace(/1/g, \'१\')\n' +
       '  .replace(/2/g, \'२\')\n' +
       '  .replace(/3/g, \'३\')\n' +
@@ -2174,6 +2237,7 @@ describe('NumberFormat', function() {
       '  .replace(/8/g, \'८\')\n' +
       '  .replace(/9/g, \'९\')\n' +
       '  .replace(/0/g, \'०\');\n' +
+      'string += numberString;\n' +
       'return string;';
       expect(dependencies.fs.writeFileSync.args[1][1]).to.include(indentSpaces(8, functionBody));
       done();

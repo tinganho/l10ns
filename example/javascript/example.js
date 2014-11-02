@@ -1,17 +1,12 @@
-var requireLocale = require('./output/all')
-var l = requireLocale('en-US');
+var requireLocalizations = require('./output/all')
+var l = requireLocalizations('ar-AE');
 
 var localizations = {
   'locale1': l('INDEX1', {
-    'floor': 1200
+    'floor': 1200000
   })
 };
 
-console.log(localizations);
-
-
-var l = require('./output/en-US');
-
 console.log(l('INDEX1', {
-  floor: 1200
+  floor: 12000000
 }))

@@ -7,4 +7,4 @@ else {
   number =
 {{=it.negative}}
 }
-string += localizations['{{=it.locale}}'].__currencyUnitPattern[pluralKeyword].replace('{0}', number).replace('{1}', unit);
+currencyString += localizations['{{=it.locale}}'].__currencyUnitPattern[pluralKeyword].replace('{0}', number).replace('{1}', unit);

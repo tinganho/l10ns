@@ -8,6 +8,7 @@ describe('CurrencyFormat', function() {
     eventually(function() {
       var functionBody =
       'var string = \'\';\n' +
+      'var currencyString = \'\';\n' +
       'var unit;\n' +
       'if(it.variable1.amount && it.variable1.code) {\n' +
       '  if(!localizations[\'en-US\'].__currencies[it.variable1.code]) {\n' +
@@ -19,7 +20,7 @@ describe('CurrencyFormat', function() {
       '  throw TypeError(\'`variable1` must be an object that has properties amount and code.\');\n' +
       '}\n' +
       'if(it.variable1.amount >= 0) {\n' +
-      '  string += formatNumber({\n' +
+      '  currencyString += formatNumber({\n' +
       '    number: it.variable1.amount,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 0.01,\n' +
@@ -47,7 +48,7 @@ describe('CurrencyFormat', function() {
       '  });\n' +
       '}\n' +
       'else {\n' +
-      '  string += formatNumber({\n' +
+      '  currencyString += formatNumber({\n' +
       '    number: it.variable1.amount,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 0.01,\n' +
@@ -74,6 +75,7 @@ describe('CurrencyFormat', function() {
       '    patternLength: 11\n' +
       '  });\n' +
       '}\n' +
+      'string += currencyString;\n' +
       'return string;';
       expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
@@ -91,6 +93,7 @@ describe('CurrencyFormat', function() {
     eventually(function() {
       var functionBody =
       'var string = \'\';\n' +
+      'var currencyString = \'\';\n' +
       'var unit;\n' +
       'if(it.variable1.amount && it.variable1.code) {\n' +
       '  if(!localizations[\'en-US\'].__currencies[it.variable1.code]) {\n' +
@@ -102,7 +105,7 @@ describe('CurrencyFormat', function() {
       '  throw TypeError(\'`variable1` must be an object that has properties amount and code.\');\n' +
       '}\n' +
       'if(it.variable1.amount >= 0) {\n' +
-      '  string += formatNumber({\n' +
+      '  currencyString += formatNumber({\n' +
       '    number: it.variable1.amount,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 0.01,\n' +
@@ -130,7 +133,7 @@ describe('CurrencyFormat', function() {
       '  });\n' +
       '}\n' +
       'else {\n' +
-      '  string += formatNumber({\n' +
+      '  currencyString += formatNumber({\n' +
       '    number: it.variable1.amount,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 0.01,\n' +
@@ -157,6 +160,7 @@ describe('CurrencyFormat', function() {
       '    patternLength: 11\n' +
       '  });\n' +
       '}\n' +
+      'string += currencyString;\n' +
       'return string;';
       expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
@@ -174,6 +178,7 @@ describe('CurrencyFormat', function() {
     eventually(function() {
       var functionBody =
       'var string = \'\';\n' +
+      'var currencyString = \'\';\n' +
       'var unit;\n' +
       'if(it.variable1.amount && it.variable1.code) {\n' +
       '  if(!localizations[\'en-US\'].__currencies[it.variable1.code]) {\n' +
@@ -185,7 +190,7 @@ describe('CurrencyFormat', function() {
       '  throw TypeError(\'`variable1` must be an object that has properties amount and code.\');\n' +
       '}\n' +
       'if(it.variable1.amount >= 0) {\n' +
-      '  string += formatNumber({\n' +
+      '  currencyString += formatNumber({\n' +
       '    number: it.variable1.amount,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 0.01,\n' +
@@ -213,7 +218,7 @@ describe('CurrencyFormat', function() {
       '  });\n' +
       '}\n' +
       'else {\n' +
-      '  string += formatNumber({\n' +
+      '  currencyString += formatNumber({\n' +
       '    number: it.variable1.amount,\n' +
       '    type: \'floating\',\n' +
       '    roundTo: 0.01,\n' +
@@ -240,6 +245,7 @@ describe('CurrencyFormat', function() {
       '    patternLength: 11\n' +
       '  });\n' +
       '}\n' +
+      'string += currencyString;\n' +
       'return string;';
       expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
@@ -257,6 +263,7 @@ describe('CurrencyFormat', function() {
     eventually(function() {
       var functionBody =
       'var string = \'\';\n' +
+      'var currencyString = \'\';\n' +
       'var unit;\n' +
       'if(it.variable1.amount && it.variable1.code) {\n' +
       '  if(!localizations[\'en-US\'].__currencies[it.variable1.code]) {\n' +
@@ -328,7 +335,8 @@ describe('CurrencyFormat', function() {
       '      patternLength: 10\n' +
       '    });\n' +
       '}\n' +
-      'string += localizations[\'en-US\'].__currencyUnitPattern[pluralKeyword].replace(\'{0}\', number).replace(\'{1}\', unit);\n' +
+      'currencyString += localizations[\'en-US\'].__currencyUnitPattern[pluralKeyword].replace(\'{0}\', number).replace(\'{1}\', unit);\n' +
+      'string += currencyString;\n' +
       'return string;';
       expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
@@ -346,6 +354,7 @@ describe('CurrencyFormat', function() {
     eventually(function() {
       var functionBody =
       'var string = \'\';\n' +
+      'var currencyString = \'\';\n' +
       'var unit;\n' +
       'if(it.variable1.amount && it.variable1.code) {\n' +
       '  if(!localizations[\'en-US\'].__currencies[it.variable1.code]) {\n' +
@@ -412,7 +421,8 @@ describe('CurrencyFormat', function() {
       '      patternLength: 10\n' +
       '    });\n' +
       '}\n' +
-      'string += localizations[\'en-US\'].__currencyUnitPattern[pluralKeyword].replace(\'{0}\', number).replace(\'{1}\', unit);\n' +
+      'currencyString += localizations[\'en-US\'].__currencyUnitPattern[pluralKeyword].replace(\'{0}\', number).replace(\'{1}\', unit);\n' +
+      'string += currencyString;\n' +
       'return string;';
       expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
