@@ -51,7 +51,6 @@ describe('DateFormat', function() {
         messageFormat.parse('{variable1, date, \'d\'\'d}');
       };
       expect(method).to.throw(TypeError, 'No closing comma in (\'d\'\'d)');
-
     });
   });
 

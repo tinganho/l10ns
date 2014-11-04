@@ -1688,7 +1688,53 @@ describe('DateFormat', function() {
     });
 
     it('should be able to compile a abbreviated period with three letter identifier', function(done) {
-      var localizations = getLocalizations('{variable1, date, aa}');
+      var localizations = getLocalizations('{variable1, date, aaa}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'if(date.getHours() < 12) {\n' +
+          '  dateString += \'AM\';\n' +
+          '}\n' +
+          'else {\n' +
+          '  dateString += \'PM\';\n' +
+          '}\n' +
+          'string += dateString;\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to compile a narrow period', function(done) {
+      var localizations = getLocalizations('{variable1, date, aaaa}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'if(date.getHours() < 12) {\n' +
+          '  dateString += \'a\';\n' +
+          '}\n' +
+          'else {\n' +
+          '  dateString += \'p\';\n' +
+          '}\n' +
+          'string += dateString;\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to compile a narrow period', function(done) {
+      var localizations = getLocalizations('{variable1, date, aaaaa}');
       var dependencies = getDependencies(localizations);
       var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
 

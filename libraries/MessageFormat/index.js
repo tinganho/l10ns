@@ -1393,8 +1393,8 @@ MessageFormat.prototype._readDateData = function() {
     }
   };
 
-  var abbreviatedFormatedPeriod = this._getXMLNode('//calendar[@type="gregorian"]/dayPeriods/dayPeriodContext[@type="format"]/dayPeriodWidth[@type="abbreviated"]');
-  var narrowFormatedPeriod = this._getXMLNode('//calendar[@type="gregorian"]/dayPeriods/dayPeriodContext[@type="format"]/dayPeriodWidth[@type="narrow"]');
+  var abbreviatedFormatedPeriod = this._getXMLNode('//calendar[@type="gregorian"]/dayPeriods/dayPeriodContext[@type="format"]/dayPeriodWidth[@type="abbreviated"]', ['./dayPeriod[@type="am"]', './dayPeriod[@type="pm"]']);
+  var narrowFormatedPeriod = this._getXMLNode('//calendar[@type="gregorian"]/dayPeriods/dayPeriodContext[@type="format"]/dayPeriodWidth[@type="narrow"]', ['./dayPeriod[@type="am"]', './dayPeriod[@type="pm"]']);
   var wideFormatedPeriod = this._getXMLNode('//calendar[@type="gregorian"]/dayPeriods/dayPeriodContext[@type="format"]/dayPeriodWidth[@type="wide"]', ['./dayPeriod[@type="am"]', './dayPeriod[@type="pm"]']);
 
   this.date['period'] = {
