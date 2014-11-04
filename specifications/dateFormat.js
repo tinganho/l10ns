@@ -54,6 +54,28 @@ describe('DateFormat', function() {
     });
   });
 
+  describe('Start of week', function() {
+    it('should be able to set a a start of week', function() {
+      messageFormat.parse('{variable1, date, startofweek:sun}');
+      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
+      expect(messageFormat.messageAST[0].startOfWeek).to.equal('sun');
+    });
+
+    it('should replace the string with empty string', function() {
+      messageFormat.parse('{variable1, date, startofweek:sun d}');
+      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
+      expect(messageFormat.messageAST[0].startOfWeek).to.equal('sun');
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.day.DayOfMonth);
+    });
+
+    it('should throw an error if the value is not either mon or sun', function() {
+      var method = function() {
+        messageFormat.parse('{variable1, date, startofweek:gib}');
+      };
+      expect(method).to.throw(TypeError, 'Start of week can only take the values `mon` or `sun` in (startofweek:gib)');
+    });
+  });
+
   describe('Era', function() {
     it('should be able to parse an abbreviated era format', function() {
       messageFormat.parse('{variable1, date, G}');

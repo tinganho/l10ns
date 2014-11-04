@@ -36,6 +36,7 @@ AST.date.DateFormat = function(locale, variable, argument, CLDR, numberSystem) 
   this.lexer = null;
   this.CLDR = CLDR;
   this.AST = [];
+  this.startOfWeek = 'mon';
   this.parse(argument);
   this.numberSystem = numberSystem;
 };
@@ -47,6 +48,14 @@ AST.date.DateFormat = function(locale, variable, argument, CLDR, numberSystem) 
  */
 
 AST.date.DateFormat.COMMA = '\'';
+
+/**
+ * Start of week identifier
+ *
+ * @type {String}
+ */
+
+AST.date.DateFormat.START_OF_WEEK = /startofweek:(\w{3})\s*/;
 
 /**
  * Date format identifiers
@@ -98,6 +107,19 @@ AST.date.DateFormat.Identifiers = {
  */
 
 AST.date.DateFormat.prototype.parse = function(string) {
+  var _this = this;
+
+  string = string.replace(AST.date.DateFormat.START_OF_WEEK, function(match, pattern1) {
+    if(pattern1 === 'mon' || pattern1 === 'sun') {
+      _this.startOfWeek = pattern1;
+    }
+    else {
+      throw new TypeError('Start of week can only take the values `mon` or `sun` in (' + match + ')');
+    }
+
+    return '';
+  });
+
   this.lexer = new Lexer(string);
   this.currentToken = this.lexer.getNextToken();
   while(this.currentToken !== EOF) {
