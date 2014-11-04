@@ -920,6 +920,17 @@ Compiler.prototype._compileDateFormat = function(dateFormat) {
         padding: minutePadding
       });
     }
+    else if(component instanceof MessageFormat.AST.date.time.second.Second) {
+      var secondPadding;
+
+      if(component.format === MessageFormat.AST.date.time.second.Second.Formats.NUMERIC_WITH_PADDING) {
+        secondPadding = true;
+      }
+
+      result += template['DateSecond']({
+        padding: secondPadding
+      });
+    }
   });
 
   if(dateFormat.numberSystem !== 'latn') {

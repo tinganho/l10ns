@@ -1899,6 +1899,49 @@ describe('DateFormat', function() {
     });
   });
 
+  describe('Second', function() {
+    it('should be able to compile a numeric second without padding', function(done) {
+      var localizations = getLocalizations('{variable1, date, s}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var seconds = date.getSeconds();\n' +
+          'dateString += seconds;\n' +
+          'string += dateString;\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to compile a numeric second with padding', function(done) {
+      var localizations = getLocalizations('{variable1, date, ss}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var seconds = date.getSeconds();\n' +
+          'if(seconds < 10) {\n' +
+          '  seconds = \'0\' + seconds;\n' +
+          '}\n' +
+          'dateString += seconds;\n' +
+          'string += dateString;\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+  });
+
   describe('Number system', function() {
     it('should be able to compile with an another number system', function(done) {
       var localizations = {
