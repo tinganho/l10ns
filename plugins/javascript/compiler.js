@@ -931,6 +931,11 @@ Compiler.prototype._compileDateFormat = function(dateFormat) {
         padding: secondPadding
       });
     }
+    else if(component instanceof MessageFormat.AST.date.time.second.FractionalSecond) {
+      result += template['DateFractionalSeconds']({
+        length: component.length
+      });
+    }
   });
 
   if(dateFormat.numberSystem !== 'latn') {

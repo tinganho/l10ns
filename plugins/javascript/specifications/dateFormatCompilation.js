@@ -1940,6 +1940,81 @@ describe('DateFormat', function() {
         done();
       });
     });
+
+    it('FractionalSeconds block should set fractional seconds correctly', function() {
+      var getFunctionString = function(milliseconds, length) {
+        return 'function test_setFractionalSecondsBlock() {' +
+          'var dateString =\'\';\n' +
+          dateTemplates['DateFractionalSeconds']({
+            length: length
+          }).replace('date.getMilliseconds()', milliseconds) +
+          'return dateString; }';
+      }
+      eval(getFunctionString(1, 1));
+      expect(test_setFractionalSecondsBlock()).to.equal('0');
+      eval(getFunctionString(10, 1));
+      expect(test_setFractionalSecondsBlock()).to.equal('0');
+      eval(getFunctionString(100, 1));
+      expect(test_setFractionalSecondsBlock()).to.equal('1');
+      eval(getFunctionString(100, 2));
+      expect(test_setFractionalSecondsBlock()).to.equal('10');
+      eval(getFunctionString(100, 3));
+      expect(test_setFractionalSecondsBlock()).to.equal('100');
+      eval(getFunctionString(100, 4));
+      expect(test_setFractionalSecondsBlock()).to.equal('1000');
+      eval(getFunctionString(123, 2));
+      expect(test_setFractionalSecondsBlock()).to.equal('12');
+    });
+
+    it('should be able to compile a fractional second with length 1', function(done) {
+      var localizations = getLocalizations('{variable1, date, S}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var milliseconds = date.getMilliseconds() + \'\';\n' +
+          'while(milliseconds.length < 3) {\n' +
+          '  milliseconds = \'0\' + milliseconds;\n' +
+          '}\n' +
+          'while(milliseconds.length < 1) {\n' +
+          '  milliseconds += \'0\';\n' +
+          '}\n' +
+          'dateString += milliseconds.substr(0, 1);\n' +
+          'string += dateString;\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('should be able to compile a fractional second with length bigger than 1', function(done) {
+      var localizations = getLocalizations('{variable1, date, SS}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var milliseconds = date.getMilliseconds() + \'\';\n' +
+          'while(milliseconds.length < 3) {\n' +
+          '  milliseconds = \'0\' + milliseconds;\n' +
+          '}\n' +
+          'while(milliseconds.length < 2) {\n' +
+          '  milliseconds += \'0\';\n' +
+          '}\n' +
+          'dateString += milliseconds.substr(0, 2);\n' +
+          'string += dateString;\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
   });
 
   describe('Number system', function() {
