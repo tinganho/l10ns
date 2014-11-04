@@ -872,8 +872,22 @@ Compiler.prototype._compileDateFormat = function(dateFormat) {
       });
     }
     else if(component instanceof MessageFormat.AST.date.time.Period) {
+      var periodFormat;
+
+      switch(component.format) {
+        case MessageFormat.AST.date.time.Period.Formats.ABBREVIATED:
+          periodFormat = 'abbreviated';
+          break;
+        case MessageFormat.AST.date.time.Period.Formats.NARROW:
+          periodFormat = 'narrow';
+          break;
+        case MessageFormat.AST.date.time.Period.Formats.WIDE:
+          periodFormat = 'wide';
+          break;
+      }
+
       result += template['DatePeriod']({
-        period: dateFormat.CLDR.period
+        period: dateFormat.CLDR.period[periodFormat]
       });
     }
     else if(component instanceof MessageFormat.AST.date.time.Hour) {

@@ -906,7 +906,56 @@ MessageFormat.prototype._readNumberFormatsData = function() {
  * @return {null|String}
  */
 
-MessageFormat.prototype._getXMLNode = function(path) {
+MessageFormat.prototype._getXMLNode = function(path, verificationNodes) {
+  var node;
+  var passesLocaleDocument = true;
+  var passesLanguageDocument = true;
+  var verifyingNode;
+
+  if(this.localeDocument) {
+    node = this.localeDocument.get(path);
+  }
+  if(node && verificationNodes) {
+    for(var i = 0; i < verificationNodes.length; i++) {
+      verifyingNode = node.get(verificationNodes[i])
+      if(!verifyingNode) {
+        passesLocaleDocument = false;
+        break;
+      }
+    }
+  }
+  if(!node || !passesLocaleDocument) {
+    node = this.languageDocument.get(path);
+  }
+  if(node && verificationNodes) {
+    for(var i = 0; i < verificationNodes.length; i++) {
+      verifyingNode = node.get(verificationNodes[i])
+      if(!verifyingNode) {
+        passesLanguageDocument = false;
+        break;
+      }
+    }
+  }
+  if(!node || !passesLanguageDocument) {
+    node = this.rootDocument.get(path);
+  }
+
+  while(node && typeof node.child === 'function' && node.child(0).name() === 'alias') {
+    var relativePath = node.child(0).attr('path').value();
+    node = node.get(relativePath);
+  }
+
+  return node;
+};
+
+/**
+ * Read XML Period node from CLDR
+ *
+ * @param {String} path
+ * @return {null|String}
+ */
+
+MessageFormat.prototype.getCLDRPeriodNode = function() {
   var node;
   if(this.localeDocument) {
     node = this.localeDocument.get(path);
@@ -918,9 +967,13 @@ MessageFormat.prototype._getXMLNode = function(path) {
     node = this.rootDocument.get(path);
   }
 
-  while(node && typeof node.child === 'function' && node.child(0).name() === 'alias') {
-    var relativePath = node.child(0).attr('path').value();
-    node = node.get(relativePath);
+  if(node) {
+    if(node.get('./dayPeriod[@type="am"]') && node.get('./dayPeriod[@type="pm"]')) {
+      while(node && typeof node.child === 'function' && node.child(0).name() === 'alias') {
+        var relativePath = node.child(0).attr('path').value();
+        node = node.get(relativePath);
+      }
+    }
   }
 
   return node;
@@ -1341,10 +1394,22 @@ MessageFormat.prototype._readDateData = function() {
   };
 
   var abbreviatedFormatedPeriod = this._getXMLNode('//calendar[@type="gregorian"]/dayPeriods/dayPeriodContext[@type="format"]/dayPeriodWidth[@type="abbreviated"]');
+  var narrowFormatedPeriod = this._getXMLNode('//calendar[@type="gregorian"]/dayPeriods/dayPeriodContext[@type="format"]/dayPeriodWidth[@type="narrow"]');
+  var wideFormatedPeriod = this._getXMLNode('//calendar[@type="gregorian"]/dayPeriods/dayPeriodContext[@type="format"]/dayPeriodWidth[@type="wide"]', ['./dayPeriod[@type="am"]', './dayPeriod[@type="pm"]']);
 
   this.date['period'] = {
-    am: abbreviatedFormatedPeriod.get('./dayPeriod[@type="am"]').text(),
-    pm: abbreviatedFormatedPeriod.get('./dayPeriod[@type="pm"]').text()
+    abbreviated: {
+      am: abbreviatedFormatedPeriod.get('./dayPeriod[@type="am"]').text(),
+      pm: abbreviatedFormatedPeriod.get('./dayPeriod[@type="pm"]').text()
+    },
+    narrow: {
+      am: narrowFormatedPeriod.get('./dayPeriod[@type="am"]').text(),
+      pm: narrowFormatedPeriod.get('./dayPeriod[@type="pm"]').text()
+    },
+    wide: {
+      am: wideFormatedPeriod.get('./dayPeriod[@type="am"]').text(),
+      pm: wideFormatedPeriod.get('./dayPeriod[@type="pm"]').text()
+    }
   };
 };
 

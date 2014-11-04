@@ -41,6 +41,14 @@ AST.date.DateFormat = function(locale, variable, argument, CLDR, numberSystem) 
 };
 
 /**
+ * Comma
+ *
+ * @type {String}
+ */
+
+AST.date.DateFormat.COMMA = '\'';
+
+/**
  * Date format identifiers
  *
  * @enum {Number}
@@ -52,7 +60,6 @@ AST.date.DateFormat.Identifiers = {
   CALENDAR_YEAR: 'y',
   WEEK_BASED_YEAR: 'Y',
   EXTENDED_YEAR: 'u',
-  CYCLIC_YEAR: 'U',
   FORMATED_QUARTER: 'Q',
   STAND_ALONE_QUARTER: 'q',
   FORMATED_MONTH: 'M',
@@ -62,7 +69,6 @@ AST.date.DateFormat.Identifiers = {
   DAY_OF_MONTH: 'd',
   DAY_OF_YEAR: 'D',
   DAY_OF_WEEK_IN_MONTH: 'F',
-  MODIFIED_JULIAN_DAY: 'g',
   DAY_OF_WEEK: 'E',
   LOCAL_DAY_OF_WEEK: 'e',
   STAND_ALONE_LOCAL_DAY_OF_WEEK: 'c',
@@ -74,7 +80,6 @@ AST.date.DateFormat.Identifiers = {
   MINUTE: 'm',
   SECOND: 's',
   FRACTIONAL_SECOND: 'S',
-  MILLI_SECONDS_IN_DAY: 'A',
   SPECIFIC_NON_LOCATION_TIME_ZONE: 'z',
   REGULAR_TIME_ZONE: 'Z',
   LOCALIZED_GMT_TIME_ZONE: 'O',
@@ -105,9 +110,6 @@ AST.date.DateFormat.prototype.parse = function(string) {
       case AST.date.DateFormat.Identifiers.EXTENDED_YEAR:
         this.AST.push(this._parseYear());
         break;
-      case AST.date.DateFormat.Identifiers.CYCLIC_YEAR:
-        this.AST.push(this._parseCyclicYear());
-        break;
       case AST.date.DateFormat.Identifiers.FORMATED_QUARTER:
       case AST.date.DateFormat.Identifiers.STAND_ALONE_QUARTER:
         this.AST.push(this._parseQuarter());
@@ -123,7 +125,6 @@ AST.date.DateFormat.prototype.parse = function(string) {
       case AST.date.DateFormat.Identifiers.DAY_OF_MONTH:
       case AST.date.DateFormat.Identifiers.DAY_OF_YEAR:
       case AST.date.DateFormat.Identifiers.DAY_OF_WEEK_IN_MONTH:
-      case AST.date.DateFormat.Identifiers.MODIFIED_JULIAN_DAY:
         this.AST.push(this._parseDay());
         break;
       case AST.date.DateFormat.Identifiers.DAY_OF_WEEK:
@@ -132,8 +133,7 @@ AST.date.DateFormat.prototype.parse = function(string) {
         this.AST.push(this._parseWeekDay());
         break;
       case AST.date.DateFormat.Identifiers.PERIOD:
-        this._getConsecutiveLength(1);
-        this.AST.push(new AST.date.time.Period());
+        this.AST.push(this._parsePeriod());
         break;
       case AST.date.DateFormat.Identifiers.TWELVE_HOURS_STARTING_AT_ONE:
       case AST.date.DateFormat.Identifiers.TWENTY_FOUR_HOURS_STARTING_AT_ZERO:
@@ -158,8 +158,57 @@ AST.date.DateFormat.prototype.parse = function(string) {
       case AST.date.DateFormat.Identifiers.ISO8601_WITHOUT_Z_TIME_ZONE:
         this.AST.push(this._parseTimeZone());
         break;
+      default:
+        this.AST.push(this._parseSentence());
+        break;
     }
   }
+};
+
+/**
+ * Parse sentence and escaped sequence.
+ *
+ * @return {AST.date.Sentence}
+ * @api private
+ */
+
+AST.date.DateFormat.prototype._parseSentence = function() {
+  var encounterdIdentifier = false;
+  var parsingEscapedSentence = false;
+  var sentence = '';
+
+  while(!encounterdIdentifier && this.currentToken !== EOF) {
+    if(parsingEscapedSentence) {
+      if(this.currentToken === AST.date.DateFormat.COMMA) {
+        parsingEscapedSentence = false;
+        this.currentToken = this.lexer.getNextToken();
+        continue;
+      }
+    }
+    else {
+      if(this.currentToken === AST.date.DateFormat.COMMA) {
+        this.currentToken = this.lexer.getNextToken();
+        parsingEscapedSentence = true;
+        continue;
+      }
+      for(var identifier in AST.date.DateFormat.Identifiers) {
+        if(this.currentToken === AST.date.DateFormat.Identifiers[identifier]) {
+          encounterdIdentifier = true;
+          break;
+        }
+      }
+    }
+    if(!encounterdIdentifier && this.currentToken !== EOF) {
+      sentence += this.currentToken;
+      this.currentToken = this.lexer.getNextToken();
+    }
+  }
+
+  if(this.currentToken === EOF && parsingEscapedSentence) {
+    throw new TypeError('No closing comma in (' + this.lexer.getLatestTokensLog() + ')');
+  }
+
+  return new AST.date.Sentence(sentence);
 };
 
 /**
@@ -207,20 +256,6 @@ AST.date.DateFormat.prototype._parseYear = function() {
   var length = this._getConsecutiveLength();
 
   return new AST.date.Year(type, length);
-};
-
-/**
- * Parse cyclic years identifiers (U).
- *
- * @return {AST.date.CyclicYear}
- * @api private
- */
-
-AST.date.DateFormat.prototype._parseCyclicYear = function() {
-  // swallow 'U'
-  this._getConsecutiveLength(5);
-
-  return new AST.date.CyclicYear(AST.date.CyclicYear.Types.ABBREVIATED);
 };
 
 /**
@@ -443,6 +478,22 @@ AST.date.DateFormat.prototype._parseWeekDay = function() {
       }
       return new AST.date.weekDay.LocalDayOfWeek(AST.date.weekDay.LocalDayOfWeek.Contexts.STAND_ALONE, format);
   }
+};
+
+AST.date.DateFormat.prototype._parsePeriod = function() {
+  var length = this._getConsecutiveLength(5);
+  var format = AST.date.time.Period.Formats.ABBREVIATED;
+
+  switch(length) {
+    case 4:
+      format = AST.date.time.Period.Formats.NARROW;
+      break;
+    case 5:
+      format = AST.date.time.Period.Formats.WIDE;
+      break;
+  }
+
+  return new AST.date.time.Period(format);
 };
 
 /**
@@ -688,9 +739,20 @@ AST.date.DateFormat.prototype._getConsecutiveLength = function(max) {
 };
 
 /**
+ * Date sentence.
+ *
+ * @param {String} sentence
+ * @constructor
+ */
+
+AST.date.Sentence = function(sentence) {
+  this.sentence = sentence;
+};
+
+/**
  * Era AST.
  *
- * @param {AST.date.Era.Formats}. format
+ * @param {AST.date.Era.Formats} format
  * @constructor
  */
 
@@ -1057,7 +1119,22 @@ AST.date.time = {};
  * @constructor
  */
 
-AST.date.time.Period = function() {};
+AST.date.time.Period = function(format) {
+  this.format = format;
+};
+
+/**
+ * Hour formats.
+ *
+ * @enum {Numbers}
+ * @api public
+ */
+
+AST.date.time.Period.Formats = {
+  ABBREVIATED: 1,
+  NARROW: 2,
+  WIDE: 3
+};
 
 /**
  * Hour.

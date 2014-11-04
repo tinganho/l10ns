@@ -4,6 +4,57 @@ var MessageFormat = require('../libraries/MessageFormat')
   , AST = require('../libraries/MessageFormat/AST');
 
 describe('DateFormat', function() {
+  describe('Sentence', function() {
+    it('should be able to parse a sentence', function() {
+      messageFormat.parse('{variable1, date, t}');
+      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.Sentence);
+      expect(messageFormat.messageAST[0].AST[0].sentence).to.equal('t');
+    });
+
+    it('should be able to parse a sentence along with an identifier', function() {
+      messageFormat.parse('{variable1, date, t d}');
+      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.Sentence);
+      expect(messageFormat.messageAST[0].AST[0].sentence).to.equal('t ');
+      expect(messageFormat.messageAST[0].AST[1]).to.be.an.instanceOf(AST.date.day.DayOfMonth);
+    });
+
+    it('should be able to parse a white-space ending', function() {
+      messageFormat.parse('{variable1, date, d }');
+      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.day.DayOfMonth);
+      expect(messageFormat.messageAST[0].AST[1]).to.be.an.instanceOf(AST.date.Sentence);
+      expect(messageFormat.messageAST[0].AST[1].sentence).to.equal(' ');
+    });
+
+    it('should be able to parse an escaped sequence', function() {
+      messageFormat.parse('{variable1, date, \'d\'}');
+      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.Sentence);
+      expect(messageFormat.messageAST[0].AST[0].sentence).to.equal('d');
+    });
+
+    it('should be able to parse a double escaped sequence', function() {
+      messageFormat.parse('{variable1, date, \'d\'\'d\'}');
+      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.Sentence);
+      expect(messageFormat.messageAST[0].AST[0].sentence).to.equal('dd');
+    });
+
+    it('should throw an error of a escaped sequence is not closed', function() {
+      var method = function() {
+        messageFormat.parse('{variable1, date, \'d}');
+      };
+      expect(method).to.throw(TypeError, 'No closing comma in (\'d)');
+      var method = function() {
+        messageFormat.parse('{variable1, date, \'d\'\'d}');
+      };
+      expect(method).to.throw(TypeError, 'No closing comma in (\'d\'\'d)');
+
+    });
+  });
+
   describe('Era', function() {
     it('should be able to parse an abbreviated era format', function() {
       messageFormat.parse('{variable1, date, G}');
@@ -82,20 +133,6 @@ describe('DateFormat', function() {
       expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.Year);
       expect(messageFormat.messageAST[0].AST[0].length).to.equal(2);
       expect(messageFormat.messageAST[0].AST[0].type).to.equal(AST.date.Year.Types.EXTENDED);
-    });
-
-    it('should be able to parse a cyclic year identifier', function() {
-      messageFormat.parse('{variable1, date, U}');
-      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
-      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.CyclicYear);
-      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.CyclicYear.Types.ABBREVIATED);
-      messageFormat.parse('{variable1, date, UUUUUU}');
-      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
-      expect(messageFormat.messageAST[0].AST.length).to.equal(2);
-      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.CyclicYear);
-      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.CyclicYear.Types.ABBREVIATED);
-      expect(messageFormat.messageAST[0].AST[1]).to.be.an.instanceOf(AST.date.CyclicYear);
-      expect(messageFormat.messageAST[0].AST[1].format).to.equal(AST.date.CyclicYear.Types.ABBREVIATED);
     });
   });
 
@@ -414,17 +451,6 @@ describe('DateFormat', function() {
       expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.day.DayOfWeekInMonth);
       expect(messageFormat.messageAST[0].AST[1]).to.be.an.instanceOf(AST.date.day.DayOfWeekInMonth);
     });
-
-    it('should be able to parse a modified Julian day', function() {
-      messageFormat.parse('{variable1, date, g}');
-      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
-      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.day.ModifiedJulianDay);
-      expect(messageFormat.messageAST[0].AST[0].length).to.equal(1);
-      messageFormat.parse('{variable1, date, gg}');
-      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
-      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.day.ModifiedJulianDay);
-      expect(messageFormat.messageAST[0].AST[0].length).to.equal(2);
-    });
   });
 
   describe('WeekDay', function() {
@@ -590,14 +616,45 @@ describe('DateFormat', function() {
       messageFormat.parse('{variable1, date, a}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
       expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.time.Period);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.time.Period.Formats.ABBREVIATED);
+    });
+
+    it('should be able to parse two consecutive period identifiers', function() {
+      messageFormat.parse('{variable1, date, aa}');
+      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.time.Period);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.time.Period.Formats.ABBREVIATED);
+    });
+
+    it('should be able to parse three consecutive period identifiers', function() {
+      messageFormat.parse('{variable1, date, aaa}');
+      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.time.Period);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.time.Period.Formats.ABBREVIATED);
+    });
+
+    it('should be able to parse four consecutive period identifiers', function() {
+      messageFormat.parse('{variable1, date, aaaa}');
+      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.time.Period);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.time.Period.Formats.NARROW);
+    });
+
+    it('should be able to parse four consecutive period identifiers', function() {
+      messageFormat.parse('{variable1, date, aaaaa}');
+      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.time.Period);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.time.Period.Formats.WIDE);
     });
 
     it('should begin with a new period if maximum consecutive identifiers have been exceeded', function() {
-      messageFormat.parse('{variable1, date, aa}');
+      messageFormat.parse('{variable1, date, aaaaaa}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
       expect(messageFormat.messageAST[0].AST.length).to.equal(2);
       expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.time.Period);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.time.Period.Formats.WIDE);
       expect(messageFormat.messageAST[0].AST[1]).to.be.an.instanceOf(AST.date.time.Period);
+      expect(messageFormat.messageAST[0].AST[1].format).to.equal(AST.date.time.Period.Formats.ABBREVIATED);
     });
   });
 
@@ -770,17 +827,6 @@ describe('DateFormat', function() {
       messageFormat.parse('{variable1, date, SS}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
       expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.time.second.FractionalSecond);
-      expect(messageFormat.messageAST[0].AST[0].length).to.equal(2);
-    });
-
-    it('should be able to parse millisecond in day identifiers', function() {
-      messageFormat.parse('{variable1, date, A}');
-      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
-      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.time.second.MilliSecondInDay);
-      expect(messageFormat.messageAST[0].AST[0].length).to.equal(1);
-      messageFormat.parse('{variable1, date, AA}');
-      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
-      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.time.second.MilliSecondInDay);
       expect(messageFormat.messageAST[0].AST[0].length).to.equal(2);
     });
   });
