@@ -236,7 +236,7 @@
   }
 
   var localizations = {
-    'ar-AE': {
+    'es-ES': {
       '__getPluralKeyword': function(cardinal) {
         var cardinal = cardinal + ''
           , n = cardinal
@@ -255,177 +255,7 @@
           t = hasFractionalDigitsSyntax.exec(t)[1];
           w = t.length;
         }
-        if(n === 0) {
-          return 'zero';
-        }
-        else if(n === 1) {
-          return 'one';
-        }
-        else if(n === 2) {
-          return 'two';
-        }
-        else if((3 >= n && n <= 10)) {
-          return 'few';
-        }
-        else if((11 >= n && n <= 99)) {
-          return 'many';
-        }
-        return 'other';
-      },
-      '__getOrdinalKeyword': function(cardinal) {
-        return 'other';
-      },
-      '__numberSymbols': {
-        'arab': {
-          'decimal': '٫',
-          'group': '٬',
-          'list': '؛',
-          'percentSign': '٪',
-          'plusSign': '‏+',
-          'comment': ' includes RLM before sign (002D) ',
-          'minusSign': '‏-',
-          'exponential': 'اس',
-          'superscriptingExponent': '×',
-          'perMille': '؉',
-          'infinity': '∞',
-          'nan': 'ليس رقم',
-          'timeSeparator': '،'
-        },
-        'latn': {
-          'decimal': '.',
-          'group': ',',
-          'list': ';',
-          'percentSign': '%',
-          'plusSign': '‎+',
-          'comment': ' includes LRM before sign (002D) ',
-          'minusSign': '‎-',
-          'exponential': 'E',
-          'superscriptingExponent': '×',
-          'perMille': '‰',
-          'infinity': '∞',
-          'nan': 'NaN',
-          'timeSeparator': ':'
-        }
-      },
-      '__currencies': {
-        'USD': {
-          'name': 'دولار أمريكي',
-          'text': {
-            'local': null,
-            'global': {
-              'zero': 'دولار أمريكي',
-              'one': 'دولار أمريكي',
-              'two': 'دولار أمريكي',
-              'few': 'دولار أمريكي',
-              'many': 'دولار أمريكي',
-              'other': 'دولار أمريكي'
-            }
-          },
-          'symbol': {
-            'local': '$',
-            'global': 'US$',
-            'reverseGlobal': '$US'
-          }
-        }
-      },
-      '__currencyUnitPattern': {
-        'zero': '{0} {1}',
-        'one': '{0} {1}',
-        'two': '{0} {1}',
-        'few': '{0} {1}',
-        'many': '{0} {1}',
-        'other': '{0} {1}'
-      },
-      'INDEX1': function(it) {
-        var string = '';
-        var numberString = '';
-        if(it.floor >= 0) {
-          numberString += formatNumber({
-            number: it.floor,
-            type: 'floating',
-            roundTo: 0.001,
-            prefix: '',
-            suffix: '',
-            percentage: null,
-            permille: null,
-            currency: null,
-            groupSize: {
-              primary: 3,
-              secondary: 3
-            },
-            exponent: null,
-            minimumIntegerDigits: 1,
-            maximumIntegerDigits: 4,
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 3,
-            minimumSignificantDigits: 0,
-            maximumSignificantDigits: 0,
-            symbols: localizations['ar-AE'].__numberSymbols['arab'],
-            paddingCharacter: null,
-            patternLength: 9
-          });
-        }
-        else {
-          numberString += formatNumber({
-            number: it.floor,
-            type: 'floating',
-            roundTo: 0.001,
-            prefix: '-',
-            suffix: '',
-            percentage: null,
-            permille: null,
-            currency: null,
-            groupSize: {
-              primary: 3,
-              secondary: 3
-            },
-            exponent: null,
-            minimumIntegerDigits: 1,
-            maximumIntegerDigits: 4,
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 3,
-            minimumSignificantDigits: 0,
-            maximumSignificantDigits: 0,
-            symbols: localizations['ar-AE'].__numberSymbols['arab'],
-            paddingCharacter: null,
-            patternLength: 9
-          });
-        }
-        numberString = numberString
-          .replace(/1/g, '١')
-          .replace(/2/g, '٢')
-          .replace(/3/g, '٣')
-          .replace(/4/g, '٤')
-          .replace(/5/g, '٥')
-          .replace(/6/g, '٦')
-          .replace(/7/g, '٧')
-          .replace(/8/g, '٨')
-          .replace(/9/g, '٩')
-          .replace(/0/g, '٠');
-        string += numberString;
-        return string;
-      }
-    },
-    'da-DK': {
-      '__getPluralKeyword': function(cardinal) {
-        var cardinal = cardinal + ''
-          , n = cardinal
-          , i = parseInt(cardinal, 10)
-          , v = 0
-          , w = 0
-          , f = 0
-          , t = 0;
-
-        var hasFractionalDigitsSyntax = /\.(\d+)/;
-
-        if(hasFractionalDigitsSyntax.test(cardinal)) {
-          f = hasFractionalDigitsSyntax.exec(cardinal)[1];
-          v = f.length;
-          t = cardinal.replace(/0+$/, '');
-          t = hasFractionalDigitsSyntax.exec(t)[1];
-          w = t.length;
-        }
-        if(n === 1 || t !== 0 && i === 0 && i === 1) {
+        if(n === 1) {
           return 'one';
         }
         return 'other';
@@ -446,17 +276,17 @@
           'perMille': '‰',
           'infinity': '∞',
           'nan': 'NaN',
-          'timeSeparator': '.'
+          'timeSeparator': ':'
         }
       },
       '__currencies': {
         'USD': {
-          'name': 'Amerikansk dollar',
+          'name': 'dólar estadounidense',
           'text': {
             'local': null,
             'global': {
-              'one': 'Amerikansk dollar',
-              'other': 'Amerikanske dollar'
+              'one': 'dólar estadounidense',
+              'other': 'dólares estadounidenses'
             }
           },
           'symbol': {
@@ -469,6 +299,501 @@
       '__currencyUnitPattern': {
         'one': '{0} {1}',
         'other': '{0} {1}'
+      },
+      'INDEX10': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX100': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX11': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX12': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX13': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX14': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX15': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX16': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX17': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX18': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX19': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX2': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX20': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX21': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX22': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX23': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX24': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX25': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX26': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX27': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX28': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX29': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX3': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX30': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX31': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX32': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX33': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX34': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX35': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX36': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX37': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX38': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX39': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX4': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX40': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX41': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX42': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX43': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX44': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX45': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX46': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX47': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX48': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX49': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX5': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX50': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX51': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX52': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX53': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX54': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX55': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX56': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX57': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX58': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX59': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX6': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX60': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX61': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX62': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX63': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX64': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX65': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX66': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX67': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX68': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX69': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX7': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX70': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX71': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX72': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX73': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX74': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX75': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX76': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX77': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX78': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX79': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX8': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX80': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX81': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX82': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX83': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX84': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX85': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX86': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX87': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX88': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX89': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX9': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX90': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX91': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX92': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX93': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX94': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX95': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX96': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX97': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX98': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX99': function(it) {
+        var string = '';
+
+        return string;
       },
       'INDEX1': function(it) {
         var string = '';
@@ -494,7 +819,7 @@
             maximumFractionDigits: 3,
             minimumSignificantDigits: 0,
             maximumSignificantDigits: 0,
-            symbols: localizations['da-DK'].__numberSymbols['latn'],
+            symbols: localizations['es-ES'].__numberSymbols['latn'],
             paddingCharacter: null,
             patternLength: 9
           });
@@ -520,7 +845,7 @@
             maximumFractionDigits: 3,
             minimumSignificantDigits: 0,
             maximumSignificantDigits: 0,
-            symbols: localizations['da-DK'].__numberSymbols['latn'],
+            symbols: localizations['es-ES'].__numberSymbols['latn'],
             paddingCharacter: null,
             patternLength: 9
           });
@@ -592,6 +917,501 @@
       '__currencyUnitPattern': {
         'one': '{0} {1}',
         'other': '{0} {1}'
+      },
+      'INDEX10': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX100': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX11': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX12': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX13': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX14': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX15': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX16': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX17': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX18': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX19': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX2': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX20': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX21': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX22': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX23': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX24': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX25': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX26': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX27': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX28': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX29': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX3': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX30': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX31': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX32': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX33': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX34': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX35': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX36': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX37': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX38': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX39': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX4': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX40': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX41': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX42': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX43': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX44': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX45': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX46': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX47': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX48': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX49': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX5': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX50': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX51': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX52': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX53': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX54': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX55': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX56': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX57': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX58': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX59': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX6': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX60': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX61': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX62': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX63': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX64': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX65': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX66': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX67': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX68': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX69': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX7': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX70': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX71': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX72': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX73': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX74': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX75': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX76': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX77': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX78': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX79': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX8': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX80': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX81': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX82': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX83': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX84': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX85': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX86': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX87': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX88': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX89': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX9': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX90': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX91': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX92': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX93': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX94': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX95': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX96': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX97': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX98': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX99': function(it) {
+        var string = '';
+
+        return string;
       },
       'INDEX1': function(it) {
         var string = '';
@@ -744,6 +1564,501 @@
         'one': '{0} {1}',
         'other': '{0} {1}'
       },
+      'INDEX10': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX100': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX11': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX12': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX13': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX14': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX15': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX16': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX17': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX18': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX19': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX2': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX20': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX21': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX22': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX23': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX24': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX25': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX26': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX27': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX28': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX29': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX3': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX30': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX31': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX32': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX33': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX34': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX35': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX36': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX37': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX38': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX39': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX4': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX40': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX41': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX42': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX43': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX44': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX45': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX46': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX47': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX48': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX49': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX5': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX50': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX51': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX52': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX53': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX54': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX55': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX56': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX57': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX58': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX59': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX6': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX60': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX61': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX62': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX63': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX64': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX65': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX66': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX67': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX68': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX69': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX7': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX70': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX71': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX72': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX73': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX74': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX75': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX76': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX77': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX78': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX79': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX8': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX80': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX81': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX82': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX83': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX84': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX85': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX86': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX87': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX88': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX89': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX9': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX90': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX91': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX92': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX93': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX94': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX95': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX96': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX97': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX98': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX99': function(it) {
+        var string = '';
+
+        return string;
+      },
       'INDEX1': function(it) {
         var string = '';
         var numberString = '';
@@ -803,7 +2118,7 @@
         return string;
       }
     },
-    'es-ES': {
+    'da-DK': {
       '__getPluralKeyword': function(cardinal) {
         var cardinal = cardinal + ''
           , n = cardinal
@@ -822,7 +2137,7 @@
           t = hasFractionalDigitsSyntax.exec(t)[1];
           w = t.length;
         }
-        if(n === 1) {
+        if(n === 1 || t !== 0 && i === 0 && i === 1) {
           return 'one';
         }
         return 'other';
@@ -843,17 +2158,17 @@
           'perMille': '‰',
           'infinity': '∞',
           'nan': 'NaN',
-          'timeSeparator': ':'
+          'timeSeparator': '.'
         }
       },
       '__currencies': {
         'USD': {
-          'name': 'dólar estadounidense',
+          'name': 'Amerikansk dollar',
           'text': {
             'local': null,
             'global': {
-              'one': 'dólar estadounidense',
-              'other': 'dólares estadounidenses'
+              'one': 'Amerikansk dollar',
+              'other': 'Amerikanske dollar'
             }
           },
           'symbol': {
@@ -866,6 +2181,501 @@
       '__currencyUnitPattern': {
         'one': '{0} {1}',
         'other': '{0} {1}'
+      },
+      'INDEX10': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX100': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX11': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX12': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX13': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX14': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX15': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX16': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX17': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX18': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX19': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX2': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX20': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX21': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX22': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX23': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX24': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX25': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX26': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX27': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX28': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX29': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX3': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX30': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX31': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX32': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX33': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX34': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX35': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX36': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX37': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX38': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX39': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX4': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX40': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX41': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX42': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX43': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX44': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX45': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX46': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX47': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX48': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX49': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX5': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX50': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX51': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX52': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX53': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX54': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX55': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX56': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX57': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX58': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX59': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX6': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX60': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX61': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX62': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX63': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX64': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX65': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX66': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX67': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX68': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX69': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX7': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX70': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX71': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX72': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX73': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX74': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX75': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX76': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX77': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX78': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX79': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX8': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX80': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX81': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX82': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX83': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX84': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX85': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX86': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX87': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX88': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX89': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX9': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX90': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX91': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX92': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX93': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX94': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX95': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX96': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX97': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX98': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX99': function(it) {
+        var string = '';
+
+        return string;
       },
       'INDEX1': function(it) {
         var string = '';
@@ -891,7 +2701,7 @@
             maximumFractionDigits: 3,
             minimumSignificantDigits: 0,
             maximumSignificantDigits: 0,
-            symbols: localizations['es-ES'].__numberSymbols['latn'],
+            symbols: localizations['da-DK'].__numberSymbols['latn'],
             paddingCharacter: null,
             patternLength: 9
           });
@@ -917,7 +2727,625 @@
             maximumFractionDigits: 3,
             minimumSignificantDigits: 0,
             maximumSignificantDigits: 0,
-            symbols: localizations['es-ES'].__numberSymbols['latn'],
+            symbols: localizations['da-DK'].__numberSymbols['latn'],
+            paddingCharacter: null,
+            patternLength: 9
+          });
+        }
+        string += numberString;
+        return string;
+      }
+    },
+    'fi-FI': {
+      '__getPluralKeyword': function(cardinal) {
+        var cardinal = cardinal + ''
+          , n = cardinal
+          , i = parseInt(cardinal, 10)
+          , v = 0
+          , w = 0
+          , f = 0
+          , t = 0;
+
+        var hasFractionalDigitsSyntax = /\.(\d+)/;
+
+        if(hasFractionalDigitsSyntax.test(cardinal)) {
+          f = hasFractionalDigitsSyntax.exec(cardinal)[1];
+          v = f.length;
+          t = cardinal.replace(/0+$/, '');
+          t = hasFractionalDigitsSyntax.exec(t)[1];
+          w = t.length;
+        }
+        if(i === 1 && v === 0) {
+          return 'one';
+        }
+        return 'other';
+      },
+      '__getOrdinalKeyword': function(cardinal) {
+        return 'other';
+      },
+      '__numberSymbols': {
+        'latn': {
+          'decimal': ',',
+          'group': ' ',
+          'list': ';',
+          'percentSign': '%',
+          'plusSign': '+',
+          'minusSign': '−',
+          'exponential': 'E',
+          'superscriptingExponent': '×',
+          'perMille': '‰',
+          'infinity': '∞',
+          'nan': 'epäluku',
+          'timeSeparator': '.'
+        }
+      },
+      '__currencies': {
+        'USD': {
+          'name': 'Yhdysvaltain dollari',
+          'text': {
+            'local': null,
+            'global': {
+              'one': 'Yhdysvaltain dollari',
+              'other': 'Yhdysvaltain dollaria'
+            }
+          },
+          'symbol': {
+            'local': '$',
+            'global': 'US$',
+            'reverseGlobal': '$US'
+          }
+        }
+      },
+      '__currencyUnitPattern': {
+        'one': '{0} {1}',
+        'other': '{0} {1}'
+      },
+      'INDEX10': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX100': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX11': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX12': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX13': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX14': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX15': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX16': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX17': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX18': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX19': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX2': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX20': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX21': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX22': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX23': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX24': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX25': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX26': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX27': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX28': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX29': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX3': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX30': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX31': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX32': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX33': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX34': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX35': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX36': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX37': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX38': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX39': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX4': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX40': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX41': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX42': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX43': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX44': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX45': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX46': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX47': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX48': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX49': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX5': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX50': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX51': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX52': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX53': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX54': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX55': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX56': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX57': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX58': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX59': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX6': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX60': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX61': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX62': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX63': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX64': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX65': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX66': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX67': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX68': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX69': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX7': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX70': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX71': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX72': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX73': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX74': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX75': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX76': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX77': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX78': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX79': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX8': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX80': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX81': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX82': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX83': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX84': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX85': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX86': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX87': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX88': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX89': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX9': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX90': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX91': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX92': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX93': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX94': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX95': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX96': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX97': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX98': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX99': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX1': function(it) {
+        var string = '';
+        var numberString = '';
+        if(it.floor >= 0) {
+          numberString += formatNumber({
+            number: it.floor,
+            type: 'floating',
+            roundTo: 0.001,
+            prefix: '',
+            suffix: '',
+            percentage: null,
+            permille: null,
+            currency: null,
+            groupSize: {
+              primary: 3,
+              secondary: 3
+            },
+            exponent: null,
+            minimumIntegerDigits: 1,
+            maximumIntegerDigits: 4,
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 3,
+            minimumSignificantDigits: 0,
+            maximumSignificantDigits: 0,
+            symbols: localizations['fi-FI'].__numberSymbols['latn'],
+            paddingCharacter: null,
+            patternLength: 9
+          });
+        }
+        else {
+          numberString += formatNumber({
+            number: it.floor,
+            type: 'floating',
+            roundTo: 0.001,
+            prefix: '-',
+            suffix: '',
+            percentage: null,
+            permille: null,
+            currency: null,
+            groupSize: {
+              primary: 3,
+              secondary: 3
+            },
+            exponent: null,
+            minimumIntegerDigits: 1,
+            maximumIntegerDigits: 4,
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 3,
+            minimumSignificantDigits: 0,
+            maximumSignificantDigits: 0,
+            symbols: localizations['fi-FI'].__numberSymbols['latn'],
             paddingCharacter: null,
             patternLength: 9
           });
@@ -990,122 +3418,500 @@
         'one': '{0} {1}',
         'other': '{0} {1}'
       },
-      'INDEX1': function(it) {
+      'INDEX10': function(it) {
         var string = '';
-        var numberString = '';
-        if(it.floor >= 0) {
-          numberString += formatNumber({
-            number: it.floor,
-            type: 'floating',
-            roundTo: 1,
-            prefix: '',
-            suffix: 'k',
-            percentage: null,
-            permille: null,
-            currency: null,
-            groupSize: null,
-            exponent: null,
-            minimumIntegerDigits: 1,
-            maximumIntegerDigits: 1,
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0,
-            minimumSignificantDigits: 0,
-            maximumSignificantDigits: 0,
-            symbols: localizations['es-MX'].__numberSymbols['latn'],
-            paddingCharacter: null,
-            patternLength: 2
-          });
-        }
-        else {
-          numberString += formatNumber({
-            number: it.floor,
-            type: 'floating',
-            roundTo: 1,
-            prefix: '-',
-            suffix: 'k',
-            percentage: null,
-            permille: null,
-            currency: null,
-            groupSize: null,
-            exponent: null,
-            minimumIntegerDigits: 1,
-            maximumIntegerDigits: 1,
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0,
-            minimumSignificantDigits: 0,
-            maximumSignificantDigits: 0,
-            symbols: localizations['es-MX'].__numberSymbols['latn'],
-            paddingCharacter: null,
-            patternLength: 2
-          });
-        }
-        string += numberString;
+
         return string;
-      }
-    },
-    'fi-FI': {
-      '__getPluralKeyword': function(cardinal) {
-        var cardinal = cardinal + ''
-          , n = cardinal
-          , i = parseInt(cardinal, 10)
-          , v = 0
-          , w = 0
-          , f = 0
-          , t = 0;
+      },
+      'INDEX100': function(it) {
+        var string = '';
 
-        var hasFractionalDigitsSyntax = /\.(\d+)/;
+        return string;
+      },
+      'INDEX11': function(it) {
+        var string = '';
 
-        if(hasFractionalDigitsSyntax.test(cardinal)) {
-          f = hasFractionalDigitsSyntax.exec(cardinal)[1];
-          v = f.length;
-          t = cardinal.replace(/0+$/, '');
-          t = hasFractionalDigitsSyntax.exec(t)[1];
-          w = t.length;
-        }
-        if(i === 1 && v === 0) {
-          return 'one';
-        }
-        return 'other';
+        return string;
       },
-      '__getOrdinalKeyword': function(cardinal) {
-        return 'other';
+      'INDEX12': function(it) {
+        var string = '';
+
+        return string;
       },
-      '__numberSymbols': {
-        'latn': {
-          'decimal': ',',
-          'group': ' ',
-          'list': ';',
-          'percentSign': '%',
-          'plusSign': '+',
-          'minusSign': '−',
-          'exponential': 'E',
-          'superscriptingExponent': '×',
-          'perMille': '‰',
-          'infinity': '∞',
-          'nan': 'epäluku',
-          'timeSeparator': '.'
-        }
+      'INDEX13': function(it) {
+        var string = '';
+
+        return string;
       },
-      '__currencies': {
-        'USD': {
-          'name': 'Yhdysvaltain dollari',
-          'text': {
-            'local': null,
-            'global': {
-              'one': 'Yhdysvaltain dollari',
-              'other': 'Yhdysvaltain dollaria'
-            }
-          },
-          'symbol': {
-            'local': '$',
-            'global': 'US$',
-            'reverseGlobal': '$US'
-          }
-        }
+      'INDEX14': function(it) {
+        var string = '';
+
+        return string;
       },
-      '__currencyUnitPattern': {
-        'one': '{0} {1}',
-        'other': '{0} {1}'
+      'INDEX15': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX16': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX17': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX18': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX19': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX2': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX20': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX21': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX22': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX23': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX24': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX25': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX26': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX27': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX28': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX29': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX3': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX30': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX31': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX32': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX33': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX34': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX35': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX36': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX37': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX38': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX39': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX4': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX40': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX41': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX42': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX43': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX44': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX45': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX46': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX47': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX48': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX49': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX5': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX50': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX51': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX52': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX53': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX54': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX55': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX56': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX57': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX58': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX59': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX6': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX60': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX61': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX62': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX63': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX64': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX65': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX66': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX67': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX68': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX69': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX7': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX70': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX71': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX72': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX73': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX74': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX75': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX76': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX77': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX78': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX79': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX8': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX80': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX81': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX82': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX83': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX84': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX85': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX86': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX87': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX88': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX89': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX9': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX90': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX91': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX92': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX93': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX94': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX95': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX96': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX97': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX98': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX99': function(it) {
+        var string = '';
+
+        return string;
       },
       'INDEX1': function(it) {
         var string = '';
@@ -1114,52 +3920,46 @@
           numberString += formatNumber({
             number: it.floor,
             type: 'floating',
-            roundTo: 0.001,
+            roundTo: 1,
             prefix: '',
-            suffix: '',
+            suffix: 'k',
             percentage: null,
             permille: null,
             currency: null,
-            groupSize: {
-              primary: 3,
-              secondary: 3
-            },
+            groupSize: null,
             exponent: null,
             minimumIntegerDigits: 1,
-            maximumIntegerDigits: 4,
+            maximumIntegerDigits: 1,
             minimumFractionDigits: 0,
-            maximumFractionDigits: 3,
+            maximumFractionDigits: 0,
             minimumSignificantDigits: 0,
             maximumSignificantDigits: 0,
-            symbols: localizations['fi-FI'].__numberSymbols['latn'],
+            symbols: localizations['es-MX'].__numberSymbols['latn'],
             paddingCharacter: null,
-            patternLength: 9
+            patternLength: 2
           });
         }
         else {
           numberString += formatNumber({
             number: it.floor,
             type: 'floating',
-            roundTo: 0.001,
+            roundTo: 1,
             prefix: '-',
-            suffix: '',
+            suffix: 'k',
             percentage: null,
             permille: null,
             currency: null,
-            groupSize: {
-              primary: 3,
-              secondary: 3
-            },
+            groupSize: null,
             exponent: null,
             minimumIntegerDigits: 1,
-            maximumIntegerDigits: 4,
+            maximumIntegerDigits: 1,
             minimumFractionDigits: 0,
-            maximumFractionDigits: 3,
+            maximumFractionDigits: 0,
             minimumSignificantDigits: 0,
             maximumSignificantDigits: 0,
-            symbols: localizations['fi-FI'].__numberSymbols['latn'],
+            symbols: localizations['es-MX'].__numberSymbols['latn'],
             paddingCharacter: null,
-            patternLength: 9
+            patternLength: 2
           });
         }
         string += numberString;
@@ -1233,6 +4033,501 @@
       '__currencyUnitPattern': {
         'one': '{0} {1}',
         'other': '{0} {1}'
+      },
+      'INDEX10': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX100': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX11': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX12': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX13': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX14': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX15': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX16': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX17': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX18': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX19': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX2': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX20': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX21': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX22': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX23': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX24': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX25': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX26': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX27': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX28': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX29': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX3': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX30': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX31': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX32': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX33': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX34': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX35': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX36': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX37': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX38': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX39': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX4': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX40': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX41': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX42': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX43': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX44': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX45': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX46': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX47': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX48': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX49': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX5': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX50': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX51': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX52': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX53': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX54': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX55': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX56': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX57': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX58': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX59': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX6': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX60': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX61': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX62': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX63': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX64': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX65': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX66': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX67': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX68': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX69': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX7': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX70': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX71': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX72': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX73': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX74': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX75': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX76': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX77': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX78': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX79': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX8': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX80': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX81': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX82': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX83': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX84': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX85': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX86': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX87': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX88': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX89': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX9': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX90': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX91': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX92': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX93': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX94': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX95': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX96': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX97': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX98': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX99': function(it) {
+        var string = '';
+
+        return string;
       },
       'INDEX1': function(it) {
         var string = '';
@@ -1351,6 +4646,501 @@
         'one': '{0} {1}',
         'other': '{0} {1}'
       },
+      'INDEX10': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX100': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX11': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX12': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX13': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX14': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX15': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX16': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX17': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX18': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX19': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX2': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX20': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX21': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX22': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX23': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX24': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX25': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX26': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX27': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX28': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX29': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX3': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX30': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX31': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX32': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX33': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX34': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX35': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX36': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX37': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX38': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX39': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX4': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX40': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX41': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX42': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX43': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX44': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX45': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX46': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX47': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX48': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX49': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX5': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX50': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX51': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX52': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX53': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX54': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX55': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX56': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX57': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX58': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX59': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX6': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX60': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX61': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX62': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX63': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX64': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX65': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX66': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX67': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX68': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX69': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX7': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX70': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX71': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX72': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX73': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX74': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX75': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX76': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX77': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX78': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX79': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX8': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX80': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX81': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX82': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX83': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX84': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX85': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX86': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX87': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX88': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX89': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX9': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX90': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX91': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX92': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX93': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX94': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX95': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX96': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX97': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX98': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX99': function(it) {
+        var string = '';
+
+        return string;
+      },
       'INDEX1': function(it) {
         var string = '';
         var numberString = '';
@@ -1452,106 +5242,500 @@
       '__currencyUnitPattern': {
         'other': '{0} {1}'
       },
-      'INDEX1': function(it) {
+      'INDEX10': function(it) {
         var string = '';
-        var numberString = '';
-        if(it.floor >= 0) {
-          numberString += formatNumber({
-            number: it.floor,
-            type: 'floating',
-            roundTo: 0.001,
-            prefix: '',
-            suffix: '',
-            percentage: null,
-            permille: null,
-            currency: null,
-            groupSize: {
-              primary: 3,
-              secondary: 3
-            },
-            exponent: null,
-            minimumIntegerDigits: 1,
-            maximumIntegerDigits: 4,
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 3,
-            minimumSignificantDigits: 0,
-            maximumSignificantDigits: 0,
-            symbols: localizations['ja-JP'].__numberSymbols['latn'],
-            paddingCharacter: null,
-            patternLength: 9
-          });
-        }
-        else {
-          numberString += formatNumber({
-            number: it.floor,
-            type: 'floating',
-            roundTo: 0.001,
-            prefix: '-',
-            suffix: '',
-            percentage: null,
-            permille: null,
-            currency: null,
-            groupSize: {
-              primary: 3,
-              secondary: 3
-            },
-            exponent: null,
-            minimumIntegerDigits: 1,
-            maximumIntegerDigits: 4,
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 3,
-            minimumSignificantDigits: 0,
-            maximumSignificantDigits: 0,
-            symbols: localizations['ja-JP'].__numberSymbols['latn'],
-            paddingCharacter: null,
-            patternLength: 9
-          });
-        }
-        string += numberString;
+
         return string;
-      }
-    },
-    'ko-KR': {
-      '__getPluralKeyword': function(cardinal) {
-        return 'other';
       },
-      '__getOrdinalKeyword': function(cardinal) {
-        return 'other';
+      'INDEX100': function(it) {
+        var string = '';
+
+        return string;
       },
-      '__numberSymbols': {
-        'latn': {
-          'decimal': '.',
-          'group': ',',
-          'list': ';',
-          'percentSign': '%',
-          'plusSign': '+',
-          'minusSign': '-',
-          'exponential': 'E',
-          'superscriptingExponent': '×',
-          'perMille': '‰',
-          'infinity': '∞',
-          'nan': 'NaN',
-          'timeSeparator': ':'
-        }
+      'INDEX11': function(it) {
+        var string = '';
+
+        return string;
       },
-      '__currencies': {
-        'USD': {
-          'name': '미국 달러',
-          'text': {
-            'local': null,
-            'global': {
-              'other': '미국 달러'
-            }
-          },
-          'symbol': {
-            'local': '$',
-            'global': 'US$',
-            'reverseGlobal': '$US'
-          }
-        }
+      'INDEX12': function(it) {
+        var string = '';
+
+        return string;
       },
-      '__currencyUnitPattern': {
-        'other': '{0} {1}'
+      'INDEX13': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX14': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX15': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX16': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX17': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX18': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX19': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX2': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX20': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX21': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX22': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX23': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX24': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX25': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX26': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX27': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX28': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX29': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX3': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX30': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX31': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX32': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX33': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX34': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX35': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX36': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX37': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX38': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX39': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX4': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX40': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX41': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX42': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX43': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX44': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX45': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX46': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX47': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX48': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX49': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX5': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX50': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX51': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX52': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX53': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX54': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX55': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX56': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX57': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX58': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX59': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX6': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX60': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX61': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX62': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX63': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX64': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX65': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX66': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX67': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX68': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX69': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX7': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX70': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX71': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX72': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX73': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX74': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX75': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX76': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX77': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX78': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX79': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX8': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX80': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX81': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX82': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX83': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX84': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX85': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX86': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX87': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX88': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX89': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX9': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX90': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX91': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX92': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX93': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX94': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX95': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX96': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX97': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX98': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX99': function(it) {
+        var string = '';
+
+        return string;
       },
       'INDEX1': function(it) {
         var string = '';
@@ -1577,7 +5761,7 @@
             maximumFractionDigits: 3,
             minimumSignificantDigits: 0,
             maximumSignificantDigits: 0,
-            symbols: localizations['ko-KR'].__numberSymbols['latn'],
+            symbols: localizations['ja-JP'].__numberSymbols['latn'],
             paddingCharacter: null,
             patternLength: 9
           });
@@ -1603,7 +5787,7 @@
             maximumFractionDigits: 3,
             minimumSignificantDigits: 0,
             maximumSignificantDigits: 0,
-            symbols: localizations['ko-KR'].__numberSymbols['latn'],
+            symbols: localizations['ja-JP'].__numberSymbols['latn'],
             paddingCharacter: null,
             patternLength: 9
           });
@@ -1696,6 +5880,501 @@
         'one': '{0} {1}',
         'other': '{0} {1}'
       },
+      'INDEX10': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX100': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX11': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX12': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX13': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX14': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX15': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX16': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX17': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX18': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX19': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX2': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX20': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX21': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX22': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX23': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX24': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX25': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX26': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX27': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX28': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX29': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX3': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX30': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX31': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX32': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX33': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX34': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX35': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX36': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX37': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX38': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX39': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX4': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX40': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX41': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX42': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX43': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX44': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX45': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX46': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX47': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX48': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX49': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX5': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX50': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX51': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX52': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX53': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX54': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX55': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX56': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX57': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX58': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX59': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX6': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX60': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX61': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX62': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX63': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX64': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX65': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX66': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX67': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX68': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX69': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX7': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX70': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX71': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX72': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX73': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX74': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX75': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX76': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX77': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX78': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX79': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX8': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX80': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX81': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX82': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX83': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX84': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX85': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX86': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX87': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX88': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX89': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX9': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX90': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX91': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX92': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX93': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX94': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX95': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX96': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX97': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX98': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX99': function(it) {
+        var string = '';
+
+        return string;
+      },
       'INDEX1': function(it) {
         var string = '';
         var numberString = '';
@@ -1747,6 +6426,602 @@
             minimumSignificantDigits: 0,
             maximumSignificantDigits: 0,
             symbols: localizations['sv-SE'].__numberSymbols['latn'],
+            paddingCharacter: null,
+            patternLength: 9
+          });
+        }
+        string += numberString;
+        return string;
+      }
+    },
+    'ko-KR': {
+      '__getPluralKeyword': function(cardinal) {
+        return 'other';
+      },
+      '__getOrdinalKeyword': function(cardinal) {
+        return 'other';
+      },
+      '__numberSymbols': {
+        'latn': {
+          'decimal': '.',
+          'group': ',',
+          'list': ';',
+          'percentSign': '%',
+          'plusSign': '+',
+          'minusSign': '-',
+          'exponential': 'E',
+          'superscriptingExponent': '×',
+          'perMille': '‰',
+          'infinity': '∞',
+          'nan': 'NaN',
+          'timeSeparator': ':'
+        }
+      },
+      '__currencies': {
+        'USD': {
+          'name': '미국 달러',
+          'text': {
+            'local': null,
+            'global': {
+              'other': '미국 달러'
+            }
+          },
+          'symbol': {
+            'local': '$',
+            'global': 'US$',
+            'reverseGlobal': '$US'
+          }
+        }
+      },
+      '__currencyUnitPattern': {
+        'other': '{0} {1}'
+      },
+      'INDEX10': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX100': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX11': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX12': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX13': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX14': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX15': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX16': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX17': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX18': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX19': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX2': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX20': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX21': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX22': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX23': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX24': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX25': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX26': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX27': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX28': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX29': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX3': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX30': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX31': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX32': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX33': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX34': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX35': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX36': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX37': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX38': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX39': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX4': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX40': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX41': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX42': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX43': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX44': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX45': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX46': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX47': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX48': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX49': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX5': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX50': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX51': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX52': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX53': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX54': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX55': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX56': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX57': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX58': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX59': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX6': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX60': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX61': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX62': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX63': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX64': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX65': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX66': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX67': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX68': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX69': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX7': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX70': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX71': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX72': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX73': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX74': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX75': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX76': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX77': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX78': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX79': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX8': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX80': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX81': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX82': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX83': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX84': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX85': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX86': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX87': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX88': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX89': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX9': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX90': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX91': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX92': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX93': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX94': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX95': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX96': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX97': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX98': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX99': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX1': function(it) {
+        var string = '';
+        var numberString = '';
+        if(it.floor >= 0) {
+          numberString += formatNumber({
+            number: it.floor,
+            type: 'floating',
+            roundTo: 0.001,
+            prefix: '',
+            suffix: '',
+            percentage: null,
+            permille: null,
+            currency: null,
+            groupSize: {
+              primary: 3,
+              secondary: 3
+            },
+            exponent: null,
+            minimumIntegerDigits: 1,
+            maximumIntegerDigits: 4,
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 3,
+            minimumSignificantDigits: 0,
+            maximumSignificantDigits: 0,
+            symbols: localizations['ko-KR'].__numberSymbols['latn'],
+            paddingCharacter: null,
+            patternLength: 9
+          });
+        }
+        else {
+          numberString += formatNumber({
+            number: it.floor,
+            type: 'floating',
+            roundTo: 0.001,
+            prefix: '-',
+            suffix: '',
+            percentage: null,
+            permille: null,
+            currency: null,
+            groupSize: {
+              primary: 3,
+              secondary: 3
+            },
+            exponent: null,
+            minimumIntegerDigits: 1,
+            maximumIntegerDigits: 4,
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 3,
+            minimumSignificantDigits: 0,
+            maximumSignificantDigits: 0,
+            symbols: localizations['ko-KR'].__numberSymbols['latn'],
             paddingCharacter: null,
             patternLength: 9
           });
@@ -1810,6 +7085,501 @@
       },
       '__currencyUnitPattern': {
         'other': '{0}{1}'
+      },
+      'INDEX10': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX100': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX11': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX12': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX13': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX14': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX15': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX16': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX17': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX18': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX19': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX2': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX20': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX21': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX22': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX23': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX24': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX25': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX26': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX27': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX28': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX29': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX3': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX30': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX31': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX32': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX33': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX34': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX35': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX36': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX37': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX38': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX39': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX4': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX40': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX41': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX42': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX43': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX44': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX45': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX46': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX47': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX48': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX49': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX5': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX50': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX51': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX52': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX53': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX54': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX55': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX56': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX57': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX58': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX59': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX6': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX60': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX61': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX62': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX63': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX64': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX65': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX66': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX67': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX68': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX69': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX7': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX70': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX71': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX72': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX73': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX74': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX75': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX76': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX77': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX78': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX79': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX8': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX80': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX81': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX82': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX83': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX84': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX85': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX86': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX87': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX88': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX89': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX9': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX90': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX91': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX92': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX93': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX94': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX95': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX96': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX97': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX98': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX99': function(it) {
+        var string = '';
+
+        return string;
       },
       'INDEX1': function(it) {
         var string = '';
@@ -1925,6 +7695,501 @@
       },
       '__currencyUnitPattern': {
         'other': '{0}{1}'
+      },
+      'INDEX10': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX100': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX11': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX12': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX13': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX14': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX15': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX16': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX17': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX18': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX19': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX2': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX20': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX21': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX22': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX23': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX24': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX25': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX26': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX27': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX28': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX29': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX3': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX30': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX31': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX32': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX33': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX34': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX35': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX36': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX37': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX38': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX39': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX4': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX40': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX41': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX42': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX43': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX44': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX45': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX46': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX47': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX48': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX49': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX5': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX50': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX51': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX52': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX53': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX54': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX55': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX56': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX57': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX58': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX59': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX6': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX60': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX61': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX62': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX63': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX64': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX65': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX66': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX67': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX68': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX69': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX7': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX70': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX71': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX72': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX73': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX74': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX75': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX76': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX77': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX78': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX79': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX8': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX80': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX81': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX82': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX83': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX84': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX85': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX86': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX87': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX88': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX89': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX9': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX90': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX91': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX92': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX93': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX94': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX95': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX96': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX97': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX98': function(it) {
+        var string = '';
+
+        return string;
+      },
+      'INDEX99': function(it) {
+        var string = '';
+
+        return string;
       },
       'INDEX1': function(it) {
         var string = '';
