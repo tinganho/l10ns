@@ -633,7 +633,12 @@ Compiler.prototype._compileDateFormat = function(dateFormat) {
   result += this.linefeed;
 
   dateFormat.AST.forEach(function(component) {
-    if(component instanceof MessageFormat.AST.date.Era) {
+    if(component instanceof MessageFormat.AST.date.Sentence) {
+      result += template['DateSentence']({
+        sentence: component.sentence
+      });
+    }
+    else if(component instanceof MessageFormat.AST.date.Era) {
       var eraFormat;
       switch(component.format) {
         case MessageFormat.AST.date.Era.Formats.ABBREVIATED:

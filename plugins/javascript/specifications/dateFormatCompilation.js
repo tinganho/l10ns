@@ -15,6 +15,26 @@ var setDateBlock =
   'var date_ = date.getDate();\n';
 
 describe('DateFormat', function() {
+  describe('Sentence', function() {
+    it('should be able to compile a sentence', function(done) {
+      var localizations = getLocalizations('{variable1, date, \'test\'}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'dateString += \'test\';\n' +
+          'string += dateString;\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+  });
+
   describe('Era', function() {
     it('should be able to compile an abbreviated era', function(done) {
       var localizations = getLocalizations('{variable1, date, G}');
