@@ -236,7 +236,7 @@
   }
 
   var localizations = {
-    'zh-CN': {
+    'ko-KR': {
       '__getPluralKeyword': function(cardinal) {
         return 'other';
       },
@@ -244,20 +244,6 @@
         return 'other';
       },
       '__numberSymbols': {
-        'hanidec': {
-          'decimal': '.',
-          'group': ',',
-          'list': ';',
-          'percentSign': '%',
-          'plusSign': '+',
-          'minusSign': '-',
-          'exponential': 'E',
-          'superscriptingExponent': '×',
-          'perMille': '‰',
-          'infinity': '∞',
-          'nan': 'NaN',
-          'timeSeparator': ':'
-        },
         'latn': {
           'decimal': '.',
           'group': ',',
@@ -275,11 +261,11 @@
       },
       '__currencies': {
         'USD': {
-          'name': '美元',
+          'name': '미국 달러',
           'text': {
             'local': null,
             'global': {
-              'other': '美元'
+              'other': '미국 달러'
             }
           },
           'symbol': {
@@ -290,7 +276,7 @@
         }
       },
       '__currencyUnitPattern': {
-        'other': '{0}{1}'
+        'other': '{0} {1}'
       },
       'INDEX1': function(it) {
         var string = '';
@@ -316,7 +302,7 @@
             maximumFractionDigits: 3,
             minimumSignificantDigits: 0,
             maximumSignificantDigits: 0,
-            symbols: localizations['zh-CN'].__numberSymbols['latn'],
+            symbols: localizations['ko-KR'].__numberSymbols['latn'],
             paddingCharacter: null,
             patternLength: 9
           });
@@ -342,7 +328,7 @@
             maximumFractionDigits: 3,
             minimumSignificantDigits: 0,
             maximumSignificantDigits: 0,
-            symbols: localizations['zh-CN'].__numberSymbols['latn'],
+            symbols: localizations['ko-KR'].__numberSymbols['latn'],
             paddingCharacter: null,
             patternLength: 9
           });
@@ -354,10 +340,10 @@
   };
 
   function l(key) {
-    if(!(key in localizations['zh-CN'])) {
-    	throw new TypeError('Key `' + key + '` not in zh-CN localizations');
+    if(!(key in localizations['ko-KR'])) {
+    	throw new TypeError('Key `' + key + '` not in ko-KR localizations');
     }
-    return localizations['zh-CN'][key].call(undefined, arguments[1]);
+    return localizations['ko-KR'][key].call(undefined, arguments[1]);
   }
 
   if(typeof require === "function" && typeof exports === 'object' && typeof module === 'object') {

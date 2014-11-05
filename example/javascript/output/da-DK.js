@@ -236,31 +236,37 @@
   }
 
   var localizations = {
-    'zh-CN': {
+    'da-DK': {
       '__getPluralKeyword': function(cardinal) {
+        var cardinal = cardinal + ''
+          , n = cardinal
+          , i = parseInt(cardinal, 10)
+          , v = 0
+          , w = 0
+          , f = 0
+          , t = 0;
+
+        var hasFractionalDigitsSyntax = /\.(\d+)/;
+
+        if(hasFractionalDigitsSyntax.test(cardinal)) {
+          f = hasFractionalDigitsSyntax.exec(cardinal)[1];
+          v = f.length;
+          t = cardinal.replace(/0+$/, '');
+          t = hasFractionalDigitsSyntax.exec(t)[1];
+          w = t.length;
+        }
+        if(n === 1 || t !== 0 && i === 0 && i === 1) {
+          return 'one';
+        }
         return 'other';
       },
       '__getOrdinalKeyword': function(cardinal) {
         return 'other';
       },
       '__numberSymbols': {
-        'hanidec': {
-          'decimal': '.',
-          'group': ',',
-          'list': ';',
-          'percentSign': '%',
-          'plusSign': '+',
-          'minusSign': '-',
-          'exponential': 'E',
-          'superscriptingExponent': '×',
-          'perMille': '‰',
-          'infinity': '∞',
-          'nan': 'NaN',
-          'timeSeparator': ':'
-        },
         'latn': {
-          'decimal': '.',
-          'group': ',',
+          'decimal': ',',
+          'group': '.',
           'list': ';',
           'percentSign': '%',
           'plusSign': '+',
@@ -270,16 +276,17 @@
           'perMille': '‰',
           'infinity': '∞',
           'nan': 'NaN',
-          'timeSeparator': ':'
+          'timeSeparator': '.'
         }
       },
       '__currencies': {
         'USD': {
-          'name': '美元',
+          'name': 'Amerikansk dollar',
           'text': {
             'local': null,
             'global': {
-              'other': '美元'
+              'one': 'Amerikansk dollar',
+              'other': 'Amerikanske dollar'
             }
           },
           'symbol': {
@@ -290,7 +297,8 @@
         }
       },
       '__currencyUnitPattern': {
-        'other': '{0}{1}'
+        'one': '{0} {1}',
+        'other': '{0} {1}'
       },
       'INDEX1': function(it) {
         var string = '';
@@ -316,7 +324,7 @@
             maximumFractionDigits: 3,
             minimumSignificantDigits: 0,
             maximumSignificantDigits: 0,
-            symbols: localizations['zh-CN'].__numberSymbols['latn'],
+            symbols: localizations['da-DK'].__numberSymbols['latn'],
             paddingCharacter: null,
             patternLength: 9
           });
@@ -342,7 +350,7 @@
             maximumFractionDigits: 3,
             minimumSignificantDigits: 0,
             maximumSignificantDigits: 0,
-            symbols: localizations['zh-CN'].__numberSymbols['latn'],
+            symbols: localizations['da-DK'].__numberSymbols['latn'],
             paddingCharacter: null,
             patternLength: 9
           });
@@ -354,10 +362,10 @@
   };
 
   function l(key) {
-    if(!(key in localizations['zh-CN'])) {
-    	throw new TypeError('Key `' + key + '` not in zh-CN localizations');
+    if(!(key in localizations['da-DK'])) {
+    	throw new TypeError('Key `' + key + '` not in da-DK localizations');
     }
-    return localizations['zh-CN'][key].call(undefined, arguments[1]);
+    return localizations['da-DK'][key].call(undefined, arguments[1]);
   }
 
   if(typeof require === "function" && typeof exports === 'object' && typeof module === 'object') {

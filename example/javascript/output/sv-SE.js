@@ -236,50 +236,77 @@
   }
 
   var localizations = {
-    'zh-CN': {
+    'sv-SE': {
       '__getPluralKeyword': function(cardinal) {
+        var cardinal = cardinal + ''
+          , n = cardinal
+          , i = parseInt(cardinal, 10)
+          , v = 0
+          , w = 0
+          , f = 0
+          , t = 0;
+
+        var hasFractionalDigitsSyntax = /\.(\d+)/;
+
+        if(hasFractionalDigitsSyntax.test(cardinal)) {
+          f = hasFractionalDigitsSyntax.exec(cardinal)[1];
+          v = f.length;
+          t = cardinal.replace(/0+$/, '');
+          t = hasFractionalDigitsSyntax.exec(t)[1];
+          w = t.length;
+        }
+        if(i === 1 && v === 0) {
+          return 'one';
+        }
         return 'other';
       },
       '__getOrdinalKeyword': function(cardinal) {
+        var cardinal = cardinal + ''
+          , n = cardinal
+          , i = parseInt(cardinal, 10)
+          , v = 0
+          , w = 0
+          , f = 0
+          , t = 0;
+
+        var hasFractionalDigitsSyntax = /\.(\d+)/;
+
+        if(hasFractionalDigitsSyntax.test(cardinal)) {
+          f = hasFractionalDigitsSyntax.exec(cardinal)[1];
+          v = f.length;
+          t = cardinal.replace(/0+$/, '');
+          t = hasFractionalDigitsSyntax.exec(t)[1];
+          w = t.length;
+        }
+        if(n % 10 === 1 && n % 10 === 2 && n % 100 !== 11 && n % 100 !== 12) {
+          return 'one';
+        }
         return 'other';
       },
       '__numberSymbols': {
-        'hanidec': {
-          'decimal': '.',
-          'group': ',',
-          'list': ';',
-          'percentSign': '%',
-          'plusSign': '+',
-          'minusSign': '-',
-          'exponential': 'E',
-          'superscriptingExponent': '×',
-          'perMille': '‰',
-          'infinity': '∞',
-          'nan': 'NaN',
-          'timeSeparator': ':'
-        },
         'latn': {
-          'decimal': '.',
-          'group': ',',
+          'decimal': ',',
+          'group': ' ',
           'list': ';',
           'percentSign': '%',
           'plusSign': '+',
-          'minusSign': '-',
-          'exponential': 'E',
-          'superscriptingExponent': '×',
+          'minusSign': '−',
+          'exponential': '×10^',
+          'superscriptingExponent': '·',
           'perMille': '‰',
           'infinity': '∞',
-          'nan': 'NaN',
+          'nan': '¤¤¤',
           'timeSeparator': ':'
         }
       },
       '__currencies': {
         'USD': {
-          'name': '美元',
+          'name': 'US-dollar',
           'text': {
             'local': null,
             'global': {
-              'other': '美元'
+              'one': 'US-dollar',
+              'other': 'US-dollar'
             }
           },
           'symbol': {
@@ -290,7 +317,8 @@
         }
       },
       '__currencyUnitPattern': {
-        'other': '{0}{1}'
+        'one': '{0} {1}',
+        'other': '{0} {1}'
       },
       'INDEX1': function(it) {
         var string = '';
@@ -316,7 +344,7 @@
             maximumFractionDigits: 3,
             minimumSignificantDigits: 0,
             maximumSignificantDigits: 0,
-            symbols: localizations['zh-CN'].__numberSymbols['latn'],
+            symbols: localizations['sv-SE'].__numberSymbols['latn'],
             paddingCharacter: null,
             patternLength: 9
           });
@@ -342,7 +370,7 @@
             maximumFractionDigits: 3,
             minimumSignificantDigits: 0,
             maximumSignificantDigits: 0,
-            symbols: localizations['zh-CN'].__numberSymbols['latn'],
+            symbols: localizations['sv-SE'].__numberSymbols['latn'],
             paddingCharacter: null,
             patternLength: 9
           });
@@ -354,10 +382,10 @@
   };
 
   function l(key) {
-    if(!(key in localizations['zh-CN'])) {
-    	throw new TypeError('Key `' + key + '` not in zh-CN localizations');
+    if(!(key in localizations['sv-SE'])) {
+    	throw new TypeError('Key `' + key + '` not in sv-SE localizations');
     }
-    return localizations['zh-CN'][key].call(undefined, arguments[1]);
+    return localizations['sv-SE'][key].call(undefined, arguments[1]);
   }
 
   if(typeof require === "function" && typeof exports === 'object' && typeof module === 'object') {

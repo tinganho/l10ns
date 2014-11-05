@@ -3,10 +3,23 @@
     "javascript": {
       "programmingLanguage": "javascript",
       "locales": {
-        "en-US": "English",
+        "en-US": "English (US)",
+        "es-MX": "Mexican",
+        "fr-CA": "French (CA)",
+
+        "ja-JP": "Arabic",
+        "ko-KR": "Korean",
         "zh-CN": "Chinese",
-        "ar-AE": "Arabic",
-        "ja-JP": "Japanese"
+        "zh-HK": "Chinese (HK)",
+
+        "de-DE": "German",
+        "es-ES": "German",
+        "fr-CA": "French",
+
+        "da-DK": "Danish",
+        "fi-FI": "Finish",
+        "is-IS": "Icelandish",
+        "sv-SE": "Swedish"
       },
       "quiet" : false,
       "defaultLocale": "en-US",

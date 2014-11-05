@@ -1,5 +1,5 @@
 var requireLocalizations = require('./output/all')
-var l = requireLocalizations('ar-AE');
+var l = requireLocalizations('sv-SE');
 
 var localizations = {
   'locale1': l('INDEX1', {

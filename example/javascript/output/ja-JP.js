@@ -280,7 +280,60 @@
       },
       'INDEX1': function(it) {
         var string = '';
-
+        var numberString = '';
+        if(it.floor >= 0) {
+          numberString += formatNumber({
+            number: it.floor,
+            type: 'floating',
+            roundTo: 0.001,
+            prefix: '',
+            suffix: '',
+            percentage: null,
+            permille: null,
+            currency: null,
+            groupSize: {
+              primary: 3,
+              secondary: 3
+            },
+            exponent: null,
+            minimumIntegerDigits: 1,
+            maximumIntegerDigits: 4,
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 3,
+            minimumSignificantDigits: 0,
+            maximumSignificantDigits: 0,
+            symbols: localizations['ja-JP'].__numberSymbols['latn'],
+            paddingCharacter: null,
+            patternLength: 9
+          });
+        }
+        else {
+          numberString += formatNumber({
+            number: it.floor,
+            type: 'floating',
+            roundTo: 0.001,
+            prefix: '-',
+            suffix: '',
+            percentage: null,
+            permille: null,
+            currency: null,
+            groupSize: {
+              primary: 3,
+              secondary: 3
+            },
+            exponent: null,
+            minimumIntegerDigits: 1,
+            maximumIntegerDigits: 4,
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 3,
+            minimumSignificantDigits: 0,
+            maximumSignificantDigits: 0,
+            symbols: localizations['ja-JP'].__numberSymbols['latn'],
+            paddingCharacter: null,
+            patternLength: 9
+          });
+        }
+        string += numberString;
         return string;
       }
     }

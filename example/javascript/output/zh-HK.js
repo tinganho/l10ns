@@ -236,7 +236,7 @@
   }
 
   var localizations = {
-    'zh-CN': {
+    'zh-HK': {
       '__getPluralKeyword': function(cardinal) {
         return 'other';
       },
@@ -316,7 +316,7 @@
             maximumFractionDigits: 3,
             minimumSignificantDigits: 0,
             maximumSignificantDigits: 0,
-            symbols: localizations['zh-CN'].__numberSymbols['latn'],
+            symbols: localizations['zh-HK'].__numberSymbols['latn'],
             paddingCharacter: null,
             patternLength: 9
           });
@@ -342,7 +342,7 @@
             maximumFractionDigits: 3,
             minimumSignificantDigits: 0,
             maximumSignificantDigits: 0,
-            symbols: localizations['zh-CN'].__numberSymbols['latn'],
+            symbols: localizations['zh-HK'].__numberSymbols['latn'],
             paddingCharacter: null,
             patternLength: 9
           });
@@ -354,10 +354,10 @@
   };
 
   function l(key) {
-    if(!(key in localizations['zh-CN'])) {
-    	throw new TypeError('Key `' + key + '` not in zh-CN localizations');
+    if(!(key in localizations['zh-HK'])) {
+    	throw new TypeError('Key `' + key + '` not in zh-HK localizations');
     }
-    return localizations['zh-CN'][key].call(undefined, arguments[1]);
+    return localizations['zh-HK'][key].call(undefined, arguments[1]);
   }
 
   if(typeof require === "function" && typeof exports === 'object' && typeof module === 'object') {

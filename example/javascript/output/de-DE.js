@@ -236,37 +236,43 @@
   }
 
   var localizations = {
-    'zh-CN': {
+    'de-DE': {
       '__getPluralKeyword': function(cardinal) {
+        var cardinal = cardinal + ''
+          , n = cardinal
+          , i = parseInt(cardinal, 10)
+          , v = 0
+          , w = 0
+          , f = 0
+          , t = 0;
+
+        var hasFractionalDigitsSyntax = /\.(\d+)/;
+
+        if(hasFractionalDigitsSyntax.test(cardinal)) {
+          f = hasFractionalDigitsSyntax.exec(cardinal)[1];
+          v = f.length;
+          t = cardinal.replace(/0+$/, '');
+          t = hasFractionalDigitsSyntax.exec(t)[1];
+          w = t.length;
+        }
+        if(i === 1 && v === 0) {
+          return 'one';
+        }
         return 'other';
       },
       '__getOrdinalKeyword': function(cardinal) {
         return 'other';
       },
       '__numberSymbols': {
-        'hanidec': {
-          'decimal': '.',
-          'group': ',',
-          'list': ';',
-          'percentSign': '%',
-          'plusSign': '+',
-          'minusSign': '-',
-          'exponential': 'E',
-          'superscriptingExponent': '×',
-          'perMille': '‰',
-          'infinity': '∞',
-          'nan': 'NaN',
-          'timeSeparator': ':'
-        },
         'latn': {
-          'decimal': '.',
-          'group': ',',
+          'decimal': ',',
+          'group': '.',
           'list': ';',
           'percentSign': '%',
           'plusSign': '+',
           'minusSign': '-',
           'exponential': 'E',
-          'superscriptingExponent': '×',
+          'superscriptingExponent': '·',
           'perMille': '‰',
           'infinity': '∞',
           'nan': 'NaN',
@@ -275,11 +281,12 @@
       },
       '__currencies': {
         'USD': {
-          'name': '美元',
+          'name': 'US-Dollar',
           'text': {
             'local': null,
             'global': {
-              'other': '美元'
+              'one': 'US-Dollar',
+              'other': 'US-Dollar'
             }
           },
           'symbol': {
@@ -290,7 +297,8 @@
         }
       },
       '__currencyUnitPattern': {
-        'other': '{0}{1}'
+        'one': '{0} {1}',
+        'other': '{0} {1}'
       },
       'INDEX1': function(it) {
         var string = '';
@@ -316,7 +324,7 @@
             maximumFractionDigits: 3,
             minimumSignificantDigits: 0,
             maximumSignificantDigits: 0,
-            symbols: localizations['zh-CN'].__numberSymbols['latn'],
+            symbols: localizations['de-DE'].__numberSymbols['latn'],
             paddingCharacter: null,
             patternLength: 9
           });
@@ -342,7 +350,7 @@
             maximumFractionDigits: 3,
             minimumSignificantDigits: 0,
             maximumSignificantDigits: 0,
-            symbols: localizations['zh-CN'].__numberSymbols['latn'],
+            symbols: localizations['de-DE'].__numberSymbols['latn'],
             paddingCharacter: null,
             patternLength: 9
           });
@@ -354,10 +362,10 @@
   };
 
   function l(key) {
-    if(!(key in localizations['zh-CN'])) {
-    	throw new TypeError('Key `' + key + '` not in zh-CN localizations');
+    if(!(key in localizations['de-DE'])) {
+    	throw new TypeError('Key `' + key + '` not in de-DE localizations');
     }
-    return localizations['zh-CN'][key].call(undefined, arguments[1]);
+    return localizations['de-DE'][key].call(undefined, arguments[1]);
   }
 
   if(typeof require === "function" && typeof exports === 'object' && typeof module === 'object') {

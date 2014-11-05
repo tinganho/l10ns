@@ -236,31 +236,57 @@
   }
 
   var localizations = {
-    'zh-CN': {
+    'fr-CA': {
       '__getPluralKeyword': function(cardinal) {
+        var cardinal = cardinal + ''
+          , n = cardinal
+          , i = parseInt(cardinal, 10)
+          , v = 0
+          , w = 0
+          , f = 0
+          , t = 0;
+
+        var hasFractionalDigitsSyntax = /\.(\d+)/;
+
+        if(hasFractionalDigitsSyntax.test(cardinal)) {
+          f = hasFractionalDigitsSyntax.exec(cardinal)[1];
+          v = f.length;
+          t = cardinal.replace(/0+$/, '');
+          t = hasFractionalDigitsSyntax.exec(t)[1];
+          w = t.length;
+        }
+        if(i === 0 && i === 1) {
+          return 'one';
+        }
         return 'other';
       },
       '__getOrdinalKeyword': function(cardinal) {
+        var cardinal = cardinal + ''
+          , n = cardinal
+          , i = parseInt(cardinal, 10)
+          , v = 0
+          , w = 0
+          , f = 0
+          , t = 0;
+
+        var hasFractionalDigitsSyntax = /\.(\d+)/;
+
+        if(hasFractionalDigitsSyntax.test(cardinal)) {
+          f = hasFractionalDigitsSyntax.exec(cardinal)[1];
+          v = f.length;
+          t = cardinal.replace(/0+$/, '');
+          t = hasFractionalDigitsSyntax.exec(t)[1];
+          w = t.length;
+        }
+        if(n === 1) {
+          return 'one';
+        }
         return 'other';
       },
       '__numberSymbols': {
-        'hanidec': {
-          'decimal': '.',
-          'group': ',',
-          'list': ';',
-          'percentSign': '%',
-          'plusSign': '+',
-          'minusSign': '-',
-          'exponential': 'E',
-          'superscriptingExponent': '×',
-          'perMille': '‰',
-          'infinity': '∞',
-          'nan': 'NaN',
-          'timeSeparator': ':'
-        },
         'latn': {
-          'decimal': '.',
-          'group': ',',
+          'decimal': ',',
+          'group': ' ',
           'list': ';',
           'percentSign': '%',
           'plusSign': '+',
@@ -273,24 +299,10 @@
           'timeSeparator': ':'
         }
       },
-      '__currencies': {
-        'USD': {
-          'name': '美元',
-          'text': {
-            'local': null,
-            'global': {
-              'other': '美元'
-            }
-          },
-          'symbol': {
-            'local': '$',
-            'global': 'US$',
-            'reverseGlobal': '$US'
-          }
-        }
-      },
+      '__currencies': {},
       '__currencyUnitPattern': {
-        'other': '{0}{1}'
+        'one': '{0} {1}',
+        'other': '{0} {1}'
       },
       'INDEX1': function(it) {
         var string = '';
@@ -299,52 +311,46 @@
           numberString += formatNumber({
             number: it.floor,
             type: 'floating',
-            roundTo: 0.001,
+            roundTo: 1,
             prefix: '',
-            suffix: '',
+            suffix: ' G',
             percentage: null,
             permille: null,
             currency: null,
-            groupSize: {
-              primary: 3,
-              secondary: 3
-            },
+            groupSize: null,
             exponent: null,
             minimumIntegerDigits: 1,
-            maximumIntegerDigits: 4,
+            maximumIntegerDigits: 1,
             minimumFractionDigits: 0,
-            maximumFractionDigits: 3,
+            maximumFractionDigits: 0,
             minimumSignificantDigits: 0,
             maximumSignificantDigits: 0,
-            symbols: localizations['zh-CN'].__numberSymbols['latn'],
+            symbols: localizations['fr-CA'].__numberSymbols['latn'],
             paddingCharacter: null,
-            patternLength: 9
+            patternLength: 3
           });
         }
         else {
           numberString += formatNumber({
             number: it.floor,
             type: 'floating',
-            roundTo: 0.001,
+            roundTo: 1,
             prefix: '-',
-            suffix: '',
+            suffix: ' G',
             percentage: null,
             permille: null,
             currency: null,
-            groupSize: {
-              primary: 3,
-              secondary: 3
-            },
+            groupSize: null,
             exponent: null,
             minimumIntegerDigits: 1,
-            maximumIntegerDigits: 4,
+            maximumIntegerDigits: 1,
             minimumFractionDigits: 0,
-            maximumFractionDigits: 3,
+            maximumFractionDigits: 0,
             minimumSignificantDigits: 0,
             maximumSignificantDigits: 0,
-            symbols: localizations['zh-CN'].__numberSymbols['latn'],
+            symbols: localizations['fr-CA'].__numberSymbols['latn'],
             paddingCharacter: null,
-            patternLength: 9
+            patternLength: 3
           });
         }
         string += numberString;
@@ -354,10 +360,10 @@
   };
 
   function l(key) {
-    if(!(key in localizations['zh-CN'])) {
-    	throw new TypeError('Key `' + key + '` not in zh-CN localizations');
+    if(!(key in localizations['fr-CA'])) {
+    	throw new TypeError('Key `' + key + '` not in fr-CA localizations');
     }
-    return localizations['zh-CN'][key].call(undefined, arguments[1]);
+    return localizations['fr-CA'][key].call(undefined, arguments[1]);
   }
 
   if(typeof require === "function" && typeof exports === 'object' && typeof module === 'object') {

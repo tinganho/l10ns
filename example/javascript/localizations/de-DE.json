@@ -5,8 +5,8 @@
     ],
     "id": "nKo6pgdphy",
     "key": "INDEX1",
-    "new": false,
-    "timestamp": "2014-10-15T07:22:56.178Z",
+    "new": true,
+    "timestamp": "2014-11-05T09:25:03.361Z",
     "value": "{floor, number, integer}",
     "variables": [
       "floor"
