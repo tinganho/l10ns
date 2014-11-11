@@ -42,4 +42,22 @@ describe('Sentences', function() {
       done();
     });
   });
+
+  it('should be able to compile a sentence with single quotes', function(done) {
+    var localizations = getLocalizations('sentence1\'')
+      , dependencies = getDependencies(localizations)
+      , compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+    compiler.run();
+    eventually(function() {
+      var functionBody =
+      'var string = \'\';\n' +
+      'string += \'sentence1\\\'\';\n' +
+      'return string;';
+      expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+        functionBody: indentSpaces(8, functionBody)
+      }));
+      done();
+    });
+  });
 });

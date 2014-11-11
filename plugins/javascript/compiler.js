@@ -71,7 +71,6 @@ Compiler.prototype.run = function() {
         throw new TypeError('You must define an output in your l10ns.json file.');
       }
 
-
       for(var locale in localizationsMap) {
         var stringMap = template['LocalizationsMap']({
           localizations: _this._indentSpaces(2, localizationsMap[locale])
@@ -257,7 +256,7 @@ Compiler.prototype._getFunctionBody = function(messageAST, locale) {
 
   for(var index = 0; index < messageAST.length; index++) {
     if(messageAST[index] instanceof MessageFormat.AST.Sentence) {
-      result += template['Sentence']({ sentence: messageAST[index].string });
+      result += template['Sentence']({ sentence: messageAST[index].string.replace(/'/g, '\\\'') });
     }
     else if(messageAST[index] instanceof MessageFormat.AST.Variable) {
       result += template['Variable']({ variableName: messageAST[index].name });
