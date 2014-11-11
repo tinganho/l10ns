@@ -52,6 +52,8 @@
     "lunr": "~0.4.3",
     "mkdirp": "~0.5.0",
     "mocha": "~1.8.2",
+    "moment": "^2.8.3",
+    "moment-timezone": "^0.2.4",
     "open": "0.0.3",
     "prompt": "~0.2.12",
     "proxyquire": "~0.5.2",

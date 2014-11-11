@@ -136,7 +136,8 @@ module.exports = function(grunt) {
     },
 
     clean: {
-      css: ['interface/public/styles/*']
+      css: ['interface/public/styles/*'],
+      data: ['temp']
     },
 
     dot: {
@@ -282,6 +283,8 @@ module.exports = function(grunt) {
     }
   });
 
+  // Load custom tasks
+  grunt.loadTasks('tasks');
 
   // Load npm tasks
   grunt.loadNpmTasks('grunt-contrib-jshint');
