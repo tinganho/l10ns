@@ -256,7 +256,11 @@ Compiler.prototype._getFunctionBody = function(messageAST, locale) {
 
   for(var index = 0; index < messageAST.length; index++) {
     if(messageAST[index] instanceof MessageFormat.AST.Sentence) {
-      result += template['Sentence']({ sentence: messageAST[index].string.replace(/'/g, '\\\'') });
+      result += template['Sentence']({
+        sentence: messageAST[index].string
+          .replace(/'/g, '\\\'')
+          .replace(/\n/g, '\\n')
+        });
     }
     else if(messageAST[index] instanceof MessageFormat.AST.Variable) {
       result += template['Variable']({ variableName: messageAST[index].name });
