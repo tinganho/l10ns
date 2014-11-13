@@ -10,14 +10,7 @@ module.exports = function (grunt) {
       'data-download:' + version,
       'data-zic:'      + version,
       'data-zdump:'    + version,
-      'data-collect:'  + version,
-      'data-dedupe:'   + version,
-      'data-pack:'     + version,
-      'data-meta:'     + version
+      'data-collect:'  + version
     ]);
-
-    if (version === 'latest') {
-      grunt.task.run('data-tests');
-    }
   });
 };

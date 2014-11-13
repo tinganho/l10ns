@@ -10,7 +10,8 @@ var Lexer = require('../Lexer')
   , path = require('path')
   , LDML = require('../LDML')
   , _ = require('underscore')
-  , currencySymbols = require('./currencySymbols');
+  , currencySymbols = require('./currencySymbols')
+  , moment = require('moment');
 
 /**
  * MessageFormat class
@@ -886,6 +887,59 @@ MessageFormat.prototype._readDocuments = function() {
 };
 
 /**
+ * Read time zone supplemental data
+ *
+ * @return {void}
+ * @api private
+ */
+
+MessageFormat.prototype._readTimeZone = function() {
+  var timeZonePath = path.join(__dirname, '../../CLDR/common/supplemental/metaZones.xml');
+  var timeZoneDocument = xml.parseXmlString(fs.readFileSync(timeZonePath, 'utf-8'), { noblanks: true });
+  var momentTimeZoneData = require(path.join(__dirname, '../../IANA/latest.json'));
+  var timeZones = {};
+  if(project.timeZones) {
+    for(var index in project.timeZones) {
+      var timeZone = project.timeZones[index];
+      timeZones[timeZone] = {
+        name: { long: {}, short: {} }
+      };
+      var mapZone = timeZoneDocument.get('//mapZone[@type=\'' + timeZone + '\']');
+      var mapZoneID = mapZone.attr('other').value();
+      var standarLongTimeZoneName = this._getXMLNode('//metazone[@type=\'' + mapZoneID + '\']/long/standard');
+      if(standarLongTimeZoneName) {
+        timeZones[timeZone].name.long.standard = standarLongTimeZoneName.text()
+      }
+      var daylightLongTimeZoneName = this._getXMLNode('//metazone[@type=\'' + mapZoneID + '\']/long/daylight');
+      if(daylightLongTimeZoneName) {
+        timeZones[timeZone].name.long.daylight = daylightLongTimeZoneName.text()
+      }
+      var genericLongTimeZoneName = this._getXMLNode('//metazone[@type=\'' + mapZoneID + '\']/long/generic');
+      if(genericLongTimeZoneName) {
+        timeZones[timeZone].name.long.generic = genericLongTimeZoneName.text()
+      }
+      var standarShortTimeZoneName = this._getXMLNode('//metazone[@type=\'' + mapZoneID + '\']/short/standard');
+      if(standarShortTimeZoneName) {
+        timeZones[timeZone].name.short.standard = standarShortTimeZoneName.text()
+      }
+      var daylightShortTimeZoneName = this._getXMLNode('//metazone[@type=\'' + mapZoneID + '\']/short/daylight');
+      if(daylightShortTimeZoneName) {
+        timeZones[timeZone].name.short.daylight = daylightShortTimeZoneName.text()
+      }
+      var genericShortTimeZoneName = this._getXMLNode('//metazone[@type=\'' + mapZoneID + '\']/short/generic');
+      if(genericShortTimeZoneName) {
+        timeZones[timeZone].name.short.daylight = genericShortTimeZoneName.text()
+      }
+      timeZones[timeZone].untils = momentTimeZoneData[timeZone].untils;
+      timeZones[timeZone].offsets = momentTimeZoneData[timeZone].offsets;
+      timeZones[timeZone].types = momentTimeZoneData[timeZone].types;
+    }
+  }
+
+  this.timeZones = timeZones;
+};
+
+/**
  * Read number format data such as currency, number symbols and different
  * number patterns.
  *
@@ -1411,6 +1465,10 @@ MessageFormat.prototype._readDateData = function() {
       pm: wideFormatedPeriod.get('./dayPeriod[@type="pm"]').text()
     }
   };
+
+  if(project.timeZones) {
+    this._readTimeZone();
+  }
 };
 
 /**

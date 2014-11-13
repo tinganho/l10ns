@@ -41,7 +41,8 @@ global.language = {
 global.project = {
   cache: {},
   output: '/Application/Localizations/Output',
-  root: '/var/www'
+  root: '/var/www',
+  timeZones: ['Europe/Stockholm', 'America/Los_Angeles']
 };
 
 global.program = {};

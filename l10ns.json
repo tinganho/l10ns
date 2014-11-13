@@ -26,6 +26,10 @@
       "currencies": [
         "USD"
       ],
+      "timeZones": [
+        "Europe/Stockholm",
+        "America/Pacific"
+      ],
       "store": "example/javascript/localizations",
       "output": "example/javascript/output",
       "source": ["example/javascript/**/*.js"],
