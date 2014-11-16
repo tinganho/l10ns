@@ -280,12 +280,85 @@
       },
       'INDEX10': function(it) {
         var string = '';
-
+        var currencyString = '';
+        var unit;
+        if(it.floor.amount && it.floor.code) {
+          if(!localizations['ja-JP'].__currencies[it.floor.code]) {
+            throw new TypeError('Currency code ' + it.floor.code + ' is not defined. Please define it on your l10ns.json file.');
+          }
+          unit = localizations['ja-JP'].__currencies[it.floor.code]['symbol']['local'];
+        }
+        else {
+          throw TypeError('`floor` must be an object that has properties amount and code.');
+        }
+        if(it.floor.amount >= 0) {
+          currencyString += formatNumber({
+            number: it.floor.amount,
+            type: 'floating',
+            roundTo: 0.01,
+            prefix: '¤',
+            suffix: '',
+            percentage: null,
+            permille: null,
+            currency: {
+              symbol: unit
+            },
+            groupSize: {
+              primary: 3,
+              secondary: 3
+            },
+            exponent: null,
+            minimumIntegerDigits: 1,
+            maximumIntegerDigits: 4,
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+            minimumSignificantDigits: 0,
+            maximumSignificantDigits: 0,
+            symbols: localizations['ja-JP'].__numberSymbols['latn'],
+            paddingCharacter: null,
+            patternLength: 9
+          });
+        }
+        else {
+          currencyString += formatNumber({
+            number: it.floor.amount,
+            type: 'floating',
+            roundTo: 0.01,
+            prefix: '(¤',
+            suffix: ')',
+            percentage: null,
+            permille: null,
+            currency: {
+              symbol: unit
+            },
+            groupSize: {
+              primary: 3,
+              secondary: 3
+            },
+            exponent: null,
+            minimumIntegerDigits: 1,
+            maximumIntegerDigits: 4,
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+            minimumSignificantDigits: 0,
+            maximumSignificantDigits: 0,
+            symbols: localizations['ja-JP'].__numberSymbols['latn'],
+            paddingCharacter: null,
+            patternLength: 11
+          });
+        }
+        string += currencyString;
         return string;
       },
       'INDEX100': function(it) {
         var string = '';
-
+        var _case;
+        _case = localizations['ja-JP'].__getPluralKeyword(it.floor);
+        switch(_case) {
+          default:
+            string += 'message-other';
+            break;
+        }
         return string;
       },
       'INDEX11': function(it) {

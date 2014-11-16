@@ -1,10 +1,29 @@
 var date;
 var dateString = '';
-if(typeof it.{{=it.variableName}} === 'string') {
-  date = new Date(it.{{=it.variableName}});
+var year;
+var month;
+var date_;
+var hours;
+var minutes;
+var seconds;
+var milliseconds;
+if(
+  it.{{=it.variableName}} instanceof Date ||
+  it.{{=it.variableName}}.time instanceof Date
+) {
+  if(it.{{=it.variableName}} instanceof Date) {
+    date = it.{{=it.variableName}};
+  }
+  else if(it.{{=it.variableName}}.time instanceof Date){
+    date = new Date(it.{{=it.variableName}});
+  }
+
+  month = date.getUTCHours();
 }
 else {
-  date = it.{{=it.variableName}};
+
 }
-var month = date.getMonth();
-var date_ = date.getDate();
+
+if(typeof it.{{=it.variableName}}.toTimeZone === 'string') {
+
+}

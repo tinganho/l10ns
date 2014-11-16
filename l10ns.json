@@ -28,7 +28,7 @@
       ],
       "timeZones": [
         "Europe/Stockholm",
-        "America/Pacific"
+        "America/Los_Angeles"
       ],
       "store": "example/javascript/localizations",
       "output": "example/javascript/output",

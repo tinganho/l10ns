@@ -905,6 +905,9 @@ MessageFormat.prototype._readTimeZone = function() {
         name: { long: {}, short: {} }
       };
       var mapZone = timeZoneDocument.get('//mapZone[@type=\'' + timeZone + '\']');
+      if(!mapZone) {
+        throw new TypeError('Time zone: ' + timeZone + ' does not exists');
+      }
       var mapZoneID = mapZone.attr('other').value();
       var standarLongTimeZoneName = this._getXMLNode('//metazone[@type=\'' + mapZoneID + '\']/long/standard');
       if(standarLongTimeZoneName) {
