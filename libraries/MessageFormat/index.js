@@ -364,7 +364,7 @@ MessageFormat.prototype._parseSwitchStatement = function(variable) {
   }
 
   switch(type) {
-    case 'date':
+    // case 'date':
     case 'number':
       switchStatement = this._parseSimpleFormat(type, variable);
       break;
