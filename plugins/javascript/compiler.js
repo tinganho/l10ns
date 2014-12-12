@@ -3,18 +3,18 @@
  * Module dependencies
  */
 
-var fs = require('fs')
-  , path = require('path')
-  , syntax = require('./syntax')
-  , template = require('./templates/build/templates')
-  , file = require('../../libraries/file')
-  , log = require('../../libraries/_log')
-  , mkdirp = require('mkdirp')
-  , MessageFormat = require('../../libraries/MessageFormat')
-  , digits = require('./digits')
-  , defer = require('q').defer
-  , LDML = { AST: require('../../libraries/LDML/AST') }
-  , timeZones = require('../../IANA/latest');
+var fs = require('fs');
+var path = require('path');
+var syntax = require('./syntax');
+var template = require('./templates/build/templates');
+var file = require('../../libraries/file');
+var log = require('../../libraries/_log');
+var mkdirp = require('mkdirp');
+var MessageFormat = require('../../libraries/MessageFormat');
+var digits = require('./digits');
+var defer = require('q').defer;
+var LDML = { AST: require('../../libraries/LDML/AST') };
+var timeZones = require('../../IANA/latest');
 
 /**
  * Clean up time zones
@@ -88,8 +88,8 @@ Compiler.prototype.run = function() {
         });
 
         var content = template['JavascriptWrapper']({
-          timeZones: _this._indentSpaces(2, template['DateTimeZones']({
-            timeZones: JSON.stringify(timeZones)
+          timezones: _this._indentSpaces(2, template['DateTimeZones']({
+            timezones: JSON.stringify(timezones, null, 2)
           })),
           roundUpFunction: _this._indentSpaces(2, template['RoundToFunction']()),
           formatNumberFunction: _this._indentSpaces(2, template['FormatNumberFunction']()),
@@ -319,14 +319,14 @@ Compiler.prototype._getFunctionBody = function(messageAST, locale) {
  */
 
 Compiler.prototype._compileRemaining = function(remaining, locale) {
-  var pattern = remaining.pattern
-    , minimumIntegerDigits = 0
-    , maximumIntegerDigits = 0
-    , minimumFractionDigits = 0
-    , maximumFractionDigits = 0
-    , minimumSignificantDigits = 0
-    , maximumSignificantDigits = 0
-    , type = 'floating';
+  var pattern = remaining.pattern;
+  var minimumIntegerDigits = 0;
+  var maximumIntegerDigits = 0;
+  var minimumFractionDigits = 0;
+  var maximumFractionDigits = 0;
+  var minimumSignificantDigits = 0;
+  var maximumSignificantDigits = 0;
+  var type = 'floating';
 
   if(pattern instanceof MessageFormat.AST.NumberFormatPattern._SignificantNumberFormat) {
     type = 'significant';
@@ -397,10 +397,10 @@ Compiler.prototype._compileRemaining = function(remaining, locale) {
  */
 
 Compiler.prototype._compileNumberFormat = function(numberFormat) {
-  var _this = this
-    , result = ''
-    , signs = ['positive', 'negative']
-    , _case = {};
+  var _this = this;
+  var result = '';
+  var signs = ['positive', 'negative'];
+  var _case = {};
 
   signs.forEach(function(sign) {
     var pattern = numberFormat.pattern[sign];
@@ -514,9 +514,9 @@ Compiler.prototype._compileNumberFormat = function(numberFormat) {
  */
 
 Compiler.prototype._compileCurrencyFormat = function(currencyFormat) {
-  var result = ''
-    , signs = ['positive', 'negative']
-    , _case = {};
+  var result = '';
+  var signs = ['positive', 'negative'];
+  var _case = {};
 
   signs.forEach(function(sign) {
     var pattern = currencyFormat.pattern[sign];
@@ -1031,10 +1031,10 @@ Compiler.prototype._compileSelectFormat = function(selectFormat) {
  */
 
 Compiler.prototype._compilePluralFormat = function(pluralFormat, locale) {
-  var switchBody = ''
-    , setCaseStatement = ''
-    , exactCases = []
-    , conditionOrder = 'if';
+  var switchBody = '';
+  var setCaseStatement = '';
+  var exactCases = [];
+  var conditionOrder = 'if';
 
   for(var _case in pluralFormat.values) {
     var caseBody = this._getFunctionBody(pluralFormat.values[_case], locale);
@@ -1098,10 +1098,10 @@ Compiler.prototype._compilePluralFormat = function(pluralFormat, locale) {
  */
 
 Compiler.prototype._compileSelectordinalFormat = function(selectordinalFormat, locale) {
-  var switchBody = ''
-    , setCaseStatement = ''
-    , exactCases = []
-    , conditionOrder = 'if';
+  var switchBody = '';
+  var setCaseStatement = '';
+  var exactCases = [];
+  var conditionOrder = 'if';
 
   for(var _case in selectordinalFormat.values) {
     var caseBody = this._getFunctionBody(selectordinalFormat.values[_case], locale);
@@ -1262,8 +1262,8 @@ Compiler.prototype._getNumberComparisonGroupType = function(type) {
 
 Compiler.prototype._getPluralComparisonString = function(comparison) {
   if(comparison instanceof LDML.AST.NumberComparisonGroup) {
-    var LHSString = this._getPluralComparisonString(comparison.LHS)
-      , RHSString = this._getPluralComparisonString(comparison.RHS);
+    var LHSString = this._getPluralComparisonString(comparison.LHS);
+    var RHSString = this._getPluralComparisonString(comparison.RHS);
 
     return LHSString + this.space + this._getNumberComparisonGroupType(comparison.type) + this.space + RHSString;
   }
