@@ -42,7 +42,7 @@ global.project = {
   cache: {},
   output: '/Application/Localizations/Output',
   root: '/var/www',
-  timeZones: ['Europe/Stockholm', 'America/Los_Angeles']
+  timezones: ['Europe/Stockholm', 'America/Los_Angeles']
 };
 
 global.program = {};

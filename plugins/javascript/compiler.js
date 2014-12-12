@@ -14,17 +14,17 @@ var MessageFormat = require('../../libraries/MessageFormat');
 var digits = require('./digits');
 var defer = require('q').defer;
 var LDML = { AST: require('../../libraries/LDML/AST') };
-var timeZones = require('../../IANA/latest');
+var timezones = require('../../IANA/latest');
 
 /**
  * Clean up time zones
  */
-var temporaryTimeZones = {};
-for(var i in project.timeZones) {
-  var timeZone = project.timeZones[i];
-  temporaryTimeZones[timeZone] = timeZones[timeZone];
+var temporaryTimezones = {};
+for(var i in project.timezones) {
+  var timezone = project.timezones[i];
+  temporaryTimezones[timezone] = timezones[timezone];
 }
-timeZones = temporaryTimeZones;
+timezones = temporaryTimezones;
 
 /**
  * Add terminal colors
@@ -89,7 +89,7 @@ Compiler.prototype.run = function() {
 
         var content = template['JavascriptWrapper']({
           timezones: _this._indentSpaces(2, template['DateTimeZones']({
-            timezones: JSON.stringify(timezones, null, 2)
+            timezones: JSON.stringify(timezones)
           })),
           roundUpFunction: _this._indentSpaces(2, template['RoundToFunction']()),
           formatNumberFunction: _this._indentSpaces(2, template['FormatNumberFunction']()),
@@ -122,6 +122,9 @@ Compiler.prototype.run = function() {
       });
 
       var content = template['JavascriptWrapper']({
+        timezones: _this._indentSpaces(2, template['DateTimeZones']({
+          timezones: JSON.stringify(timezones)
+        })),
         roundUpFunction: _this._indentSpaces(2, template['RoundToFunction']()),
         formatNumberFunction: _this._indentSpaces(2, template['FormatNumberFunction']()),
         functionName: language.GET_LOCALIZATION_STRING_FUNCTION_NAME,

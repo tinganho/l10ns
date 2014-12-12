@@ -1,6 +1,7 @@
 
 var dateTemplates = require('../templates/build/templates');
 
+// TODO: change here to reflect the new
 var setDateBlock =
   'var string = \'\';\n' +
   'var date;\n' +
