@@ -7,10 +7,7 @@ var hours;
 var minutes;
 var seconds;
 var milliseconds;
-if(
-  it.{{=it.variableName}} instanceof Date ||
-  it.{{=it.variableName}}.time instanceof Date
-) {
+if(it.{{=it.variableName}} instanceof Date) {
   if(it.{{=it.variableName}} instanceof Date) {
     date = it.{{=it.variableName}};
   }
@@ -19,12 +16,12 @@ if(
   }
 }
 else {
-  if(typeof it.{{=it.variableName}}.toTimeZone === 'undefined') {
-    throw new TypeError('You must define a `toTimeZone` property for {=it.variableName}}');
+  if(typeof it.{{=it.variableName}}.toTimezone === 'undefined') {
+    throw new TypeError('You must define a `toTimezone` property for {{=it.variableName}}');
   }
 
   if(!(it.{{=it.variableName}}.toTimezone in timezones)) {
-    throw new TypeError('TimeZone ' + it.{{=it.variableName}}.toTimeZone + ' is not defined. Please define it in your l10ns.json file.');
+    throw new TypeError('Timezone ' + it.{{=it.variableName}}.toTimezone + ' is not defined. Please define it in your l10ns.json file.');
   }
 
   if(typeof it.{{=it.variableName}}.time === 'undefined') {
@@ -38,7 +35,7 @@ else {
   date = new Date(it.{{=it.variableName}}.time.getTime());
   var currentMinutes = date.getMinutes();
   var currentTimezoneOffset = date.getTimezoneOffset();
-  var timezoneInfo = timeZones[it.{{=it.variableName}}.toTimezone];
+  var timezoneInfo = timezones[it.{{=it.variableName}}.toTimezone];
   var unixTime = time.getTime();
   var index;
   for(var index = 0; index < timezoneInfo.untils.length; index++) {
@@ -48,7 +45,7 @@ else {
     }
   }
   var toTimeZoneOffset = timezoneInfo.offsets[index];
-  var date.setMinutes(currentMinutes + (toTimeZoneOffset - currentTimezoneOffset));
+  date.setMinutes(currentMinutes + (toTimeZoneOffset - currentTimezoneOffset));
 }
 
 year = date.getFullYear();
