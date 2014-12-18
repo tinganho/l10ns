@@ -1,4 +1,6 @@
 var year = date.getFullYear();
+var month = date.getMonth();
+var date_ = date.getDate();
 var firstWeekday = new Date(year, month, 1).getDay();
 if(firstWeekday === 0) {
   firstWeekday = 7;
