@@ -8,7 +8,6 @@ for(var i in project.timezones) {
 }
 timezones = temporaryTimezones;
 
-// TODO: change here to reflect the new
 var setDateBlock = 'var string = \'\';\n' + dateTemplates['SetDateBlock']({
   variableName: 'variable1'
 }) + '\n';
