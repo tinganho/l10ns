@@ -22,31 +22,29 @@ var setDateBlock =
   'var month = date.getMonth();\n' +
   'var date_ = date.getDate();\n';
 
+var getDateTestFunction = function() {
+  var timezonesBlock = 'var timezones = ' + JSON.stringify(timezones) + '\n';
+  var setDateBlock = dateTemplates['SetDateBlock']({
+    variableName: 'test'
+  });
+  return 'function test(it) { ' + timezonesBlock + setDateBlock + '\n' +
+    'return {\n' +
+      'year: year,\n' +
+      'month: month,\n' +
+      'date: date_,\n' +
+      'hours: hours,\n' +
+      'minutes: minutes,\n' +
+      'seconds: seconds,\n' +
+      'milliseconds: milliseconds\n' +
+    '}' +
+  '}';
+};
+
+eval(getDateTestFunction());
+
 describe('DateFormat', function() {
   describe('SetDate Block', function() {
     it('should throw an error if \'toTimezone\' property is not defined', function() {
-      var timezonesBlock = 'var timezones = ' + JSON.stringify(timezones) + '\n';
-      var setDateBlock = dateTemplates['SetDateBlock']({
-        variableName: 'test'
-      });
-      eval('function test(it) { ' + timezonesBlock + setDateBlock + '\nreturn hours;\n}');
-      var date = new Date('2014-11-25T02:59:59+0200');
-      var method = function() {
-        test({
-          test: {
-            time: date
-          }
-        });
-      }
-      expect(method).to.throw(TypeError, 'You must define a `toTimezone` property for test');
-    });
-
-    it('should throw an error if \'toTimezone\' property is not defined', function() {
-      var timezonesBlock = 'var timezones = ' + JSON.stringify(timezones) + '\n';
-      var setDateBlock = dateTemplates['SetDateBlock']({
-        variableName: 'test'
-      });
-      eval('function test(it) { ' + timezonesBlock + setDateBlock + '\nreturn hours;\n}');
       var date = new Date('2014-11-25T02:59:59+0200');
       var method = function() {
         test({
@@ -56,6 +54,76 @@ describe('DateFormat', function() {
         });
       }
       expect(method).to.throw(TypeError, 'You must define a \'toTimezone\' property for test');
+    });
+
+    it('should throw an error if \'toTimezone\' does not match any timezone', function() {
+      var date = new Date('2014-10-25T02:59:59+0200');
+      var method = function() {
+        test({
+          test: {
+            time: date,
+            toTimezone: 'None'
+          }
+        });
+      }
+      expect(method).to.throw(TypeError, 'Timezone \'None\' is not defined. Please define it in your l10ns.json file.');
+    });
+
+    it('should throw an error if a time property is not defined', function() {
+      var method = function() {
+        test({
+          test: {
+            toTimezone: 'Europe/Stockholm'
+          }
+        });
+      }
+      expect(method).to.throw(TypeError, 'You must define a time property for test');
+    });
+
+    it('should throw an error if a time property is not of type Date', function() {
+      var method = function() {
+        test({
+          test: {
+            time: 'non-date',
+            toTimezone: 'Europe/Stockholm'
+          }
+        });
+      }
+      expect(method).to.throw(TypeError, 'Property time must be of type Date.');
+    });
+
+    it('should throw an error if a time property is not of type Date', function() {
+      var method = function() {
+        test({
+          test: {
+            time: 'non-date',
+            toTimezone: 'Europe/Stockholm'
+          }
+        });
+      }
+      expect(method).to.throw(TypeError, 'Property time must be of type Date.');
+    });
+
+    it('should be able to output currect hours during same day', function() {
+      var date = new Date('2014-12-18T20:00:00+0100');
+      expect(test({
+          test: {
+            time: date,
+            toTimezone: 'America/Los_Angeles'
+          }
+        }).hours).to.equal(11);
+    });
+
+    it('should be able to output currect hours during same day', function() {
+      var date = new Date('2014-12-18T08:00:00+0100');
+      var result = test({
+        test: {
+          time: date,
+          toTimezone: 'America/Los_Angeles'
+        }
+      });
+      expect(result.hours).to.equal(23);
+      expect(result.date).to.equal(17);
     });
   });
 

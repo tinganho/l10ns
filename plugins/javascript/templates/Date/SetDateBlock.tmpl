@@ -17,11 +17,11 @@ if(it.{{=it.variableName}} instanceof Date) {
 }
 else {
   if(typeof it.{{=it.variableName}}.toTimezone === 'undefined') {
-    throw new TypeError('You must define a `toTimezone` property for {{=it.variableName}}');
+    throw new TypeError('You must define a \'toTimezone\' property for {{=it.variableName}}');
   }
 
   if(!(it.{{=it.variableName}}.toTimezone in timezones)) {
-    throw new TypeError('Timezone ' + it.{{=it.variableName}}.toTimezone + ' is not defined. Please define it in your l10ns.json file.');
+    throw new TypeError('Timezone \'' + it.{{=it.variableName}}.toTimezone + '\' is not defined. Please define it in your l10ns.json file.');
   }
 
   if(typeof it.{{=it.variableName}}.time === 'undefined') {
@@ -34,9 +34,9 @@ else {
 
   date = new Date(it.{{=it.variableName}}.time.getTime());
   var currentMinutes = date.getMinutes();
-  var currentTimezoneOffset = date.getTimezoneOffset();
+  var currentTimezoneOffset = -(date.getTimezoneOffset());
   var timezoneInfo = timezones[it.{{=it.variableName}}.toTimezone];
-  var unixTime = time.getTime();
+  var unixTime = date.getTime();
   var index;
   for(var index = 0; index < timezoneInfo.untils.length; index++) {
     if(unixTime < timezoneInfo.untils[index]) {
@@ -44,7 +44,7 @@ else {
       break;
     }
   }
-  var toTimeZoneOffset = timezoneInfo.offsets[index];
+  var toTimeZoneOffset = -(timezoneInfo.offsets[index]);
   date.setMinutes(currentMinutes + (toTimeZoneOffset - currentTimezoneOffset));
 }
 
