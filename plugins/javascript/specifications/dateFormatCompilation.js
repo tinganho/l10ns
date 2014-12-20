@@ -1069,12 +1069,12 @@ describe('DateFormat', function() {
       });
     });
 
-    it('week of year block should return the current numeric week of year', function() {
+    it('week of year block should return the current numeric week of year with start of week being monday', function() {
       function getWeekOfYearFunctionString(date) {
         return 'function test_weekOfYearBlock() {\n' +
           'var dateString = \'\';\n' +
           'var date = new Date(\'' + date + '\');\n' +
-          dateTemplates['DateWeekOfYear']({}) + '\n' +
+          dateTemplates['DateWeekOfYear']({ startOfWeek: 0 }) + '\n' +
           'return dateString; }';
       };
       eval(getWeekOfYearFunctionString('2007-12-30'));
@@ -1094,6 +1094,24 @@ describe('DateFormat', function() {
       eval(getWeekOfYearFunctionString('2009-01-04'));
       expect(test_weekOfYearBlock()).to.equal('1');
       eval(getWeekOfYearFunctionString('2009-01-05'));
+      expect(test_weekOfYearBlock()).to.equal('2');
+    });
+
+    it('week of year block should return the current numeric week of year with start of week being sunday', function() {
+      function getWeekOfYearFunctionString(date) {
+        return 'function test_weekOfYearBlock() {\n' +
+          'var dateString = \'\';\n' +
+          'var date = new Date(\'' + date + '\');\n' +
+          dateTemplates['DateWeekOfYear']({ startOfWeek: 1 }) + '\n' +
+          'return dateString; }';
+      };
+      eval(getWeekOfYearFunctionString('2007-12-30'));
+      expect(test_weekOfYearBlock()).to.equal('1');
+      eval(getWeekOfYearFunctionString('2007-12-31'));
+      expect(test_weekOfYearBlock()).to.equal('1');
+      eval(getWeekOfYearFunctionString('2008-01-05'));
+      expect(test_weekOfYearBlock()).to.equal('1');
+      eval(getWeekOfYearFunctionString('2008-01-06'));
       expect(test_weekOfYearBlock()).to.equal('2');
     });
 

@@ -371,7 +371,10 @@ AST.date.DateFormat.prototype._parseMonth = function() {
  */
 
 AST.date.DateFormat.prototype._parseWeek = function() {
-  var type, length, format;
+  var type;
+  var length;
+  var format;
+  var startOfWeek;
   switch(this.currentToken) {
     case AST.date.DateFormat.Identifiers.WEEK_OF_YEAR:
       type = AST.date.Week.Types.WEEK_OF_YEAR;
@@ -390,7 +393,14 @@ AST.date.DateFormat.prototype._parseWeek = function() {
       break;
   }
 
-  return new AST.date.Week(type, format);
+  if(this.startOfWeek === 'mon') {
+    startOfWeek = AST.date.Week.StartOfWeek.MON;
+  }
+  else {
+    startOfWeek = AST.date.Week.StartOfWeek.MON;
+  }
+
+  return new AST.date.Week(type, format, startOfWeek);
 };
 
 /**
@@ -965,12 +975,14 @@ AST.date.Month.Formats = {
  *
  * @param {AST.date.Week.Types} type
  * @pram {AST.date.Week.Formats} format
+ * @pram {AST.date.Week.StartOfWeek} startOfWeek
  * @constructor
  */
 
-AST.date.Week = function(type, format) {
+AST.date.Week = function(type, format, startOfWeek) {
   this.type = type;
   this.format = format;
+  this.startOfWeek = startOfWeek;
 };
 
 /**
@@ -995,6 +1007,18 @@ AST.date.Week.Types = {
 AST.date.Week.Formats = {
   NUMERIC: 1,
   NUMERIC_WITH_PADDING: 2
+};
+
+/**
+ * Week formats
+ *
+ * @enum {Number}
+ * @api public
+ */
+
+AST.date.Week.StartOfWeek = {
+  MON: 0,
+  SUN: 1
 };
 
 /**

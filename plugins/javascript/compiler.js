@@ -794,17 +794,21 @@ Compiler.prototype._compileDateFormat = function(dateFormat) {
       if(component.type === MessageFormat.AST.date.Week.Types.WEEK_OF_YEAR) {
         if(component.format === MessageFormat.AST.date.Week.Formats.NUMERIC) {
           result += template['DateWeekOfYear']({
+            startOfWeek: component.startOfWeek,
             padding: false
           });
         }
         else {
           result += template['DateWeekOfYear']({
+            startOfWeek: component.startOfWeek,
             padding: true
           });
         }
       }
       else {
-        result += template['DateWeekOfMonth']({});
+        result += template['DateWeekOfMonth']({
+          startOfWeek: component.startOfWeek
+        });
       }
     }
     else if(component instanceof MessageFormat.AST.date.day.DayOfMonth) {
