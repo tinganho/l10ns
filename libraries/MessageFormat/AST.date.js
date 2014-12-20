@@ -397,7 +397,7 @@ AST.date.DateFormat.prototype._parseWeek = function() {
     startOfWeek = AST.date.Week.StartOfWeek.MON;
   }
   else {
-    startOfWeek = AST.date.Week.StartOfWeek.MON;
+    startOfWeek = AST.date.Week.StartOfWeek.SUN;
   }
 
   return new AST.date.Week(type, format, startOfWeek);

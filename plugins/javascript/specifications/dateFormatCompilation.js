@@ -1123,20 +1123,11 @@ describe('DateFormat', function() {
       compiler.run();
       eventually(function() {
         var functionBody = setDateBlock +
-          'var year = date.getFullYear();\n' +
-          'var month = date.getMonth();\n' +
-          'var date_ = date.getDate();\n' +
-          'var firstWeekday = new Date(year, month, 1).getDay();\n' +
-          'if(firstWeekday === 0) {\n' +
-          '  firstWeekday = 7;\n' +
-          '}\n' +
-          'var lastDateOfMonth = new Date(year, month + 1, 0).getDate();\n' +
-          'var secondWeekStartDate = 9 - firstWeekday;\n' +
-          'var offsetDate = date_ - secondWeekStartDate + 1;\n' +
-          'if(date_ < secondWeekStartDate) {\n' +
-          '  week = 1;\n' +
-          '}\n' +
-          'var week = 1 + Math.ceil(offsetDate / 7) + \'\';\n' +
+          'var dateCopy = new Date(+date);\n' +
+          'dateCopy.setHours(0,0,0);\n' +
+          'dateCopy.setDate(dateCopy.getDate() + 4 - (dateCopy.getDay() || 7 ));\n' +
+          'var monthStart = new Date(dateCopy.getFullYear(),dateCopy.getMonth(), 1);\n' +
+          'var week = Math.ceil((((dateCopy - monthStart) / 86400000) + 1)/7);\n' +
           'dateString += week;\n' +
           'string += dateString;\n' +
           'return string;';
@@ -1147,40 +1138,89 @@ describe('DateFormat', function() {
       });
     });
 
-    it('week of month block should return current week of month', function() {
+    it('should be able to compile a week of month with start of week equals sunday', function(done) {
+      var localizations = getLocalizations('{variable1, date,startofweek:sun W}');
+      var dependencies = getDependencies(localizations);
+      var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      compiler.run();
+      eventually(function() {
+        var functionBody = setDateBlock +
+          'var dateCopy = new Date(+date);\n' +
+          'dateCopy.setHours(0,0,0);\n' +
+          'dateCopy.setDate(dateCopy.getDate() + 3 - dateCopy.getDay());\n' +
+          'var monthStart = new Date(dateCopy.getFullYear(),dateCopy.getMonth(), 1);\n' +
+          'var week = Math.ceil((((dateCopy - monthStart) / 86400000) + 1)/7);\n' +
+          'dateString += week;\n' +
+          'string += dateString;\n' +
+          'return string;';
+        expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+          functionBody: indentSpaces(8, functionBody)
+        }));
+        done();
+      });
+    });
+
+    it('week of month block should return current week of month when start of week is monday', function() {
       function getWeekOfMonthFunctionString(date) {
         return 'function test_weekOfMonthBlock() {\n' +
           'var dateString = \'\';\n' +
           'var date = new Date(\'' + date + '\');\n' +
-          'var month = date.getMonth();\n' +
-          'var date_ = date.getDate();\n' +
-          dateTemplates['DateWeekOfMonth']({}) + '\n' +
+          dateTemplates['DateWeekOfMonth']({
+            startOfWeek: 0
+          }) + '\n' +
           'return dateString; }';
       };
       eval(getWeekOfMonthFunctionString('2013-02-01'));
+      expect(test_weekOfMonthBlock()).to.equal('5');
+      eval(getWeekOfMonthFunctionString('2013-02-03'));
+      expect(test_weekOfMonthBlock()).to.equal('5');
+      eval(getWeekOfMonthFunctionString('2013-02-04'));
       expect(test_weekOfMonthBlock()).to.equal('1');
+      eval(getWeekOfMonthFunctionString('2013-07-28'));
+      expect(test_weekOfMonthBlock()).to.equal('4');
+      eval(getWeekOfMonthFunctionString('2013-07-29'));
+      expect(test_weekOfMonthBlock()).to.equal('1');
+      eval(getWeekOfMonthFunctionString('2013-07-30'));
+      expect(test_weekOfMonthBlock()).to.equal('1');
+      eval(getWeekOfMonthFunctionString('2013-07-31'));
+      expect(test_weekOfMonthBlock()).to.equal('1');
+      eval(getWeekOfMonthFunctionString('2013-08-01'));
+      expect(test_weekOfMonthBlock()).to.equal('1');
+    });
+
+    it('week of month block should return current week of month when start of week is monday', function() {
+      function getWeekOfMonthFunctionString(date) {
+        return 'function test_weekOfMonthBlock() {\n' +
+          'var dateString = \'\';\n' +
+          'var date = new Date(\'' + date + '\');\n' +
+          dateTemplates['DateWeekOfMonth']({
+            startOfWeek: 1
+          }) + '\n' +
+          'return dateString; }';
+      };
+      eval(getWeekOfMonthFunctionString('2013-02-01'));
+      expect(test_weekOfMonthBlock()).to.equal('5');
       eval(getWeekOfMonthFunctionString('2013-02-03'));
       expect(test_weekOfMonthBlock()).to.equal('1');
-      eval(getWeekOfMonthFunctionString('2013-02-04'));
-      expect(test_weekOfMonthBlock()).to.equal('2');
-      eval(getWeekOfMonthFunctionString('2013-02-28'));
-      expect(test_weekOfMonthBlock()).to.equal('5');
-      eval(getWeekOfMonthFunctionString('2013-12-01'));
+      eval(getWeekOfMonthFunctionString('2013-04-27'));
+      expect(test_weekOfMonthBlock()).to.equal('4');
+      eval(getWeekOfMonthFunctionString('2013-04-28'));
       expect(test_weekOfMonthBlock()).to.equal('1');
-      eval(getWeekOfMonthFunctionString('2013-12-02'));
-      expect(test_weekOfMonthBlock()).to.equal('2');
-      eval(getWeekOfMonthFunctionString('2013-12-31'));
-      expect(test_weekOfMonthBlock()).to.equal('6');
-      eval(getWeekOfMonthFunctionString('2014-03-01'));
+      eval(getWeekOfMonthFunctionString('2013-04-29'));
       expect(test_weekOfMonthBlock()).to.equal('1');
-      eval(getWeekOfMonthFunctionString('2014-03-02'));
+      eval(getWeekOfMonthFunctionString('2013-04-30'));
       expect(test_weekOfMonthBlock()).to.equal('1');
-      eval(getWeekOfMonthFunctionString('2014-03-03'));
+      eval(getWeekOfMonthFunctionString('2013-05-01'));
+      expect(test_weekOfMonthBlock()).to.equal('1');
+      eval(getWeekOfMonthFunctionString('2013-05-02'));
+      expect(test_weekOfMonthBlock()).to.equal('1');
+      eval(getWeekOfMonthFunctionString('2013-05-03'));
+      expect(test_weekOfMonthBlock()).to.equal('1');
+      eval(getWeekOfMonthFunctionString('2013-05-04'));
+      expect(test_weekOfMonthBlock()).to.equal('1');
+      eval(getWeekOfMonthFunctionString('2013-05-05'));
       expect(test_weekOfMonthBlock()).to.equal('2');
-      eval(getWeekOfMonthFunctionString('2014-03-30'));
-      expect(test_weekOfMonthBlock()).to.equal('5');
-      eval(getWeekOfMonthFunctionString('2014-03-31'));
-      expect(test_weekOfMonthBlock()).to.equal('6');
     });
   });
 
