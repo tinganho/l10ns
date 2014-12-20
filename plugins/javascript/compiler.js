@@ -676,21 +676,19 @@ Compiler.prototype._compileDateFormat = function(dateFormat) {
         BC: dateFormat.CLDR.era[eraFormat].BC
       });
     }
-    else if(component instanceof MessageFormat.AST.date.Year) {
-      switch(component.type) {
-        case MessageFormat.AST.date.Year.Types.CALENDAR:
-          result += template['SetYear']() + _this.linefeed;
-          result += template['FormatYear']({
-            length: component.length
-          });
-          break;
-        case MessageFormat.AST.date.Year.Types.WEEK_BASED:
-          result += template['DateWeekBasedYear']() + _this.linefeed;
-          result += template['FormatYear']({
-            length: component.length
-          });
-          break;
-      }
+    else if(component instanceof MessageFormat.AST.date.year.CalendarYear) {
+      result += template['SetYear']() + _this.linefeed;
+      result += template['FormatYear']({
+        length: component.length
+      });
+    }
+    else if(component instanceof MessageFormat.AST.date.year.WeekBasedYear) {
+      result += template['DateWeekBasedYear']({
+        startOfWeek: component.startOfWeek
+      }) + _this.linefeed;
+      result += template['FormatYear']({
+        length: component.length
+      });
     }
     else if(component instanceof MessageFormat.AST.date.Quarter) {
       var quarterContext;

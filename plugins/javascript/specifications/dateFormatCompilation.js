@@ -346,7 +346,7 @@ describe('DateFormat', function() {
       compiler.run();
       eventually(function() {
         var functionBody = setDateBlock +
-          dateTemplates['DateWeekBasedYear']() + '\n' +
+          dateTemplates['DateWeekBasedYear']({ startOfWeek: 0 }) + '\n' +
           dateTemplates['FormatYear']({ length: 1 }) + '\n' +
           'string += dateString;\n' +
           'return string;';
@@ -365,7 +365,7 @@ describe('DateFormat', function() {
       compiler.run();
       eventually(function() {
         var functionBody = setDateBlock +
-          dateTemplates['DateWeekBasedYear']() + '\n' +
+          dateTemplates['DateWeekBasedYear']({ startOfWeek: 0 }) + '\n' +
           dateTemplates['FormatYear']({ length: 2 }) + '\n' +
           'string += dateString;\n' +
           'return string;';
@@ -384,7 +384,7 @@ describe('DateFormat', function() {
       compiler.run();
       eventually(function() {
         var functionBody = setDateBlock +
-          dateTemplates['DateWeekBasedYear']() + '\n' +
+          dateTemplates['DateWeekBasedYear']({ startOfWeek: 0 }) + '\n' +
           dateTemplates['FormatYear']({ length: 3 }) + '\n' +
           'string += dateString;\n' +
           'return string;';
@@ -395,13 +395,13 @@ describe('DateFormat', function() {
       });
     });
 
-    it('week based year block should set week based year correctly', function() {
+    it('week based year block should set week based year with start week monday correctly', function() {
       var function_ = 'function test_weekBasedYearBlock(it) {\n' +
         'var dateString = \'\';\n' +
         dateTemplates['SetDateBlock']({
           variableName: 'date'
         }) + '\n' +
-        dateTemplates['DateWeekBasedYear']() + '\n' +
+        dateTemplates['DateWeekBasedYear']({ startOfWeek: 0 }) + '\n' +
         dateTemplates['FormatYear']({ length: 3 }) + '\n' +
         'return dateString; }';
         eval(function_);
@@ -424,6 +424,25 @@ describe('DateFormat', function() {
       expect(test_weekBasedYearBlock({ date: new Date('2010-01-02') })).to.equal('2009');
       expect(test_weekBasedYearBlock({ date: new Date('2010-01-03') })).to.equal('2009');
       expect(test_weekBasedYearBlock({ date: new Date('2010-01-04') })).to.equal('2010');
+    });
+
+    it('week based year block should set week based year with start week sunday correctly', function() {
+      var function_ = 'function test_weekBasedYearBlock(it) {\n' +
+        'var dateString = \'\';\n' +
+        dateTemplates['SetDateBlock']({
+          variableName: 'date'
+        }) + '\n' +
+        dateTemplates['DateWeekBasedYear']({ startOfWeek: 1 }) + '\n' +
+        dateTemplates['FormatYear']({ length: 3 }) + '\n' +
+        'return dateString; }';
+        eval(function_);
+      expect(test_weekBasedYearBlock({ date: new Date('2009-1-1') })).to.equal('2008');
+      expect(test_weekBasedYearBlock({ date: new Date('2009-1-2') })).to.equal('2008');
+      expect(test_weekBasedYearBlock({ date: new Date('2009-1-3') })).to.equal('2008');
+      expect(test_weekBasedYearBlock({ date: new Date('2009-1-4') })).to.equal('2009');
+      expect(test_weekBasedYearBlock({ date: new Date('2012-12-29') })).to.equal('2012');
+      expect(test_weekBasedYearBlock({ date: new Date('2012-12-30') })).to.equal('2013');
+      expect(test_weekBasedYearBlock({ date: new Date('2012-12-31') })).to.equal('2013');
     });
 
     it('format year block of length 1 should format without padding', function() {

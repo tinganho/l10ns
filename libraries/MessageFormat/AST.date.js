@@ -262,22 +262,24 @@ AST.date.DateFormat.prototype._parseEra = function() {
  */
 
 AST.date.DateFormat.prototype._parseYear = function() {
-  var type;
-  switch(this.currentToken) {
-    case AST.date.DateFormat.Identifiers.CALENDAR_YEAR:
-      type = AST.date.Year.Types.CALENDAR;
-      break;
-    case AST.date.DateFormat.Identifiers.WEEK_BASED_YEAR:
-      type = AST.date.Year.Types.WEEK_BASED;
-      break;
-    case AST.date.DateFormat.Identifiers.EXTENDED_YEAR:
-      type = AST.date.Year.Types.EXTENDED;
-      break;
-  }
-
+  var currentToken = this.currentToken;
   var length = this._getConsecutiveLength();
 
-  return new AST.date.Year(type, length);
+  switch(currentToken) {
+    case AST.date.DateFormat.Identifiers.CALENDAR_YEAR:
+      return new AST.date.year.CalendarYear(length);
+      break;
+    case AST.date.DateFormat.Identifiers.WEEK_BASED_YEAR:
+      var startOfWeek;
+      if(this.startOfWeek === 'mon') {
+        startOfWeek = AST.date.year.WeekBasedYear.StartOfWeek.MON;
+      }
+      else {
+        startOfWeek = AST.date.year.WeekBasedYear.StartOfWeek.SUN;
+      }
+      return new AST.date.year.WeekBasedYear(length, startOfWeek);
+      break;
+  }
 };
 
 /**
@@ -787,7 +789,7 @@ AST.date.Era = function(format) {
  * means a abbreviated era.Type. e.g. G means AD. GGGG mean Anno Domini.
  * GGGGG means narrow era.Type or just using the letter A for Anno Domini.
  *
- * @enum {AST.Data.Era.Type}
+ * @enum {AST.Date.Era.Formats}
  */
 
 AST.date.Era.Formats = {
@@ -797,32 +799,57 @@ AST.date.Era.Formats = {
 };
 
 /**
- * Year AST
+ * Namespace year
+ */
+
+AST.date.year = {};
+
+/**
+ * Calendar year AST
  *
- * @param {AST.date.Year.Types} type
  * @param {Number} length
  * @constructor
  */
 
-AST.date.Year = function(type, length) {
-  this.type = type;
+AST.date.year.CalendarYear = function(length) {
+  this.length = length;
+};
+
+
+/**
+ * Extended year AST
+ *
+ * @param {Number} length
+ * @constructor
+ */
+
+AST.date.year.ExtendedYear = function(length) {
   this.length = length;
 };
 
 /**
- * Year.Types. There exists four different year.Types. CALENDAR_YEAR,
- * WEEK_BASED_YEAR, EXTENDED_YEAR and CYCLIC_YEAR.
+ * Week based year AST
  *
- * @enum {Number}
+ * @param {Number} length
+ * @param {String} startOfWeek
+ * @constructor
  */
 
-AST.date.Year.Types = {
-  CALENDAR: 1,
-  WEEK_BASED: 2,
-  EXTENDED: 3,
-  CYCLIC: 4
+AST.date.year.WeekBasedYear = function(length, startOfWeek) {
+  this.length = length;
+  this.startOfWeek = startOfWeek;
 };
 
+/**
+ * Week based year start of week
+ *
+ * @enum {AST.date.WeekBasedYear.StartOfWeek}
+ */
+
+AST.date.year.WeekBasedYear.StartOfWeek = {
+  MON: 0,
+  SUN: 1
+};
 
 /**
  * Year AST
@@ -831,7 +858,7 @@ AST.date.Year.Types = {
  * @constructor
  */
 
-AST.date.CyclicYear = function(format) {
+AST.date.year.CyclicYear = function(format) {
   this.format = format;
 };
 
@@ -842,7 +869,7 @@ AST.date.CyclicYear = function(format) {
  * @enum {Number}
  */
 
-AST.date.CyclicYear.Types = {
+AST.date.year.CyclicYear.Types = {
   ABBREVIATED: 1
 };
 

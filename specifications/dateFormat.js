@@ -120,40 +120,33 @@ describe('DateFormat', function() {
     it('should be able to parse a calendar year identifier', function() {
       messageFormat.parse('{variable1, date, y}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
-      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.Year);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.year.CalendarYear);
       expect(messageFormat.messageAST[0].AST[0].length).to.equal(1);
-      expect(messageFormat.messageAST[0].AST[0].type).to.equal(AST.date.Year.Types.CALENDAR);
       messageFormat.parse('{variable1, date, yy}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
-      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.Year);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.year.CalendarYear);
       expect(messageFormat.messageAST[0].AST[0].length).to.equal(2);
-      expect(messageFormat.messageAST[0].AST[0].type).to.equal(AST.date.Year.Types.CALENDAR);
     });
 
     it('should be able to parse a week based year identifier', function() {
       messageFormat.parse('{variable1, date, Y}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
-      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.Year);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.year.WeekBasedYear);
       expect(messageFormat.messageAST[0].AST[0].length).to.equal(1);
-      expect(messageFormat.messageAST[0].AST[0].type).to.equal(AST.date.Year.Types.WEEK_BASED);
+      expect(messageFormat.messageAST[0].AST[0].startOfWeek).to.equal(AST.date.year.WeekBasedYear.StartOfWeek.MON);
       messageFormat.parse('{variable1, date, YY}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
-      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.Year);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.year.WeekBasedYear);
       expect(messageFormat.messageAST[0].AST[0].length).to.equal(2);
-      expect(messageFormat.messageAST[0].AST[0].type).to.equal(AST.date.Year.Types.WEEK_BASED);
+      expect(messageFormat.messageAST[0].AST[0].startOfWeek).to.equal(AST.date.year.WeekBasedYear.StartOfWeek.MON);
     });
 
-    it('should be able to parse a week based year identifier', function() {
-      messageFormat.parse('{variable1, date, u}');
+    it('should be able to parse a week based year identifier with a different start of week identifier', function() {
+      messageFormat.parse('{variable1, date,startofweek:sun Y}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
-      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.Year);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.year.WeekBasedYear);
       expect(messageFormat.messageAST[0].AST[0].length).to.equal(1);
-      expect(messageFormat.messageAST[0].AST[0].type).to.equal(AST.date.Year.Types.EXTENDED);
-      messageFormat.parse('{variable1, date, uu}');
-      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
-      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.Year);
-      expect(messageFormat.messageAST[0].AST[0].length).to.equal(2);
-      expect(messageFormat.messageAST[0].AST[0].type).to.equal(AST.date.Year.Types.EXTENDED);
+      expect(messageFormat.messageAST[0].AST[0].startOfWeek).to.equal(AST.date.year.WeekBasedYear.StartOfWeek.SUN);
     });
   });
 
