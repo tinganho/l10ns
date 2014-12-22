@@ -691,18 +691,15 @@ AST.date.DateFormat.prototype._parseTimezone = function() {
       }
       return new AST.date.timezone.GenericNonLocationTimeZone(format);
     case AST.date.DateFormat.Identifiers.GENERIC_LOCATION_TIME_ZONE:
-      length = this._getConsecutiveLength(4);
+      length = this._getConsecutiveLength(3);
       switch(length) {
         case 1:
-          format = AST.date.timezone.GenericLocationTimeZone.Formats.SHORT_TIME_ZONE_ID;
-          break;
-        case 2:
           format = AST.date.timezone.GenericLocationTimeZone.Formats.LONG_TIME_ZONE_ID;
           break;
-        case 3:
+        case 2:
           format = AST.date.timezone.GenericLocationTimeZone.Formats.CITY;
           break;
-        case 4:
+        case 3:
           format = AST.date.timezone.GenericLocationTimeZone.Formats.CITY_DESCRIPTION;
           break;
       }
@@ -1488,10 +1485,9 @@ AST.date.timezone.GenericLocationTimeZone = function(format) {
  */
 
 AST.date.timezone.GenericLocationTimeZone.Formats = {
-  SHORT_TIME_ZONE_ID: 1,
-  LONG_TIME_ZONE_ID: 2,
-  CITY: 3,
-  CITY_DESCRIPTION: 4
+  LONG_TIME_ZONE_ID: 1,
+  CITY: 2,
+  CITY_DESCRIPTION: 3
 };
 
 /**

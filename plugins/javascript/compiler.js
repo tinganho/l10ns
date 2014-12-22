@@ -982,6 +982,11 @@ Compiler.prototype._compileDateFormat = function(dateFormat) {
         format: component.format
       });
     }
+    else if(component instanceof MessageFormat.AST.date.timezone.GenericLocationTimeZone) {
+      result += template['DateGenericLocationTimeZone']({
+        format: component.format
+      });
+    }
   });
 
   if(dateFormat.numberSystem !== 'latn') {

@@ -1,0 +1,7 @@
+{{?it.format === 1}}
+dateString += it.{{=it.variableName}}.toTimezone;
+{{??it.format === 2}}
+dateString += it.{{=it.variableName}}.toTimezone.replace(/^.+\//, '').replace('_', ' ');
+{{??}}
+dateString += it.{{=it.variableName}}.toTimezone.replace(/^.+\//, '').replace('_', ' ') + ' Time';
+{{?}}

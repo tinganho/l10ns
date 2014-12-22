@@ -2565,6 +2565,26 @@ describe('DateFormat', function() {
         });
       });
     });
+
+    describe('GenericLocationTimeZone', function() {
+      it('should be able to return a long time zone id', function() {
+        var getFunctionString = function(format) {
+          return 'function test_GenericLocationTimezoneRendering(it) {' +
+            'var dateString =\'\';\n' +
+            dateTemplates['DateGenericLocationTimeZone']({
+              variableName: 'test',
+              format: format
+            }) +
+            'return dateString; }';
+        }
+        eval(getFunctionString(1));
+        expect(test_GenericLocationTimezoneRendering({ test: { toTimezone: 'America/Los_Angeles' }})).to.equal('America/Los_Angeles');
+        eval(getFunctionString(2));
+        expect(test_GenericLocationTimezoneRendering({ test: { toTimezone: 'America/Los_Angeles' }})).to.equal('Los Angeles');
+        eval(getFunctionString(3));
+        expect(test_GenericLocationTimezoneRendering({ test: { toTimezone: 'America/Los_Angeles' }})).to.equal('Los Angeles Time');
+      });
+    });
   });
 
   describe('Number system', function() {
