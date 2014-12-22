@@ -178,7 +178,7 @@ AST.date.DateFormat.prototype.parse = function(string) {
       case AST.date.DateFormat.Identifiers.GENERIC_LOCATION_TIME_ZONE:
       case AST.date.DateFormat.Identifiers.ISO8601_WITH_Z_TIME_ZONE:
       case AST.date.DateFormat.Identifiers.ISO8601_WITHOUT_Z_TIME_ZONE:
-        this.AST.push(this._parseTimeZone());
+        this.AST.push(this._parseTimezone());
         break;
       default:
         this.AST.push(this._parseSentence());
@@ -628,18 +628,18 @@ AST.date.DateFormat.prototype._parseSecond = function() {
  * Parse time zone identifier (z, Z, O, v, V, X, x)
  *
  * @return {
- *   AST.date.timeZone.SpecificNonLocationTimeZone |
- *   AST.date.timeZone.RegularTimeZone |
- *   AST.date.timeZone.LocalizedGMTTimeZone |
- *   AST.date.timeZone.GenericNonLocationTimeZone |
- *   AST.date.timeZone.GenericLocationTimeZone |
- *   AST.date.timeZone.ISO8601WithZTimeZone |
- *   AST.date.timeZone.ISO8601WithoutZTimeZone
+ *   AST.date.timezone.SpecificNonLocationTimeZone |
+ *   AST.date.timezone.RegularTimeZone |
+ *   AST.date.timezone.LocalizedGMTTimeZone |
+ *   AST.date.timezone.GenericNonLocationTimeZone |
+ *   AST.date.timezone.GenericLocationTimeZone |
+ *   AST.date.timezone.ISO8601WithZTimeZone |
+ *   AST.date.timezone.ISO8601WithoutZTimeZone
  * }
  * @api private
  */
 
-AST.date.DateFormat.prototype._parseTimeZone = function() {
+AST.date.DateFormat.prototype._parseTimezone = function() {
   var type;
   var length;
   var format;
@@ -648,105 +648,105 @@ AST.date.DateFormat.prototype._parseTimeZone = function() {
     case AST.date.DateFormat.Identifiers.SPECIFIC_NON_LOCATION_TIME_ZONE:
       length = this._getConsecutiveLength(4);
       if(length <= 3) {
-        format = AST.date.timeZone.SpecificNonLocationTimeZone.Formats.SHORT;
+        format = AST.date.timezone.SpecificNonLocationTimeZone.Formats.SHORT;
       }
       else {
-        format = AST.date.timeZone.SpecificNonLocationTimeZone.Formats.LONG;
+        format = AST.date.timezone.SpecificNonLocationTimeZone.Formats.LONG;
       }
-      return new AST.date.timeZone.SpecificNonLocationTimeZone(format);
+      return new AST.date.timezone.SpecificNonLocationTimeZone(format);
     case AST.date.DateFormat.Identifiers.REGULAR_TIME_ZONE:
       length = this._getConsecutiveLength(5);
       if(length <= 3) {
-        format = AST.date.timeZone.RegularTimeZone.Formats.ISO8601_BASIC;
+        format = AST.date.timezone.RegularTimeZone.Formats.ISO8601_BASIC;
       }
       else if(length ===  4) {
-        format = AST.date.timeZone.RegularTimeZone.Formats.LONG_LOCALIZED_GMT;
+        format = AST.date.timezone.RegularTimeZone.Formats.LONG_LOCALIZED_GMT;
       }
       else {
-        format = AST.date.timeZone.RegularTimeZone.Formats.ISO8601_EXTENDED;
+        format = AST.date.timezone.RegularTimeZone.Formats.ISO8601_EXTENDED;
       }
-      return new AST.date.timeZone.RegularTimeZone(format);
+      return new AST.date.timezone.RegularTimeZone(format);
     case AST.date.DateFormat.Identifiers.LOCALIZED_GMT_TIME_ZONE:
       length = this._getConsecutiveLength(4);
       if(length === 1) {
-        format = AST.date.timeZone.LocalizedGMTTimeZone.Formats.SHORT;
+        format = AST.date.timezone.LocalizedGMTTimeZone.Formats.SHORT;
       }
       else if (length === 4){
-        format = AST.date.timeZone.LocalizedGMTTimeZone.Formats.LONG;
+        format = AST.date.timezone.LocalizedGMTTimeZone.Formats.LONG;
       }
       else {
         throw new TypeError('Only 1 or 4 consecutive sequence of `' + AST.date.DateFormat.Identifiers.LOCALIZED_GMT_TIME_ZONE + '` is allowed in `' + this.lexer.getLatestTokensLog() + '`');
       }
-      return new AST.date.timeZone.LocalizedGMTTimeZone(format);
+      return new AST.date.timezone.LocalizedGMTTimeZone(format);
     case AST.date.DateFormat.Identifiers.GENERIC_NON_LOCATION_TIME_ZONE:
       length = this._getConsecutiveLength(4);
       if(length === 1) {
-        format = AST.date.timeZone.GenericNonLocationTimeZone.Formats.SHORT;
+        format = AST.date.timezone.GenericNonLocationTimeZone.Formats.SHORT;
       }
       else if (length === 4){
-        format = AST.date.timeZone.GenericNonLocationTimeZone.Formats.LONG;
+        format = AST.date.timezone.GenericNonLocationTimeZone.Formats.LONG;
       }
       else {
         throw new TypeError('Only 1 or 4 consecutive sequence of `' + AST.date.DateFormat.Identifiers.GENERIC_NON_LOCATION_TIME_ZONE + '` is allowed in `' + this.lexer.getLatestTokensLog() + '`');
       }
-      return new AST.date.timeZone.GenericNonLocationTimeZone(format);
+      return new AST.date.timezone.GenericNonLocationTimeZone(format);
     case AST.date.DateFormat.Identifiers.GENERIC_LOCATION_TIME_ZONE:
       length = this._getConsecutiveLength(4);
       switch(length) {
         case 1:
-          format = AST.date.timeZone.GenericLocationTimeZone.Formats.SHORT_TIME_ZONE_ID;
+          format = AST.date.timezone.GenericLocationTimeZone.Formats.SHORT_TIME_ZONE_ID;
           break;
         case 2:
-          format = AST.date.timeZone.GenericLocationTimeZone.Formats.LONG_TIME_ZONE_ID;
+          format = AST.date.timezone.GenericLocationTimeZone.Formats.LONG_TIME_ZONE_ID;
           break;
         case 3:
-          format = AST.date.timeZone.GenericLocationTimeZone.Formats.CITY;
+          format = AST.date.timezone.GenericLocationTimeZone.Formats.CITY;
           break;
         case 4:
-          format = AST.date.timeZone.GenericLocationTimeZone.Formats.CITY_DESCRIPTION;
+          format = AST.date.timezone.GenericLocationTimeZone.Formats.CITY_DESCRIPTION;
           break;
       }
-      return new AST.date.timeZone.GenericLocationTimeZone(format);
+      return new AST.date.timezone.GenericLocationTimeZone(format);
     case AST.date.DateFormat.Identifiers.ISO8601_WITH_Z_TIME_ZONE:
       length = this._getConsecutiveLength(5);
       switch(length) {
         case 1:
-          format = AST.date.timeZone.ISO8601WithZTimeZone.Formats.BASIC_FORMAT_WITH_OPTIONAL_MINUTES;
+          format = AST.date.timezone.ISO8601WithZTimeZone.Formats.BASIC_FORMAT_WITH_OPTIONAL_MINUTES;
           break;
         case 2:
-          format = AST.date.timeZone.ISO8601WithZTimeZone.Formats.BASIC_FORMAT_WITH_MINUTES;
+          format = AST.date.timezone.ISO8601WithZTimeZone.Formats.BASIC_FORMAT_WITH_MINUTES;
           break;
         case 3:
-          format = AST.date.timeZone.ISO8601WithZTimeZone.Formats.EXTENDED_FORMAT_WITH_HOURS_AND_MINUTES;
+          format = AST.date.timezone.ISO8601WithZTimeZone.Formats.EXTENDED_FORMAT_WITH_HOURS_AND_MINUTES;
           break;
         case 4:
-          format = AST.date.timeZone.ISO8601WithZTimeZone.Formats.BASIC_FORMAT_WITH_HOURS_MINUTES_AND_OPTIONAL_SECONDS;
+          format = AST.date.timezone.ISO8601WithZTimeZone.Formats.BASIC_FORMAT_WITH_HOURS_MINUTES_AND_OPTIONAL_SECONDS;
           break;
         case 5:
-          format = AST.date.timeZone.ISO8601WithZTimeZone.Formats.EXTENDED_FORMAT_WITH_HOURS_MINUTES_AND_OPTIONAL_SECONDS;
+          format = AST.date.timezone.ISO8601WithZTimeZone.Formats.EXTENDED_FORMAT_WITH_HOURS_MINUTES_AND_OPTIONAL_SECONDS;
           break;
       }
-      return new AST.date.timeZone.ISO8601WithZTimeZone(format);
+      return new AST.date.timezone.ISO8601WithZTimeZone(format);
     case AST.date.DateFormat.Identifiers.ISO8601_WITHOUT_Z_TIME_ZONE:
       length = this._getConsecutiveLength(5);
       switch(length) {
         case 1:
-          format = AST.date.timeZone.ISO8601WithoutZTimeZone.Formats.BASIC_FORMAT_WITH_OPTIONAL_MINUTES;
+          format = AST.date.timezone.ISO8601WithoutZTimeZone.Formats.BASIC_FORMAT_WITH_OPTIONAL_MINUTES;
           break;
         case 2:
-          format = AST.date.timeZone.ISO8601WithoutZTimeZone.Formats.BASIC_FORMAT_WITH_MINUTES;
+          format = AST.date.timezone.ISO8601WithoutZTimeZone.Formats.BASIC_FORMAT_WITH_MINUTES;
           break;
         case 3:
-          format = AST.date.timeZone.ISO8601WithoutZTimeZone.Formats.EXTENDED_FORMAT_WITH_HOURS_AND_MINUTES;
+          format = AST.date.timezone.ISO8601WithoutZTimeZone.Formats.EXTENDED_FORMAT_WITH_HOURS_AND_MINUTES;
           break;
         case 4:
-          format = AST.date.timeZone.ISO8601WithoutZTimeZone.Formats.BASIC_FORMAT_WITH_HOURS_MINUTES_AND_OPTIONAL_SECONDS;
+          format = AST.date.timezone.ISO8601WithoutZTimeZone.Formats.BASIC_FORMAT_WITH_HOURS_MINUTES_AND_OPTIONAL_SECONDS;
           break;
         case 5:
-          format = AST.date.timeZone.ISO8601WithoutZTimeZone.Formats.EXTENDED_FORMAT_WITH_HOURS_MINUTES_AND_OPTIONAL_SECONDS;
+          format = AST.date.timezone.ISO8601WithoutZTimeZone.Formats.EXTENDED_FORMAT_WITH_HOURS_MINUTES_AND_OPTIONAL_SECONDS;
           break;
       }
-      return new AST.date.timeZone.ISO8601WithoutZTimeZone(format);
+      return new AST.date.timezone.ISO8601WithoutZTimeZone(format);
   }
 };
 
@@ -1327,16 +1327,16 @@ AST.date.time.second.MilliSecondInDay = function(length) {
  * Namespace time zone
  */
 
-AST.date.timeZone = {};
+AST.date.timezone = {};
 
 /**
  * Time zone in specific non location time zone AST.
  *
- * @param {AST.date.timeZone.SpecificNonLocationFormat.Type}.Type
+ * @param {AST.date.timezone.SpecificNonLocationFormat.Type}.Type
  * @contructor
  */
 
-AST.date.timeZone.SpecificNonLocationTimeZone = function(format) {
+AST.date.timezone.SpecificNonLocationTimeZone = function(format) {
   this.format = format;
 };
 
@@ -1354,7 +1354,7 @@ AST.date.timeZone.SpecificNonLocationTimeZone = function(format) {
  * @api public
  */
 
-AST.date.timeZone.SpecificNonLocationTimeZone.Formats = {
+AST.date.timezone.SpecificNonLocationTimeZone.Formats = {
   SHORT: 1,
   LONG: 2
 };
@@ -1362,11 +1362,11 @@ AST.date.timeZone.SpecificNonLocationTimeZone.Formats = {
 /**
  * Time zone in ISO8601 time zone AST.
  *
- * @param {AST.date.timeZone.ISO8601.Type}.Type
+ * @param {AST.date.timezone.ISO8601.Type}.Type
  * @contructor
  */
 
-AST.date.timeZone.RegularTimeZone = function(format) {
+AST.date.timezone.RegularTimeZone = function(format) {
   this.format = format;
 };
 
@@ -1386,7 +1386,7 @@ AST.date.timeZone.RegularTimeZone = function(format) {
  * @api public
  */
 
-AST.date.timeZone.RegularTimeZone.Formats = {
+AST.date.timezone.RegularTimeZone.Formats = {
   ISO8601_BASIC: 1,
   LONG_LOCALIZED_GMT: 2,
   ISO8601_EXTENDED: 3
@@ -1395,11 +1395,11 @@ AST.date.timeZone.RegularTimeZone.Formats = {
 /**
  * time zone in localizaed GMT format.
  *
- * @param {AST.date.timeZone.LocalizedGMTTimeZone.Formats} format
+ * @param {AST.date.timezone.LocalizedGMTTimeZone.Formats} format
  * @contructor
  */
 
-AST.date.timeZone.LocalizedGMTTimeZone = function(format) {
+AST.date.timezone.LocalizedGMTTimeZone = function(format) {
   this.format = format;
 };
 
@@ -1417,7 +1417,7 @@ AST.date.timeZone.LocalizedGMTTimeZone = function(format) {
  * @api public
  */
 
-AST.date.timeZone.LocalizedGMTTimeZone.Formats = {
+AST.date.timezone.LocalizedGMTTimeZone.Formats = {
   SHORT: 1,
   LONG: 2
 };
@@ -1425,11 +1425,11 @@ AST.date.timeZone.LocalizedGMTTimeZone.Formats = {
 /**
  * Generic non-location time zone AST.
  *
- * @param {AST.date.timeZone.GenericNonLocationFormat.Type}.Type
+ * @param {AST.date.timezone.GenericNonLocationFormat.Type}.Type
  * @contructor
  */
 
-AST.date.timeZone.GenericNonLocationTimeZone = function(format) {
+AST.date.timezone.GenericNonLocationTimeZone = function(format) {
   this.format = format;
 };
 
@@ -1447,7 +1447,7 @@ AST.date.timeZone.GenericNonLocationTimeZone = function(format) {
  * @api public
  */
 
-AST.date.timeZone.GenericNonLocationTimeZone.Formats = {
+AST.date.timezone.GenericNonLocationTimeZone.Formats = {
   ABBREVIATED: 1,
   FULL: 2
 };
@@ -1463,11 +1463,11 @@ AST.date.timeZone.GenericNonLocationTimeZone.Formats = {
  *     3        Los Angeles
  *     4        Los Angeles Time
  *
- * @param {AST.date.timeZone.GenericLocationFormat.Formats} format.
+ * @param {AST.date.timezone.GenericLocationFormat.Formats} format.
  * @contructor
  */
 
-AST.date.timeZone.GenericLocationTimeZone = function(format) {
+AST.date.timezone.GenericLocationTimeZone = function(format) {
   this.format = format;
 };
 
@@ -1487,7 +1487,7 @@ AST.date.timeZone.GenericLocationTimeZone = function(format) {
  * @api public
  */
 
-AST.date.timeZone.GenericLocationTimeZone.Formats = {
+AST.date.timezone.GenericLocationTimeZone.Formats = {
   SHORT_TIME_ZONE_ID: 1,
   LONG_TIME_ZONE_ID: 2,
   CITY: 3,
@@ -1497,11 +1497,11 @@ AST.date.timeZone.GenericLocationTimeZone.Formats = {
 /**
  * ISO8601 with `Z` time zone AST.
  *
- * @param {AST.date.timeZone.ISO8601WithZTimeZone.Format} format
+ * @param {AST.date.timezone.ISO8601WithZTimeZone.Format} format
  * @constructor
  */
 
-AST.date.timeZone.ISO8601WithZTimeZone = function(format) {
+AST.date.timezone.ISO8601WithZTimeZone = function(format) {
   this.format = format;
 };
 
@@ -1530,7 +1530,7 @@ AST.date.timeZone.ISO8601WithZTimeZone = function(format) {
  * @api public
  */
 
-AST.date.timeZone.ISO8601WithZTimeZone.Formats = {
+AST.date.timezone.ISO8601WithZTimeZone.Formats = {
   BASIC_FORMAT_WITH_OPTIONAL_MINUTES: 1,
   BASIC_FORMAT_WITH_MINUTES: 2,
   EXTENDED_FORMAT_WITH_HOURS_AND_MINUTES: 3,
@@ -1541,11 +1541,11 @@ AST.date.timeZone.ISO8601WithZTimeZone.Formats = {
 /**
  * ISO8601 time zone format without `Z` representing zero time zone offset.
  *
- * @param {AST.date.timeZone.ISO8601WithZ.Type} type
+ * @param {AST.date.timezone.ISO8601WithZ.Type} type
  * @constructor
  */
 
-AST.date.timeZone.ISO8601WithoutZTimeZone = function(format) {
+AST.date.timezone.ISO8601WithoutZTimeZone = function(format) {
   this.format = format;
 };
 
@@ -1569,7 +1569,7 @@ AST.date.timeZone.ISO8601WithoutZTimeZone = function(format) {
  * @api public
  */
 
-AST.date.timeZone.ISO8601WithoutZTimeZone.Formats = {
+AST.date.timezone.ISO8601WithoutZTimeZone.Formats = {
   BASIC_FORMAT_WITH_OPTIONAL_MINUTES: 1,
   BASIC_FORMAT_WITH_MINUTES: 2,
   EXTENDED_FORMAT_WITH_HOURS_AND_MINUTES: 3,

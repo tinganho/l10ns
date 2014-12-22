@@ -1,0 +1,48 @@
+var offsetFloatingHours = toTimezoneOffset / 60;
+var offsetHours;
+var offsetMinutes;
+
+if(toTimezoneOffset >= 0) {
+  offsetHours = Math.floor(offsetFloatingHours);
+  offsetMinutes = ((offsetFloatingHours % 1) * 60).toFixed(0);
+}
+else if(toTimezoneOffset < 0) {
+  offsetHours = Math.ceil(offsetFloatingHours);
+  offsetMinutes = - ((offsetFloatingHours % 1) * 60).toFixed(0);
+}
+if(offsetMinutes < 10) {
+  offsetMinutes = '0' + offsetMinutes;
+}
+{{?it.format === 1}}
+if(offsetHours > -10 && offsetHours < 0) {
+  offsetHours = (offsetHours + '').replace('-', '-0');
+}
+else if(offsetHours >= 0 && offsetHours < 10) {
+  offsetHours = '+0' + offsetHours;
+}
+else if(offsetHours >= 10) {
+  offsetHours = '+' + offsetHours;
+}
+dateString += offsetHours + '' + offsetMinutes;
+{{??it.format === 2}}
+if(offsetHours >= 0) {
+  offsetHours = '+' + offsetHours;
+}
+dateString += 'GMT' + offsetHours + ':' + offsetMinutes;
+{{??}}
+if(offsetHours === 0 && offsetMinutes === '00') {
+  dateString += 'Z';
+}
+else {
+  if(offsetHours > -10 && offsetHours < 0) {
+    offsetHours = (offsetHours + '').replace('-', '-0');
+  }
+  else if(offsetHours >= 0 && offsetHours < 10) {
+    offsetHours = '+0' + offsetHours;
+  }
+  else if(offsetHours >= 10) {
+    offsetHours = '+' + offsetHours;
+  }
+  dateString += offsetHours + ':' + offsetMinutes;
+}
+{{?}}

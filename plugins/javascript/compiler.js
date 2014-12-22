@@ -977,6 +977,11 @@ Compiler.prototype._compileDateFormat = function(dateFormat) {
         length: component.length
       });
     }
+    else if(component instanceof MessageFormat.AST.date.timezone.RegularTimeZone) {
+      result += template['DateRegularTimezone']({
+        format: component.format
+      });
+    }
   });
 
   if(dateFormat.numberSystem !== 'latn') {
