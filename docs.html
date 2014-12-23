@@ -85,6 +85,9 @@
           <li class="side-menu-sub-item">
             <a class="side-menu-anchor" href="#currencyformat">CURRENCY FORMAT</a>
           </li>
+          <li class="side-menu-sub-item">
+            <a class="side-menu-anchor" href="#dateformat">DATE FORMAT</a>
+          </li>
         </ul>
       </nav>
     </div>
@@ -978,6 +981,197 @@ Notice 1: The default currency amounts for USD in locale <span class="focused">e
 <p>
 Notice 2: Some website use to wrap the currency symbols with the html tags <span class="focused">&lt;sup&gt;</span> or <span class="focused">&lt;sub&gt;</span>. Use Number Format for this use case.
 </p>
+
+<a id="dateformat">
+  <h2>Date Format</h2>
+</a>
+
+<p>
+Date Format is used for formatting date values. Date Format is very flexible and you can almost get any value you want in any format you want. It also supports time zones with data from IANA.
+</p>
+
+<p>
+The syntax for defining a date format is:
+</p>
+
+<code>
+{time, date, [date identifiers]}
+</code>
+
+<p>
+If we want to render into the format <span class="focused">2014-12-24 19:14</span>, we would need to specify the markup:
+</p>
+
+<code>
+{time, date, yyyy-MM-dd HH:mm}
+</code>
+
+<p>
+If you want to use the compiled output. You need to pass in an object containing the property <span class="focused">time</span> of type <span class="focused">Date</span> and a property <span class="focused">timezone</span> which corresponds to an IANA timezone ID:
+</p>
+
+
+<code>
+l(<span class="red">'TRANSLATION_KEY'</span>, {<br>
+&nbsp;&nbsp;startTime: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;time: new Date(),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;timezone: <span class="red">'America/Los_Angeles'</span><br>
+&nbsp;&nbsp;}<br>
+});
+</code>
+
+<p>
+Use these identifiers to construct your date formatted strings.
+</p>
+
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Symbol</th>
+<th>Consecutive</th>
+<th>Example</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td rowspan="3">Era</td>
+<td rowspan="3">G</td>
+<td>1..3</td>
+<td>AD</td>
+<td rowspan="3">Era - Replaced with the Era string for the current date. One to three letters for the abbreviated form, four letters for the long (wide) form, five for the narrow form.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Anno Domini</td>
+</tr>
+<tr>
+<td>5</td>
+<td>A</td>
+</tr>
+<tr>
+<td rowspan="2">Year</td>
+<td>y</td>
+<td>1..n</td>
+<td>1996</td>
+<td>Year. Normally the length specifies the padding, but for two letters it also specifies the maximum length.</td>
+</tr>
+<tr>
+<td>Y</td>
+<td>1..n</td>
+<td>1997</td>
+<td>Year (in "Week of Year" based calendars). Normally the length specifies the padding, but for two letters it also specifies the maximum length. This year designation is used in ISO year-week calendar as defined by ISO 8601, but can be used in non-Gregorian based calendar systems where week date processing is desired. May not always be the same value as calendar year.</td>
+</tr>
+
+<tr>
+<td rowspan="6">Quarter</td>
+<td rowspan="3">Q</td>
+<td>1..2</td>
+<td>02</td>
+<td rowspan="3">Quarter - Use one or two for the numerical quarter, three for the abbreviation, or four for the full (wide) name (five for the narrow name is not yet supported).</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Q2</td>
+</tr>
+<tr>
+<td>4</td>
+<td>2nd quarter</td>
+</tr>
+<tr>
+<td rowspan="3">q</td>
+<td>1..2</td>
+<td>02</td>
+<td rowspan="3"><b>Stand-Alone</b> Quarter - Use one or two for the numerical quarter, three for the abbreviation, or four for the full name (five for the narrow name is not yet supported).</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Q2</td>
+</tr>
+<tr>
+<td>4</td>
+<td>2nd quarter</td>
+</tr>
+
+<tr>
+<td rowspan="8">Month</td>
+<td rowspan="4">M</td>
+<td>1..2</td>
+<td>09</td>
+<td rowspan="4">Month - Use one or two for the numerical month, three for the abbreviation, four for the full (wide) name, or five for the narrow name. With two ("MM"), the month number is zero-padded if necessary (e.g. "08")</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Sep</td>
+</tr>
+<td>4</td>
+<td>September</td>
+</tr>
+<td>5</td>
+<td>S</td>
+</tr>
+<tr>
+<td rowspan="4">L</td>
+<td>1..2</td>
+<td>09</td>
+<td rowspan="4"><b>Stand-Alone</b> Month - Use one or two for the numerical month, three for the abbreviation, four for the full (wide) name, or 5 for the narrow name. With two ("LL"), the month number is zero-padded if necessary (e.g. "08")</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Sep</td>
+</tr>
+<td>4</td>
+<td>September</td>
+</tr>
+<td>5</td>
+<td>S</td>
+</tr>
+
+<tr>
+<td rowspan="2">Week</td>
+<td>w</td>
+<td>1..2</td>
+<td>27</td>
+<td>Week of Year. Use "w" to show the minimum number of digits, or "ww" to always show two digits (zero-padding if necessary, e.g. "08").</td>
+</tr>
+<tr>
+<td>W</td>
+<td>1</td>
+<td>3</td>
+<td>Week of Month</td>
+</tr>
+
+<tr>
+<td rowspan="3">Day</td>
+<td>d</td>
+<td>1..2</td>
+<td>1</td>
+<td>Date - Day of the month. Use "d" to show the minimum number of digits, or "dd" to always show two digits (zero-padding if necessary, e.g. "08").</td>
+</tr>
+<tr>
+<td>D</td>
+<td>1..3</td>
+<td>345</td>
+<td>Day of year</td>
+</tr>
+<tr>
+<td>F</td>
+<td>1</td>
+<td>2</td>
+<td>Day of Week in Month. The example is for the 2nd Wed in July</td>
+</tr>
+
+<tr>
+<td rowspan="12">Week day</td>
+<td>d</td>
+<td>1..2</td>
+<td>1</td>
+<td>Date - Day of the month. Use "d" to show the minimum number of digits, or "dd" to always show two digits (zero-padding if necessary, e.g. "08").</td>
+</tr>
+
+</tbody>
+</table>
 
       </div>
     </div>
