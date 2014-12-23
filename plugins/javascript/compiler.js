@@ -987,6 +987,8 @@ Compiler.prototype._compileDateFormat = function(dateFormat) {
         format: component.format
       });
     }
+
+    result += _this.linefeed;
   });
 
   if(dateFormat.numberSystem !== 'latn') {

@@ -648,7 +648,9 @@
           }
           yearString += year;
         }
-        dateString += yearString;dateString += '-';var month = date.getMonth();
+        dateString += yearString;
+        dateString += '-';
+        var month = date.getMonth();
         var monthStrings = [
           '01',
           '02',
@@ -663,23 +665,32 @@
           '11',
           '12'
         ];
-        dateString += monthStrings[month];dateString += '-';var dayOfMonthString = date.getDate() + '';
+        dateString += monthStrings[month];
+        dateString += '-';
+        var dayOfMonthString = date.getDate() + '';
         if(dayOfMonthString.length === 1) {
           dayOfMonthString = '0' + dayOfMonthString;
         }
-        dateString += dayOfMonthString;dateString += ' ';var hours = date.getHours();
+        dateString += dayOfMonthString;
+        dateString += ' ';
+        var hours = date.getHours();
         if(hours < 10) {
           hours = '0' + hours;
         }
-        dateString += hours;dateString += ':';var minutes = date.getMinutes();
+        dateString += hours;
+        dateString += ':';
+        var minutes = date.getMinutes();
         if(minutes < 10) {
           minutes = '0' + minutes;
         }
-        dateString += minutes;dateString += ':';var seconds = date.getSeconds();
+        dateString += minutes;
+        dateString += ':';
+        var seconds = date.getSeconds();
         if(seconds < 10) {
           seconds = '0' + seconds;
         }
         dateString += seconds;
+
         string += dateString;
         return string;
       }
