@@ -169,7 +169,7 @@ describe('DateFormat', function() {
       compiler.run();
       eventually(function() {
         var functionBody = setDateBlock +
-          'dateString += \'test\';\n' +
+          'dateString += \'test\';\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -194,7 +194,7 @@ describe('DateFormat', function() {
           '}\n' +
           'else {\n' +
           '  dateString += \'BC\';\n' +
-          '}\n' +
+          '}\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -217,7 +217,7 @@ describe('DateFormat', function() {
           '}\n' +
           'else {\n' +
           '  dateString += \'Before Christ\';\n' +
-          '}\n' +
+          '}\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -240,7 +240,7 @@ describe('DateFormat', function() {
           '}\n' +
           'else {\n' +
           '  dateString += \'B\';\n' +
-          '}\n' +
+          '}\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -272,7 +272,7 @@ describe('DateFormat', function() {
           '  }\n' +
           '  yearString += year;\n' +
           '}\n' +
-          'dateString += yearString;\n' +
+          'dateString += yearString;\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -298,7 +298,7 @@ describe('DateFormat', function() {
           'else {\n' +
           '  yearString += year.substring(year.length - 2, year.length);\n' +
           '}\n' +
-          'dateString += yearString;\n' +
+          'dateString += yearString;\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -328,7 +328,7 @@ describe('DateFormat', function() {
           '  }\n' +
           '  yearString += year;\n' +
           '}\n' +
-          'dateString += yearString;\n' +
+          'dateString += yearString;\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -347,7 +347,7 @@ describe('DateFormat', function() {
       eventually(function() {
         var functionBody = setDateBlock +
           dateTemplates['DateWeekBasedYear']({ startOfWeek: 0 }) + '\n' +
-          dateTemplates['FormatYear']({ length: 1 }) + '\n' +
+          dateTemplates['FormatYear']({ length: 1 }) + '\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -366,7 +366,7 @@ describe('DateFormat', function() {
       eventually(function() {
         var functionBody = setDateBlock +
           dateTemplates['DateWeekBasedYear']({ startOfWeek: 0 }) + '\n' +
-          dateTemplates['FormatYear']({ length: 2 }) + '\n' +
+          dateTemplates['FormatYear']({ length: 2 }) + '\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -385,7 +385,7 @@ describe('DateFormat', function() {
       eventually(function() {
         var functionBody = setDateBlock +
           dateTemplates['DateWeekBasedYear']({ startOfWeek: 0 }) + '\n' +
-          dateTemplates['FormatYear']({ length: 3 }) + '\n' +
+          dateTemplates['FormatYear']({ length: 3 }) + '\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -502,7 +502,7 @@ describe('DateFormat', function() {
           '  \'3\',\n' +
           '  \'4\'\n' +
           '];\n' +
-          'dateString += quarterStrings[quarter];\n' +
+          'dateString += quarterStrings[quarter];\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -527,7 +527,7 @@ describe('DateFormat', function() {
           '  \'03\',\n' +
           '  \'04\'\n' +
           '];\n' +
-          'dateString += quarterStrings[quarter];\n' +
+          'dateString += quarterStrings[quarter];\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -552,7 +552,7 @@ describe('DateFormat', function() {
           '  \'Q3\',\n' +
           '  \'Q4\'\n' +
           '];\n' +
-          'dateString += quarterStrings[quarter];\n' +
+          'dateString += quarterStrings[quarter];\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -577,7 +577,7 @@ describe('DateFormat', function() {
           '  \'3rd quarter\',\n' +
           '  \'4th quarter\'\n' +
           '];\n' +
-          'dateString += quarterStrings[quarter];\n' +
+          'dateString += quarterStrings[quarter];\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -603,7 +603,7 @@ describe('DateFormat', function() {
           '  \'3\',\n' +
           '  \'4\'\n' +
           '];\n' +
-          'dateString += quarterStrings[quarter];\n' +
+          'dateString += quarterStrings[quarter];\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -628,7 +628,7 @@ describe('DateFormat', function() {
           '  \'03\',\n' +
           '  \'04\'\n' +
           '];\n' +
-          'dateString += quarterStrings[quarter];\n' +
+          'dateString += quarterStrings[quarter];\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -653,7 +653,7 @@ describe('DateFormat', function() {
           '  \'Q3\',\n' +
           '  \'Q4\'\n' +
           '];\n' +
-          'dateString += quarterStrings[quarter];\n' +
+          'dateString += quarterStrings[quarter];\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -678,7 +678,7 @@ describe('DateFormat', function() {
           '  \'Q3\',\n' +
           '  \'Q4\'\n' +
           '];\n' +
-          'dateString += quarterStrings[quarter];\n' +
+          'dateString += quarterStrings[quarter];\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -713,7 +713,7 @@ describe('DateFormat', function() {
           '  \'11\',\n' +
           '  \'12\'\n' +
           '];\n' +
-          'dateString += monthStrings[month];\n' +
+          'dateString += monthStrings[month];\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -746,7 +746,7 @@ describe('DateFormat', function() {
           '  \'11\',\n' +
           '  \'12\'\n' +
           '];\n' +
-          'dateString += monthStrings[month];\n' +
+          'dateString += monthStrings[month];\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -779,7 +779,7 @@ describe('DateFormat', function() {
           '  \'Nov\',\n' +
           '  \'Dec\'\n' +
           '];\n' +
-          'dateString += monthStrings[month];\n' +
+          'dateString += monthStrings[month];\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -812,7 +812,7 @@ describe('DateFormat', function() {
           '  \'November\',\n' +
           '  \'December\'\n' +
           '];\n' +
-          'dateString += monthStrings[month];\n' +
+          'dateString += monthStrings[month];\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -845,7 +845,7 @@ describe('DateFormat', function() {
           '  \'11\',\n' +
           '  \'12\'\n' +
           '];\n' +
-          'dateString += monthStrings[month];\n' +
+          'dateString += monthStrings[month];\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -878,7 +878,7 @@ describe('DateFormat', function() {
           '  \'11\',\n' +
           '  \'12\'\n' +
           '];\n' +
-          'dateString += monthStrings[month];\n' +
+          'dateString += monthStrings[month];\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -911,7 +911,7 @@ describe('DateFormat', function() {
           '  \'11\',\n' +
           '  \'12\'\n' +
           '];\n' +
-          'dateString += monthStrings[month];\n' +
+          'dateString += monthStrings[month];\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -944,7 +944,7 @@ describe('DateFormat', function() {
           '  \'M11\',\n' +
           '  \'M12\'\n' +
           '];\n' +
-          'dateString += monthStrings[month];\n' +
+          'dateString += monthStrings[month];\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -977,7 +977,7 @@ describe('DateFormat', function() {
           '  \'M11\',\n' +
           '  \'M12\'\n' +
           '];\n' +
-          'dateString += monthStrings[month];\n' +
+          'dateString += monthStrings[month];\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -1010,7 +1010,7 @@ describe('DateFormat', function() {
           '  \'N\',\n' +
           '  \'D\'\n' +
           '];\n' +
-          'dateString += monthStrings[month];\n' +
+          'dateString += monthStrings[month];\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -1034,7 +1034,7 @@ describe('DateFormat', function() {
           'dateCopy.setHours(0,0,0);\n' +
           'dateCopy.setDate(dateCopy.getDate()+4-(dateCopy.getDay()||7));\n' +
           'var week = Math.ceil((((dateCopy-new Date(dateCopy.getFullYear(),0,1))/8.64e7)+1)/7) + \'\';\n' +
-          'dateString += week;\n' +
+          'dateString += week;\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -1059,7 +1059,7 @@ describe('DateFormat', function() {
           'if(week.length === 1) {\n' +
           '  week = \'0\' + week;\n' +
           '}\n' +
-          'dateString += week;\n' +
+          'dateString += week;\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -1128,7 +1128,7 @@ describe('DateFormat', function() {
           'dateCopy.setDate(dateCopy.getDate() + 4 - (dateCopy.getDay() || 7 ));\n' +
           'var monthStart = new Date(dateCopy.getFullYear(),dateCopy.getMonth(), 1);\n' +
           'var week = Math.ceil((((dateCopy - monthStart) / 86400000) + 1)/7);\n' +
-          'dateString += week;\n' +
+          'dateString += week;\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -1151,7 +1151,7 @@ describe('DateFormat', function() {
           'dateCopy.setDate(dateCopy.getDate() + 3 - dateCopy.getDay());\n' +
           'var monthStart = new Date(dateCopy.getFullYear(),dateCopy.getMonth(), 1);\n' +
           'var week = Math.ceil((((dateCopy - monthStart) / 86400000) + 1)/7);\n' +
-          'dateString += week;\n' +
+          'dateString += week;\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -1234,7 +1234,7 @@ describe('DateFormat', function() {
       eventually(function() {
         var functionBody = setDateBlock +
           'var dayOfMonthString = date.getDate() + \'\';\n' +
-          'dateString += dayOfMonthString;\n' +
+          'dateString += dayOfMonthString;\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -1256,7 +1256,7 @@ describe('DateFormat', function() {
           'if(dayOfMonthString.length === 1) {\n' +
           '  dayOfMonthString = \'0\' + dayOfMonthString;\n' +
           '}\n' +
-          'dateString += dayOfMonthString;\n' +
+          'dateString += dayOfMonthString;\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -1278,7 +1278,7 @@ describe('DateFormat', function() {
           'var diff = now - start;\n' +
           'var oneDay = 1000 * 60 * 60 * 24;\n' +
           'var day = Math.floor(diff / oneDay) + \'\';\n' +
-          'dateString += day;\n' +
+          'dateString += day;\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -1303,7 +1303,7 @@ describe('DateFormat', function() {
           'for(day.length < 2) {\n' +
           '  day = \'0\' + day;\n' +
           '}\n' +
-          'dateString += day;\n' +
+          'dateString += day;\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -1328,7 +1328,7 @@ describe('DateFormat', function() {
           'for(day.length < 3) {\n' +
           '  day = \'0\' + day;\n' +
           '}\n' +
-          'dateString += day;\n' +
+          'dateString += day;\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -1379,7 +1379,7 @@ describe('DateFormat', function() {
           '  count++;\n' +
           '}\n' +
           'count += \'\';\n' +
-          'dateString += count;\n' +
+          'dateString += count;\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -1415,7 +1415,7 @@ describe('DateFormat', function() {
           'else {\n' +
           '  day--;\n' +
           '}\n' +
-          'dateString += days[day];\n' +
+          'dateString += days[day];\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -1449,7 +1449,7 @@ describe('DateFormat', function() {
           'else {\n' +
           '  day--;\n' +
           '}\n' +
-          'dateString += days[day];\n' +
+          'dateString += days[day];\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -1483,7 +1483,7 @@ describe('DateFormat', function() {
           'else {\n' +
           '  day--;\n' +
           '}\n' +
-          'dateString += days[day];\n' +
+          'dateString += days[day];\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -1517,7 +1517,7 @@ describe('DateFormat', function() {
           'else {\n' +
           '  day--;\n' +
           '}\n' +
-          'dateString += days[day];\n' +
+          'dateString += days[day];\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -1540,7 +1540,7 @@ describe('DateFormat', function() {
           '  day = 7;\n' +
           '}\n' +
           'day += \'\';\n' +
-          'dateString += day;\n' +
+          'dateString += day;\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -1564,7 +1564,7 @@ describe('DateFormat', function() {
           '}\n' +
           'day += \'\';\n' +
           'day = \'0\' + day;\n' +
-          'dateString += day;\n' +
+          'dateString += day;\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -1598,7 +1598,7 @@ describe('DateFormat', function() {
           'else {\n' +
           '  day--;\n' +
           '}\n' +
-          'dateString += days[day];\n' +
+          'dateString += days[day];\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -1632,7 +1632,7 @@ describe('DateFormat', function() {
           'else {\n' +
           '  day--;\n' +
           '}\n' +
-          'dateString += days[day];\n' +
+          'dateString += days[day];\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -1666,7 +1666,7 @@ describe('DateFormat', function() {
           'else {\n' +
           '  day--;\n' +
           '}\n' +
-          'dateString += days[day];\n' +
+          'dateString += days[day];\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -1700,7 +1700,7 @@ describe('DateFormat', function() {
           'else {\n' +
           '  day--;\n' +
           '}\n' +
-          'dateString += days[day];\n' +
+          'dateString += days[day];\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -1723,7 +1723,7 @@ describe('DateFormat', function() {
           '  day = 7;\n' +
           '}\n' +
           'day += \'\';\n' +
-          'dateString += day;\n' +
+          'dateString += day;\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -1747,7 +1747,7 @@ describe('DateFormat', function() {
           '}\n' +
           'day += \'\';\n' +
           'day = \'0\' + day;\n' +
-          'dateString += day;\n' +
+          'dateString += day;\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -1781,7 +1781,7 @@ describe('DateFormat', function() {
           'else {\n' +
           '  day--;\n' +
           '}\n' +
-          'dateString += days[day];\n' +
+          'dateString += days[day];\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -1815,7 +1815,7 @@ describe('DateFormat', function() {
           'else {\n' +
           '  day--;\n' +
           '}\n' +
-          'dateString += days[day];\n' +
+          'dateString += days[day];\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -1849,7 +1849,7 @@ describe('DateFormat', function() {
           'else {\n' +
           '  day--;\n' +
           '}\n' +
-          'dateString += days[day];\n' +
+          'dateString += days[day];\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -1883,7 +1883,7 @@ describe('DateFormat', function() {
           'else {\n' +
           '  day--;\n' +
           '}\n' +
-          'dateString += days[day];\n' +
+          'dateString += days[day];\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -1908,7 +1908,7 @@ describe('DateFormat', function() {
           '}\n' +
           'else {\n' +
           '  dateString += \'PM\';\n' +
-          '}\n' +
+          '}\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -1931,7 +1931,7 @@ describe('DateFormat', function() {
           '}\n' +
           'else {\n' +
           '  dateString += \'PM\';\n' +
-          '}\n' +
+          '}\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -1954,7 +1954,7 @@ describe('DateFormat', function() {
           '}\n' +
           'else {\n' +
           '  dateString += \'PM\';\n' +
-          '}\n' +
+          '}\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -1977,7 +1977,7 @@ describe('DateFormat', function() {
           '}\n' +
           'else {\n' +
           '  dateString += \'p\';\n' +
-          '}\n' +
+          '}\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -2000,7 +2000,7 @@ describe('DateFormat', function() {
           '}\n' +
           'else {\n' +
           '  dateString += \'PM\';\n' +
-          '}\n' +
+          '}\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -2024,7 +2024,7 @@ describe('DateFormat', function() {
           'if(hours > 11) {\n' +
           '  hours = hours - 12;\n' +
           '}\n' +
-          'dateString += hours;\n' +
+          'dateString += hours;\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -2050,7 +2050,7 @@ describe('DateFormat', function() {
           'if(hours < 10) {\n' +
           '  hours = \'0\' + hours;\n' +
           '}\n' +
-          'dateString += hours;\n' +
+          'dateString += hours;\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -2075,7 +2075,7 @@ describe('DateFormat', function() {
           'if(hours === 0) {\n' +
           '  hours = 12;\n' +
           '}\n' +
-          'dateString += hours;\n' +
+          'dateString += hours;\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -2103,7 +2103,7 @@ describe('DateFormat', function() {
           'if(hours < 10) {\n' +
           '  hours = \'0\' + hours;\n' +
           '}\n' +
-          'dateString += hours;\n' +
+          'dateString += hours;\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -2122,7 +2122,7 @@ describe('DateFormat', function() {
       eventually(function() {
         var functionBody = setDateBlock +
           'var hours = date.getHours();\n' +
-          'dateString += hours;\n' +
+          'dateString += hours;\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -2144,7 +2144,7 @@ describe('DateFormat', function() {
           'if(hours < 10) {\n' +
           '  hours = \'0\' + hours;\n' +
           '}\n' +
-          'dateString += hours;\n' +
+          'dateString += hours;\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -2166,7 +2166,7 @@ describe('DateFormat', function() {
           'if(hours === 0) {\n' +
           '  hours = 24;\n' +
           '}\n' +
-          'dateString += hours;\n' +
+          'dateString += hours;\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -2191,7 +2191,7 @@ describe('DateFormat', function() {
           'if(hours < 10) {\n' +
           '  hours = \'0\' + hours;\n' +
           '}\n' +
-          'dateString += hours;\n' +
+          'dateString += hours;\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -2212,7 +2212,7 @@ describe('DateFormat', function() {
       eventually(function() {
         var functionBody = setDateBlock +
           'var minutes = date.getMinutes();\n' +
-          'dateString += minutes;\n' +
+          'dateString += minutes;\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -2234,7 +2234,7 @@ describe('DateFormat', function() {
           'if(minutes < 10) {\n' +
           '  minutes = \'0\' + minutes;\n' +
           '}\n' +
-          'dateString += minutes;\n' +
+          'dateString += minutes;\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -2255,7 +2255,7 @@ describe('DateFormat', function() {
       eventually(function() {
         var functionBody = setDateBlock +
           'var seconds = date.getSeconds();\n' +
-          'dateString += seconds;\n' +
+          'dateString += seconds;\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -2277,7 +2277,7 @@ describe('DateFormat', function() {
           'if(seconds < 10) {\n' +
           '  seconds = \'0\' + seconds;\n' +
           '}\n' +
-          'dateString += seconds;\n' +
+          'dateString += seconds;\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -2327,7 +2327,7 @@ describe('DateFormat', function() {
           'while(milliseconds.length < 1) {\n' +
           '  milliseconds += \'0\';\n' +
           '}\n' +
-          'dateString += milliseconds.substr(0, 1);\n' +
+          'dateString += milliseconds.substr(0, 1);\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -2352,7 +2352,7 @@ describe('DateFormat', function() {
           'while(milliseconds.length < 2) {\n' +
           '  milliseconds += \'0\';\n' +
           '}\n' +
-          'dateString += milliseconds.substr(0, 2);\n' +
+          'dateString += milliseconds.substr(0, 2);\n\n' +
           'string += dateString;\n' +
           'return string;';
         expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -2603,7 +2603,7 @@ describe('DateFormat', function() {
       eventually(function() {
         var functionBody = setDateBlock +
           'var dayOfMonthString = date.getDate() + \'\';\n' +
-          'dateString += dayOfMonthString;\n' +
+          'dateString += dayOfMonthString;\n\n' +
           'dateString = dateString\n' +
           '  .replace(/1/g, \'١\')\n' +
           '  .replace(/2/g, \'٢\')\n' +

@@ -879,7 +879,7 @@ Compiler.prototype._compileDateFormat = function(dateFormat) {
         case MessageFormat.AST.date.weekDay.LocalDayOfWeek.Formats.NUMERIC:
           return result += template['DateLocalDayOfWeekDigit']({
             padding: localDayOfWeekPadding
-          });
+          }) + _this.linefeed;
         case MessageFormat.AST.date.weekDay.LocalDayOfWeek.Formats.ABBREVIATED:
           localDayOfWeekStrings = dateFormat.CLDR.day[localDayOfWeekContext]['abbreviated'];
           break;
