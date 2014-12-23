@@ -1233,7 +1233,7 @@ describe('DateFormat', function() {
       compiler.run();
       eventually(function() {
         var functionBody = setDateBlock +
-          'var dayOfMonthString = date_ + \'\';\n' +
+          'var dayOfMonthString = date.getDate() + \'\';\n' +
           'dateString += dayOfMonthString;\n' +
           'string += dateString;\n' +
           'return string;';
@@ -1252,7 +1252,7 @@ describe('DateFormat', function() {
       compiler.run();
       eventually(function() {
         var functionBody = setDateBlock +
-          'var dayOfMonthString = date_ + \'\';\n' +
+          'var dayOfMonthString = date.getDate() + \'\';\n' +
           'if(dayOfMonthString.length === 1) {\n' +
           '  dayOfMonthString = \'0\' + dayOfMonthString;\n' +
           '}\n' +
@@ -2602,7 +2602,7 @@ describe('DateFormat', function() {
       compiler.run();
       eventually(function() {
         var functionBody = setDateBlock +
-          'var dayOfMonthString = date_ + \'\';\n' +
+          'var dayOfMonthString = date.getDate() + \'\';\n' +
           'dateString += dayOfMonthString;\n' +
           'dateString = dateString\n' +
           '  .replace(/1/g, \'١\')\n' +

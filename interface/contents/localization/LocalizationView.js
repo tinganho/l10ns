@@ -61,6 +61,7 @@ define(function(require) {
         '_addSelectordinalFormatedText',
         '_addNumberFormatedText',
         '_addCurrencyFormatedText',
+        '_addDateFormatedText',
         '_addVariableFormatedText'
       );
     },
@@ -132,6 +133,7 @@ define(function(require) {
       this.$addSelectordinalButton.on('mousedown', this._addSelectordinalFormatedText);
       this.$addNumberButton.on('mousedown', this._addNumberFormatedText);
       this.$addCurrencyButton.on('mousedown', this._addCurrencyFormatedText);
+      this.$addDateButton.on('mousedown', this._addDateFormatedText);
       this.$variable.on('mousedown', this._addVariableFormatedText);
       this.$save.on('mouseup', this._save);
       this._resizeTextArea();
@@ -324,6 +326,25 @@ define(function(require) {
     },
 
     /**
+     * Add date formated text to textarea
+     *
+     * @return {void}
+     * @api private
+     */
+
+    _addDateFormatedText: function() {
+      var variable = 'variable';
+      if(this.model.get('variables').length === 1) {
+        variable = this.model.get('variables')[0];
+      }
+      var text = '{' + variable + ', date, yyyy-MM-dd HH:mm:ss}'
+      this._replaceTextSelectionWithText(text);
+      this.$messageText.removeClass('has-error').html(
+        'Format date values with date identifiers. For more info please checkout our <a href="http://l10ns.org/docs.html#dateformat" target="_blank">docs</a>.'
+      );
+    },
+
+    /**
      * Set elements
      *
      * @return {void}
@@ -340,6 +361,7 @@ define(function(require) {
       this.$addSelectordinalButton = this.$('.localization-action-selectordinal');
       this.$addNumberButton = this.$('.localization-action-number');
       this.$addCurrencyButton = this.$('.localization-action-currency');
+      this.$addDateButton = this.$('.localization-action-date');
       this.$messageText = this.$('.localization-message-text');
       this.$buttons = this.$('.localization-buttons');
       this.$save = this.$('.localization-save');

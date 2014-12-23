@@ -7,7 +7,7 @@
     "key": "INDEX1",
     "new": false,
     "timestamp": "2014-10-15T07:22:56.178Z",
-    "value": "{floor, number, integer}",
+    "value": "{floor, date, yyyy-MM-dd HH:mm:ss}",
     "variables": [
       "floor"
     ]

@@ -28,6 +28,9 @@
       <li class="localization-action">
         <a class="localization-action-anchor localization-action-currency">currency</a>
       </li>
+      <li class="localization-action">
+        <a class="localization-action-anchor localization-action-date">date</a>
+      </li>
     </ul>
     <textarea class="localization-textarea localization-textarea-real">{{!it.value}}</textarea>
     <div class="localization-text-area-height-helper-container">

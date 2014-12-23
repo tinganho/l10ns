@@ -1,10 +1,10 @@
 var requireLocalizations = require('./output/all')
-var l = requireLocalizations('sv-SE');
+var l = requireLocalizations('en-US');
 
 var localizations = {
   'locale1': l('INDEX1', {
     floor: {
-      time: new Date('2014-11-25'),
+      time: new Date(),
       toTimezone: 'America/Los_Angeles'
     }
   })
