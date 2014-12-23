@@ -34,6 +34,7 @@ Parser.prototype.getKey = function(fn) {
 
 Parser.prototype.getVariables = function(fn) {
   language.LOCALIZATION_VARIABLES_SYNTAX.lastIndex = 0;
+  fn = fn.replace(/:\s*?\{(\s*?.*?\s*?)+?\}/g, ':');
   var obj = language.LOCALIZATION_VARIABLES_SYNTAX.exec(fn);
 
   if(obj === null) {

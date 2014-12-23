@@ -32,7 +32,7 @@
       ],
       "store": "example/javascript/localizations",
       "output": "example/javascript/output",
-      "source": ["example/javascript/**/*.js"],
+      "source": ["example/javascript/example.js"],
       "interface" : {
         "autoOpen": false,
         "port": 3004
