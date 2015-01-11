@@ -1,7 +1,7 @@
 {
   "name": "l10ns",
   "description": "Tooling for ICU messageformat and i18n workflow",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "homepage": "https://github.com/tinganho/l10ns",
   "author": {
     "name": "Tingan Ho",
