@@ -1527,7 +1527,7 @@ describe('DateFormat', function() {
       });
     });
 
-    it('should be able to compile a formated numeric local day of week', function(done) {
+    it('should be able to compile a formated numeric day of week', function(done) {
       var localizations = getLocalizations('{variable1, date, e}');
       var dependencies = getDependencies(localizations);
       var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
@@ -1550,7 +1550,7 @@ describe('DateFormat', function() {
       });
     });
 
-    it('should be able to compile a formated numeric with padding local day of week', function(done) {
+    it('should be able to compile a formated numeric with padding day of week', function(done) {
       var localizations = getLocalizations('{variable1, date, ee}');
       var dependencies = getDependencies(localizations);
       var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
@@ -1574,7 +1574,7 @@ describe('DateFormat', function() {
       });
     });
 
-    it('should be able to compile a formated abbreviated local day of week', function(done) {
+    it('should be able to compile a formated abbreviated day of week', function(done) {
       var localizations = getLocalizations('{variable1, date, eee}');
       var dependencies = getDependencies(localizations);
       var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
@@ -1608,7 +1608,7 @@ describe('DateFormat', function() {
       });
     });
 
-    it('should be able to compile a formated wide local day of week', function(done) {
+    it('should be able to compile a formated wide day of week', function(done) {
       var localizations = getLocalizations('{variable1, date, eeee}');
       var dependencies = getDependencies(localizations);
       var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
@@ -1642,7 +1642,7 @@ describe('DateFormat', function() {
       });
     });
 
-    it('should be able to compile a formated narrow local day of week', function(done) {
+    it('should be able to compile a formated narrow day of week', function(done) {
       var localizations = getLocalizations('{variable1, date, eeeee}');
       var dependencies = getDependencies(localizations);
       var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
@@ -1676,7 +1676,7 @@ describe('DateFormat', function() {
       });
     });
 
-    it('should be able to compile a formated short local day of week', function(done) {
+    it('should be able to compile a formated short day of week', function(done) {
       var localizations = getLocalizations('{variable1, date, eeeeee}');
       var dependencies = getDependencies(localizations);
       var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
@@ -1710,7 +1710,7 @@ describe('DateFormat', function() {
       });
     });
 
-    it('should be able to compile a stand-alone numeric local day of week', function(done) {
+    it('should be able to compile a stand-alone numeric day of week', function(done) {
       var localizations = getLocalizations('{variable1, date, c}');
       var dependencies = getDependencies(localizations);
       var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
@@ -1733,7 +1733,7 @@ describe('DateFormat', function() {
       });
     });
 
-    it('should be able to compile a stand-alone numeric with padding local day of week', function(done) {
+    it('should be able to compile a stand-alone numeric with padding day of week', function(done) {
       var localizations = getLocalizations('{variable1, date, cc}');
       var dependencies = getDependencies(localizations);
       var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
@@ -1757,7 +1757,7 @@ describe('DateFormat', function() {
       });
     });
 
-    it('should be able to compile a stand-alone abbreviated local day of week', function(done) {
+    it('should be able to compile a stand-alone abbreviated day of week', function(done) {
       var localizations = getLocalizations('{variable1, date, ccc}');
       var dependencies = getDependencies(localizations);
       var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
@@ -1791,7 +1791,7 @@ describe('DateFormat', function() {
       });
     });
 
-    it('should be able to compile a stand-alone wide local day of week', function(done) {
+    it('should be able to compile a stand-alone wide day of week', function(done) {
       var localizations = getLocalizations('{variable1, date, cccc}');
       var dependencies = getDependencies(localizations);
       var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
@@ -1800,13 +1800,13 @@ describe('DateFormat', function() {
       eventually(function() {
         var functionBody = setDateBlock +
           'var days = [\n' +
-          '  \'Mon\',\n' +
-          '  \'Tue\',\n' +
-          '  \'Wed\',\n' +
-          '  \'Thu\',\n' +
-          '  \'Fri\',\n' +
-          '  \'Sat\',\n' +
-          '  \'Sun\'\n' +
+          '  \'Monday\',\n' +
+          '  \'Tuesday\',\n' +
+          '  \'Wednesday\',\n' +
+          '  \'Thursday\',\n' +
+          '  \'Friday\',\n' +
+          '  \'Saturday\',\n' +
+          '  \'Sunday\'\n' +
           '];\n' +
           'var day = date.getDay();\n' +
           'if(day === 0) {\n' +
@@ -1825,7 +1825,7 @@ describe('DateFormat', function() {
       });
     });
 
-    it('should be able to compile a stand-alone narrow local day of week', function(done) {
+    it('should be able to compile a stand-alone narrow day of week', function(done) {
       var localizations = getLocalizations('{variable1, date, ccccc}');
       var dependencies = getDependencies(localizations);
       var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
@@ -1859,7 +1859,7 @@ describe('DateFormat', function() {
       });
     });
 
-    it('should be able to compile a stand-alone short local day of week', function(done) {
+    it('should be able to compile a stand-alone short day of week', function(done) {
       var localizations = getLocalizations('{variable1, date, cccccc}');
       var dependencies = getDependencies(localizations);
       var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
@@ -1868,13 +1868,13 @@ describe('DateFormat', function() {
       eventually(function() {
         var functionBody = setDateBlock +
           'var days = [\n' +
-          '  \'Mon\',\n' +
-          '  \'Tue\',\n' +
-          '  \'Wed\',\n' +
-          '  \'Thu\',\n' +
-          '  \'Fri\',\n' +
-          '  \'Sat\',\n' +
-          '  \'Sun\'\n' +
+          '  \'Mo\',\n' +
+          '  \'Tu\',\n' +
+          '  \'We\',\n' +
+          '  \'Th\',\n' +
+          '  \'Fr\',\n' +
+          '  \'Sa\',\n' +
+          '  \'Su\'\n' +
           '];\n' +
           'var day = date.getDay();\n' +
           'if(day === 0) {\n' +

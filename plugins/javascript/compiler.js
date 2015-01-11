@@ -840,53 +840,33 @@ Compiler.prototype._compileDateFormat = function(dateFormat) {
       result += template['DateDayOfWeekInMonth']();
     }
     else if(component instanceof MessageFormat.AST.date.weekDay.DayOfWeek) {
-      var dayOfWeekStrings;
-
-      switch(component.format) {
-        case MessageFormat.AST.date.weekDay.DayOfWeek.Formats.ABBREVIATED:
-          dayOfWeekStrings = dateFormat.CLDR.day['formated']['abbreviated'];
-          break;
-        case MessageFormat.AST.date.weekDay.DayOfWeek.Formats.WIDE:
-          dayOfWeekStrings = dateFormat.CLDR.day['formated']['wide'];
-          break;
-        case MessageFormat.AST.date.weekDay.DayOfWeek.Formats.NARROW:
-          dayOfWeekStrings = dateFormat.CLDR.day['formated']['narrow'];
-          break;
-        default:
-          dayOfWeekStrings = dateFormat.CLDR.day['formated']['short'];
-          break;
-      }
-
-      result += template['DateDayOfWeek']({
-        days: dayOfWeekStrings
-      });
-    }
-    else if(component instanceof MessageFormat.AST.date.weekDay.LocalDayOfWeek) {
       var localDayOfWeekStrings;
       var localDayOfWeekContext;
       var localDayOfWeekPadding;
 
-      if(component.context === MessageFormat.AST.date.weekDay.LocalDayOfWeek.Contexts.FORMATED) {
+      if(component.context === MessageFormat.AST.date.weekDay.DayOfWeek.Contexts.FORMATED) {
         localDayOfWeekContext = 'formated';
       }
       else {
         localDayOfWeekContext = 'standalone';
       }
 
+      console.log(dateFormat.CLDR.day);
+
       switch(component.format) {
-        case MessageFormat.AST.date.weekDay.LocalDayOfWeek.Formats.NUMERIC_WITH_PADDING:
+        case MessageFormat.AST.date.weekDay.DayOfWeek.Formats.NUMERIC_WITH_PADDING:
           localDayOfWeekPadding = true;
-        case MessageFormat.AST.date.weekDay.LocalDayOfWeek.Formats.NUMERIC:
-          return result += template['DateLocalDayOfWeekDigit']({
+        case MessageFormat.AST.date.weekDay.DayOfWeek.Formats.NUMERIC:
+          return result += template['DateDayOfWeekDigit']({
             padding: localDayOfWeekPadding
           }) + _this.linefeed;
-        case MessageFormat.AST.date.weekDay.LocalDayOfWeek.Formats.ABBREVIATED:
+        case MessageFormat.AST.date.weekDay.DayOfWeek.Formats.ABBREVIATED:
           localDayOfWeekStrings = dateFormat.CLDR.day[localDayOfWeekContext]['abbreviated'];
           break;
-        case MessageFormat.AST.date.weekDay.LocalDayOfWeek.Formats.WIDE:
+        case MessageFormat.AST.date.weekDay.DayOfWeek.Formats.WIDE:
           localDayOfWeekStrings = dateFormat.CLDR.day[localDayOfWeekContext]['wide'];
           break;
-        case MessageFormat.AST.date.weekDay.LocalDayOfWeek.Formats.NARROW:
+        case MessageFormat.AST.date.weekDay.DayOfWeek.Formats.NARROW:
           localDayOfWeekStrings = dateFormat.CLDR.day[localDayOfWeekContext]['narrow'];
           break;
         default:
