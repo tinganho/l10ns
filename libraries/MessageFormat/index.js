@@ -960,6 +960,8 @@ MessageFormat.prototype._readNumberFormatsData = function() {
  * Read XML node from CLDR
  *
  * @param {String} path
+ * @param {Object} verificationNodes is the minimum nodes needed validate that
+ * these nodes are valid
  * @return {null|String}
  */
 

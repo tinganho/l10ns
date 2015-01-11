@@ -35,7 +35,7 @@ $ l10ns init
 Now, create a source file test.js with (at least) the following code:
 ```
 var requireLocalizations = require('path/to/output');
-var l = requireLocalization('en-US');
+var l = requireLocalizations('en-US');
 var firstname = l('SIGN_UP__FIRSTNAME');
 var lastname = l('SIGN_UP__LASTNAME');
 ```

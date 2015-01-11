@@ -21,7 +21,7 @@ module.exports = function (grunt) {
 
     grunt.log.ok('Downloading ' + src);
 
-    exec('curl ' + src + ' -o ' + curl + ' && cd ' + dest + ' && gzip -dc ' + curl + ' | tar -xf -', function (err) {
+    exec('curl ' + src + ' -o ' + curl + ' -C - && cd ' + dest + ' && gzip -dc ' + curl + ' | tar -xf -', function (err) {
       if (err) { throw err; }
 
       grunt.log.ok('Downloaded ' + src);

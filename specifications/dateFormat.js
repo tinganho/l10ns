@@ -468,160 +468,108 @@ describe('DateFormat', function() {
   });
 
   describe('WeekDay', function() {
-    it('should be able to parse a day of week identifier', function() {
-      messageFormat.parse('{variable1, date, E}');
-      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
-      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.weekDay.DayOfWeek);
-      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.weekDay.DayOfWeek.Formats.ABBREVIATED);
-    });
-
-    it('should be able to parse two consecutive day of week identifiers', function() {
-      messageFormat.parse('{variable1, date, EE}');
-      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
-      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.weekDay.DayOfWeek);
-      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.weekDay.DayOfWeek.Formats.ABBREVIATED);
-    });
-
-    it('should be able to parse three consecutive day of week identifiers', function() {
-      messageFormat.parse('{variable1, date, EEE}');
-      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
-      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.weekDay.DayOfWeek);
-      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.weekDay.DayOfWeek.Formats.ABBREVIATED);
-    });
-
-    it('should be able to parse four consecutive day of week identifiers', function() {
-      messageFormat.parse('{variable1, date, EEEE}');
-      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
-      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.weekDay.DayOfWeek);
-      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.weekDay.DayOfWeek.Formats.WIDE);
-    });
-
-    it('should be able to parse five consecutive day of week identifiers', function() {
-      messageFormat.parse('{variable1, date, EEEEE}');
-      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
-      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.weekDay.DayOfWeek);
-      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.weekDay.DayOfWeek.Formats.NARROW);
-    });
-
-    it('should be able to parse six consecutive day of week identifiers', function() {
-      messageFormat.parse('{variable1, date, EEEEEE}');
-      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
-      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.weekDay.DayOfWeek);
-      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.weekDay.DayOfWeek.Formats.SHORT);
-    });
-
-    it('should begin with a new day of week when maximum consecutive identifiers have been exceeded', function() {
-      messageFormat.parse('{variable1, date, EEEEEEE}');
-      expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
-      expect(messageFormat.messageAST[0].AST.length).to.equal(2);
-      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.weekDay.DayOfWeek);
-      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.weekDay.DayOfWeek.Formats.SHORT);
-      expect(messageFormat.messageAST[0].AST[1]).to.be.an.instanceOf(AST.date.weekDay.DayOfWeek);
-      expect(messageFormat.messageAST[0].AST[1].format).to.equal(AST.date.weekDay.DayOfWeek.Formats.ABBREVIATED);
-    });
-
     it('should be able to parse a local day of week identifier', function() {
       messageFormat.parse('{variable1, date, e}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
-      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.weekDay.LocalDayOfWeek);
-      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.weekDay.LocalDayOfWeek.Formats.NUMERIC);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.weekDay.DayOfWeek);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.weekDay.DayOfWeek.Formats.NUMERIC);
     });
 
     it('should be able to parse two consecutive local day of week identifiers', function() {
       messageFormat.parse('{variable1, date, ee}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
-      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.weekDay.LocalDayOfWeek);
-      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.weekDay.LocalDayOfWeek.Formats.NUMERIC_WITH_PADDING);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.weekDay.DayOfWeek);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.weekDay.DayOfWeek.Formats.NUMERIC_WITH_PADDING);
     });
 
     it('should be able to parse three consecutive local day of week identifiers', function() {
       messageFormat.parse('{variable1, date, eee}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
-      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.weekDay.LocalDayOfWeek);
-      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.weekDay.LocalDayOfWeek.Formats.ABBREVIATED);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.weekDay.DayOfWeek);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.weekDay.DayOfWeek.Formats.ABBREVIATED);
     });
 
     it('should be able to parse four consecutive local day of week identifiers', function() {
       messageFormat.parse('{variable1, date, eeee}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
-      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.weekDay.LocalDayOfWeek);
-      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.weekDay.LocalDayOfWeek.Formats.WIDE);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.weekDay.DayOfWeek);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.weekDay.DayOfWeek.Formats.WIDE);
     });
 
     it('should be able to five two consecutive local day of week identifiers', function() {
       messageFormat.parse('{variable1, date, eeeee}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
-      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.weekDay.LocalDayOfWeek);
-      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.weekDay.LocalDayOfWeek.Formats.NARROW);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.weekDay.DayOfWeek);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.weekDay.DayOfWeek.Formats.NARROW);
     });
 
     it('should be able to six two consecutive local day of week identifiers', function() {
       messageFormat.parse('{variable1, date, eeeeee}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
-      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.weekDay.LocalDayOfWeek);
-      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.weekDay.LocalDayOfWeek.Formats.SHORT);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.weekDay.DayOfWeek);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.weekDay.DayOfWeek.Formats.SHORT);
     });
 
     it('should begin with a new local day of week if the length of maximum consecutive identifiers have been exceeded', function() {
       messageFormat.parse('{variable1, date, eeeeeee}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
       expect(messageFormat.messageAST[0].AST.length).to.equal(2);
-      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.weekDay.LocalDayOfWeek);
-      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.weekDay.LocalDayOfWeek.Formats.SHORT);
-      expect(messageFormat.messageAST[0].AST[1]).to.be.an.instanceOf(AST.date.weekDay.LocalDayOfWeek);
-      expect(messageFormat.messageAST[0].AST[1].format).to.equal(AST.date.weekDay.LocalDayOfWeek.Formats.NUMERIC);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.weekDay.DayOfWeek);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.weekDay.DayOfWeek.Formats.SHORT);
+      expect(messageFormat.messageAST[0].AST[1]).to.be.an.instanceOf(AST.date.weekDay.DayOfWeek);
+      expect(messageFormat.messageAST[0].AST[1].format).to.equal(AST.date.weekDay.DayOfWeek.Formats.NUMERIC);
     });
 
     it('should be able to parse a stand-alone local day of week identifier', function() {
       messageFormat.parse('{variable1, date, c}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
-      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.weekDay.LocalDayOfWeek);
-      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.weekDay.LocalDayOfWeek.Formats.NUMERIC);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.weekDay.DayOfWeek);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.weekDay.DayOfWeek.Formats.NUMERIC);
     });
 
     it('should be able to parse two consecutive stand-alone local day of week identifiers', function() {
       messageFormat.parse('{variable1, date, cc}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
-      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.weekDay.LocalDayOfWeek);
-      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.weekDay.LocalDayOfWeek.Formats.NUMERIC_WITH_PADDING);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.weekDay.DayOfWeek);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.weekDay.DayOfWeek.Formats.NUMERIC_WITH_PADDING);
     });
 
     it('should be able to parse three consecutive stand-alone local day of week identifiers', function() {
       messageFormat.parse('{variable1, date, ccc}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
-      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.weekDay.LocalDayOfWeek);
-      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.weekDay.LocalDayOfWeek.Formats.ABBREVIATED);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.weekDay.DayOfWeek);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.weekDay.DayOfWeek.Formats.ABBREVIATED);
     });
 
     it('should be able to parse four consecutive stand-alone local day of week identifiers', function() {
       messageFormat.parse('{variable1, date, cccc}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
-      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.weekDay.LocalDayOfWeek);
-      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.weekDay.LocalDayOfWeek.Formats.WIDE);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.weekDay.DayOfWeek);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.weekDay.DayOfWeek.Formats.WIDE);
     });
 
     it('should be able to five two consecutive stand-alone local day of week identifiers', function() {
       messageFormat.parse('{variable1, date, ccccc}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
-      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.weekDay.LocalDayOfWeek);
-      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.weekDay.LocalDayOfWeek.Formats.NARROW);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.weekDay.DayOfWeek);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.weekDay.DayOfWeek.Formats.NARROW);
     });
 
     it('should be able to six two consecutive stand-alone local day of week identifiers', function() {
       messageFormat.parse('{variable1, date, cccccc}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
-      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.weekDay.LocalDayOfWeek);
-      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.weekDay.LocalDayOfWeek.Formats.SHORT);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.weekDay.DayOfWeek);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.weekDay.DayOfWeek.Formats.SHORT);
     });
 
     it('should begin with a new stand-alone local day of week if maximum consecutive identifiers have been exceeded', function() {
       messageFormat.parse('{variable1, date, ccccccc}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
       expect(messageFormat.messageAST[0].AST.length).to.equal(2);
-      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.weekDay.LocalDayOfWeek);
-      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.weekDay.LocalDayOfWeek.Formats.SHORT);
-      expect(messageFormat.messageAST[0].AST[1]).to.be.an.instanceOf(AST.date.weekDay.LocalDayOfWeek);
-      expect(messageFormat.messageAST[0].AST[1].format).to.equal(AST.date.weekDay.LocalDayOfWeek.Formats.NUMERIC);
+      expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.weekDay.DayOfWeek);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.weekDay.DayOfWeek.Formats.SHORT);
+      expect(messageFormat.messageAST[0].AST[1]).to.be.an.instanceOf(AST.date.weekDay.DayOfWeek);
+      expect(messageFormat.messageAST[0].AST[1].format).to.equal(AST.date.weekDay.DayOfWeek.Formats.NUMERIC);
     });
   });
 
