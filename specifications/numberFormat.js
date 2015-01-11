@@ -1,13 +1,19 @@
 
-var MessageFormat = require('../libraries/MessageFormat')
-  , messageFormat = new MessageFormat('en-US')
-  , AST = require('../libraries/MessageFormat/AST');
+var MessageFormat = require('../libraries/MessageFormat');
+var messageFormat = new MessageFormat('en-US');
+var AST = require('../libraries/MessageFormat/AST');
 
 project.currencies = ['USD'];
 
 describe('NumberFormat', function() {
   afterEach(function() {
     messageFormat.unsetVariables();
+  });
+
+  it('should be able to convert single-quotes to escaped format', function() {
+    var messageFormat = new MessageFormat('de-CH');
+    messageFormat.parse('{variable1,number,integer}');
+    expect(messageFormat.numberSymbols.latn.group).to.eql('\\\'');
   });
 
   it('should be able to parse a non-pattern arguments', function() {

@@ -1120,7 +1120,7 @@ MessageFormat.prototype._readNumberSymbols = function(rootDocument, languageDocu
       symbols = this._getXMLNode('//ldml/numbers/symbols[@numberSystem=\'' + numberSystem + '\']');
       this.numberSymbols[numberSystem] = {};
       symbols.childNodes().forEach(function(symbol) {
-        _this.numberSymbols[numberSystem][symbol.name()] = symbol.text();
+        _this.numberSymbols[numberSystem][symbol.name()] = symbol.text().replace('\'', '\\\'');
       });
     }
   }
