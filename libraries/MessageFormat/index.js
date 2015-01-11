@@ -364,7 +364,7 @@ MessageFormat.prototype._parseSwitchStatement = function(variable) {
   }
 
   switch(type) {
-    case 'date':
+    // case 'date':
     case 'number':
       switchStatement = this._parseSimpleFormat(type, variable);
       break;
@@ -1122,7 +1122,7 @@ MessageFormat.prototype._readNumberSymbols = function(rootDocument, languageDocu
       symbols = this._getXMLNode('//ldml/numbers/symbols[@numberSystem=\'' + numberSystem + '\']');
       this.numberSymbols[numberSystem] = {};
       symbols.childNodes().forEach(function(symbol) {
-        _this.numberSymbols[numberSystem][symbol.name()] = symbol.text().replace('\'', '\\\'');
+        _this.numberSymbols[numberSystem][symbol.name()] = symbol.text();
       });
     }
   }

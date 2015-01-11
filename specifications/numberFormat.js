@@ -10,12 +10,6 @@ describe('NumberFormat', function() {
     messageFormat.unsetVariables();
   });
 
-  it('should be able to convert single-quotes to escaped format', function() {
-    var messageFormat = new MessageFormat('de-CH');
-    messageFormat.parse('{variable1,number,integer}');
-    expect(messageFormat.numberSymbols.latn.group).to.eql('\\\'');
-  });
-
   it('should be able to parse a non-pattern arguments', function() {
     messageFormat.parse('{variable1,number,integer}');
     expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');

@@ -1,4 +1,22 @@
 describe('NumberFormat', function() {
+  it('should be able to handle comma number symbols', function(done) {
+    var localizations = {
+      'de-CH': {
+        'key-1': {
+          value: '{variable1, number, integer}'
+        }
+      }
+    };
+    var dependencies = getDependencies(localizations);
+    var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+    compiler.run();
+    eventually(function() {
+      expect(dependencies.fs.writeFileSync.args[1][1]).to.contain('\'group\': \'\\\'\'');
+      done();
+    });
+  });
+
   it('should be able to compile a non-absent integer', function(done) {
     var localizations = getLocalizations('{variable1, number, 0}')
       , dependencies = getDependencies(localizations)

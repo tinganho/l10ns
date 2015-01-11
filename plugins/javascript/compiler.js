@@ -209,7 +209,7 @@ Compiler.prototype._getLocalizationMap = function() {
 
         localizationMap += template['LocalizationKeyValue']({
           key: '__numberSymbols',
-          value: JSON.stringify(messageFormat.numberSymbols, null, 2).replace(/"/g, '\'') + _this.comma + _this.linefeed
+          value: JSON.stringify(messageFormat.numberSymbols, null, 2).replace(/\'/g, '\\\'').replace(/"/g, '\'') + _this.comma + _this.linefeed
         });
 
         localizationMap += template['LocalizationKeyValue']({
