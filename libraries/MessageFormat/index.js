@@ -967,44 +967,54 @@ MessageFormat.prototype._readNumberFormatsData = function() {
 
 MessageFormat.prototype._getXMLNode = function(path, verificationNodes) {
   var node;
-  var passesLocaleDocument = true;
-  var passesLanguageDocument = true;
-  var verifyingNode;
 
   if(this.localeDocument) {
     node = this.localeDocument.get(path);
   }
-  if(node && verificationNodes) {
-    for(var i = 0; i < verificationNodes.length; i++) {
-      verifyingNode = node.get(verificationNodes[i])
-      if(!verifyingNode) {
-        passesLocaleDocument = false;
-        break;
-      }
-    }
-  }
-  if(!node || !passesLocaleDocument) {
+  if(this.languageDocument) {
     node = this.languageDocument.get(path);
-  }
-  if(node && verificationNodes) {
-    for(var i = 0; i < verificationNodes.length; i++) {
-      verifyingNode = node.get(verificationNodes[i])
-      if(!verifyingNode) {
-        passesLanguageDocument = false;
-        break;
-      }
-    }
-  }
-  if(!node || !passesLanguageDocument) {
-    node = this.rootDocument.get(path);
-  }
-
-  while(node && typeof node.child === 'function' && node.child(0).name() === 'alias') {
-    var relativePath = node.child(0).attr('path').value();
-    node = node.get(relativePath);
   }
 
   return node;
+  // var node;
+  // var passesLocaleDocument = true;
+  // var passesLanguageDocument = true;
+  // var verifyingNode;
+
+  // if(this.localeDocument) {
+  //   node = this.localeDocument.get(path);
+  // }
+  // if(node && verificationNodes) {
+  //   for(var i = 0; i < verificationNodes.length; i++) {
+  //     verifyingNode = node.get(verificationNodes[i])
+  //     if(!verifyingNode) {
+  //       passesLocaleDocument = false;
+  //       break;
+  //     }
+  //   }
+  // }
+  // if(!node || !passesLocaleDocument) {
+  //   node = this.languageDocument.get(path);
+  // }
+  // if(node && verificationNodes) {
+  //   for(var i = 0; i < verificationNodes.length; i++) {
+  //     verifyingNode = node.get(verificationNodes[i])
+  //     if(!verifyingNode) {
+  //       passesLanguageDocument = false;
+  //       break;
+  //     }
+  //   }
+  // }
+  // if(!node || !passesLanguageDocument) {
+  //   node = this.rootDocument.get(path);
+  // }
+
+  // while(node && typeof node.child === 'function' && node.child(0).name() === 'alias') {
+  //   var relativePath = node.child(0).attr('path').value();
+  //   node = node.get(relativePath);
+  // }
+
+  // return node;
 };
 
 /**
