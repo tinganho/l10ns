@@ -1,3 +1,6 @@
 #!/usr/bin/env sh
 
 ./node_modules/mocha/bin/mocha ./specifications/index.js --ignore-leaks --reporter spec
+./node_modules/mocha/bin/mocha ./plugins/javascript/specifications/tier1.js --ignore-leaks --reporter spec
+./node_modules/mocha/bin/mocha ./plugins/javascript/specifications/tier2.js --ignore-leaks --reporter spec
+./node_modules/mocha/bin/mocha ./plugins/javascript/specifications/tier3.js --ignore-leaks --reporter spec

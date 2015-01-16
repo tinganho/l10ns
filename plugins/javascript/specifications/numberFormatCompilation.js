@@ -1,4 +1,8 @@
 describe('NumberFormat', function() {
+  beforeEach(function(done){
+    setTimeout(done, 0);
+  });
+
   it('should be able to handle comma number symbols', function(done) {
     var localizations = {
       'de-CH': {

@@ -851,13 +851,11 @@ Compiler.prototype._compileDateFormat = function(dateFormat) {
         localDayOfWeekContext = 'standalone';
       }
 
-      console.log(dateFormat.CLDR.day);
-
       switch(component.format) {
         case MessageFormat.AST.date.weekDay.DayOfWeek.Formats.NUMERIC_WITH_PADDING:
           localDayOfWeekPadding = true;
         case MessageFormat.AST.date.weekDay.DayOfWeek.Formats.NUMERIC:
-          return result += template['DateDayOfWeekDigit']({
+          return result += template['DateLocalDayOfWeekDigit']({
             padding: localDayOfWeekPadding
           }) + _this.linefeed;
         case MessageFormat.AST.date.weekDay.DayOfWeek.Formats.ABBREVIATED:

@@ -3,15 +3,15 @@
  * Requires
  */
 
-var Lexer = require('../Lexer')
-  , AST = require('./AST')
-  , xml = require('libxmljs')
-  , fs = require('fs')
-  , path = require('path')
-  , LDML = require('../LDML')
-  , _ = require('underscore')
-  , currencySymbols = require('./currencySymbols')
-  , moment = require('moment');
+var Lexer = require('../Lexer');
+var AST = require('./AST');
+var xml = require('libxmljs');
+var fs = require('fs');
+var path = require('path');
+var LDML = require('../LDML');
+var _ = require('underscore');
+var currencySymbols = require('./currencySymbols');
+var moment = require('moment');
 
 /**
  * MessageFormat class
@@ -364,7 +364,7 @@ MessageFormat.prototype._parseSwitchStatement = function(variable) {
   }
 
   switch(type) {
-    // case 'date':
+    case 'date':
     case 'number':
       switchStatement = this._parseSimpleFormat(type, variable);
       break;
@@ -960,61 +960,148 @@ MessageFormat.prototype._readNumberFormatsData = function() {
  * Read XML node from CLDR
  *
  * @param {String} path
- * @param {Object} verificationNodes is the minimum nodes needed validate that
+ * @param {String} idAttribute
  * these nodes are valid
  * @return {null|String}
  */
 
-MessageFormat.prototype._getXMLNode = function(path, verificationNodes) {
-  var node;
+MessageFormat.prototype._getXMLNode = function(path, idAttribute) {
+  var languageNodes;
+  var rootNodes;
+  var localeNode;
+  var languageNode;
+  var relativePath;
+  var resultNode;
+  var attributeValue;
+  var resultNodeFinding;
+  var parentNodePath = path.split('/')
+  var endNodePath = parentNodePath[parentNodePath.length - 1];
+  parentNodePath = parentNodePath.slice(0, parentNodePath.length - 1).join('/');
 
-  if(this.localeDocument) {
-    node = this.localeDocument.get(path);
+  if(!idAttribute) {
+    if(this.localeDocument) {
+      localeNode = this.localeDocument.get(path);
+      if(localeNode) {
+        return localeNode;
+      }
+    }
+    if(this.languageDocument) {
+      languageNode = this.languageDocument.get(path);
+      if(languageNode) {
+        return languageNode;
+      }
+    }
+    if(this.rootDocument) {
+      aliasNode = this.rootDocument.get(path + '/alias');
+      if(aliasNode) {
+        relativePath = aliasNode.attr('path').value();
+        return this._getXMLNode(this._getAbsolutePath(path, relativePath));
+      }
+      node = this.rootDocument.get(parentNodePath);
+      if(node && node.childNodes().length > 0) {
+        rootNode = this.rootDocument.get(path);
+        if(rootNode) {
+          return rootNode;
+        }
+        else {
+          throw new TypeError('Could not find data for ' + path);
+        }
+      }
+      else {
+        throw new TypeError('Could not find data for ' + path);
+      }
+    }
   }
-  if(this.languageDocument) {
-    node = this.languageDocument.get(path);
+  else {
+    if(this.localeDocument) {
+      resultNode = this.localeDocument.get(parentNodePath);
+    }
+    if(this.languageDocument) {
+      node = this.languageDocument.get(parentNodePath);
+      if(node && node.childNodes().length > 0) {
+        languageNodes = node.childNodes();
+        if(resultNode) {
+          languageNodes.forEach(function(languageNode_) {
+            attributeValue = languageNode_.attr(idAttribute).value();
+            resultNodeFinding = resultNode.get('./' + endNodePath + '[@' + idAttribute + '="' + attributeValue + '"]');
+            if(!resultNodeFinding) {
+              resultNode.addChild(languageNode_);
+            }
+          });
+        }
+        else {
+          resultNode = node;
+        }
+      }
+    }
+    if(this.rootDocument) {
+      aliasNode = this.rootDocument.get(parentNodePath + '/alias');
+      if(aliasNode) {
+        relativePath = aliasNode.attr('path').value();
+        node = this._getXMLNode(this._getAbsolutePath(parentNodePath, relativePath, endNodePath), idAttribute);
+        if(node) {
+          if(resultNode) {
+            rootNodes = node.childNodes();
+            rootNodes.forEach(function(rootNode_) {
+              attributeValue = rootNode_.attr(idAttribute).value();
+              resultNodeFinding = resultNode.get('./' + endNodePath + '[@' + idAttribute + '="' + attributeValue + '"]');
+              if(!resultNodeFinding) {
+                resultNode.addChild(rootNode_);
+              }
+            });
+          }
+          else {
+            resultNode = node;
+          }
+        }
+      }
+      else {
+        node = this.rootDocument.get(parentNodePath);
+        if(node && node.childNodes().length > 0) {
+          rootNodes = node.childNodes();
+          if(resultNode) {
+            rootNodes.forEach(function(rootNode_) {
+              attributeValue = rootNode_.attr(idAttribute).value();
+              resultNodeFinding = resultNode.get('./' + endNodePath + '[@' + idAttribute + '="' + attributeValue + '"]');
+              if(!resultNodeFinding) {
+                resultNode.addChild(rootNode_);
+              }
+            });
+          }
+          else {
+            resultNode = node;
+          }
+        }
+        else {
+          if(!resultNode) {
+            throw new TypeError('Could not find data for ' + path);
+          }
+        }
+      }
+    }
   }
 
-  return node;
-  // var node;
-  // var passesLocaleDocument = true;
-  // var passesLanguageDocument = true;
-  // var verifyingNode;
+  return resultNode;
+};
 
-  // if(this.localeDocument) {
-  //   node = this.localeDocument.get(path);
-  // }
-  // if(node && verificationNodes) {
-  //   for(var i = 0; i < verificationNodes.length; i++) {
-  //     verifyingNode = node.get(verificationNodes[i])
-  //     if(!verifyingNode) {
-  //       passesLocaleDocument = false;
-  //       break;
-  //     }
-  //   }
-  // }
-  // if(!node || !passesLocaleDocument) {
-  //   node = this.languageDocument.get(path);
-  // }
-  // if(node && verificationNodes) {
-  //   for(var i = 0; i < verificationNodes.length; i++) {
-  //     verifyingNode = node.get(verificationNodes[i])
-  //     if(!verifyingNode) {
-  //       passesLanguageDocument = false;
-  //       break;
-  //     }
-  //   }
-  // }
-  // if(!node || !passesLanguageDocument) {
-  //   node = this.rootDocument.get(path);
-  // }
+/**
+ * Get absolute path of a node from a relative path
+ *
+ * @param {String} absolutePath
+ * @param {String} relativePath
+ * @return {String}
+ */
 
-  // while(node && typeof node.child === 'function' && node.child(0).name() === 'alias') {
-  //   var relativePath = node.child(0).attr('path').value();
-  //   node = node.get(relativePath);
-  // }
+MessageFormat.prototype._getAbsolutePath = function(absolutePath, relativePath, endPath) {
+  var ups = relativePath.match(/\.\.\//g).length;
 
-  // return node;
+  absolutePath = absolutePath.split('/');
+  relativePath = relativePath.replace(/\.\.\//g, '');
+
+  if(endPath) {
+    return absolutePath.slice(0, absolutePath.length - ups).join('/') + '/' + relativePath + '/' + endPath;
+  }
+  return absolutePath.slice(0, absolutePath.length - ups).join('/') + '/' + relativePath;
 };
 
 /**
@@ -1240,10 +1327,10 @@ MessageFormat.prototype._readDateData = function() {
     }
   };
 
-  var abbreviatedFormatedQuarter = this._getXMLNode('//calendar[@type="gregorian"]/quarters/quarterContext[@type="format"]/quarterWidth[@type="abbreviated"]');
-  var wideFormatedQuarter = this._getXMLNode('//calendar[@type="gregorian"]/quarters/quarterContext[@type="format"]/quarterWidth[@type="wide"]');
-  var abbreviatedStandaloneQuarter = this._getXMLNode('//calendar[@type="gregorian"]/quarters/quarterContext[@type="stand-alone"]/quarterWidth[@type="abbreviated"]');
-  var wideStandaloneQuarter = this._getXMLNode('//calendar[@type="gregorian"]/quarters/quarterContext[@type="stand-alone"]/quarterWidth[@type="wide"]');
+  var abbreviatedFormatedQuarter = this._getXMLNode('//calendar[@type="gregorian"]/quarters/quarterContext[@type="format"]/quarterWidth[@type="abbreviated"]/quarter', 'type');
+  var wideFormatedQuarter = this._getXMLNode('//calendar[@type="gregorian"]/quarters/quarterContext[@type="format"]/quarterWidth[@type="wide"]/quarter', 'type');
+  var abbreviatedStandaloneQuarter = this._getXMLNode('//calendar[@type="gregorian"]/quarters/quarterContext[@type="stand-alone"]/quarterWidth[@type="abbreviated"]/quarter', 'type');
+  var wideStandaloneQuarter = this._getXMLNode('//calendar[@type="gregorian"]/quarters/quarterContext[@type="stand-alone"]/quarterWidth[@type="wide"]/quarter', 'type');
 
   this.date['quarter'] = {
     formated: {
@@ -1276,12 +1363,12 @@ MessageFormat.prototype._readDateData = function() {
     }
   };
 
-  var abbreviatedFormatedMonth = this._getXMLNode('//calendar[@type="gregorian"]/months/monthContext[@type="format"]/monthWidth[@type="abbreviated"]');
-  var wideFormatedMonth = this._getXMLNode('//calendar[@type="gregorian"]/months/monthContext[@type="format"]/monthWidth[@type="wide"]');
-  var narrowFormatedMonth = this._getXMLNode('//calendar[@type="gregorian"]/months/monthContext[@type="format"]/monthWidth[@type="narrow"]');
-  var abbreviatedStandaloneMonth = this._getXMLNode('//calendar[@type="gregorian"]/months/monthContext[@type="stand-alone"]/monthWidth[@type="abbreviated"]');
-  var wideStandaloneMonth = this._getXMLNode('//calendar[@type="gregorian"]/months/monthContext[@type="stand-alone"]/monthWidth[@type="wide"]');
-  var narrowStandaloneMonth = this._getXMLNode('//calendar[@type="gregorian"]/months/monthContext[@type="stand-alone"]/monthWidth[@type="narrow"]');
+  var abbreviatedFormatedMonth = this._getXMLNode('//calendar[@type="gregorian"]/months/monthContext[@type="format"]/monthWidth[@type="abbreviated"]/month', 'type');
+  var wideFormatedMonth = this._getXMLNode('//calendar[@type="gregorian"]/months/monthContext[@type="format"]/monthWidth[@type="wide"]/month', 'type');
+  var narrowFormatedMonth = this._getXMLNode('//calendar[@type="gregorian"]/months/monthContext[@type="format"]/monthWidth[@type="narrow"]/month', 'type');
+  var abbreviatedStandaloneMonth = this._getXMLNode('//calendar[@type="gregorian"]/months/monthContext[@type="stand-alone"]/monthWidth[@type="abbreviated"]/month', 'type');
+  var wideStandaloneMonth = this._getXMLNode('//calendar[@type="gregorian"]/months/monthContext[@type="stand-alone"]/monthWidth[@type="wide"]/month', 'type');
+  var narrowStandaloneMonth = this._getXMLNode('//calendar[@type="gregorian"]/months/monthContext[@type="stand-alone"]/monthWidth[@type="narrow"]/month', 'type');
 
   this.date['month'] = {
     formated: {
@@ -1374,14 +1461,14 @@ MessageFormat.prototype._readDateData = function() {
     }
   };
 
-  var shortFormatedDay = this._getXMLNode('//calendar[@type="gregorian"]/days/dayContext[@type="format"]/dayWidth[@type="short"]');
-  var wideFormatedDay = this._getXMLNode('//calendar[@type="gregorian"]/days/dayContext[@type="format"]/dayWidth[@type="wide"]');
-  var abbreviatedFormatedDay = this._getXMLNode('//calendar[@type="gregorian"]/days/dayContext[@type="format"]/dayWidth[@type="abbreviated"]');
-  var narrowFormatedDay = this._getXMLNode('//calendar[@type="gregorian"]/days/dayContext[@type="format"]/dayWidth[@type="narrow"]');
-  var shortStandaloneDay = this._getXMLNode('//calendar[@type="gregorian"]/days/dayContext[@type="stand-alone"]/dayWidth[@type="short"]');
-  var wideStandaloneDay = this._getXMLNode('//calendar[@type="gregorian"]/days/dayContext[@type="stand-alone"]/dayWidth[@type="wide"]');
-  var abbreviatedStandaloneDay = this._getXMLNode('//calendar[@type="gregorian"]/days/dayContext[@type="stand-alone"]/dayWidth[@type="abbreviated"]');
-  var narrowStandaloneDay = this._getXMLNode('//calendar[@type="gregorian"]/days/dayContext[@type="stand-alone"]/dayWidth[@type="narrow"]');
+  var shortFormatedDay = this._getXMLNode('//calendar[@type="gregorian"]/days/dayContext[@type="format"]/dayWidth[@type="short"]/day', 'type');
+  var wideFormatedDay = this._getXMLNode('//calendar[@type="gregorian"]/days/dayContext[@type="format"]/dayWidth[@type="wide"]/day', 'type');
+  var abbreviatedFormatedDay = this._getXMLNode('//calendar[@type="gregorian"]/days/dayContext[@type="format"]/dayWidth[@type="abbreviated"]/day', 'type');
+  var narrowFormatedDay = this._getXMLNode('//calendar[@type="gregorian"]/days/dayContext[@type="format"]/dayWidth[@type="narrow"]/day', 'type');
+  var shortStandaloneDay = this._getXMLNode('//calendar[@type="gregorian"]/days/dayContext[@type="stand-alone"]/dayWidth[@type="short"]/day', 'type');
+  var wideStandaloneDay = this._getXMLNode('//calendar[@type="gregorian"]/days/dayContext[@type="stand-alone"]/dayWidth[@type="wide"]/day', 'type');
+  var abbreviatedStandaloneDay = this._getXMLNode('//calendar[@type="gregorian"]/days/dayContext[@type="stand-alone"]/dayWidth[@type="abbreviated"]/day', 'type');
+  var narrowStandaloneDay = this._getXMLNode('//calendar[@type="gregorian"]/days/dayContext[@type="stand-alone"]/dayWidth[@type="narrow"]/day', 'type');
 
   this.date['day'] = {
     formated: {
@@ -1462,9 +1549,9 @@ MessageFormat.prototype._readDateData = function() {
     }
   };
 
-  var abbreviatedFormatedPeriod = this._getXMLNode('//calendar[@type="gregorian"]/dayPeriods/dayPeriodContext[@type="format"]/dayPeriodWidth[@type="abbreviated"]', ['./dayPeriod[@type="am"]', './dayPeriod[@type="pm"]']);
-  var narrowFormatedPeriod = this._getXMLNode('//calendar[@type="gregorian"]/dayPeriods/dayPeriodContext[@type="format"]/dayPeriodWidth[@type="narrow"]', ['./dayPeriod[@type="am"]', './dayPeriod[@type="pm"]']);
-  var wideFormatedPeriod = this._getXMLNode('//calendar[@type="gregorian"]/dayPeriods/dayPeriodContext[@type="format"]/dayPeriodWidth[@type="wide"]', ['./dayPeriod[@type="am"]', './dayPeriod[@type="pm"]']);
+  var abbreviatedFormatedPeriod = this._getXMLNode('//calendar[@type="gregorian"]/dayPeriods/dayPeriodContext[@type="format"]/dayPeriodWidth[@type="abbreviated"]/dayPeriod', 'type');
+  var narrowFormatedPeriod = this._getXMLNode('//calendar[@type="gregorian"]/dayPeriods/dayPeriodContext[@type="format"]/dayPeriodWidth[@type="narrow"]/dayPeriod', 'type');
+  var wideFormatedPeriod = this._getXMLNode('//calendar[@type="gregorian"]/dayPeriods/dayPeriodContext[@type="format"]/dayPeriodWidth[@type="wide"]/dayPeriod', 'type');
 
   this.date['period'] = {
     abbreviated: {
