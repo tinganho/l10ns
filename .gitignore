@@ -15,6 +15,8 @@ interface/vendor/**/*
 test/translations/cache/latestSearch.json
 test/translations/output/
 plugins/
+temp/
+tests/
 
 app/page/document/build/
 app/page/layout/build/
