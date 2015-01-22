@@ -1214,6 +1214,83 @@ Use these identifiers to construct your date formatted strings.
 <td>Period of Day</td>
 </tr>
 
+<tr>
+<td rowspan="4">Hour</td>
+<td>h</td>
+<td>1..2</td>
+<td>11</td>
+<td>Hour [1-12]. When used in skeleton data or in a skeleton passed in an API for flexible data pattern generation, it should match the 12-hour-cycle format preferred by the locale (h or K); it should not match a 24-hour-cycle format (H or k). Use hh for zero padding.</td>
+</tr>
+<tr>
+<td>H</td>
+<td>1..2</td>
+<td>13</td>
+<td>Hour [0-23]. When used in skeleton data or in a skeleton passed in an API for flexible data pattern generation, it should match the 24-hour-cycle format preferred by the locale (H or k); it should not match a 12-hour-cycle format (h or K). Use HH for zero padding.</td>
+</tr>
+<tr>
+<td>K</td>
+<td>1..2</td>
+<td>0</td>
+<td>Hour [0-11]. When used in a skeleton, only matches K or h, see above. Use KK for zero padding.</td>
+</tr>
+<tr>
+<td>H</td>
+<td>1..2</td>
+<td>24</td>
+<td>Hour [1-24]. When used in a skeleton, only matches k or H, see above. Use kk for zero padding.</td>
+</tr>
+
+<tr>
+<td>Minute</td>
+<td>m</td>
+<td>1..2</td>
+<td>59</td>
+<td>Minute. Use "m" to show the minimum number of digits, or "mm" to always show two digits (zero-padding if necessary, e.g. "08").</td>
+</tr>
+
+<tr>
+<td rowspan="2">Second</td>
+<td>s</td>
+<td>1..2</td>
+<td>12</td>
+<td>Second. Use "s" to show the minimum number of digits, or "ss" to always show two digits (zero-padding if necessary, e.g. "08").</td>
+</tr>
+<tr>
+<td>S</td>
+<td>1..n</td>
+<td>3450</td>
+<td>Fractional Second - truncates (like other time fields) to the count of letters when formatting. Appends zeros if more than 3 letters specified. Truncates at three significant digits when parsing. (example shows display using pattern SSSS for seconds value 12.34567).</td>
+</tr>
+
+<tr>
+<td rowspan="10">Timezone</td>
+<td rowspan="2">z</td>
+<td>1..3</td>
+<td>PDT</td>
+<td>The short specific non-location format. Where that is unavailable, falls back to the short localized GMT format ("O").</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Pacific Daylight Time</td>
+<td>The long specific non-location format. Where that is unavailable, falls back to the long localized GMT format ("OOOO").</td>
+</tr>
+<tr>
+<td rowspan="3">Z</td>
+<td>1..3</td>
+<td>-0800</td>
+<td>The ISO8601 basic format with hours, minutes and optional seconds fields. The format is equivalent to RFC 822 zone format (when optional seconds field is absent). This is equivalent to the "xxxx" specifier.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>GMT-8:00</td>
+<td>The long localized GMT format. This is equivalent to the "OOOO" specifier.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>-08:00<br>-07:52:58</td>
+<td>The long localized GMT format. This is equivalent to the "OOOO" specifier.</td>
+</tr>
+
 
 </tbody>
 </table>
