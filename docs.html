@@ -1263,7 +1263,7 @@ Use these identifiers to construct your date formatted strings.
 </tr>
 
 <tr>
-<td rowspan="10">Timezone</td>
+<td rowspan="22">Timezone</td>
 <td rowspan="2">z</td>
 <td>1..3</td>
 <td>PDT</td>
@@ -1301,6 +1301,87 @@ Use these identifiers to construct your date formatted strings.
 <td>GMT-08:00</td>
 <td>The long localized GMT format.</td>
 </tr>
+<tr>
+<td rowspan="2">v</td>
+<td>1</td>
+<td>PT</td>
+<td>The short generic non-location format. Where that is unavailable, falls back to the generic location format ("VVVV"), then the short localized GMT format as the final fallback.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Pacific Time</td>
+<td>The long generic non-location format. Where that is unavailable, falls back to generic location format ("VVVV").</td>
+</tr>
+<tr>
+<td rowspan="3">V</td>
+<td>1</td>
+<td>America/Los_Angeles</td>
+<td>The long time zone ID.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Los Angeles</td>
+<td>The exemplar city (location) for the time zone. Where that is unavailable, the localized exemplar city name for the special zone Etc/Unknown is used as the fallback (for example, "Unknown City").</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Los Angeles Time</td>
+<td>The generic location format. Where that is unavailable, falls back to the long localized GMT format ("OOOO"; Note: Fallback is only necessary with a GMT-style Time Zone ID, like Etc/GMT-830.)
+This is especially useful when presenting possible timezone choices for user selection, since the naming is more uniform than the "v" format.</td>
+</tr>
+<tr>
+<td rowspan="5">x</td>
+<td>1</td>
+<td>-08<br>+0530</td>
+<td>The ISO8601 basic format with hours field and optional minutes field.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>-0800</td>
+<td>The ISO8601 basic format with hours and minutes fields.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>-08:00</td>
+<td>The ISO8601 extended format with hours and minutes fields.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>-0800<br>-075258</td>
+<td>The ISO8601 basic format with hours, minutes and optional seconds fields. (Note: The seconds field is not supported by the ISO8601 specification.)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>-08:00<br>-07:52:58</td>
+<td>The ISO8601 extended format with hours, minutes and optional seconds fields. (Note: The seconds field is not supported by the ISO8601 specification.)</td>
+</tr>
+<tr>
+<td rowspan="5">X</td>
+<td>1</td>
+<td>-08<br>+0530<br>Z</td>
+<td>The ISO8601 basic format with hours field and optional minutes field. The ISO8601 UTC indicator "Z" is used when local time offset is 0.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>-0800<br>Z</td>
+<td>The ISO8601 basic format with hours and minutes fields. The ISO8601 UTC indicator "Z" is used when local time offset is 0.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>-08:00<br>Z</td>
+<td>The ISO8601 extended format with hours and minutes fields. The ISO8601 UTC indicator "Z" is used when local time offset is 0.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>-0800<br>-075258<br>Z</td>
+<td>The ISO8601 basic format with hours, minutes and optional seconds fields. (Note: The seconds field is not supported by the ISO8601 specification.) The ISO8601 UTC indicator "Z" is used when local time offset is 0.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>-08:00<br>-07:52:58<br>Z</td>
+<td>The ISO8601 extended format with hours, minutes and optional seconds fields. (Note: The seconds field is not supported by the ISO8601 specification.) The ISO8601 UTC indicator "Z" is used when local time offset is 0.</td>
+</tr>
+
 
 
 </tbody>
