@@ -12,6 +12,7 @@ var LDML = require('../LDML');
 var _ = require('underscore');
 var currencySymbols = require('./currencySymbols');
 var moment = require('moment');
+var cache = {};
 
 /**
  * MessageFormat class
@@ -30,7 +31,6 @@ function MessageFormat(locale) {
   this.messageAST = [];
   this.currentToken = null;
   this.lastChoiceCase = null;
-  this.pluralKeywords = ['zero', 'one', 'two', 'few', 'many', 'other'];
   this.numberSymbols = {};
   this.decimalPatterns = {};
   this.percentagePatterns = {};
@@ -42,6 +42,11 @@ function MessageFormat(locale) {
   this.rootDocument = null;
   this._currentNumberSystem = 'latn';
   this.currencyUnitPattern = {};
+
+  if(typeof cache[this.locale] === 'undefined') {
+    cache[this.locale] = {};
+  }
+
   this._readPluralizationRules();
   this._readOrdinalRules();
   this._readDocuments();
@@ -814,11 +819,16 @@ MessageFormat.prototype._swallowWhiteSpace = function() {
  */
 
 MessageFormat.prototype._readPluralizationRules = function() {
+  if(cache[this.locale].pluralRules) {
+    this.pluralRules = cache[this.locale].pluralRules;
+    return;
+  }
+
   var _this = this;
-
   var data = fs.readFileSync(path.join(
-    __dirname, '../../CLDR/common/supplemental/plurals.xml'), 'utf-8');
-
+    __dirname, '../../CLDR/common/supplemental/plurals.xml'),
+    'utf-8'
+  );
   var document = xml.parseXmlString(data, { noblanks: true });
   var pluralRules = document.get(
     '//supplementalData/plurals/pluralRules\
@@ -833,6 +843,8 @@ MessageFormat.prototype._readPluralizationRules = function() {
     _this.pluralRules[_case] = LDML.parse(pluralRule.text());
     _this.pluralRules[_case].example = LDML.integerExample;
   });
+
+  cache[this.locale].pluralRules = this.pluralRules;
 };
 
 /**
@@ -843,9 +855,16 @@ MessageFormat.prototype._readPluralizationRules = function() {
  */
 
 MessageFormat.prototype._readOrdinalRules = function() {
+  if(cache[this.locale].ordinalRules) {
+    this.ordinalRules = cache[this.locale].ordinalRules;
+    return;
+  }
+
   var _this = this
-    , data = fs.readFileSync(path.join(
-        __dirname, '../../CLDR/common/supplemental/ordinals.xml'), 'utf-8');
+  var data = fs.readFileSync(
+    path.join(__dirname, '../../CLDR/common/supplemental/ordinals.xml'),
+    'utf-8'
+  );
 
   var document = xml.parseXmlString(data, { noblanks: true });
   var ordinalRules = document.get(
@@ -861,6 +880,8 @@ MessageFormat.prototype._readOrdinalRules = function() {
     _this.ordinalRules[_case] = LDML.parse(pluralRule.text());
     _this.ordinalRules[_case].example = LDML.integerExample;
   });
+
+  cache[this.locale].ordinalRules = this.ordinalRules;
 };
 
 /**
@@ -871,18 +892,34 @@ MessageFormat.prototype._readOrdinalRules = function() {
  */
 
 MessageFormat.prototype._readDocuments = function() {
-  var _this = this
-    , rootDocumentPath = path.join(__dirname, '../../CLDR/common/main/root.xml')
-    , localeDocumentPath = path.join(__dirname, '../../CLDR/common/main/' + this.language + '_' + this.region + '.xml')
-    , languageDocumentPath = path.join(__dirname, '../../CLDR/common/main/' + this.language + '.xml');
+  var _this = this;
 
-  this.rootDocument = xml.parseXmlString(fs.readFileSync(rootDocumentPath, 'utf-8'), { noblanks: true })
-  if(fs.existsSync(localeDocumentPath)) {
-    this.localeDocument = xml.parseXmlString(fs.readFileSync(localeDocumentPath, 'utf-8'), { noblanks: true })
+  if(!cache.rootDocument) {
+    var rootDocumentPath = path.join(__dirname, '../../CLDR/common/main/root.xml');
+    cache.rootDocument = this.rootDocument = xml.parseXmlString(fs.readFileSync(rootDocumentPath, 'utf-8'), { noblanks: true });
+  }
+  else {
+    this.rootDocument = cache.rootDocument;
   }
 
-  if(fs.existsSync(languageDocumentPath)) {
-    this.languageDocument = xml.parseXmlString(fs.readFileSync(languageDocumentPath, 'utf-8'), { noblanks: true })
+  if(!cache[this.locale].localeDocument) {
+    var localeDocumentPath = path.join(__dirname, '../../CLDR/common/main/' + this.language + '_' + this.region + '.xml');
+    if(fs.existsSync(localeDocumentPath)) {
+      cache[this.locale].localeDocument = this.localeDocument = xml.parseXmlString(fs.readFileSync(localeDocumentPath, 'utf-8'), { noblanks: true });
+    }
+  }
+  else {
+    this.localeDocument = cache[this.locale].localeDocument;
+  }
+
+  if(!cache[this.locale].languageDocument) {
+    var languageDocumentPath = path.join(__dirname, '../../CLDR/common/main/' + this.language + '.xml');
+    if(fs.existsSync(languageDocumentPath)) {
+      cache[this.locale].languageDocument = this.languageDocument = xml.parseXmlString(fs.readFileSync(languageDocumentPath, 'utf-8'), { noblanks: true });
+    }
+  }
+  else {
+    this.languageDocument = cache[this.locale].languageDocument;
   }
 };
 
@@ -894,6 +931,11 @@ MessageFormat.prototype._readDocuments = function() {
  */
 
 MessageFormat.prototype._readTimeZone = function() {
+  if(cache[this.locale].timeZones) {
+    this.timeZones = cache[this.locale].timeZones;
+    return;
+  }
+
   var timeZonePath = path.join(__dirname, '../../CLDR/common/supplemental/metaZones.xml');
   var timeZoneDocument = xml.parseXmlString(fs.readFileSync(timeZonePath, 'utf-8'), { noblanks: true });
   var momentTimeZoneData = require(path.join(__dirname, '../../IANA/latest.json'));
@@ -939,7 +981,7 @@ MessageFormat.prototype._readTimeZone = function() {
     }
   }
 
-  this.timeZones = timeZones;
+  cache[this.locale].timeZones = this.timeZones = timeZones;
 };
 
 /**
@@ -1039,43 +1081,29 @@ MessageFormat.prototype._getXMLNode = function(path, idAttribute) {
       if(aliasNode) {
         relativePath = aliasNode.attr('path').value();
         node = this._getXMLNode(this._getAbsolutePath(parentNodePath, relativePath, endNodePath), idAttribute);
-        if(node) {
-          if(resultNode) {
-            rootNodes = node.childNodes();
-            rootNodes.forEach(function(rootNode_) {
-              attributeValue = rootNode_.attr(idAttribute).value();
-              resultNodeFinding = resultNode.get('./' + endNodePath + '[@' + idAttribute + '="' + attributeValue + '"]');
-              if(!resultNodeFinding) {
-                resultNode.addChild(rootNode_);
-              }
-            });
-          }
-          else {
-            resultNode = node;
-          }
-        }
       }
       else {
         node = this.rootDocument.get(parentNodePath);
-        if(node && node.childNodes().length > 0) {
-          rootNodes = node.childNodes();
-          if(resultNode) {
-            rootNodes.forEach(function(rootNode_) {
-              attributeValue = rootNode_.attr(idAttribute).value();
-              resultNodeFinding = resultNode.get('./' + endNodePath + '[@' + idAttribute + '="' + attributeValue + '"]');
-              if(!resultNodeFinding) {
-                resultNode.addChild(rootNode_);
-              }
-            });
-          }
-          else {
-            resultNode = node;
-          }
+      }
+
+      if(node && node.childNodes().length > 0) {
+        rootNodes = node.childNodes();
+        if(resultNode) {
+          rootNodes.forEach(function(rootNode_) {
+            attributeValue = rootNode_.attr(idAttribute).value();
+            resultNodeFinding = resultNode.get('./' + endNodePath + '[@' + idAttribute + '="' + attributeValue + '"]');
+            if(!resultNodeFinding) {
+              resultNode.addChild(rootNode_);
+            }
+          });
         }
         else {
-          if(!resultNode) {
-            throw new TypeError('Could not find data for ' + path);
-          }
+          resultNode = node;
+        }
+      }
+      else {
+        if(!resultNode) {
+          throw new TypeError('Could not find data for ' + path);
         }
       }
     }
@@ -1143,6 +1171,15 @@ MessageFormat.prototype.getCLDRPeriodNode = function() {
  */
 
 MessageFormat.prototype._readNumberFormatPatterns = function() {
+  if(cache[this.locale].defaultNumberSystem) {
+    this.defaultNumberSystem = cache[this.locale].defaultNumberSystem;
+    this.nativeNumberSystem = cache[this.locale].nativeNumberSystem;
+    this.decimalPatterns = cache[this.locale].decimalPatterns;
+    this.percentagePatterns = cache[this.locale].percentagePatterns;
+    this.currencyPatterns = cache[this.locale].currencyPatterns;
+    return;
+  }
+
   var pattern;
 
   this.defaultNumberSystem = this._getXMLNode('//ldml/numbers/defaultNumberingSystem').text();
@@ -1193,6 +1230,12 @@ MessageFormat.prototype._readNumberFormatPatterns = function() {
       this.currencyPatterns[numberSystem] = accountingNode.get('pattern').text();
     }
   }
+
+  cache[this.locale].defaultNumberSystem = this.defaultNumberSystem;
+  cache[this.locale].nativeNumberSystem = this.nativeNumberSystem;
+  cache[this.locale].decimalPatterns = this.decimalPatterns;
+  cache[this.locale].percentagePatterns = this.percentagePatterns;
+  cache[this.locale].currencyPatterns = this.currencyPatterns;
 };
 
 /**
@@ -1204,7 +1247,12 @@ MessageFormat.prototype._readNumberFormatPatterns = function() {
  * @api private
  */
 
-MessageFormat.prototype._readNumberSymbols = function(rootDocument, languageDocument, localeDocument) {
+MessageFormat.prototype._readNumberSymbols = function() {
+  if(cache[this.locale].numberSymbols) {
+    this.numberSymbols = cache[this.locale].numberSymbols;
+    return;
+  }
+
   var _this = this;
 
   var symbols;
@@ -1223,6 +1271,8 @@ MessageFormat.prototype._readNumberSymbols = function(rootDocument, languageDocu
       });
     }
   }
+
+  cache[this.locale].numberSymbols = this.numberSymbols;
 };
 
 /**
@@ -1233,8 +1283,13 @@ MessageFormat.prototype._readNumberSymbols = function(rootDocument, languageDocu
  */
 
 MessageFormat.prototype._readCurrencyData = function() {
-  var _this = this;
+  if(cache[this.locale].currencies) {
+    this.currencyUnitPattern = cache[this.locale].currencyUnitPattern;
+    this.currencies = cache[this.locale].currencies;
+    return;
+  }
 
+  var _this = this;
   var currencyUnitPatterns;
   if(this.localeDocument) {
     currencyUnitPatterns = this.localeDocument.get(
@@ -1294,6 +1349,9 @@ MessageFormat.prototype._readCurrencyData = function() {
       });
     });
   }
+
+  cache[this.locale].currencyUnitPattern = this.currencyUnitPattern;
+  cache[this.locale].currencies = this.currencies;
 };
 
 /**
@@ -1304,6 +1362,10 @@ MessageFormat.prototype._readCurrencyData = function() {
  */
 
 MessageFormat.prototype._readDateData = function() {
+  if(cache[this.locale].date) {
+    this.date = cache[this.locale].date;
+    return;
+  }
   // Era
   var eraFullBC = this._getXMLNode('//calendar[@type="gregorian"]/eras/eraNames/era[@type=\'0\']').text();
   var eraFullAD = this._getXMLNode('//calendar[@type="gregorian"]/eras/eraNames/era[@type=\'1\']').text();
@@ -1567,6 +1629,8 @@ MessageFormat.prototype._readDateData = function() {
       pm: wideFormatedPeriod.get('./dayPeriod[@type="pm"]').text()
     }
   };
+
+  cache[this.locale].date = this.date;
 
   if(project.timeZones) {
     this._readTimeZone();

@@ -15,7 +15,6 @@ var digits = require('./digits');
 var defer = require('q').defer;
 var LDML = { AST: require('../../libraries/LDML/AST') };
 var timezones = require('../../IANA/latest');
-
 /**
  * Clean up time zones
  */
@@ -192,10 +191,10 @@ Compiler.prototype._getLocalizationMap = function() {
         , localesCount = 0;
 
       for(var locale in localizations) {
-        var localizationMap = ''
-          , localizationsLength = Object.keys(localizations[locale]).length
-          , localizationsCount = 0
-          , messageFormat = new MessageFormat(locale);
+        var localizationMap = '';
+        var localizationsLength = Object.keys(localizations[locale]).length;
+        var localizationsCount = 0;
+        var messageFormat = new MessageFormat(locale);
 
         localizationMap += template['LocalizationKeyValue']({
           key: '__getPluralKeyword',

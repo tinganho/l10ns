@@ -165,8 +165,8 @@ describe('DateFormat', function() {
       var localizations = getLocalizations('{variable1, date, \'test\'}');
       var dependencies = getDependencies(localizations);
       var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
-
       compiler.run();
+
       eventually(function() {
         var functionBody = setDateBlock +
           'dateString += \'test\';\n\n' +
