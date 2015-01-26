@@ -1,0 +1,45 @@
+function(timezoneOffset, options) {
+  options = options || {};
+  options.hours = typeof options.hours ? options.hours : true;
+  options.zeroPaddingHours = typeof options.zeroPaddingHours ? options.zeroPaddingHours : true;
+  options.minutes = typeof options.minutes ? options.minutes : true;
+  options.colon = typeof options.colon ? options.colon : true;
+
+  var offsetFloatingHours = timezoneOffset / 60;
+  var offsetHours;
+  var offsetMinutes;
+
+  if(timezoneOffset >= 0) {
+    offsetHours = Math.floor(offsetFloatingHours);
+    offsetMinutes = ((offsetFloatingHours % 1) * 60).toFixed(0);
+  }
+  else {
+    offsetHours = Math.ceil(offsetFloatingHours);
+    offsetMinutes = - ((offsetFloatingHours % 1) * 60).toFixed(0);
+  }
+  if(offsetMinutes < 10) {
+    offsetMinutes = '0' + offsetMinutes;
+  }
+
+  var result = '';
+  if(zeroPaddingHours) {
+    if(offsetHours > -10 && offsetHours < 0) {
+      offsetHours = (offsetHours + '').replace('-', '-0');
+    }
+    else if(offsetHours >= 0 && offsetHours < 10) {
+      offsetHours = '+0' + offsetHours;
+    }
+  }
+  if(options.hours) {
+    result += offsetHours;
+  }
+  result = offsetHours;
+  if(options.colon) {
+    result += ':';
+  }
+  if(options.minutes) {
+    result += offsetMinutes;
+  }
+
+  return result;
+}

@@ -26,7 +26,7 @@ var getDateTestFunction = function() {
       'minutes: date.getMinutes(),\n' +
       'seconds: date.getSeconds(),\n' +
       'milliseconds: date.getMilliseconds(),\n' +
-      'offset: toTimezoneOffset\n' +
+      'offset: timezoneOffset\n' +
     '}' +
   '}';
 };
@@ -35,7 +35,7 @@ eval(getDateTestFunction());
 
 describe('DateFormat', function() {
   describe('SetDate Block', function() {
-    it('should throw an error if \'toTimezone\' property is not defined', function() {
+    it('should throw an error if \'timezone\' property is not defined', function() {
       var date = new Date('2014-11-25T02:59:59+0200');
       var method = function() {
         test({
@@ -44,16 +44,16 @@ describe('DateFormat', function() {
           }
         });
       }
-      expect(method).to.throw(TypeError, 'You must define a \'toTimezone\' property for test');
+      expect(method).to.throw(TypeError, 'You must define a \'timezone\' property for test');
     });
 
-    it('should throw an error if \'toTimezone\' does not match any timezone', function() {
+    it('should throw an error if \'timezone\' does not match any timezone', function() {
       var date = new Date('2014-10-25T02:59:59+0200');
       var method = function() {
         test({
           test: {
             time: date,
-            toTimezone: 'None'
+            timezone: 'None'
           }
         });
       }
@@ -64,7 +64,7 @@ describe('DateFormat', function() {
       var method = function() {
         test({
           test: {
-            toTimezone: 'Europe/Stockholm'
+            timezone: 'Europe/Stockholm'
           }
         });
       }
@@ -76,7 +76,7 @@ describe('DateFormat', function() {
         test({
           test: {
             time: 'non-date',
-            toTimezone: 'Europe/Stockholm'
+            timezone: 'Europe/Stockholm'
           }
         });
       }
@@ -88,7 +88,7 @@ describe('DateFormat', function() {
         test({
           test: {
             time: 'non-date',
-            toTimezone: 'Europe/Stockholm'
+            timezone: 'Europe/Stockholm'
           }
         });
       }
@@ -100,7 +100,7 @@ describe('DateFormat', function() {
       expect(test({
           test: {
             time: date,
-            toTimezone: 'America/Los_Angeles'
+            timezone: 'America/Los_Angeles'
           }
         }).hours).to.equal(11);
     });
@@ -110,7 +110,7 @@ describe('DateFormat', function() {
       var result = test({
         test: {
           time: date,
-          toTimezone: 'America/Los_Angeles'
+          timezone: 'America/Los_Angeles'
         }
       });
       expect(result.hours).to.equal(23);
@@ -122,7 +122,7 @@ describe('DateFormat', function() {
       var result = test({
         test: {
           time: date,
-          toTimezone: 'America/Los_Angeles'
+          timezone: 'America/Los_Angeles'
         }
       });
       expect(result.hours).to.equal(1);
@@ -132,7 +132,7 @@ describe('DateFormat', function() {
       var result = test({
         test: {
           time: date,
-          toTimezone: 'America/Los_Angeles'
+          timezone: 'America/Los_Angeles'
         }
       });
       expect(result.hours).to.equal(1);
@@ -145,7 +145,7 @@ describe('DateFormat', function() {
       var result = test({
         test: {
           time: date,
-          toTimezone: 'America/Los_Angeles'
+          timezone: 'America/Los_Angeles'
         }
       });
       expect(result.offset).to.equal(-420);
@@ -153,7 +153,7 @@ describe('DateFormat', function() {
       var result = test({
         test: {
           time: date,
-          toTimezone: 'America/Los_Angeles'
+          timezone: 'America/Los_Angeles'
         }
       });
       expect(result.offset).to.equal(-420);
@@ -2232,12 +2232,52 @@ describe('DateFormat', function() {
   });
 
   describe('Timezone', function() {
+    describe('Specific non-location timezone', function() {
+      it('should be able to render short non-location timezone format', function() {
+        var getFunctionString = function(format, timezoneOffsetType) {
+          return 'function test_specificNonLocationTimezone(it) {' +
+            'var dateString =\'\';\n' +
+            'this.__timezones = { "America/Los_Angeles": { name: { long: { standard: "Pacific Standard Time", daylight: "Pacific Daylight Time", generic: "Pacific Time" }, short: { standard: "PST", daylight: "PDT", generic: "PT" }}}};\n' +
+            'var timezoneOffsetType = \'' + timezoneOffsetType + '\';\n' +
+            dateTemplates['DateSpecificNonLocationTimezone']({
+              variableName: 'time',
+              format: format
+            }) +
+            'return dateString; }';
+        }
+        eval(getFunctionString(1, 's'));
+        expect(test_specificNonLocationTimezone({
+          time: {
+            timezone: 'America/Los_Angeles'
+          }
+        })).to.equal('PST');
+        eval(getFunctionString(1, 'd'));
+        expect(test_specificNonLocationTimezone({
+          time: {
+            timezone: 'America/Los_Angeles'
+          }
+        })).to.equal('PDT');
+        eval(getFunctionString(2, 's'));
+        expect(test_specificNonLocationTimezone({
+          time: {
+            timezone: 'America/Los_Angeles'
+          }
+        })).to.equal('Pacific Standard Time');
+        eval(getFunctionString(2, 'd'));
+        expect(test_specificNonLocationTimezone({
+          time: {
+            timezone: 'America/Los_Angeles'
+          }
+        })).to.equal('Pacific Daylight Time');
+      });
+    });
+
     describe('Regular timezone', function() {
       it('should be able to render IS8601 basic timezone', function() {
         var getFunctionString = function(format, offset) {
           return 'function test_regularTimezoneRendering() {' +
             'var dateString =\'\';\n' +
-            'var toTimezoneOffset = ' + offset + ';\n' +
+            'var timezoneOffset = ' + offset + ';\n' +
             dateTemplates['DateRegularTimezone']({
               format: format
             }) +
@@ -2263,7 +2303,7 @@ describe('DateFormat', function() {
         var getFunctionString = function(format, offset) {
           return 'function test_regularTimezoneRendering() {' +
             'var dateString =\'\';\n' +
-            'var toTimezoneOffset = ' + offset + ';\n' +
+            'var timezoneOffset = ' + offset + ';\n' +
             dateTemplates['DateRegularTimezone']({
               format: format
             }) +
@@ -2289,7 +2329,7 @@ describe('DateFormat', function() {
         var getFunctionString = function(format, offset) {
           return 'function test_regularTimezoneRendering() {' +
             'var dateString =\'\';\n' +
-            'var toTimezoneOffset = ' + offset + ';\n' +
+            'var timezoneOffset = ' + offset + ';\n' +
             dateTemplates['DateRegularTimezone']({
               format: format
             }) +
@@ -2319,14 +2359,14 @@ describe('DateFormat', function() {
         compiler.run();
         eventually(function() {
           var functionBody = setDateBlock +
-            'var offsetFloatingHours = toTimezoneOffset / 60;\n' +
+            'var offsetFloatingHours = timezoneOffset / 60;\n' +
             'var offsetHours;\n' +
             'var offsetMinutes;\n\n' +
-            'if(toTimezoneOffset >= 0) {\n' +
+            'if(timezoneOffset >= 0) {\n' +
             '  offsetHours = Math.floor(offsetFloatingHours);\n' +
             '  offsetMinutes = ((offsetFloatingHours % 1) * 60).toFixed(0);\n' +
             '}\n' +
-            'else if(toTimezoneOffset < 0) {\n' +
+            'else if(timezoneOffset < 0) {\n' +
             '  offsetHours = Math.ceil(offsetFloatingHours);\n' +
             '  offsetMinutes = - ((offsetFloatingHours % 1) * 60).toFixed(0);\n' +
             '}\n' +
@@ -2360,14 +2400,14 @@ describe('DateFormat', function() {
         compiler.run();
         eventually(function() {
           var functionBody = setDateBlock +
-            'var offsetFloatingHours = toTimezoneOffset / 60;\n' +
+            'var offsetFloatingHours = timezoneOffset / 60;\n' +
             'var offsetHours;\n' +
             'var offsetMinutes;\n\n' +
-            'if(toTimezoneOffset >= 0) {\n' +
+            'if(timezoneOffset >= 0) {\n' +
             '  offsetHours = Math.floor(offsetFloatingHours);\n' +
             '  offsetMinutes = ((offsetFloatingHours % 1) * 60).toFixed(0);\n' +
             '}\n' +
-            'else if(toTimezoneOffset < 0) {\n' +
+            'else if(timezoneOffset < 0) {\n' +
             '  offsetHours = Math.ceil(offsetFloatingHours);\n' +
             '  offsetMinutes = - ((offsetFloatingHours % 1) * 60).toFixed(0);\n' +
             '}\n' +
@@ -2395,14 +2435,14 @@ describe('DateFormat', function() {
         compiler.run();
         eventually(function() {
           var functionBody = setDateBlock +
-            'var offsetFloatingHours = toTimezoneOffset / 60;\n' +
+            'var offsetFloatingHours = timezoneOffset / 60;\n' +
             'var offsetHours;\n' +
             'var offsetMinutes;\n\n' +
-            'if(toTimezoneOffset >= 0) {\n' +
+            'if(timezoneOffset >= 0) {\n' +
             '  offsetHours = Math.floor(offsetFloatingHours);\n' +
             '  offsetMinutes = ((offsetFloatingHours % 1) * 60).toFixed(0);\n' +
             '}\n' +
-            'else if(toTimezoneOffset < 0) {\n' +
+            'else if(timezoneOffset < 0) {\n' +
             '  offsetHours = Math.ceil(offsetFloatingHours);\n' +
             '  offsetMinutes = - ((offsetFloatingHours % 1) * 60).toFixed(0);\n' +
             '}\n' +
@@ -2446,11 +2486,11 @@ describe('DateFormat', function() {
             'return dateString; }';
         }
         eval(getFunctionString(1));
-        expect(test_GenericLocationTimezoneRendering({ test: { toTimezone: 'America/Los_Angeles' }})).to.equal('America/Los_Angeles');
+        expect(test_GenericLocationTimezoneRendering({ test: { timezone: 'America/Los_Angeles' }})).to.equal('America/Los_Angeles');
         eval(getFunctionString(2));
-        expect(test_GenericLocationTimezoneRendering({ test: { toTimezone: 'America/Los_Angeles' }})).to.equal('Los Angeles');
+        expect(test_GenericLocationTimezoneRendering({ test: { timezone: 'America/Los_Angeles' }})).to.equal('Los Angeles');
         eval(getFunctionString(3));
-        expect(test_GenericLocationTimezoneRendering({ test: { toTimezone: 'America/Los_Angeles' }})).to.equal('Los Angeles Time');
+        expect(test_GenericLocationTimezoneRendering({ test: { timezone: 'America/Los_Angeles' }})).to.equal('Los Angeles Time');
       });
     });
   });

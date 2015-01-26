@@ -52,6 +52,9 @@ function MessageFormat(locale) {
   this._readDocuments();
   this._readNumberFormatsData();
   this._readDateData();
+  if(project.timezones) {
+    this._readTimezone();
+  }
 };
 
 /**
@@ -930,58 +933,98 @@ MessageFormat.prototype._readDocuments = function() {
  * @api private
  */
 
-MessageFormat.prototype._readTimeZone = function() {
-  if(cache[this.locale].timeZones) {
-    this.timeZones = cache[this.locale].timeZones;
+MessageFormat.prototype._readTimezone = function() {
+  if(cache[this.locale].timezones) {
+    this.timezones = cache[this.locale].timezones;
     return;
   }
 
-  var timeZonePath = path.join(__dirname, '../../CLDR/common/supplemental/metaZones.xml');
-  var timeZoneDocument = xml.parseXmlString(fs.readFileSync(timeZonePath, 'utf-8'), { noblanks: true });
-  var momentTimeZoneData = require(path.join(__dirname, '../../IANA/latest.json'));
-  var timeZones = {};
-  if(project.timeZones) {
-    for(var index in project.timeZones) {
-      var timeZone = project.timeZones[index];
-      timeZones[timeZone] = {
+  var timezonePath = path.join(__dirname, '../../CLDR/common/supplemental/metaZones.xml');
+  var timezoneDocument = xml.parseXmlString(fs.readFileSync(timezonePath, 'utf-8'), { noblanks: true });
+  var timezones = {};
+  if(project.timezones) {
+    for(var index in project.timezones) {
+      var timezone = project.timezones[index];
+      timezones[timezone] = {
         name: { long: {}, short: {} }
       };
-      var mapZone = timeZoneDocument.get('//mapZone[@type=\'' + timeZone + '\']');
+      var mapZone = timezoneDocument.get('//mapZone[@type=\'' + timezone + '\']');
       if(!mapZone) {
-        throw new TypeError('Time zone: ' + timeZone + ' does not exists');
+        throw new TypeError('Time zone: ' + timezone + ' does not exists');
       }
       var mapZoneID = mapZone.attr('other').value();
-      var standarLongTimeZoneName = this._getXMLNode('//metazone[@type=\'' + mapZoneID + '\']/long/standard');
-      if(standarLongTimeZoneName) {
-        timeZones[timeZone].name.long.standard = standarLongTimeZoneName.text()
+      try {
+        var standarLongTimezoneName = this._getXMLNode('//timeZoneNames/metazone[@type=\'' + mapZoneID + '\']/long/standard');
+        if(standarLongTimezoneName) {
+          timezones[timezone].name.long.standard = standarLongTimezoneName.text();
+        }
       }
-      var daylightLongTimeZoneName = this._getXMLNode('//metazone[@type=\'' + mapZoneID + '\']/long/daylight');
-      if(daylightLongTimeZoneName) {
-        timeZones[timeZone].name.long.daylight = daylightLongTimeZoneName.text()
+      catch(error) {
+        timezones[timezone].name.long.standard = null;
       }
-      var genericLongTimeZoneName = this._getXMLNode('//metazone[@type=\'' + mapZoneID + '\']/long/generic');
-      if(genericLongTimeZoneName) {
-        timeZones[timeZone].name.long.generic = genericLongTimeZoneName.text()
+      try {
+        var daylightLongTimezoneName = this._getXMLNode('//timeZoneNames/metazone[@type=\'' + mapZoneID + '\']/long/daylight');
+        if(daylightLongTimezoneName) {
+          timezones[timezone].name.long.daylight = daylightLongTimezoneName.text();
+        }
       }
-      var standarShortTimeZoneName = this._getXMLNode('//metazone[@type=\'' + mapZoneID + '\']/short/standard');
-      if(standarShortTimeZoneName) {
-        timeZones[timeZone].name.short.standard = standarShortTimeZoneName.text()
+      catch(error) {
+        timezones[timezone].name.long.daylight = null;
       }
-      var daylightShortTimeZoneName = this._getXMLNode('//metazone[@type=\'' + mapZoneID + '\']/short/daylight');
-      if(daylightShortTimeZoneName) {
-        timeZones[timeZone].name.short.daylight = daylightShortTimeZoneName.text()
+      try {
+        var genericLongTimezoneName = this._getXMLNode('//timeZoneNames/metazone[@type=\'' + mapZoneID + '\']/long/generic');
+        if(genericLongTimezoneName) {
+          timezones[timezone].name.long.generic = genericLongTimezoneName.text();
+        }
       }
-      var genericShortTimeZoneName = this._getXMLNode('//metazone[@type=\'' + mapZoneID + '\']/short/generic');
-      if(genericShortTimeZoneName) {
-        timeZones[timeZone].name.short.daylight = genericShortTimeZoneName.text()
+      catch(error) {
+        timezones[timezone].name.long.generic = null;
       }
-      timeZones[timeZone].untils = momentTimeZoneData[timeZone].untils;
-      timeZones[timeZone].offsets = momentTimeZoneData[timeZone].offsets;
-      timeZones[timeZone].types = momentTimeZoneData[timeZone].types;
+      try {
+        var standarShortTimezoneName = this._getXMLNode('//timeZoneNames/metazone[@type=\'' + mapZoneID + '\']/short/standard');
+        if(standarShortTimezoneName) {
+          timezones[timezone].name.short.standard = standarShortTimezoneName.text();
+        }
+      }
+      catch(error) {
+        timezones[timezone].name.short.standard = null;
+      }
+      try {
+        var daylightShortTimezoneName = this._getXMLNode('//timeZoneNames/metazone[@type=\'' + mapZoneID + '\']/short/daylight');
+        if(daylightShortTimezoneName) {
+          timezones[timezone].name.short.daylight = daylightShortTimezoneName.text();
+        }
+      }
+      catch(error) {
+        timezones[timezone].name.short.daylight = null;
+      }
+      try {
+        var genericShortTimezoneName = this._getXMLNode('//timeZoneNames/metazone[@type=\'' + mapZoneID + '\']/short/generic');
+        if(genericShortTimezoneName) {
+          timezones[timezone].name.short.generic = genericShortTimezoneName.text();
+        }
+      }
+      catch(error) {
+        timezones[timezone].name.short.generic = null;
+      }
+      try {
+        var city = this._getXMLNode('//timeZoneNames/zone[@type=\'' + mapZoneID + '\']/exemplarCity');
+        if(city) {
+          timezones[timezone].city = city.text();
+        }
+        else {
+          timezones[timezone].city = this._getXMLNode('//timeZoneNames/zone[@type=\'Etc/Unknown\']/exemplarCity').text();
+        }
+      }
+      catch(error) {
+        timezones[timezone].city = this._getXMLNode('//timeZoneNames/zone[@type=\'Etc/Unknown\']/exemplarCity').text();
+      }
+      timezones[timezone].regionFormat = this._getXMLNode('//timeZoneNames/regionFormat').text();
+      timezones[timezone].GMTFormat = this._getXMLNode('//timeZoneNames/gmtFormat').text();
     }
   }
 
-  cache[this.locale].timeZones = this.timeZones = timeZones;
+  this.timezones = cache[this.locale].timezones = timezones;
 };
 
 /**
@@ -1631,10 +1674,6 @@ MessageFormat.prototype._readDateData = function() {
   };
 
   cache[this.locale].date = this.date;
-
-  if(project.timeZones) {
-    this._readTimeZone();
-  }
 };
 
 /**

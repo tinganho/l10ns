@@ -1,12 +1,12 @@
-var offsetFloatingHours = toTimezoneOffset / 60;
+var offsetFloatingHours = timezoneOffset / 60;
 var offsetHours;
 var offsetMinutes;
 
-if(toTimezoneOffset >= 0) {
+if(timezoneOffset >= 0) {
   offsetHours = Math.floor(offsetFloatingHours);
   offsetMinutes = ((offsetFloatingHours % 1) * 60).toFixed(0);
 }
-else if(toTimezoneOffset < 0) {
+else {
   offsetHours = Math.ceil(offsetFloatingHours);
   offsetMinutes = - ((offsetFloatingHours % 1) * 60).toFixed(0);
 }

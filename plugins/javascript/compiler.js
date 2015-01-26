@@ -221,6 +221,11 @@ Compiler.prototype._getLocalizationMap = function() {
           value: JSON.stringify(messageFormat.currencyUnitPattern, null, 2).replace(/"/g, '\'') + _this.comma + _this.linefeed
         });
 
+        localizationMap += template['LocalizationKeyValue']({
+          key: '__timezones',
+          value: JSON.stringify(messageFormat.timezones, null, 2).replace(/"/g, '\'') + _this.comma + _this.linefeed
+        });
+
         var localizationsCount = 0;
         for(var key in localizations[locale]) {
           messageFormat.parse(localizations[locale][key].value);
@@ -411,13 +416,13 @@ Compiler.prototype._compileNumberFormat = function(numberFormat) {
       pattern.prefix = pattern.prefix + '-';
     }
 
-    var minimumIntegerDigits = 0
-      , maximumIntegerDigits = 0
-      , minimumFractionDigits = 0
-      , maximumFractionDigits = 0
-      , minimumSignificantDigits = 0
-      , maximumSignificantDigits = 0
-      , type = 'floating';
+    var minimumIntegerDigits = 0;
+    var maximumIntegerDigits = 0;
+    var minimumFractionDigits = 0;
+    var maximumFractionDigits = 0;
+    var minimumSignificantDigits = 0;
+    var maximumSignificantDigits = 0;
+    var type = 'floating';
 
     if(pattern instanceof MessageFormat.AST.NumberFormatPattern._SignificantNumberFormat) {
       type = 'significant';
@@ -952,6 +957,11 @@ Compiler.prototype._compileDateFormat = function(dateFormat) {
     else if(component instanceof MessageFormat.AST.date.time.second.FractionalSecond) {
       result += template['DateFractionalSeconds']({
         length: component.length
+      });
+    }
+    else if(component instanceof MessageFormat.AST.date.timezone.SpecificNonLocationTimeZone) {
+      result += template['DateSpecificNonLocationTimezone']({
+        format: component.format
       });
     }
     else if(component instanceof MessageFormat.AST.date.timezone.RegularTimeZone) {

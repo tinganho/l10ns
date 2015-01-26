@@ -22,8 +22,8 @@ global.rejects = Q.reject;
  * Plugins
  */
 
-var sinonChai = require('sinon-chai')
-  , chaiAsPromised = require('chai-as-promised');
+var sinonChai = require('sinon-chai');
+var chaiAsPromised = require('chai-as-promised');
 
 chai.should();
 chai.use(chaiAsPromised);

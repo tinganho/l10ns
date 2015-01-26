@@ -7,7 +7,8 @@ var hours;
 var minutes;
 var seconds;
 var milliseconds;
-var toTimezoneOffset;
+var timezoneOffset;
+var timezoneOffsetType;
 if(it.{{=it.variableName}} instanceof Date) {
   if(it.{{=it.variableName}} instanceof Date) {
     date = it.{{=it.variableName}};
@@ -18,12 +19,12 @@ if(it.{{=it.variableName}} instanceof Date) {
   toTimeZoneOffset = date.getTimezoneOffset();
 }
 else {
-  if(typeof it.{{=it.variableName}}.toTimezone === 'undefined') {
-    throw new TypeError('You must define a \'toTimezone\' property for {{=it.variableName}}');
+  if(typeof it.{{=it.variableName}}.timezone === 'undefined') {
+    throw new TypeError('You must define a \'timezone\' property for {{=it.variableName}}');
   }
 
-  if(!(it.{{=it.variableName}}.toTimezone in timezones)) {
-    throw new TypeError('Timezone \'' + it.{{=it.variableName}}.toTimezone + '\' is not defined. Please define it in your l10ns.json file.');
+  if(!(it.{{=it.variableName}}.timezone in timezones)) {
+    throw new TypeError('Timezone \'' + it.{{=it.variableName}}.timezone + '\' is not defined. Please define it in your l10ns.json file.');
   }
 
   if(typeof it.{{=it.variableName}}.time === 'undefined') {
@@ -37,13 +38,14 @@ else {
   date = new Date(it.{{=it.variableName}}.time.getTime());
   var currentMinutes = date.getMinutes();
   var currentTimezoneOffset = -(date.getTimezoneOffset());
-  var timezoneInfo = timezones[it.{{=it.variableName}}.toTimezone];
+  var timezoneInfo = timezones[it.{{=it.variableName}}.timezone];
   var unixTime = date.getTime();
   var index;
   if(unixTime > timezoneInfo.untils[timezoneInfo.untils.length - 1] || unixTime < timezoneInfo.untils[0]) {
-    toTimezoneOffset = -1 * timezoneInfo.offsets.reduce(function (previous, current) {
+    timezoneOffset = -1 * timezoneInfo.offsets.reduce(function (previous, current) {
       return (Math.abs(current - 0) < Math.abs(previous - 0) ? current : previous);
     });
+    timezoneOffsetType = timezoneInfo.types[0];
   }
   else {
     for(var index = 0; index < timezoneInfo.untils.length; index++) {
@@ -52,7 +54,8 @@ else {
         break;
       }
     }
-    toTimezoneOffset = -(timezoneInfo.offsets[index]);
+    timezoneOffset = -(timezoneInfo.offsets[index]);
+    timezoneOffsetType = timezoneInfo.types[index];
   }
-  date.setMinutes(currentMinutes + (toTimezoneOffset - currentTimezoneOffset));
+  date.setMinutes(currentMinutes + (timezoneOffset - currentTimezoneOffset));
 }
