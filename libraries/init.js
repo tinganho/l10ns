@@ -105,7 +105,13 @@ Init.prototype._getProjectName = function() {
     , deferred = defer()
     , question = text.PROJECT_NAME_QUESTION;
 
-  var currentWorkingDirectory = _.last(process.cwd().split('/'));
+  var currentWorkingDirectory = process.cwd();
+  if(/^\w\:/.test(currentWorkingDirectory)) {
+    currentWorkingDirectory = _.last(currentWorkingDirectory.split('\\'));
+  }
+  else {
+    currentWorkingDirectory = _.last(currentWorkingDirectory.split('/'));
+  }
 
   question += '(' + currentWorkingDirectory + ')?';
 
