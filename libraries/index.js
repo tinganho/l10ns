@@ -128,7 +128,7 @@ CLI.prototype._setDefaultProjectProperties = function(project) {
   }
   else {
     project.store = path.join(project.root, project.store);
-    if(!/^\//.test(project.store)) {
+    if(!/^\//.test(project.store) && !/^\w\:/.test(project.store)) {
       project.store = path.join(project.root, project.store);
     }
   }
