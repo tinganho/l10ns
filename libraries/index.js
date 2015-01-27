@@ -126,11 +126,8 @@ CLI.prototype._setDefaultProjectProperties = function(project) {
   if(typeof project.store === 'undefined') {
     project.store = path.join(project.root, program.DEFAULT_STORAGE_FOLDER);
   }
-  else {
+  else if(!/^\//.test(project.store) && !/^\w\:/.test(project.store)) {
     project.store = path.join(project.root, project.store);
-    if(!/^\//.test(project.store) && !/^\w\:/.test(project.store)) {
-      project.store = path.join(project.root, project.store);
-    }
   }
   if(process.argv.length >= 2 && process.argv[2] !== 'init' && process.argv[2] !== '--help' &&  process.argv[2] !== '-h') {
     project = this._setProjectSource(project);
