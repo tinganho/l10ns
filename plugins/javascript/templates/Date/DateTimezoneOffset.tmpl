@@ -4,6 +4,7 @@ function(timezoneOffset, options) {
   options.zeroPaddingHours = typeof options.zeroPaddingHours ? options.zeroPaddingHours : true;
   options.minutes = typeof options.minutes ? options.minutes : true;
   options.colon = typeof options.colon ? options.colon : true;
+  options.zulu = typeof options.colon ? options.colon : false;
 
   var offsetFloatingHours = timezoneOffset / 60;
   var offsetHours;
@@ -19,6 +20,10 @@ function(timezoneOffset, options) {
   }
   if(offsetMinutes < 10) {
     offsetMinutes = '0' + offsetMinutes;
+  }
+
+  if(options.zulu && offsetHours === 0) {
+    return 'Z';
   }
 
   var result = '';
