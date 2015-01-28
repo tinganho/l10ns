@@ -3,19 +3,19 @@
  * Module dependencies.
  */
 
-var Log = require('./log').Constructor
-  , log = require('./_log')
-  , init = require('./init')
-  , set = require('./set')
-  , Search = require('./search')
-  , update = require('./update')
-  , findup = require('findup-sync')
-  , _ = require('underscore')
-  , path = require('path')
-  , glob = require('glob')
-  , utilities = require('../libraries/utilities')
-  , fs = require('fs')
-  , defer = require('q').defer;
+var Log = require('./log').Constructor;
+var log = require('./_log');
+var init = require('./init');
+var set = require('./set');
+var Search = require('./search');
+var update = require('./update');
+var findup = require('findup-sync');
+var _ = require('underscore');
+var path = require('path');
+var glob = require('glob');
+var utilities = require('../libraries/utilities');
+var fs = require('fs');
+var defer = require('q').defer;
 
 /**
  * Initialize a new `GetTranslation`
@@ -34,7 +34,8 @@ var CLI = function() {}
  */
 
 CLI.prototype.initialize = function() {
-  var _this = this, deferred = defer();
+  var _this = this;
+  var deferred = defer();
 
   this.requireProject()
     .then(function(project) {
@@ -63,11 +64,11 @@ CLI.prototype.initialize = function() {
  */
 
 CLI.prototype.requireProject = function() {
-  var deferred = defer()
-    , l10nsPath = findup('l10ns.json')
-    , configurations = require(l10nsPath)
-    , projects = configurations.projects
-    , defaultProject = configurations.defaultProject;
+  var deferred = defer();
+  var l10nsPath = findup('l10ns.json');
+  var configurations = require(l10nsPath);
+  var projects = configurations.projects;
+  var defaultProject = configurations.defaultProject;
 
   _.defer(function() {
     if(commands.project) {
@@ -99,8 +100,8 @@ CLI.prototype.requireProject = function() {
  */
 
 CLI.prototype._setDefaultProjectProperties = function(project) {
-  var root, deferred = defer()
-    , l10nsPath = findup('l10ns.json');
+  var root, deferred = defer();
+  var l10nsPath = findup('l10ns.json');
 
   if(l10nsPath) {
     root = path.dirname(l10nsPath);
@@ -147,7 +148,10 @@ CLI.prototype._setDefaultProjectProperties = function(project) {
  */
 
 CLI.prototype._setProjectSource = function(project) {
-  var source = [], _files, adds, removes;
+  var source = [];
+  var _files;
+  var adds;
+  var removes;
 
   if(!project.source) {
     throw new TypeError('You must define your source files using a glob pattern in your l10ns.json file.');
