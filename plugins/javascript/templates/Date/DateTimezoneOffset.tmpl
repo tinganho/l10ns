@@ -1,10 +1,10 @@
 function(timezoneOffset, options) {
   options = options || {};
-  options.hours = typeof options.hours ? options.hours : true;
-  options.zeroPaddingHours = typeof options.zeroPaddingHours ? options.zeroPaddingHours : true;
-  options.minutes = typeof options.minutes ? options.minutes : true;
-  options.colon = typeof options.colon ? options.colon : true;
-  options.zulu = typeof options.colon ? options.colon : false;
+  options.hours = typeof options.hours !== 'undefined' ? options.hours : true;
+  options.zeroPaddingHours = typeof options.zeroPaddingHours !== 'undefined' ? options.zeroPaddingHours : true;
+  options.minutes = typeof options.minutes !== 'undefined' ? options.minutes : true;
+  options.colon = typeof options.colon !== 'undefined' ? options.colon : true;
+  options.zulu = typeof options.zulu !== 'undefined' ? options.colon : false;
 
   var offsetFloatingHours = timezoneOffset / 60;
   var offsetHours;
@@ -27,18 +27,20 @@ function(timezoneOffset, options) {
   }
 
   var result = '';
-  if(zeroPaddingHours) {
+  if(options.zeroPaddingHours) {
     if(offsetHours > -10 && offsetHours < 0) {
       offsetHours = (offsetHours + '').replace('-', '-0');
     }
     else if(offsetHours >= 0 && offsetHours < 10) {
-      offsetHours = '+0' + offsetHours;
+      offsetHours = '0' + offsetHours;
     }
   }
   if(options.hours) {
+    if((offsetHours + '').charAt(0) !== '-') {
+      offsetHours = '+' + offsetHours;
+    }
     result += offsetHours;
   }
-  result = offsetHours;
   if(options.colon) {
     result += ':';
   }

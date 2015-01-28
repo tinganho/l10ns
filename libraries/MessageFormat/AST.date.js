@@ -691,42 +691,30 @@ AST.date.DateFormat.prototype._parseTimezone = function() {
       }
       return new AST.date.timezone.GenericLocationTimeZone(format);
     case AST.date.DateFormat.Identifiers.ISO8601_WITH_Z_TIME_ZONE:
-      length = this._getConsecutiveLength(5);
+      length = this._getConsecutiveLength(3);
       switch(length) {
         case 1:
           format = AST.date.timezone.ISO8601WithZTimeZone.Formats.BASIC_FORMAT_WITH_OPTIONAL_MINUTES;
           break;
         case 2:
-          format = AST.date.timezone.ISO8601WithZTimeZone.Formats.BASIC_FORMAT_WITH_MINUTES;
+          format = AST.date.timezone.ISO8601WithZTimeZone.Formats.BASIC_FORMAT_WITH_HOURS_AND_MINUTES;
           break;
         case 3:
           format = AST.date.timezone.ISO8601WithZTimeZone.Formats.EXTENDED_FORMAT_WITH_HOURS_AND_MINUTES;
           break;
-        case 4:
-          format = AST.date.timezone.ISO8601WithZTimeZone.Formats.BASIC_FORMAT_WITH_HOURS_MINUTES_AND_OPTIONAL_SECONDS;
-          break;
-        case 5:
-          format = AST.date.timezone.ISO8601WithZTimeZone.Formats.EXTENDED_FORMAT_WITH_HOURS_MINUTES_AND_OPTIONAL_SECONDS;
-          break;
       }
       return new AST.date.timezone.ISO8601WithZTimeZone(format);
     case AST.date.DateFormat.Identifiers.ISO8601_WITHOUT_Z_TIME_ZONE:
-      length = this._getConsecutiveLength(5);
+      length = this._getConsecutiveLength(3);
       switch(length) {
         case 1:
           format = AST.date.timezone.ISO8601WithoutZTimeZone.Formats.BASIC_FORMAT_WITH_OPTIONAL_MINUTES;
           break;
         case 2:
-          format = AST.date.timezone.ISO8601WithoutZTimeZone.Formats.BASIC_FORMAT_WITH_MINUTES;
+          format = AST.date.timezone.ISO8601WithoutZTimeZone.Formats.BASIC_FORMAT_WITH_HOURS_AND_MINUTES;
           break;
         case 3:
           format = AST.date.timezone.ISO8601WithoutZTimeZone.Formats.EXTENDED_FORMAT_WITH_HOURS_AND_MINUTES;
-          break;
-        case 4:
-          format = AST.date.timezone.ISO8601WithoutZTimeZone.Formats.BASIC_FORMAT_WITH_HOURS_MINUTES_AND_OPTIONAL_SECONDS;
-          break;
-        case 5:
-          format = AST.date.timezone.ISO8601WithoutZTimeZone.Formats.EXTENDED_FORMAT_WITH_HOURS_MINUTES_AND_OPTIONAL_SECONDS;
           break;
       }
       return new AST.date.timezone.ISO8601WithoutZTimeZone(format);
@@ -1480,10 +1468,8 @@ AST.date.timezone.ISO8601WithZTimeZone = function(format) {
 
 AST.date.timezone.ISO8601WithZTimeZone.Formats = {
   BASIC_FORMAT_WITH_OPTIONAL_MINUTES: 1,
-  BASIC_FORMAT_WITH_MINUTES: 2,
-  EXTENDED_FORMAT_WITH_HOURS_AND_MINUTES: 3,
-  BASIC_FORMAT_WITH_HOURS_MINUTES_AND_OPTIONAL_SECONDS: 4,
-  EXTENDED_FORMAT_WITH_HOURS_MINUTES_AND_OPTIONAL_SECONDS: 5
+  BASIC_FORMAT_WITH_HOURS_AND_MINUTES: 2,
+  EXTENDED_FORMAT_WITH_HOURS_AND_MINUTES: 3
 };
 
 /**
@@ -1519,8 +1505,6 @@ AST.date.timezone.ISO8601WithoutZTimeZone = function(format) {
 
 AST.date.timezone.ISO8601WithoutZTimeZone.Formats = {
   BASIC_FORMAT_WITH_OPTIONAL_MINUTES: 1,
-  BASIC_FORMAT_WITH_MINUTES: 2,
-  EXTENDED_FORMAT_WITH_HOURS_AND_MINUTES: 3,
-  BASIC_FORMAT_WITH_HOURS_MINUTES_AND_OPTIONAL_SECONDS: 4,
-  EXTENDED_FORMAT_WITH_HOURS_MINUTES_AND_OPTIONAL_SECONDS: 5
+  BASIC_FORMAT_WITH_HOURS_AND_MINUTES: 2,
+  EXTENDED_FORMAT_WITH_HOURS_AND_MINUTES: 3
 };

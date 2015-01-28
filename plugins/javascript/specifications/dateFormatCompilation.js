@@ -2232,6 +2232,18 @@ describe('DateFormat', function() {
   });
 
   describe('Timezone', function() {
+    describe('Timezone Offset', function() {
+      it('should be able to render offset', function() {
+        eval('var test_timezoneOffset = ' + dateTemplates['DateTimezoneOffset']());
+        expect(test_timezoneOffset(120)).to.equal('+02:00');
+        expect(test_timezoneOffset(120, { zeroPaddingHours: false })).to.equal('+2:00');
+        expect(test_timezoneOffset(-120, { zeroPaddingHours: false })).to.equal('-2:00');
+        expect(test_timezoneOffset(120, { colon: false })).to.equal('+0200');
+        expect(test_timezoneOffset(-120)).to.equal('-02:00');
+        expect(test_timezoneOffset(-150)).to.equal('-02:30');
+      });
+    });
+
     describe('Specific non-location timezone', function() {
       it('should be able to render short non-location timezone format', function() {
         var getFunctionString = function(format, timezoneOffsetType) {
