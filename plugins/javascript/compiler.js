@@ -961,18 +961,30 @@ Compiler.prototype._compileDateFormat = function(dateFormat) {
         length: component.length
       });
     }
-    else if(component instanceof MessageFormat.AST.date.timezone.SpecificNonLocationTimeZone) {
+    else if(component instanceof MessageFormat.AST.date.timezone.SpecificNonLocationTimezone) {
       result += template['DateSpecificNonLocationTimezone']({
         format: component.format,
         variableName: dateFormat.variable.name
       });
     }
-    else if(component instanceof MessageFormat.AST.date.timezone.RegularTimeZone) {
+    else if(component instanceof MessageFormat.AST.date.timezone.RegularTimezone) {
       result += template['DateRegularTimezone']({
         format: component.format
       });
     }
-    else if(component instanceof MessageFormat.AST.date.timezone.GenericLocationTimeZone) {
+    else if(component instanceof MessageFormat.AST.date.timezone.LocalizedGMTTimezone) {
+      result += template['DateLocalizedGMTTimezone']({
+        format: component.format,
+        variableName: dateFormat.variable.name
+      });
+    }
+    else if(component instanceof MessageFormat.AST.date.timezone.GenericNonLocationTimezone) {
+      result += template['DateGenericNonLocationTimezone']({
+        format: component.format,
+        variableName: dateFormat.variable.name
+      });
+    }
+    else if(component instanceof MessageFormat.AST.date.timezone.GenericLocationTimezone) {
       result += template['DateGenericLocationTimeZone']({
         format: component.format
       });

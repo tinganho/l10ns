@@ -1010,13 +1010,16 @@ MessageFormat.prototype._readTimezone = function() {
       try {
         var city = this._getXMLNode('//timeZoneNames/zone[@type=\'' + mapZoneID + '\']/exemplarCity');
         if(city) {
+          timezones[timezone].hasCity = true;
           timezones[timezone].city = city.text();
         }
         else {
+          timezones[timezone].hasCity = false;
           timezones[timezone].city = this._getXMLNode('//timeZoneNames/zone[@type=\'Etc/Unknown\']/exemplarCity').text();
         }
       }
       catch(error) {
+        timezones[timezone].hasCity = false;
         timezones[timezone].city = this._getXMLNode('//timeZoneNames/zone[@type=\'Etc/Unknown\']/exemplarCity').text();
       }
       timezones[timezone].regionFormat = this._getXMLNode('//timeZoneNames/regionFormat').text();

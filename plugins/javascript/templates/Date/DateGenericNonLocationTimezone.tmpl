@@ -1,0 +1,23 @@
+{{?it.format === 1}}if(this.__timezones[it.{{=it.variableName}}.timezone].name.short.generic) {
+  dateString += this.__timezones[it.{{=it.variableName}}.timezone].name.short.generic;
+}
+else {
+  if(this.__timezones[it.{{=it.variableName}}.timezone].hasCity) {
+    dateString += this.__timezones[it.{{=it.variableName}}.timezone].regionFormat.replace('{0}', this.__timezones[it.{{=it.variableName}}.timezone].city);
+  }
+  else {
+    dateString += this.__timezones[it.{{=it.variableName}}.timezone].GMTFormat.replace('{0}', getTimezoneOffset(timezoneOffset, { zeroPaddingHours: false, minutes: false, colon: false }));
+  }
+}
+{{??}}if(timezoneOffsetType === 's') {
+if(this.__timezones[it.{{=it.variableName}}.timezone].name.long.generic) {
+  dateString += this.__timezones[it.{{=it.variableName}}.timezone].name.long.generic;
+}
+else {
+  if(this.__timezones[it.{{=it.variableName}}.timezone].hasCity) {
+    dateString += this.__timezones[it.{{=it.variableName}}.timezone].regionFormat.replace('{0}', this.__timezones[it.{{=it.variableName}}.timezone].city);
+  }
+  else {
+    dateString += getLongLocalizedGMT(this.__timezones[it.{{=it.variableName}}.timezone].GMTFormat, timezoneOffset);
+  }
+}{{?}}

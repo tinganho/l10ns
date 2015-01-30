@@ -3,7 +3,7 @@
     dateString += this.__timezones[it.{{=it.variableName}}.timezone].name.short.standard;
   }
   else {
-    dateString += this.__timezones[it.{{=it.variableName}}.timezone].gmtFormat.replace('{0}', getTimezoneOffset(timezoneOffset, { zeroPaddingHours: false, minutes: false, colon: false }));
+    dateString += this.__timezones[it.{{=it.variableName}}.timezone].GMTFormat.replace('{0}', getTimezoneOffset(timezoneOffset, { zeroPaddingHours: false, minutes: false, colon: false }));
   }
 }
 else {
@@ -11,14 +11,14 @@ else {
     dateString += this.__timezones[it.{{=it.variableName}}.timezone].name.short.daylight;
   }
   else {
-    dateString += this.__timezones[it.{{=it.variableName}}.timezone].gmtFormat.replace('{0}', getTimezoneOffset(timezoneOffset, { zeroPaddingHours: false, minutes: false, colon: false }));
+    dateString += this.__timezones[it.{{=it.variableName}}.timezone].GMTFormat.replace('{0}', getTimezoneOffset(timezoneOffset, { zeroPaddingHours: false, minutes: false, colon: false }));
   }
 }{{??}}if(timezoneOffsetType === 's') {
   if(this.__timezones[it.{{=it.variableName}}.timezone].name.long.standard) {
     dateString += this.__timezones[it.{{=it.variableName}}.timezone].name.long.standard;
   }
   else {
-    dateString += getLongLocalizedGMT(this.__timezones[it.{{=it.variableName}}.timezone].gmtFormat, timezoneOffset);
+    dateString += getLongLocalizedGMT(this.__timezones[it.{{=it.variableName}}.timezone].GMTFormat, timezoneOffset);
   }
 }
 else {
@@ -26,6 +26,6 @@ else {
     dateString += this.__timezones[it.{{=it.variableName}}.timezone].name.long.daylight;
   }
   else {
-    dateString += getLongLocalizedGMT(this.__timezones[it.{{=it.variableName}}.timezone].gmtFormat, timezoneOffset);
+    dateString += getLongLocalizedGMT(this.__timezones[it.{{=it.variableName}}.timezone].GMTFormat, timezoneOffset);
   }
 }{{?}}

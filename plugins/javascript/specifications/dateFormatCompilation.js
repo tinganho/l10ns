@@ -2249,7 +2249,7 @@ describe('DateFormat', function() {
         var getFunctionString = function(format, timezoneOffsetType) {
           return 'function test_specificNonLocationTimezone(it) {' +
             'var dateString =\'\';\n' +
-            'this.__timezones = { "America/Los_Angeles": { gmtFormat: "GMT{0}", name: { long: { standard: "Pacific Standard Time", daylight: "Pacific Daylight Time", generic: "Pacific Time" }, short: { standard: "PST", daylight: "PDT", generic: "PT" }}}};\n' +
+            'this.__timezones = { "America/Los_Angeles": { GMTFormat: "GMT{0}", name: { long: { standard: "Pacific Standard Time", daylight: "Pacific Daylight Time", generic: "Pacific Time" }, short: { standard: "PST", daylight: "PDT", generic: "PT" }}}};\n' +
             'var timezoneOffsetType = \'' + timezoneOffsetType + '\';\n' +
             dateTemplates['DateGetLongLocalizedGMT']() + ';\n' +
             dateTemplates['DateSpecificNonLocationTimezone']({
@@ -2288,7 +2288,7 @@ describe('DateFormat', function() {
           return 'function test_specificNonLocationTimezone(it) {' +
             'var dateString =\'\';\n' +
             'var timezoneOffset = ' + timezoneOffset + ';\n' +
-            'this.__timezones = { "America/Los_Angeles": { gmtFormat: "GMT{0}", name: { long: { standard: null, daylight: null, generic: null }, short: { standard: null, daylight: null, generic: null }}}};\n' +
+            'this.__timezones = { "America/Los_Angeles": { GMTFormat: "GMT{0}", name: { long: { standard: null, daylight: null, generic: null }, short: { standard: null, daylight: null, generic: null }}}};\n' +
             'var timezoneOffsetType = \'' + timezoneOffsetType + '\';\n' +
             dateTemplates['DateGetLongLocalizedGMT']() + ';\n' +
             dateTemplates['DateSpecificNonLocationTimezone']({
@@ -2324,7 +2324,7 @@ describe('DateFormat', function() {
             '    dateString += this.__timezones[it.variable1.timezone].name.short.standard;\n' +
             '  }\n' +
             '  else {\n' +
-            '    dateString += this.__timezones[it.variable1.timezone].gmtFormat.replace(\'{0}\', getTimezoneOffset(timezoneOffset, { zeroPaddingHours: false, minutes: false, colon: false }));\n' +
+            '    dateString += this.__timezones[it.variable1.timezone].GMTFormat.replace(\'{0}\', getTimezoneOffset(timezoneOffset, { zeroPaddingHours: false, minutes: false, colon: false }));\n' +
             '  }\n' +
             '}\n' +
             'else {\n' +
@@ -2332,7 +2332,7 @@ describe('DateFormat', function() {
             '    dateString += this.__timezones[it.variable1.timezone].name.short.daylight;\n' +
             '  }\n' +
             '  else {\n' +
-            '    dateString += this.__timezones[it.variable1.timezone].gmtFormat.replace(\'{0}\', getTimezoneOffset(timezoneOffset, { zeroPaddingHours: false, minutes: false, colon: false }));\n' +
+            '    dateString += this.__timezones[it.variable1.timezone].GMTFormat.replace(\'{0}\', getTimezoneOffset(timezoneOffset, { zeroPaddingHours: false, minutes: false, colon: false }));\n' +
             '  }\n' +
             '}\n\n' +
             'string += dateString;\n' +
@@ -2357,7 +2357,7 @@ describe('DateFormat', function() {
             '    dateString += this.__timezones[it.variable1.timezone].name.long.standard;\n' +
             '  }\n' +
             '  else {\n' +
-            '    dateString += getLongLocalizedGMT(this.__timezones[it.variable1.timezone].gmtFormat, timezoneOffset);\n' +
+            '    dateString += getLongLocalizedGMT(this.__timezones[it.variable1.timezone].GMTFormat, timezoneOffset);\n' +
             '  }\n' +
             '}\n' +
             'else {\n' +
@@ -2365,7 +2365,7 @@ describe('DateFormat', function() {
             '    dateString += this.__timezones[it.variable1.timezone].name.long.daylight;\n' +
             '  }\n' +
             '  else {\n' +
-            '    dateString += getLongLocalizedGMT(this.__timezones[it.variable1.timezone].gmtFormat, timezoneOffset);\n' +
+            '    dateString += getLongLocalizedGMT(this.__timezones[it.variable1.timezone].GMTFormat, timezoneOffset);\n' +
             '  }\n' +
             '}\n\n' +
             'string += dateString;\n' +
@@ -2378,7 +2378,120 @@ describe('DateFormat', function() {
       });
     });
 
-    describe('GenericLocationTimeZone', function() {
+    describe('RegularTimezone', function() {
+      it('should be able to output basic format', function(done) {
+        var localizations = getLocalizations('{variable1, date, Z}');
+        var dependencies = getDependencies(localizations);
+        var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+        compiler.run();
+        eventually(function() {
+          var functionBody = setDateBlock +
+            'dateString += getTimezoneOffset(timezoneOffset, { colon: false });\n\n' +
+            'string += dateString;\n' +
+            'return string;';
+          expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+            functionBody: indentSpaces(8, functionBody)
+          }));
+          done();
+        });
+      });
+
+      it('should be able to output long localized GMT format', function(done) {
+        var localizations = getLocalizations('{variable1, date, ZZZZ}');
+        var dependencies = getDependencies(localizations);
+        var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+        compiler.run();
+        eventually(function() {
+          var functionBody = setDateBlock +
+            'dateString += getLongLocalizedGMT(timezoneOffset);\n\n' +
+            'string += dateString;\n' +
+            'return string;';
+          expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+            functionBody: indentSpaces(8, functionBody)
+          }));
+          done();
+        });
+      });
+
+      it('should be able to output long localized GMT format', function(done) {
+        var localizations = getLocalizations('{variable1, date, ZZZZZ}');
+        var dependencies = getDependencies(localizations);
+        var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+        compiler.run();
+        eventually(function() {
+          var functionBody = setDateBlock +
+            'dateString += getTimezoneOffset(timezoneOffset);\n\n' +
+            'string += dateString;\n' +
+            'return string;';
+          expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+            functionBody: indentSpaces(8, functionBody)
+          }));
+          done();
+        });
+      });
+    });
+
+    describe('LongLocalizedGMTTimezone', function() {
+      it('should be able to output long localized GMT format', function(done) {
+        var localizations = getLocalizations('{variable1, date, O}');
+        var dependencies = getDependencies(localizations);
+        var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+        compiler.run();
+        eventually(function() {
+          var functionBody = setDateBlock +
+            'dateString += this.__timezones[it.variable1.timezone].GMTFormat.replace(\'{0}\', getTimezoneOffset(timezoneOffset, { zeroPaddingHours: false, minutes: false, colon: false }));\n\n' +
+            'string += dateString;\n' +
+            'return string;';
+          expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+            functionBody: indentSpaces(8, functionBody)
+          }));
+          done();
+        });
+      });
+
+      it('should be able to output long localized GMT format', function(done) {
+        var localizations = getLocalizations('{variable1, date, OOOO}');
+        var dependencies = getDependencies(localizations);
+        var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+        compiler.run();
+        eventually(function() {
+          var functionBody = setDateBlock +
+            'dateString += getLongLocalizedGMT(this.__timezones[it.variable1.timezone].GMTFormat, timezoneOffset);\n\n' +
+            'string += dateString;\n' +
+            'return string;';
+          expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+            functionBody: indentSpaces(8, functionBody)
+          }));
+          done();
+        });
+      });
+    });
+
+    describe('GenericNonLocationTimezone', function() {
+      // it('should be able to output short generic non-location format', function(done) {
+      //   var localizations = getLocalizations('{variable1, date, v}');
+      //   var dependencies = getDependencies(localizations);
+      //   var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+      //   compiler.run();
+      //   eventually(function() {
+      //     var functionBody = setDateBlock +
+      //       'string += dateString;\n' +
+      //       'return string;';
+      //     expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+      //       functionBody: indentSpaces(8, functionBody)
+      //     }));
+      //     done();
+      //   });
+      // });
+    });
+
+    describe('GenericLocationTimezone', function() {
       it('should be able to return a long time zone id', function() {
         var getFunctionString = function(format) {
           return 'function test_GenericLocationTimezoneRendering(it) {' +
