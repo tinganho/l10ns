@@ -2234,7 +2234,7 @@ describe('DateFormat', function() {
   describe('Timezone', function() {
     describe('Timezone Offset', function() {
       it('should be able to render offset', function() {
-        eval('var test_timezoneOffset = ' + dateTemplates['DateTimezoneOffset']());
+        eval('var test_timezoneOffset = ' + dateTemplates['DateGetTimezoneOffset']());
         expect(test_timezoneOffset(120)).to.equal('+02:00');
         expect(test_timezoneOffset(120, { zeroPaddingHours: false })).to.equal('+2:00');
         expect(test_timezoneOffset(-120, { zeroPaddingHours: false })).to.equal('-2:00');
@@ -2249,14 +2249,16 @@ describe('DateFormat', function() {
         var getFunctionString = function(format, timezoneOffsetType) {
           return 'function test_specificNonLocationTimezone(it) {' +
             'var dateString =\'\';\n' +
-            'this.__timezones = { "America/Los_Angeles": { name: { long: { standard: "Pacific Standard Time", daylight: "Pacific Daylight Time", generic: "Pacific Time" }, short: { standard: "PST", daylight: "PDT", generic: "PT" }}}};\n' +
+            'this.__timezones = { "America/Los_Angeles": { gmtFormat: "GMT{0}", name: { long: { standard: "Pacific Standard Time", daylight: "Pacific Daylight Time", generic: "Pacific Time" }, short: { standard: "PST", daylight: "PDT", generic: "PT" }}}};\n' +
             'var timezoneOffsetType = \'' + timezoneOffsetType + '\';\n' +
+            dateTemplates['DateGetLongLocalizedGMT']() + ';\n' +
             dateTemplates['DateSpecificNonLocationTimezone']({
               variableName: 'time',
               format: format
             }) +
             'return dateString; }';
         }
+        eval(dateTemplates['DateGetTimezoneOffset']());
         eval(getFunctionString(1, 's'));
         expect(test_specificNonLocationTimezone({
           time: {
@@ -2281,6 +2283,98 @@ describe('DateFormat', function() {
             timezone: 'America/Los_Angeles'
           }
         })).to.equal('Pacific Daylight Time');
+
+        var getFunctionString = function(format, timezoneOffset, timezoneOffsetType) {
+          return 'function test_specificNonLocationTimezone(it) {' +
+            'var dateString =\'\';\n' +
+            'var timezoneOffset = ' + timezoneOffset + ';\n' +
+            'this.__timezones = { "America/Los_Angeles": { gmtFormat: "GMT{0}", name: { long: { standard: null, daylight: null, generic: null }, short: { standard: null, daylight: null, generic: null }}}};\n' +
+            'var timezoneOffsetType = \'' + timezoneOffsetType + '\';\n' +
+            dateTemplates['DateGetLongLocalizedGMT']() + ';\n' +
+            dateTemplates['DateSpecificNonLocationTimezone']({
+              variableName: 'time',
+              format: format
+            }) +
+            'return dateString; }';
+        }
+        eval(getFunctionString(1, 120, 's'));
+        expect(test_specificNonLocationTimezone({
+          time: {
+            timezone: 'America/Los_Angeles'
+          }
+        })).to.equal('GMT+2');
+        eval(getFunctionString(2, 120, 's'));
+        expect(test_specificNonLocationTimezone({
+          time: {
+            timezone: 'America/Los_Angeles'
+          }
+        })).to.equal('GMT+02:00');
+      });
+
+      it('should be able to output short non-location code', function(done) {
+        var localizations = getLocalizations('{variable1, date, z}');
+        var dependencies = getDependencies(localizations);
+        var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+        compiler.run();
+        eventually(function() {
+          var functionBody = setDateBlock +
+            'if(timezoneOffsetType === \'s\') {\n' +
+            '  if(this.__timezones[it.variable1.timezone].name.short.standard) {\n' +
+            '    dateString += this.__timezones[it.variable1.timezone].name.short.standard;\n' +
+            '  }\n' +
+            '  else {\n' +
+            '    dateString += this.__timezones[it.variable1.timezone].gmtFormat.replace(\'{0}\', getTimezoneOffset(timezoneOffset, { zeroPaddingHours: false, minutes: false, colon: false }));\n' +
+            '  }\n' +
+            '}\n' +
+            'else {\n' +
+            '  if(this.__timezones[it.variable1.timezone].name.short.daylight) {\n' +
+            '    dateString += this.__timezones[it.variable1.timezone].name.short.daylight;\n' +
+            '  }\n' +
+            '  else {\n' +
+            '    dateString += this.__timezones[it.variable1.timezone].gmtFormat.replace(\'{0}\', getTimezoneOffset(timezoneOffset, { zeroPaddingHours: false, minutes: false, colon: false }));\n' +
+            '  }\n' +
+            '}\n\n' +
+            'string += dateString;\n' +
+            'return string;';
+          expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+            functionBody: indentSpaces(8, functionBody)
+          }));
+          done();
+        });
+      });
+
+      it('should be able to output long non-location code', function(done) {
+        var localizations = getLocalizations('{variable1, date, zzzz}');
+        var dependencies = getDependencies(localizations);
+        var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+        compiler.run();
+        eventually(function() {
+          var functionBody = setDateBlock +
+            'if(timezoneOffsetType === \'s\') {\n' +
+            '  if(this.__timezones[it.variable1.timezone].name.long.standard) {\n' +
+            '    dateString += this.__timezones[it.variable1.timezone].name.long.standard;\n' +
+            '  }\n' +
+            '  else {\n' +
+            '    dateString += getLongLocalizedGMT(this.__timezones[it.variable1.timezone].gmtFormat, timezoneOffset);\n' +
+            '  }\n' +
+            '}\n' +
+            'else {\n' +
+            '  if(this.__timezones[it.variable1.timezone].name.long.daylight) {\n' +
+            '    dateString += this.__timezones[it.variable1.timezone].name.long.daylight;\n' +
+            '  }\n' +
+            '  else {\n' +
+            '    dateString += getLongLocalizedGMT(this.__timezones[it.variable1.timezone].gmtFormat, timezoneOffset);\n' +
+            '  }\n' +
+            '}\n\n' +
+            'string += dateString;\n' +
+            'return string;';
+          expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+            functionBody: indentSpaces(8, functionBody)
+          }));
+          done();
+        });
       });
     });
 

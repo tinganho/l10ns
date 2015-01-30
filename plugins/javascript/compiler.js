@@ -124,6 +124,8 @@ Compiler.prototype.run = function() {
         timezones: _this._indentSpaces(2, template['DateTimeZones']({
           timezones: JSON.stringify(timezones)
         })),
+        getTimezoneOffsetFunction: _this._indentSpaces(2, template['DateGetTimezoneOffset']()),
+        getLongLocalizedGMTFunction: _this._indentSpaces(2, template['DateGetLongLocalizedGMT']()),
         roundUpFunction: _this._indentSpaces(2, template['RoundToFunction']()),
         formatNumberFunction: _this._indentSpaces(2, template['FormatNumberFunction']()),
         functionName: language.GET_LOCALIZATION_STRING_FUNCTION_NAME,
@@ -961,7 +963,8 @@ Compiler.prototype._compileDateFormat = function(dateFormat) {
     }
     else if(component instanceof MessageFormat.AST.date.timezone.SpecificNonLocationTimeZone) {
       result += template['DateSpecificNonLocationTimezone']({
-        format: component.format
+        format: component.format,
+        variableName: dateFormat.variable.name
       });
     }
     else if(component instanceof MessageFormat.AST.date.timezone.RegularTimeZone) {
