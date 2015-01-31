@@ -2473,22 +2473,181 @@ describe('DateFormat', function() {
     });
 
     describe('GenericNonLocationTimezone', function() {
-      // it('should be able to output short generic non-location format', function(done) {
-      //   var localizations = getLocalizations('{variable1, date, v}');
-      //   var dependencies = getDependencies(localizations);
-      //   var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+      it('should be able to render short format', function() {
+        var getFunctionString = function(format, timezoneOffset) {
+          return 'function test_specificNonLocationTimezone(it) {' +
+            'var dateString =\'\';\n' +
+            'this.__timezones = { "America/Los_Angeles": { GMTFormat: "GMT{0}", regionFormat: "{0} Time", city: "Los Angeles", name: { long: { standard: "Pacific Standard Time", daylight: "Pacific Daylight Time", generic: "Pacific Time" }, short: { standard: "PST", daylight: "PDT", generic: "PT" }}}};\n' +
+            'var timezoneOffset = \'' + timezoneOffset + '\';\n' +
+            dateTemplates['DateGetLongLocalizedGMT']() + ';\n' +
+            dateTemplates['DateGenericNonLocationTimezone']({
+              variableName: 'time',
+              format: format
+            }) +
+            'return dateString; }';
+        }
+        eval(getFunctionString(1, 120));
+        expect(test_specificNonLocationTimezone({
+          time: {
+            timezone: 'America/Los_Angeles'
+          }
+        })).to.equal('PT');
+        var getFunctionString = function(format, timezoneOffset) {
+          return 'function test_specificNonLocationTimezone(it) {' +
+            'var dateString =\'\';\n' +
+            'this.__timezones = { "America/Los_Angeles": { GMTFormat: "GMT{0}", regionFormat: "{0} Time", hasCity: true, city: "Los Angeles", name: { long: { standard: "Pacific Standard Time", daylight: "Pacific Daylight Time", generic: "Pacific Time" }, short: { standard: "PST", daylight: "PDT", generic: null }}}};\n' +
+            'var timezoneOffset = ' + timezoneOffset + ';\n' +
+            dateTemplates['DateGetTimezoneOffset']() + ';\n' +
+            dateTemplates['DateGetLongLocalizedGMT']() + ';\n' +
+            dateTemplates['DateGenericNonLocationTimezone']({
+              variableName: 'time',
+              format: format
+            }) +
+            'return dateString; }';
+        }
+        eval(getFunctionString(1, 120));
+        expect(test_specificNonLocationTimezone({
+          time: {
+            timezone: 'America/Los_Angeles'
+          }
+        })).to.equal('Los Angeles Time');
+        var getFunctionString = function(format, timezoneOffset) {
+          return 'function test_specificNonLocationTimezone(it) {' +
+            'var dateString =\'\';\n' +
+            'this.__timezones = { "America/Los_Angeles": { GMTFormat: "GMT{0}", regionFormat: "{0} Time", hasCity: false, city: "Los Angeles", name: { long: { standard: "Pacific Standard Time", daylight: "Pacific Daylight Time", generic: "Pacific Time" }, short: { standard: "PST", daylight: "PDT", generic: null }}}};\n' +
+            'var timezoneOffset = ' + timezoneOffset + ';\n' +
+            dateTemplates['DateGetTimezoneOffset']() + ';\n' +
+            dateTemplates['DateGetLongLocalizedGMT']() + ';\n' +
+            dateTemplates['DateGenericNonLocationTimezone']({
+              variableName: 'time',
+              format: format
+            }) +
+            'return dateString; }';
+        }
+        eval(getFunctionString(1, 120));
+        expect(test_specificNonLocationTimezone({
+          time: {
+            timezone: 'America/Los_Angeles'
+          }
+        })).to.equal('GMT+2');
+      });
 
-      //   compiler.run();
-      //   eventually(function() {
-      //     var functionBody = setDateBlock +
-      //       'string += dateString;\n' +
-      //       'return string;';
-      //     expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
-      //       functionBody: indentSpaces(8, functionBody)
-      //     }));
-      //     done();
-      //   });
-      // });
+
+      it('should be able to render long format', function() {
+        var getFunctionString = function(format, timezoneOffset) {
+          return 'function test_specificNonLocationTimezone(it) {\n' +
+            'var dateString =\'\';\n' +
+            'this.__timezones = { "America/Los_Angeles": { GMTFormat: "GMT{0}", regionFormat: "{0} Time", hasCity: false, city: "Los Angeles", name: { long: { standard: "Pacific Standard Time", daylight: "Pacific Daylight Time", generic: "Pacific Time" }, short: { standard: "PST", daylight: "PDT", generic: null }}}};\n' +
+            'var timezoneOffset = ' + timezoneOffset + ';\n' +
+            dateTemplates['DateGetTimezoneOffset']() + ';\n' +
+            dateTemplates['DateGetLongLocalizedGMT']() + ';\n' +
+            dateTemplates['DateGenericNonLocationTimezone']({
+              variableName: 'time',
+              format: format
+            }) +
+            '\n  return dateString; \n}';
+        }
+        eval(getFunctionString(2, 120));
+        expect(test_specificNonLocationTimezone({
+          time: {
+            timezone: 'America/Los_Angeles'
+          }
+        })).to.equal('Pacific Time');
+        var getFunctionString = function(format, timezoneOffset) {
+          return 'function test_specificNonLocationTimezone(it) {\n' +
+            'var dateString =\'\';\n' +
+            'this.__timezones = { "America/Los_Angeles": { GMTFormat: "GMT{0}", regionFormat: "{0} Time", hasCity: true, city: "Los Angeles", name: { long: { standard: "Pacific Standard Time", daylight: "Pacific Daylight Time", generic: null }, short: { standard: "PST", daylight: "PDT", generic: null }}}};\n' +
+            'var timezoneOffset = ' + timezoneOffset + ';\n' +
+            dateTemplates['DateGetTimezoneOffset']() + ';\n' +
+            dateTemplates['DateGetLongLocalizedGMT']() + ';\n' +
+            dateTemplates['DateGenericNonLocationTimezone']({
+              variableName: 'time',
+              format: format
+            }) +
+            '\n  return dateString; \n}';
+        }
+        eval(getFunctionString(2, 120));
+        expect(test_specificNonLocationTimezone({
+          time: {
+            timezone: 'America/Los_Angeles'
+          }
+        })).to.equal('Los Angeles Time');
+        var getFunctionString = function(format, timezoneOffset) {
+          return 'function test_specificNonLocationTimezone(it) {\n' +
+            'var dateString =\'\';\n' +
+            'this.__timezones = { "America/Los_Angeles": { GMTFormat: "GMT{0}", regionFormat: "{0} Time", hasCity: false, city: "Los Angeles", name: { long: { standard: "Pacific Standard Time", daylight: "Pacific Daylight Time", generic: null }, short: { standard: "PST", daylight: "PDT", generic: null }}}};\n' +
+            'var timezoneOffset = ' + timezoneOffset + ';\n' +
+            dateTemplates['DateGetTimezoneOffset']() + ';\n' +
+            dateTemplates['DateGetLongLocalizedGMT']() + ';\n' +
+            dateTemplates['DateGenericNonLocationTimezone']({
+              variableName: 'time',
+              format: format
+            }) +
+            '\n  return dateString; \n}';
+        }
+        eval(getFunctionString(2, 120));
+        expect(test_specificNonLocationTimezone({
+          time: {
+            timezone: 'America/Los_Angeles'
+          }
+        })).to.equal('GMT+02:00');
+      });
+
+      it('should be able to output short format', function(done) {
+        var localizations = getLocalizations('{variable1, date, v}');
+        var dependencies = getDependencies(localizations);
+        var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+        compiler.run();
+        eventually(function() {
+          var functionBody = setDateBlock +
+            'if(this.__timezones[it.variable1.timezone].name.long.generic) {\n' +
+            '  dateString += this.__timezones[it.variable1.timezone].name.long.generic;\n' +
+            '}\n' +
+            'else {\n' +
+            '  if(this.__timezones[it.variable1.timezone].hasCity) {\n' +
+            '    dateString += this.__timezones[it.variable1.timezone].regionFormat.replace(\'{0}\', this.__timezones[it.variable1.timezone].city);\n' +
+            '  }\n' +
+            '  else {\n' +
+            '    dateString += getLongLocalizedGMT(this.__timezones[it.variable1.timezone].GMTFormat, timezoneOffset);\n' +
+            '  }\n' +
+            '}\n\n' +
+            'string += dateString;\n' +
+            'return string;';
+          expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+            functionBody: indentSpaces(8, functionBody)
+          }));
+          done();
+        });
+      });
+
+      it('should be able to output long format', function(done) {
+        var localizations = getLocalizations('{variable1, date, vvvv}');
+        var dependencies = getDependencies(localizations);
+        var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+        compiler.run();
+        eventually(function() {
+          var functionBody = setDateBlock +
+            'if(this.__timezones[it.variable1.timezone].name.long.generic) {\n' +
+            '  dateString += this.__timezones[it.variable1.timezone].name.long.generic;\n' +
+            '}\n' +
+            'else {\n' +
+            '  if(this.__timezones[it.variable1.timezone].hasCity) {\n' +
+            '    dateString += this.__timezones[it.variable1.timezone].regionFormat.replace(\'{0}\', this.__timezones[it.variable1.timezone].city);\n' +
+            '  }\n' +
+            '  else {\n' +
+            '    dateString += getLongLocalizedGMT(this.__timezones[it.variable1.timezone].GMTFormat, timezoneOffset);\n' +
+            '  }\n' +
+            '}\n\n' +
+            'string += dateString;\n' +
+            'return string;';
+          expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+            functionBody: indentSpaces(8, functionBody)
+          }));
+          done();
+        });
+      });
     });
 
     describe('GenericLocationTimezone', function() {
@@ -2496,7 +2655,7 @@ describe('DateFormat', function() {
         var getFunctionString = function(format) {
           return 'function test_GenericLocationTimezoneRendering(it) {' +
             'var dateString =\'\';\n' +
-            dateTemplates['DateGenericLocationTimeZone']({
+            dateTemplates['DateGenericLocationTimezone']({
               variableName: 'test',
               format: format
             }) +

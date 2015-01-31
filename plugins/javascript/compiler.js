@@ -985,7 +985,7 @@ Compiler.prototype._compileDateFormat = function(dateFormat) {
       });
     }
     else if(component instanceof MessageFormat.AST.date.timezone.GenericLocationTimezone) {
-      result += template['DateGenericLocationTimeZone']({
+      result += template['DateGenericLocationTimezone']({
         format: component.format
       });
     }

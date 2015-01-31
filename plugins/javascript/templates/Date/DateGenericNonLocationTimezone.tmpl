@@ -8,9 +8,7 @@ else {
   else {
     dateString += this.__timezones[it.{{=it.variableName}}.timezone].GMTFormat.replace('{0}', getTimezoneOffset(timezoneOffset, { zeroPaddingHours: false, minutes: false, colon: false }));
   }
-}
-{{??}}if(timezoneOffsetType === 's') {
-if(this.__timezones[it.{{=it.variableName}}.timezone].name.long.generic) {
+}{{??}}if(this.__timezones[it.{{=it.variableName}}.timezone].name.long.generic) {
   dateString += this.__timezones[it.{{=it.variableName}}.timezone].name.long.generic;
 }
 else {
