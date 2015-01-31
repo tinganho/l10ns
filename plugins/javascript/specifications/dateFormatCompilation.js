@@ -2691,6 +2691,76 @@ describe('DateFormat', function() {
         expect(test_GenericLocationTimezoneRendering({ test: { timezone: 'America/Los_Angeles' }})).to.equal('GMT+02:00');
       });
     });
+
+    describe('ISO8601WithZTimezone', function() {
+      var getFunctionString = function(format, timezoneOffset) {
+        return 'function test_ISO8601WithZRendering(it) {' +
+          'var dateString =\'\';\n' +
+          'var timezoneOffset = ' + timezoneOffset + ';\n' +
+          dateTemplates['DateGetTimezoneOffset']() + ';\n' +
+          dateTemplates['DateISO8601WithZTimezone']({
+            format: format
+          }) +
+          'return dateString; }';
+      }
+      it('should be able to render hours with optional minutes', function() {
+        eval(getFunctionString(1, 120));
+        expect(test_ISO8601WithZRendering()).to.equal('+02');
+        eval(getFunctionString(1, 150));
+        expect(test_ISO8601WithZRendering()).to.equal('+0230');
+        eval(getFunctionString(1, 0));
+        expect(test_ISO8601WithZRendering()).to.equal('Z');
+      });
+
+      it('should be able to render with hours and minutes and without colon', function() {
+        eval(getFunctionString(2, 120));
+        expect(test_ISO8601WithZRendering()).to.equal('+0200');
+        eval(getFunctionString(2, 0));
+        expect(test_ISO8601WithZRendering()).to.equal('Z');
+      });
+
+      it('should be able to render with hours and minutes and with colon', function() {
+        eval(getFunctionString(3, 120));
+        expect(test_ISO8601WithZRendering()).to.equal('+02:00');
+        eval(getFunctionString(3, 0));
+        expect(test_ISO8601WithZRendering()).to.equal('Z');
+      });
+    });
+
+    describe('ISO8601WithoutZTimezone', function() {
+      var getFunctionString = function(format, timezoneOffset) {
+        return 'function test_ISO8601WithZRendering(it) {' +
+          'var dateString =\'\';\n' +
+          'var timezoneOffset = ' + timezoneOffset + ';\n' +
+          dateTemplates['DateGetTimezoneOffset']() + ';\n' +
+          dateTemplates['DateISO8601WithoutZTimezone']({
+            format: format
+          }) +
+          'return dateString; }';
+      }
+      it('should be able to render hours with optional minutes', function() {
+        eval(getFunctionString(1, 120));
+        expect(test_ISO8601WithZRendering()).to.equal('+02');
+        eval(getFunctionString(1, 150));
+        expect(test_ISO8601WithZRendering()).to.equal('+0230');
+        eval(getFunctionString(1, 0));
+        expect(test_ISO8601WithZRendering()).to.equal('+00');
+      });
+
+      it('should be able to render with hours and minutes and without colon', function() {
+        eval(getFunctionString(2, 120));
+        expect(test_ISO8601WithZRendering()).to.equal('+0200');
+        eval(getFunctionString(2, 0));
+        expect(test_ISO8601WithZRendering()).to.equal('+0000');
+      });
+
+      it('should be able to render with hours and minutes and with colon', function() {
+        eval(getFunctionString(3, 120));
+        expect(test_ISO8601WithZRendering()).to.equal('+02:00');
+        eval(getFunctionString(3, 0));
+        expect(test_ISO8601WithZRendering()).to.equal('+00:00');
+      });
+    });
   });
 
   describe('Number system', function() {

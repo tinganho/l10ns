@@ -969,7 +969,8 @@ Compiler.prototype._compileDateFormat = function(dateFormat) {
     }
     else if(component instanceof MessageFormat.AST.date.timezone.RegularTimezone) {
       result += template['DateRegularTimezone']({
-        format: component.format
+        format: component.format,
+        variableName: dateFormat.variable.name
       });
     }
     else if(component instanceof MessageFormat.AST.date.timezone.LocalizedGMTTimezone) {
@@ -986,7 +987,20 @@ Compiler.prototype._compileDateFormat = function(dateFormat) {
     }
     else if(component instanceof MessageFormat.AST.date.timezone.GenericLocationTimezone) {
       result += template['DateGenericLocationTimezone']({
-        format: component.format
+        format: component.format,
+        variableName: dateFormat.variable.name
+      });
+    }
+    else if(component instanceof MessageFormat.AST.date.timezone.ISO8601WithZTimezone) {
+      result += template['DateISO8601WithZTimezone']({
+        format: component.format,
+        variableName: dateFormat.variable.name
+      });
+    }
+    else if(component instanceof MessageFormat.AST.date.timezone.ISO8601WithoutZTimezone) {
+      result += template['DateISO8601WithoutZTimezone']({
+        format: component.format,
+        variableName: dateFormat.variable.name
       });
     }
 
