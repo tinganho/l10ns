@@ -4,18 +4,18 @@
  * Module dependencies
  */
 
-var commands = require('commander')
-  , findup = require('findup-sync')
-  , path = require('path')
-  , open = require('open')
-  , pjson = require('../package.json')
-  , _ = require('underscore')
-  , program = require('../configurations/program')
-  , text = require('../configurations/text')
-  , utilities = require('../libraries/utilities')
-  , log = require('../libraries/_log')
-  , updateNotifier = require('update-notifier')
-  , package = require('../package.json');
+var commands = require('commander');
+var findup = require('findup-sync');
+var path = require('path');
+var open = require('open');
+var pjson = require('../package.json');
+var _ = require('underscore');
+var program = require('../configurations/program');
+var text = require('../configurations/text');
+var utilities = require('../libraries/utilities');
+var log = require('../libraries/_log');
+var updateNotifier = require('update-notifier');
+var package = require('../package.json');
 
 /**
  * Project paths
@@ -27,7 +27,7 @@ if(typeof process.argv[2] === 'undefined') {
   process.argv[2] = '--help';
 }
 
-if(process.argv[2] === '--version' || process.argv[2] === '-v') {
+if(process.argv[2] === '--version' || process.argv[2] === '-V') {
   console.log(pjson.version);
   return;
 }
