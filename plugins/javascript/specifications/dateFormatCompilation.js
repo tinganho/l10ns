@@ -2651,22 +2651,44 @@ describe('DateFormat', function() {
     });
 
     describe('GenericLocationTimezone', function() {
-      it('should be able to return a long time zone id', function() {
-        var getFunctionString = function(format) {
+      var getFunctionString = function(format) {
+        return 'function test_GenericLocationTimezoneRendering(it) {' +
+          'var dateString =\'\';\n' +
+          'this.__timezones = { "America/Los_Angeles": { GMTFormat: "GMT{0}", regionFormat: "{0} Time", hasCity: true, city: "Los Angeles", name: { long: { standard: "Pacific Standard Time", daylight: "Pacific Daylight Time", generic: null }, short: { standard: "PST", daylight: "PDT", generic: null }}}};\n' +
+          dateTemplates['DateGenericLocationTimezone']({
+            variableName: 'test',
+            format: format
+          }) +
+          'return dateString; }';
+      }
+      it('should be able to render time zone id', function() {
+        eval(getFunctionString(1));
+        expect(test_GenericLocationTimezoneRendering({ test: { timezone: 'America/Los_Angeles' }})).to.equal('America/Los_Angeles');
+      });
+      it('should be able to render city', function() {
+        eval(getFunctionString(2));
+        expect(test_GenericLocationTimezoneRendering({ test: { timezone: 'America/Los_Angeles' }})).to.equal('Los Angeles');
+      });
+      it('should be able to render city time', function() {
+        eval(getFunctionString(3));
+        expect(test_GenericLocationTimezoneRendering({ test: { timezone: 'America/Los_Angeles' }})).to.equal('Los Angeles Time');
+      });
+      it('should be able to render long localized GMT format whenever city time format is not available', function() {
+        var getFunctionString = function(format, timezoneOffset) {
           return 'function test_GenericLocationTimezoneRendering(it) {' +
             'var dateString =\'\';\n' +
+            'var timezoneOffset = ' + timezoneOffset + ';\n' +
+            'this.__timezones = { "America/Los_Angeles": { GMTFormat: "GMT{0}", regionFormat: "{0} Time", hasCity: false, city: "Los Angeles", name: { long: { standard: "Pacific Standard Time", daylight: "Pacific Daylight Time", generic: null }, short: { standard: "PST", daylight: "PDT", generic: null }}}};\n' +
+            dateTemplates['DateGetTimezoneOffset']() + ';\n' +
+            dateTemplates['DateGetLongLocalizedGMT']() + ';\n' +
             dateTemplates['DateGenericLocationTimezone']({
               variableName: 'test',
               format: format
             }) +
             'return dateString; }';
         }
-        eval(getFunctionString(1));
-        expect(test_GenericLocationTimezoneRendering({ test: { timezone: 'America/Los_Angeles' }})).to.equal('America/Los_Angeles');
-        eval(getFunctionString(2));
-        expect(test_GenericLocationTimezoneRendering({ test: { timezone: 'America/Los_Angeles' }})).to.equal('Los Angeles');
-        eval(getFunctionString(3));
-        expect(test_GenericLocationTimezoneRendering({ test: { timezone: 'America/Los_Angeles' }})).to.equal('Los Angeles Time');
+        eval(getFunctionString(3, 120));
+        expect(test_GenericLocationTimezoneRendering({ test: { timezone: 'America/Los_Angeles' }})).to.equal('GMT+02:00');
       });
     });
   });
