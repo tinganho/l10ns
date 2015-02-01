@@ -17,7 +17,9 @@ var getDateTestFunction = function() {
   var setDateBlock = dateTemplates['SetDateBlock']({
     variableName: 'test'
   });
-  return 'function test(it) { ' + timezonesBlock + setDateBlock + '\n' +
+  return 'function test(it) {\n' +
+    'this.__timezones = true;\n' +
+    timezonesBlock + setDateBlock + '\n' +
     'return {\n' +
       'year: date.getFullYear(),\n' +
       'month: date.getMonth(),\n' +

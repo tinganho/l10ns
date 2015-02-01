@@ -1,3 +1,6 @@
+if(!this.__currencies) {
+  throw new TypeError('You must define your currencies in your configuration file l10ns.json. http://l10ns.org/docs.html#currencyformat');
+}
 var unit;
 if(it.{{=it.variableName}}.amount && it.{{=it.variableName}}.code) {
   if(!localizations['{{=it.locale}}'].__currencies[it.{{=it.variableName}}.code]) {

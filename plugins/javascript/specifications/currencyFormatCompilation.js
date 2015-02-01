@@ -9,6 +9,9 @@ describe('CurrencyFormat', function() {
       var functionBody =
       'var string = \'\';\n' +
       'var currencyString = \'\';\n' +
+      'if(!this.__currencies) {\n' +
+      '  throw new TypeError(\'You must define your currencies in your configuration file l10ns.json. http://l10ns.org/docs.html#currencyformat\');\n' +
+      '}\n' +
       'var unit;\n' +
       'if(it.variable1.amount && it.variable1.code) {\n' +
       '  if(!localizations[\'en-US\'].__currencies[it.variable1.code]) {\n' +
@@ -94,6 +97,9 @@ describe('CurrencyFormat', function() {
       var functionBody =
       'var string = \'\';\n' +
       'var currencyString = \'\';\n' +
+      'if(!this.__currencies) {\n' +
+      '  throw new TypeError(\'You must define your currencies in your configuration file l10ns.json. http://l10ns.org/docs.html#currencyformat\');\n' +
+      '}\n' +
       'var unit;\n' +
       'if(it.variable1.amount && it.variable1.code) {\n' +
       '  if(!localizations[\'en-US\'].__currencies[it.variable1.code]) {\n' +
@@ -179,6 +185,9 @@ describe('CurrencyFormat', function() {
       var functionBody =
       'var string = \'\';\n' +
       'var currencyString = \'\';\n' +
+      'if(!this.__currencies) {\n' +
+      '  throw new TypeError(\'You must define your currencies in your configuration file l10ns.json. http://l10ns.org/docs.html#currencyformat\');\n' +
+      '}\n' +
       'var unit;\n' +
       'if(it.variable1.amount && it.variable1.code) {\n' +
       '  if(!localizations[\'en-US\'].__currencies[it.variable1.code]) {\n' +
@@ -264,6 +273,9 @@ describe('CurrencyFormat', function() {
       var functionBody =
       'var string = \'\';\n' +
       'var currencyString = \'\';\n' +
+      'if(!this.__currencies) {\n' +
+      '  throw new TypeError(\'You must define your currencies in your configuration file l10ns.json. http://l10ns.org/docs.html#currencyformat\');\n' +
+      '}\n' +
       'var unit;\n' +
       'if(it.variable1.amount && it.variable1.code) {\n' +
       '  if(!localizations[\'en-US\'].__currencies[it.variable1.code]) {\n' +
@@ -355,6 +367,9 @@ describe('CurrencyFormat', function() {
       var functionBody =
       'var string = \'\';\n' +
       'var currencyString = \'\';\n' +
+      'if(!this.__currencies) {\n' +
+      '  throw new TypeError(\'You must define your currencies in your configuration file l10ns.json. http://l10ns.org/docs.html#currencyformat\');\n' +
+      '}\n' +
       'var unit;\n' +
       'if(it.variable1.amount && it.variable1.code) {\n' +
       '  if(!localizations[\'en-US\'].__currencies[it.variable1.code]) {\n' +

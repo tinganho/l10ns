@@ -20,7 +20,7 @@ if(it.{{=it.variableName}} instanceof Date) {
 }
 else {
   if(!this.__timezones) {
-    throw new TypeError('You must define your timezones in your configuration file l10ns.json and compile again.');
+    throw new TypeError('You must define your timezones in your configuration file l10ns.json and compile again. http://l10ns.org/docs.html#dateformat');
   }
 
   if(typeof it.{{=it.variableName}}.timezone === 'undefined') {
