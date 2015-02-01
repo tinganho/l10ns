@@ -213,20 +213,24 @@ Compiler.prototype._getLocalizationMap = function() {
           value: JSON.stringify(messageFormat.numberSymbols, null, 2).replace(/\'/g, '\\\'').replace(/"/g, '\'') + _this.comma + _this.linefeed
         });
 
-        localizationMap += template['LocalizationKeyValue']({
-          key: '__currencies',
-          value: JSON.stringify(messageFormat.currencies, null, 2).replace(/"/g, '\'') + _this.comma + _this.linefeed
-        });
+        if(project.currencies) {
+          localizationMap += template['LocalizationKeyValue']({
+            key: '__currencies',
+            value: JSON.stringify(messageFormat.currencies, null, 2).replace(/"/g, '\'') + _this.comma + _this.linefeed
+          });
 
-        localizationMap += template['LocalizationKeyValue']({
-          key: '__currencyUnitPattern',
-          value: JSON.stringify(messageFormat.currencyUnitPattern, null, 2).replace(/"/g, '\'') + _this.comma + _this.linefeed
-        });
+          localizationMap += template['LocalizationKeyValue']({
+            key: '__currencyUnitPattern',
+            value: JSON.stringify(messageFormat.currencyUnitPattern, null, 2).replace(/"/g, '\'') + _this.comma + _this.linefeed
+          });
+        }
 
-        localizationMap += template['LocalizationKeyValue']({
-          key: '__timezones',
-          value: JSON.stringify(messageFormat.timezones, null, 2).replace(/"/g, '\'') + _this.comma + _this.linefeed
-        });
+        if(project.timezones) {
+          localizationMap += template['LocalizationKeyValue']({
+            key: '__timezones',
+            value: JSON.stringify(messageFormat.timezones, null, 2).replace(/"/g, '\'') + _this.comma + _this.linefeed
+          });
+        }
 
         var localizationsCount = 0;
         for(var key in localizations[locale]) {

@@ -16,9 +16,13 @@ if(it.{{=it.variableName}} instanceof Date) {
   else if(it.{{=it.variableName}}.time instanceof Date){
     date = new Date(it.{{=it.variableName}});
   }
-  toTimeZoneOffset = date.getTimezoneOffset();
+  timezoneOffset = date.getTimezoneOffset();
 }
 else {
+  if(!this.__timezones) {
+    throw new TypeError('You must define your timezones in your configuration file l10ns.json and compile again.');
+  }
+
   if(typeof it.{{=it.variableName}}.timezone === 'undefined') {
     throw new TypeError('You must define a \'timezone\' property for {{=it.variableName}}');
   }
