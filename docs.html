@@ -127,7 +127,7 @@ Now, create a source file <span class="focused">test.js</span> with (at least) t
 
 <code>
 <span class="blue">var</span> requireLocalizations = require(<span class="red">'path/to/output/all.js'</span>);<br>
-<span class="blue">var</span> l = requireLocalization(<span class="red">'en-US'</span>);<br>
+<span class="blue">var</span> l = requireLocalizations(<span class="red">'en-US'</span>);<br>
 <span class="blue">var</span> firstname = l(<span class="red">'SIGN_UP__FIRSTNAME'</span>);<br>
 <span class="blue">var</span> lastname = l(<span class="red">'SIGN_UP__LASTNAME'</span>);
 </code>
@@ -452,7 +452,7 @@ We can also specify exact cases. Instead of using the plural forms. Notice: the 
 </p>
 
 <code>
-There {files, plural, 0={is no files} one{is one file} other{is many files}}.
+There {files, plural, 0={are no files} one{is one file} other{are many files}}.
 </code>
 
 <p>
