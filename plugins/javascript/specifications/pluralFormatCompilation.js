@@ -9,7 +9,7 @@ describe('PluralFormat', function() {
       var functionBody =
       'var string = \'\';\n' +
       'var _case;\n' +
-      '_case = localizations[\'en-US\'].__getPluralKeyword(it.variable1);\n' +
+      '_case = this.__getPluralKeyword(it.variable1);\n' +
       'switch(_case) {\n' +
       '  default:\n' +
       '    string += \'message1\';\n' +
@@ -33,7 +33,7 @@ describe('PluralFormat', function() {
       var functionBody =
       'var string = \'\';\n' +
       'var _case;\n' +
-      '_case = localizations[\'en-US\'].__getPluralKeyword(it.variable1);\n' +
+      '_case = this.__getPluralKeyword(it.variable1);\n' +
       'switch(_case) {\n' +
       '  case \'one\':\n' +
       '    string += \'message1\';\n' +
@@ -64,7 +64,7 @@ describe('PluralFormat', function() {
       '  _case = \'=\' + 1;\n' +
       '}\n' +
       'else {\n' +
-      '  _case = localizations[\'en-US\'].__getPluralKeyword(it.variable1);\n' +
+      '  _case = this.__getPluralKeyword(it.variable1);\n' +
       '}\n' +
       'switch(_case) {\n' +
       '  case \'=1\':\n' +
@@ -92,7 +92,7 @@ describe('PluralFormat', function() {
       var functionBody =
       'var string = \'\';\n' +
       'var _case;\n' +
-      '_case = localizations[\'en-US\'].__getPluralKeyword(it.variable1);\n' +
+      '_case = this.__getPluralKeyword(it.variable1);\n' +
       'switch(_case) {\n' +
       '  case \'one\':\n' +
       '    string += it.variable2;\n' +
@@ -119,7 +119,7 @@ describe('PluralFormat', function() {
       var functionBody =
       'var string = \'\';\n' +
       'var _case;\n' +
-      '_case = localizations[\'en-US\'].__getPluralKeyword(it.variable1);\n' +
+      '_case = this.__getPluralKeyword(it.variable1);\n' +
       'switch(_case) {\n' +
       '  case \'one\':\n' +
       '    string += \'sentence1\';\n' +
@@ -147,7 +147,7 @@ describe('PluralFormat', function() {
       var functionBody =
       'var string = \'\';\n' +
       'var _case;\n' +
-      '_case = localizations[\'en-US\'].__getPluralKeyword(it.variable1);\n' +
+      '_case = this.__getPluralKeyword(it.variable1);\n' +
       'switch(_case) {\n' +
       '  case \'one\':\n' +
       '    string += \'sentence1\';\n' +
@@ -170,7 +170,7 @@ describe('PluralFormat', function() {
       '      minimumIntegerDigits: 1,\n' +
       '      minimumFractionDigits: 0,\n' +
       '      maximumFractionDigits: 3,\n' +
-      '      symbols: localizations[\'en-US\'].__numberSymbols[\'latn\']\n' +
+      '      symbols: this.__numberSymbols[\'latn\']\n' +
       '    });\n' +
       '    string += \'sentence2\';\n' +
       '    break;\n' +
@@ -193,7 +193,7 @@ describe('PluralFormat', function() {
       var functionBody =
       'var string = \'\';\n' +
       'var _case;\n' +
-      '_case = localizations[\'en-US\'].__getPluralKeyword(it.variable1);\n' +
+      '_case = this.__getPluralKeyword(it.variable1);\n' +
       'switch(_case) {\n' +
       '  case \'one\':\n' +
       '    string += \'sentence1\';\n' +
@@ -215,7 +215,7 @@ describe('PluralFormat', function() {
       '      minimumIntegerDigits: 1,\n' +
       '      minimumFractionDigits: 0,\n' +
       '      maximumFractionDigits: 3,\n' +
-      '      symbols: localizations[\'en-US\'].__numberSymbols[\'latn\']\n' +
+      '      symbols: this.__numberSymbols[\'latn\']\n' +
       '    });\n' +
       '    string += \' sentence2\';\n' +
       '    break;\n' +
@@ -238,11 +238,11 @@ describe('PluralFormat', function() {
       var functionBody =
       'var string = \'\';\n' +
       'var _case;\n' +
-      '_case = localizations[\'en-US\'].__getPluralKeyword(it.variable1);\n' +
+      '_case = this.__getPluralKeyword(it.variable1);\n' +
       'switch(_case) {\n' +
       '  case \'one\':\n' +
       '    var _case;\n' +
-      '    _case = localizations[\'en-US\'].__getPluralKeyword(it.variable2);\n' +
+      '    _case = this.__getPluralKeyword(it.variable2);\n' +
       '    switch(_case) {\n' +
       '      case \'one\':\n' +
       '        string += \'message1\';\n' +
@@ -274,7 +274,7 @@ describe('PluralFormat', function() {
       var functionBody =
       'var string = \'\';\n' +
       'var _case;\n' +
-      '_case = localizations[\'en-US\'].__getPluralKeyword(it.variable1);\n' +
+      '_case = this.__getPluralKeyword(it.variable1);\n' +
       'switch(_case) {\n' +
       '  case \'one\':\n' +
       '    switch(it.variable2) {\n' +
@@ -308,11 +308,11 @@ describe('PluralFormat', function() {
       var functionBody =
       'var string = \'\';\n' +
       'var _case;\n' +
-      '_case = localizations[\'en-US\'].__getPluralKeyword(it.variable1);\n' +
+      '_case = this.__getPluralKeyword(it.variable1);\n' +
       'switch(_case) {\n' +
       '  case \'one\':\n' +
       '    var _case;\n' +
-      '    _case = localizations[\'en-US\'].__getOrdinalKeyword(it.variable2);\n' +
+      '    _case = this.__getOrdinalKeyword(it.variable2);\n' +
       '    switch(_case) {\n' +
       '      case \'one\':\n' +
       '        string += \'message1\';\n' +
@@ -481,7 +481,7 @@ describe('SelectFormat', function() {
       'switch(it.variable1) {\n' +
       '  case \'case1\':\n' +
       '    var _case;\n' +
-      '    _case = localizations[\'en-US\'].__getPluralKeyword(it.variable2);\n' +
+      '    _case = this.__getPluralKeyword(it.variable2);\n' +
       '    switch(_case) {\n' +
       '      case \'one\':\n' +
       '        string += \'message1\';\n' +
@@ -515,7 +515,7 @@ describe('SelectFormat', function() {
       'switch(it.variable1) {\n' +
       '  case \'case1\':\n' +
       '    var _case;\n' +
-      '    _case = localizations[\'en-US\'].__getOrdinalKeyword(it.variable2);\n' +
+      '    _case = this.__getOrdinalKeyword(it.variable2);\n' +
       '    switch(_case) {\n' +
       '      case \'one\':\n' +
       '        string += \'message1\';\n' +

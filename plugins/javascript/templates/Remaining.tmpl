@@ -18,5 +18,5 @@ string += formatNumber({
   minimumIntegerDigits: {{=it.minimumIntegerDigits}},
   minimumFractionDigits: {{=it.minimumFractionDigits}},
   maximumFractionDigits: {{=it.maximumFractionDigits}},
-  symbols: localizations['{{=it.locale}}'].__numberSymbols['{{=it.numberSystem}}']
+  symbols: this.__numberSymbols['{{=it.numberSystem}}']
 });

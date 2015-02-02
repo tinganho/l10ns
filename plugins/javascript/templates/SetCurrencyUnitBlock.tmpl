@@ -3,18 +3,18 @@ if(!this.__currencies) {
 }
 var unit;
 if(it.{{=it.variableName}}.amount && it.{{=it.variableName}}.code) {
-  if(!localizations['{{=it.locale}}'].__currencies[it.{{=it.variableName}}.code]) {
+  if(!this.__currencies[it.{{=it.variableName}}.code]) {
     throw new TypeError('Currency code ' + it.{{=it.variableName}}.code + ' is not defined. Please define it on your l10ns.json file.');
   }{{?it.currency.type === 'text'}}
-  var pluralKeyword = localizations['{{=it.locale}}'].__getPluralKeyword(it.{{=it.variableName}}.amount);{{?it.currency.context === 'local'}}
-  if(localizations['{{=it.locale}}'].__currencies[it.{{=it.variableName}}.code]['text']['local']) {
-    unit = localizations['{{=it.locale}}'].__currencies[it.{{=it.variableName}}.code]['text']['local'][pluralKeyword];
+  var pluralKeyword = this.__getPluralKeyword(it.{{=it.variableName}}.amount);{{?it.currency.context === 'local'}}
+  if(this.__currencies[it.{{=it.variableName}}.code]['text']['local']) {
+    unit = this.__currencies[it.{{=it.variableName}}.code]['text']['local'][pluralKeyword];
   }
   else {
-    unit = localizations['{{=it.locale}}'].__currencies[it.{{=it.variableName}}.code]['text']['global'][pluralKeyword];
+    unit = this.__currencies[it.{{=it.variableName}}.code]['text']['global'][pluralKeyword];
   }{{??}}
-  unit = localizations['{{=it.locale}}'].__currencies[it.{{=it.variableName}}.code]['text']['global'][pluralKeyword];{{?}}{{??}}
-  unit = localizations['{{=it.locale}}'].__currencies[it.{{=it.variableName}}.code]['{{=it.currency.type}}']['{{=it.currency.context}}'];{{?}}
+  unit = this.__currencies[it.{{=it.variableName}}.code]['text']['global'][pluralKeyword];{{?}}{{??}}
+  unit = this.__currencies[it.{{=it.variableName}}.code]['{{=it.currency.type}}']['{{=it.currency.context}}'];{{?}}
 }
 else {
   throw TypeError('`{{=it.variableName}}` must be an object that has properties amount and code.');

@@ -49,7 +49,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 1\n' +
       '  });\n' +
@@ -72,7 +72,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 1\n' +
       '  });\n' +
@@ -114,7 +114,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 2\n' +
       '  });\n' +
@@ -137,7 +137,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 2\n' +
       '  });\n' +
@@ -179,7 +179,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 3\n' +
       '  });\n' +
@@ -202,7 +202,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 3\n' +
       '  });\n' +
@@ -244,7 +244,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 4\n' +
       '  });\n' +
@@ -267,7 +267,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 4\n' +
       '  });\n' +
@@ -309,7 +309,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 1,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 3\n' +
       '  });\n' +
@@ -332,7 +332,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 1,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 3\n' +
       '  });\n' +
@@ -374,7 +374,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 2,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 4\n' +
       '  });\n' +
@@ -397,7 +397,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 2,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 4\n' +
       '  });\n' +
@@ -439,7 +439,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 3,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 5\n' +
       '  });\n' +
@@ -462,7 +462,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 3,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 5\n' +
       '  });\n' +
@@ -504,7 +504,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 4,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 6\n' +
       '  });\n' +
@@ -527,7 +527,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 4,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 6\n' +
       '  });\n' +
@@ -572,7 +572,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 4,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 8\n' +
       '  });\n' +
@@ -598,7 +598,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 4,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 8\n' +
       '  });\n' +
@@ -643,7 +643,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 4,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 9\n' +
       '  });\n' +
@@ -669,7 +669,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 4,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 9\n' +
       '  });\n' +
@@ -714,7 +714,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 4,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 9\n' +
       '  });\n' +
@@ -740,7 +740,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 4,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 9\n' +
       '  });\n' +
@@ -782,7 +782,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 1,\n' +
       '    maximumSignificantDigits: 1,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 1\n' +
       '  });\n' +
@@ -805,7 +805,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 1,\n' +
       '    maximumSignificantDigits: 1,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 1\n' +
       '  });\n' +
@@ -847,7 +847,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 2,\n' +
       '    maximumSignificantDigits: 2,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 2\n' +
       '  });\n' +
@@ -870,7 +870,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 2,\n' +
       '    maximumSignificantDigits: 2,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 2\n' +
       '  });\n' +
@@ -912,7 +912,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 1,\n' +
       '    maximumSignificantDigits: 2,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 2\n' +
       '  });\n' +
@@ -935,7 +935,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 1,\n' +
       '    maximumSignificantDigits: 2,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 2\n' +
       '  });\n' +
@@ -977,7 +977,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 2,\n' +
       '    maximumSignificantDigits: 4,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 4\n' +
       '  });\n' +
@@ -1000,7 +1000,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 2,\n' +
       '    maximumSignificantDigits: 4,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 4\n' +
       '  });\n' +
@@ -1045,7 +1045,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 2,\n' +
       '    maximumSignificantDigits: 4,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 6\n' +
       '  });\n' +
@@ -1071,7 +1071,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 2,\n' +
       '    maximumSignificantDigits: 4,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 6\n' +
       '  });\n' +
@@ -1116,7 +1116,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 2,\n' +
       '    maximumSignificantDigits: 4,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 7\n' +
       '  });\n' +
@@ -1142,7 +1142,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 2,\n' +
       '    maximumSignificantDigits: 4,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 7\n' +
       '  });\n' +
@@ -1187,7 +1187,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 5\n' +
       '  });\n' +
@@ -1213,7 +1213,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 5\n' +
       '  });\n' +
@@ -1258,7 +1258,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 2,\n' +
       '    maximumSignificantDigits: 5,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 9\n' +
       '  });\n' +
@@ -1284,7 +1284,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 2,\n' +
       '    maximumSignificantDigits: 5,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 9\n' +
       '  });\n' +
@@ -1326,7 +1326,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: \'x\',\n' +
       '    patternLength: 10\n' +
       '  });\n' +
@@ -1349,7 +1349,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: \'x\',\n' +
       '    patternLength: 10\n' +
       '  });\n' +
@@ -1378,10 +1378,10 @@ describe('NumberFormat', function() {
       '}\n' +
       'var unit;\n' +
       'if(it.variable1.amount && it.variable1.code) {\n' +
-      '  if(!localizations[\'en-US\'].__currencies[it.variable1.code]) {\n' +
+      '  if(!this.__currencies[it.variable1.code]) {\n' +
       '    throw new TypeError(\'Currency code \' + it.variable1.code + \' is not defined. Please define it on your l10ns.json file.\');\n' +
       '  }\n' +
-      '  unit = localizations[\'en-US\'].__currencies[it.variable1.code][\'symbol\'][\'local\'];\n' +
+      '  unit = this.__currencies[it.variable1.code][\'symbol\'][\'local\'];\n' +
       '}\n' +
       'else {\n' +
       '  throw TypeError(\'`variable1` must be an object that has properties amount and code.\');\n' +
@@ -1406,7 +1406,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 2\n' +
       '  });\n' +
@@ -1431,7 +1431,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 2\n' +
       '  });\n' +
@@ -1460,10 +1460,10 @@ describe('NumberFormat', function() {
       '}\n' +
       'var unit;\n' +
       'if(it.variable1.amount && it.variable1.code) {\n' +
-      '  if(!localizations[\'en-US\'].__currencies[it.variable1.code]) {\n' +
+      '  if(!this.__currencies[it.variable1.code]) {\n' +
       '    throw new TypeError(\'Currency code \' + it.variable1.code + \' is not defined. Please define it on your l10ns.json file.\');\n' +
       '  }\n' +
-      '  unit = localizations[\'en-US\'].__currencies[it.variable1.code][\'symbol\'][\'global\'];\n' +
+      '  unit = this.__currencies[it.variable1.code][\'symbol\'][\'global\'];\n' +
       '}\n' +
       'else {\n' +
       '  throw TypeError(\'`variable1` must be an object that has properties amount and code.\');\n' +
@@ -1488,7 +1488,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 2\n' +
       '  });\n' +
@@ -1513,7 +1513,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 2\n' +
       '  });\n' +
@@ -1542,15 +1542,15 @@ describe('NumberFormat', function() {
       '}\n' +
       'var unit;\n' +
       'if(it.variable1.amount && it.variable1.code) {\n' +
-      '  if(!localizations[\'en-US\'].__currencies[it.variable1.code]) {\n' +
+      '  if(!this.__currencies[it.variable1.code]) {\n' +
       '    throw new TypeError(\'Currency code \' + it.variable1.code + \' is not defined. Please define it on your l10ns.json file.\');\n' +
       '  }\n' +
-      '  var pluralKeyword = localizations[\'en-US\'].__getPluralKeyword(it.variable1.amount);\n' +
-      '  if(localizations[\'en-US\'].__currencies[it.variable1.code][\'text\'][\'local\']) {\n' +
-      '    unit = localizations[\'en-US\'].__currencies[it.variable1.code][\'text\'][\'local\'][pluralKeyword];\n' +
+      '  var pluralKeyword = this.__getPluralKeyword(it.variable1.amount);\n' +
+      '  if(this.__currencies[it.variable1.code][\'text\'][\'local\']) {\n' +
+      '    unit = this.__currencies[it.variable1.code][\'text\'][\'local\'][pluralKeyword];\n' +
       '  }\n' +
       '  else {\n' +
-      '    unit = localizations[\'en-US\'].__currencies[it.variable1.code][\'text\'][\'global\'][pluralKeyword];\n' +
+      '    unit = this.__currencies[it.variable1.code][\'text\'][\'global\'][pluralKeyword];\n' +
       '  }\n' +
       '}\n' +
       'else {\n' +
@@ -1576,7 +1576,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 2\n' +
       '  });\n' +
@@ -1601,7 +1601,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 2\n' +
       '  });\n' +
@@ -1630,11 +1630,11 @@ describe('NumberFormat', function() {
       '}\n' +
       'var unit;\n' +
       'if(it.variable1.amount && it.variable1.code) {\n' +
-      '  if(!localizations[\'en-US\'].__currencies[it.variable1.code]) {\n' +
+      '  if(!this.__currencies[it.variable1.code]) {\n' +
       '    throw new TypeError(\'Currency code \' + it.variable1.code + \' is not defined. Please define it on your l10ns.json file.\');\n' +
       '  }\n' +
-      '  var pluralKeyword = localizations[\'en-US\'].__getPluralKeyword(it.variable1.amount);\n' +
-      '  unit = localizations[\'en-US\'].__currencies[it.variable1.code][\'text\'][\'global\'][pluralKeyword];\n' +
+      '  var pluralKeyword = this.__getPluralKeyword(it.variable1.amount);\n' +
+      '  unit = this.__currencies[it.variable1.code][\'text\'][\'global\'][pluralKeyword];\n' +
       '}\n' +
       'else {\n' +
       '  throw TypeError(\'`variable1` must be an object that has properties amount and code.\');\n' +
@@ -1659,7 +1659,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 2\n' +
       '  });\n' +
@@ -1684,7 +1684,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 2\n' +
       '  });\n' +
@@ -1726,7 +1726,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 3\n' +
       '  });\n' +
@@ -1749,7 +1749,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 3\n' +
       '  });\n' +
@@ -1791,7 +1791,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 4,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 7\n' +
       '  });\n' +
@@ -1814,7 +1814,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 4,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 7\n' +
       '  });\n' +
@@ -1856,7 +1856,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 4,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 7\n' +
       '  });\n' +
@@ -1879,7 +1879,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 4,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 7\n' +
       '  });\n' +
@@ -1921,7 +1921,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 2\n' +
       '  });\n' +
@@ -1944,7 +1944,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 4\n' +
       '  });\n' +
@@ -1992,7 +1992,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'ar-AE\'].__numberSymbols[\'arab\'],\n' +
+      '    symbols: this.__numberSymbols[\'arab\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 1\n' +
       '  });\n' +
@@ -2015,7 +2015,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'ar-AE\'].__numberSymbols[\'arab\'],\n' +
+      '    symbols: this.__numberSymbols[\'arab\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 1\n' +
       '  });\n' +
@@ -2072,7 +2072,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'ur-IN\'].__numberSymbols[\'arabext\'],\n' +
+      '    symbols: this.__numberSymbols[\'arabext\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 1\n' +
       '  });\n' +
@@ -2095,7 +2095,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'ur-IN\'].__numberSymbols[\'arabext\'],\n' +
+      '    symbols: this.__numberSymbols[\'arabext\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 1\n' +
       '  });\n' +
@@ -2152,7 +2152,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'bn-BD\'].__numberSymbols[\'beng\'],\n' +
+      '    symbols: this.__numberSymbols[\'beng\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 1\n' +
       '  });\n' +
@@ -2175,7 +2175,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'bn-BD\'].__numberSymbols[\'beng\'],\n' +
+      '    symbols: this.__numberSymbols[\'beng\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 1\n' +
       '  });\n' +
@@ -2232,7 +2232,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'ne-IN\'].__numberSymbols[\'deva\'],\n' +
+      '    symbols: this.__numberSymbols[\'deva\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 1\n' +
       '  });\n' +
@@ -2255,7 +2255,7 @@ describe('NumberFormat', function() {
       '    maximumFractionDigits: 0,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'ne-IN\'].__numberSymbols[\'deva\'],\n' +
+      '    symbols: this.__numberSymbols[\'deva\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 1\n' +
       '  });\n' +

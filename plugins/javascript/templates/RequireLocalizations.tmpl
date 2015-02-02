@@ -7,7 +7,7 @@ function requireLocalizations(locale) {
       if(!(key in localizations[locale])) {
         return 'KEY_NOT_IN_LOCALIZATIONS: ' + key;
       }
-      return localizations[locale][key].call(undefined, arguments[1]);
+      return localizations[locale][key].call(localizations[locale], arguments[1]);
     };
   })(locale);
 };

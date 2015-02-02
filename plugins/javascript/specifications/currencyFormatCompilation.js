@@ -14,10 +14,10 @@ describe('CurrencyFormat', function() {
       '}\n' +
       'var unit;\n' +
       'if(it.variable1.amount && it.variable1.code) {\n' +
-      '  if(!localizations[\'en-US\'].__currencies[it.variable1.code]) {\n' +
+      '  if(!this.__currencies[it.variable1.code]) {\n' +
       '    throw new TypeError(\'Currency code \' + it.variable1.code + \' is not defined. Please define it on your l10ns.json file.\');\n' +
       '  }\n' +
-      '  unit = localizations[\'en-US\'].__currencies[it.variable1.code][\'symbol\'][\'local\'];\n' +
+      '  unit = this.__currencies[it.variable1.code][\'symbol\'][\'local\'];\n' +
       '}\n' +
       'else {\n' +
       '  throw TypeError(\'`variable1` must be an object that has properties amount and code.\');\n' +
@@ -45,7 +45,7 @@ describe('CurrencyFormat', function() {
       '    maximumFractionDigits: 2,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 9\n' +
       '  });\n' +
@@ -73,7 +73,7 @@ describe('CurrencyFormat', function() {
       '    maximumFractionDigits: 2,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 11\n' +
       '  });\n' +
@@ -102,10 +102,10 @@ describe('CurrencyFormat', function() {
       '}\n' +
       'var unit;\n' +
       'if(it.variable1.amount && it.variable1.code) {\n' +
-      '  if(!localizations[\'en-US\'].__currencies[it.variable1.code]) {\n' +
+      '  if(!this.__currencies[it.variable1.code]) {\n' +
       '    throw new TypeError(\'Currency code \' + it.variable1.code + \' is not defined. Please define it on your l10ns.json file.\');\n' +
       '  }\n' +
-      '  unit = localizations[\'en-US\'].__currencies[it.variable1.code][\'symbol\'][\'global\'];\n' +
+      '  unit = this.__currencies[it.variable1.code][\'symbol\'][\'global\'];\n' +
       '}\n' +
       'else {\n' +
       '  throw TypeError(\'`variable1` must be an object that has properties amount and code.\');\n' +
@@ -133,7 +133,7 @@ describe('CurrencyFormat', function() {
       '    maximumFractionDigits: 2,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 9\n' +
       '  });\n' +
@@ -161,7 +161,7 @@ describe('CurrencyFormat', function() {
       '    maximumFractionDigits: 2,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 11\n' +
       '  });\n' +
@@ -190,10 +190,10 @@ describe('CurrencyFormat', function() {
       '}\n' +
       'var unit;\n' +
       'if(it.variable1.amount && it.variable1.code) {\n' +
-      '  if(!localizations[\'en-US\'].__currencies[it.variable1.code]) {\n' +
+      '  if(!this.__currencies[it.variable1.code]) {\n' +
       '    throw new TypeError(\'Currency code \' + it.variable1.code + \' is not defined. Please define it on your l10ns.json file.\');\n' +
       '  }\n' +
-      '  unit = localizations[\'en-US\'].__currencies[it.variable1.code][\'symbol\'][\'reverseGlobal\'];\n' +
+      '  unit = this.__currencies[it.variable1.code][\'symbol\'][\'reverseGlobal\'];\n' +
       '}\n' +
       'else {\n' +
       '  throw TypeError(\'`variable1` must be an object that has properties amount and code.\');\n' +
@@ -221,7 +221,7 @@ describe('CurrencyFormat', function() {
       '    maximumFractionDigits: 2,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 9\n' +
       '  });\n' +
@@ -249,7 +249,7 @@ describe('CurrencyFormat', function() {
       '    maximumFractionDigits: 2,\n' +
       '    minimumSignificantDigits: 0,\n' +
       '    maximumSignificantDigits: 0,\n' +
-      '    symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '    symbols: this.__numberSymbols[\'latn\'],\n' +
       '    paddingCharacter: null,\n' +
       '    patternLength: 11\n' +
       '  });\n' +
@@ -278,15 +278,15 @@ describe('CurrencyFormat', function() {
       '}\n' +
       'var unit;\n' +
       'if(it.variable1.amount && it.variable1.code) {\n' +
-      '  if(!localizations[\'en-US\'].__currencies[it.variable1.code]) {\n' +
+      '  if(!this.__currencies[it.variable1.code]) {\n' +
       '    throw new TypeError(\'Currency code \' + it.variable1.code + \' is not defined. Please define it on your l10ns.json file.\');\n' +
       '  }\n' +
-      '  var pluralKeyword = localizations[\'en-US\'].__getPluralKeyword(it.variable1.amount);\n' +
-      '  if(localizations[\'en-US\'].__currencies[it.variable1.code][\'text\'][\'local\']) {\n' +
-      '    unit = localizations[\'en-US\'].__currencies[it.variable1.code][\'text\'][\'local\'][pluralKeyword];\n' +
+      '  var pluralKeyword = this.__getPluralKeyword(it.variable1.amount);\n' +
+      '  if(this.__currencies[it.variable1.code][\'text\'][\'local\']) {\n' +
+      '    unit = this.__currencies[it.variable1.code][\'text\'][\'local\'][pluralKeyword];\n' +
       '  }\n' +
       '  else {\n' +
-      '    unit = localizations[\'en-US\'].__currencies[it.variable1.code][\'text\'][\'global\'][pluralKeyword];\n' +
+      '    unit = this.__currencies[it.variable1.code][\'text\'][\'global\'][pluralKeyword];\n' +
       '  }\n' +
       '}\n' +
       'else {\n' +
@@ -315,7 +315,7 @@ describe('CurrencyFormat', function() {
       '      maximumFractionDigits: 2,\n' +
       '      minimumSignificantDigits: 0,\n' +
       '      maximumSignificantDigits: 0,\n' +
-      '      symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '      symbols: this.__numberSymbols[\'latn\'],\n' +
       '      paddingCharacter: null,\n' +
       '      patternLength: 9\n' +
       '    });\n' +
@@ -342,12 +342,12 @@ describe('CurrencyFormat', function() {
       '      maximumFractionDigits: 2,\n' +
       '      minimumSignificantDigits: 0,\n' +
       '      maximumSignificantDigits: 0,\n' +
-      '      symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '      symbols: this.__numberSymbols[\'latn\'],\n' +
       '      paddingCharacter: null,\n' +
       '      patternLength: 10\n' +
       '    });\n' +
       '}\n' +
-      'currencyString += localizations[\'en-US\'].__currencyUnitPattern[pluralKeyword].replace(\'{0}\', number).replace(\'{1}\', unit);\n' +
+      'currencyString += this.__currencyUnitPattern[pluralKeyword].replace(\'{0}\', number).replace(\'{1}\', unit);\n' +
       'string += currencyString;\n' +
       'return string;';
       expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -372,11 +372,11 @@ describe('CurrencyFormat', function() {
       '}\n' +
       'var unit;\n' +
       'if(it.variable1.amount && it.variable1.code) {\n' +
-      '  if(!localizations[\'en-US\'].__currencies[it.variable1.code]) {\n' +
+      '  if(!this.__currencies[it.variable1.code]) {\n' +
       '    throw new TypeError(\'Currency code \' + it.variable1.code + \' is not defined. Please define it on your l10ns.json file.\');\n' +
       '  }\n' +
-      '  var pluralKeyword = localizations[\'en-US\'].__getPluralKeyword(it.variable1.amount);\n' +
-      '  unit = localizations[\'en-US\'].__currencies[it.variable1.code][\'text\'][\'global\'][pluralKeyword];\n' +
+      '  var pluralKeyword = this.__getPluralKeyword(it.variable1.amount);\n' +
+      '  unit = this.__currencies[it.variable1.code][\'text\'][\'global\'][pluralKeyword];\n' +
       '}\n' +
       'else {\n' +
       '  throw TypeError(\'`variable1` must be an object that has properties amount and code.\');\n' +
@@ -404,7 +404,7 @@ describe('CurrencyFormat', function() {
       '      maximumFractionDigits: 2,\n' +
       '      minimumSignificantDigits: 0,\n' +
       '      maximumSignificantDigits: 0,\n' +
-      '      symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '      symbols: this.__numberSymbols[\'latn\'],\n' +
       '      paddingCharacter: null,\n' +
       '      patternLength: 9\n' +
       '    });\n' +
@@ -431,12 +431,12 @@ describe('CurrencyFormat', function() {
       '      maximumFractionDigits: 2,\n' +
       '      minimumSignificantDigits: 0,\n' +
       '      maximumSignificantDigits: 0,\n' +
-      '      symbols: localizations[\'en-US\'].__numberSymbols[\'latn\'],\n' +
+      '      symbols: this.__numberSymbols[\'latn\'],\n' +
       '      paddingCharacter: null,\n' +
       '      patternLength: 10\n' +
       '    });\n' +
       '}\n' +
-      'currencyString += localizations[\'en-US\'].__currencyUnitPattern[pluralKeyword].replace(\'{0}\', number).replace(\'{1}\', unit);\n' +
+      'currencyString += this.__currencyUnitPattern[pluralKeyword].replace(\'{0}\', number).replace(\'{1}\', unit);\n' +
       'string += currencyString;\n' +
       'return string;';
       expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
