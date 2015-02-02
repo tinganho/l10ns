@@ -19,11 +19,15 @@ var timezones = require('../../IANA/latest');
  * Clean up time zones
  */
 var temporaryTimezones = {};
+var hasTimezone = true;
 for(var i in project.timezones) {
   var timezone = project.timezones[i];
   temporaryTimezones[timezone] = timezones[timezone];
 }
 timezones = temporaryTimezones;
+if(typeof project.timezones === 'undefined' || project.timezones.length === 0) {
+  hasTimezone = false;
+}
 
 /**
  * Add terminal colors
@@ -87,9 +91,12 @@ Compiler.prototype.run = function() {
         });
 
         var content = template['JavascriptWrapper']({
+          hasTimezone: hasTimezone,
           timezones: _this._indentSpaces(2, template['DateTimeZones']({
             timezones: JSON.stringify(timezones)
           })),
+          getTimezoneOffsetFunction: _this._indentSpaces(2, template['DateGetTimezoneOffset']()),
+          getLongLocalizedGMTFunction: _this._indentSpaces(2, template['DateGetLongLocalizedGMT']()),
           roundUpFunction: _this._indentSpaces(2, template['RoundToFunction']()),
           formatNumberFunction: _this._indentSpaces(2, template['FormatNumberFunction']()),
           functionName: language.GET_LOCALIZATION_STRING_FUNCTION_NAME,
@@ -121,6 +128,7 @@ Compiler.prototype.run = function() {
       });
 
       var content = template['JavascriptWrapper']({
+        hasTimezone: hasTimezone,
         timezones: _this._indentSpaces(2, template['DateTimeZones']({
           timezones: JSON.stringify(timezones)
         })),

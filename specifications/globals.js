@@ -54,8 +54,8 @@ global.commands = {};
  * Module dependencies
  */
 
-var fs = require('fs')
-  , path = require('path');
+var fs = require('fs');
+var path = require('path');
 
 /**
  * Get dependencies

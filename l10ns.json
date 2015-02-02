@@ -3,36 +3,16 @@
     "javascript": {
       "programmingLanguage": "javascript",
       "locales": {
-        "en-US": "English (US)",
-        "es-MX": "Mexican",
-        "fr-CA": "French (CA)",
-
-        "ja-JP": "Japanese",
-        "ko-KR": "Korean",
-        "zh-CN": "Chinese",
-        "zh-HK": "Chinese (HK)",
-
-        "de-DE": "German",
-        "es-ES": "German",
-        "fr-CA": "French",
-
-        "da-DK": "Danish",
-        "fi-FI": "Finish",
-        "is-IS": "Icelandish",
-        "sv-SE": "Swedish"
+        "en-US": "English (US)"
       },
       "quiet" : false,
       "defaultLocale": "en-US",
       "currencies": [
         "USD"
       ],
-      "timezones": [
-        "Europe/Stockholm",
-        "America/Los_Angeles"
-      ],
       "store": "example/javascript/localizations",
       "output": "example/javascript/output",
-      "source": ["example/javascript/example.js"],
+      "source": ["example/javascript/index.js"],
       "interface" : {
         "autoOpen": false,
         "port": 3004

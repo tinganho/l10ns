@@ -1,10 +1,10 @@
 ;(function() {
-{{=it.timezones}}
+{{?it.hasTimezone}}{{=it.timezones}}
 
 {{=it.getTimezoneOffsetFunction}}
 
 {{=it.getLongLocalizedGMTFunction}}
-
+{{?}}
 {{=it.roundUpFunction}}
 
 {{=it.formatNumberFunction}}

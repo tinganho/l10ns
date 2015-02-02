@@ -14,6 +14,8 @@ interface/public/templates/**/*
 interface/vendor/**/*
 plugins/javascript/templates/build/
 plugins/javascript/specifications/templates/build/
+example/javascript/output
+example/javascript/localizations/en-US.json
 
 app/page/document/build/
 app/page/layout/build/
