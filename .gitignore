@@ -17,6 +17,7 @@ test/translations/output/
 plugins/
 temp/
 tests/
+example/
 
 app/page/document/build/
 app/page/layout/build/
