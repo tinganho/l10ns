@@ -660,7 +660,7 @@ The characters listed here are used in non-localized patterns. Localized pattern
       <td>¤</td>
       <td>Prefix or suffix</td>
       <td>No</td>
-      <td>One consecutive currency symbol will be replaced with a local symbol such as <span class="focused">$</span>. Two consecutive symbols will be replaced with a global symbol such as <span class="focused">US$</span>. Three consecutive symbols will be replaced with a local text such as <span class="focused">dollars</span>. Four consecutive symbols will be replaced with a global text such as <span class="focused">US dollars</span>.</td>
+      <td>One consecutive currency symbol will be replaced with a local symbol such as <span class="focused">$</span>. Two consecutive symbols will be replaced with a global symbol such as <span class="focused">US$</span>. Three consecutive symbols will be replaced with a local text such as <span class="focused">dollars</span>. Four consecutive symbols will be replaced with a global text such as <span class="focused">US dollars</span>. Please specify which currencies you are using in your configuration file l10ns.json. Please see <a href="#currencyformat">currencyformat</a> for more information.</td>
     </tr>
     <tr>
       <td>'</td>
@@ -914,6 +914,20 @@ Currency Format is just a short-hand function for formating currency amounts. It
 </code>
 
 <p>
+Whenever you use currency formatting you need to specify what currencies you intend to use in your configuration file l10ns.json. The currency codes should conform to ISO 4217 http://en.wikipedia.org/wiki/ISO_4217.
+</p>
+
+<code>
+{<br>
+&nbsp;&nbsp;...<br>
+&nbsp;&nbsp;currencies: [<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"USD"<br>
+&nbsp;&nbsp;],<br>
+&nbsp;&nbsp;...<br>
+}
+</code>
+
+<p>
 Currency Format takes a Javascript object containing properties <span class="focused">code</span> and <span class="focused">amount</span> as an argument. <span class="focused">Code</span> must be an <span class="focused">ISO 4217</span> currency code and <span class="focused">amount</span> must be of type number.
 </p>
 
@@ -996,6 +1010,20 @@ The syntax for defining a date format is:
 
 <code>
 {time, date, [date identifiers]}
+</code>
+
+<p>
+You also need to specify which timezones you supports in your configuration file l10ns.json. Please use an IANA timezone ID to specify which timezones you supports. A list if IANA timezone ID:s can be found here: <a href="http://en.wikipedia.org/wiki/List_of_tz_database_time_zones">http://en.wikipedia.org/wiki/List_of_tz_database_time_zones</a>.
+</p>
+
+<code>
+{<br>
+&nbsp;&nbsp;...<br>
+&nbsp;&nbsp;timezones: [<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"America/Los_Angeles"<br>
+&nbsp;&nbsp;],<br>
+&nbsp;&nbsp;...<br>
+}
 </code>
 
 <p>
