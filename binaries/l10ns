@@ -8,7 +8,6 @@ var commands = require('commander');
 var findup = require('findup-sync');
 var path = require('path');
 var open = require('open');
-var pjson = require('../package.json');
 var _ = require('underscore');
 var program = require('../configurations/program');
 var text = require('../configurations/text');
@@ -18,9 +17,8 @@ var updateNotifier = require('update-notifier');
 var package = require('../package.json');
 var Insight = require('anonymous-insight');
 var insight = new Insight({
-  // Google Analytics tracking code
   trackingCode: 'UA-51369650-4',
-  pkg: pjson
+  pkg: package
 });
 
 /**
@@ -34,7 +32,7 @@ if(typeof process.argv[2] === 'undefined') {
 }
 
 if(process.argv[2] === '--version' || process.argv[2] === '-V') {
-  console.log(pjson.version);
+  console.log(package.version);
   return;
 }
 
@@ -68,7 +66,7 @@ global.fromBinary = true;
 var cli = require('../libraries');
 
 commands
-  .version(pjson.version)
+  .version(package.version)
   .option('-l, --locale <locale>', 'specify locale')
   .option('--port <port>', 'specify port for interface')
   .option('-e, --empty', 'only empty localizations')
