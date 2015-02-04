@@ -102,9 +102,9 @@ Init.prototype._outputIntroduction = function() {
  */
 
 Init.prototype._getProjectName = function() {
-  var _this = this
-    , deferred = defer()
-    , question = text.PROJECT_NAME_QUESTION;
+  var _this = this;
+  var deferred = defer();
+  var question = text.PROJECT_NAME_QUESTION;
 
   var currentWorkingDirectory = process.cwd();
   if(/^\w\:/.test(currentWorkingDirectory)) {
@@ -138,12 +138,12 @@ Init.prototype._getProjectName = function() {
  */
 
 Init.prototype._getLocales = function() {
-  var _this = this
-    , deferred = defer()
-    , question = text.LOCALES_DESCRIPTION + 'locales: (' +
-      program.DEFAULT_LOCALE_CODE + ':' + program.DEFAULT_LOCALE_NAME + ') '
-    , wrongAnswer = text.LOCALES_WRONG_ANSWER + question
-    , answeredWrong = false;
+  var _this = this;
+  var deferred = defer();
+  var question = text.LOCALES_DESCRIPTION + 'locales: (' +
+      program.DEFAULT_LOCALE_CODE + ':' + program.DEFAULT_LOCALE_NAME + ') ';
+  var wrongAnswer = text.LOCALES_WRONG_ANSWER + question;
+  var answeredWrong = false;
 
   (function ask() {
     if(answeredWrong) {
@@ -163,7 +163,7 @@ Init.prototype._getLocales = function() {
       }
       locales.split(',').forEach(function(locale) {
         locale = locale.split(':');
-        result[locale[0]] = locale[1];
+        result[locale[0].trim()] = locale[1].trim();
       });
 
       deferred.resolve(result);
@@ -280,11 +280,11 @@ Init.prototype._getProgrammingLanguage = function() {
  */
 
 Init.prototype._getStorageFolder = function() {
-  var _this = this
-    , deferred = defer()
-    , defaultStorage
-    , question
-    , answeredWrong = false;
+  var _this = this;
+  var deferred = defer();
+  var defaultStorage;
+  var question;
+  var answeredWrong = false;
 
   if(fs.existsSync(process.cwd() + '/app')) {
     defaultStorage = 'app/' + program.DEFAULT_STORAGE_FOLDER;
@@ -341,9 +341,9 @@ Init.prototype._setDefaultSrc = function() {
  */
 
 Init.prototype._writeProject = function() {
-  var cwd = process.cwd()
-    , file = cwd + '/l10ns.json'
-    , folder = cwd + '/.l10ns';
+  var cwd = process.cwd();
+  var file = cwd + '/l10ns.json';
+  var folder = cwd + '/.l10ns';
 
   if(!fs.existsSync(file)) {
     var projects = { defaultProject: this.projectName };
