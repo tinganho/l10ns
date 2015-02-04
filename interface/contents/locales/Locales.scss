@@ -31,18 +31,22 @@
 .locales-dropdown {
   position: absolute;
   top: 42px;
-  right: -10px;
-  width: 100px;
+  left: -7px;
+  width: 105px;
   background-color: #fff;
   color: #000;
   font-weight: 300;
   border-radius: 2px;
   padding: 10px 0;
-  display: none;
+  height: 0;
+  opacity: 0;
+  @include transform(translateY(20px));
+  @include transition(opacity 0.2s, transform 0.2s);
   @include box-shadow(1px 1px 2px rgba(0, 0, 0, 0.3));
 
   .is-active & {
-    display: block;
+    @include transform(translateY(0));
+    opacity: 1;
   }
 }
 

@@ -67,6 +67,7 @@ define(function(require) {
 
     _setElements: function() {
       this.setElement('.locales');
+      this.$dropdown = this.$('.locales-dropdown');
       this.$button = this.$('.locales-button');
     },
 
@@ -93,6 +94,7 @@ define(function(require) {
       var _this = this;
 
       this.$el.addClass('is-active');
+      this.$dropdown.css('height', 'auto');
       this.$button.off('click', this._showDropDown);
 
       _.defer(function() {
@@ -111,6 +113,10 @@ define(function(require) {
       var _this = this;
 
       this.$el.removeClass('is-active');
+
+      setTimeout(function() {
+        _this.$dropdown.css('height', 'auto');
+      }, 200);
 
       _.defer(function() {
         _this.$button.on('click', _this._showDropDown);
