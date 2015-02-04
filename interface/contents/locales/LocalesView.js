@@ -109,8 +109,12 @@ define(function(require) {
      * @api private
      */
 
-    _hideDropDown: function() {
+    _hideDropDown: function(event) {
       var _this = this;
+
+      if($(event.target).parents('.locales-dropdown').length > 0) {
+        return;
+      }
 
       this.$el.removeClass('is-active');
 
