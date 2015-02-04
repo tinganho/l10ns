@@ -44,7 +44,8 @@ var year;
 }
 else {
   year = calendarYear;
-}{{??}}if(month === 0 && date_ < 4 || month === 11 && date_ > 28) {
+}
+year = year + '';{{??}}if(month === 0 && date_ < 4 || month === 11 && date_ > 28) {
   if(date_ < 4) {
     var startOfWeekBasedYearDate;
     var startOfThisCalendarYearDay = new Date(calendarYear + '-01-01').getDay();
@@ -80,4 +81,5 @@ else {
 }
 else {
   year = calendarYear;
-}{{?}}
+}
+year = year + '';{{?}}
