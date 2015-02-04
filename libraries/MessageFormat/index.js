@@ -13,6 +13,7 @@ var _ = require('underscore');
 var currencySymbols = require('./currencySymbols');
 var moment = require('moment');
 var cache = {};
+var languageModifier = /\-([a-zA-Z]+)\-/;
 
 /**
  * MessageFormat class
@@ -22,6 +23,13 @@ var cache = {};
 
 function MessageFormat(locale) {
   this.locale = locale || program.defaultLocale;
+  languageModifier.index = 0;
+  if(languageModifier.test(this.locale)) {
+    this.languageModifier = /\-([a-zA-Z]+)\-/.exec(this.locale)[1];
+  }
+  else {
+    this.languageModifier = null;
+  }
   this.language = /^([a-z]+)\-/.exec(this.locale)[1];
   this.region = /\-([A-Z]+)$/.exec(this.locale)[1];
   this.variables = null;
@@ -915,6 +923,13 @@ MessageFormat.prototype._readDocuments = function() {
     this.localeDocument = cache[this.locale].localeDocument;
   }
 
+  if(!cache[this.locale].languageModifierDocument) {
+    var languageModifierDocumentPath = path.join(__dirname, '../../CLDR/common/main/' + this.language + '_' + this.languageModifier + '_' + this.region + '.xml');
+    if(fs.existsSync(languageModifierDocumentPath)) {
+      cache[this.locale].languageModifierDocument = this.languageModifierDocument = xml.parseXmlString(fs.readFileSync(languageModifierDocumentPath, 'utf-8'), { noblanks: true });
+    }
+  }
+
   if(!cache[this.locale].languageDocument) {
     var languageDocumentPath = path.join(__dirname, '../../CLDR/common/main/' + this.language + '.xml');
     if(fs.existsSync(languageDocumentPath)) {
@@ -948,11 +963,11 @@ MessageFormat.prototype._readTimezone = function() {
       timezones[timezone] = {
         name: { long: {}, short: {} }
       };
-      var mapZone = timezoneDocument.get('//mapZone[@type=\'' + timezone + '\']');
+      var mapZone = timezoneDocument.get('//timezone[@type=\'' + timezone + '\']/usesMetazone[last()]');
       if(!mapZone) {
         throw new TypeError('Time zone: ' + timezone + ' does not exists');
       }
-      var mapZoneID = mapZone.attr('other').value();
+      var mapZoneID = mapZone.attr('mzone').value();
       try {
         var standarLongTimezoneName = this._getXMLNode('//timeZoneNames/metazone[@type=\'' + mapZoneID + '\']/long/standard');
         if(standarLongTimezoneName) {
@@ -1073,6 +1088,12 @@ MessageFormat.prototype._getXMLNode = function(path, idAttribute) {
         return localeNode;
       }
     }
+    if(this.languageModifierDocument) {
+      languageModifierNode = this.languageModifierDocument.get(path);
+      if(languageModifierNode) {
+        return languageModifierNode;
+      }
+    }
     if(this.languageDocument) {
       languageNode = this.languageDocument.get(path);
       if(languageNode) {
@@ -1114,6 +1135,24 @@ MessageFormat.prototype._getXMLNode = function(path, idAttribute) {
             resultNodeFinding = resultNode.get('./' + endNodePath + '[@' + idAttribute + '="' + attributeValue + '"]');
             if(!resultNodeFinding) {
               resultNode.addChild(languageNode_);
+            }
+          });
+        }
+        else {
+          resultNode = node;
+        }
+      }
+    }
+    if(this.languageModifierDocument) {
+      node = this.languageModifierDocument.get(parentNodePath);
+      if(node && node.childNodes().length > 0) {
+        languageModifierNodes = node.childNodes();
+        if(resultNode) {
+          languageModifierNodes.forEach(function(languageModifierNode_) {
+            attributeValue = languageModifierNode_.attr(idAttribute).value();
+            resultNodeFinding = resultNode.get('./' + endNodePath + '[@' + idAttribute + '="' + attributeValue + '"]');
+            if(!resultNodeFinding) {
+              resultNode.addChild(languageModifierNode_);
             }
           });
         }
