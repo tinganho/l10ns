@@ -112,7 +112,6 @@ commands
   .command('search [q]')
   .description('Search localizations')
   .action(function(q) {
-    insight.track('search');
     if(!utilities.initiatedProject()) {
       return console.log('You haven\'t initialized a project yet');
     }
@@ -138,7 +137,6 @@ commands
   .command('log')
   .description('Show log')
   .action(function() {
-    insight.track('log');
     if(!utilities.initiatedProject()) {
       return console.log('You haven\'t initialized a project yet');
     }
@@ -211,7 +209,6 @@ commands
   .command('set [reference] [value]')
   .description('Set localization')
   .action(function(reference, value) {
-    insight.track('set');
     if(!utilities.initiatedProject()) {
       return console.log('You haven\'t initialized a project yet.');
     }
@@ -233,7 +230,6 @@ commands
   .command('configs')
   .description('Show configurations')
   .action(function() {
-    insight.track('configs');
     if(!utilities.initiatedProject()) {
       return console.log('You haven\'t initialized a project yet.');
     }
