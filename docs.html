@@ -1013,7 +1013,7 @@ The syntax for defining a date format is:
 </code>
 
 <p>
-You also need to specify which timezones you supports in your configuration file l10ns.json. Please use an IANA timezone ID to specify which timezones you supports. A list if IANA timezone ID:s can be found here: <a href="http://en.wikipedia.org/wiki/List_of_tz_database_time_zones">http://en.wikipedia.org/wiki/List_of_tz_database_time_zones</a>.
+If you are using timezones, you need to specify which timezones you supports in your configuration file l10ns.json. Please use an IANA timezone ID to specify which timezones you supports. A list if IANA timezone ID:s can be found here: <a href="http://en.wikipedia.org/wiki/List_of_tz_database_time_zones">http://en.wikipedia.org/wiki/List_of_tz_database_time_zones</a>.
 </p>
 
 <code>
@@ -1031,11 +1031,22 @@ If we want to render into the format <span class="focused">2014-12-24 19:14</spa
 </p>
 
 <code>
-{time, date, yyyy-MM-dd HH:mm}
+{startTime, date, yyyy-MM-dd HH:mm}
+</code>
+
+
+<p>
+If you want to use the above date format. You will need to pass in an a variable <span class="focused">time</span> of type <span class="focused">Date</span>.
+</p>
+
+<code>
+l(<span class="red">'TRANSLATION_KEY'</span>, {<br>
+&nbsp;&nbsp;startTime:: new Date()<br>
+});
 </code>
 
 <p>
-If you want to use the compiled output. You need to pass in an object containing the property <span class="focused">time</span> of type <span class="focused">Date</span> and a property <span class="focused">timezone</span> which corresponds to an IANA timezone ID:
+If you want to render the date format in an another timezone. You need to pass in an object containing the property <span class="focused">time</span> of type <span class="focused">Date</span> and a property <span class="focused">timezone</span> which corresponds to an IANA timezone ID:
 </p>
 
 
