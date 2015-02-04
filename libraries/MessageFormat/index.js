@@ -914,7 +914,13 @@ MessageFormat.prototype._readDocuments = function() {
   }
 
   if(!cache[this.locale].localeDocument) {
-    var localeDocumentPath = path.join(__dirname, '../../CLDR/common/main/' + this.language + '_' + this.region + '.xml');
+    var localeDocumentPath;
+    if(this.languageModifier) {
+      localeDocumentPath = path.join(__dirname, '../../CLDR/common/main/' + this.language + '_' + this.region + '.xml');
+    }
+    else {
+      localeDocumentPath = path.join(__dirname, '../../CLDR/common/main/' + this.language + '_' + this.languageModifier + '_' + this.region + '.xml');
+    }
     if(fs.existsSync(localeDocumentPath)) {
       cache[this.locale].localeDocument = this.localeDocument = xml.parseXmlString(fs.readFileSync(localeDocumentPath, 'utf-8'), { noblanks: true });
     }
@@ -924,7 +930,7 @@ MessageFormat.prototype._readDocuments = function() {
   }
 
   if(!cache[this.locale].languageModifierDocument) {
-    var languageModifierDocumentPath = path.join(__dirname, '../../CLDR/common/main/' + this.language + '_' + this.languageModifier + '_' + this.region + '.xml');
+    var languageModifierDocumentPath = path.join(__dirname, '../../CLDR/common/main/' + this.language + '_' + this.languageModifier + '.xml');
     if(fs.existsSync(languageModifierDocumentPath)) {
       cache[this.locale].languageModifierDocument = this.languageModifierDocument = xml.parseXmlString(fs.readFileSync(languageModifierDocumentPath, 'utf-8'), { noblanks: true });
     }
