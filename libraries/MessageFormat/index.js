@@ -2,7 +2,6 @@
 /**
  * Requires
  */
-
 var Lexer = require('../Lexer');
 var AST = require('./AST');
 var xml = require('libxmljs');
@@ -20,9 +19,8 @@ var languageModifier = /\-([a-zA-Z]+)\-/;
  *
  * @constructor
  */
-
 function MessageFormat(locale) {
-  this.locale = locale || program.defaultLocale;
+  this.locale = this.getMostLikelyLocale_(locale || program.defaultLocale);
   languageModifier.index = 0;
   if(languageModifier.test(this.locale)) {
     this.languageModifier = /\-([a-zA-Z]+)\-/.exec(this.locale)[1];
@@ -65,13 +63,13 @@ function MessageFormat(locale) {
   }
 };
 
+
 /**
  * Characters
  *
  * @enum {String}
  * @api private
  */
-
 MessageFormat.Characters = {
   STARTING_BRACKET: '{',
   ENDING_BRACKET: '}',
@@ -84,13 +82,13 @@ MessageFormat.Characters = {
   NUMBER_SYSTEM_SEPARATOR: ':'
 };
 
+
 /**
  * Numbering systems
  *
  * @enum {Number}
  * @api public
  */
-
 MessageFormat.NumberSystems = {
   ARAB: 'arab',
   ARABEXT: 'arabext',
@@ -115,14 +113,45 @@ MessageFormat.NumberSystems = {
   TIBT: 'tibt'
 };
 
+
 /**
  * Default number system.
  *
  * @type {String}
  * @api public
  */
-
 MessageFormat.DEFAULT_NUMBER_SYSTEM = 'latn';
+
+
+/**
+ * Most likely map of locales.
+ *
+ * @type {String}
+ * @api public
+ */
+MessageFormat.MOST_LIKELY_LOCALE_MAP = {
+  'zh-CN': 'zh-Hans-CN',
+  'zh-HK': 'zh-Hant-HK'
+};
+
+
+/**
+ * If locale string misses the language modifier you can call
+ * this function to return the most likely.
+ *
+ * @param {String} locale
+ * @return {String} locale
+ * @api private
+ */
+MessageFormat.prototype.getMostLikelyLocale_ = function(locale) {
+  if(locale in MessageFormat.MOST_LIKELY_LOCALE_MAP) {
+    return MessageFormat.MOST_LIKELY_LOCALE_MAP[locale];
+  }
+  else {
+    return locale;
+  }
+};
+
 
 /**
  * Define what kind of variables is allowed on the parse string.
@@ -135,10 +164,10 @@ MessageFormat.DEFAULT_NUMBER_SYSTEM = 'latn';
  * @return {void}
  * @api public
  */
-
 MessageFormat.prototype.setVariables = function(variables) {
   this.variables = variables;
 };
+
 
 /**
  * Unset variables. Call this method if you have set any variables
@@ -147,10 +176,10 @@ MessageFormat.prototype.setVariables = function(variables) {
  * @return {void}
  * @api public
  */
-
 MessageFormat.prototype.unsetVariables = function() {
   this.variables = null;
 };
+
 
 /**
  * Parse a message formated string
@@ -158,7 +187,6 @@ MessageFormat.prototype.unsetVariables = function() {
  * @param {String} message A message formated string
  * @return {void}
  */
-
 MessageFormat.prototype.parse = function(message) {
   this.messageAST = [];
   this.lexer = new Lexer(message);
@@ -168,13 +196,13 @@ MessageFormat.prototype.parse = function(message) {
   }
 };
 
+
 /**
  * Handle top level expresion
  *
  * @return {AST}
  * @api private
  */
-
 MessageFormat.prototype._parsePrimary = function(options) {
   options = _.defaults(options || {}, {
     parseRemaining: false,
@@ -205,6 +233,7 @@ MessageFormat.prototype._parsePrimary = function(options) {
   }
 };
 
+
 /**
  * Parse plural remaining
  *
@@ -214,7 +243,6 @@ MessageFormat.prototype._parsePrimary = function(options) {
  * @return {AST.PluralRemaining}
  * @api private
  */
-
 MessageFormat.prototype._parseRemaining = function(variable, offset, pattern, numberSystem) {
   // Swallow '#'
   this.currentToken = this.lexer.getNextToken();
@@ -222,13 +250,13 @@ MessageFormat.prototype._parseRemaining = function(variable, offset, pattern, nu
   return new AST.Remaining(variable, offset, pattern, numberSystem);
 };
 
+
 /**
  * Parse sentence
  *
  * @return {AST.Sentence}
  * @api private
  */
-
 MessageFormat.prototype._parseSentence = function() {
   var sentence = '';
   while(this.currentToken !== MessageFormat.Characters.EOF &&
@@ -266,6 +294,7 @@ MessageFormat.prototype._parseSentence = function() {
   return new AST.Sentence(sentence);
 };
 
+
 /**
  * Parse bracket statements (variable|select|plural)
  *
@@ -273,7 +302,6 @@ MessageFormat.prototype._parseSentence = function() {
  * @return {void}
  * @api private
  */
-
 MessageFormat.prototype._parseBracketStatement = function() {
   // Swallow '{'
   this.currentToken = this.lexer.getNextToken();
@@ -294,13 +322,13 @@ MessageFormat.prototype._parseBracketStatement = function() {
   }
 };
 
+
 /**
  * Parse variable
  *
  * @return {AST.Sentence}
  * @api private
  */
-
 MessageFormat.prototype._parseVariable = function() {
   var name = '';
 
@@ -336,18 +364,19 @@ MessageFormat.prototype._parseVariable = function() {
   return new AST.Variable(name);
 };
 
+
 /**
  * Parse switch statement
  *
+ * @param {String} variable
  * @return {AST}
  * @api private
  * @throw TypeError
  */
-
 MessageFormat.prototype._parseSwitchStatement = function(variable) {
-  var type = ''
-    , numberSystem = ''
-    , switchStatement = null;
+  var type = '';
+  var numberSystem = '';
+  var switchStatement = null;
   // Swallow comma
   this.currentToken = this.lexer.getNextToken();
 
@@ -404,6 +433,7 @@ MessageFormat.prototype._parseSwitchStatement = function(variable) {
   return switchStatement;
 };
 
+
 /**
  * Parse simple format
  *
@@ -412,7 +442,6 @@ MessageFormat.prototype._parseSwitchStatement = function(variable) {
  * @return {AST.SimpleFormat}
  * @api private
  */
-
 MessageFormat.prototype._parseSimpleFormat = function(type, variable) {
   var argument = '';
   // Swallow comma
@@ -456,6 +485,7 @@ MessageFormat.prototype._parseSimpleFormat = function(type, variable) {
   }
 };
 
+
 /**
  * Parse currency format
  *
@@ -463,7 +493,6 @@ MessageFormat.prototype._parseSimpleFormat = function(type, variable) {
  * @return {AST.CurrencyFormat}
  * @api private
  */
-
 MessageFormat.prototype._parseCurrencyFormat = function(variable) {
   var context = ''
     , numberSystem = ''
@@ -520,15 +549,15 @@ MessageFormat.prototype._parseCurrencyFormat = function(variable) {
   );
 };
 
+
 /**
  * Get limit string from case string
  *
- * @param {String} case
+ * @param {String} _case
  * @return {Array} first index is the limit value, second index is
  * the type of the limit
  * @api private
  */
-
 MessageFormat.prototype._getLimitFromCase = function(_case) {
   var limit = /(\-?\d+\.?\d*|\-?∞)([<#])/.exec(_case);
   if(/^∞$/.test(limit[1])) {
@@ -546,13 +575,14 @@ MessageFormat.prototype._getLimitFromCase = function(_case) {
   return limit;
 };
 
+
 /**
  * Parse SelectFormat
  *
+ * @param {String} variable
  * @return {AST.SelectFormat}
  * @api private
  */
-
 MessageFormat.prototype._parseSelectFormat = function(variable) {
   var values = {};
 
@@ -591,19 +621,20 @@ MessageFormat.prototype._parseSelectFormat = function(variable) {
   }
 };
 
+
 /**
  * Parse PluralFormat
  *
+ * @param {String} variable
  * @return {AST.PluralFormat}
  * @api private
  */
-
 MessageFormat.prototype._parsePluralFormat = function(variable) {
-  var offset = 0
-    , values = {}
-    , offsetSyntax = /^offset:(\d)$/
-    , exactlySyntax = /^=\d+$/
-    , pluralKeywords = Object.keys(this.pluralRules);
+  var offset = 0;
+  var values = {};
+  var offsetSyntax = /^offset:(\d)$/;
+  var exactlySyntax = /^=\d+$/;
+  var pluralKeywords = Object.keys(this.pluralRules);
 
   // Swallow comma
   this.currentToken = this.lexer.getNextToken();
@@ -662,18 +693,18 @@ MessageFormat.prototype._parsePluralFormat = function(variable) {
   }
 };
 
+
 /**
  * Parse select ordinal format
  *
  * @return {AST.SelectordinalFormat}
  * @api private
  */
-
 MessageFormat.prototype._parseSelectordinalFormat = function(variable) {
-  var offset = 0
-    , values = {}
-    , exactlySyntax = /^=\d+$/
-    , ordinalKeywords = Object.keys(this.ordinalRules);
+  var offset = 0;
+  var values = {};
+  var exactlySyntax = /^=\d+$/;
+  var ordinalKeywords = Object.keys(this.ordinalRules);
 
   // Swallow comma
   this.currentToken = this.lexer.getNextToken();
@@ -727,13 +758,13 @@ MessageFormat.prototype._parseSelectordinalFormat = function(variable) {
   }
 };
 
+
 /**
  * Get plural case
  *
  * @return {String}
  * @api private
  */
-
 MessageFormat.prototype._getSelectCase = function() {
   var _case = '';
 
@@ -749,13 +780,13 @@ MessageFormat.prototype._getSelectCase = function() {
   return _case;
 };
 
+
 /**
  * Get plural case
  *
  * @return {String}
  * @api private
  */
-
 MessageFormat.prototype._getPluralCase = function() {
   var _case = '';
 
@@ -773,6 +804,7 @@ MessageFormat.prototype._getPluralCase = function() {
   return _case;
 };
 
+
 /**
  * Check if a string is alpha numeric
  *
@@ -780,10 +812,10 @@ MessageFormat.prototype._getPluralCase = function() {
  * @return {Boolean}
  * @api private
  */
-
 MessageFormat.prototype._isAlphaNumeric = function(character) {
   return /^[a-zA-Z0-9]+$/.test(character);
 };
+
 
 /**
  * Check if a string is alpha lower case
@@ -792,10 +824,10 @@ MessageFormat.prototype._isAlphaNumeric = function(character) {
  * @return {Boolean}
  * @api private
  */
-
 MessageFormat.prototype._isAlphaLowerCase = function(character) {
   return /^[a-z]$/.test(character);
 };
+
 
 /**
  * Check if a string is space
@@ -804,10 +836,10 @@ MessageFormat.prototype._isAlphaLowerCase = function(character) {
  * @return {Boolean}
  * @api private
  */
-
 MessageFormat.prototype._isWhiteSpace = function(character) {
   return /^\s$/.test(character);
 };
+
 
 /**
  * Swallow spaces
@@ -815,12 +847,12 @@ MessageFormat.prototype._isWhiteSpace = function(character) {
  * @return {void}
  * @api private
  */
-
 MessageFormat.prototype._swallowWhiteSpace = function() {
   while(this._isWhiteSpace(this.currentToken)) {
     this.currentToken = this.lexer.getNextToken();
   }
 };
+
 
 /**
  * Read pluralization rules
@@ -828,7 +860,6 @@ MessageFormat.prototype._swallowWhiteSpace = function() {
  * @return {void}
  * @api private
  */
-
 MessageFormat.prototype._readPluralizationRules = function() {
   if(cache[this.locale].pluralRules) {
     this.pluralRules = cache[this.locale].pluralRules;
@@ -858,13 +889,13 @@ MessageFormat.prototype._readPluralizationRules = function() {
   cache[this.locale].pluralRules = this.pluralRules;
 };
 
+
 /**
  * Read ordinal rules
  *
  * @return {void}
  * @api private
  */
-
 MessageFormat.prototype._readOrdinalRules = function() {
   if(cache[this.locale].ordinalRules) {
     this.ordinalRules = cache[this.locale].ordinalRules;
@@ -895,13 +926,13 @@ MessageFormat.prototype._readOrdinalRules = function() {
   cache[this.locale].ordinalRules = this.ordinalRules;
 };
 
+
 /**
  * Read LDML documents
  *
  * @return {void}
  * @api private
  */
-
 MessageFormat.prototype._readDocuments = function() {
   var _this = this;
 
@@ -947,13 +978,13 @@ MessageFormat.prototype._readDocuments = function() {
   }
 };
 
+
 /**
  * Read time zone supplemental data
  *
  * @return {void}
  * @api private
  */
-
 MessageFormat.prototype._readTimezone = function() {
   if(cache[this.locale].timezones) {
     this.timezones = cache[this.locale].timezones;
@@ -1051,6 +1082,7 @@ MessageFormat.prototype._readTimezone = function() {
   this.timezones = cache[this.locale].timezones = timezones;
 };
 
+
 /**
  * Read number format data such as currency, number symbols and different
  * number patterns.
@@ -1058,12 +1090,12 @@ MessageFormat.prototype._readTimezone = function() {
  * @return {void}
  * @api private
  */
-
 MessageFormat.prototype._readNumberFormatsData = function() {
   this._readNumberFormatPatterns();
   this._readNumberSymbols();
   this._readCurrencyData();
 };
+
 
 /**
  * Read XML node from CLDR
@@ -1073,7 +1105,6 @@ MessageFormat.prototype._readNumberFormatsData = function() {
  * these nodes are valid
  * @return {null|String}
  */
-
 MessageFormat.prototype._getXMLNode = function(path, idAttribute) {
   var languageNodes;
   var rootNodes;
@@ -1203,6 +1234,7 @@ MessageFormat.prototype._getXMLNode = function(path, idAttribute) {
   return resultNode;
 };
 
+
 /**
  * Get absolute path of a node from a relative path
  *
@@ -1210,7 +1242,6 @@ MessageFormat.prototype._getXMLNode = function(path, idAttribute) {
  * @param {String} relativePath
  * @return {String}
  */
-
 MessageFormat.prototype._getAbsolutePath = function(absolutePath, relativePath, endPath) {
   var ups = relativePath.match(/\.\.\//g).length;
 
@@ -1223,13 +1254,13 @@ MessageFormat.prototype._getAbsolutePath = function(absolutePath, relativePath, 
   return absolutePath.slice(0, absolutePath.length - ups).join('/') + '/' + relativePath;
 };
 
+
 /**
  * Read XML Period node from CLDR
  *
  * @param {String} path
  * @return {null|String}
  */
-
 MessageFormat.prototype.getCLDRPeriodNode = function() {
   var node;
   if(this.localeDocument) {
@@ -1254,13 +1285,13 @@ MessageFormat.prototype.getCLDRPeriodNode = function() {
   return node;
 };
 
+
 /**
  * Read number format patterns
  *
  * @return {void}
  * @api private
  */
-
 MessageFormat.prototype._readNumberFormatPatterns = function() {
   if(cache[this.locale].defaultNumberSystem) {
     this.defaultNumberSystem = cache[this.locale].defaultNumberSystem;
@@ -1329,6 +1360,7 @@ MessageFormat.prototype._readNumberFormatPatterns = function() {
   cache[this.locale].currencyPatterns = this.currencyPatterns;
 };
 
+
 /**
  * Read number symbols
  *
@@ -1337,7 +1369,6 @@ MessageFormat.prototype._readNumberFormatPatterns = function() {
  * @return {void}
  * @api private
  */
-
 MessageFormat.prototype._readNumberSymbols = function() {
   if(cache[this.locale].numberSymbols) {
     this.numberSymbols = cache[this.locale].numberSymbols;
@@ -1366,13 +1397,13 @@ MessageFormat.prototype._readNumberSymbols = function() {
   cache[this.locale].numberSymbols = this.numberSymbols;
 };
 
+
 /**
  * Read currency data
  *
  * @return {void}
  * @api private
  */
-
 MessageFormat.prototype._readCurrencyData = function() {
   if(cache[this.locale].currencies) {
     this.currencyUnitPattern = cache[this.locale].currencyUnitPattern;
@@ -1445,13 +1476,13 @@ MessageFormat.prototype._readCurrencyData = function() {
   cache[this.locale].currencies = this.currencies;
 };
 
+
 /**
  * Read date data
  *
  * @return {void}
  * @api private
  */
-
 MessageFormat.prototype._readDateData = function() {
   if(cache[this.locale].date) {
     this.date = cache[this.locale].date;

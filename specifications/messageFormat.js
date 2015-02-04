@@ -14,7 +14,12 @@ describe('MessageFormat', function() {
 
     it('should read percentage pattern', function() {
       var messageFormat = new MessageFormat('en-US');
-      expect(messageFormat.percentagePatterns['latn']).to.equal('#,##0%')
+      expect(messageFormat.percentagePatterns['latn']).to.equal('#,##0%');
+    });
+
+    it('if language modifier is missing it should set the most likely locale', function() {
+      var messageFormat = new MessageFormat('zh-CN');
+      expect(messageFormat.locale).to.equal('zh-Hans-CN');
     });
 
     it('should read currencies', function() {
