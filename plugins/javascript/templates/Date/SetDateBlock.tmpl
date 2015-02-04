@@ -10,12 +10,7 @@ var milliseconds;
 var timezoneOffset;
 var timezoneOffsetType;
 if(it.{{=it.variableName}} instanceof Date) {
-  if(it.{{=it.variableName}} instanceof Date) {
-    date = it.{{=it.variableName}};
-  }
-  else if(it.{{=it.variableName}}.time instanceof Date){
-    date = new Date(it.{{=it.variableName}});
-  }
+  date = it.{{=it.variableName}};
   timezoneOffset = date.getTimezoneOffset();
 }
 else {
