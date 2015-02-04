@@ -244,7 +244,7 @@ AST.date.DateFormat.prototype._parseEra = function() {
     return new AST.date.Era(AST.date.Era.Formats.ABBREVIATED);
   }
   else if(length === 4) {
-    return new AST.date.Era(AST.date.Era.Formats.FULL);
+    return new AST.date.Era(AST.date.Era.Formats.WIDE);
   }
   else {
     return new AST.date.Era(AST.date.Era.Formats.NARROW);
@@ -775,7 +775,7 @@ AST.date.Era = function(format) {
 
 AST.date.Era.Formats = {
  ABBREVIATED: 1,
- FULL: 2,
+ WIDE: 2,
  NARROW: 3
 };
 

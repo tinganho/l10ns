@@ -3,12 +3,12 @@
  * Module dependencies
  */
 
-var fs = require('fs')
-  , path = require('path')
-  , glob = require('glob')
-  , Q = require('q')
-  , mkdirp = require('mkdirp')
-  , _ = require('underscore');
+var fs = require('fs');
+var path = require('path');
+var glob = require('glob');
+var Q = require('q');
+var mkdirp = require('mkdirp');
+var _ = require('underscore');
 
 /**
  * File

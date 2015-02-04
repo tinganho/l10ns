@@ -1,10 +1,11 @@
-var readline = require('readline')
-  , defer = require('q').defer
-  , fs = require('fs')
-  , path = require('path')
-  , log = require('./_log')
-  , _ = require('underscore')
-  , findup = require('findup-sync');
+
+var readline = require('readline');
+var defer = require('q').defer;
+var fs = require('fs');
+var path = require('path');
+var log = require('./_log');
+var _ = require('underscore');
+var findup = require('findup-sync');
 
 /**
  * Project initializer

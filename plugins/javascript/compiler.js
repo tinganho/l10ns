@@ -196,9 +196,9 @@ Compiler.prototype._getLocalizationMap = function() {
   var _this = this, deferred = defer();
   file.readLocalizations()
     .then(function(localizations) {
-      var localizationsMap = {}
-        , localesLength = Object.keys(localizations).length
-        , localesCount = 0;
+      var localizationsMap = {};
+      var localesLength = Object.keys(localizations).length;
+      var localesCount = 0;
 
       for(var locale in localizations) {
         var localizationMap = '';
@@ -682,7 +682,7 @@ Compiler.prototype._compileDateFormat = function(dateFormat) {
         case MessageFormat.AST.date.Era.Formats.ABBREVIATED:
           eraFormat = 'abbreviated';
           break;
-        case MessageFormat.AST.date.Era.Formats.FULL:
+        case MessageFormat.AST.date.Era.Formats.WIDE:
           eraFormat = 'full';
           break;
         case MessageFormat.AST.date.Era.Formats.NARROW:

@@ -22,9 +22,9 @@ describe('NumberFormat', function() {
   });
 
   it('should be able to compile a non-absent integer', function(done) {
-    var localizations = getLocalizations('{variable1, number, 0}')
-      , dependencies = getDependencies(localizations)
-      , compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+    var localizations = getLocalizations('{variable1, number, 0}');
+    var dependencies = getDependencies(localizations);
+    var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
 
     compiler.run();
     eventually(function() {

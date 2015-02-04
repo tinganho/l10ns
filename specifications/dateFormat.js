@@ -96,7 +96,7 @@ describe('DateFormat', function() {
       messageFormat.parse('{variable1, date, GGGG}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
       expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.Era);
-      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.Era.Formats.FULL);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.Era.Formats.WIDE);
     });
 
     it('should be able to parse a full narrow format', function() {
