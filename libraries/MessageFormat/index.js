@@ -13,6 +13,7 @@ var currencySymbols = require('./currencySymbols');
 var moment = require('moment');
 var cache = {};
 var languageModifier = /\-([a-zA-Z]+)\-/;
+var mostLikelyLocaleMapping = require('../../configurations/mostLikelyLocaleMapping');
 
 /**
  * MessageFormat class
@@ -124,18 +125,6 @@ MessageFormat.DEFAULT_NUMBER_SYSTEM = 'latn';
 
 
 /**
- * Most likely map of locales.
- *
- * @type {String}
- * @api public
- */
-MessageFormat.MOST_LIKELY_LOCALE_MAP = {
-  'zh-CN': 'zh-Hans-CN',
-  'zh-HK': 'zh-Hant-HK'
-};
-
-
-/**
  * If locale string misses the language modifier you can call
  * this function to return the most likely.
  *
@@ -144,7 +133,7 @@ MessageFormat.MOST_LIKELY_LOCALE_MAP = {
  * @api private
  */
 MessageFormat.prototype.getMostLikelyLocale_ = function(locale) {
-  if(locale in MessageFormat.MOST_LIKELY_LOCALE_MAP) {
+  if(locale in mostLikelyLocaleMapping) {
     return MessageFormat.MOST_LIKELY_LOCALE_MAP[locale];
   }
   else {

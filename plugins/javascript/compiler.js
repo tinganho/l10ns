@@ -2,8 +2,8 @@
 /**
  * Module dependencies
  */
-
 var fs = require('fs');
+var glob = require('glob');
 var path = require('path');
 var syntax = require('./syntax');
 var template = require('./templates/build/templates');
@@ -15,6 +15,9 @@ var digits = require('./digits');
 var defer = require('q').defer;
 var LDML = { AST: require('../../libraries/LDML/AST') };
 var timezones = require('../../IANA/latest');
+var mostLikelyLocaleMapping = require('../../configurations/mostLikelyLocaleMapping');
+
+
 /**
  * Clean up time zones
  */
@@ -29,18 +32,18 @@ if(typeof project.timezones === 'undefined' || project.timezones.length === 0) 
   hasTimezone = false;
 }
 
+
 /**
  * Add terminal colors
  */
-
 require('terminal-colors');
+
 
 /**
  * Compiler
  *
  * @constructor Compiler
  */
-
 var Compiler = function() {
   // default namespace
   this.namespace = 'it';
@@ -62,15 +65,23 @@ var Compiler = function() {
   this.appendString = 'string += ';
 };
 
+
 /**
  * Compile task
  *
  * @return {void}
  * @api public
  */
-
 Compiler.prototype.run = function() {
   var _this = this;
+
+  var compiledFiles = glob.sync(project.output + '/*.js');
+  compiledFiles.forEach(function(file) {
+    if(!/all\.js$/.test(file) && !(file in project.locales)) {
+      fs.unlink(file);
+    }
+  });
+
   this._getLocalizationMap()
     .then(function(localizationsMap) {
       var localesCount = 0;
@@ -138,7 +149,7 @@ Compiler.prototype.run = function() {
         formatNumberFunction: _this._indentSpaces(2, template['FormatNumberFunction']()),
         functionName: language.GET_LOCALIZATION_STRING_FUNCTION_NAME,
         localizationMap: _this._indentSpaces(2, stringMap),
-        functionBlock: _this._indentSpaces(2, template['RequireLocalizations']()),
+        functionBlock: _this._indentSpaces(2, template['RequireLocalizations'](mostLikelyLocaleMapping)),
         moduleExportBlock: _this._indentSpaces(2, template['ModuleExportBlock']({
           variableName: 'requireLocalizations'
         }))

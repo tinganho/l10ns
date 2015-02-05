@@ -31,10 +31,17 @@ function File() {
  */
 
 File.prototype.writeLocalizations = function(localizations) {
-  var deferred = Q.defer()
-    , localizations = this.localizationMapToArray(localizations)
-    , count = 0
-    , endCount = _.size(project.locales);
+  var deferred = Q.defer();
+  var localizations = this.localizationMapToArray(localizations);
+  var count = 0;
+  var endCount = _.size(project.locales);
+
+  var storageFiles = glob.sync(project.store + '/*.json');
+  storageFiles.forEach(function(file) {
+    if(!(file in project.locales)) {
+      fs.unlink(file);
+    }
+  });
 
   for(var locale in project.locales) {
     this.writeLocalization(localizations, locale)
@@ -80,8 +87,8 @@ File.prototype._sortObject = function(object) {
  */
 
 File.prototype.writeLocalization = function(localizations, locale) {
-  var _this = this
-    , deferred = Q.defer();
+  var _this = this;
+  var deferred = Q.defer();
 
   if(!this.storageFolderExists || !fs.existsSync(project.store)) {
     mkdirp.sync(project.store);
@@ -160,13 +167,13 @@ File.prototype.localizationMapToArray = function(localizations) {
  */
 
 File.prototype.readLocalizations = function(locale) {
-  var _this = this
-    , deferred = Q.defer()
-    , files = glob.sync(project.store + '/*.json')
-    , localizations = {}
-    , count = 0
-    , endCount = files.length
-    , rejected = false;
+  var _this = this;
+  var deferred = Q.defer();
+  var files = glob.sync(project.store + '/*.json');
+  var localizations = {};
+  var count = 0;
+  var endCount = files.length;
+  var rejected = false;
 
   if(files.length === 0) {
     _.defer(function() {
@@ -265,7 +272,8 @@ File.prototype.readLocalizationArray = function(file) {
  */
 
 File.prototype.readLocalizationMap = function(file) {
-  var deferred = Q.defer(), result = {};
+  var deferred = Q.defer();
+  var result = {};
 
   this.readLocalizationArray(file)
     .then(function(localizations) {
