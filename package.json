@@ -27,7 +27,6 @@
     "node": "*"
   },
   "scripts": {
-    "install": "node install.js",
     "test": "binaries/test"
   },
   "dependencies": {
