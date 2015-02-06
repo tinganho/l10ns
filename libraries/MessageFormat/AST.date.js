@@ -1378,15 +1378,15 @@ AST.date.timezone.GenericNonLocationTimezone = function(format) {
  *     Type          Output
  *
  *     ABBREVIATED   PT
- *     FULL          Pacific time
+ *     WIDE          Pacific time
  *
  * @enum {Number}
  * @api public
  */
 
 AST.date.timezone.GenericNonLocationTimezone.Formats = {
-  ABBREVIATED: 1,
-  FULL: 2
+  SHORT: 1,
+  LONG: 2
 };
 
 /**

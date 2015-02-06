@@ -2407,7 +2407,7 @@ describe('DateFormat', function() {
         compiler.run();
         eventually(function() {
           var functionBody = setDateBlock +
-            'dateString += getLongLocalizedGMT(timezoneOffset);\n\n' +
+            'dateString += getLongLocalizedGMT(this.__timezones[it.variable1.timezone].GMTFormat, timezoneOffset);\n\n' +
             'string += dateString;\n' +
             'return string;';
           expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
@@ -2417,7 +2417,7 @@ describe('DateFormat', function() {
         });
       });
 
-      it('should be able to output long localized GMT format', function(done) {
+      it('should be able to output ISO8601 extended format with hours and minutes', function(done) {
         var localizations = getLocalizations('{variable1, date, ZZZZZ}');
         var dependencies = getDependencies(localizations);
         var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
@@ -2603,15 +2603,15 @@ describe('DateFormat', function() {
         compiler.run();
         eventually(function() {
           var functionBody = setDateBlock +
-            'if(this.__timezones[it.variable1.timezone].name.long.generic) {\n' +
-            '  dateString += this.__timezones[it.variable1.timezone].name.long.generic;\n' +
+            'if(this.__timezones[it.variable1.timezone].name.short.generic) {\n' +
+            '  dateString += this.__timezones[it.variable1.timezone].name.short.generic;\n' +
             '}\n' +
             'else {\n' +
             '  if(this.__timezones[it.variable1.timezone].hasCity) {\n' +
             '    dateString += this.__timezones[it.variable1.timezone].regionFormat.replace(\'{0}\', this.__timezones[it.variable1.timezone].city);\n' +
             '  }\n' +
             '  else {\n' +
-            '    dateString += getLongLocalizedGMT(this.__timezones[it.variable1.timezone].GMTFormat, timezoneOffset);\n' +
+            '    dateString += this.__timezones[it.variable1.timezone].GMTFormat.replace(\'{0}\', getTimezoneOffset(timezoneOffset, { zeroPaddingHours: false, minutes: false, colon: false }));\n' +
             '  }\n' +
             '}\n\n' +
             'string += dateString;\n' +
