@@ -1281,7 +1281,7 @@ describe('DateFormat', function() {
       eventually(function() {
         var functionBody = setDateBlock +
           'var start = new Date(date.getFullYear(), 0, 0);\n' +
-          'var diff = now - start;\n' +
+          'var diff = date - start;\n' +
           'var oneDay = 1000 * 60 * 60 * 24;\n' +
           'var day = Math.floor(diff / oneDay) + \'\';\n' +
           'dateString += day;\n\n' +
@@ -1303,10 +1303,10 @@ describe('DateFormat', function() {
       eventually(function() {
         var functionBody = setDateBlock +
           'var start = new Date(date.getFullYear(), 0, 0);\n' +
-          'var diff = now - start;\n' +
+          'var diff = date - start;\n' +
           'var oneDay = 1000 * 60 * 60 * 24;\n' +
           'var day = Math.floor(diff / oneDay) + \'\';\n' +
-          'for(day.length < 2) {\n' +
+          'while(day.length < 2) {\n' +
           '  day = \'0\' + day;\n' +
           '}\n' +
           'dateString += day;\n\n' +
@@ -1328,10 +1328,10 @@ describe('DateFormat', function() {
       eventually(function() {
         var functionBody = setDateBlock +
           'var start = new Date(date.getFullYear(), 0, 0);\n' +
-          'var diff = now - start;\n' +
+          'var diff = date - start;\n' +
           'var oneDay = 1000 * 60 * 60 * 24;\n' +
           'var day = Math.floor(diff / oneDay) + \'\';\n' +
-          'for(day.length < 3) {\n' +
+          'while(day.length < 3) {\n' +
           '  day = \'0\' + day;\n' +
           '}\n' +
           'dateString += day;\n\n' +
@@ -1834,7 +1834,7 @@ describe('DateFormat', function() {
       });
     });
 
-    it('should be able to compile a narrow period', function(done) {
+    it('should be able to compile a wide period (in en-US wide is the same as abbreviated)', function(done) {
       var localizations = getLocalizations('{variable1, date, aaaa}');
       var dependencies = getDependencies(localizations);
       var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
@@ -1843,10 +1843,10 @@ describe('DateFormat', function() {
       eventually(function() {
         var functionBody = setDateBlock +
           'if(date.getHours() < 12) {\n' +
-          '  dateString += \'a\';\n' +
+          '  dateString += \'AM\';\n' +
           '}\n' +
           'else {\n' +
-          '  dateString += \'p\';\n' +
+          '  dateString += \'PM\';\n' +
           '}\n\n' +
           'string += dateString;\n' +
           'return string;';
@@ -1866,10 +1866,10 @@ describe('DateFormat', function() {
       eventually(function() {
         var functionBody = setDateBlock +
           'if(date.getHours() < 12) {\n' +
-          '  dateString += \'AM\';\n' +
+          '  dateString += \'a\';\n' +
           '}\n' +
           'else {\n' +
-          '  dateString += \'PM\';\n' +
+          '  dateString += \'p\';\n' +
           '}\n\n' +
           'string += dateString;\n' +
           'return string;';

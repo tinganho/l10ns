@@ -3,17 +3,17 @@
  * Module dependencies.
  */
 
-var fs = require('fs')
-  , Q = require('q')
-  , parser = require('./parser')
-  , syntax = require('./syntax')
-  , _ = require('underscore')
-  , merger = require('./merger')
-  , readline = require('readline')
-  , file = require('./file')
-  , log = require('./_log')
-  , Hashids = require('hashids')
-  , hashids = new Hashids(program.LOCALIZATION_ID_HASH_SECRET, program.LOCALIZATION_ID_CHARACTER_LENGTH);
+var fs = require('fs');
+var Q = require('q');
+var parser = require('./parser');
+var syntax = require('./syntax');
+var _ = require('underscore');
+var merger = require('./merger');
+var readline = require('readline');
+var file = require('./file');
+var log = require('./_log');
+var Hashids = require('hashids');
+var hashids = new Hashids(program.LOCALIZATION_ID_HASH_SECRET, program.LOCALIZATION_ID_CHARACTER_LENGTH);
 
 /**
  * Add terminal colors

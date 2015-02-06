@@ -599,14 +599,14 @@ describe('DateFormat', function() {
       messageFormat.parse('{variable1, date, aaaa}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
       expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.time.Period);
-      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.time.Period.Formats.NARROW);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.time.Period.Formats.WIDE);
     });
 
     it('should be able to parse four consecutive period identifiers', function() {
       messageFormat.parse('{variable1, date, aaaaa}');
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
       expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.time.Period);
-      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.time.Period.Formats.WIDE);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.time.Period.Formats.NARROW);
     });
 
     it('should begin with a new period if maximum consecutive identifiers have been exceeded', function() {
@@ -614,7 +614,7 @@ describe('DateFormat', function() {
       expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.date.DateFormat);
       expect(messageFormat.messageAST[0].AST.length).to.equal(2);
       expect(messageFormat.messageAST[0].AST[0]).to.be.an.instanceOf(AST.date.time.Period);
-      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.time.Period.Formats.WIDE);
+      expect(messageFormat.messageAST[0].AST[0].format).to.equal(AST.date.time.Period.Formats.NARROW);
       expect(messageFormat.messageAST[0].AST[1]).to.be.an.instanceOf(AST.date.time.Period);
       expect(messageFormat.messageAST[0].AST[1].format).to.equal(AST.date.time.Period.Formats.ABBREVIATED);
     });

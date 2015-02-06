@@ -134,7 +134,7 @@ MessageFormat.DEFAULT_NUMBER_SYSTEM = 'latn';
  */
 MessageFormat.prototype.getMostLikelyLocale_ = function(locale) {
   if(locale in mostLikelyLocaleMapping) {
-    return MessageFormat.MOST_LIKELY_LOCALE_MAP[locale];
+    return mostLikelyLocaleMapping[locale];
   }
   else {
     return locale;

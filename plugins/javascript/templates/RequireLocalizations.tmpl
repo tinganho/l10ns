@@ -1,9 +1,4 @@
 function requireLocalizations(locale) {
-  switch(locale) { {{ for(var locale in it) { }}
-    case '{{=locale}}':
-      locale = '{{=it[locale]}}';
-      break;{{ } }}
-  }
   return (function(locale) {
     return function l(key) {
       if(!(locale in localizations)) {

@@ -506,10 +506,10 @@ AST.date.DateFormat.prototype._parsePeriod = function() {
 
   switch(length) {
     case 4:
-      format = AST.date.time.Period.Formats.NARROW;
+      format = AST.date.time.Period.Formats.WIDE;
       break;
     case 5:
-      format = AST.date.time.Period.Formats.WIDE;
+      format = AST.date.time.Period.Formats.NARROW;
       break;
   }
 

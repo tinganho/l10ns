@@ -5,6 +5,7 @@
  */
 
 var commands = require('commander');
+var spawn = require('child_process').spawn;
 var findup = require('findup-sync');
 var path = require('path');
 var open = require('open');
@@ -15,11 +16,6 @@ var utilities = require('../libraries/utilities');
 var log = require('../libraries/_log');
 var updateNotifier = require('update-notifier');
 var package = require('../package.json');
-var Insight = require('anonymous-insight');
-var insight = new Insight({
-  trackingCode: process.env.L10NS_DEV || 'UA-51369650-4',
-  pkg: package
-});
 
 /**
  * Project paths
@@ -41,6 +37,13 @@ var processRequest = (process.argv.length >= 2 && process.argv[2] !== 'init' && 
 if(processRequest && !l10nsPath) {
   console.log('You are not inside a l10ns project. Please create one with `l10ns init`.');
   return;
+}
+
+function track(cmd) {
+  spawn(process.execPath, [path.join(__dirname, 'track.js'), cmd], {
+    detached: true,
+    stdio: 'ignore'
+  }).unref();
 }
 
 /**
@@ -78,7 +81,9 @@ commands
   .command('init')
   .description('Initialize project')
   .action(function() {
-    insight.track('init');
+    // Spawn a detached process, passing the options as an environment property
+
+    track('init');
     if(findup('l10ns.json')) {
       return console.log('Project already initialized.');
     }
@@ -90,7 +95,7 @@ commands
   .command('interface')
   .description('Starts web interface')
   .action(function() {
-    insight.track('interface');
+    track('interface');
     if(!utilities.initiatedProject()) {
       return console.log('You haven\'t initialized a project yet');
     }
@@ -163,7 +168,7 @@ commands
   .command('update')
   .description('Update localization keys from source')
   .action(function() {
-    insight.track('update');
+    track('update');
     if(!utilities.initiatedProject()) {
       return console.log('You haven\'t initialized a project yet.');
     }
@@ -185,7 +190,7 @@ commands
   .command('compile')
   .description('Compile localizations')
   .action(function() {
-    insight.track('compile');
+    track('compile');
     if(!utilities.initiatedProject()) {
       return console.log('You haven\'t initialized a project yet.');
     }

@@ -149,7 +149,7 @@ Compiler.prototype.run = function() {
         formatNumberFunction: _this._indentSpaces(2, template['FormatNumberFunction']()),
         functionName: language.GET_LOCALIZATION_STRING_FUNCTION_NAME,
         localizationMap: _this._indentSpaces(2, stringMap),
-        functionBlock: _this._indentSpaces(2, template['RequireLocalizations'](mostLikelyLocaleMapping)),
+        functionBlock: _this._indentSpaces(2, template['RequireLocalizations']()),
         moduleExportBlock: _this._indentSpaces(2, template['ModuleExportBlock']({
           variableName: 'requireLocalizations'
         }))
