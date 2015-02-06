@@ -1074,7 +1074,7 @@ Use these identifiers to construct your date formatted strings.
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="table-margin">
 <td rowspan="3">Era</td>
 <td rowspan="3">G</td>
 <td>1..3</td>
@@ -1089,21 +1089,21 @@ Use these identifiers to construct your date formatted strings.
 <td>5</td>
 <td>A</td>
 </tr>
-<tr>
+<tr class="table-margin">
 <td rowspan="2">Year</td>
 <td>y</td>
 <td>1..n</td>
 <td>1996</td>
 <td>Year. Normally the length specifies the padding, but for two letters it also specifies the maximum length.</td>
 </tr>
-<tr>
+<tr class="table-margin">
 <td>Y</td>
 <td>1..n</td>
 <td>1997</td>
 <td>Year (in "Week of Year" based calendars). Normally the length specifies the padding, but for two letters it also specifies the maximum length. This year designation is used in ISO year-week calendar as defined by ISO 8601, but can be used in non-Gregorian based calendar systems where week date processing is desired. May not always be the same value as calendar year.</td>
 </tr>
 
-<tr>
+<tr class="table-margin">
 <td rowspan="6">Quarter</td>
 <td rowspan="3">Q</td>
 <td>1..2</td>
@@ -1118,7 +1118,7 @@ Use these identifiers to construct your date formatted strings.
 <td>4</td>
 <td>2nd quarter</td>
 </tr>
-<tr>
+<tr class="table-margin">
 <td rowspan="3">q</td>
 <td>1..2</td>
 <td>02</td>
@@ -1133,7 +1133,7 @@ Use these identifiers to construct your date formatted strings.
 <td>2nd quarter</td>
 </tr>
 
-<tr>
+<tr class="table-margin">
 <td rowspan="8">Month</td>
 <td rowspan="4">M</td>
 <td>1..2</td>
@@ -1150,7 +1150,7 @@ Use these identifiers to construct your date formatted strings.
 <td>5</td>
 <td>S</td>
 </tr>
-<tr>
+<tr class="table-margin">
 <td rowspan="4">L</td>
 <td>1..2</td>
 <td>09</td>
@@ -1167,41 +1167,41 @@ Use these identifiers to construct your date formatted strings.
 <td>S</td>
 </tr>
 
-<tr>
+<tr class="table-margin">
 <td rowspan="2">Week</td>
 <td>w</td>
 <td>1..2</td>
 <td>27</td>
 <td>Week of Year. Use "w" to show the minimum number of digits, or "ww" to always show two digits (zero-padding if necessary, e.g. "08").</td>
 </tr>
-<tr>
+<tr class="table-margin">
 <td>W</td>
 <td>1</td>
 <td>3</td>
 <td>Week of Month</td>
 </tr>
 
-<tr>
+<tr class="table-margin">
 <td rowspan="3">Day</td>
 <td>d</td>
 <td>1..2</td>
 <td>1</td>
 <td>Date - Day of the month. Use "d" to show the minimum number of digits, or "dd" to always show two digits (zero-padding if necessary, e.g. "08").</td>
 </tr>
-<tr>
+<tr class="table-margin">
 <td>D</td>
 <td>1..3</td>
 <td>345</td>
 <td>Day of year</td>
 </tr>
-<tr>
+<tr class="table-margin">
 <td>F</td>
 <td>1</td>
 <td>2</td>
 <td>Day of Week in Month. The example is for the 2nd Wed in July</td>
 </tr>
 
-<tr>
+<tr class="table-margin">
 <td rowspan="10">Week day</td>
 <td rowspan="5">e</td>
 <td>1..2</td>
@@ -1224,7 +1224,7 @@ Use these identifiers to construct your date formatted strings.
 <td>6</td>
 <td>Tu</td>
 </tr>
-<tr>
+<tr class="table-margin">
 <td rowspan="5">c</td>
 <td>1..2</td>
 <td>2</td>
@@ -1245,41 +1245,49 @@ Use these identifiers to construct your date formatted strings.
 <td>6</td>
 <td>Tu</td>
 
-<tr>
-<td>Period</td>
-<td>a</td>
-<td>1</td>
+<tr class="table-margin">
+<td rowspan="3">Period</td>
+<td rowspan="3">a</td>
+<td>1..3</td>
 <td>AM</td>
-<td>Period of Day</td>
+<td rowspan="3">Period of Day. Choose to format a period in an abbreviated format (AM/PM) using three period identifiers, a wide format (also AM/PM in English, but might be different in other languages) using four identifiers or a narrow format (a/p) using 5 identifiers.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>AM</td>
+</tr>
+<tr>
+<td>5</td>
+<td>a</td>
 </tr>
 
-<tr>
+<tr class="table-margin">
 <td rowspan="4">Hour</td>
 <td>h</td>
 <td>1..2</td>
 <td>11</td>
 <td>Hour [1-12]. When used in skeleton data or in a skeleton passed in an API for flexible data pattern generation, it should match the 12-hour-cycle format preferred by the locale (h or K); it should not match a 24-hour-cycle format (H or k). Use hh for zero padding.</td>
 </tr>
-<tr>
+<tr class="table-margin">
 <td>H</td>
 <td>1..2</td>
 <td>13</td>
 <td>Hour [0-23]. When used in skeleton data or in a skeleton passed in an API for flexible data pattern generation, it should match the 24-hour-cycle format preferred by the locale (H or k); it should not match a 12-hour-cycle format (h or K). Use HH for zero padding.</td>
 </tr>
-<tr>
+<tr class="table-margin">
 <td>K</td>
 <td>1..2</td>
 <td>0</td>
 <td>Hour [0-11]. When used in a skeleton, only matches K or h, see above. Use KK for zero padding.</td>
 </tr>
-<tr>
+<tr class="table-margin">
 <td>H</td>
 <td>1..2</td>
 <td>24</td>
 <td>Hour [1-24]. When used in a skeleton, only matches k or H, see above. Use kk for zero padding.</td>
 </tr>
 
-<tr>
+<tr class="table-margin">
 <td>Minute</td>
 <td>m</td>
 <td>1..2</td>
@@ -1287,21 +1295,21 @@ Use these identifiers to construct your date formatted strings.
 <td>Minute. Use "m" to show the minimum number of digits, or "mm" to always show two digits (zero-padding if necessary, e.g. "08").</td>
 </tr>
 
-<tr>
+<tr class="table-margin">
 <td rowspan="2">Second</td>
 <td>s</td>
 <td>1..2</td>
 <td>12</td>
 <td>Second. Use "s" to show the minimum number of digits, or "ss" to always show two digits (zero-padding if necessary, e.g. "08").</td>
 </tr>
-<tr>
+<tr class="table-margin">
 <td>S</td>
 <td>1..n</td>
 <td>3450</td>
 <td>Fractional Second - truncates (like other time fields) to the count of letters when formatting. Appends zeros if more than 3 letters specified. Truncates at three significant digits when parsing. (example shows display using pattern SSSS for seconds value 12.34567).</td>
 </tr>
 
-<tr>
+<tr class="table-margin">
 <td rowspan="22">Timezone</td>
 <td rowspan="2">z</td>
 <td>1..3</td>
@@ -1313,7 +1321,7 @@ Use these identifiers to construct your date formatted strings.
 <td>Pacific Daylight Time</td>
 <td>The long specific non-location format. Where that is unavailable, falls back to the long localized GMT format ("OOOO").</td>
 </tr>
-<tr>
+<tr class="table-margin">
 <td rowspan="3">Z</td>
 <td>1..3</td>
 <td>-0800</td>
@@ -1329,7 +1337,7 @@ Use these identifiers to construct your date formatted strings.
 <td>-08:00<br>Z</td>
 <td>The ISO8601 extended format with hours and minutes. The ISO8601 UTC indicator "Z" is used when local time offset is 0. This is equivalent to the "XXX" specifier.</td>
 </tr>
-<tr>
+<tr class="table-margin">
 <td rowspan="2">O</td>
 <td>1</td>
 <td>GMT-8</td>
@@ -1340,7 +1348,7 @@ Use these identifiers to construct your date formatted strings.
 <td>GMT-08:00</td>
 <td>The long localized GMT format.</td>
 </tr>
-<tr>
+<tr class="table-margin">
 <td rowspan="2">v</td>
 <td>1</td>
 <td>PT</td>
@@ -1351,10 +1359,10 @@ Use these identifiers to construct your date formatted strings.
 <td>Pacific Time</td>
 <td>The long generic non-location format. Where that is unavailable, falls back to generic location format ("VVVV"), then the long localized GMT format as the final fallback.</td>
 </tr>
-<tr>
+<tr class="table-margin">
 <td rowspan="3">V</td>
 <td>1</td>
-<td>America/Los_Angeles</td>
+<td>America/<br>Los_Angeles</td>
 <td>The long time zone ID.</td>
 </tr>
 <tr>
@@ -1368,7 +1376,7 @@ Use these identifiers to construct your date formatted strings.
 <td>The generic location format. Where that is unavailable, falls back to the long localized GMT format ("OOOO"; Note: Fallback is only necessary with a GMT-style Time Zone ID, like Etc/GMT-830.)
 This is especially useful when presenting possible timezone choices for user selection, since the naming is more uniform than the "v" format.</td>
 </tr>
-<tr>
+<tr class="table-margin">
 <td rowspan="3">x</td>
 <td>1</td>
 <td>-08<br>+0530</td>
@@ -1384,7 +1392,7 @@ This is especially useful when presenting possible timezone choices for user sel
 <td>-08:00</td>
 <td>The ISO8601 extended format with hours and minutes fields.</td>
 </tr>
-<tr>
+<tr class="table-margin">
 <td rowspan="3">X</td>
 <td>1</td>
 <td>-08<br>+0530<br>Z</td>
