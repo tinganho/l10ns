@@ -2,7 +2,7 @@ module.exports = function(app) {
   var file = require('../../../libraries/file')
     , _ = require('underscore')
     , MessageFormat = require('../../../libraries/MessageFormat')
-    , defaultMessage = 'Use <a>message format</a> to localize your string above. Click on the help buttons on the toolbar to get help on different formats.';
+    , defaultMessage = 'Use <a href="http://l10ns.org/docs.html#messageformat" target="_blank">message format</a> to localize your string above. Click on the help buttons on the toolbar to get help on different formats.';
 
   app.get('/api/:locale/l/:id', function(request, response) {
     file.readLocalizations()

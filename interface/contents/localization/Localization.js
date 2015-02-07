@@ -47,7 +47,7 @@ define(function(require) {
       new: false,
 
       l10ns: {
-        message: 'Use <a href="http://l10ns.org/docs.html#messageformat" target="_blank">message format</a> to localize your string above. Click the format buttons above for more feedback.',
+        message: 'Use <a href="http://l10ns.org/docs.html#messageformat" target="_blank">message format</a> to localize your string above. Click on the help buttons on the toolbar to get help on different formats.',
         save: 'Save',
         variables: 'VARIABLES:',
         inDefaultLocale: 'IN DEFAULT LOCALE:'

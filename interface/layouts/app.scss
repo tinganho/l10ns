@@ -20,8 +20,8 @@ body {
   z-index: 10000;
   background-color: #e04d4d;
   display: table;
+  border-bottom: 1px solid #B03D3D;
   @include user-select(none);
-  @include box-shadow(0px 2px 3px 0px rgba(0, 0, 0, 0.2));
 }
 
 .app-search {

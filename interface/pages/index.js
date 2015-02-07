@@ -16,9 +16,9 @@ module.exports = function(page) {
       })
     .hasLayout('app')
       .withRegions({
-        home: {
-          model: 'contents/home/Home',
-          view: 'contents/home/HomeView'
+        leftHeader: {
+          model: 'contents/LeftMenu/LeftMenu',
+          view: 'contents/LeftMenu/LeftMenuView'
         },
         search: {
           model: 'contents/search/Search',

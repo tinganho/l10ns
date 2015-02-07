@@ -396,7 +396,7 @@ define(function(require) {
           minTimer.end(function() {
             sinusWave.stop();
             _this.$buttons.removeClass('is-hidden').addClass('is-revealed');
-            _this.$messageText.removeClass('has-error').html(_this.model.get('message'));
+            _this.$messageText.removeClass('has-error').html(_this.model.get('l10ns').message);
           });
         },
         error: function(model, response, options) {
