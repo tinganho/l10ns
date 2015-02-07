@@ -94,7 +94,7 @@ define(function(require) {
       var _this = this;
 
       this.$el.addClass('is-active');
-      this.$dropdown.css('height', 'auto');
+      this.$dropdown.css('height', 'auto').css('padding', '10px 0');
       this.$button.off('click', this._showDropDown);
 
       _.defer(function() {
@@ -119,7 +119,7 @@ define(function(require) {
       this.$el.removeClass('is-active');
 
       setTimeout(function() {
-        _this.$dropdown.css('height', 'auto');
+        _this.$dropdown.css('height', '').css('padding', '0');
       }, 200);
 
       _.defer(function() {
