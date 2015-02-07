@@ -267,7 +267,8 @@ Page.prototype._next = function(req, res) {
       jsonScripts : jsonScripts,
       layout : _this._layoutTmpl(regions),
       modernizr : cf.MODERNIZR,
-      requirejs : cf.REQUIREJS
+      requirejs : cf.REQUIREJS,
+      useGoogleAnalytics: !process.env.L10NS_DEV
     });
 
     res.send(html);

@@ -40,7 +40,9 @@ The default document
     {{#def.scripts}}
     {{=it.layout}}
     {{=it.jsonScripts}}
+    {{?it.useGoogleAnalytics}}
     {{#def.googleAnalytics}}
+    {{?}}
 
     <script data-main="{{=it.main}}" src="{{=it.requirejs}}"></script>
   </body>
