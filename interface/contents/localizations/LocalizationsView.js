@@ -115,7 +115,7 @@ define(function(require) {
       setTimeout(function() {
         _this.$region.hide();
         app.navigate('/' + app.locale + '/l/' + id + '/' + key);
-      }, 300);
+      }, 400);
     },
 
     /**
@@ -171,7 +171,7 @@ define(function(require) {
       this.$region.removeClass('is-revealed').addClass('is-hidden');
       setTimeout(function() {
         _this.$region.hide();
-      }, 300);
+      }, 400);
     },
 
 
@@ -191,7 +191,7 @@ define(function(require) {
 
       setTimeout(function() {
         _this.$region.removeClass('is-hidden').addClass('is-revealed');
-      }, 0);
+      }, 100);
     }
   });
 });

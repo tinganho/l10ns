@@ -622,7 +622,7 @@ MessageFormat.prototype._parsePluralFormat = function(variable) {
   var offset = 0;
   var values = {};
   var offsetSyntax = /^offset:(\d)$/;
-  var exactlySyntax = /^=\d+$/;
+  var exactlySyntax = /^=\-?(\d+(\.\d+)|Infinity|infinity)?/;
   var pluralKeywords = Object.keys(this.pluralRules);
 
   // Swallow comma
@@ -783,6 +783,8 @@ MessageFormat.prototype._getPluralCase = function() {
 
   while(this._isAlphaNumeric(this.currentToken) ||
         this.currentToken === '=' ||
+        this.currentToken === '-' ||
+        this.currentToken === '.' ||
         this.currentToken === ':') {
     _case += this.currentToken;
     this.currentToken = this.lexer.getNextToken();

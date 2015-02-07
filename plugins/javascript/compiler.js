@@ -1096,7 +1096,7 @@ Compiler.prototype._compilePluralFormat = function(pluralFormat, locale) {
     var caseBody = this._getFunctionBody(pluralFormat.values[_case], locale);
     if(_case !== 'other') {
       switchBody += template['Case']({
-        case: _case,
+        case: _case.replace('infinity', 'Infinity'),
         caseBody: this._indentSpaces(2, caseBody)
       });
     }
@@ -1107,7 +1107,7 @@ Compiler.prototype._compilePluralFormat = function(pluralFormat, locale) {
     }
 
     switchBody += this.linefeed;
-    if(/^=\d+$/.test(_case)) {
+    if(/^=\-?(\d+(\.\d+)|Infinity|infinity)?/.test(_case)) {
       exactCases.push(_case);
     }
   }
@@ -1120,7 +1120,7 @@ Compiler.prototype._compilePluralFormat = function(pluralFormat, locale) {
       setCaseStatement += template['SetPluralConditionCase']({
         statementType: conditionOrder,
         variableName: pluralFormat.variable.name,
-        value: exactCases[exactCaseIndex].replace('=', '')
+        value: exactCases[exactCaseIndex].replace('=', '').replace('infinity', 'Infinity')
       });
     }
     setCaseStatement += this.linefeed;

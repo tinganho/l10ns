@@ -34,6 +34,41 @@ describe('PluralFormat', function() {
     expect(messageFormat.messageAST[0].values.other).to.eql([{ string: 'message3' }]);
   });
 
+  it('should be able to parse with negative exact cases', function() {
+    messageFormat.parse('{variable1,plural,=-1{message1} other{message2}}');
+    expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
+    expect(messageFormat.messageAST[0].values['=-1']).to.eql([{ string: 'message1' }]);
+    expect(messageFormat.messageAST[0].values.other).to.eql([{ string: 'message2' }]);
+  });
+
+  it('should be able to parse with a positive floating exact case', function() {
+    messageFormat.parse('{variable1,plural,=1.1{message1} other{message2}}');
+    expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
+    expect(messageFormat.messageAST[0].values['=1.1']).to.eql([{ string: 'message1' }]);
+    expect(messageFormat.messageAST[0].values.other).to.eql([{ string: 'message2' }]);
+  });
+
+  it('should be able to parse with a negative floating exact case', function() {
+    messageFormat.parse('{variable1,plural,=-1.1{message1} other{message2}}');
+    expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
+    expect(messageFormat.messageAST[0].values['=-1.1']).to.eql([{ string: 'message1' }]);
+    expect(messageFormat.messageAST[0].values.other).to.eql([{ string: 'message2' }]);
+  });
+
+  it('should be able to parse with a positive infinity exact case', function() {
+    messageFormat.parse('{variable1,plural,=infinity{message1} other{message2}}');
+    expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
+    expect(messageFormat.messageAST[0].values['=infinity']).to.eql([{ string: 'message1' }]);
+    expect(messageFormat.messageAST[0].values.other).to.eql([{ string: 'message2' }]);
+  });
+
+  it('should be able to parse with a negative infinity exact case', function() {
+    messageFormat.parse('{variable1,plural,=-infinity{message1} other{message2}}');
+    expect(messageFormat.messageAST[0].variable.name).to.equal('variable1');
+    expect(messageFormat.messageAST[0].values['=-infinity']).to.eql([{ string: 'message1' }]);
+    expect(messageFormat.messageAST[0].values.other).to.eql([{ string: 'message2' }]);
+  });
+
   it('should be able to set offset', function() {
     messageFormat.parse('{variable1,plural, offset:1 other{message1}}');
     expect(messageFormat.messageAST[0]).to.be.an.instanceOf(AST.PluralFormat);

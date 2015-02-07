@@ -61,13 +61,173 @@ describe('PluralFormat', function() {
       'var string = \'\';\n' +
       'var _case;\n' +
       'if(it.variable1 === 1) {\n' +
-      '  _case = \'=\' + 1;\n' +
+      '  _case = \'=\' + (1);\n' +
       '}\n' +
       'else {\n' +
       '  _case = this.__getPluralKeyword(it.variable1);\n' +
       '}\n' +
       'switch(_case) {\n' +
       '  case \'=1\':\n' +
+      '    string += \'message1\';\n' +
+      '    break;\n' +
+      '  default:\n' +
+      '    string += \'message2\';\n' +
+      '    break;\n' +
+      '}\n' +
+      'return string;';
+      expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+        functionBody: indentSpaces(8, functionBody)
+      }));
+      done();
+    });
+  });
+
+  it('should be able to compile with negative exact cases', function(done) {
+    var localizations = getLocalizations('{variable1, plural, =-1{message1} other{message2}}');
+    var dependencies = getDependencies(localizations);
+    var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+    compiler.run();
+    eventually(function() {
+      var functionBody =
+      'var string = \'\';\n' +
+      'var _case;\n' +
+      'if(it.variable1 === -1) {\n' +
+      '  _case = \'=\' + (-1);\n' +
+      '}\n' +
+      'else {\n' +
+      '  _case = this.__getPluralKeyword(it.variable1);\n' +
+      '}\n' +
+      'switch(_case) {\n' +
+      '  case \'=-1\':\n' +
+      '    string += \'message1\';\n' +
+      '    break;\n' +
+      '  default:\n' +
+      '    string += \'message2\';\n' +
+      '    break;\n' +
+      '}\n' +
+      'return string;';
+      expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+        functionBody: indentSpaces(8, functionBody)
+      }));
+      done();
+    });
+  });
+
+  it('should be able to compile with a floating exact cases', function(done) {
+    var localizations = getLocalizations('{variable1, plural, =1.1{message1} other{message2}}');
+    var dependencies = getDependencies(localizations);
+    var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+    compiler.run();
+    eventually(function() {
+      var functionBody =
+      'var string = \'\';\n' +
+      'var _case;\n' +
+      'if(it.variable1 === 1.1) {\n' +
+      '  _case = \'=\' + (1.1);\n' +
+      '}\n' +
+      'else {\n' +
+      '  _case = this.__getPluralKeyword(it.variable1);\n' +
+      '}\n' +
+      'switch(_case) {\n' +
+      '  case \'=1.1\':\n' +
+      '    string += \'message1\';\n' +
+      '    break;\n' +
+      '  default:\n' +
+      '    string += \'message2\';\n' +
+      '    break;\n' +
+      '}\n' +
+      'return string;';
+      expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+        functionBody: indentSpaces(8, functionBody)
+      }));
+      done();
+    });
+  });
+
+  it('should be able to compile with a negative floating exact cases', function(done) {
+    var localizations = getLocalizations('{variable1, plural, =-1.1{message1} other{message2}}');
+    var dependencies = getDependencies(localizations);
+    var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+    compiler.run();
+    eventually(function() {
+      var functionBody =
+      'var string = \'\';\n' +
+      'var _case;\n' +
+      'if(it.variable1 === -1.1) {\n' +
+      '  _case = \'=\' + (-1.1);\n' +
+      '}\n' +
+      'else {\n' +
+      '  _case = this.__getPluralKeyword(it.variable1);\n' +
+      '}\n' +
+      'switch(_case) {\n' +
+      '  case \'=-1.1\':\n' +
+      '    string += \'message1\';\n' +
+      '    break;\n' +
+      '  default:\n' +
+      '    string += \'message2\';\n' +
+      '    break;\n' +
+      '}\n' +
+      'return string;';
+      expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+        functionBody: indentSpaces(8, functionBody)
+      }));
+      done();
+    });
+  });
+
+  it('should be able to compile with an infinity exact case', function(done) {
+    var localizations = getLocalizations('{variable1, plural, =infinity{message1} other{message2}}');
+    var dependencies = getDependencies(localizations);
+    var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+    compiler.run();
+    eventually(function() {
+      var functionBody =
+      'var string = \'\';\n' +
+      'var _case;\n' +
+      'if(it.variable1 === Infinity) {\n' +
+      '  _case = \'=\' + (Infinity);\n' +
+      '}\n' +
+      'else {\n' +
+      '  _case = this.__getPluralKeyword(it.variable1);\n' +
+      '}\n' +
+      'switch(_case) {\n' +
+      '  case \'=Infinity\':\n' +
+      '    string += \'message1\';\n' +
+      '    break;\n' +
+      '  default:\n' +
+      '    string += \'message2\';\n' +
+      '    break;\n' +
+      '}\n' +
+      'return string;';
+      expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
+        functionBody: indentSpaces(8, functionBody)
+      }));
+      done();
+    });
+  });
+
+  it('should be able to compile with a negative infinity exact case', function(done) {
+    var localizations = getLocalizations('{variable1, plural, =-infinity{message1} other{message2}}');
+    var dependencies = getDependencies(localizations);
+    var compiler = proxyquire('../plugins/javascript/compiler', dependencies);
+
+    compiler.run();
+    eventually(function() {
+      var functionBody =
+      'var string = \'\';\n' +
+      'var _case;\n' +
+      'if(it.variable1 === -Infinity) {\n' +
+      '  _case = \'=\' + (-Infinity);\n' +
+      '}\n' +
+      'else {\n' +
+      '  _case = this.__getPluralKeyword(it.variable1);\n' +
+      '}\n' +
+      'switch(_case) {\n' +
+      '  case \'=-Infinity\':\n' +
       '    string += \'message1\';\n' +
       '    break;\n' +
       '  default:\n' +

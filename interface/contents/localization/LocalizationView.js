@@ -444,7 +444,7 @@ define(function(require) {
 
       setTimeout(function() {
         _this.$region.removeClass('is-hidden').addClass('is-revealed');
-      }, 300);
+      }, 400);
     },
 
     /**
