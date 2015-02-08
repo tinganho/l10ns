@@ -81,8 +81,6 @@ commands
   .command('init')
   .description('Initialize project')
   .action(function() {
-    // Spawn a detached process, passing the options as an environment property
-
     track('init');
     if(findup('l10ns.json')) {
       return console.log('Project already initialized.');
@@ -117,6 +115,7 @@ commands
   .command('search [q]')
   .description('Search localizations')
   .action(function(q) {
+    track('search');
     if(!utilities.initiatedProject()) {
       return console.log('You haven\'t initialized a project yet');
     }
@@ -142,6 +141,7 @@ commands
   .command('log')
   .description('Show log')
   .action(function() {
+    track('log');
     if(!utilities.initiatedProject()) {
       return console.log('You haven\'t initialized a project yet');
     }
@@ -214,6 +214,7 @@ commands
   .command('set [reference] [value]')
   .description('Set localization')
   .action(function(reference, value) {
+    track('set');
     if(!utilities.initiatedProject()) {
       return console.log('You haven\'t initialized a project yet.');
     }
@@ -235,6 +236,7 @@ commands
   .command('configs')
   .description('Show configurations')
   .action(function() {
+    track('configs');
     if(!utilities.initiatedProject()) {
       return console.log('You haven\'t initialized a project yet.');
     }
