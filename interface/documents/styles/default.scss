@@ -20,10 +20,12 @@ thead, tbody {
   overflow: hidden;
 }
 
-// H5bp
-@import "h5bp";
-@include h5bp-base-styles;
-@include h5bp-helpers;
+/* Vendor */
+@import "CSS:../../vendor/nprogress/nprogress";
+#nprogress .bar {
+  background: #3CE731;
+  z-index: 10000;
+}
 
 // Box sizing
 @import "compass/css3/box-sizing";

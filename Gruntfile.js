@@ -1,6 +1,6 @@
 
 var jshintGlobals = require('jshint-globals')
-  , compassRequires = ['compass-placeholder', 'compass-retina-sprites', 'animation', 'compass-h5bp'];
+  , compassRequires = ['compass-placeholder', 'compass-retina-sprites', 'animation', 'sass-css-importer'];
 
 module.exports = function(grunt) {
 
@@ -67,6 +67,7 @@ module.exports = function(grunt) {
           sassDir: 'interface/documents/styles',
           cssDir: 'interface/public/styles/documents',
           debugInfo: false,
+          bundleExec: true,
           noLineComments: true,
           imagesDir: 'interface/public/images',
           relativeAssets: true
@@ -80,6 +81,7 @@ module.exports = function(grunt) {
           sassDir: 'interface/contents/styles',
           cssDir: 'interface/public/styles/content',
           debugInfo: false,
+          bundleExec: true,
           noLineComments: true,
           imagesDir: 'interface/public/images',
           relativeAssets: true,

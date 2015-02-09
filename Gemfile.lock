@@ -28,6 +28,8 @@ GEM
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
     sass (3.3.14)
+    sass-css-importer (1.0.0.beta.0)
+      sass (>= 3.1)
     sassy-strings (1.0.0)
       compass (>= 0.12.2)
 
@@ -39,3 +41,4 @@ DEPENDENCIES
   compass (= 1.0.0)
   compass-placeholder
   compass-retina-sprites
+  sass-css-importer

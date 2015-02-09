@@ -10,7 +10,8 @@
     "url-parser": "~2.2.1",
     "jquery": "~2.1.0",
     "backbone-relational": "~0.8.8",
-    "minTimer": "~0.1.2"
+    "minTimer": "~0.1.2",
+    "nprogress": "~0.1.6"
   },
   "devDependencies": {
     "mocha": "~1.18.2",

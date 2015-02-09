@@ -10,12 +10,16 @@ requirejs.config({
     'superagent': 'vendor/superagent/superagent',
     'jquery.hammer': 'vendor/hammerjs/dist/jquery.hammer',
     'purl': 'vendor/purl/purl',
+    'NProgress': 'vendor/nprogress/nprogress',
     'jquery.formParams': 'vendor/jquery.formParams/jquery.formParams',
     'xregexp': 'vendor/xregexp/xregexp-all',
     'minTimer': 'vendor/minTimer/minTimer'
   },
 
   shim: {
+    'NProgress': {
+      exports: 'NProgress'
+    },
     'superagent': {
       exports: 'request'
     },

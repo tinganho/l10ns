@@ -3,9 +3,14 @@ if(typeof define !== 'function') {
 }
 
 define(function(require) {
-  var View = inServer ? require('../../libraries/View') : require('View')
-    , template = inServer ? content_appTemplates : require('contentTemplates')
-    , _ = require('underscore');
+  var View = inServer ? require('../../libraries/View') : require('View');
+  var template = inServer ? content_appTemplates : require('contentTemplates');
+  var _ = require('underscore');
+  if(inClient) {
+    var request = require('request')
+    var NProgress = require('NProgress');
+  }
+
 
   return View.extend({
 
@@ -80,6 +85,24 @@ define(function(require) {
 
     _addMouseInteractions: function() {
       this.$home.on('click', this._navigateHome);
+      this.$compile.on('click', this._compile);
+    },
+
+    /**
+     * Compile localizations
+     *
+     * @handler
+     * @api private
+     */
+
+    _compile: function() {
+      NProgress.start();
+      request
+        .get('/api/compile')
+        .send({})
+        .end(function(error, response) {
+          NProgress.done();
+        });
     },
 
     /**
