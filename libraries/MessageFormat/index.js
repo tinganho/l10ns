@@ -29,8 +29,8 @@ function MessageFormat(locale) {
   else {
     this.languageModifier = null;
   }
-  this.language = /^([a-z]+)\-/.exec(this.locale)[1];
-  this.region = /\-([A-Z]+)$/.exec(this.locale)[1];
+  this.language = /^([a-z]+)\-?/.exec(this.locale)[1];
+  this.region = (/\-([A-Z]+)$/.exec(this.locale) || [])[1];
   this.variables = null;
   this.pluralRules = {};
   this.ordinalRules = {};
