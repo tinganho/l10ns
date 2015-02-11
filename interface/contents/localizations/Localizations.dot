@@ -9,7 +9,7 @@
   <tbody>
     {{~it :localization:index}}
       <tr class="localization" data-id="{{!localization.id}}" data-key="{{!localization.key}}">
-        <td class="localization-col localization-key">{{!localization.keyText}}</td>
+        <td class="localization-col localization-key">{{=localization.keyText}}</td>
         <td class="localization-col localization-value">{{!localization.value.replace('\n', '<br>')}}</td>
       </tr>
     {{~}}

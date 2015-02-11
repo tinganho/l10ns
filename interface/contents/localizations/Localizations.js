@@ -68,7 +68,7 @@ define(function(require) {
 
                 for(var index = 0; index < localizationsWithRequestedLocale.length; index++) {
                   localizationsWithRequestedLocale[index].keyText =
-                    localizationsWithRequestedLocale[index].key + ' | ' +  localizationsWithDefaultLocale[index].value;
+                    localizationsWithRequestedLocale[index].key + ' <br><b> ' +  localizationsWithDefaultLocale[index].value +'</b>';
                 }
               }
               else {
