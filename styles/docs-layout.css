@@ -10,7 +10,7 @@ body {
   z-index: 1;
   height: 28px;
   padding: 10px 0;
-  background-color: #fb6c6c;
+  background-color: rgb(224, 77, 77);
   box-shadow: 1px 1px 1px rgba(0,0,0,0.3);
 }
 
