@@ -125,7 +125,7 @@ Set.prototype._getKey = function(reference) {
     });
   }
   else {
-    deferred.resolve(ref);
+    deferred.resolve(reference);
   }
 
   return deferred.promise;
