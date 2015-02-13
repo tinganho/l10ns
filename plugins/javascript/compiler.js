@@ -15,7 +15,6 @@ var digits = require('./digits');
 var defer = require('q').defer;
 var LDML = { AST: require('../../libraries/LDML/AST') };
 var timezones = require('../../IANA/latest');
-var mostLikelyLocaleMapping = require('../../configurations/mostLikelyLocaleMapping');
 
 
 /**

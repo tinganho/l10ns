@@ -17,9 +17,9 @@ describe('MessageFormat', function() {
       expect(messageFormat.percentagePatterns['latn']).to.equal('#,##0%');
     });
 
-    it('if language modifier is missing it should set the most likely locale', function() {
+    it('if language script is missing it should set the most likely language tag', function() {
       var messageFormat = new MessageFormat('zh-CN');
-      expect(messageFormat.locale).to.equal('zh-Hans-CN');
+      expect(messageFormat.languageTag).to.equal('zh-Hans-CN');
     });
 
     it('should read currencies', function() {
@@ -71,6 +71,13 @@ describe('MessageFormat', function() {
           nan: 'NaN'
         }
       });
+    });
+
+    it('should throw an error if wrong language tag is used', function() {
+      var method = function() {
+        new MessageFormat('wrong-tag');
+      };
+      expect(method).to.throw('Your language tag (wrong-tag) are not bcp47 compliant. For more info https://tools.ietf.org/html/bcp47.');
     });
   });
 

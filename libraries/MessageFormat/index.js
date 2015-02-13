@@ -12,25 +12,23 @@ var _ = require('underscore');
 var currencySymbols = require('./currencySymbols');
 var moment = require('moment');
 var cache = {};
-var languageModifier = /\-([a-zA-Z]+)\-/;
-var mostLikelyLocaleMapping = require('../../configurations/mostLikelyLocaleMapping');
+var bcp47 = require('bcp47');
+var mostLikelyLanguageTagMapping = require('../../configurations/mostLikelyLanguageTagMapping');
 
 /**
  * MessageFormat class
  *
  * @constructor
  */
-function MessageFormat(locale) {
-  this.locale = this.getMostLikelyLocale_(locale || program.defaultLocale);
-  languageModifier.index = 0;
-  if(languageModifier.test(this.locale)) {
-    this.languageModifier = /\-([a-zA-Z]+)\-/.exec(this.locale)[1];
+function MessageFormat(languageTag) {
+  this.languageTag = this.getMostLikelyLanguageTag_(languageTag || program.defaultLanguageTag);
+  var languageTag = bcp47.parse(this.languageTag);
+  if(!languageTag) {
+    throw new TypeError('Your language tag (' + this.languageTag + ') are not bcp47 compliant. For more info https://tools.ietf.org/html/bcp47.');
   }
-  else {
-    this.languageModifier = null;
-  }
-  this.language = /^([a-z]+)\-/.exec(this.locale)[1];
-  this.region = /\-([A-Z]+)$/.exec(this.locale)[1];
+  this.script = languageTag.langtag.script;
+  this.language = languageTag.langtag.language.language;
+  this.region = languageTag.langtag.region;
   this.variables = null;
   this.pluralRules = {};
   this.ordinalRules = {};
@@ -44,14 +42,14 @@ function MessageFormat(locale) {
   this.currencyPatterns = {};
   this.currencies = {};
   this.date = {};
-  this.localeDocument = null;
+  this.languageTagDocument = null;
   this.languageDocument = null;
   this.rootDocument = null;
   this._currentNumberSystem = 'latn';
   this.currencyUnitPattern = {};
 
-  if(typeof cache[this.locale] === 'undefined') {
-    cache[this.locale] = {};
+  if(typeof cache[this.languageTag] === 'undefined') {
+    cache[this.languageTag] = {};
   }
 
   this._readDocuments();
@@ -132,12 +130,12 @@ MessageFormat.DEFAULT_NUMBER_SYSTEM = 'latn';
  * @return {String} locale
  * @api private
  */
-MessageFormat.prototype.getMostLikelyLocale_ = function(locale) {
-  if(locale in mostLikelyLocaleMapping) {
-    return mostLikelyLocaleMapping[locale];
+MessageFormat.prototype.getMostLikelyLanguageTag_ = function(language) {
+  if(language in mostLikelyLanguageTagMapping) {
+    return mostLikelyLanguageTagMapping[language];
   }
   else {
-    return locale;
+    return language;
   }
 };
 
@@ -456,13 +454,13 @@ MessageFormat.prototype._parseSimpleFormat = function(type, variable) {
 
   switch(type) {
     case 'date':
-      return new AST.date.DateFormat(this.locale, variable, argument, this.date, this._currentNumberSystem);
+      return new AST.date.DateFormat(this.languageTag, variable, argument, this.date, this._currentNumberSystem);
     case 'number':
       if(!this.decimalPatterns.hasOwnProperty(this._currentNumberSystem)) {
-        throw new TypeError('Locale `' + this.locale + '` does not have `'  + this._currentNumberSystem + '` number system.');
+        throw new TypeError('Locale `' + this.languageTag + '` does not have `'  + this._currentNumberSystem + '` number system.');
       }
       return new AST.NumberFormat(
-        this.locale,
+        this.languageTag,
         variable,
         argument,
         this.numberSymbols[this._currentNumberSystem],
@@ -528,7 +526,7 @@ MessageFormat.prototype._parseCurrencyFormat = function(variable) {
   }
 
   return new AST.CurrencyFormat(
-    this.locale,
+    this.languageTag,
     variable,
     context,
     type,
@@ -667,7 +665,7 @@ MessageFormat.prototype._parsePluralFormat = function(variable) {
           throw new TypeError('Expected closing bracket \'}\' in instead got \'' + this.currentToken + '\' in ' + this.lexer.getLatestTokensLog());
         }
         this.currentToken = this.lexer.getNextToken();
-        return new AST.PluralFormat(this.locale, variable, values, offset);
+        return new AST.PluralFormat(this.languageTag, variable, values, offset);
       }
     }
     else {
@@ -732,7 +730,7 @@ MessageFormat.prototype._parseSelectordinalFormat = function(variable) {
           throw new TypeError('Expected closing bracket \'}\' in instead got \'' + this.currentToken + '\' in ' + this.lexer.getLatestTokensLog());
         }
         this.currentToken = this.lexer.getNextToken();
-        return new AST.SelectordinalFormat(this.locale, variable, values, offset);
+        return new AST.SelectordinalFormat(this.languageTag, variable, values, offset);
       }
     }
     else {
@@ -852,8 +850,8 @@ MessageFormat.prototype._swallowWhiteSpace = function() {
  * @api private
  */
 MessageFormat.prototype._readPluralizationRules = function() {
-  if(cache[this.locale].pluralRules) {
-    this.pluralRules = cache[this.locale].pluralRules;
+  if(cache[this.languageTag].pluralRules) {
+    this.pluralRules = cache[this.languageTag].pluralRules;
     return;
   }
 
@@ -868,7 +866,7 @@ MessageFormat.prototype._readPluralizationRules = function() {
     [contains(concat(\' \', normalize-space(@locales), \' \'), \' ' + _this.language + '\')]');
 
   if(!pluralRules) {
-    throw new TypeError('No plural rules exist for ' + this.locale + ' in CLDR.');
+    throw new TypeError('No plural rules exist for ' + this.languageTag + ' in CLDR.');
   }
 
   pluralRules.childNodes().forEach(function(pluralRule) {
@@ -877,7 +875,7 @@ MessageFormat.prototype._readPluralizationRules = function() {
     _this.pluralRules[_case].example = LDML.integerExample;
   });
 
-  cache[this.locale].pluralRules = this.pluralRules;
+  cache[this.languageTag].pluralRules = this.pluralRules;
 };
 
 
@@ -888,8 +886,8 @@ MessageFormat.prototype._readPluralizationRules = function() {
  * @api private
  */
 MessageFormat.prototype._readOrdinalRules = function() {
-  if(cache[this.locale].ordinalRules) {
-    this.ordinalRules = cache[this.locale].ordinalRules;
+  if(cache[this.languageTag].ordinalRules) {
+    this.ordinalRules = cache[this.languageTag].ordinalRules;
     return;
   }
 
@@ -905,7 +903,7 @@ MessageFormat.prototype._readOrdinalRules = function() {
     [contains(concat(\' \', normalize-space(@locales), \' \'), \' ' + _this.language + '\')]');
 
   if(!ordinalRules) {
-    throw new TypeError('No ordinal rules exist for ' + this.locale + ' in CLDR.');
+    throw new TypeError('No ordinal rules exist for ' + this.languageTag + ' in CLDR.');
   }
 
   ordinalRules.childNodes().forEach(function(pluralRule) {
@@ -914,7 +912,7 @@ MessageFormat.prototype._readOrdinalRules = function() {
     _this.ordinalRules[_case].example = LDML.integerExample;
   });
 
-  cache[this.locale].ordinalRules = this.ordinalRules;
+  cache[this.languageTag].ordinalRules = this.ordinalRules;
 };
 
 
@@ -935,37 +933,37 @@ MessageFormat.prototype._readDocuments = function() {
     this.rootDocument = cache.rootDocument;
   }
 
-  if(!cache[this.locale].localeDocument) {
+  if(!cache[this.languageTag].localeDocument) {
     var localeDocumentPath;
-    if(this.languageModifier) {
-      localeDocumentPath = path.join(__dirname, '../../CLDR/common/main/' + this.language + '_' + this.languageModifier + '_' + this.region + '.xml');
+    if(this.script) {
+      localeDocumentPath = path.join(__dirname, '../../CLDR/common/main/' + this.language + '_' + this.script + '_' + this.region + '.xml');
     }
     else {
       localeDocumentPath = path.join(__dirname, '../../CLDR/common/main/' + this.language + '_' + this.region + '.xml');
     }
     if(fs.existsSync(localeDocumentPath)) {
-      cache[this.locale].localeDocument = this.localeDocument = xml.parseXmlString(fs.readFileSync(localeDocumentPath, 'utf-8'), { noblanks: true });
+      cache[this.languageTag].localeDocument = this.languageTagDocument = xml.parseXmlString(fs.readFileSync(localeDocumentPath, 'utf-8'), { noblanks: true });
     }
   }
   else {
-    this.localeDocument = cache[this.locale].localeDocument;
+    this.languageTagDocument = cache[this.languageTag].localeDocument;
   }
 
-  if(!cache[this.locale].languageModifierDocument) {
-    var languageModifierDocumentPath = path.join(__dirname, '../../CLDR/common/main/' + this.language + '_' + this.languageModifier + '.xml');
-    if(fs.existsSync(languageModifierDocumentPath)) {
-      cache[this.locale].languageModifierDocument = this.languageModifierDocument = xml.parseXmlString(fs.readFileSync(languageModifierDocumentPath, 'utf-8'), { noblanks: true });
+  if(!cache[this.languageTag].scriptDocument) {
+    var scriptDocumentPath = path.join(__dirname, '../../CLDR/common/main/' + this.language + '_' + this.script + '.xml');
+    if(fs.existsSync(scriptDocumentPath)) {
+      cache[this.languageTag].scriptDocument = this.scriptDocument = xml.parseXmlString(fs.readFileSync(scriptDocumentPath, 'utf-8'), { noblanks: true });
     }
   }
 
-  if(!cache[this.locale].languageDocument) {
+  if(!cache[this.languageTag].languageDocument) {
     var languageDocumentPath = path.join(__dirname, '../../CLDR/common/main/' + this.language + '.xml');
     if(fs.existsSync(languageDocumentPath)) {
-      cache[this.locale].languageDocument = this.languageDocument = xml.parseXmlString(fs.readFileSync(languageDocumentPath, 'utf-8'), { noblanks: true });
+      cache[this.languageTag].languageDocument = this.languageDocument = xml.parseXmlString(fs.readFileSync(languageDocumentPath, 'utf-8'), { noblanks: true });
     }
   }
   else {
-    this.languageDocument = cache[this.locale].languageDocument;
+    this.languageDocument = cache[this.languageTag].languageDocument;
   }
 };
 
@@ -977,8 +975,8 @@ MessageFormat.prototype._readDocuments = function() {
  * @api private
  */
 MessageFormat.prototype._readTimezone = function() {
-  if(cache[this.locale].timezones) {
-    this.timezones = cache[this.locale].timezones;
+  if(cache[this.languageTag].timezones) {
+    this.timezones = cache[this.languageTag].timezones;
     return;
   }
 
@@ -1070,7 +1068,7 @@ MessageFormat.prototype._readTimezone = function() {
     }
   }
 
-  this.timezones = cache[this.locale].timezones = timezones;
+  this.timezones = cache[this.languageTag].timezones = timezones;
 };
 
 
@@ -1110,16 +1108,16 @@ MessageFormat.prototype._getXMLNode = function(path, idAttribute) {
   parentNodePath = parentNodePath.slice(0, parentNodePath.length - 1).join('/');
 
   if(!idAttribute) {
-    if(this.localeDocument) {
-      localeNode = this.localeDocument.get(path);
+    if(this.languageTagDocument) {
+      localeNode = this.languageTagDocument.get(path);
       if(localeNode) {
         return localeNode;
       }
     }
-    if(this.languageModifierDocument) {
-      languageModifierNode = this.languageModifierDocument.get(path);
-      if(languageModifierNode) {
-        return languageModifierNode;
+    if(this.scriptDocument) {
+      scriptNode = this.scriptDocument.get(path);
+      if(scriptNode) {
+        return scriptNode;
       }
     }
     if(this.languageDocument) {
@@ -1150,8 +1148,8 @@ MessageFormat.prototype._getXMLNode = function(path, idAttribute) {
     }
   }
   else {
-    if(this.localeDocument) {
-      resultNode = this.localeDocument.get(parentNodePath);
+    if(this.languageTagDocument) {
+      resultNode = this.languageTagDocument.get(parentNodePath);
     }
     if(this.languageDocument) {
       node = this.languageDocument.get(parentNodePath);
@@ -1171,16 +1169,16 @@ MessageFormat.prototype._getXMLNode = function(path, idAttribute) {
         }
       }
     }
-    if(this.languageModifierDocument) {
-      node = this.languageModifierDocument.get(parentNodePath);
+    if(this.scriptDocument) {
+      node = this.scriptDocument.get(parentNodePath);
       if(node && node.childNodes().length > 0) {
-        languageModifierNodes = node.childNodes();
+        scriptNodes = node.childNodes();
         if(resultNode) {
-          languageModifierNodes.forEach(function(languageModifierNode_) {
-            attributeValue = languageModifierNode_.attr(idAttribute).value();
+          scriptNodes.forEach(function(scriptNode_) {
+            attributeValue = scriptNode_.attr(idAttribute).value();
             resultNodeFinding = resultNode.get('./' + endNodePath + '[@' + idAttribute + '="' + attributeValue + '"]');
             if(!resultNodeFinding) {
-              resultNode.addChild(languageModifierNode_);
+              resultNode.addChild(scriptNode_);
             }
           });
         }
@@ -1254,8 +1252,8 @@ MessageFormat.prototype._getAbsolutePath = function(absolutePath, relativePath, 
  */
 MessageFormat.prototype.getCLDRPeriodNode = function() {
   var node;
-  if(this.localeDocument) {
-    node = this.localeDocument.get(path);
+  if(this.languageTagDocument) {
+    node = this.languageTagDocument.get(path);
   }
   if(!node) {
     node = this.languageDocument.get(path);
@@ -1284,12 +1282,12 @@ MessageFormat.prototype.getCLDRPeriodNode = function() {
  * @api private
  */
 MessageFormat.prototype._readNumberFormatPatterns = function() {
-  if(cache[this.locale].defaultNumberSystem) {
-    this.defaultNumberSystem = cache[this.locale].defaultNumberSystem;
-    this.nativeNumberSystem = cache[this.locale].nativeNumberSystem;
-    this.decimalPatterns = cache[this.locale].decimalPatterns;
-    this.percentagePatterns = cache[this.locale].percentagePatterns;
-    this.currencyPatterns = cache[this.locale].currencyPatterns;
+  if(cache[this.languageTag].defaultNumberSystem) {
+    this.defaultNumberSystem = cache[this.languageTag].defaultNumberSystem;
+    this.nativeNumberSystem = cache[this.languageTag].nativeNumberSystem;
+    this.decimalPatterns = cache[this.languageTag].decimalPatterns;
+    this.percentagePatterns = cache[this.languageTag].percentagePatterns;
+    this.currencyPatterns = cache[this.languageTag].currencyPatterns;
     return;
   }
 
@@ -1344,11 +1342,11 @@ MessageFormat.prototype._readNumberFormatPatterns = function() {
     }
   }
 
-  cache[this.locale].defaultNumberSystem = this.defaultNumberSystem;
-  cache[this.locale].nativeNumberSystem = this.nativeNumberSystem;
-  cache[this.locale].decimalPatterns = this.decimalPatterns;
-  cache[this.locale].percentagePatterns = this.percentagePatterns;
-  cache[this.locale].currencyPatterns = this.currencyPatterns;
+  cache[this.languageTag].defaultNumberSystem = this.defaultNumberSystem;
+  cache[this.languageTag].nativeNumberSystem = this.nativeNumberSystem;
+  cache[this.languageTag].decimalPatterns = this.decimalPatterns;
+  cache[this.languageTag].percentagePatterns = this.percentagePatterns;
+  cache[this.languageTag].currencyPatterns = this.currencyPatterns;
 };
 
 
@@ -1361,8 +1359,8 @@ MessageFormat.prototype._readNumberFormatPatterns = function() {
  * @api private
  */
 MessageFormat.prototype._readNumberSymbols = function() {
-  if(cache[this.locale].numberSymbols) {
-    this.numberSymbols = cache[this.locale].numberSymbols;
+  if(cache[this.languageTag].numberSymbols) {
+    this.numberSymbols = cache[this.languageTag].numberSymbols;
     return;
   }
 
@@ -1385,7 +1383,7 @@ MessageFormat.prototype._readNumberSymbols = function() {
     }
   }
 
-  cache[this.locale].numberSymbols = this.numberSymbols;
+  cache[this.languageTag].numberSymbols = this.numberSymbols;
 };
 
 
@@ -1396,16 +1394,16 @@ MessageFormat.prototype._readNumberSymbols = function() {
  * @api private
  */
 MessageFormat.prototype._readCurrencyData = function() {
-  if(cache[this.locale].currencies) {
-    this.currencyUnitPattern = cache[this.locale].currencyUnitPattern;
-    this.currencies = cache[this.locale].currencies;
+  if(cache[this.languageTag].currencies) {
+    this.currencyUnitPattern = cache[this.languageTag].currencyUnitPattern;
+    this.currencies = cache[this.languageTag].currencies;
     return;
   }
 
   var _this = this;
   var currencyUnitPatterns;
-  if(this.localeDocument) {
-    currencyUnitPatterns = this.localeDocument.get(
+  if(this.languageTagDocument) {
+    currencyUnitPatterns = this.languageTagDocument.get(
       '//ldml/numbers/currencyFormats[@numberSystem=\'latn\']');
   }
   if(!currencyUnitPatterns) {
@@ -1413,7 +1411,7 @@ MessageFormat.prototype._readCurrencyData = function() {
       '//ldml/numbers/currencyFormats[@numberSystem=\'latn\']');
   }
   if(!currencyUnitPatterns) {
-    throw new TypeError('No currency unit pattern exist for ' + this.locale + ' in CLDR.');
+    throw new TypeError('No currency unit pattern exist for ' + this.languageTag + ' in CLDR.');
   }
   currencyUnitPatterns.childNodes().forEach(function(pattern) {
     if(pattern.name() === 'unitPattern') {
@@ -1425,8 +1423,8 @@ MessageFormat.prototype._readCurrencyData = function() {
     Object.prototype.toString.call(project.currencies) === '[object Array]') {
     project.currencies.forEach(function(currency) {
       var currencyNames;
-      if(_this.localeDocument) {
-        currencyNames = _this.localeDocument.get(
+      if(_this.languageTagDocument) {
+        currencyNames = _this.languageTagDocument.get(
           '//ldml/numbers/currencies/currency[@type=\'' + currency + '\']');
       }
       if(!currencyNames) {
@@ -1463,8 +1461,8 @@ MessageFormat.prototype._readCurrencyData = function() {
     });
   }
 
-  cache[this.locale].currencyUnitPattern = this.currencyUnitPattern;
-  cache[this.locale].currencies = this.currencies;
+  cache[this.languageTag].currencyUnitPattern = this.currencyUnitPattern;
+  cache[this.languageTag].currencies = this.currencies;
 };
 
 
@@ -1475,8 +1473,8 @@ MessageFormat.prototype._readCurrencyData = function() {
  * @api private
  */
 MessageFormat.prototype._readDateData = function() {
-  if(cache[this.locale].date) {
-    this.date = cache[this.locale].date;
+  if(cache[this.languageTag].date) {
+    this.date = cache[this.languageTag].date;
     return;
   }
   // Era
@@ -1743,7 +1741,7 @@ MessageFormat.prototype._readDateData = function() {
     }
   };
 
-  cache[this.locale].date = this.date;
+  cache[this.languageTag].date = this.date;
 };
 
 /**
