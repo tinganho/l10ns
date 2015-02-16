@@ -204,7 +204,7 @@ For usage just require the locale you need and set it to the variable <span clas
 </p>
 
 <code>
-var l = requireLocalizations(<span class="red">'en-US'</span>);
+<span class="blue">var</span> l = requireLocalizations(<span class="red">'en-US'</span>);
 </code>
 
 <p>
@@ -212,7 +212,7 @@ You can also simply require each locale directly. And there will be no need to c
 <p>
 
 <code>
-var l = require('/path/to/output/en-US');
+<span class="blue">var</span> l = require(<span class="red">'/path/to/output/en-US'</span>);
 </code>
 
 <p>
@@ -224,12 +224,29 @@ Or if you are in a browser:
 </code>
 
 <p>
-For express servers. If a locale cookie is not set we recommend parsing the <span class="focused">Accept-Language</span> header and set a supported locale on the cookie. And then set the global variable <span class="focused">l</span> in a middleware.
+For express servers–We recommend use the middleware <a href="https://github.com/tinganho/express-request-language" target="_blank">request-language</a>.
 </p>
 
 <code>
-app.configure(function(req, res, next) {<br>
-&nbsp;&nbsp;global.l = requireLocalization(req.cookies.locale);<br>
+<span class="blue">var</span> localizations = require(<span class="red">'path/to/l10ns/output/all'</span>);<br><br>
+app.use(requestLanguage({<br>
+&nbsp;&nbsp;languages: [<span class="red">'en-US'</span>, <span class="red">'zh-CN'</span>],<br>
+&nbsp;&nbsp;cookie: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name: <span class="red">'language'</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;options: { maxAge: 24*3600*1000 },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;url: <span class="red">'/languages/{language}'</span><br>
+&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;localizations: localizations<br>
+});
+</code>
+
+<p>
+And after setting the middleware you can just use your localizations by setting a local variable <span class="focused">l</span> from <span class="focused">request.localizations</span>. Notice, if you are not setting this local variable L10ns will not be able to extract it with <span class="focused">l10ns update</span>.
+</p>
+
+<code>
+app.get(function(req, res, next) {<br>
+&nbsp;&nbsp;<span class="blue">var</span> l = req.localizations;<br>
 });
 </code>
 
