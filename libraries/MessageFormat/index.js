@@ -13,6 +13,10 @@ var currencySymbols = require('./currencySymbols');
 var moment = require('moment');
 var cache = {};
 var bcp47 = require('bcp47');
+var CLDRData = require('cldr-data');
+var CLDR = require('cldrjs');
+
+
 var mostLikelyLanguageTagMapping = require('../../configurations/mostLikelyLanguageTagMapping');
 
 /**
@@ -26,6 +30,17 @@ function MessageFormat(languageTag) {
   if(!languageTag) {
     throw new TypeError('Your language tag (' + this.languageTag + ') are not bcp47 compliant. For more info https://tools.ietf.org/html/bcp47.');
   }
+  var CLDRLanguageTag = this.languageTag.replace('-', '_');
+  CLDR.load(
+    CLDRData('supplemental/likelySubtags'),
+    CLDRData('supplemental/plurals'),
+    CLDRData('supplemental/ordinals'),
+    CLDRData('main/' + this.languageTag + '/numbers'),
+    CLDRData('main/' + this.languageTag + '/currencies')
+  );
+
+  this.CLDR = new CLDR(this.languageTag);
+
   this.script = languageTag.langtag.script;
   this.language = languageTag.langtag.language.language;
   this.region = languageTag.langtag.region;
@@ -53,7 +68,7 @@ function MessageFormat(languageTag) {
   }
 
   this._readDocuments();
-  this._readPluralizationRules();
+  this._readPluralRules();
   this._readOrdinalRules();
   this._readNumberFormatsData();
   this._readDateData();
@@ -849,31 +864,25 @@ MessageFormat.prototype._swallowWhiteSpace = function() {
  * @return {void}
  * @api private
  */
-MessageFormat.prototype._readPluralizationRules = function() {
+MessageFormat.prototype._readPluralRules = function() {
   if(cache[this.languageTag].pluralRules) {
     this.pluralRules = cache[this.languageTag].pluralRules;
     return;
   }
 
   var _this = this;
-  var data = fs.readFileSync(path.join(
-    __dirname, '../../CLDR/common/supplemental/plurals.xml'),
-    'utf-8'
-  );
-  var document = xml.parseXmlString(data, { noblanks: true });
-  var pluralRules = document.get(
-    '//supplementalData/plurals/pluralRules\
-    [contains(concat(\' \', normalize-space(@locales), \' \'), \' ' + _this.language + '\')]');
 
+  var pluralRules = this.CLDR.get('supplemental/plurals-type-cardinal/' + this.language);
   if(!pluralRules) {
     throw new TypeError('No plural rules exist for ' + this.languageTag + ' in CLDR.');
   }
 
-  pluralRules.childNodes().forEach(function(pluralRule) {
-    var _case = pluralRule.attr('count').value();
-    _this.pluralRules[_case] = LDML.parse(pluralRule.text());
-    _this.pluralRules[_case].example = LDML.integerExample;
-  });
+  for(var count in pluralRules) {
+    var pluralRule = pluralRules[count];
+    var case_ = count.replace('pluralRule-count-', '');
+    this.pluralRules[case_] = LDML.parse(pluralRule);
+    this.pluralRules[case_].example = LDML.integerExample;
+  }
 
   cache[this.languageTag].pluralRules = this.pluralRules;
 };
@@ -891,26 +900,17 @@ MessageFormat.prototype._readOrdinalRules = function() {
     return;
   }
 
-  var _this = this
-  var data = fs.readFileSync(
-    path.join(__dirname, '../../CLDR/common/supplemental/ordinals.xml'),
-    'utf-8'
-  );
-
-  var document = xml.parseXmlString(data, { noblanks: true });
-  var ordinalRules = document.get(
-    '//supplementalData/plurals/pluralRules\
-    [contains(concat(\' \', normalize-space(@locales), \' \'), \' ' + _this.language + '\')]');
-
+  var ordinalRules = this.CLDR.get('supplemental/plurals-type-ordinal/' + this.language);
   if(!ordinalRules) {
     throw new TypeError('No ordinal rules exist for ' + this.languageTag + ' in CLDR.');
   }
 
-  ordinalRules.childNodes().forEach(function(pluralRule) {
-    var _case = pluralRule.attr('count').value();
-    _this.ordinalRules[_case] = LDML.parse(pluralRule.text());
-    _this.ordinalRules[_case].example = LDML.integerExample;
-  });
+  for(var count in ordinalRules) {
+    var ordinalRule = ordinalRules[count];
+    var case_ = count.replace('pluralRule-count-', '');
+    this.ordinalRules[case_] = LDML.parse(ordinalRule);
+    this.ordinalRules[case_].example = LDML.integerExample;
+  }
 
   cache[this.languageTag].ordinalRules = this.ordinalRules;
 };
@@ -1293,8 +1293,8 @@ MessageFormat.prototype._readNumberFormatPatterns = function() {
 
   var pattern;
 
-  this.defaultNumberSystem = this._getXMLNode('//ldml/numbers/defaultNumberingSystem').text();
-  this.nativeNumberSystem = this._getXMLNode('//ldml/numbers/otherNumberingSystems/native').text();
+  this.defaultNumberSystem = this.CLDR.main('numbers/defaultNumberingSystem');
+  this.nativeNumberSystem = this.CLDR.main('numbers/otherNumberingSystems/native');
   for(var property in MessageFormat.NumberSystems) {
     if(MessageFormat.NumberSystems.hasOwnProperty(property)) {
       var numberSystem = MessageFormat.NumberSystems[property];
@@ -1303,8 +1303,9 @@ MessageFormat.prototype._readNumberFormatPatterns = function() {
          numberSystem !== MessageFormat.DEFAULT_NUMBER_SYSTEM) {
         continue;
       }
-      pattern = this._getXMLNode('//ldml/numbers/decimalFormats[@numberSystem=\'' + numberSystem + '\']');
-      this.decimalPatterns[numberSystem] = pattern.get('decimalFormatLength/decimalFormat/pattern').text();
+      this.decimalPatterns[numberSystem] =
+        this.CLDR.main('numbers/decimalFormats-numberSystem-'
+          + numberSystem + '/standard');
     }
   }
 
@@ -1316,8 +1317,9 @@ MessageFormat.prototype._readNumberFormatPatterns = function() {
          numberSystem !== MessageFormat.DEFAULT_NUMBER_SYSTEM) {
         continue;
       }
-      pattern = this._getXMLNode('//ldml/numbers/percentFormats[@numberSystem=\'' + numberSystem + '\']');
-      this.percentagePatterns[numberSystem] = pattern.get('percentFormatLength/percentFormat/pattern').text();
+      this.percentagePatterns[numberSystem] =
+        this.CLDR.main('numbers/percentFormats-numberSystem-'
+          + numberSystem + '/standard');
     }
   }
 
@@ -1329,16 +1331,14 @@ MessageFormat.prototype._readNumberFormatPatterns = function() {
          numberSystem !== MessageFormat.DEFAULT_NUMBER_SYSTEM) {
         continue;
       }
-      pattern = this._getXMLNode('//ldml/numbers/currencyFormats[@numberSystem=\'' + numberSystem + '\']');
-      var accountingNode = pattern.get('currencyFormatLength/currencyFormat[@type=\'accounting\']');
-      if(!accountingNode) {
-        accountingNode = pattern.get('currencyFormatLength/currencyFormat[@type=\'standard\']');
+      var currencyFormats = this.CLDR.main('numbers/currencyFormats-numberSystem-'
+        + numberSystem);
+      if(currencyFormats.accounting) {
+        this.currencyPatterns[numberSystem] = currencyFormats.accounting;
       }
-      if(accountingNode.child(0).name() === 'alias') {
-        var relativePath = accountingNode.child(0).attr('path').value();
-        accountingNode = accountingNode.get(relativePath);
+      else {
+        this.currencyPatterns[numberSystem] = currencyFormats.standard;
       }
-      this.currencyPatterns[numberSystem] = accountingNode.get('pattern').text();
     }
   }
 
@@ -1365,7 +1365,6 @@ MessageFormat.prototype._readNumberSymbols = function() {
   }
 
   var _this = this;
-
   var symbols;
   for(var property in MessageFormat.NumberSystems) {
     if(MessageFormat.NumberSystems.hasOwnProperty(property)) {
@@ -1375,11 +1374,11 @@ MessageFormat.prototype._readNumberSymbols = function() {
          numberSystem !== MessageFormat.DEFAULT_NUMBER_SYSTEM) {
         continue;
       }
-      symbols = this._getXMLNode('//ldml/numbers/symbols[@numberSystem=\'' + numberSystem + '\']');
+      symbols = this.CLDR.main('numbers/symbols-numberSystem-' + numberSystem);
       this.numberSymbols[numberSystem] = {};
-      symbols.childNodes().forEach(function(symbol) {
-        _this.numberSymbols[numberSystem][symbol.name()] = symbol.text();
-      });
+      for(var i in symbols) {
+        _this.numberSymbols[numberSystem][i] = symbols[i];
+      }
     }
   }
 
@@ -1401,63 +1400,49 @@ MessageFormat.prototype._readCurrencyData = function() {
   }
 
   var _this = this;
-  var currencyUnitPatterns;
-  if(this.languageTagDocument) {
-    currencyUnitPatterns = this.languageTagDocument.get(
-      '//ldml/numbers/currencyFormats[@numberSystem=\'latn\']');
-  }
-  if(!currencyUnitPatterns) {
-    currencyUnitPatterns = this.languageDocument.get(
-      '//ldml/numbers/currencyFormats[@numberSystem=\'latn\']');
-  }
+  var currencyUnitPatterns = this.CLDR.main('numbers/currencyFormats-numberSystem-' + this.defaultNumberSystem);
   if(!currencyUnitPatterns) {
     throw new TypeError('No currency unit pattern exist for ' + this.languageTag + ' in CLDR.');
   }
-  currencyUnitPatterns.childNodes().forEach(function(pattern) {
-    if(pattern.name() === 'unitPattern') {
-      _this.currencyUnitPattern[pattern.attr('count').value()] = pattern.text();
+  for(var key in currencyUnitPatterns) {
+    if(/^unitPattern\-count/.test(key)) {
+      var pattern = currencyUnitPatterns[key];
+      var count = key.replace('unitPattern-count-', '');
+      this.currencyUnitPattern[count] = pattern;
     }
-  });
+  };
 
   if(typeof project.currencies !== 'undefined' &&
     Object.prototype.toString.call(project.currencies) === '[object Array]') {
     project.currencies.forEach(function(currency) {
-      var currencyNames;
-      if(_this.languageTagDocument) {
-        currencyNames = _this.languageTagDocument.get(
-          '//ldml/numbers/currencies/currency[@type=\'' + currency + '\']');
-      }
-      if(!currencyNames) {
-        currencyNames = _this.languageDocument.get(
-          '//ldml/numbers/currencies/currency[@type=\'' + currency + '\']');
-      }
+      var currencyNames = _this.CLDR.main('numbers/currencies/' + currency);
       if(!currencyNames) {
         throw new TypeError('Currency: ' + currency + ' does not exists in CLDR.');
       }
-      currencyNames.childNodes().forEach(function(currencyName) {
-        if(currencyName.name() === 'displayName') {
-          var count = currencyName.attr('count')
-          if(count) {
-            _this.currencies[currency].text.global[count.value()] = currencyName.text();
-          }
-          else {
-            var localText = null;
-            if(currencySymbols[currency].text[_this.language] &&
-               currencySymbols[currency].text[_this.language].local) {
-              localText = currencySymbols[currency].text[_this.language].local;
-            }
 
-            _this.currencies[currency] = {
-              name: currencyName.text(),
-              text: {
-                local: localText,
-                global: {}
-              },
-              symbol: currencySymbols[currency].symbols
-            };
-          }
+      var localText = null;
+      if(currencySymbols[currency].text[_this.language] &&
+         currencySymbols[currency].text[_this.language].local) {
+        localText = currencySymbols[currency].text[_this.language].local;
+      }
+      _this.currencies[currency] = {
+        name: null,
+        text: {
+          local: localText,
+          global: {}
+        },
+        symbol: currencySymbols[currency].symbols
+      };
+      for(var key in currencyNames) {
+        var text = currencyNames[key];
+        if(/^displayName$/.test(key)) {
+          _this.currencies[currency].name = text;
         }
-      });
+        else if(/^displayName\-count/.test(key)) {
+          var count = key.replace('displayName-count-', '');
+          _this.currencies[currency].text.global[count] = text;
+        }
+      }
     });
   }
 

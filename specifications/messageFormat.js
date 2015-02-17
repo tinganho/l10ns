@@ -54,7 +54,7 @@ describe('MessageFormat', function() {
       });
     });
 
-    it('should read number sumbols', function() {
+    it('should read number symbols', function() {
       var messageFormat = new MessageFormat('en-US');
       expect(messageFormat.numberSymbols).to.eql({
         latn: {
@@ -68,7 +68,8 @@ describe('MessageFormat', function() {
           superscriptingExponent: '×',
           perMille: '‰',
           infinity: '∞',
-          nan: 'NaN'
+          nan: 'NaN',
+          timeSeparator: ':'
         }
       });
     });

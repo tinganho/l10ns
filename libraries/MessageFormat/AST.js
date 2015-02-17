@@ -178,14 +178,14 @@ AST.NumberFormatPattern._SignificantNumberFormat.prototype = Object.create(AST.N
  * Parse argument and sets format
  *
  * @param {String} argument pattern
- * @return{void}
+ * @return {void}
  * @api private
  */
 
 AST.NumberFormatPattern.parse = function(argument, decimalPattern, percentagePattern) {
-  var _this = this
-    , numberPatterns = argument
-    , format = { positive: null, negative: null };
+  var _this = this;
+  var numberPatterns = argument;
+  var format = { positive: null, negative: null };
 
   if(AST.NumberFormatPattern.Syntaxes.NUMBER_SIMPLE_ARGUMENTS.test(numberPatterns)) {
     switch(numberPatterns) {
