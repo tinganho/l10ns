@@ -15,8 +15,6 @@ var cache = {};
 var bcp47 = require('bcp47');
 var CLDRData = require('cldr-data');
 var CLDR = require('cldrjs');
-
-
 var mostLikelyLanguageTagMapping = require('../../configurations/mostLikelyLanguageTagMapping');
 
 /**
@@ -35,8 +33,11 @@ function MessageFormat(languageTag) {
     CLDRData('supplemental/likelySubtags'),
     CLDRData('supplemental/plurals'),
     CLDRData('supplemental/ordinals'),
+    CLDRData('supplemental/metaZones'),
     CLDRData('main/' + this.languageTag + '/numbers'),
-    CLDRData('main/' + this.languageTag + '/currencies')
+    CLDRData('main/' + this.languageTag + '/currencies'),
+    CLDRData('main/' + this.languageTag + '/ca-gregorian'),
+    CLDRData('main/' + this.languageTag + '/timeZoneNames')
   );
 
   this.CLDR = new CLDR(this.languageTag);
@@ -67,7 +68,6 @@ function MessageFormat(languageTag) {
     cache[this.languageTag] = {};
   }
 
-  this._readDocuments();
   this._readPluralRules();
   this._readOrdinalRules();
   this._readNumberFormatsData();
@@ -917,58 +917,6 @@ MessageFormat.prototype._readOrdinalRules = function() {
 
 
 /**
- * Read LDML documents
- *
- * @return {void}
- * @api private
- */
-MessageFormat.prototype._readDocuments = function() {
-  var _this = this;
-
-  if(!cache.rootDocument) {
-    var rootDocumentPath = path.join(__dirname, '../../CLDR/common/main/root.xml');
-    cache.rootDocument = this.rootDocument = xml.parseXmlString(fs.readFileSync(rootDocumentPath, 'utf-8'), { noblanks: true });
-  }
-  else {
-    this.rootDocument = cache.rootDocument;
-  }
-
-  if(!cache[this.languageTag].localeDocument) {
-    var localeDocumentPath;
-    if(this.script) {
-      localeDocumentPath = path.join(__dirname, '../../CLDR/common/main/' + this.language + '_' + this.script + '_' + this.region + '.xml');
-    }
-    else {
-      localeDocumentPath = path.join(__dirname, '../../CLDR/common/main/' + this.language + '_' + this.region + '.xml');
-    }
-    if(fs.existsSync(localeDocumentPath)) {
-      cache[this.languageTag].localeDocument = this.languageTagDocument = xml.parseXmlString(fs.readFileSync(localeDocumentPath, 'utf-8'), { noblanks: true });
-    }
-  }
-  else {
-    this.languageTagDocument = cache[this.languageTag].localeDocument;
-  }
-
-  if(!cache[this.languageTag].scriptDocument) {
-    var scriptDocumentPath = path.join(__dirname, '../../CLDR/common/main/' + this.language + '_' + this.script + '.xml');
-    if(fs.existsSync(scriptDocumentPath)) {
-      cache[this.languageTag].scriptDocument = this.scriptDocument = xml.parseXmlString(fs.readFileSync(scriptDocumentPath, 'utf-8'), { noblanks: true });
-    }
-  }
-
-  if(!cache[this.languageTag].languageDocument) {
-    var languageDocumentPath = path.join(__dirname, '../../CLDR/common/main/' + this.language + '.xml');
-    if(fs.existsSync(languageDocumentPath)) {
-      cache[this.languageTag].languageDocument = this.languageDocument = xml.parseXmlString(fs.readFileSync(languageDocumentPath, 'utf-8'), { noblanks: true });
-    }
-  }
-  else {
-    this.languageDocument = cache[this.languageTag].languageDocument;
-  }
-};
-
-
-/**
  * Read time zone supplemental data
  *
  * @return {void}
@@ -980,8 +928,6 @@ MessageFormat.prototype._readTimezone = function() {
     return;
   }
 
-  var timezonePath = path.join(__dirname, '../../CLDR/common/supplemental/metaZones.xml');
-  var timezoneDocument = xml.parseXmlString(fs.readFileSync(timezonePath, 'utf-8'), { noblanks: true });
   var timezones = {};
   if(project.timezones) {
     for(var index in project.timezones) {
@@ -989,82 +935,29 @@ MessageFormat.prototype._readTimezone = function() {
       timezones[timezone] = {
         name: { long: {}, short: {} }
       };
-      var mapZone = timezoneDocument.get('//timezone[@type=\'' + timezone + '\']/usesMetazone[last()]');
+      var mapZone = this.CLDR.get('supplemental/metaZones/metazoneInfo/timezone/' + timezone)
       if(!mapZone) {
         throw new TypeError('Time zone: ' + timezone + ' does not exists');
       }
-      var mapZoneID = mapZone.attr('mzone').value();
-      try {
-        var standarLongTimezoneName = this._getXMLNode('//timeZoneNames/metazone[@type=\'' + mapZoneID + '\']/long/standard');
-        if(standarLongTimezoneName) {
-          timezones[timezone].name.long.standard = standarLongTimezoneName.text();
-        }
+      var mapZoneID = mapZone[0].usesMetazone._mzone;
+      timezones[timezone].name.long.standard = this.CLDR.main('dates/timeZoneNames/metazone/' + mapZoneID + '/long/standard') || null;
+      timezones[timezone].name.long.daylight = this.CLDR.main('dates/timeZoneNames/metazone/' + mapZoneID + '/long/daylight') || null;
+      timezones[timezone].name.long.generic = this.CLDR.main('dates/timeZoneNames/metazone/' + mapZoneID + '/long/generic') || null;
+      timezones[timezone].name.short.standard = this.CLDR.main('dates/timeZoneNames/metazone/' + mapZoneID + '/short/standard') || null;
+      timezones[timezone].name.short.daylight = this.CLDR.main('dates/timeZoneNames/metazone/' + mapZoneID + '/short/daylight') || null;
+      timezones[timezone].name.short.generic = this.CLDR.main('dates/timeZoneNames/metazone/' + mapZoneID + '/short/generic') || null;
+
+      var city = this.CLDR.main('dates/timeZoneNames/zone/' + timezone + '/exemplarCity');
+      if(city) {
+        timezones[timezone].hasCity = true;
+        timezones[timezone].city = city;
       }
-      catch(error) {
-        timezones[timezone].name.long.standard = null;
-      }
-      try {
-        var daylightLongTimezoneName = this._getXMLNode('//timeZoneNames/metazone[@type=\'' + mapZoneID + '\']/long/daylight');
-        if(daylightLongTimezoneName) {
-          timezones[timezone].name.long.daylight = daylightLongTimezoneName.text();
-        }
-      }
-      catch(error) {
-        timezones[timezone].name.long.daylight = null;
-      }
-      try {
-        var genericLongTimezoneName = this._getXMLNode('//timeZoneNames/metazone[@type=\'' + mapZoneID + '\']/long/generic');
-        if(genericLongTimezoneName) {
-          timezones[timezone].name.long.generic = genericLongTimezoneName.text();
-        }
-      }
-      catch(error) {
-        timezones[timezone].name.long.generic = null;
-      }
-      try {
-        var standarShortTimezoneName = this._getXMLNode('//timeZoneNames/metazone[@type=\'' + mapZoneID + '\']/short/standard');
-        if(standarShortTimezoneName) {
-          timezones[timezone].name.short.standard = standarShortTimezoneName.text();
-        }
-      }
-      catch(error) {
-        timezones[timezone].name.short.standard = null;
-      }
-      try {
-        var daylightShortTimezoneName = this._getXMLNode('//timeZoneNames/metazone[@type=\'' + mapZoneID + '\']/short/daylight');
-        if(daylightShortTimezoneName) {
-          timezones[timezone].name.short.daylight = daylightShortTimezoneName.text();
-        }
-      }
-      catch(error) {
-        timezones[timezone].name.short.daylight = null;
-      }
-      try {
-        var genericShortTimezoneName = this._getXMLNode('//timeZoneNames/metazone[@type=\'' + mapZoneID + '\']/short/generic');
-        if(genericShortTimezoneName) {
-          timezones[timezone].name.short.generic = genericShortTimezoneName.text();
-        }
-      }
-      catch(error) {
-        timezones[timezone].name.short.generic = null;
-      }
-      try {
-        var city = this._getXMLNode('//timeZoneNames/zone[@type=\'' + mapZoneID + '\']/exemplarCity');
-        if(city) {
-          timezones[timezone].hasCity = true;
-          timezones[timezone].city = city.text();
-        }
-        else {
-          timezones[timezone].hasCity = false;
-          timezones[timezone].city = this._getXMLNode('//timeZoneNames/zone[@type=\'Etc/Unknown\']/exemplarCity').text();
-        }
-      }
-      catch(error) {
+      else {
         timezones[timezone].hasCity = false;
-        timezones[timezone].city = this._getXMLNode('//timeZoneNames/zone[@type=\'Etc/Unknown\']/exemplarCity').text();
+        timezones[timezone].city = this.CLDR.main('dates/timeZoneNames/zone/Etc/Unknown/exemplarCity');
       }
-      timezones[timezone].regionFormat = this._getXMLNode('//timeZoneNames/regionFormat').text();
-      timezones[timezone].GMTFormat = this._getXMLNode('//timeZoneNames/gmtFormat').text();
+      timezones[timezone].regionFormat = this.CLDR.main('dates/timeZoneNames/regionFormat');
+      timezones[timezone].GMTFormat = this.CLDR.main('dates/timeZoneNames/gmtFormat');
     }
   }
 
@@ -1083,195 +976,6 @@ MessageFormat.prototype._readNumberFormatsData = function() {
   this._readNumberFormatPatterns();
   this._readNumberSymbols();
   this._readCurrencyData();
-};
-
-
-/**
- * Read XML node from CLDR
- *
- * @param {String} path
- * @param {String} idAttribute
- * these nodes are valid
- * @return {null|String}
- */
-MessageFormat.prototype._getXMLNode = function(path, idAttribute) {
-  var languageNodes;
-  var rootNodes;
-  var localeNode;
-  var languageNode;
-  var relativePath;
-  var resultNode;
-  var attributeValue;
-  var resultNodeFinding;
-  var parentNodePath = path.split('/')
-  var endNodePath = parentNodePath[parentNodePath.length - 1];
-  parentNodePath = parentNodePath.slice(0, parentNodePath.length - 1).join('/');
-
-  if(!idAttribute) {
-    if(this.languageTagDocument) {
-      localeNode = this.languageTagDocument.get(path);
-      if(localeNode) {
-        return localeNode;
-      }
-    }
-    if(this.scriptDocument) {
-      scriptNode = this.scriptDocument.get(path);
-      if(scriptNode) {
-        return scriptNode;
-      }
-    }
-    if(this.languageDocument) {
-      languageNode = this.languageDocument.get(path);
-      if(languageNode) {
-        return languageNode;
-      }
-    }
-    if(this.rootDocument) {
-      aliasNode = this.rootDocument.get(path + '/alias');
-      if(aliasNode) {
-        relativePath = aliasNode.attr('path').value();
-        return this._getXMLNode(this._getAbsolutePath(path, relativePath));
-      }
-      node = this.rootDocument.get(parentNodePath);
-      if(node && node.childNodes().length > 0) {
-        rootNode = this.rootDocument.get(path);
-        if(rootNode) {
-          return rootNode;
-        }
-        else {
-          throw new TypeError('Could not find data for ' + path);
-        }
-      }
-      else {
-        throw new TypeError('Could not find data for ' + path);
-      }
-    }
-  }
-  else {
-    if(this.languageTagDocument) {
-      resultNode = this.languageTagDocument.get(parentNodePath);
-    }
-    if(this.languageDocument) {
-      node = this.languageDocument.get(parentNodePath);
-      if(node && node.childNodes().length > 0) {
-        languageNodes = node.childNodes();
-        if(resultNode) {
-          languageNodes.forEach(function(languageNode_) {
-            attributeValue = languageNode_.attr(idAttribute).value();
-            resultNodeFinding = resultNode.get('./' + endNodePath + '[@' + idAttribute + '="' + attributeValue + '"]');
-            if(!resultNodeFinding) {
-              resultNode.addChild(languageNode_);
-            }
-          });
-        }
-        else {
-          resultNode = node;
-        }
-      }
-    }
-    if(this.scriptDocument) {
-      node = this.scriptDocument.get(parentNodePath);
-      if(node && node.childNodes().length > 0) {
-        scriptNodes = node.childNodes();
-        if(resultNode) {
-          scriptNodes.forEach(function(scriptNode_) {
-            attributeValue = scriptNode_.attr(idAttribute).value();
-            resultNodeFinding = resultNode.get('./' + endNodePath + '[@' + idAttribute + '="' + attributeValue + '"]');
-            if(!resultNodeFinding) {
-              resultNode.addChild(scriptNode_);
-            }
-          });
-        }
-        else {
-          resultNode = node;
-        }
-      }
-    }
-    if(this.rootDocument) {
-      aliasNode = this.rootDocument.get(parentNodePath + '/alias');
-      if(aliasNode) {
-        relativePath = aliasNode.attr('path').value();
-        node = this._getXMLNode(this._getAbsolutePath(parentNodePath, relativePath, endNodePath), idAttribute);
-      }
-      else {
-        node = this.rootDocument.get(parentNodePath);
-      }
-
-      if(node && node.childNodes().length > 0) {
-        rootNodes = node.childNodes();
-        if(resultNode) {
-          rootNodes.forEach(function(rootNode_) {
-            attributeValue = rootNode_.attr(idAttribute).value();
-            resultNodeFinding = resultNode.get('./' + endNodePath + '[@' + idAttribute + '="' + attributeValue + '"]');
-            if(!resultNodeFinding) {
-              resultNode.addChild(rootNode_);
-            }
-          });
-        }
-        else {
-          resultNode = node;
-        }
-      }
-      else {
-        if(!resultNode) {
-          throw new TypeError('Could not find data for ' + path);
-        }
-      }
-    }
-  }
-
-  return resultNode;
-};
-
-
-/**
- * Get absolute path of a node from a relative path
- *
- * @param {String} absolutePath
- * @param {String} relativePath
- * @return {String}
- */
-MessageFormat.prototype._getAbsolutePath = function(absolutePath, relativePath, endPath) {
-  var ups = relativePath.match(/\.\.\//g).length;
-
-  absolutePath = absolutePath.split('/');
-  relativePath = relativePath.replace(/\.\.\//g, '');
-
-  if(endPath) {
-    return absolutePath.slice(0, absolutePath.length - ups).join('/') + '/' + relativePath + '/' + endPath;
-  }
-  return absolutePath.slice(0, absolutePath.length - ups).join('/') + '/' + relativePath;
-};
-
-
-/**
- * Read XML Period node from CLDR
- *
- * @param {String} path
- * @return {null|String}
- */
-MessageFormat.prototype.getCLDRPeriodNode = function() {
-  var node;
-  if(this.languageTagDocument) {
-    node = this.languageTagDocument.get(path);
-  }
-  if(!node) {
-    node = this.languageDocument.get(path);
-  }
-  if(!node) {
-    node = this.rootDocument.get(path);
-  }
-
-  if(node) {
-    if(node.get('./dayPeriod[@type="am"]') && node.get('./dayPeriod[@type="pm"]')) {
-      while(node && typeof node.child === 'function' && node.child(0).name() === 'alias') {
-        var relativePath = node.child(0).attr('path').value();
-        node = node.get(relativePath);
-      }
-    }
-  }
-
-  return node;
 };
 
 
@@ -1463,267 +1167,93 @@ MessageFormat.prototype._readDateData = function() {
     return;
   }
   // Era
-  var eraFullBC = this._getXMLNode('//calendar[@type="gregorian"]/eras/eraNames/era[@type=\'0\']').text();
-  var eraFullAD = this._getXMLNode('//calendar[@type="gregorian"]/eras/eraNames/era[@type=\'1\']').text();
-  var eraAbbreviatedBC = this._getXMLNode('//calendar[@type="gregorian"]/eras/eraAbbr/era[@type=\'0\']').text();
-  var eraAbbreviatedAD = this._getXMLNode('//calendar[@type="gregorian"]/eras/eraAbbr/era[@type=\'1\']').text();
-  var eraNarrowBC = this._getXMLNode('//eras/eraNarrow/era[@type="0"]').text(); // Problem selecting gregorian calendar
-  var eraNarrowAD = this._getXMLNode('//eras/eraNarrow/era[@type="1"]').text(); // Problem selecting gregorian calendar
+  var eraFull = this.CLDR.main('dates/calendars/gregorian/eras/eraNames');
+  var eraAbbreviated = this.CLDR.main('dates/calendars/gregorian/eras/eraAbbr');
+  var eraNarrow = this.CLDR.main('dates/calendars/gregorian/eras/eraNarrow');
 
   this.date['era'] = {
     full: {
-      BC: eraFullBC,
-      AD: eraFullAD
+      BC: eraFull['0'],
+      AD: eraFull['1']
     },
     abbreviated: {
-      BC: eraAbbreviatedBC,
-      AD: eraAbbreviatedAD
+      BC: eraAbbreviated['0'],
+      AD: eraAbbreviated['1']
     },
     narrow: {
-      BC: eraNarrowBC,
-      AD: eraNarrowAD
+      BC: eraNarrow['0'],
+      AD: eraNarrow['1']
     }
   };
 
-  var abbreviatedFormatedQuarter = this._getXMLNode('//calendar[@type="gregorian"]/quarters/quarterContext[@type="format"]/quarterWidth[@type="abbreviated"]/quarter', 'type');
-  var wideFormatedQuarter = this._getXMLNode('//calendar[@type="gregorian"]/quarters/quarterContext[@type="format"]/quarterWidth[@type="wide"]/quarter', 'type');
-  var abbreviatedStandaloneQuarter = this._getXMLNode('//calendar[@type="gregorian"]/quarters/quarterContext[@type="stand-alone"]/quarterWidth[@type="abbreviated"]/quarter', 'type');
-  var wideStandaloneQuarter = this._getXMLNode('//calendar[@type="gregorian"]/quarters/quarterContext[@type="stand-alone"]/quarterWidth[@type="wide"]/quarter', 'type');
+  var abbreviatedFormatedQuarter = this.CLDR.main('dates/calendars/gregorian/quarters/format/abbreviated');
+  var wideFormatedQuarter = this.CLDR.main('dates/calendars/gregorian/quarters/format/wide');
+  var abbreviatedStandaloneQuarter = this.CLDR.main('dates/calendars/gregorian/quarters/stand-alone/abbreviated');
+  var wideStandaloneQuarter = this.CLDR.main('dates/calendars/gregorian/quarters/stand-alone/wide');
 
   this.date['quarter'] = {
     formated: {
       abbreviated: {
-        'Q1' : abbreviatedFormatedQuarter.get('./quarter[@type="1"]').text(),
-        'Q2' : abbreviatedFormatedQuarter.get('./quarter[@type="2"]').text(),
-        'Q3' : abbreviatedFormatedQuarter.get('./quarter[@type="3"]').text(),
-        'Q4' : abbreviatedFormatedQuarter.get('./quarter[@type="4"]').text()
+        'Q1' : abbreviatedFormatedQuarter['1'],
+        'Q2' : abbreviatedFormatedQuarter['2'],
+        'Q3' : abbreviatedFormatedQuarter['3'],
+        'Q4' : abbreviatedFormatedQuarter['4']
       },
       wide: {
-        'Q1' : wideFormatedQuarter.get('./quarter[@type="1"]').text(),
-        'Q2' : wideFormatedQuarter.get('./quarter[@type="2"]').text(),
-        'Q3' : wideFormatedQuarter.get('./quarter[@type="3"]').text(),
-        'Q4' : wideFormatedQuarter.get('./quarter[@type="4"]').text()
+        'Q1' : wideFormatedQuarter['1'],
+        'Q2' : wideFormatedQuarter['2'],
+        'Q3' : wideFormatedQuarter['3'],
+        'Q4' : wideFormatedQuarter['4']
       }
     },
     standalone: {
       abbreviated: {
-        'Q1' : abbreviatedStandaloneQuarter.get('./quarter[@type="1"]').text(),
-        'Q2' : abbreviatedStandaloneQuarter.get('./quarter[@type="2"]').text(),
-        'Q3' : abbreviatedStandaloneQuarter.get('./quarter[@type="3"]').text(),
-        'Q4' : abbreviatedStandaloneQuarter.get('./quarter[@type="4"]').text()
+        'Q1' : abbreviatedStandaloneQuarter['1'],
+        'Q2' : abbreviatedStandaloneQuarter['2'],
+        'Q3' : abbreviatedStandaloneQuarter['3'],
+        'Q4' : abbreviatedStandaloneQuarter['4']
       },
       wide: {
-        'Q1' : wideStandaloneQuarter.get('./quarter[@type="1"]').text(),
-        'Q2' : wideStandaloneQuarter.get('./quarter[@type="2"]').text(),
-        'Q3' : wideStandaloneQuarter.get('./quarter[@type="3"]').text(),
-        'Q4' : wideStandaloneQuarter.get('./quarter[@type="4"]').text()
+        'Q1' : wideStandaloneQuarter['1'],
+        'Q2' : wideStandaloneQuarter['2'],
+        'Q3' : wideStandaloneQuarter['3'],
+        'Q4' : wideStandaloneQuarter['4']
       }
     }
   };
-
-  var abbreviatedFormatedMonth = this._getXMLNode('//calendar[@type="gregorian"]/months/monthContext[@type="format"]/monthWidth[@type="abbreviated"]/month', 'type');
-  var wideFormatedMonth = this._getXMLNode('//calendar[@type="gregorian"]/months/monthContext[@type="format"]/monthWidth[@type="wide"]/month', 'type');
-  var narrowFormatedMonth = this._getXMLNode('//calendar[@type="gregorian"]/months/monthContext[@type="format"]/monthWidth[@type="narrow"]/month', 'type');
-  var abbreviatedStandaloneMonth = this._getXMLNode('//calendar[@type="gregorian"]/months/monthContext[@type="stand-alone"]/monthWidth[@type="abbreviated"]/month', 'type');
-  var wideStandaloneMonth = this._getXMLNode('//calendar[@type="gregorian"]/months/monthContext[@type="stand-alone"]/monthWidth[@type="wide"]/month', 'type');
-  var narrowStandaloneMonth = this._getXMLNode('//calendar[@type="gregorian"]/months/monthContext[@type="stand-alone"]/monthWidth[@type="narrow"]/month', 'type');
 
   this.date['month'] = {
     formated: {
-      abbreviated: {
-        '1' : abbreviatedFormatedMonth.get('./month[@type="1"]').text(),
-        '2' : abbreviatedFormatedMonth.get('./month[@type="2"]').text(),
-        '3' : abbreviatedFormatedMonth.get('./month[@type="3"]').text(),
-        '4' : abbreviatedFormatedMonth.get('./month[@type="4"]').text(),
-        '5' : abbreviatedFormatedMonth.get('./month[@type="5"]').text(),
-        '6' : abbreviatedFormatedMonth.get('./month[@type="6"]').text(),
-        '7' : abbreviatedFormatedMonth.get('./month[@type="7"]').text(),
-        '8' : abbreviatedFormatedMonth.get('./month[@type="8"]').text(),
-        '9' : abbreviatedFormatedMonth.get('./month[@type="9"]').text(),
-        '10' : abbreviatedFormatedMonth.get('./month[@type="10"]').text(),
-        '11' : abbreviatedFormatedMonth.get('./month[@type="11"]').text(),
-        '12' : abbreviatedFormatedMonth.get('./month[@type="12"]').text()
-      },
-      wide: {
-        '1' : wideFormatedMonth.get('./month[@type="1"]').text(),
-        '2' : wideFormatedMonth.get('./month[@type="2"]').text(),
-        '3' : wideFormatedMonth.get('./month[@type="3"]').text(),
-        '4' : wideFormatedMonth.get('./month[@type="4"]').text(),
-        '5' : wideFormatedMonth.get('./month[@type="5"]').text(),
-        '6' : wideFormatedMonth.get('./month[@type="6"]').text(),
-        '7' : wideFormatedMonth.get('./month[@type="7"]').text(),
-        '8' : wideFormatedMonth.get('./month[@type="8"]').text(),
-        '9' : wideFormatedMonth.get('./month[@type="9"]').text(),
-        '10' : wideFormatedMonth.get('./month[@type="10"]').text(),
-        '11' : wideFormatedMonth.get('./month[@type="11"]').text(),
-        '12' : wideFormatedMonth.get('./month[@type="12"]').text()
-      },
-      narrow: {
-        '1' : narrowFormatedMonth.get('./month[@type="1"]').text(),
-        '2' : narrowFormatedMonth.get('./month[@type="2"]').text(),
-        '3' : narrowFormatedMonth.get('./month[@type="3"]').text(),
-        '4' : narrowFormatedMonth.get('./month[@type="4"]').text(),
-        '5' : narrowFormatedMonth.get('./month[@type="5"]').text(),
-        '6' : narrowFormatedMonth.get('./month[@type="6"]').text(),
-        '7' : narrowFormatedMonth.get('./month[@type="7"]').text(),
-        '8' : narrowFormatedMonth.get('./month[@type="8"]').text(),
-        '9' : narrowFormatedMonth.get('./month[@type="9"]').text(),
-        '10' : narrowFormatedMonth.get('./month[@type="10"]').text(),
-        '11' : narrowFormatedMonth.get('./month[@type="11"]').text(),
-        '12' : narrowFormatedMonth.get('./month[@type="12"]').text()
-      }
+      abbreviated: this.CLDR.main('dates/calendars/gregorian/months/format/abbreviated'),
+      wide: this.CLDR.main('dates/calendars/gregorian/months/format/wide'),
+      narrow: this.CLDR.main('dates/calendars/gregorian/months/format/narrow')
     },
     standalone: {
-      abbreviated: {
-        '1' : abbreviatedStandaloneMonth.get('./month[@type="1"]').text(),
-        '2' : abbreviatedStandaloneMonth.get('./month[@type="2"]').text(),
-        '3' : abbreviatedStandaloneMonth.get('./month[@type="3"]').text(),
-        '4' : abbreviatedStandaloneMonth.get('./month[@type="4"]').text(),
-        '5' : abbreviatedStandaloneMonth.get('./month[@type="5"]').text(),
-        '6' : abbreviatedStandaloneMonth.get('./month[@type="6"]').text(),
-        '7' : abbreviatedStandaloneMonth.get('./month[@type="7"]').text(),
-        '8' : abbreviatedStandaloneMonth.get('./month[@type="8"]').text(),
-        '9' : abbreviatedStandaloneMonth.get('./month[@type="9"]').text(),
-        '10' : abbreviatedStandaloneMonth.get('./month[@type="10"]').text(),
-        '11' : abbreviatedStandaloneMonth.get('./month[@type="11"]').text(),
-        '12' : abbreviatedStandaloneMonth.get('./month[@type="12"]').text()
-      },
-      wide: {
-        '1' : wideStandaloneMonth.get('./month[@type="1"]').text(),
-        '2' : wideStandaloneMonth.get('./month[@type="2"]').text(),
-        '3' : wideStandaloneMonth.get('./month[@type="3"]').text(),
-        '4' : wideStandaloneMonth.get('./month[@type="4"]').text(),
-        '5' : wideStandaloneMonth.get('./month[@type="5"]').text(),
-        '6' : wideStandaloneMonth.get('./month[@type="6"]').text(),
-        '7' : wideStandaloneMonth.get('./month[@type="7"]').text(),
-        '8' : wideStandaloneMonth.get('./month[@type="8"]').text(),
-        '9' : wideStandaloneMonth.get('./month[@type="9"]').text(),
-        '10' : wideStandaloneMonth.get('./month[@type="10"]').text(),
-        '11' : wideStandaloneMonth.get('./month[@type="11"]').text(),
-        '12' : wideStandaloneMonth.get('./month[@type="12"]').text()
-      },
-      narrow: {
-        '1' : narrowStandaloneMonth.get('./month[@type="1"]').text(),
-        '2' : narrowStandaloneMonth.get('./month[@type="2"]').text(),
-        '3' : narrowStandaloneMonth.get('./month[@type="3"]').text(),
-        '4' : narrowStandaloneMonth.get('./month[@type="4"]').text(),
-        '5' : narrowStandaloneMonth.get('./month[@type="5"]').text(),
-        '6' : narrowStandaloneMonth.get('./month[@type="6"]').text(),
-        '7' : narrowStandaloneMonth.get('./month[@type="7"]').text(),
-        '8' : narrowStandaloneMonth.get('./month[@type="8"]').text(),
-        '9' : narrowStandaloneMonth.get('./month[@type="9"]').text(),
-        '10' : narrowStandaloneMonth.get('./month[@type="10"]').text(),
-        '11' : narrowStandaloneMonth.get('./month[@type="11"]').text(),
-        '12' : narrowStandaloneMonth.get('./month[@type="12"]').text()
-      }
+      abbreviated: this.CLDR.main('dates/calendars/gregorian/months/stand-alone/abbreviated'),
+      wide: this.CLDR.main('dates/calendars/gregorian/months/stand-alone/wide'),
+      narrow: this.CLDR.main('dates/calendars/gregorian/months/stand-alone/narrow')
     }
   };
-
-  var shortFormatedDay = this._getXMLNode('//calendar[@type="gregorian"]/days/dayContext[@type="format"]/dayWidth[@type="short"]/day', 'type');
-  var wideFormatedDay = this._getXMLNode('//calendar[@type="gregorian"]/days/dayContext[@type="format"]/dayWidth[@type="wide"]/day', 'type');
-  var abbreviatedFormatedDay = this._getXMLNode('//calendar[@type="gregorian"]/days/dayContext[@type="format"]/dayWidth[@type="abbreviated"]/day', 'type');
-  var narrowFormatedDay = this._getXMLNode('//calendar[@type="gregorian"]/days/dayContext[@type="format"]/dayWidth[@type="narrow"]/day', 'type');
-  var shortStandaloneDay = this._getXMLNode('//calendar[@type="gregorian"]/days/dayContext[@type="stand-alone"]/dayWidth[@type="short"]/day', 'type');
-  var wideStandaloneDay = this._getXMLNode('//calendar[@type="gregorian"]/days/dayContext[@type="stand-alone"]/dayWidth[@type="wide"]/day', 'type');
-  var abbreviatedStandaloneDay = this._getXMLNode('//calendar[@type="gregorian"]/days/dayContext[@type="stand-alone"]/dayWidth[@type="abbreviated"]/day', 'type');
-  var narrowStandaloneDay = this._getXMLNode('//calendar[@type="gregorian"]/days/dayContext[@type="stand-alone"]/dayWidth[@type="narrow"]/day', 'type');
 
   this.date['day'] = {
     formated: {
-      short: {
-        'mon':  shortFormatedDay.get('./day[@type="mon"]').text(),
-        'tue':  shortFormatedDay.get('./day[@type="tue"]').text(),
-        'wed':  shortFormatedDay.get('./day[@type="wed"]').text(),
-        'thu':  shortFormatedDay.get('./day[@type="thu"]').text(),
-        'fri':  shortFormatedDay.get('./day[@type="fri"]').text(),
-        'sat':  shortFormatedDay.get('./day[@type="sat"]').text(),
-        'sun':  shortFormatedDay.get('./day[@type="sun"]').text()
-      },
-      wide: {
-        'mon':  wideFormatedDay.get('./day[@type="mon"]').text(),
-        'tue':  wideFormatedDay.get('./day[@type="tue"]').text(),
-        'wed':  wideFormatedDay.get('./day[@type="wed"]').text(),
-        'thu':  wideFormatedDay.get('./day[@type="thu"]').text(),
-        'fri':  wideFormatedDay.get('./day[@type="fri"]').text(),
-        'sat':  wideFormatedDay.get('./day[@type="sat"]').text(),
-        'sun':  wideFormatedDay.get('./day[@type="sun"]').text()
-      },
-      abbreviated: {
-        'mon':  abbreviatedFormatedDay.get('./day[@type="mon"]').text(),
-        'tue':  abbreviatedFormatedDay.get('./day[@type="tue"]').text(),
-        'wed':  abbreviatedFormatedDay.get('./day[@type="wed"]').text(),
-        'thu':  abbreviatedFormatedDay.get('./day[@type="thu"]').text(),
-        'fri':  abbreviatedFormatedDay.get('./day[@type="fri"]').text(),
-        'sat':  abbreviatedFormatedDay.get('./day[@type="sat"]').text(),
-        'sun':  abbreviatedFormatedDay.get('./day[@type="sun"]').text()
-      },
-      narrow: {
-        'mon':  narrowFormatedDay.get('./day[@type="mon"]').text(),
-        'tue':  narrowFormatedDay.get('./day[@type="tue"]').text(),
-        'wed':  narrowFormatedDay.get('./day[@type="wed"]').text(),
-        'thu':  narrowFormatedDay.get('./day[@type="thu"]').text(),
-        'fri':  narrowFormatedDay.get('./day[@type="fri"]').text(),
-        'sat':  narrowFormatedDay.get('./day[@type="sat"]').text(),
-        'sun':  narrowFormatedDay.get('./day[@type="sun"]').text()
-      }
+      short: this.CLDR.main('dates/calendars/gregorian/days/format/short'),
+      wide: this.CLDR.main('dates/calendars/gregorian/days/format/wide'),
+      abbreviated: this.CLDR.main('dates/calendars/gregorian/days/format/abbreviated'),
+      narrow: this.CLDR.main('dates/calendars/gregorian/days/format/narrow')
     },
     standalone: {
-      short: {
-        'mon':  shortStandaloneDay.get('./day[@type="mon"]').text(),
-        'tue':  shortStandaloneDay.get('./day[@type="tue"]').text(),
-        'wed':  shortStandaloneDay.get('./day[@type="wed"]').text(),
-        'thu':  shortStandaloneDay.get('./day[@type="thu"]').text(),
-        'fri':  shortStandaloneDay.get('./day[@type="fri"]').text(),
-        'sat':  shortStandaloneDay.get('./day[@type="sat"]').text(),
-        'sun':  shortStandaloneDay.get('./day[@type="sun"]').text()
-      },
-      wide: {
-        'mon':  wideStandaloneDay.get('./day[@type="mon"]').text(),
-        'tue':  wideStandaloneDay.get('./day[@type="tue"]').text(),
-        'wed':  wideStandaloneDay.get('./day[@type="wed"]').text(),
-        'thu':  wideStandaloneDay.get('./day[@type="thu"]').text(),
-        'fri':  wideStandaloneDay.get('./day[@type="fri"]').text(),
-        'sat':  wideStandaloneDay.get('./day[@type="sat"]').text(),
-        'sun':  wideStandaloneDay.get('./day[@type="sun"]').text()
-      },
-      abbreviated: {
-        'mon':  abbreviatedStandaloneDay.get('./day[@type="mon"]').text(),
-        'tue':  abbreviatedStandaloneDay.get('./day[@type="tue"]').text(),
-        'wed':  abbreviatedStandaloneDay.get('./day[@type="wed"]').text(),
-        'thu':  abbreviatedStandaloneDay.get('./day[@type="thu"]').text(),
-        'fri':  abbreviatedStandaloneDay.get('./day[@type="fri"]').text(),
-        'sat':  abbreviatedStandaloneDay.get('./day[@type="sat"]').text(),
-        'sun':  abbreviatedStandaloneDay.get('./day[@type="sun"]').text()
-      },
-      narrow: {
-        'mon':  narrowStandaloneDay.get('./day[@type="mon"]').text(),
-        'tue':  narrowStandaloneDay.get('./day[@type="tue"]').text(),
-        'wed':  narrowStandaloneDay.get('./day[@type="wed"]').text(),
-        'thu':  narrowStandaloneDay.get('./day[@type="thu"]').text(),
-        'fri':  narrowStandaloneDay.get('./day[@type="fri"]').text(),
-        'sat':  narrowStandaloneDay.get('./day[@type="sat"]').text(),
-        'sun':  narrowStandaloneDay.get('./day[@type="sun"]').text()
-      }
+      short: this.CLDR.main('dates/calendars/gregorian/days/stand-alone/short'),
+      wide: this.CLDR.main('dates/calendars/gregorian/days/stand-alone/wide'),
+      abbreviated: this.CLDR.main('dates/calendars/gregorian/days/stand-alone/abbreviated'),
+      narrow: this.CLDR.main('dates/calendars/gregorian/days/stand-alone/narrow')
     }
   };
 
-  var abbreviatedFormatedPeriod = this._getXMLNode('//calendar[@type="gregorian"]/dayPeriods/dayPeriodContext[@type="format"]/dayPeriodWidth[@type="abbreviated"]/dayPeriod', 'type');
-  var narrowFormatedPeriod = this._getXMLNode('//calendar[@type="gregorian"]/dayPeriods/dayPeriodContext[@type="format"]/dayPeriodWidth[@type="narrow"]/dayPeriod', 'type');
-  var wideFormatedPeriod = this._getXMLNode('//calendar[@type="gregorian"]/dayPeriods/dayPeriodContext[@type="format"]/dayPeriodWidth[@type="wide"]/dayPeriod', 'type');
-
   this.date['period'] = {
-    abbreviated: {
-      am: abbreviatedFormatedPeriod.get('./dayPeriod[@type="am"]').text(),
-      pm: abbreviatedFormatedPeriod.get('./dayPeriod[@type="pm"]').text()
-    },
-    narrow: {
-      am: narrowFormatedPeriod.get('./dayPeriod[@type="am"]').text(),
-      pm: narrowFormatedPeriod.get('./dayPeriod[@type="pm"]').text()
-    },
-    wide: {
-      am: wideFormatedPeriod.get('./dayPeriod[@type="am"]').text(),
-      pm: wideFormatedPeriod.get('./dayPeriod[@type="pm"]').text()
-    }
+    abbreviated: this.CLDR.main('dates/calendars/gregorian/dayPeriods/format/abbreviated'),
+    narrow: this.CLDR.main('dates/calendars/gregorian/dayPeriods/format/narrow'),
+    wide: this.CLDR.main('dates/calendars/gregorian/dayPeriods/format/wide')
   };
 
   cache[this.languageTag].date = this.date;
