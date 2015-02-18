@@ -1,6 +1,6 @@
 # Changelog
 
-## v1.1
+## v2.0
 
 * Adds Dateformat
 * Adds cldrjs and cldr-data
