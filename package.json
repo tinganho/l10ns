@@ -46,7 +46,6 @@
     "glob": "~3.2.8",
     "hashids": "~0.1.4",
     "helmet": "~0.1.2",
-    "libxmljs": "~0.11.0",
     "lunr": "~0.4.3",
     "mkdirp": "~0.5.0",
     "mocha": "~1.8.2",
@@ -56,13 +55,13 @@
     "prompt": "~0.2.12",
     "q": "~1.0.0",
     "requirejs": "~2.1.10",
-    "sinon": "~1.8.2",
     "superagent": "~0.17.0",
     "terminal-colors": "~0.1.3",
     "underscore": "~1.5.2",
     "update-notifier": "^0.2.2"
   },
   "devDependencies": {
+    "sinon": "~1.8.2",
     "chai": "^1.9.1",
     "grunt": "~0.4.2",
     "grunt-contrib-clean": "~0.5.0",

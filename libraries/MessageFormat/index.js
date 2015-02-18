@@ -4,7 +4,6 @@
  */
 var Lexer = require('../Lexer');
 var AST = require('./AST');
-var xml = require('libxmljs');
 var fs = require('fs');
 var path = require('path');
 var LDML = require('../LDML');
