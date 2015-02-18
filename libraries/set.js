@@ -28,10 +28,10 @@ function Set() {}
  * @api public
  */
 
-Set.prototype.run = function(reference, value, locale) {
+Set.prototype.run = function(reference, value, language) {
   var _this = this, key;
 
-  locale = locale || project.defaultLocale;
+  language = language || project.defaultLanguage;
 
   if(typeof reference !== 'string') {
     return log.error('You must reference a translation. Either using a translation key or tag.');
@@ -39,12 +39,12 @@ Set.prototype.run = function(reference, value, locale) {
   if(typeof value !== 'string') {
     return log.error('You must specify a value for the translation.');
   }
-  if(!(locale in project.locales)) {
-    return log.error('Locale ' + locale.yellow + ' is not defined.');
+  if(!(language in project.languages)) {
+    return log.error('Locale ' + language.yellow + ' is not defined.');
   }
 
   try {
-    var messageFormat = new MessageFormat(locale);
+    var messageFormat = new MessageFormat(language);
     messageFormat.parse(value);
   }
   catch(error) {
@@ -56,13 +56,13 @@ Set.prototype.run = function(reference, value, locale) {
   this._getKey(reference)
     .then(function(_key) {
       key = _key;
-      return _this._replace(key, value, locale);
+      return _this._replace(key, value, language);
     })
     .then(function(localizations) {
       return file.writeLocalizations(localizations);
     })
     .then(function() {
-      log.success('Updated key ' + key.yellow + ' in ' + locale.yellow + ' to ' + value.yellow + '.');
+      log.success('Updated key ' + key.yellow + ' in ' + language.yellow + ' to ' + value.yellow + '.');
     })
     .fail(function(error) {
       if(commands.stack) {

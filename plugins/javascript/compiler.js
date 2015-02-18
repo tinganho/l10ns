@@ -76,15 +76,15 @@ Compiler.prototype.run = function() {
 
   var compiledFiles = glob.sync(project.output + '/*.js');
   compiledFiles.forEach(function(file) {
-    if(!/all\.js$/.test(file) && !(file in project.locales)) {
+    if(!/all\.js$/.test(file) && !(file in project.languages)) {
       fs.unlink(file);
     }
   });
 
   this._getLocalizationMap()
     .then(function(localizationsMap) {
-      var localesCount = 0;
-      var localesLength = Object.keys(localizationsMap).length
+      var languagesCount = 0;
+      var languagesLength = Object.keys(localizationsMap).length
       var allLocalizations = '';
 
       if(project.outputFile) {
@@ -95,9 +95,9 @@ Compiler.prototype.run = function() {
         throw new TypeError('You must define an output in your l10ns.json file.');
       }
 
-      for(var locale in localizationsMap) {
+      for(var language in localizationsMap) {
         var stringMap = template['LocalizationsMap']({
-          localizations: _this._indentSpaces(2, localizationsMap[locale])
+          localizations: _this._indentSpaces(2, localizationsMap[language])
         });
 
         var content = template['JavascriptWrapper']({
@@ -112,25 +112,25 @@ Compiler.prototype.run = function() {
           functionName: language.GET_LOCALIZATION_STRING_FUNCTION_NAME,
           localizationMap: _this._indentSpaces(2, stringMap),
           functionBlock: _this._indentSpaces(2, template['LocalizationGetter']({
-            locale: locale
+            language: language
           })),
           moduleExportBlock: _this._indentSpaces(2, template['ModuleExportBlock']({
             variableName: 'l'
           }))
         });
 
-        var filePath = path.join(project.root, project.output) + '/' + locale + '.js';
+        var filePath = path.join(project.root, project.output) + '/' + language + '.js';
         mkdirp.sync(path.dirname(filePath));
         fs.writeFileSync(filePath, content);
 
-        allLocalizations += localizationsMap[locale];
+        allLocalizations += localizationsMap[language];
 
-        if(localesCount !== localesLength - 1) {
+        if(languagesCount !== languagesLength - 1) {
           allLocalizations += _this.comma;
           allLocalizations += _this.linefeed;
         }
 
-        localesCount++;
+        languagesCount++;
       }
 
       var stringMap = template['LocalizationsMap']({
@@ -196,7 +196,7 @@ Compiler.prototype._indentSpaces = function(spaces, string) {
 /**
  * Get localization map string.
  *
- * @param {String} locale
+ * @param {String} language
  * @return {Promise}
  * @resolves {String} String representing a localization map
  * @api private
@@ -207,14 +207,14 @@ Compiler.prototype._getLocalizationMap = function() {
   file.readLocalizations()
     .then(function(localizations) {
       var localizationsMap = {};
-      var localesLength = Object.keys(localizations).length;
-      var localesCount = 0;
+      var languagesLength = Object.keys(localizations).length;
+      var languagesCount = 0;
 
-      for(var locale in localizations) {
+      for(var language in localizations) {
         var localizationMap = '';
-        var localizationsLength = Object.keys(localizations[locale]).length;
+        var localizationsLength = Object.keys(localizations[language]).length;
         var localizationsCount = 0;
-        var messageFormat = new MessageFormat(locale);
+        var messageFormat = new MessageFormat(language);
 
         localizationMap += template['LocalizationKeyValue']({
           key: '__getPluralKeyword',
@@ -251,12 +251,12 @@ Compiler.prototype._getLocalizationMap = function() {
         }
 
         var localizationsCount = 0;
-        for(var key in localizations[locale]) {
-          messageFormat.parse(localizations[locale][key].value);
+        for(var key in localizations[language]) {
+          messageFormat.parse(localizations[language][key].value);
           var _function = template['Function']({
             functionBody: _this._indentSpaces(
               2,
-              _this._getFunctionBody(messageFormat.messageAST, locale)
+              _this._getFunctionBody(messageFormat.messageAST, language)
             )
           });
 
@@ -273,8 +273,8 @@ Compiler.prototype._getLocalizationMap = function() {
           localizationsCount++;
         }
 
-        localizationsMap[locale] = template['LocalizationMap']({
-          locale: locale,
+        localizationsMap[language] = template['LocalizationMap']({
+          language: language,
           map: _this._indentSpaces(2, localizationMap)
         });
       }
@@ -296,7 +296,7 @@ Compiler.prototype._getLocalizationMap = function() {
  * @api private
  */
 
-Compiler.prototype._getFunctionBody = function(messageAST, locale) {
+Compiler.prototype._getFunctionBody = function(messageAST, language) {
   var result = '';
 
   for(var index = 0; index < messageAST.length; index++) {
@@ -311,7 +311,7 @@ Compiler.prototype._getFunctionBody = function(messageAST, locale) {
       result += template['Variable']({ variableName: messageAST[index].name });
     }
     else if(messageAST[index] instanceof MessageFormat.AST.Remaining) {
-      result += this._compileRemaining(messageAST[index], locale);
+      result += this._compileRemaining(messageAST[index], language);
     }
     else if(messageAST[index] instanceof MessageFormat.AST.NumberFormat) {
       result += this._compileNumberFormat(messageAST[index]);
@@ -323,13 +323,13 @@ Compiler.prototype._getFunctionBody = function(messageAST, locale) {
       result += this._compileCurrencyFormat(messageAST[index]);
     }
     else if(messageAST[index] instanceof MessageFormat.AST.PluralFormat) {
-      result += this._compilePluralFormat(messageAST[index], locale);
+      result += this._compilePluralFormat(messageAST[index], language);
     }
     else if(messageAST[index] instanceof MessageFormat.AST.SelectFormat) {
       result += this._compileSelectFormat(messageAST[index]);
     }
     else if(messageAST[index] instanceof MessageFormat.AST.SelectordinalFormat) {
-      result += this._compileSelectordinalFormat(messageAST[index], locale);
+      result += this._compileSelectordinalFormat(messageAST[index], language);
     }
 
     if(index !== messageAST.length - 1) {
@@ -344,12 +344,12 @@ Compiler.prototype._getFunctionBody = function(messageAST, locale) {
  * Compile remaining
  *
  * @param {AST.Remaining} remaining
- * @param {String} locale
+ * @param {String} language
  * @return {String}
  * @api private
  */
 
-Compiler.prototype._compileRemaining = function(remaining, locale) {
+Compiler.prototype._compileRemaining = function(remaining, language) {
   var pattern = remaining.pattern;
   var minimumIntegerDigits = 0;
   var maximumIntegerDigits = 0;
@@ -399,7 +399,7 @@ Compiler.prototype._compileRemaining = function(remaining, locale) {
     minimumSignificantDigits: minimumSignificantDigits,
     maximumSignificantDigits: maximumSignificantDigits,
     groupSize: pattern.groupSize,
-    locale: locale,
+    language: language,
     numberSystem: remaining.numberSystem,
     exponent: !pattern.exponent ? null : {
       digits: pattern.exponent.nonAbsentNumbers,
@@ -487,7 +487,7 @@ Compiler.prototype._compileNumberFormat = function(numberFormat) {
       minimumSignificantDigits: minimumSignificantDigits,
       maximumSignificantDigits: maximumSignificantDigits,
       groupSize: pattern.groupSize,
-      locale: numberFormat.locale,
+      language: numberFormat.language,
       numberSystem: numberFormat.numberSystem,
       exponent: !pattern.exponent ? null : {
         digits: pattern.exponent.nonAbsentNumbers,
@@ -503,7 +503,7 @@ Compiler.prototype._compileNumberFormat = function(numberFormat) {
   if(numberFormat.pattern['positive'].currency) {
     result += template['SetCurrencyUnitBlock']({
       variableName: numberFormat.variable.name,
-      locale: numberFormat.locale,
+      language: numberFormat.language,
       currency: {
         type: numberFormat.pattern['positive'].currency.type,
         context: numberFormat.pattern['positive'].currency.context
@@ -609,7 +609,7 @@ Compiler.prototype._compileCurrencyFormat = function(currencyFormat) {
       minimumSignificantDigits: minimumSignificantDigits,
       maximumSignificantDigits: maximumSignificantDigits,
       groupSize: pattern.groupSize,
-      locale: currencyFormat.locale,
+      language: currencyFormat.language,
       numberSystem: currencyFormat.numberSystem,
       exponent: !pattern.exponent ? null : {
         digits: pattern.exponent.nonAbsentNumbers,
@@ -624,7 +624,7 @@ Compiler.prototype._compileCurrencyFormat = function(currencyFormat) {
 
   result += template['SetCurrencyUnitBlock']({
     variableName: currencyFormat.variable.name,
-    locale: currencyFormat.locale,
+    language: currencyFormat.language,
     currency: {
       type: currencyFormat.type,
       context: currencyFormat.context
@@ -643,7 +643,7 @@ Compiler.prototype._compileCurrencyFormat = function(currencyFormat) {
       variableName: currencyFormat.variable.name,
       positive: this._indentSpaces(4, _case['positive']),
       negative: this._indentSpaces(4, _case['negative']),
-      locale: currencyFormat.locale,
+      language: currencyFormat.language,
       currency: {
         type: currencyFormat.type,
         context: currencyFormat.context
@@ -1085,14 +1085,14 @@ Compiler.prototype._compileSelectFormat = function(selectFormat) {
  * @api private
  */
 
-Compiler.prototype._compilePluralFormat = function(pluralFormat, locale) {
+Compiler.prototype._compilePluralFormat = function(pluralFormat, language) {
   var switchBody = '';
   var setCaseStatement = '';
   var exactCases = [];
   var conditionOrder = 'if';
 
   for(var _case in pluralFormat.values) {
-    var caseBody = this._getFunctionBody(pluralFormat.values[_case], locale);
+    var caseBody = this._getFunctionBody(pluralFormat.values[_case], language);
     if(_case !== 'other') {
       switchBody += template['Case']({
         case: _case.replace('infinity', 'Infinity'),
@@ -1124,13 +1124,13 @@ Compiler.prototype._compilePluralFormat = function(pluralFormat, locale) {
     }
     setCaseStatement += this.linefeed;
     setCaseStatement += template['SetPluralElseCase']({
-      locale: pluralFormat.locale,
+      language: pluralFormat.language,
       variableName: pluralFormat.variable.name
     });
   }
   else {
     setCaseStatement += template['SetPluralCase']({
-      locale: pluralFormat.locale,
+      language: pluralFormat.language,
       variableName: pluralFormat.variable.name
     });
   }
@@ -1152,14 +1152,14 @@ Compiler.prototype._compilePluralFormat = function(pluralFormat, locale) {
  * @api private
  */
 
-Compiler.prototype._compileSelectordinalFormat = function(selectordinalFormat, locale) {
+Compiler.prototype._compileSelectordinalFormat = function(selectordinalFormat, language) {
   var switchBody = '';
   var setCaseStatement = '';
   var exactCases = [];
   var conditionOrder = 'if';
 
   for(var _case in selectordinalFormat.values) {
-    var caseBody = this._getFunctionBody(selectordinalFormat.values[_case], locale);
+    var caseBody = this._getFunctionBody(selectordinalFormat.values[_case], language);
     if(_case !== 'other') {
       switchBody += template['Case']({
         case: _case,
@@ -1191,13 +1191,13 @@ Compiler.prototype._compileSelectordinalFormat = function(selectordinalFormat, l
     }
     setCaseStatement += this.linefeed;
     setCaseStatement += template['SetOrdinalElseCase']({
-      locale: selectordinalFormat.locale,
+      language: selectordinalFormat.language,
       variableName: selectordinalFormat.variable.name
     });
   }
   else {
     setCaseStatement += template['SetOrdinalCase']({
-      locale: selectordinalFormat.locale,
+      language: selectordinalFormat.language,
       variableName: selectordinalFormat.variable.name
     });
   }

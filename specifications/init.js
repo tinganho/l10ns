@@ -68,7 +68,7 @@ describe('Init', function() {
       init._getProjectName.should.have.been.calledOnce;
     });
 
-    it('after getting project name it should set it and then ask for locales', function(done) {
+    it('after getting project name it should set it and then ask for languages', function(done) {
       program.DEFAULT_CONFIGURATIONS = {};
       dependencies.fs.existsSync = stub().returns(false);
       dependencies['findup-sync'] = stub().returns(false);
@@ -76,16 +76,16 @@ describe('Init', function() {
       init._createReadlineInterface = noop;
       init._outputIntroduction = noop;
       init._getProjectName = stub().returns(resolvesTo('name1'));
-      init._getLocales = stub().returns(rejects());
+      init._getLanguages = stub().returns(rejects());
       init.run();
       eventually(function() {
         expect(init.projectName).to.equal('name1');
-        init._getLocales.should.have.been.calledOnce;
+        init._getLanguages.should.have.been.calledOnce;
         done();
       });
     });
 
-    it('after getting locales it should set it and then ask for default locale', function(done) {
+    it('after getting languages it should set it and then ask for default language', function(done) {
       program.DEFAULT_CONFIGURATIONS = {};
       dependencies.fs.existsSync = stub().returns(false);
       dependencies['findup-sync'] = stub().returns(false);
@@ -93,18 +93,18 @@ describe('Init', function() {
       init._createReadlineInterface = noop;
       init._outputIntroduction = noop;
       init._getProjectName = stub().returns(resolvesTo('name1'));
-      init._getLocales = stub().returns(resolvesTo({ 'locale1': 'locale1-title' }));
-      init._getDefaultLocale = stub().returns(rejects());
+      init._getLanguages = stub().returns(resolvesTo({ 'language1': 'language1-title' }));
+      init._getDefaultLanguage = stub().returns(rejects());
       init.run();
       eventually(function() {
-        expect(init.json.locales).to.eql({ 'locale1': 'locale1-title' });
-        init._getDefaultLocale.should.have.been.calledOnce;
-        init._getDefaultLocale.should.have.been.calledWith({ 'locale1': 'locale1-title' });
+        expect(init.json.languages).to.eql({ 'language1': 'language1-title' });
+        init._getDefaultLanguage.should.have.been.calledOnce;
+        init._getDefaultLanguage.should.have.been.calledWith({ 'language1': 'language1-title' });
         done();
       });
     });
 
-    it('after getting default locale, it should set it and then ask for programming languague', function(done) {
+    it('after getting default language, it should set it and then ask for programming languague', function(done) {
       program.DEFAULT_CONFIGURATIONS = {};
       dependencies.fs.existsSync = stub().returns(false);
       dependencies['findup-sync'] = stub().returns(false);
@@ -112,12 +112,12 @@ describe('Init', function() {
       init._createReadlineInterface = noop;
       init._outputIntroduction = noop;
       init._getProjectName = stub().returns(resolvesTo('name1'));
-      init._getLocales = stub().returns(resolvesTo({ 'locale1': 'locale1-title' }));
-      init._getDefaultLocale = stub().returns(resolvesTo('locale1'));
+      init._getLanguages = stub().returns(resolvesTo({ 'language1': 'language1-title' }));
+      init._getDefaultLanguage = stub().returns(resolvesTo('language1'));
       init._getProgrammingLanguage = stub().returns(rejects());
       init.run();
       eventually(function() {
-        expect(init.json.defaultLocale).to.eql('locale1');
+        expect(init.json.defaultLanguage).to.eql('language1');
         init._getProgrammingLanguage.should.have.been.calledOnce;
         done();
       });
@@ -131,8 +131,8 @@ describe('Init', function() {
       init._createReadlineInterface = noop;
       init._outputIntroduction = noop;
       init._getProjectName = stub().returns(resolvesTo('name1'));
-      init._getLocales = stub().returns(resolvesTo({ 'locale1': 'locale1-title' }));
-      init._getDefaultLocale = stub().returns(resolvesTo('locale1'));
+      init._getLanguages = stub().returns(resolvesTo({ 'language1': 'language1-title' }));
+      init._getDefaultLanguage = stub().returns(resolvesTo('language1'));
       init._getProgrammingLanguage = stub().returns(resolvesTo('javascript'));
       init._getStorageFolder = stub().returns(rejects());
       init.run();
@@ -152,8 +152,8 @@ describe('Init', function() {
       init._createReadlineInterface = noop;
       init._outputIntroduction = noop;
       init._getProjectName = stub().returns(resolvesTo('name1'));
-      init._getLocales = stub().returns(resolvesTo({ 'locale1': 'locale1-title' }));
-      init._getDefaultLocale = stub().returns(resolvesTo('locale1'));
+      init._getLanguages = stub().returns(resolvesTo({ 'language1': 'language1-title' }));
+      init._getDefaultLanguage = stub().returns(resolvesTo('language1'));
       init._getProgrammingLanguage = stub().returns(resolvesTo('javascript'));
       init._getStorageFolder = stub().returns(resolvesTo('storage-folder/'));
       init._setDefaultSrc = spy();
@@ -211,25 +211,25 @@ describe('Init', function() {
     });
   });
 
-  describe('#_getLocales()', function() {
+  describe('#_getLanguages()', function() {
     it('should return a promise', function() {
       dependencies.q.defer = stub().returns({ promise: 'promise' });
       var init = new (proxyquire('../libraries/init', dependencies).Init);
       init.rl =  { question: function() {} };
-      expect(init._getLocales()).to.equal('promise');
+      expect(init._getLanguages()).to.equal('promise');
     });
 
-    it('should resolve to default locale if empty option is choosed', function() {
-      program.DEFAULT_LOCALE_CODE = 'default-locale-code';
-      program.DEFAULT_LOCALE_NAME = 'default-lcoale-name';
+    it('should resolve to default language if empty option is choosed', function() {
+      program.DEFAULT_LANGUAGE_TAG = 'default-language-tag';
+      program.DEFAULT_LANGUAGE_NAME = 'default-language-name';
       var deferred = { resolve: spy() };
       dependencies.q.defer = stub().returns(deferred);
       var init = new (proxyquire('../libraries/init', dependencies).Init);
       init.rl = {};
       init.rl.question = stub().callsArgWith(1, '');
-      init._getLocales();
+      init._getLanguages();
       var res = {};
-      res[program.DEFAULT_LOCALE_CODE] = program.DEFAULT_LOCALE_NAME;
+      res[program.DEFAULT_LANGUAGE_TAG] = program.DEFAULT_LANGUAGE_NAME;
       deferred.resolve.should.have.been.calledOnce;
       deferred.resolve.should.have.been.calledWith(res);
     });
@@ -238,82 +238,82 @@ describe('Init', function() {
       var deferred = { resolve: spy() };
       dependencies.q.defer = stub().returns(deferred);
       var init = new (proxyquire('../libraries/init', dependencies).Init);
-      program.LOCALES_SYNTAX = { test: stub().returns(false) };
+      program.LANGUAGES_SYNTAX = { test: stub().returns(false) };
       init.rl = {};
       init.rl.question = stub()
       init.rl.question.onCall(0).callsArgWith(1, 'syntax-wrong');
       init.rl.question.onCall(1).callsArgWith(1, '');
-      init._getLocales();
-      program.LOCALES_SYNTAX.test.should.have.been.calledOnce;
-      program.LOCALES_SYNTAX.test.should.have.been.calledWith('syntax-wrong');
+      init._getLanguages();
+      program.LANGUAGES_SYNTAX.test.should.have.been.calledOnce;
+      program.LANGUAGES_SYNTAX.test.should.have.been.calledWith('syntax-wrong');
       deferred.resolve.should.have.been.calledOnce;
     });
 
-    it('should resolve to a syntax wrong-free locale(single) option', function() {
+    it('should resolve to a syntax wrong-free language(single) option', function() {
       var deferred = { resolve: spy() };
       dependencies.q.defer = stub().returns(deferred);
       var init = new (proxyquire('../libraries/init', dependencies).Init);
-      program.LOCALES_SYNTAX = { test: stub().returns(true) };
+      program.LANGUAGES_SYNTAX = { test: stub().returns(true) };
       init.rl = {};
       init.rl.question = stub()
       init.rl.question.onCall(0).callsArgWith(1, 'en-US:English (US)');
-      init._getLocales();
+      init._getLanguages();
       deferred.resolve.should.have.been.calledOnce;
       deferred.resolve.should.have.been.calledWith({ 'en-US': 'English (US)' });
     });
 
-    it('should resolve to a syntax wrong-free locales(multiple) option', function() {
+    it('should resolve to a syntax wrong-free languages(multiple) option', function() {
       var deferred = { resolve: spy() };
       dependencies.q.defer = stub().returns(deferred);
       var init = new (proxyquire('../libraries/init', dependencies).Init);
-      program.LOCALES_SYNTAX = { test: stub().returns(true) };
+      program.LANGUAGES_SYNTAX = { test: stub().returns(true) };
       init.rl = {};
       init.rl.question = stub()
       init.rl.question.onCall(0).callsArgWith(1, 'en-US:English (US),zh-CN:Chinese');
-      init._getLocales();
+      init._getLanguages();
       deferred.resolve.should.have.been.calledOnce;
       deferred.resolve.should.have.been.calledWith({ 'en-US': 'English (US)', 'zh-CN':'Chinese' });
     });
   });
 
-  describe('#_getDefaultLocale(locales)', function() {
+  describe('#_getDefaultLanguage(languages)', function() {
     it('should return a promise', function() {
       dependencies.q.defer = stub().returns({ promise: 'promise' });
       var init = new (proxyquire('../libraries/init', dependencies).Init);
       init.rl =  { question: function() {} };
-      var locales = { 'en-US': 'English (US)', 'zh-CN': 'Chinese' };
-      expect(init._getDefaultLocale(locales)).to.equal('promise');
+      var languages = { 'en-US': 'English (US)', 'zh-CN': 'Chinese' };
+      expect(init._getDefaultLanguage(languages)).to.equal('promise');
     });
 
-    it('if there is only one locale it should resolve to it', function() {
+    it('if there is only one language it should resolve to it', function() {
       var deferred = { resolve: spy() };
       dependencies.q.defer = stub().returns(deferred);
       var init = new (proxyquire('../libraries/init', dependencies).Init);
       init.rl =  { question: function() {} };
-      var locales = { 'en-US': 'English (US)'};
-      init._getDefaultLocale(locales);
+      var languages = { 'en-US': 'English (US)'};
+      init._getDefaultLanguage(languages);
       deferred.resolve.should.have.been.calledOnce;
       deferred.resolve.should.have.been.calledWith('en-US');
     });
 
-    it('should create a form for choosing default locale', function() {
-      text.DEFAULT_LOCALE_QUESTION = 'Default locale question';
+    it('should create a form for choosing default language', function() {
+      text.DEFAULT_LANGUAGE_QUESTION = 'Default language question';
       var init = new (proxyquire('../libraries/init', dependencies).Init);
       init.rl =  { question: spy() };
-      var locales = { 'en-US': 'English (US)', 'zh-CN': 'Chinese' };
-      init._getDefaultLocale(locales);
-      expect(init.rl.question.args[0][0]).to.contain(text.DEFAULT_LOCALE_QUESTION);
+      var languages = { 'en-US': 'English (US)', 'zh-CN': 'Chinese' };
+      init._getDefaultLanguage(languages);
+      expect(init.rl.question.args[0][0]).to.contain(text.DEFAULT_LANGUAGE_QUESTION);
       expect(init.rl.question.args[0][0]).to.contain('English (US)');
       expect(init.rl.question.args[0][0]).to.contain('Chinese');
     });
 
-    it('should resolve to a choosen locale', function(done) {
+    it('should resolve to a choosen language', function(done) {
       var deferred = { resolve: spy() };
       dependencies.q.defer = stub().returns(deferred);
       var init = new (proxyquire('../libraries/init', dependencies).Init);
       init.rl =  { question: stub().callsArgWith(1, '1') };
-      var locales = { 'en-US': 'English (US)', 'zh-CN': 'Chinese' };
-      init._getDefaultLocale(locales);
+      var languages = { 'en-US': 'English (US)', 'zh-CN': 'Chinese' };
+      init._getDefaultLanguage(languages);
       eventually(function() {
         deferred.resolve.should.have.been.calledOnce;
         deferred.resolve.should.have.been.calledWith('en-US');
@@ -322,18 +322,18 @@ describe('Init', function() {
     });
 
     it('should re-ask if an invalid option is given', function(done) {
-      text.DEFAULT_LOCALE_WRONG_ANSWER = 'wrong-answer';
+      text.DEFAULT_LANGUAGE_WRONG_ANSWER = 'wrong-answer';
       var deferred = { resolve: spy() };
       dependencies.q.defer = stub().returns(deferred);
       var init = new (proxyquire('../libraries/init', dependencies).Init);
       init.rl =  { question: stub() };
       init.rl.question.onCall(0).callsArgWith(1, 'invalid-option');
       init.rl.question.onCall(1).callsArgWith(1, '1');
-      var locales = { 'en-US': 'English (US)', 'zh-CN': 'Chinese' };
-      init._getDefaultLocale(locales);
+      var languages = { 'en-US': 'English (US)', 'zh-CN': 'Chinese' };
+      init._getDefaultLanguage(languages);
       eventually(function() {
         init.rl.question.should.have.been.calledTwice;
-        expect(init.rl.question.args[1][0]).to.contain(text.DEFAULT_LOCALE_WRONG_ANSWER);
+        expect(init.rl.question.args[1][0]).to.contain(text.DEFAULT_LANGUAGE_WRONG_ANSWER);
         deferred.resolve.should.have.been.calledOnce;
         deferred.resolve.should.have.been.calledWith('en-US');
         done();
@@ -499,7 +499,7 @@ describe('Init', function() {
       init.json = {};
       init._writeProject();
       dependencies.fs.writeFileSync.should.have.been.calledOnce;
-      dependencies.fs.writeFileSync.should.have.been.calledWith('current-working-directory/l10ns.json', '\n{\n  "defaultProject": "",\n  "projects": {\n    "": {}\n  }\n}\n');
+      dependencies.fs.writeFileSync.should.have.been.calledWith('current-working-directory/l10ns.json', '{\n  "defaultProject": "",\n  "projects": {\n    "": {}\n  }\n}');
       cwdStub.restore();
     });
 

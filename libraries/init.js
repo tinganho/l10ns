@@ -38,14 +38,14 @@ Init.prototype.run = function() {
   this._getProjectName()
   .then(function(projectName) {
     _this.projectName = projectName;
-    return _this._getLocales();
+    return _this._getLanguages();
   })
-  .then(function(locales) {
-    _this.json.locales = locales;
-    return _this._getDefaultLocale(locales);
+  .then(function(languages) {
+    _this.json.languages = languages;
+    return _this._getDefaultLanguage(languages);
   })
-  .then(function(locale) {
-    _this.json.defaultLocale = locale;
+  .then(function(language) {
+    _this.json.defaultLanguage = language;
     return _this._getProgrammingLanguage();
   })
   .then(function(programmingLanguage) {
@@ -131,39 +131,39 @@ Init.prototype._getProjectName = function() {
 };
 
 /**
- * Get locales
+ * Get languages
  *
  * @return {Promise}
  * @api public
  */
 
-Init.prototype._getLocales = function() {
+Init.prototype._getLanguages = function() {
   var _this = this;
   var deferred = defer();
-  var question = text.LOCALES_DESCRIPTION + 'locales: (' +
-      program.DEFAULT_LOCALE_CODE + ':' + program.DEFAULT_LOCALE_NAME + ') ';
-  var wrongAnswer = text.LOCALES_WRONG_ANSWER + question;
+  var question = text.LANGUAGES_DESCRIPTION + 'languages: (' +
+      program.DEFAULT_LANGUAGE_TAG + ':' + program.DEFAULT_LANGUAGE_NAME + ') ';
+  var wrongAnswer = text.LANGUAGES_WRONG_ANSWER + question;
   var answeredWrong = false;
 
   (function ask() {
     if(answeredWrong) {
       question = wrongAnswer;
     }
-    _this.rl.question(question, function(locales) {
-      locales = locales.trim();
+    _this.rl.question(question, function(languages) {
+      languages = languages.trim();
 
       var result = {};
-      if(locales === '') {
-        result[program.DEFAULT_LOCALE_CODE] = program.DEFAULT_LOCALE_NAME;
+      if(languages === '') {
+        result[program.DEFAULT_LANGUAGE_TAG] = program.DEFAULT_LANGUAGE_NAME;
         return deferred.resolve(result);
       }
-      if(!program.LOCALES_SYNTAX.test(locales)) {
+      if(!program.LANGUAGES_SYNTAX.test(languages)) {
         answeredWrong = true;
         return ask();
       }
-      locales.split(',').forEach(function(locale) {
-        locale = locale.split(':');
-        result[locale[0].trim()] = locale[1].trim();
+      languages.split(',').forEach(function(language) {
+        language = language.split(':');
+        result[language[0].trim()] = language[1].trim();
       });
 
       deferred.resolve(result);
@@ -174,38 +174,38 @@ Init.prototype._getLocales = function() {
 };
 
 /**
- * Get default locale
+ * Get default language from an array of languages
  *
- * @param {Array} locales
+ * @param {Array} languages
  * @return {Promise}
  * @api public
  */
 
-Init.prototype._getDefaultLocale = function(locales) {
-  var  _this = this
-    , deferred = defer()
-    , codes = Object.keys(locales)
-    , size = codes.length;
+Init.prototype._getDefaultLanguage = function(languages) {
+  var  _this = this;
+  var deferred = defer();
+  var codes = Object.keys(languages);
+  var size = codes.length;
 
   if(size === 1) {
     deferred.resolve(codes[0]);
     return deferred.promise;
   }
 
-  var options = '[', optionsEndWrap = '] '
-    , answeredWrong = false
-    , question = text.DEFAULT_LOCALE_QUESTION
-    , n = 1;
+  var options = '[', optionsEndWrap = '] ';
+  var answeredWrong = false;
+  var question = text.DEFAULT_LANGUAGE_QUESTION;
+  var n = 1;
 
-  for(var code in locales) {
-    question += ('[' + n + ']').lightBlue + ' - ' + locales[code] + '\n';
+  for(var tag in languages) {
+    question += ('[' + n + ']').lightBlue + ' - ' + languages[tag] + '\n';
     options += n + ',';
     n++;
   }
 
   options = options.slice(0, -1) + optionsEndWrap;
   question = question.slice(0, -1) + '\n' + options.lightBlue;
-  var wrongAnswer = text.DEFAULT_LOCALE_WRONG_ANSWER + question;
+  var wrongAnswer = text.DEFAULT_LANGUAGE_WRONG_ANSWER + question;
   (function ask() {
     if(answeredWrong) {
       question = wrongAnswer;
@@ -234,13 +234,13 @@ Init.prototype._getDefaultLocale = function(locales) {
  */
 
 Init.prototype._getProgrammingLanguage = function() {
-  var _this = this
-    , deferred = defer()
-    , answeredWrong = false
-    , question = text.CHOOSE_PROGRAMMING_LANGUAGE_QUESTION
-    , options = '['
-    , optionsEndWrap = '] '
-    , n = 1;
+  var _this = this;
+  var deferred = defer();
+  var answeredWrong = false;
+  var question = text.CHOOSE_PROGRAMMING_LANGUAGE_QUESTION;
+  var options = '[';
+  var optionsEndWrap = '] ';
+  var n = 1;
 
   for(var i = 0; i < program.PROGRAMMING_LANGUAGUES.length; i++) {
     question +=  ('[' + n + ']').lightBlue + ' - ' + program.PROGRAMMING_LANGUAGUES[i] + '\n';
@@ -349,7 +349,7 @@ Init.prototype._writeProject = function() {
     var projects = { defaultProject: this.projectName };
     projects.projects = {};
     projects.projects[this.projectName] = this.json;
-    fs.writeFileSync(file, this.linefeed + JSON.stringify(projects, null, 2) + this.linefeed);
+    fs.writeFileSync(file, JSON.stringify(projects, null, 2));
   }
 
   if(!fs.existsSync(folder)) {

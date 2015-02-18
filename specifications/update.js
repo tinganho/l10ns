@@ -296,10 +296,10 @@ describe('Update', function() {
 
   describe('#_mergeWithOldLocalizations()', function() {
     it('should read old localizations', function(done) {
-      project.locales = {};
+      project.languages = {};
       dependencies['./file'].readLocalizations = stub().returns(Q.resolve());
       var update = new (proxyquire('../libraries/update', dependencies).Update);
-      project.locales = {};
+      project.languages = {};
       update._mergeUserInputs = noop;
       update._mergeWithOldLocalizations();
       eventually(function() {
@@ -317,7 +317,7 @@ describe('Update', function() {
       dependencies['./merger'].mergeLocalizations = spy();
       dependencies['./merger'].mergeTimeStamp = spy();
       dependencies['./merger'].mergeId = spy();
-      project.locales = { 'en-US': 'English (US)' };
+      project.languages = { 'en-US': 'English (US)' };
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       update._mergeUserInputs = noop;
       update._mergeWithOldLocalizations({
@@ -335,7 +335,7 @@ describe('Update', function() {
       dependencies['./file'].readLocalizations = stub().returns(Q.resolve({
         'en-US': {}
       }));
-      project.locales = { 'en-US': 'English (US)' };
+      project.languages = { 'en-US': 'English (US)' };
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       update._mergeUserInputs = spy();
       update._mergeWithOldLocalizations({
@@ -353,7 +353,7 @@ describe('Update', function() {
         'en-US': {}
       }));
       dependencies['./merger'].mergeTimeStamp = stub().returns(0);
-      project.locales = { 'en-US': 'English (US)' };
+      project.languages = { 'en-US': 'English (US)' };
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       update._mergeUserInputs = spy();
       update._mergeWithOldLocalizations({
@@ -373,7 +373,7 @@ describe('Update', function() {
       deferred.resolve = spy();
       dependencies.q = {};
       dependencies.q.defer = stub().returns(deferred);
-      project.locales = { 'en-US': 'English (US)' };
+      project.languages = { 'en-US': 'English (US)' };
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       update._mergeUserInputs = stub().callsArgWith(2, null, { 'new-localization': {} });
       update._mergeWithOldLocalizations({
@@ -394,7 +394,7 @@ describe('Update', function() {
       deferred.resolve = spy();
       dependencies.q = {};
       dependencies.q.defer = stub().returns(deferred);
-      project.locales = { 'en-US': 'English (US)' };
+      project.languages = { 'en-US': 'English (US)' };
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       update._mergeUserInputs = stub().callsArgWith(2, { error: 'SIGINT' }, { 'new-localization': {} });
       update._mergeWithOldLocalizations({
@@ -415,7 +415,7 @@ describe('Update', function() {
       deferred.reject = spy();
       dependencies.q = {};
       dependencies.q.defer = stub().returns(deferred);
-      project.locales = { 'en-US': 'English (US)' };
+      project.languages = { 'en-US': 'English (US)' };
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       update._mergeUserInputs = stub().callsArgWith(2, { error: 'other-error' }, { 'new-localization': {} });
       update._mergeWithOldLocalizations({
@@ -431,15 +431,15 @@ describe('Update', function() {
 
   describe('#_getDeletedLocalizations()', function() {
     it('should return deleted localizations keys', function() {
-      project.locales = { 'en-US': 'English (US)' };
+      project.languages = { 'en-US': 'English (US)' };
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       var oldLocalizations = { 'en-US': { 'key1': {}}};
       var newLocalizations = { 'en-US': { 'key2': {}}};
       expect(update._getDeletedLocalizations(newLocalizations, oldLocalizations)).to.have.keys('key1');
     });
 
-    it('should add deleted locales, timestamp and files', function() {
-      project.locales = { 'en-US': 'English (US)', 'zh-CN': 'Chinese (Simplified)' };
+    it('should add deleted languages, timestamp and files', function() {
+      project.languages = { 'en-US': 'English (US)', 'zh-CN': 'Chinese (Simplified)' };
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       var oldLocalizations = { 'en-US': { 'key1': { files: ['file1'] }}, 'zh-CN': { 'key1': { files: ['file1'] }}};
       var newLocalizations = { 'en-US': { 'key2': {}}, 'zh-CN': { 'key2': {}}};
@@ -449,8 +449,8 @@ describe('Update', function() {
 
   describe('#_getUpdatedFiles()', function() {
     it('should return updated files', function() {
-      project.locales = { 'en-US': 'English (US)' };
-      project.defaultLocale = 'en-US';
+      project.languages = { 'en-US': 'English (US)' };
+      project.defaultLanguage = 'en-US';
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       var oldLocalizations = { 'en-US': { 'key1': { files: ['file1'] }}};
       var newLocalizations = { 'en-US': { 'key2': { files: ['file1', 'file2'] }}};
@@ -458,8 +458,8 @@ describe('Update', function() {
     });
 
     it('should return updated localization key(single) mapped to each file', function() {
-      project.locales = { 'en-US': 'English (US)' };
-      project.defaultLocale = 'en-US';
+      project.languages = { 'en-US': 'English (US)' };
+      project.defaultLanguage = 'en-US';
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       var oldLocalizations = { 'en-US': { 'key1': { files: ['file1'] }}};
       var newLocalizations = { 'en-US': { 'key2': { files: ['file1', 'file2'] }}};
@@ -468,8 +468,8 @@ describe('Update', function() {
     });
 
     it('should return updated localization keys(multiple) mapped to each file', function() {
-      project.locales = { 'en-US': 'English (US)' };
-      project.defaultLocale = 'en-US';
+      project.languages = { 'en-US': 'English (US)' };
+      project.defaultLanguage = 'en-US';
       var update = new (proxyquire('../libraries/update', dependencies).Update);
       var oldLocalizations = { 'en-US': { 'key1': { files: ['file1'] }}};
       var newLocalizations = { 'en-US': { 'key2': { files: ['file1', 'file2'] }, 'key3': { files: ['file1'] }}};
@@ -669,7 +669,7 @@ describe('Update', function() {
 
   describe('#_migrateLocalization()', function() {
     it('should migrate old localization', function() {
-      project.locales = { 'en-US': 'English (US' };
+      project.languages = { 'en-US': 'English (US' };
       var oldLocalizations = {'en-US': { 'key1': 'old-localization' }};
       var newLocalizations = {'en-US': { 'key2': 'new-localization' }};
       var update = new (proxyquire('../libraries/update', dependencies).Update);

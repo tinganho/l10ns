@@ -1,13 +1,13 @@
-function requireLocalizations(locale) {
-  return (function(locale) {
+function requireLocalizations(language) {
+  return (function(language) {
     return function l(key) {
-      if(!(locale in localizations)) {
-        return 'LOCALE_NOT_IN_LOCALIZATIONS: ' + locale;
+      if(!(language in localizations)) {
+        return 'LANGUAGE_NOT_IN_LOCALIZATIONS: ' + language;
       }
-      if(!(key in localizations[locale])) {
+      if(!(key in localizations[language])) {
         return 'KEY_NOT_IN_LOCALIZATIONS: ' + key;
       }
-      return localizations[locale][key].call(localizations[locale], arguments[1]);
+      return localizations[language][key].call(localizations[language], arguments[1]);
     };
-  })(locale);
+  })(language);
 };

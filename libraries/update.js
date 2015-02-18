@@ -170,42 +170,42 @@ Update.prototype.getNewLocalizations = function() {
  */
 
 Update.prototype._mergeWithOldLocalizations = function(newLocalizations) {
-  var _this = this
-    , deferred = Q.defer();
+  var _this = this;
+  var deferred = Q.defer();
 
   file.readLocalizations()
     .then(function(oldLocalizations) {
-      var newLocalizationsCopy = {}
-        , now = (new Date).toISOString()
-        , defaultIds = {};
+      var newLocalizationsCopy = {};
+      var now = (new Date).toISOString();
+      var defaultIds = {};
 
-      for(var key in oldLocalizations[project.defaultLocale]) {
-        defaultIds[key] = oldLocalizations[project.defaultLocale][key].id;
+      for(var key in oldLocalizations[project.defaultLanguage]) {
+        defaultIds[key] = oldLocalizations[project.defaultLanguage][key].id;
       }
 
-      for(var locale in project.locales) {
-        newLocalizationsCopy[locale] = JSON.parse(JSON.stringify(newLocalizations));
-        for(var key in newLocalizationsCopy[locale]) {
-          if(typeof oldLocalizations[locale] !== 'undefined'
-          && typeof oldLocalizations[locale][key] !== 'undefined') {
-            var _new = newLocalizationsCopy[locale]
-              , old  = oldLocalizations[locale];
+      for(var language in project.languages) {
+        newLocalizationsCopy[language] = JSON.parse(JSON.stringify(newLocalizations));
+        for(var key in newLocalizationsCopy[language]) {
+          if(typeof oldLocalizations[language] !== 'undefined'
+          && typeof oldLocalizations[language][key] !== 'undefined') {
+            var _new = newLocalizationsCopy[language]
+              , old  = oldLocalizations[language];
             // Assign translation
-            newLocalizationsCopy[locale] = merger.mergeLocalizations(_new, old, key);
+            newLocalizationsCopy[language] = merger.mergeLocalizations(_new, old, key);
             // Set timestamp
-            newLocalizationsCopy[locale] = merger.mergeTimeStamp(_new, old, key);
+            newLocalizationsCopy[language] = merger.mergeTimeStamp(_new, old, key);
             // Assign id
-            newLocalizationsCopy[locale] = merger.mergeId(_new, defaultIds, key);
+            newLocalizationsCopy[language] = merger.mergeId(_new, defaultIds, key);
           }
           else {
-            newLocalizationsCopy[locale][key].new = true;
-            newLocalizationsCopy[locale][key].value = '';
-            newLocalizationsCopy[locale][key].timestamp = now;
+            newLocalizationsCopy[language][key].new = true;
+            newLocalizationsCopy[language][key].value = '';
+            newLocalizationsCopy[language][key].timestamp = now;
             if(key in defaultIds) {
-              newLocalizationsCopy[locale][key].id = defaultIds[key];
+              newLocalizationsCopy[language][key].id = defaultIds[key];
             }
 
-            if(locale === project.defaultLocale) {
+            if(language === project.defaultLanguage) {
               console.log('[added]'.green + ' ' + key);
             }
           }
@@ -272,15 +272,15 @@ Update.prototype._mergeWithOldLocalizations = function(newLocalizations) {
 
 Update.prototype._getDeletedLocalizations = function(newLocalizations, oldLocalizations) {
   var now = (new Date).toISOString(), deletedTranslations = {};
-  for(var locale in project.locales) {
-    for(var key in oldLocalizations[locale]) {
-      if(!(key in newLocalizations[locale])) {
+  for(var language in project.languages) {
+    for(var key in oldLocalizations[language]) {
+      if(!(key in newLocalizations[language])) {
         if(!(key in deletedTranslations)){
           deletedTranslations[key] = {};
         }
-        deletedTranslations[key][locale] = oldLocalizations[locale][key];
+        deletedTranslations[key][language] = oldLocalizations[language][key];
         deletedTranslations[key].timestamp = now;
-        deletedTranslations[key].files = oldLocalizations[locale][key].files;
+        deletedTranslations[key].files = oldLocalizations[language][key].files;
       }
     }
   }
@@ -313,9 +313,9 @@ Update.prototype._getDeletedLocalizations = function(newLocalizations, oldLocali
 Update.prototype._getUpdatedFiles = function(newLocalizations, oldLocalizations) {
   var files = {};
 
-  for(var key in newLocalizations[project.defaultLocale]) {
-    if(!(key in oldLocalizations[project.defaultLocale])) {
-      var translationFiles = newLocalizations[project.defaultLocale][key].files;
+  for(var key in newLocalizations[project.defaultLanguage]) {
+    if(!(key in oldLocalizations[project.defaultLanguage])) {
+      var translationFiles = newLocalizations[project.defaultLanguage][key].files;
       for(var file in translationFiles) {
         if(!(translationFiles[file] in files)) {
           files[translationFiles[file]] = [key];
@@ -451,9 +451,9 @@ Update.prototype._executeUserInputStream = function(newLocalizations, oldLocaliz
  */
 
 Update.prototype._migrateLocalization = function(newKey, oldKey, newLocalizations, oldLocalizations) {
-  for(var locale in project.locales) {
-    newLocalizations[locale][newKey] = oldLocalizations[locale][oldKey];
-    newLocalizations[locale][newKey].key = newKey;
+  for(var language in project.languages) {
+    newLocalizations[language][newKey] = oldLocalizations[language][oldKey];
+    newLocalizations[language][newKey].key = newKey;
   }
   return newLocalizations;
 };

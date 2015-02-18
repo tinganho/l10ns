@@ -1,6 +1,6 @@
 function l(key) {
-  if(!(key in localizations['{{=it.locale}}'])) {
-  	throw new TypeError('Key `' + key + '` not in {{=it.locale}} localizations');
+  if(!(key in localizations['{{=it.language}}'])) {
+    throw new TypeError('Key `' + key + '` not in {{=it.language}} localizations');
   }
-  return localizations['{{=it.locale}}'][key].call(localizations['{{=it.locale}}'], arguments[1]);
+  return localizations['{{=it.language}}'][key].call(localizations['{{=it.language}}'], arguments[1]);
 }

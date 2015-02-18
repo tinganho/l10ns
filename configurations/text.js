@@ -52,21 +52,21 @@ module.exports = {
   PROJECT_ALREADY_INITIATED: 'Project already initiated',
 
   /**
-   * Specify text for default locale question in CLI's init command.
+   * Specify text for default language question in CLI's init command.
    *
    * @value {String}
    */
 
-  DEFAULT_LOCALE_QUESTION: '\nPlease choose your default locale:\n',
+  DEFAULT_LANGUAGE_QUESTION: '\nPlease choose your default language:\n',
 
   /**
-   * Specify text for wrong option in default locale question
+   * Specify text for wrong option in default language question
    * in CLI's init command.
    *
    * @value {String}
    */
 
-  DEFAULT_LOCALE_WRONG_ANSWER: '\nYour option didn\'t match any of the locales you provided.\n'.red,
+  DEFAULT_LANGUAGE_WRONG_ANSWER: '\nYour option didn\'t match any of the languages you provided.\n'.red,
 
   /**
    * Specify text for choosing programming language question in CLI's
@@ -87,26 +87,26 @@ module.exports = {
   CHOOSE_PROGRAMMING_LANGUAGE_WRONG_ANSWER: '\nUnrecognized programming language. Please try again.'.red + '\n\n',
 
   /**
-   * Specify text for locales question in CLI's init command.
+   * Specify text for languages question in CLI's init command.
    *
    * @value {String}
    */
 
-  LOCALES_DESCRIPTION:
-  'Please add at least one locale to your project.\n' +
-  'The syntax should be a comma separated list of ' + 'LOCALE_CODE:LOCALE_NAME'.yellow + '\nformated strings.\n' +
+  LANGUAGES_DESCRIPTION:
+  'Please add at least one language to your project.\n' +
+  'The syntax should be a comma separated list of ' + 'LANGUAGE_TAG:LANGUAGE_NAME'.yellow + '\nformated strings.\n' +
   '\n' +
   '  Example:\n' +
   '\n' +
   '    en-US:English,zh-CN:Chinese\n\n',
 
   /**
-   * Specify text for wrong option in locales question in CLI's init command.
+   * Specify text for wrong option in languages question in CLI's init command.
    *
    * @value {String}
    */
 
-  LOCALES_WRONG_ANSWER: '\nUnrecognized string. Please add your locales again.'.red + '\n\n',
+  LANGUAGES_WRONG_ANSWER: '\nUnrecognized string. Please add your languages again.'.red + '\n\n',
 
   /**
    * Specify project name question.

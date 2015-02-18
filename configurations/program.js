@@ -40,20 +40,20 @@ module.exports = {
   DEFAULT_AUTO_OPEN: true,
 
   /**
-   * Default locale code for uninitialized projects.
+   * Default languae tag for uninitialized projects.
    *
    * @value {String}
    */
 
-  DEFAULT_LOCALE_CODE: 'en-US',
+  DEFAULT_LANGUAGE_TAG: 'en-US',
 
   /**
-   * Default locale name for uninitialized projects.
+   * Default languae name for uninitialized projects.
    *
    * @value {String}
    */
 
-  DEFAULT_LOCALE_NAME: 'English (US)',
+  DEFAULT_LANGUAGE_NAME: 'English (US)',
 
   /**
    * Default programming language for uninitialized projects.
@@ -78,6 +78,9 @@ module.exports = {
    */
 
   DEFAULT_CONFIGURATIONS: {
+    timezones: [
+      'America/Los_Angeles'
+    ],
     currencies: [
       'USD'
     ],
@@ -188,13 +191,13 @@ module.exports = {
   PROGRAMMING_LANGUAGUES: ['javascript'],
 
   /**
-   * Specify locales syntax. This configuration is used by Init class.
+   * Specify languages syntax. This configuration is used by Init class.
    * To check if a certain given option is valid or not.
    *
    * @value {Array} programming languages
    */
 
-  LOCALES_SYNTAX: /([\w\-]+:[\(\)\w\-\s]+,?)+/,
+  LANGUAGES_SYNTAX: /([\w\-]+:[\(\)\w\-\s]+,?)+/,
 
   /**
    * Default log length for logs outputted in the terminal.

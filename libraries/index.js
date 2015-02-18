@@ -110,6 +110,15 @@ CLI.prototype._setDefaultProjectProperties = function(project) {
     root = process.cwd();
   }
 
+  if(project.locales) {
+    console.log('Config setting project.locales is deprecated. Please use project.languages instead in your l10ns.json file. For more info ' + 'https://github.com/tinganho/l10ns/blob/master/CHANGELOG.md#v20'.green + '.');
+    project.languages = project.locales;
+  }
+  if(project.defaultLocale) {
+    console.log('Config setting project.defaultLocale is deprecated. Please use project.deafultLanguage instead in your l10ns.json file. For more info ' + 'https://github.com/tinganho/l10ns/blob/master/CHANGELOG.md#v20'.green + '.');
+    project.defaultLanguage = project.defaultLocale;
+  }
+
   var defaults = {
     port: program.DEFAULT_PORT,
     autoOpen: program.DEFAULT_AUTO_OPEN,

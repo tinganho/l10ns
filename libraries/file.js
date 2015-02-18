@@ -34,17 +34,17 @@ File.prototype.writeLocalizations = function(localizations) {
   var deferred = Q.defer();
   var localizations = this.localizationMapToArray(localizations);
   var count = 0;
-  var endCount = _.size(project.locales);
+  var endCount = _.size(project.languages);
 
   var storageFiles = glob.sync(project.store + '/*.json');
   storageFiles.forEach(function(file) {
-    if(!(file in project.locales)) {
+    if(!(file in project.languages)) {
       fs.unlink(file);
     }
   });
 
-  for(var locale in project.locales) {
-    this.writeLocalization(localizations, locale)
+  for(var language in project.languages) {
+    this.writeLocalization(localizations, language)
       .then(function() {
         count++;
         if(count === endCount) {
@@ -81,12 +81,12 @@ File.prototype._sortObject = function(object) {
  * Write localization.
  *
  * @param {Object} localizations
- * @param {String} locale
+ * @param {String} language
  * @return {Promise}
  * @api private
  */
 
-File.prototype.writeLocalization = function(localizations, locale) {
+File.prototype.writeLocalization = function(localizations, language) {
   var _this = this;
   var deferred = Q.defer();
 
@@ -95,17 +95,17 @@ File.prototype.writeLocalization = function(localizations, locale) {
     this.storageFolderExists = true;
   }
 
-  var p = project.store + '/' + locale + '.json';
+  var p = project.store + '/' + language + '.json';
   fs.unlink(p, function(error) {
       if(error && error.code !== 'ENOENT') {
         return deferred.reject(error);
       }
 
       var localizationString = _this.linefeed;
-      for(var index = 0; index < localizations[locale].length; index++) {
-        localizations[locale][index] = _this._sortObject(localizations[locale][index]);
+      for(var index = 0; index < localizations[language].length; index++) {
+        localizations[language][index] = _this._sortObject(localizations[language][index]);
       }
-      localizationString = JSON.stringify(localizations[locale], null, 2);
+      localizationString = JSON.stringify(localizations[language], null, 2);
       fs.appendFile(p, localizationString, function(error) {
           if(error) {
             return deferred.reject(error);
@@ -129,13 +129,13 @@ File.prototype.writeLocalization = function(localizations, locale) {
 File.prototype.localizationMapToArray = function(localizations) {
   var result = {};
 
-  for(var locale in project.locales) {
-    result[locale] = [];
-    for(var key in localizations[locale]) {
-      result[locale].push(localizations[locale][key]);
+  for(var language in project.languages) {
+    result[language] = [];
+    for(var key in localizations[language]) {
+      result[language].push(localizations[language][key]);
     }
 
-    result[locale] = result[locale].sort(function(a, b) {
+    result[language] = result[language].sort(function(a, b) {
         if(b.timestamp > a.timestamp) {
           return 1;
         }
@@ -161,12 +161,12 @@ File.prototype.localizationMapToArray = function(localizations) {
  * Read localizations from disk. The promise returns a localization map
  * for other methods to consume.
  *
- * @param {String} locale
+ * @param {String} language
  * @return {Promise}
  * @api public
  */
 
-File.prototype.readLocalizations = function(locale) {
+File.prototype.readLocalizations = function(language) {
   var _this = this;
   var deferred = Q.defer();
   var files = glob.sync(project.store + '/*.json');
@@ -191,13 +191,13 @@ File.prototype.readLocalizations = function(locale) {
         localizations[path.basename(file, '.json')] = _localizations;
         count++;
         if(count === endCount) {
-          if(locale) {
-            if(typeof localizations[locale] === 'undefined') {
+          if(language) {
+            if(typeof localizations[language] === 'undefined') {
               rejected = true;
               return deferred.reject(
-                new TypeError('The file ' + locale + '.json does not exists.'));
+                new TypeError('The file ' + language + '.json does not exists.'));
             }
-            return deferred.resolve(localizations[locale]);
+            return deferred.resolve(localizations[language]);
           }
           return deferred.resolve(localizations);
         }
