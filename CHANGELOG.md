@@ -15,3 +15,30 @@ Deprecates the settings `project.locales` and `project.defaultLocale` in favor o
 > A major difference between language tags and locale identifiers is the meaning of the region code. In both language tags and locales, the region code indicates variation in language (as with regional dialects) or presentation and format (such as number or date formats). In a locale, the region code is also sometimes used to indicate the physical location, market, legal, or other governing policies for the user.
 
 Because L10ns uses the BCP47 standard and they refer to `language tags` or just `language` and not `locale`. L10ns should not refer `locales` either.
+
+Here is the example chanages marked for a project:
+```json
+{
+  "projects": {
+    "test": {
+      "programmingLanguage": "javascript",
+      "locales": { // Use languages instead
+        "en-US": "English (US)"
+      },
+      "quiet" : false,
+      "defaultLocale": "en-US", // Use defaultLanguage instead
+      "currencies": [
+        "USD"
+      ],
+      "store": "example/javascript/localizations",
+      "output": "example/javascript/output",
+      "source": ["example/javascript/index.js"],
+      "interface" : {
+        "autoOpen": false,
+        "port": 3004
+      }
+    }
+  },
+  "defaultProject": "javascript"
+}
+```
