@@ -43,7 +43,7 @@ var fs = require('fs')
   , autoRoute = require('autoroute')
   , configuration = require('./core/configuration')
   , configure = require('./configurations/app')
-  , autoRoutes = require('./configurations/autoRoutes')
+  , autoRoutes = require('./configurations/autoroutes')
   , globallyInstalled = /^\/usr\/local\/lib/.test(__dirname);
 
 
