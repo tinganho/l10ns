@@ -1,6 +1,7 @@
 
-var Lexer = require('../Lexer')
-  , EOF = -1;
+var Lexer = require('../Lexer');
+var EOF = -1;
+var bcp47 = require('bcp47');
 
 /**
  * Use namespace AST
@@ -29,8 +30,6 @@ module.exports = AST.date;
 
 AST.date.DateFormat = function(locale, variable, argument, CLDR, numberSystem) {
   this.locale = locale;
-  this.language = /^([a-z]+)\-/.exec(this.locale)[1];
-  this.region = /\-([A-Z]+)$/.exec(this.locale)[1];
   this.variable = variable;
   this.argument = argument;
   this.lexer = null;

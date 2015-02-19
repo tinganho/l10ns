@@ -10,8 +10,8 @@ module.exports = function(app) {
           , localizationsWithRequestedLocale = file.localizationMapToArray(localizations)[locale]
               .slice(page * cf.ITEMS_PER_PAGE, (parseInt(page, 10) + 1) * cf.ITEMS_PER_PAGE);
 
-        if(locale !== project.defaultLocale) {
-          var localizationsWithDefaultLocale = file.localizationMapToArray(localizations)[project.defaultLocale]
+        if(locale !== project.defaultLanguage) {
+          var localizationsWithDefaultLocale = file.localizationMapToArray(localizations)[project.defaultLanguage]
                 .slice(page * cf.ITEMS_PER_PAGE, (parseInt(page, 10) + 1) * cf.ITEMS_PER_PAGE);
 
           for(var index = 0; index < localizationsWithRequestedLocale.length; index++) {

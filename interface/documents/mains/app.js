@@ -113,7 +113,7 @@ require([
     navigate: function(path) {
       Backbone.Router.prototype.navigate(path, { trigger: true });
     },
-    locale: window.location.pathname.split('/')[1]
+    language: window.location.pathname.split('/')[1]
   };
 
   /**

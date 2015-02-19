@@ -115,7 +115,7 @@ define(function(require) {
     _navigateHome: function() {
       this.$localizationRegion.addClass('is-hidden').removeClass('is-revealed');
       setTimeout(function() {
-        app.navigate('/' + app.locale + '/localizations');
+        app.navigate('/' + app.language + '/localizations');
       }, 300);
     }
   });

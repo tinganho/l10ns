@@ -62,9 +62,9 @@ define(function(require) {
               var locale = request.param('locale')
                 , localizationsWithRequestedLocale = file.localizationMapToArray(localizations)[locale].slice(0, cf.ITEMS_PER_PAGE);
 
-              if(locale !== project.defaultLocale) {
-                _this.setMeta('l10n_keys', 'Keys | ' + project.defaultLocale);
-                var localizationsWithDefaultLocale = file.localizationMapToArray(localizations)[project.defaultLocale];
+              if(locale !== project.defaultLanguage) {
+                _this.setMeta('l10n_keys', 'Keys | ' + project.defaultLanguage);
+                var localizationsWithDefaultLocale = file.localizationMapToArray(localizations)[project.defaultLanguage];
 
                 for(var index = 0; index < localizationsWithRequestedLocale.length; index++) {
                   localizationsWithRequestedLocale[index].keyText =
@@ -117,7 +117,7 @@ define(function(require) {
 
       request
         .get('/localizations')
-        .query({ page: nextPage, locale: app.locale })
+        .query({ page: nextPage, locale: app.language })
         .end(function(response) {
           try {
             response.body.forEach(function(localization) {

@@ -7,7 +7,7 @@ module.exports = function(app) {
     search.readLocalizations()
       .then(function() {
         response.json(search.query(request.param('query')).slice(0, 8).map(function(localization) {
-          localization.value = project.defaultLocale + ': ' + localization.value;
+          localization.value = project.defaultLanguage + ': ' + localization.value;
           return localization;
         }));
       })

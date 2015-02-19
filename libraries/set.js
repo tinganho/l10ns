@@ -192,7 +192,7 @@ Set.prototype._getKeyFromLatestLocalizations = function(reference) {
         deferred.reject(new TypeError('Reference is not indexed.'));
       }
 
-      deferred.resolve(localizations[project.defaultLocale][reference].key);
+      deferred.resolve(localizations[project.defaultLanguage][reference].key);
     })
     .fail(function(error) {
       deferred.reject(error);
@@ -210,21 +210,21 @@ Set.prototype._getKeyFromLatestLocalizations = function(reference) {
  * @api private
  */
 
-Set.prototype._replace = function(key, value, locale) {
+Set.prototype._replace = function(key, value, language) {
   var deferred = defer();
-  locale = locale || project.defaultLocale;
+  language = language || project.defaultLanguage;
 
   file.readLocalizations()
     .then(function(localizations) {
-      if(!(locale in localizations)) {
-        return log.error('Locale: ' + locale.yellow + ' is not in current localizations.');
+      if(!(language in localizations)) {
+        return log.error('Locale: ' + language.yellow + ' is not in current localizations.');
       }
-      if(!(key in localizations[locale])) {
+      if(!(key in localizations[language])) {
         return log.error('Key: ' + key.yellow + ' is not in current localizations.');
       }
 
       // Save value
-      localizations[locale][key].value = value;
+      localizations[language][key].value = value;
 
       deferred.resolve(localizations);
     })

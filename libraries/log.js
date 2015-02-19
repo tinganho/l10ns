@@ -27,7 +27,7 @@ function Log() {}
 Log.prototype.run = function(locale, type) {
   var _this = this;
 
-  locale = locale || project.defaultLocale;
+  locale = locale || project.defaultLanguage;
 
   file.readLocalizationArray(project.store + '/' + locale + '.json')
     .then(function(localizations) {

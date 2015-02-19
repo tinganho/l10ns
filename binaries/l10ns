@@ -70,7 +70,7 @@ var cli = require('../libraries');
 
 commands
   .version(package.version)
-  .option('-l, --locale <locale>', 'specify locale')
+  .option('-l, --language <language>', 'specify language')
   .option('--port <port>', 'specify port for interface')
   .option('-e, --empty', 'only empty localizations')
   .option('-o, --open', 'open interface in browser')
@@ -149,10 +149,10 @@ commands
     cli.initialize()
       .then(function() {
         if(!this.empty) {
-          cli.log(this.locale, 'regular');
+          cli.log(this.language, 'regular');
         }
         else {
-          cli.log(this.locale, 'regular');
+          cli.log(this.language, 'regular');
         }
       })
       .fail(function(error) {
@@ -221,7 +221,7 @@ commands
 
     cli.initialize()
       .then(function() {
-        cli.set(reference, value, commands.locale);
+        cli.set(reference, value, commands.language);
       })
       .fail(function(error) {
         if(commands.stack && error) {

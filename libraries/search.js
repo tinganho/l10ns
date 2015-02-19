@@ -58,7 +58,7 @@ Search.prototype.readLocalizations = function() {
   file.readLocalizations()
     .then(function(localizations) {
       _this.localizations = localizations;
-      var locale = commands.locale || project.defaultLocale;
+      var locale = commands.language || project.defaultLanguage;
 
       if(typeof _this.localizations[locale] === 'undefined') {
         throw new TypeError('Default locale is undefined');

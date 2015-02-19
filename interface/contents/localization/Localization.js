@@ -91,7 +91,7 @@ define(function(require) {
         , json = this.toL10nsJSON();
 
       request
-        .put('/api/' + app.locale + '/l/' + id)
+        .put('/api/' + app.language + '/l/' + id)
         .send(json)
         .end(function(error, response) {
           if(!error && response.status === 200) {
@@ -132,12 +132,12 @@ define(function(require) {
         return;
       }
       request
-        .get('/api/' + app.locale + '/l/' + id)
+        .get('/api/' + app.language + '/l/' + id)
         .end(function(err, res) {
           var localization = res.body;
           _this._parse(localization);
-          app.document.set('title', app.locale + ' | ' + localization.key);
-          app.document.set('description', 'Edit ' + localization.key + ' in locale ' + app.locale);
+          app.document.set('title', app.language + ' | ' + localization.key);
+          app.document.set('description', 'Edit ' + localization.key + ' in locale ' + app.language);
           options.success();
         });
     },
@@ -167,10 +167,10 @@ define(function(require) {
             var messageFormat = new MessageFormat(locale);
             _this.set('pluralRules', messageFormat.pluralRules);
             _this.set('ordinalRules', messageFormat.ordinalRules);
-            if(locale !== project.defaultLocale) {
-              var localizationsWithDefaultLocale = file.localizationMapToArray(localizations)[project.defaultLocale]
+            if(locale !== project.defaultLanguage) {
+              var localizationsWithDefaultLocale = file.localizationMapToArray(localizations)[project.defaultLanguage]
                 , localizationWithDefaultLocale = _.findWhere(localizationsWithDefaultLocale, { id : id });
-              _this.set('message', 'In ' + project.defaultLocale + ': ' + localizationWithDefaultLocale.value);
+              _this.set('message', 'In ' + project.defaultLanguage + ': ' + localizationWithDefaultLocale.value);
             }
             else {
               _this.set('message', _this.get('l10ns').message);

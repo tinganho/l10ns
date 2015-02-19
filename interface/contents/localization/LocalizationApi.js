@@ -7,17 +7,17 @@ module.exports = function(app) {
   app.get('/api/:locale/l/:id', function(request, response) {
     file.readLocalizations()
       .then(function(localizations) {
-        var locale = request.param('locale')
-          , localizationsWithRequestedLocale = file.localizationMapToArray(localizations)[locale]
-          , localizationWithRequestedLocale = _.findWhere(localizationsWithRequestedLocale, { id : request.param('id') });
+        var locale = request.param('locale');
+        var localizationsWithRequestedLocale = file.localizationMapToArray(localizations)[locale];
+        var localizationWithRequestedLocale = _.findWhere(localizationsWithRequestedLocale, { id : request.param('id') });
 
         var messageFormat = new MessageFormat(locale);
         localizationWithRequestedLocale.pluralRules = messageFormat.pluralRules;
         localizationWithRequestedLocale.ordinalRules = messageFormat.ordinalRules;
-        if(locale !== project.defaultLocale) {
-          var localizationsWithDefaultLocale = file.localizationMapToArray(localizations)[project.defaultLocale]
+        if(locale !== project.defaultLanguage) {
+          var localizationsWithDefaultLocale = file.localizationMapToArray(localizations)[project.defaultLanguage]
             , localizationWithDefaultLocale = _.findWhere(localizationsWithDefaultLocale, { id : request.param('id') });
-          localizationWithRequestedLocale.message = 'In ' + project.defaultLocale + ': ' + localizationWithDefaultLocale.value;
+          localizationWithRequestedLocale.message = 'In ' + project.defaultLanguage + ': ' + localizationWithDefaultLocale.value;
         }
         else {
           localizationWithRequestedLocale.message = defaultMessage;

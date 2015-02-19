@@ -8,17 +8,17 @@ describe('Log', function() {
   describe('#run(locale, type)', function() {
     it('should read default localization from storage', function() {
       project.store = 'storage-folder';
-      project.defaultLocale = 'default-locale';
+      project.defaultLanguage = 'default-locale';
       dependencies['./file'].readLocalizationArray = stub().returns(rejects());
       var log = new (proxyquire('../libraries/log', dependencies).Constructor);
       log.run(null, 'regular');
       dependencies['./file'].readLocalizationArray.should.have.been.calledOnce;
-      dependencies['./file'].readLocalizationArray.should.have.been.calledWith(project.store + '/' + project.defaultLocale + '.json');
+      dependencies['./file'].readLocalizationArray.should.have.been.calledWith(project.store + '/' + project.defaultLanguage + '.json');
     });
 
     it('should read given localization from storage', function() {
       project.store = 'storage-folder';
-      project.defaultLocale = 'default-locale';
+      project.defaultLanguage = 'default-locale';
       dependencies['./file'].readLocalizationArray = stub().returns(rejects());
       var log = new (proxyquire('../libraries/log', dependencies).Constructor);
       log.run('locale1', 'regular');
