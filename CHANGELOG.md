@@ -17,7 +17,7 @@ Deprecates the settings `project.locales` and `project.defaultLocale` in favor o
 Because L10ns uses the BCP47 standard and they refer to `language tags` or just `language` and not `locale`. L10ns should not refer `locales` either.
 
 Here is the example chanages marked for a project:
-```json
+```
 {
   "projects": {
     "test": {
