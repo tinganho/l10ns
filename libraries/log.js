@@ -24,19 +24,19 @@ function Log() {}
  * @api private
  */
 
-Log.prototype.run = function(locale, type) {
+Log.prototype.run = function(language, type) {
   var _this = this;
 
-  locale = locale || project.defaultLanguage;
+  language = language || project.defaultLanguage;
 
-  file.readLocalizationArray(project.store + '/' + locale + '.json')
+  file.readLocalizationArray(project.store + '/' + language + '.json')
     .then(function(localizations) {
       if(!localizations.length) {
         return log.log('No localizations.');
       }
 
       if(type === 'empty') {
-        _this.printEmptyValuesLog(localizations, locale)
+        _this.printEmptyValuesLog(localizations, language)
       }
       else {
         _this.printRegularLog(localizations);
@@ -55,14 +55,15 @@ Log.prototype.run = function(locale, type) {
  * Print empty values log.
  *
  * @param {Array} localizations
+ * @param {String} language
  * @return {void}
  * @api public
  */
 
-Log.prototype.printEmptyValuesLog = function(localizations, locale) {
+Log.prototype.printEmptyValuesLog = function(localizations, language) {
   var n = 1;
-  for(var i in localizations) {
-    if(localizations[i].values.length === 0) {
+  for(var i = 0; i < localizations.length; i++) {
+    if(localizations[i].value.length === 0) {
       if(n <= program.DEFAULT_LOG_LENGTH) {
         log.log(localizations[i].key);
       }
@@ -74,7 +75,7 @@ Log.prototype.printEmptyValuesLog = function(localizations, locale) {
   }
 
   if(n === 1) {
-    log.log('No empty-values for locale ' + locale.yellow + '.');
+    log.log('No empty-values for locale ' + language.yellow + '.');
   }
 };
 

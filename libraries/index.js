@@ -242,9 +242,9 @@ CLI.prototype.update = function() {
  * @api public
  */
 
-CLI.prototype.log = function(locale, type) {
+CLI.prototype.log = function(language, type) {
   var log = new Log();
-  return log.run(locale, type);
+  return log.run(language, type);
 };
 
 /**

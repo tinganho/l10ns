@@ -58,13 +58,13 @@ Search.prototype.readLocalizations = function() {
   file.readLocalizations()
     .then(function(localizations) {
       _this.localizations = localizations;
-      var locale = commands.language || project.defaultLanguage;
+      var language = commands.lang || project.defaultLanguage;
 
-      if(typeof _this.localizations[locale] === 'undefined') {
-        throw new TypeError('Default locale is undefined');
+      if(typeof _this.localizations[language] === 'undefined') {
+        throw new TypeError('Default language is undefined');
       }
 
-      _this.localizations = _this.localizations[locale];
+      _this.localizations = _this.localizations[language];
 
       for(var key in _this.localizations) {
         var localization = _this.localizations[key];
@@ -99,7 +99,7 @@ Search.prototype.readLocalizations = function() {
 Search.prototype.queryOutput = function(q) {
   var _this = this;
 
-  var res = this.index.search(q).slice(0, this.logLength);
+  var res = this.index.search(q).slice(0, program.DEFAULT_LOG_LENGTH);
 
   if(res.length === 0) {
     log.log('No result found');
