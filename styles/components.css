@@ -43,7 +43,6 @@ h2 {
   }
 }
 
-
 a {
   text-decoration: none;
   color: #ffffff;
@@ -71,21 +70,6 @@ a {
 
 .menu-item:active {
   opacity: 0.3;
-}
-
-.timeline-pin-container {
-  display: table-cell;
-  vertical-align: middle;
-  text-align: center;
-}
-
-.timeline-pin {
-  width: 15px;
-  height: 15px;
-  border-radius: 1000px;
-  background-color: #ffffff;
-  border: 3px solid #d0d0d0;
-  display: inline-block;
 }
 
 code .blue {

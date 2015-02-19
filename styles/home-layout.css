@@ -1,50 +1,10 @@
 
-.red-section {
-  height: 770px;
-  background-color: #fb6c6c;
+.header {
+  overflow: hidden;
 }
 
-@media(max-width: 500px) {
-  .red-section {
-    height: 600px;
-  }
-}
-
-@media(min-width: 570px) and (max-width: 680px) {
-  .red-section {
-    height: 730px;
-  }
-}
-
-.hero-section {
+.sec-hero {
   position: relative;
-  min-height: 400px;
+  overflow: hidden;
+  min-height: 700px;
 }
-
-.complex-translation-section {
-  height: 724px;
-}
-
-@media(max-width: 500px) {
-  .complex-translation-section {
-    height: 550px;
-  }
-}
-@media(min-width: 501px) and (max-width: 520px) {
-  .complex-translation-section {
-    height: 664px;
-  }
-}
-
-@media(min-width: 580px) and (max-width: 640px) {
-  .complex-translation-section {
-    height: 680px;
-  }
-}
-
-@media(min-width: 710px) and (max-width: 800px) {
-  .complex-translation-section {
-    height: 775px;
-  }
-}
-

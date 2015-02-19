@@ -1,201 +1,83 @@
 
-.top-bar {
-  width: 800px;
-  color: #ffffff;
-  margin: 0 auto;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-  padding: 10px 0;
-  overflow: hidden;
-}
-
-@media(max-width: 800px) {
-  .top-bar {
-    width: calc(100% - 20px);
-    margin: 0 10px;
-  }
-}
-
 .logo {
-  font-size: 18px;
+  position: absolute;
+  left: 17px;
+  top: 17px;
+}
+
+.logo-image {
+  display: block;
+  height: 44px;
+  width: 110px;
+  background: url('/images/logo.png');
+  background-size: 110px 44px;
+}
+
+.nav {
+  margin-top: 20px;
+}
+
+.nav-items {
+  height: 44px;
+  line-height: 44px;
+  display: flex;
+  display: -webkit-flex;
+  -webkit-justify-content: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-item {
   float: left;
-  width: 28px;
-  height: 28px;
-  background: url('../images/L10nsLogo.png');
-  background-size: 28px 28px;
+  font-weight: 300;
+  margin: 0 10px;
+  cursor: pointer;
 }
 
-@media(max-width: 800px) {
-  .logo {
-    font-weight: 200;
-  }
+.nav-item:active {
+  opacity: .3;
 }
 
-.hero {
-  margin-top: 110px;
-  width: 800px;
-  margin: 0 auto;
-  color: #ffffff;
-  overflow: hidden;
-  margin: 100px auto 0px;
+.nav-anchor {
+  color: #a0a0a0;
+  font-size: 16px;
 }
 
-@media(max-width: 800px) {
-  .hero {
-    margin-top: 40px;
-    width: 100%;
-  }
-}
-
-.hero-title,
-.hero-description {
-  text-align: center;
-}
-
-@media(max-width: 800px) {
-  .hero-title,
-  .hero-description {
-    margin: 40px 20px;
-  }
-
-  .hero-description br {
-    display: none;
-  }
-}
-
-
-.hero-install {
-  text-align: center;
+.hero-image-container {
   margin-top: 50px;
-  font-size: 24px;
 }
 
-@media(max-width: 350px) {
-  .hero-install {
-    font-size: 18px;
-    font-weight: 200;
-  }
+.hero-title {
+  position: absolute;
+  top: 15%;
+  width: 100%;
+  z-index: 1;
+  text-align: center;
 }
-
-.hero-install-red-text {
-  background-color: rgba(255, 255, 255, 0.1);
-  padding: 15px 20px;
-  border-radius: 5px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  display: inline-block;
-  line-height: 24px;
-}
-
-.hero-install-gray-text {
-  background-color: #eee;
-  padding: 15px 20px;
-  border-radius: 5px;
-  border: 1px solid #ddd;
-  display: inline-block;
-  line-height: 24px;
-}
-
 
 .hero-image {
-  margin-top: 50px;
-  text-align: center;
-}
-
-.hero-image img {
-  width: 717px;
-}
-
-@media(max-width: 800px) {
-  .hero-image img {
-    width: 100%;
-  }
-}
-
-.workflow-section-title {
-  text-align: center;
-  margin: 100px 40px 40px 40px;
-}
-
-.workflow-timeline {
   position: absolute;
-  top: 100px;
+  top: 15%;
+  width: 100%;
+}
+
+.hero-button {
+  position: absolute;
+  top: 50%;
   left: 50%;
-  margin-left: -1.5px;
-  background-color: #d0d0d0;
-  width: 3px;
-  height: 800px;
+  margin-left: -110px;
+  border-radius: 4px;
+  background-color: #fff;
+  color: #2018c7;
+  font-weight: 200;
+  width: 220px;
+  height: 55px;
+  font-size: 20px;
+  line-height: 55px;
+  text-align: center;
 }
 
-.workflow-step {
-  position: relative;
-  width: 800px;
-  margin: 0 auto;
-  display: table;
-}
-
-.workflow-steps-mobile {
-  margin: 0 40px;
-}
-
-@media(min-width: 800px) {
-  .workflow-steps-mobile {
-    display: none;
-  }
-}
-
-@media(max-width: 800px) {
-  .workflow-steps-desktop {
-    display: none;
-  }
-
-  .workflow-timeline {
-    display: none;
-  }
-}
-
-.description {
-  display: table-cell;
-  vertical-align: middle;
-  width: calc(800px / 2 - 40px);
-}
-
-.description-left {
-  text-align: right;
-}
-
-.description-right {
-  text-align: left;
-}
-
-.code-container {
-  display: table-cell;
-  vertical-align: middle;
-  width: calc(800px / 2 - 40px);
-}
-
-.code {
-  padding: 15px 40px;
-  color: #ffffff;
-  display: block;
-  background-color: #333333;
-  border-radius: 10px;
-}
-
-@media(max-width: 500px) {
-  .code {
-    padding: 10px 20px;
-    font-size: 11px;
-    margin: 40px 0;
-  }
-}
-
-.code-right {
-  margin: 40px 40px 40px 0;
-}
-
-.code-left {
-  margin: 40px 0 40px 40px;
-}
-
-.hero-complex-translation {
-  margin-top: 70px;
+.hero-button:active {
+  color: rgba(32, 24, 199, 0.3);
 }
