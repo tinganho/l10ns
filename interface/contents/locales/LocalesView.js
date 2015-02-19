@@ -43,7 +43,7 @@ define(function(require) {
      */
 
     toHTML: function() {
-      return template['Locales']({ currentLocale: this.model.get('locale'), locales: cf.LOCALES });
+      return template['Locales']({ currentLocale: this.model.get('locale'), locales: cf.LANGUAGES });
     },
 
     /**

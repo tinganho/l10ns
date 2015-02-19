@@ -122,30 +122,12 @@ var configurations = {
   FAVICON: 'public/images/favicon.ico',
 
   /**
-   * Locales for your website. You could define it any format you want
-   * but we suggest using standard locale names.
-   *
-   * Standard locale name definition:
-   *
-   * A locale name, either a language specification of the form ll or a
-   * combined language and country specification of the form ll_CC.
-   * Examples: it, de_AT, es, pt_BR. The language part is always in
-   * lower case and the country part in upper case. The separator is an
-   * underscore.
+   * Languages.
    *
    * @type {Array.<String>}
    */
 
-  LOCALES: project.locales,
-
-  /**
-   * The default locale used for the website. Recommend use locale name.
-   * See locale name definition above.
-   *
-   * @type {Array.<String>}
-   */
-
-  DEFAULT_LOCALE: 'en-US',
+  LANGUAGES: project.languages,
 
   /**
    * Maximum number of sockets.
