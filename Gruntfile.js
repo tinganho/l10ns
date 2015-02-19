@@ -297,7 +297,5 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-rev');
   grunt.loadNpmTasks('l10ns-template');
-  grunt.loadNpmTasks('grunt-modernizr');
-  grunt.loadNpmTasks('grunt-mocha');
 
 };

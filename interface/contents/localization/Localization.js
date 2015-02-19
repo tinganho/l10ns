@@ -4,19 +4,19 @@ if(typeof define !== 'function') {
 }
 if(inServer) {
   var file = require('../../../libraries/file');
+  var MessageFormat = require('../../../libraries/MessageFormat');
 }
 
 define(function(require) {
   var Backbone = require('backbone')
-    , Model = inServer ? require('../../libraries/Model'): require('Model')
-    , Collection = inServer ? require('../../libraries/Collection'): require('Collection')
+    , Model = inServer ? require('../../libraries/Model') : require('Model')
+    , Collection = inServer ? require('../../libraries/Collection') : require('Collection')
     , _ = require('underscore');
 
   if(inClient) {
     var request = require('request')
   }
   else {
-    var MessageFormat = require('../../../libraries/MessageFormat');
     Backbone = require('backbone-relational');
   }
 

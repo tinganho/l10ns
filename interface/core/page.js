@@ -3,18 +3,22 @@
  * Module dependencies
  */
 
-var _ = require('underscore')
-  , fs = require('fs')
-  , path = require('path')
-  , Backbone = require('backbone')
-  , _Model = requirejs('libraries/Model')
-  , _Collection = requirejs('libraries/Collection')
-  , glob = require('glob')
-  , isArray = require('../libraries/isArray')
-  , importNames = []
-  , imports = []
-  , pages = [];
+var _ = require('underscore');
+var fs = require('fs');
+var path = require('path');
+var Backbone = require('backbone');
+var _Model = requirejs('libraries/Model');
+var _Collection = requirejs('libraries/Collection');
+var glob = require('glob');
+var isArray = require('../libraries/isArray');
+var importNames = [];
+var imports = [];
+var pages = [];
+var optimized = false;
 
+if(fs.existsSync(path.join(__dirname, '../public/scripts/mains/app.js'))) {
+  optimized = true;
+}
 /**
  * Add backbone relational
  */
@@ -231,10 +235,6 @@ Page.prototype.handleErrorsUsing = function(callback) {
   };
 };
 
-Page.prototype.sendPage = function(page) {
-
-};
-
 /**
  * Serve the page
  *
@@ -258,16 +258,16 @@ Page.prototype._next = function(req, res) {
 
   this._getRegions(function(regions, jsonScripts) {
     var html = _this._documentTmpl({
-      title : _this._documentProps.renderedTitle,
-      description : _this._documentProps.renderedDescription,
-      locale : _this._documentProps.locale,
-      styles : _this._documentProps.styles,
-      configurations : _this._documentProps.configurations,
-      main : _this._documentProps.main,
-      jsonScripts : jsonScripts,
-      layout : _this._layoutTmpl(regions),
-      modernizr : cf.MODERNIZR,
-      requirejs : cf.REQUIREJS,
+      title: _this._documentProps.renderedTitle,
+      description: _this._documentProps.renderedDescription,
+      locale: _this._documentProps.locale,
+      styles: _this._documentProps.styles,
+      configurations: _this._documentProps.configurations,
+      main: optimized ? '/public/scripts/mains/app.js' : _this._documentProps.main,
+      jsonScripts: jsonScripts,
+      layout: _this._layoutTmpl(regions),
+      modernizr: cf.MODERNIZR,
+      requirejs: cf.REQUIREJS,
       useGoogleAnalytics: !process.env.L10NS_DEV
     });
 
