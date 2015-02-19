@@ -50,7 +50,7 @@ module.exports = function(app) {
   app.configure(function() {
     app.use(function(request, response, next) {
       if(request.url === '/') {
-        response.redirect('/' + project.defaultLocale + '/localizations');
+        response.redirect('/' + project.defaultLanguage + '/localizations');
         return;
       }
       else if(/^\/[a-z]{2}\-[A-Z]{2}\/?$/.test(request.url)) {
