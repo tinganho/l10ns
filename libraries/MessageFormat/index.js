@@ -9,7 +9,6 @@ var path = require('path');
 var LDML = require('../LDML');
 var _ = require('underscore');
 var currencySymbols = require('./currencySymbols');
-var moment = require('moment');
 var cache = {};
 var bcp47 = require('bcp47');
 var CLDRData = require('cldr-data');
