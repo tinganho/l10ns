@@ -1,6 +1,7 @@
-node_modules/
-!node_modules/lib
 npm-debug.log
 .sass-cache/
 docs/
 temp/
+tests/
+tasks/
+specifications/
