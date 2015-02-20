@@ -99,7 +99,7 @@ describe('Log', function() {
   describe('#printEmptyValuesLog(localizations, locale)', function() {
     it('should output each empty key', function() {
       program.DEFAULT_LOG_LENGTH = 1;
-      var localizations = [{ key: 'key1', values: [] }, { key: 'key2', values: ['value1'] }];
+      var localizations = [{ key: 'key1', value: [] }, { key: 'key2', value: ['value1'] }];
       dependencies['./_log'].log = spy();
       var log = new (proxyquire('../libraries/log', dependencies).Constructor);
       log.printEmptyValuesLog(localizations, 'locale1');
@@ -109,7 +109,7 @@ describe('Log', function() {
 
     it('should truncate on specified max log length', function() {
       program.DEFAULT_LOG_LENGTH = 1;
-      var localizations = [{ key: 'key1', values: [] }, { key: 'key2', values: [] }];
+      var localizations = [{ key: 'key1', value: [] }, { key: 'key2', value: [] }];
       dependencies['./_log'].log = spy();
       var log = new (proxyquire('../libraries/log', dependencies).Constructor);
       log.printEmptyValuesLog(localizations, 'locale1');
@@ -119,7 +119,7 @@ describe('Log', function() {
 
     it('should output message if no localization has empty values', function() {
       program.DEFAULT_LOG_LENGTH = 1;
-      var localizations = [{ key: 'key1', values: ['value1'] }, { key: 'key2', values: ['value2'] }];
+      var localizations = [{ key: 'key1', value: ['value1'] }, { key: 'key2', value: ['value2'] }];
       dependencies['./_log'].log = spy();
       var log = new (proxyquire('../libraries/log', dependencies).Constructor);
       log.printEmptyValuesLog(localizations, 'locale1');
