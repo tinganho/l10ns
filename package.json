@@ -69,7 +69,6 @@
     "grunt-webp": "https://github.com/tinganho/grunt-webp/tarball/master",
     "proxyquire": "~0.5.1",
     "chai-as-promised": "~4.1.0",
-    "connect-modrewrite": "~0.7.0",
     "grunt-contrib-compass": "~0.1.0",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-rev": "^0.1.0",
