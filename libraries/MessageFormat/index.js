@@ -879,7 +879,7 @@ MessageFormat.prototype._readPluralRules = function() {
     var pluralRule = pluralRules[count];
     var case_ = count.replace('pluralRule-count-', '');
     this.pluralRules[case_] = LDML.parse(pluralRule);
-    this.pluralRules[case_].example = LDML.integerExample;
+    this.pluralRules[case_].example = LDML.integerExample || LDML.decimalExample;
   }
 
   cache[this.languageTag].pluralRules = this.pluralRules;

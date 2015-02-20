@@ -59,6 +59,8 @@ LDML.NumberComparisonGroupTypePrecedence = {
  */
 
 LDML.prototype.parse = function(string) {
+  this.integerExample = null;
+  this.decimalExample = null;
   this.ruleAST = {};
   this.lexer = new Lexer(string);
   this.currentToken = this.lexer.getNextToken();

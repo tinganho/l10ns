@@ -1,6 +1,6 @@
 
-var file = require('./file')
-  , log = require('./_log');
+var file = require('./file');
+var log = require('./_log');
 
 /**
  * Add terminal colors
