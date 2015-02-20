@@ -1,5 +1,13 @@
 # Changelog
 
+## v2.0.8
+
+* Fixes bug with example numbers not showing decimal example whenever there is no integer example
+
+## v2.0.1 - v2.0.7
+
+* Changes locale reference to language
+
 ## v2.0
 
 * Adds Dateformat
