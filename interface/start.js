@@ -34,17 +34,14 @@ requirejs.config({
   nodeRequire: require
 });
 
-var fs = require('fs')
-  , http = require('http')
-  , path = require('path')
-  , cluster = require('cluster')
-  /*jshint unused:false */
-  , helmet = require('helmet')
-  , autoRoute = require('autoroute')
-  , configuration = require('./core/configuration')
-  , configure = require('./configurations/app')
-  , autoRoutes = require('./configurations/autoroutes')
-  , globallyInstalled = /^\/usr\/local\/lib/.test(__dirname);
+var fs = require('fs');
+var http = require('http');
+var path = require('path');
+var cluster = require('cluster');
+var helmet = require('helmet');
+var configuration = require('./core/configuration');
+var configure = require('./configurations/app');
+var globallyInstalled = /^\/usr\/local\/lib/.test(__dirname);
 
 
 /**
@@ -68,8 +65,8 @@ if(typeof String.prototype.toFirstLetterUpperCase === 'undefined') {
 }
 
 var page = require('./core/page')
-  , readTemplates = page.readTemplates
-  , createCompositeRouter = page.createCompositeRouter;
+var readTemplates = page.readTemplates
+var createCompositeRouter = page.createCompositeRouter;
 
 /**
  * Content templates
@@ -115,11 +112,13 @@ helmet.defaults(app, { xframe: false, csp: false });
 configure(app);
 
 /**
- * Autoroute.
+ * Routes.
  */
 
-autoRoute(autoRoutes, app);
-
+require('./contents/localization/LocalizationApi')(app);
+require('./contents/localizations/LocalizationsApi')(app);
+require('./contents/search/SearchApi')(app);
+require('./contents/LeftMenu/LeftMenuApi')(app);
 require('./pages/index')(page);
 require('./pages/localizations')(page);
 

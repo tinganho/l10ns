@@ -33,7 +33,6 @@
   "dependencies": {
     "amdefine": "^0.1.0",
     "anonymous-insight": "^1.0.1",
-    "autoroute": "~0.2.1",
     "backbone": "~1.1.2",
     "backbone-relational": "0.8.8",
     "backbone.paginator": "^2.0.0",

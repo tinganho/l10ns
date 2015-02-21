@@ -1,8 +1,8 @@
 module.exports = function(app) {
   var file = require('../../../libraries/file')
-    , _ = require('underscore')
-    , MessageFormat = require('../../../libraries/MessageFormat')
-    , defaultMessage = 'Use <a href="http://l10ns.org/docs.html#messageformat" target="_blank">message format</a> to localize your string above. Click on the help buttons on the toolbar to get help on different formats.';
+  var _ = require('underscore')
+  var MessageFormat = require('../../../libraries/MessageFormat')
+  var defaultMessage = 'Use <a href="http://l10ns.org/docs.html#messageformat" target="_blank">message format</a> to localize your string above. Click on the help buttons on the toolbar to get help on different formats.';
 
   app.get('/api/:locale/l/:id', function(request, response) {
     file.readLocalizations()
@@ -15,8 +15,8 @@ module.exports = function(app) {
         localizationWithRequestedLocale.pluralRules = messageFormat.pluralRules;
         localizationWithRequestedLocale.ordinalRules = messageFormat.ordinalRules;
         if(locale !== project.defaultLanguage) {
-          var localizationsWithDefaultLocale = file.localizationMapToArray(localizations)[project.defaultLanguage]
-            , localizationWithDefaultLocale = _.findWhere(localizationsWithDefaultLocale, { id : request.param('id') });
+          var localizationsWithDefaultLocale = file.localizationMapToArray(localizations)[project.defaultLanguage];
+          var localizationWithDefaultLocale = _.findWhere(localizationsWithDefaultLocale, { id : request.param('id') });
           localizationWithRequestedLocale.message = 'In ' + project.defaultLanguage + ': ' + localizationWithDefaultLocale.value;
         }
         else {
@@ -30,8 +30,8 @@ module.exports = function(app) {
   });
 
   app.put('/api/:locale/l/:id', function(request, response) {
-    var id = request.param('id')
-      , locale = request.param('locale');
+    var id = request.param('id');
+    var locale = request.param('locale');
 
     try {
       var messageFormat = new MessageFormat(request.param('locale'));
