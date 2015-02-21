@@ -1,4 +1,19 @@
 
+.sec-title {
+  text-align: center;
+  font-size: 48px;
+  line-height: 50px;
+  margin: 85px auto 0;
+}
+
+.sec-desc {
+  text-align: center;
+  width: 700px;
+  font-size: 24px;
+  line-height: 28px;
+  margin: 50px auto 0;
+}
+
 .logo {
   position: absolute;
   left: 17px;
@@ -44,29 +59,30 @@
   font-size: 16px;
 }
 
+.nav-anchor:hover {
+  color: #ccc;
+}
+
 .hero-image-container {
   margin-top: 50px;
 }
 
-.hero-title {
+.hero-center {
   position: absolute;
-  top: 15%;
+  top: 25%;
   width: 100%;
-  z-index: 1;
   text-align: center;
 }
 
-.hero-image {
-  position: absolute;
-  top: 15%;
-  width: 100%;
+.hero-title {
+  z-index: 1;
+  color: #fff;
+  text-align: center;
+  margin: 60px 0;
 }
 
 .hero-button {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-left: -110px;
+  display: inline-block;
   border-radius: 4px;
   background-color: #fff;
   color: #2018c7;
@@ -80,4 +96,46 @@
 
 .hero-button:active {
   color: rgba(32, 24, 199, 0.3);
+}
+
+.hero-instruction {
+  color: #fff;
+  margin-top: 15px;
+  font-weight: 300;
+}
+
+.messageformat-sec {
+  display: flex;
+  display: -webkit-flex;
+  justify-content: center;
+  -webkit-justify-content: center;
+}
+
+.messageformat-sec-desc {
+  width: 520px;
+}
+
+.messageformat-sec-desc-title {
+  font-size: 48px;
+  line-height: 48px;
+}
+
+.messageformat-sec-desc-text {
+  font-size: 24px;
+  line-height: 32px;
+}
+
+.messageformat-sec-example {
+  background-color: #fff;
+  margin-top: 40px;
+  border-radius: 5px;
+  padding: 50px 40px;
+  margin-left: 80px;
+}
+
+.messageformat-sec-example-title {
+  font-size: 24px;
+  line-height: 24px;
+  font-weight: 400;
+  margin: 0;
 }

@@ -1,10 +1,24 @@
 
 .header {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+section {
   overflow: hidden;
+  padding-bottom: 90px;
 }
 
 .sec-hero {
   position: relative;
   overflow: hidden;
   min-height: 700px;
+  background: url('/images/background.jpg');
+  background-size: cover;
+}
+
+.sec-messageformat {
+  background-color: #f7f7f7;
 }

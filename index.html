@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<title>L10ns | Internationalization Workflow and Formatting</title>
+<title>L10ns</title>
 <meta charset="utf-8">
 <meta name="description" content="Internationalization workflow and formatting">
 <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico"/>
@@ -53,11 +53,38 @@
       </li>
     </ul>
   </nav>
-<header>
+</header>
 <section class="sec-hero">
-  <h1 class="hero-title">Internationalization workflow<br>and formatting</h1>
-  <img class="hero-image" src="/images/wave.jpg">
-  <a class="hero-button" href="/docs.html">Get started</a>
+  <div class="hero-center">
+    <h1 class="hero-title">Internationalization workflow<br>and formatting</h1>
+    <a class="hero-button" href="/docs.html">Get started</a>
+    <div class="hero-instruction">npm install l10ns -g</div>
+  </div>
 </section>
+<section class="sec-intro">
+  <h2 class="sec-title">A markup for localization.</h2>
+  <p class="sec-desc">
+    Programmers have struggled for decades to find a solution for handling complex localization like plural and genus based formatting. We might have found the most optimal solution and it is called MessageFormat and it was invented by the guys who invented Unicode.
+  </p>
+</section>
+<section class="sec-messageformat">
+  <h2 class="sec-title">MessageFormat.</h2>
+  <section class="messageformat-sec">
+    <div class="messageformat-sec-desc">
+      <h3 class="messageformat-sec-desc-title">Plural format.</h3>
+      <p class="messageformat-sec-desc-text">
+        The markup for plural formatting have the syntax {variable, plural, [plural-form-messages]}. Many languages have more than 2 plural forms. So we can’t use the names singular and plural anymore, because they just span 2 forms. So there where one organization called CLDR that defined new names for all possible plural forms in almost all languages in the world. The names they defined where zero, one, two, few, many & other.
+      </p>
+    </div>
+    <div class="messageformat-sec-example">
+      <h6 class="messageformat-sec-example-title">Markup</h6>
+      <code class="messageformat-sec-example-code">
+        Your friend have {likes, plural,<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;one{# like}<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;other{# likes}}.
+      </code>
+    </div>
+  </section>
+</sectio>
 </body>
 </html>
