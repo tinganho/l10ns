@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.0.9
+
+* Fixes autoroute issues, that causes problem with node v0.12.
+
 ## v2.0.8
 
 * Fixes bug with example numbers not showing decimal example whenever there is no integer example
