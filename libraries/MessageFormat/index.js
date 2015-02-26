@@ -687,7 +687,7 @@ MessageFormat.prototype._parsePluralFormat = function(variable) {
         throw new TypeError('There must exist one other case in ' + this.lexer.getLatestTokensLog());
       }
       else {
-        throw new TypeError('Expected a keyword (' + pluralKeywords.join(', ')+ ') or an exact case (n=). Instead got \'' + _case + '\' in ' + this.lexer.getLatestTokensLog());
+        throw new TypeError('Expected a keyword (' + pluralKeywords.join(', ')+ ') or an exact case (=n). Instead got \'' + _case + '\' in ' + this.lexer.getLatestTokensLog());
       }
     }
   }
@@ -752,7 +752,7 @@ MessageFormat.prototype._parseSelectordinalFormat = function(variable) {
         throw new TypeError('There must exist one other case in ' + this.lexer.getLatestTokensLog());
       }
       else {
-        throw new TypeError('Expected a keyword (' + ordinalKeywords.join(', ')+ ') or an exact case (n=). Instead got \'' + _case + '\' in ' + this.lexer.getLatestTokensLog());
+        throw new TypeError('Expected a keyword (' + ordinalKeywords.join(', ')+ ') or an exact case (=n). Instead got \'' + _case + '\' in ' + this.lexer.getLatestTokensLog());
       }
     }
   }
