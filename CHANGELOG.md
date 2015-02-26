@@ -1,4 +1,7 @@
 # Changelog
+## v2.0.10
+
+* Fixes error message for selectordinal format parsing. Thanks to [Naman Goel].
 
 ## v2.0.9
 
@@ -54,3 +57,5 @@ Here is the example chanages marked for a project:
   "defaultProject": "javascript"
 }
 ```
+
+[Naman Goel]: https://github.com/nmn
