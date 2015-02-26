@@ -2,6 +2,7 @@
 ## v2.0.10
 
 * Fixes error message for selectordinal format parsing. Thanks to [Naman Goel].
+* Fix version of CLDR data.
 
 ## v2.0.9
 
