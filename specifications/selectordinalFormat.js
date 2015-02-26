@@ -219,11 +219,11 @@ describe('SelectordinalFormat', function() {
     var method = function() {
       messageFormat.parse('{variable1,selectordinal,many{message1}other{message2}}');
     }
-    expect(method).to.throw(TypeError, 'Expected a keyword (one, two, few, other) or an exact case (n=). Instead got \'many\' in {variable1,selectordinal,many{');
+    expect(method).to.throw(TypeError, 'Expected a keyword (one, two, few, other) or an exact case (=n). Instead got \'many\' in {variable1,selectordinal,many{');
     var method = function() {
       messageFormat.parse('{variable1,selectordinal,somecase{message1}other{message2}}');
     }
-    expect(method).to.throw(TypeError, 'Expected a keyword (one, two, few, other) or an exact case (n=). Instead got \'somecase\' in {variable1,selectordinal,somecase{');
+    expect(method).to.throw(TypeError, 'Expected a keyword (one, two, few, other) or an exact case (=n). Instead got \'somecase\' in {variable1,selectordinal,somecase{');
   });
 
   it('should throw an error if one of the brackets are missing in the values', function() {
@@ -256,10 +256,10 @@ describe('SelectordinalFormat', function() {
     var method = function() {
       messageFormat.parse('{variable1,selectordinal,many{message1}other{message2}}');
     }
-    expect(method).to.throw(TypeError, 'Expected a keyword (one, two, few, other) or an exact case (n=). Instead got \'many\' in {variable1,selectordinal,many{');
+    expect(method).to.throw(TypeError, 'Expected a keyword (one, two, few, other) or an exact case (=n). Instead got \'many\' in {variable1,selectordinal,many{');
     var method = function() {
       messageFormat.parse('{variable1,selectordinal,somecase{message1}other{message2}}');
     }
-    expect(method).to.throw(TypeError, 'Expected a keyword (one, two, few, other) or an exact case (n=). Instead got \'somecase\' in {variable1,selectordinal,somecase{');
+    expect(method).to.throw(TypeError, 'Expected a keyword (one, two, few, other) or an exact case (=n). Instead got \'somecase\' in {variable1,selectordinal,somecase{');
   });
 });

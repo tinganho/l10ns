@@ -288,11 +288,11 @@ describe('PluralFormat', function() {
     var method = function() {
       messageFormat.parse('{variable1,plural,few{message1}other{message2}}');
     }
-    expect(method).to.throw(TypeError, 'Expected a keyword (one, other) or an exact case (n=). Instead got \'few\' in {variable1,plural,few{');
+    expect(method).to.throw(TypeError, 'Expected a keyword (one, other) or an exact case (=n). Instead got \'few\' in {variable1,plural,few{');
     var method = function() {
       messageFormat.parse('{variable1,plural,somecase{message1}other{message2}}');
     }
-    expect(method).to.throw(TypeError, 'Expected a keyword (one, other) or an exact case (n=). Instead got \'somecase\' in {variable1,plural,somecase{');
+    expect(method).to.throw(TypeError, 'Expected a keyword (one, other) or an exact case (=n). Instead got \'somecase\' in {variable1,plural,somecase{');
   });
 
   it('should throw an error if one of the brackets are missing in the values', function() {
