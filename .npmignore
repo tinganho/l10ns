@@ -1,7 +1,10 @@
+
 npm-debug.log
+.npmignore
 .sass-cache/
+
 docs/
+specifications/
 temp/
 tests/
 tasks/
-specifications/
