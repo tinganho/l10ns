@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.0.12
+
+* Fixes CLDR data path issues.
+
 ## v2.0.11
 
 * Fixes issues with localization key getter not getting keys inside a function call.
