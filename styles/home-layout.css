@@ -22,3 +22,9 @@ section {
 .sec-grey {
   background-color: #f7f7f7;
 }
+
+footer {
+  position: relative;
+  height: 150px;
+  overflow: hidden;
+}

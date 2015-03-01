@@ -32,6 +32,7 @@
 -->
 </head>
 <body>
+<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
 <header class="header">
   <a class="logo">
     <i class="logo-image"></i>
@@ -40,7 +41,7 @@
   <nav class="nav">
     <ul class="nav-items">
       <li class="nav-item">
-        <a class="nav-anchor">ABOUT</a>
+        <a class="nav-anchor nav-anchor-about">ABOUT</a>
       </li>
       <li class="nav-item">
         <a class="nav-anchor" href="/docs.html">DOCS</a>
@@ -48,8 +49,11 @@
       <li class="nav-item">
         <a class="nav-anchor" href="https://github.com/tinganho/l10ns" target="_blank">GITHUB</a>
       </li>
+      <li class="nav-item twitter-share">
+        <a class="nav-anchor">SHARE</a>
+      </li>
       <li class="nav-item">
-        <a class="nav-anchor" href="mailto:tingan87@gmail.com?subject=Sponsor L10ns">SPONSOR</a>
+        <a class="nav-anchor" href="https://github.com/tinganho/l10ns/issues/95" target="_blank">SPONSOR</a>
       </li>
     </ul>
   </nav>
@@ -61,7 +65,7 @@
     <div class="hero-instruction">npm install l10ns -g</div>
   </div>
 </section>
-<section class="sec-grey">
+<section id="first-section" class="sec-grey">
   <h2 class="sec-title">A markup for localization.</h2>
   <!-- <p class="sec-desc">
     Messageformat is a Domain Specific Language or DSL to handle localization. Its’ markup that can be inlined in any string to pluralize words or select appropriate words for different genuses etc.
@@ -174,6 +178,49 @@
   <p class="sec-desc">
     Great tools don’t become great without great people. Great people need time and time means money.
   </p>
+  <div class="contribute-icons">
+    <img class="contribute-icon twitter-share" src="/images/twitter.svg"></img>
+    <a href="https://github.com/tinganho/l10ns">
+      <img class="contribute-icon" src="/images/github.svg"></img>
+    </a>
+    <a href="https://github.com/tinganho/l10ns/issues/95" target="_blank">
+      <img class="contribute-icon" src="/images/currency.svg"></img>
+    </a>
+  </div>
+</section>
+<footer class="sec-grey">
+  <nav class="nav">
+    <ul class="nav-items">
+      <li class="nav-item">
+        <a class="nav-anchor nav-anchor-about">ABOUT</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-anchor" href="/docs.html">DOCS</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-anchor" href="https://github.com/tinganho/l10ns" target="_blank">GITHUB</a>
+      </li>
+      <li class="nav-item twitter-share">
+        <a class="nav-anchor">SHARE</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-anchor" href="https://github.com/tinganho/l10ns/issues/95" target="_blank">SPONSOR</a>
+      </li>
+    </ul>
+  </nav>
+  <div class="contribute-author">
+    Created by: <a href="https://twitter.com/tingan87" target="_blank">Tingan Ho @tingan87</a>.
+  </div>
+  <script>
+    $('.nav-anchor-about').click(function() {
+      var top = $('#first-section').position().top;
+      $(document.body).animate({ scrollTop: top }, 500, 'swing');
+    });
+    var left = screen.width/2 - 325;
+    $('.twitter-share').click(function() {
+      open('https://twitter.com/share?url=http%3A%2F%2Fl10ns.org&text=I%20just%20discovered%20L10ns%20%E2%80%94%20a%20great%20tool%20for%20internationalization.', 'Twitter Share','width=650, height=648, left=:left, top=100'.replace(':left', left));
+    });
+  </script>
 </section>
 </body>
 </html>

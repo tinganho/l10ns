@@ -238,3 +238,37 @@
   margin: 60px auto -90px;
   display: block;
 }
+
+.contribute-icons {
+  display: flex;
+  display: -webkit-flex;
+  justify-content: center;
+  -webkit-justify-content: center;
+  margin-top: 100px;
+}
+
+.contribute-icon {
+  width: 160px;
+  height: 160px;
+  margin: 0 20px 60px;
+  cursor: pointer;
+}
+
+.contribute-icon:active {
+  opacity: 0.3;
+}
+
+.contribute-author {
+  color: #666;
+  font-weight: 300;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.contribute-author a {
+  color: #999;
+}
+
+.contribute-author a:active {
+  opacity: 0.3;
+}
