@@ -80,10 +80,13 @@ Update.prototype._stripInnerFunctionCalls = function(content) {
   var getLocalizationStringFunctionSyntax = new RegExp(language.GET_LOCALIZATION_STRING_FUNCTION_NAME + '\\(', 'g')
     , getLocalizationStringUsingDataFunctionSyntax = new RegExp(language.GET_LOCALIZATION_STRING_USING_DATA_FUNCTION_NAME + '\\(', 'g');
 
-  return content.replace(language.GET_LOCALIZATION_INNER_FUNCTION_CALL_SYNTAX, function(match) {
+  return content.replace(language.GET_LOCALIZATION_INNER_FUNCTION_CALL_SYNTAX, function(match, p1, p2) {
+    getLocalizationStringUsingDataFunctionSyntax.lastIndex = 0;
+    getLocalizationStringFunctionSyntax.lastIndex = 0;
     if(getLocalizationStringFunctionSyntax.test(match) || getLocalizationStringUsingDataFunctionSyntax.test(match)) {
       return match;
-    } else {
+    }
+    else {
       return '';
     }
   });
@@ -97,13 +100,13 @@ Update.prototype._stripInnerFunctionCalls = function(content) {
  */
 
 Update.prototype.getNewLocalizations = function() {
-  var _this = this
-    , deferred = Q.defer()
-    , now = parseInt(Date.now() / 1000, 10)
-    , newLocalizations = {}
-    , hashCount = 0
-    , fileCount = 0
-    , rejected = false;
+  var _this = this;
+  var deferred = Q.defer();
+  var now = parseInt(Date.now() / 1000, 10);
+  var newLocalizations = {};
+  var hashCount = 0;
+  var fileCount = 0;
+  var rejected = false;
 
   project.source.forEach(function(file) {
     if(fs.lstatSync(file).isDirectory()) {
