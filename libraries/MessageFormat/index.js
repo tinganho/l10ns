@@ -11,7 +11,6 @@ var _ = require('underscore');
 var currencySymbols = require('./currencySymbols');
 var cache = {};
 var bcp47 = require('bcp47');
-var CLDRData = require('cldr-data');
 var CLDR = require('cldrjs');
 var mostLikelyLanguageTagMapping = require('../../configurations/mostLikelyLanguageTagMapping');
 
@@ -28,14 +27,14 @@ function MessageFormat(languageTag) {
   }
   var CLDRLanguageTag = this.languageTag.replace('-', '_');
   CLDR.load(
-    CLDRData('supplemental/likelySubtags'),
-    CLDRData('supplemental/plurals'),
-    CLDRData('supplemental/ordinals'),
-    CLDRData('supplemental/metaZones'),
-    CLDRData('main/' + this.languageTag + '/numbers'),
-    CLDRData('main/' + this.languageTag + '/currencies'),
-    CLDRData('main/' + this.languageTag + '/ca-gregorian'),
-    CLDRData('main/' + this.languageTag + '/timeZoneNames')
+    require('cldr-data/supplemental/likelySubtags'),
+    require('cldr-data/supplemental/plurals'),
+    require('cldr-data/supplemental/ordinals'),
+    require('cldr-data/supplemental/metaZones'),
+    require('cldr-data/main/' + this.languageTag + '/numbers'),
+    require('cldr-data/main/' + this.languageTag + '/currencies'),
+    require('cldr-data/main/' + this.languageTag + '/ca-gregorian'),
+    require('cldr-data/main/' + this.languageTag + '/timeZoneNames')
   );
 
   this.CLDR = new CLDR(this.languageTag);
