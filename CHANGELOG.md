@@ -1,4 +1,9 @@
 # Changelog
+
+## v2.0.11
+
+* Fixes issues with localization key getter not getting keys inside a function call.
+
 ## v2.0.10
 
 * Fixes error message for selectordinal format parsing. Thanks to [Naman Goel].
