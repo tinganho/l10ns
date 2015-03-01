@@ -253,12 +253,19 @@ Compiler.prototype._getLocalizationMap = function() {
         var localizationsCount = 0;
         for(var key in localizations[language]) {
           messageFormat.parse(localizations[language][key].value);
-          var _function = template['Function']({
-            functionBody: _this._indentSpaces(
-              2,
-              _this._getFunctionBody(messageFormat.messageAST, language)
-            )
-          });
+          var _function;
+	  if (messageFormat.messageAST.length === 1 && messageFormat.messageAST[0] instanceof MessageFormat.AST.Sentence) {
+            _function = '\'' + messageFormat.messageAST[0].string
+              .replace(/'/g, '\\\'')
+              .replace(/\n/g, '\\n') + '\'';
+          } else { 
+             _function = template['Function']({
+              functionBody: _this._indentSpaces(
+                2,
+                _this._getFunctionBody(messageFormat.messageAST, language)
+              )
+            });
+          }
 
           localizationMap += template['LocalizationKeyValue']({
             key: key,
