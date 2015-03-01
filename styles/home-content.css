@@ -10,8 +10,14 @@
   text-align: center;
   width: 700px;
   font-size: 24px;
-  line-height: 28px;
+  line-height: 34px;
   margin: 50px auto 0;
+}
+
+#markup {
+  font-size: 60px;
+  line-height: 60px;
+  font-weight: 300;
 }
 
 .logo {
@@ -104,38 +110,131 @@
   font-weight: 300;
 }
 
-.messageformat-sec {
+.msgfmt-sec {
   display: flex;
   display: -webkit-flex;
   justify-content: center;
   -webkit-justify-content: center;
+  /*flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;*/
+  margin: 60px auto 0;
+  padding-bottom: 0;
 }
 
-.messageformat-sec-desc {
+.msgfmt-sec-desc {
   width: 520px;
 }
 
-.messageformat-sec-desc-title {
+.msgfmt-sec-desc-title {
   font-size: 48px;
   line-height: 48px;
 }
 
-.messageformat-sec-desc-text {
+.msgfmt-sec-desc-text {
   font-size: 24px;
   line-height: 32px;
 }
 
-.messageformat-sec-example {
+.msgfmt-ex {
   background-color: #fff;
-  margin-top: 40px;
+  margin: 10px;
   border-radius: 5px;
-  padding: 50px 40px;
-  margin-left: 80px;
+  padding:0px 40px;
+  width: 180px;
+  height: 340px;
+  display: flex;
+  display: -webkit-flex;
+  flex-direction: row;
+  -webkit-flex-direction: column;
 }
 
-.messageformat-sec-example-title {
+.msgfmt-markup {
+  min-height: 180px;
+  border-bottom: #e3e3e3 1px solid;
+}
+
+.msgfmt-ex-title {
   font-size: 24px;
-  line-height: 24px;
-  font-weight: 400;
+  line-height: 30px;
+  font-weight: 300;
+  margin: 20px 0;
+}
+
+.msgfmt-ex-code {
+  display: block;
+  height: 100px;
+  font-size: 16px;
+  line-height: 22px;
+  font-family: 'Helvetica Neue', arial;
+  font-weight: 300;
+}
+
+.msgfmt-output {
+  display: flex;
+  display: -webkit-flex;
+  flex-direction: column;
+  -webkit-flex-direction: column;
+  margin-bottom: 30px;
+}
+
+.msgfmt-ex-output {
+  display: flex;
+  display: -webkit-flex;
+  flex-grow: 1;
+  -webkit-flex-grow: 1;
+  flex-direction: column;
+  -webkit-flex-direction: column;
+  justify-content: center;
+  -webkit-justify-content: center;
+}
+
+.msgfmt-ex-code-line {
   margin: 0;
+}
+
+.workflow {
+  display: flex;
+  display: -webkit-flex;
+  flex-direction: row;
+  -webkit-flex-direction: row;
+  justify-content: center;
+  -webkit-justify-content: center;
+  align-items: center;
+  -webkit-align-items: center;
+  margin-top: 60px;
+}
+
+.workflow-list {
+  width: 350px;
+  margin: 0;
+  -webkit-padding-start: 0px;
+}
+
+.workflow-list-item {
+  position: relative;
+  background-color: #f7f7f7;
+  font-size: 24px;
+  line-height: 28px;
+  padding: 20px;
+  text-align: center;
+  border-radius: 4px;
+  margin: 5px;
+  color: ;
+}
+
+.workflow-order {
+  position: absolute;
+  left: 20px;
+  font-weight: 300;
+}
+
+.workflow-image {
+  width: 900px;
+  margin-right: -500px;
+}
+
+.web-interface-image {
+  width: 800px;
+  margin: 60px auto -90px;
+  display: block;
 }

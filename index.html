@@ -61,30 +61,119 @@
     <div class="hero-instruction">npm install l10ns -g</div>
   </div>
 </section>
-<section class="sec-intro">
+<section class="sec-grey">
   <h2 class="sec-title">A markup for localization.</h2>
-  <p class="sec-desc">
-    Programmers have struggled for decades to find a solution for handling complex localization like plural and genus based formatting. We might have found the most optimal solution and it is called MessageFormat and it was invented by the guys who invented Unicode.
+  <!-- <p class="sec-desc">
+    Messageformat is a Domain Specific Language or DSL to handle localization. Its’ markup that can be inlined in any string to pluralize words or select appropriate words for different genuses etc.
+  </p> -->
+  <p id="markup" class="sec-desc">
+    { ... plural ... }
   </p>
-</section>
-<section class="sec-messageformat">
-  <h2 class="sec-title">MessageFormat.</h2>
-  <section class="messageformat-sec">
-    <div class="messageformat-sec-desc">
-      <h3 class="messageformat-sec-desc-title">Plural format.</h3>
-      <p class="messageformat-sec-desc-text">
-        The markup for plural formatting have the syntax {variable, plural, [plural-form-messages]}. Many languages have more than 2 plural forms. So we can’t use the names singular and plural anymore, because they just span 2 forms. So there where one organization called CLDR that defined new names for all possible plural forms in almost all languages in the world. The names they defined where zero, one, two, few, many & other.
-      </p>
+  <script>
+    var markupEl = document.getElementById('markup');
+    var markupTypes = ['plural', 'select', 'date', 'number', 'currency', 'ordinal'];
+    var index = 0;
+    setInterval(function() {
+      index++;
+      if(index >= markupTypes.length) {
+        index = 0;
+      }
+      markupEl.innerHTML = '{ ... ' + markupTypes[index] + ' ... }';
+    }, 1500);
+  </script>
+  <section class="msgfmt-sec">
+    <div class="msgfmt-ex">
+      <div class="msgfmt-markup">
+        <h6 class="msgfmt-ex-title">Pluralization</h6>
+        <code class="msgfmt-ex-code msgfmt-ex-markup">
+          I have {likes, plural,<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;one{# like}<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;other{# likes}}.
+        </code>
+      </div>
+      <div class="msgfmt-output">
+        <h6 class="msgfmt-ex-title">Output</h6>
+        <code class="msgfmt-ex-code msgfmt-ex-output">
+          <p class="msgfmt-ex-code-line">I have 1 like.</p>
+          <p class="msgfmt-ex-code-line">I have 1,000 likes.</p>
+        </code>
+      </div>
     </div>
-    <div class="messageformat-sec-example">
-      <h6 class="messageformat-sec-example-title">Markup</h6>
-      <code class="messageformat-sec-example-code">
-        Your friend have {likes, plural,<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;one{# like}<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;other{# likes}}.
-      </code>
+
+    <div class="msgfmt-ex">
+      <div class="msgfmt-markup">
+        <h6 class="msgfmt-ex-title">Genus context</h6>
+        <code class="msgfmt-ex-code msgfmt-ex-markup">
+          {gender, select,<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;male{He}<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;other{She}} likes you.
+        </code>
+      </div>
+      <div class="msgfmt-output">
+        <h6 class="msgfmt-ex-title">Output</h6>
+        <code class="msgfmt-ex-code msgfmt-ex-output">
+          <p class="msgfmt-ex-code-line">He likes you.</p>
+          <p class="msgfmt-ex-code-line">She likes you.</p>
+        </code>
+      </div>
+    </div>
+
+    <div class="msgfmt-ex">
+      <div class="msgfmt-markup">
+        <h6 class="msgfmt-ex-title">Date formatting</h6>
+        <code class="msgfmt-ex-code msgfmt-ex-markup">
+          {startTime, date, <br>
+          &nbsp;&nbsp;&nbsp;&nbsp;yyyy-MM-dd}
+        </code>
+      </div>
+      <div class="msgfmt-output">
+        <h6 class="msgfmt-ex-title">Output</h6>
+        <code class="msgfmt-ex-code msgfmt-ex-output">
+          <p class="msgfmt-ex-code-line">2015-01-01</p>
+        </code>
+      </div>
     </div>
   </section>
-</sectio>
+</section>
+<section>
+  <h2 class="sec-title">Workflow.</h2>
+  <p class="sec-desc">
+    Internationalizing apps requires proper workflow. L10ns sync your localization keys between your source code and storage.
+  </p>
+  <div class="workflow">
+    <ul class="workflow-list">
+      <li class="workflow-list-item">
+        <span class="workflow-order">1.</span>
+        <span class="workflow-text">Write your code.</span>
+      </li>
+      <li class="workflow-list-item">
+        <span class="workflow-order">2.</span>
+        <span class="workflow-text">Sync localizations.</span>
+      </li>
+      <li class="workflow-list-item">
+        <span class="workflow-order">3.</span>
+        <span class="workflow-text">Localize your strings.</span>
+      </li>
+      <li class="workflow-list-item">
+        <span class="workflow-order">4.</span>
+        <span class="workflow-text">Compile localizations.</span>
+      </li>
+    </ul>
+    <img class="workflow-image" src="/images/workflow.jpg"></img>
+  </div>
+</section>
+<section class="sec-grey">
+  <h2 class="sec-title">Web Interface.</h2>
+  <p class="sec-desc">
+    L10ns have built-in web interface to let translators navigate and search through localizations with ease. It also supports ICU’s Messageformat.
+  </p>
+  <img class="web-interface-image" src="/images/web.jpg"></img>
+</section>
+<section>
+  <h2 class="sec-title">Share, contribute, sponsor.</h2>
+  <p class="sec-desc">
+    Great tools don’t become great without great people. Great people need time and time means money.
+  </p>
+</section>
 </body>
 </html>
