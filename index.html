@@ -84,7 +84,7 @@
       markupEl.innerHTML = '{ ... ' + markupTypes[index] + ' ... }';
     }, 1500);
   </script>
-  <section class="msgfmt-sec">
+  <section class="msgfmt-sec hidden">
     <div class="msgfmt-ex">
       <div class="msgfmt-markup">
         <h6 class="msgfmt-ex-title">Pluralization</h6>
@@ -137,13 +137,27 @@
       </div>
     </div>
   </section>
+  <script>
+    $(window).bind('scroll', function msgfmtScrollHandler() {
+      var container = $('.msgfmt-sec');
+      var scrollTop = $(window).scrollTop();
+      var containerTop = container.position().top;
+      var additionalTop = -400;
+      if(scrollTop > containerTop + additionalTop) {
+        container.removeClass('hidden').addClass('visible');
+        setTimeout(function() {
+          $(window).unbind('scroll', msgfmtScrollHandler);
+        }, 0);
+      }
+    });
+  </script>
 </section>
 <section>
   <h2 class="sec-title">Workflow.</h2>
   <p class="sec-desc">
     Internationalizing apps requires proper workflow. L10ns sync your localization keys between your source code and storage.
   </p>
-  <div class="workflow">
+  <div class="workflow hidden">
     <ul class="workflow-list">
       <li class="workflow-list-item">
         <span class="workflow-order">1.</span>
@@ -164,28 +178,72 @@
     </ul>
     <img class="workflow-image" src="/images/workflow.jpg"></img>
   </div>
+  <script>
+    $(window).on('scroll', function workflowScrollHandler() {
+      var container = $('.workflow');
+      var scrollTop = $(window).scrollTop();
+      var containerTop = container.position().top;
+      var additionalTop = -400;
+      if(scrollTop > containerTop + additionalTop) {
+        container.removeClass('hidden').addClass('visible');
+        setTimeout(function() {
+          $(window).off('scroll', workflowScrollHandler);
+        }, 0);
+      }
+    });
+  </script>
 </section>
 <section class="sec-grey">
   <h2 class="sec-title">Web Interface.</h2>
   <p class="sec-desc">
     L10ns have built-in web interface to let translators navigate and search through localizations with ease. It also supports ICU’s Messageformat.
   </p>
-  <img class="web-interface-image" src="/images/web.jpg"></img>
+  <img class="web-interface-image hidden" src="/images/web.jpg"></img>
+  <script>
+    $(window).on('scroll', function webInterfaceScrollHandler() {
+      var container = $('.web-interface-image');
+      var scrollTop = $(window).scrollTop();
+      var containerTop = container.position().top;
+      var additionalTop = -400;
+      if(scrollTop > containerTop + additionalTop) {
+        container.removeClass('hidden').addClass('visible');
+        setTimeout(function() {
+          $(window).off('scroll', webInterfaceScrollHandler);
+        }, 0);
+      }
+    });
+  </script>
 </section>
 <section>
   <h2 class="sec-title">Share, contribute, sponsor.</h2>
   <p class="sec-desc">
     Great tools don’t become great without great people. Great people need time and time means money.
   </p>
-  <div class="contribute-icons">
-    <img class="contribute-icon twitter-share" src="/images/twitter.svg"></img>
-    <a href="https://github.com/tinganho/l10ns">
+  <div class="contribute-icons hidden">
+    <a class="contribute-anchor">
+      <img class="contribute-icon twitter-share" src="/images/twitter.svg"></img>
+    </a>
+    <a class="contribute-anchor" href="https://github.com/tinganho/l10ns">
       <img class="contribute-icon" src="/images/github.svg"></img>
     </a>
-    <a href="https://github.com/tinganho/l10ns/issues/95" target="_blank">
+    <a class="contribute-anchor" href="https://github.com/tinganho/l10ns/issues/95" target="_blank">
       <img class="contribute-icon" src="/images/currency.svg"></img>
     </a>
   </div>
+  <script>
+    $(window).on('scroll', function contributeScrollHandler() {
+      var container = $('.contribute-icons');
+      var scrollTop = $(window).scrollTop();
+      var containerTop = container.position().top;
+      var additionalTop = -400;
+      if(scrollTop > containerTop + additionalTop) {
+        container.removeClass('hidden').addClass('visible');
+        setTimeout(function() {
+          $(window).off('scroll', contributeScrollHandler);
+        }, 0);
+      }
+    });
+  </script>
 </section>
 <footer class="sec-grey">
   <nav class="nav">

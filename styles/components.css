@@ -23,8 +23,8 @@ h1 {
 
 @media(max-width: 600px) {
   h1 {
-    font-size: 32px;
-    line-height: 34px;
+    font-size: 40px;
+    line-height: 48px;
   }
 }
 
