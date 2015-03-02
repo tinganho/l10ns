@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.0.13
+
+* Changes to the noew favicon.
+
 ## v2.0.12
 
 * Fixes CLDR data path issues.
