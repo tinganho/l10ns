@@ -6,6 +6,14 @@
   margin: 85px auto 0;
 }
 
+@media(max-width: 400px) {
+  .sec-title {
+    font-size: 38px;
+    line-height: 40px;
+    margin: 50px auto 0;
+  }
+}
+
 .sec-desc {
   text-align: center;
   width: 700px;
@@ -14,10 +22,31 @@
   margin: 50px auto 0;
 }
 
+@media(max-width: 550px) {
+  .sec-desc {
+    font-size: 18px;
+    line-height: 26px;
+  margin: 30px auto 0;
+  }
+}
+
+@media(max-width: 700px) {
+  .sec-desc {
+    width: 90%;
+  }
+}
+
 #markup {
   font-size: 60px;
   line-height: 60px;
   font-weight: 300;
+}
+
+@media(max-width: 550px) {
+  #markup {
+    font-size: 32px;
+    line-height: 38px;
+  }
 }
 
 .logo {
@@ -32,10 +61,17 @@
   width: 110px;
   background: url('/images/logo.png');
   background-size: 110px 44px;
+  margin-top: 3px;
 }
 
 .nav {
   margin-top: 20px;
+}
+
+@media(max-width: 700px) {
+  .nav {
+    display: none;
+  }
 }
 
 .nav-items {
@@ -78,6 +114,12 @@
   top: 25%;
   width: 100%;
   text-align: center;
+}
+
+@media(max-width: 500px) {
+  .hero-center {
+    top: 20%;
+  }
 }
 
 .hero-title {
@@ -148,6 +190,18 @@
   -webkit-flex-direction: column;
 }
 
+@media(max-width: 650px) {
+  .msgfmt-ex:nth-child(3) {
+    display: none;
+  }
+}
+
+@media(max-width: 427px) {
+  .msgfmt-ex:nth-child(2) {
+    display: none;
+  }
+}
+
 .msgfmt-markup {
   min-height: 180px;
   border-bottom: #e3e3e3 1px solid;
@@ -168,6 +222,20 @@
   font-family: 'Helvetica Neue', arial;
   font-weight: 300;
 }
+
+@media(max-width: 800px) {
+  .msgfmt-ex-title {
+    font-size: 18px;
+    line-height: 22px;
+  }
+
+  .msgfmt-ex-code {
+    font-size: 14px;
+    line-height: 18px;
+  }
+}
+
+
 
 .msgfmt-output {
   display: flex;
@@ -233,10 +301,22 @@
   margin-right: -500px;
 }
 
+@media(max-width: 800px) {
+  .workflow-image {
+    display: none;
+  }
+}
+
 .web-interface-image {
   width: 800px;
   margin: 60px auto -90px;
   display: block;
+}
+
+@media(max-width: 800px) {
+  .web-interface-image {
+    width: 100%;
+  }
 }
 
 .contribute-icons {
@@ -253,6 +333,21 @@
   margin: 0 20px 60px;
   cursor: pointer;
 }
+
+@media(max-width: 600px) {
+  .contribute-icon {
+    width: 120px;
+    height: 120px;
+  }
+}
+
+@media(max-width: 480px) {
+  .contribute-icon {
+    width: 80px;
+    height: 80px;
+  }
+}
+
 
 .contribute-icon:active {
   opacity: 0.3;

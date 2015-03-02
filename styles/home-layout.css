@@ -19,6 +19,12 @@ section {
   background-size: cover;
 }
 
+@media(max-height: 500px){
+  .sec-hero {
+    min-height: 500px;
+  }
+}
+
 .sec-grey {
   background-color: #f7f7f7;
 }
@@ -27,4 +33,10 @@ footer {
   position: relative;
   height: 150px;
   overflow: hidden;
+}
+
+@media(max-width: 700px) {
+  footer {
+    height: 60px;
+  }
 }
