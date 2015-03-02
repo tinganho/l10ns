@@ -1,50 +1,42 @@
 
-.red-section {
-  height: 770px;
-  background-color: #fb6c6c;
+.header {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 1;
 }
 
-@media(max-width: 500px) {
-  .red-section {
-    height: 600px;
-  }
+section {
+  overflow: hidden;
+  padding-bottom: 90px;
 }
 
-@media(min-width: 570px) and (max-width: 680px) {
-  .red-section {
-    height: 730px;
-  }
-}
-
-.hero-section {
+.sec-hero {
   position: relative;
-  min-height: 400px;
+  overflow: hidden;
+  min-height: 700px;
+  background: url('/images/background.jpg');
+  background-size: cover;
 }
 
-.complex-translation-section {
-  height: 724px;
-}
-
-@media(max-width: 500px) {
-  .complex-translation-section {
-    height: 550px;
-  }
-}
-@media(min-width: 501px) and (max-width: 520px) {
-  .complex-translation-section {
-    height: 664px;
+@media(max-height: 500px){
+  .sec-hero {
+    min-height: 500px;
   }
 }
 
-@media(min-width: 580px) and (max-width: 640px) {
-  .complex-translation-section {
-    height: 680px;
-  }
+.sec-grey {
+  background-color: #f7f7f7;
 }
 
-@media(min-width: 710px) and (max-width: 800px) {
-  .complex-translation-section {
-    height: 775px;
-  }
+footer {
+  position: relative;
+  height: 150px;
+  overflow: hidden;
 }
 
+@media(max-width: 700px) {
+  footer {
+    height: 60px;
+  }
+}

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<title>Internationalization Workflow and Formatting</title>
+<title>L10ns</title>
 <meta charset="utf-8">
-<meta name="description" content="CLI tool for effectively update translation keys, edit translations and open translation interface.">
+<meta name="description" content="Internationalization workflow and formatting.">
 <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico"/>
 <link rel="icon" type="image/x-icon" href="images/favicon.ico"/>
 <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,100' rel='stylesheet' type='text/css'>
@@ -13,12 +13,12 @@
 <link href="styles/home-layout.css" rel="stylesheet" type="text/css">
 <link href="styles/home-content.css" rel="stylesheet" type="text/css">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="viewport" content="width=device-width, user-scalable=no, minimal-ui">
+<meta name="viewport" content="width=device-width, user-scalable=no">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="L10ns | Effective translation workflow">
-<meta name="twitter:description" content="CLI tool for effectively update translation keys, edit translations and open translation interface.">
+<meta name="twitter:title" content="Internationalization workflow and formatting.">
 <meta name="twitter:creator" content="@tingan87">
-<meta name="twitter:image:src" content="http://tinganho.github.io/l10ns/images/CLIAndEditor.png">
+<meta name="twitter:image:src" content="http://tinganho.github.io/l10ns/images/workflow.jpg">
+<!--
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -28,175 +28,198 @@
   ga('create', 'UA-51369650-1', 'l10ns.org');
   ga('send', 'pageview');
 </script>
+-->
 </head>
 <body>
-  <section class="hero-section red-section">
-    <nav class="top-bar">
-      <i class="logo"></i>
-      <ul class="menu">
-        <li class="menu-item"><a class="menu-anchor" href="./docs.html">Documentation</a></li>
-        <li class="menu-item"><a class="menu-anchor" href="https://github.com/tinganho/l10ns">Contribute</a></li>
-      </ul>
-    </nav>
+<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+<header class="header">
+  <a class="logo">
+    <i class="logo-image"></i>
+  </a>
 
-    <div class="hero">
-      <h1 class="hero-title">Effective translation workflow</h1>
-      <h2 class="hero-description">CLI tool for effectively update translation keys, edit translations <br>and open translation interface with support for MessageFormat.</h2>
-      <div class="hero-install">
-        <div class="hero-install-red-text">npm install l10ns -g</div>
+  <nav class="nav">
+    <ul class="nav-items">
+      <li class="nav-item">
+        <a class="nav-anchor nav-anchor-about">ABOUT</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-anchor" href="/docs.html">DOCS</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-anchor" href="https://github.com/tinganho/l10ns" target="_blank">GITHUB</a>
+      </li>
+      <li class="nav-item twitter-share">
+        <a class="nav-anchor">SHARE</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-anchor" href="https://github.com/tinganho/l10ns/issues/95" target="_blank">SPONSOR</a>
+      </li>
+    </ul>
+  </nav>
+</header>
+<section class="sec-hero">
+  <div class="hero-center">
+    <h1 class="hero-title">Internationalization workflow<br>and formatting</h1>
+    <a class="hero-button" href="/docs.html">Get started</a>
+    <div class="hero-instruction">npm install l10ns -g</div>
+  </div>
+</section>
+<section id="first-section" class="sec-grey">
+  <h2 class="sec-title">A markup for localization.</h2>
+  <!-- <p class="sec-desc">
+    Messageformat is a Domain Specific Language or DSL to handle localization. Its’ markup that can be inlined in any string to pluralize words or select appropriate words for different genuses etc.
+  </p> -->
+  <p id="markup" class="sec-desc">
+    { ... plural ... }
+  </p>
+  <script>
+    var markupEl = document.getElementById('markup');
+    var markupTypes = ['plural', 'select', 'date', 'number', 'currency', 'ordinal'];
+    var index = 0;
+    setInterval(function() {
+      index++;
+      if(index >= markupTypes.length) {
+        index = 0;
+      }
+      markupEl.innerHTML = '{ ... ' + markupTypes[index] + ' ... }';
+    }, 1500);
+  </script>
+  <section class="msgfmt-sec">
+    <div class="msgfmt-ex">
+      <div class="msgfmt-markup">
+        <h6 class="msgfmt-ex-title">Pluralization</h6>
+        <code class="msgfmt-ex-code msgfmt-ex-markup">
+          I have {likes, plural,<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;one{# like}<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;other{# likes}}.
+        </code>
       </div>
-      <div class="hero-image">
-        <img src="images/CLIAndEditor.jpg">
+      <div class="msgfmt-output">
+        <h6 class="msgfmt-ex-title">Output</h6>
+        <code class="msgfmt-ex-code msgfmt-ex-output">
+          <p class="msgfmt-ex-code-line">I have 1 like.</p>
+          <p class="msgfmt-ex-code-line">I have 1,000 likes.</p>
+        </code>
+      </div>
+    </div>
+
+    <div class="msgfmt-ex">
+      <div class="msgfmt-markup">
+        <h6 class="msgfmt-ex-title">Genus context</h6>
+        <code class="msgfmt-ex-code msgfmt-ex-markup">
+          {gender, select,<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;male{He}<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;other{She}} likes you.
+        </code>
+      </div>
+      <div class="msgfmt-output">
+        <h6 class="msgfmt-ex-title">Output</h6>
+        <code class="msgfmt-ex-code msgfmt-ex-output">
+          <p class="msgfmt-ex-code-line">He likes you.</p>
+          <p class="msgfmt-ex-code-line">She likes you.</p>
+        </code>
+      </div>
+    </div>
+
+    <div class="msgfmt-ex">
+      <div class="msgfmt-markup">
+        <h6 class="msgfmt-ex-title">Date formatting</h6>
+        <code class="msgfmt-ex-code msgfmt-ex-markup">
+          {startTime, date, <br>
+          &nbsp;&nbsp;&nbsp;&nbsp;yyyy-MM-dd}
+        </code>
+      </div>
+      <div class="msgfmt-output">
+        <h6 class="msgfmt-ex-title">Output</h6>
+        <code class="msgfmt-ex-code msgfmt-ex-output">
+          <p class="msgfmt-ex-code-line">2015-01-01</p>
+        </code>
       </div>
     </div>
   </section>
-
-  <section class="hero-section white-section">
-    <h1 class="workflow-section-title">Workflow timeline</h1>
-    <div class="workflow-timeline"></div>
-    <div class="workflow-steps-mobile">
-      <div class="description-mobile">
-        <h2 class="workflow-step-description description-text">Write your source code</h2>
-      </div>
-      <code class="code">
-        <span class="blue">var</span> properties <span class="red">=</span> {<br>
-        <span class="tab"></span>title: l(<span class="yellow">'LANDING_TITLE'</span>)<br>
-        };
-      </code>
-
-      <div class="description-mobile">
-        <h2 class="workflow-step-description description-text">Update translation keys</h2>
-      </div>
-      <code class="code">
-        <span class="blue">$ </span>l10ns update
-      </code>
-
-      <div class="description-mobile">
-        <h2 class="workflow-step-description description-text">Get latest translation keys</h2>
-      </div>
-      <code class="code">
-        <span class="blue">$ </span> l10ns log<br>
-        <span class="yellow">@1 </span>LANDING__TITLE | <span class="green">The bes...</span><br>
-        <span class="yellow">@2 </span>LANDING__DESCRIPTION | <span class="green">H...</span><br>
-        <span class="yellow">@3 </span>BASE__LOG_OUT | <span class="green">Log out</span><br>
-        <span class="yellow">@4 </span>BASE__SIGN_IN | <span class="green">Sign in</span><br>
-        ...
-      </code>
-
-      <div class="description-mobile">
-        <h2 class="workflow-step-description description-text">Edit translations</h2>
-      </div>
-      <code class="code">
-        <span class="blue">$ </span>l10ns set @1 "Some title"
-      </code>
-
-      <div class="description-mobile">
-        <h2 class="workflow-step-description description-text">Compile translations</h2>
-      </div>
-      <code class="code">
-        <span class="blue">$ </span> l10ns compile
-      </code>
-    </div>
-    <div class="workflow-steps-desktop">
-      <section class="workflow-step">
-        <div class="description description-left">
-          <h2 class="workflow-step-description description-text">Write your source code</h2>
-        </div>
-        <div class="timeline-pin-container">
-          <div class="timeline-pin"></div>
-        </div>
-        <div class="code-container">
-          <code class="code code-right">
-            <span class="blue">var</span> properties <span class="red">=</span> {<br>
-            <span class="tab"></span>title: l(<span class="yellow">'LANDING_TITLE'</span>)<br>
-            };
-          </code>
-        </div>
-      </section>
-
-      <section class="workflow-step">
-        <div class="code-container">
-          <code class="code code-left">
-            <span class="blue">$ </span>l10ns update
-          </code>
-        </div>
-        <div class="timeline-pin-container">
-          <div class="timeline-pin"></div>
-        </div>
-        <div class="description description-right">
-          <h2 class="workflow-step-description description-text">Update translation keys</h2>
-        </div>
-      </section>
-
-      <section class="workflow-step">
-        <div class="description description-left">
-          <h2 class="workflow-step-description description-text">Get latest translation keys</h2>
-        </div>
-        <div class="timeline-pin-container">
-          <div class="timeline-pin"></div>
-        </div>
-        <div class="code-container">
-          <code class="code code-right">
-            <span class="blue">$ </span> l10ns log<br>
-            <span class="yellow">@1 </span>LANDING__TITLE | <span class="green">The bes...</span><br>
-            <span class="yellow">@2 </span>LANDING__DESCRIPTION | <span class="green">H...</span><br>
-            <span class="yellow">@3 </span>BASE__LOG_OUT | <span class="green">Log out</span><br>
-            <span class="yellow">@4 </span>BASE__SIGN_IN | <span class="green">Sign in</span><br>
-            ...
-          </code>
-        </div>
-      </section>
-
-      <section class="workflow-step">
-        <div class="code-container">
-          <code class="code code-left">
-            <span class="blue">$ </span>l10ns set @1 "Some title"
-          </code>
-        </div>
-        <div class="timeline-pin-container">
-          <div class="timeline-pin"></div>
-        </div>
-        <div class="description description-right">
-          <h2 class="workflow-step-description description-text">Edit translations</h2>
-        </div>
-      </section>
-
-      <section class="workflow-step">
-        <div class="description description-left">
-          <h2 class="workflow-step-description description-text">Compile translations</h2>
-        </div>
-        <div class="timeline-pin-container">
-          <div class="timeline-pin"></div>
-        </div>
-        <div class="code-container">
-          <code class="code code-right">
-            <span class="blue">$ </span> l10ns compile
-          </code>
-        </div>
-      </section>
-    </div>
-  </section>
-
-  <section class="hero-section red-section complex-translation-section">
-    <div class="hero">
-      <h1 class="hero-title hero-complex-translation">Support for complex translations</h1>
-      <h2 class="hero-description">
-        L10ns supports ICU's Messageformat for handling plural, <br>
-        genus context, ordinal, number and date formatting
-      </h2>
-      <div class="hero-image">
-        <img src="images/WebInterface.jpg">
-      </div>
-    </div>
-  </section>
-
-  <section class="hero-section white-section">
-    <h1 class="workflow-section-title">Give it a try</h1>
-      <h2 class="hero-description">Give l10ns a try by just installing it from NPM.</h2>
-
-      <div class="hero-install">
-        <div class="hero-install-gray-text">npm install l10ns -g</div>
-      </div>
-  </section>
+</section>
+<section>
+  <h2 class="sec-title">Workflow.</h2>
+  <p class="sec-desc">
+    Internationalizing apps requires proper workflow. L10ns sync your localization keys between your source code and storage.
+  </p>
+  <div class="workflow">
+    <ul class="workflow-list">
+      <li class="workflow-list-item">
+        <span class="workflow-order">1.</span>
+        <span class="workflow-text">Write your code.</span>
+      </li>
+      <li class="workflow-list-item">
+        <span class="workflow-order">2.</span>
+        <span class="workflow-text">Sync localizations.</span>
+      </li>
+      <li class="workflow-list-item">
+        <span class="workflow-order">3.</span>
+        <span class="workflow-text">Localize your strings.</span>
+      </li>
+      <li class="workflow-list-item">
+        <span class="workflow-order">4.</span>
+        <span class="workflow-text">Compile localizations.</span>
+      </li>
+    </ul>
+    <img class="workflow-image" src="/images/workflow.jpg"></img>
+  </div>
+</section>
+<section class="sec-grey">
+  <h2 class="sec-title">Web Interface.</h2>
+  <p class="sec-desc">
+    L10ns have built-in web interface to let translators navigate and search through localizations with ease. It also supports ICU’s Messageformat.
+  </p>
+  <img class="web-interface-image" src="/images/web.jpg"></img>
+</section>
+<section>
+  <h2 class="sec-title">Share, contribute, sponsor.</h2>
+  <p class="sec-desc">
+    Great tools don’t become great without great people. Great people need time and time means money.
+  </p>
+  <div class="contribute-icons">
+    <img class="contribute-icon twitter-share" src="/images/twitter.svg"></img>
+    <a href="https://github.com/tinganho/l10ns">
+      <img class="contribute-icon" src="/images/github.svg"></img>
+    </a>
+    <a href="https://github.com/tinganho/l10ns/issues/95" target="_blank">
+      <img class="contribute-icon" src="/images/currency.svg"></img>
+    </a>
+  </div>
+</section>
+<footer class="sec-grey">
+  <nav class="nav">
+    <ul class="nav-items">
+      <li class="nav-item">
+        <a class="nav-anchor nav-anchor-about">ABOUT</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-anchor" href="/docs.html">DOCS</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-anchor" href="https://github.com/tinganho/l10ns" target="_blank">GITHUB</a>
+      </li>
+      <li class="nav-item twitter-share">
+        <a class="nav-anchor">SHARE</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-anchor" href="https://github.com/tinganho/l10ns/issues/95" target="_blank">SPONSOR</a>
+      </li>
+    </ul>
+  </nav>
+  <div class="contribute-author">
+    Created by: <a href="https://twitter.com/tingan87" target="_blank">Tingan Ho @tingan87</a>.
+  </div>
+  <script>
+    $('.nav-anchor-about').click(function() {
+      var top = $('#first-section').position().top;
+      $(document.body).animate({ scrollTop: top }, 500, 'swing');
+    });
+    var left = screen.width/2 - 325;
+    $('.twitter-share').click(function() {
+      open('https://twitter.com/share?url=http%3A%2F%2Fl10ns.org&text=I%20just%20discovered%20L10ns%20%E2%80%94%20a%20great%20tool%20for%20internationalization.', 'Twitter Share','width=650, height=648, left=:left, top=100'.replace(':left', left));
+    });
+  </script>
+</section>
 </body>
 </html>

@@ -21,11 +21,10 @@ h1 {
   line-height: 58px;
 }
 
-@media(max-width: 500px) {
+@media(max-width: 600px) {
   h1 {
     font-size: 32px;
     line-height: 34px;
-    font-weight: 200;
   }
 }
 
@@ -42,7 +41,6 @@ h2 {
     font-weight: 200;
   }
 }
-
 
 a {
   text-decoration: none;
@@ -71,21 +69,6 @@ a {
 
 .menu-item:active {
   opacity: 0.3;
-}
-
-.timeline-pin-container {
-  display: table-cell;
-  vertical-align: middle;
-  text-align: center;
-}
-
-.timeline-pin {
-  width: 15px;
-  height: 15px;
-  border-radius: 1000px;
-  background-color: #ffffff;
-  border: 3px solid #d0d0d0;
-  display: inline-block;
 }
 
 code .blue {
