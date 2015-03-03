@@ -2,7 +2,7 @@
 
 ## v2.0.13
 
-* Changes to the noew favicon.
+* Changes to the new favicon.
 
 ## v2.0.12
 
