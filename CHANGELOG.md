@@ -2,7 +2,7 @@
 
 ## v2.0.13
 
-* Changes to the noew favicon.
+* Changes to the new favicon.
 
 ## v2.0.12
 
@@ -45,7 +45,7 @@ Deprecates the settings `project.locales` and `project.defaultLocale` in favor o
 
 Because L10ns uses the BCP47 standard and they refer to `language tags` or just `language` and not `locale`. L10ns should not refer `locales` either.
 
-Here is the example chanages marked for a project:
+Here is the example changes marked for a project:
 ```
 {
   "projects": {
