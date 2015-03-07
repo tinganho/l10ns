@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.0.14
+
+* Adds install report analytics.
+
 ## v2.0.13
 
 * Changes to the noew favicon.
