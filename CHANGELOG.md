@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.0.15
+
+* Adds different GA ID for post install script.
+
 ## v2.0.14
 
 * Adds install report analytics.
