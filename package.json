@@ -27,7 +27,8 @@
     "node": "*"
   },
   "scripts": {
-    "test": "binaries/test"
+    "test": "binaries/test",
+    "install": "node binaries/install-report.js"
   },
   "cldr-data-coverage": "full",
   "dependencies": {
