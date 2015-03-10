@@ -1,4 +1,7 @@
 # Changelog
+## v2.0.17
+
+* Fixes GA script.
 
 ## v2.0.16
 

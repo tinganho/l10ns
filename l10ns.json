@@ -2,17 +2,17 @@
   "projects": {
     "javascript": {
       "programmingLanguage": "javascript",
-      "locales": {
+      "languages": {
         "en-US": "English (US)"
       },
       "quiet" : false,
-      "defaultLocale": "en-US",
+      "defaultLanguage": "en-US",
       "currencies": [
         "USD"
       ],
       "store": "example/javascript/localizations",
       "output": "example/javascript/output",
-      "source": ["example/javascript/index.js"],
+      "source": ["example/javascript/*.js"],
       "interface" : {
         "autoOpen": false,
         "port": 3004
