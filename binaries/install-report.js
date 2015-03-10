@@ -1,12 +1,9 @@
 
-var spawn = require('child_process').spawn;
-var path = require('path');
+var pkg = require('../package.json');
+var Insight = require('anonymous-insight');
+var insight = new Insight({
+  trackingCode: 'UA-51369650-5',
+  pkg: pkg
+});
 
-function track(cmd) {
-  spawn(process.execPath, [path.join(__dirname, 'track.js'), cmd, 'UA-51369650-5'], {
-    detached: true,
-    stdio: 'ignore'
-  }).unref();
-}
-
-track('install');
+insight.track('install');
