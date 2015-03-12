@@ -70,11 +70,11 @@ File.prototype.writeLocalizations = function(localizations) {
 File.prototype._sortObject = function(object) {
   var keys = _.sortBy(_.keys(object), function(key) { return key; });
   var newMap = {};
-  _.each(keys, function(key) {
-      newMap[key] = object[key];
-      if(key === 'files') {
-        newMap[key].sort();
-      }
+  keys.forEach(function(key) {
+    newMap[key] = object[key];
+    if(key === 'files') {
+      newMap[key].sort();
+    }
   });
 
   return newMap;
