@@ -1,4 +1,8 @@
 # Changelog
+## v2.0.18
+
+* Fixes first-line issues and files prop sorting. Thanks to [Peter Lyons].
+
 ## v2.0.17
 
 * Fixes GA script.
@@ -88,3 +92,4 @@ Here is the example changes marked for a project:
 ```
 
 [Naman Goel]: https://github.com/nmn
+[Peter Lyons]: https://github.com/focusaurus
