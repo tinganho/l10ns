@@ -74,7 +74,7 @@ File.prototype._sortObject = function(object) {
       newMap[key] = object[key];
       if(key === 'files') {
         newMap[key] = newMap[key].sort(function(a, b) {
-          return a - b;
+          return a < b;
         });
       }
   });
