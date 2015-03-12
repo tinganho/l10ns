@@ -73,9 +73,7 @@ File.prototype._sortObject = function(object) {
   _.each(keys, function(key) {
       newMap[key] = object[key];
       if(key === 'files') {
-        newMap[key] = newMap[key].sort(function(a, b) {
-          return a < b;
-        });
+        newMap[key].sort();
       }
   });
 
@@ -334,4 +332,3 @@ module.exports = new File;
  */
 
 module.exports.File = File;
-
