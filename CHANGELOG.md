@@ -1,4 +1,8 @@
 # Changelog
+## v2.0.20
+
+* Dos not show error message in different passed in variables.
+
 ## v2.0.19
 
 * Fixes install report problem.
