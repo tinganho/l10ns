@@ -1,4 +1,8 @@
 # Changelog
+## v2.0.19
+
+* Fixes install report problem.
+
 ## v2.0.18
 
 * Fixes first-line issues and files prop sorting. Thanks to [Peter Lyons].
