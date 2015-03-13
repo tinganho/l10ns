@@ -57,7 +57,7 @@ Update.prototype.run = function() {
         console.log(error.stack);
       }
 
-      log.error('Localizations update failed');
+      log.error('Update failed: ' + error.message);
     });
 };
 
