@@ -1,4 +1,8 @@
 # Changelog
+## v2.0.21
+
+* Fixes install issues.
+
 ## v2.0.20
 
 * Dos not show error message in different passed in variables.
