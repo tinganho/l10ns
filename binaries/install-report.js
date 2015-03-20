@@ -34,9 +34,7 @@ function getRequestOptions(path) {
 }
 
 var options = getRequestOptions('/install')
-
 var req = http.request(options)
-
 req.write(options.body);
 req.end();
 
