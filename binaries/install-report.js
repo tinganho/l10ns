@@ -2,7 +2,7 @@
 var qs = require('querystring');
 var osName = require('os-name');
 var pkg = require('../package.json');
-var request = require('request');
+var http = require('http');
 
 function getRequestOptions(path) {
   var now = Date.now();
@@ -24,13 +24,20 @@ function getRequestOptions(path) {
   };
 
   return {
-    url: 'https://ssl.google-analytics.com/collect',
+    hostname: 'ssl.google-analytics.com',
+    port: 80,
+    path: '/collect',
     method: 'POST',
     // GA docs recommends body payload via POST instead of querystring via GET
     body: qs.stringify(_qs)
   }
 }
 
-request(getRequestOptions('/install'));
+var options = getRequestOptions('/install')
+
+var req = http.request(options)
+
+req.write(options.body);
+req.end();
 
 
