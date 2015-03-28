@@ -1,5 +1,9 @@
 # Changelog
-## v2.0.21
+## v2.0.23
+
+* Fixes International region codes.
+
+## v2.0.21-22
 
 * Fixes install issues.
 
