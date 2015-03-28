@@ -48,6 +48,9 @@ Set.prototype.run = function(reference, value, language) {
     messageFormat.parse(value);
   }
   catch(error) {
+    if(commands.stack) {
+      console.log(error.stack);
+    }
     return log.error(error.message);
   }
 

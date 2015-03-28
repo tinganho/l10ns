@@ -53,10 +53,10 @@ AST.Variable = function(name) {
  * @constructor
  */
 
-AST.NumberFormat = function(locale, variable, argument, numberSymbols, currencies, decimalPattern, percentagePattern, numberSystem) {
+AST.NumberFormat = function(locale, language, region, variable, argument, numberSymbols, currencies, decimalPattern, percentagePattern, numberSystem) {
   this.locale = locale;
-  this.language = /^([a-z]+)\-/.exec(this.locale)[1];
-  this.region = /\-([A-Z]+)$/.exec(this.locale)[1];
+  this.language = language;
+  this.region = region;
   this.variable = variable;
   this.argument = argument;
   this.numberSymbols = numberSymbols;
@@ -77,10 +77,10 @@ AST.NumberFormat = function(locale, variable, argument, numberSymbols, currencie
  * @constructor
  */
 
-AST.CurrencyFormat = function(locale, variable, context, type, currencies, currencyPattern, numberSystem) {
+AST.CurrencyFormat = function(locale, language, region, variable, context, type, currencies, currencyPattern, numberSystem) {
   this.locale = locale;
-  this.language = /^([a-z]+)\-/.exec(this.locale)[1];
-  this.region = /\-([A-Z]+)$/.exec(this.locale)[1];
+  this.language = language;
+  this.region = region;
   this.variable = variable;
   this.context = context;
   this.type = type;

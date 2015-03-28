@@ -473,6 +473,8 @@ MessageFormat.prototype._parseSimpleFormat = function(type, variable) {
       }
       return new AST.NumberFormat(
         this.languageTag,
+        this.language,
+        this.region,
         variable,
         argument,
         this.numberSymbols[this._currentNumberSystem],
@@ -539,6 +541,8 @@ MessageFormat.prototype._parseCurrencyFormat = function(variable) {
 
   return new AST.CurrencyFormat(
     this.languageTag,
+    this.language,
+    this.region,
     variable,
     context,
     type,
