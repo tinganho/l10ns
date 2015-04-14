@@ -2,7 +2,7 @@
 ## v2.1
 
 * Removes download reportage.
-* Removes auto deletion of files during `l10ns update` and `l10ns compile`. Adds a clean command for purgin unused files.
+* Removes auto deletion of files during `l10ns update` and `l10ns compile`. Adds a clean command for purging unused files.
 
 ## v2.0.23
 
