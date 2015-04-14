@@ -74,13 +74,6 @@ var Compiler = function() {
 Compiler.prototype.run = function() {
   var _this = this;
 
-  var compiledFiles = glob.sync(project.output + '/*.js');
-  compiledFiles.forEach(function(file) {
-    if(!/all\.js$/.test(file) && !(file in project.languages)) {
-      fs.unlink(file);
-    }
-  });
-
   this._getLocalizationMap()
     .then(function(localizationsMap) {
       var languagesCount = 0;

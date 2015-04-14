@@ -36,13 +36,6 @@ File.prototype.writeLocalizations = function(localizations) {
   var count = 0;
   var endCount = _.size(project.languages);
 
-  var storageFiles = glob.sync(project.store + '/*.json');
-  storageFiles.forEach(function(file) {
-    if(!(file in project.languages)) {
-      fs.unlink(file);
-    }
-  });
-
   for(var language in project.languages) {
     this.writeLocalization(localizations, language)
       .then(function() {
@@ -185,6 +178,10 @@ File.prototype.readLocalizations = function(language) {
   }
 
   files.forEach(function(file) {
+    if(!(path.basename(file, '.json') in project.languages)) {
+      return;
+    }
+
     _this.readLocalizationMap(file)
       .then(function(_localizations) {
         if(rejected) {

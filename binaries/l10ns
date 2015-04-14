@@ -10,6 +10,8 @@ var findup = require('findup-sync');
 var path = require('path');
 var open = require('open');
 var _ = require('underscore');
+var fs = require('fs');
+var glob = require('glob');
 var program = require('../configurations/program');
 var text = require('../configurations/text');
 var utilities = require('../libraries/utilities');
@@ -27,7 +29,7 @@ if(typeof process.argv[2] === 'undefined') {
   process.argv[2] = '--help';
 }
 
-if(process.argv[2] === '--version' || process.argv[2] === '-V') {
+if(process.argv[2] === '--version' || process.argv[2] === '-v') {
   console.log(package.version);
   return;
 }
@@ -187,6 +189,38 @@ commands
   });
 
 commands
+  .command('clean')
+  .description('Remove non-used language data')
+  .action(function() {
+    track('clean');
+
+    cli.initialize()
+      .then(function() {
+        var storageFiles = glob.sync(project.store + '/*.json');
+        storageFiles.forEach(function(file) {
+          if(!(path.basename(file, '.json') in project.languages)) {
+            fs.unlink(file);
+            console.log('Removed file: ' + path.basename(file));
+          }
+        });
+        var compiledFiles = glob.sync(project.output + '/*.js');
+        compiledFiles.forEach(function(file) {
+          if(!/all\.js$/.test(file) && !(path.basename(file, '.js') in project.languages)) {
+            fs.unlink(file);
+            console.log('Removed file: ' + path.basename(file));
+          }
+        });
+      })
+      .fail(function(error) {
+        if(commands.stack && error) {
+          console.log(error.stack);
+        }
+
+        console.log(error.message);
+      });
+  });
+
+commands
   .command('compile')
   .description('Compile localizations')
   .action(function() {
@@ -232,6 +266,7 @@ commands
       });
   });
 
+
 commands
   .command('configs')
   .description('Show configurations')
@@ -243,7 +278,7 @@ commands
 
     cli.initialize()
       .then(function() {
-        console.log(_.clone(projects));
+        console.log(_.clone(project));
       })
       .fail(function(error) {
         if(commands.stack && error) {
@@ -265,7 +300,7 @@ if(notifier.update && notifier.update.latest !== notifier.update.current) {
   console.log('Run ' + '`npm install l10ns -g`'.green + '\n');
 }
 
-if(process.argv.length >= 3 && ['init', 'interface', 'search', 'log', 'update', 'compile', 'set', 'configs'].indexOf(process.argv[2]) === -1) {
+if(process.argv.length >= 3 && ['init', 'interface', 'search', 'log', 'update', 'compile', 'set', 'configs', 'clean'].indexOf(process.argv[2]) === -1) {
   process.argv[2] = '--help';
 }
 

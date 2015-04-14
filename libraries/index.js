@@ -143,6 +143,13 @@ CLI.prototype._setDefaultProjectProperties = function(project) {
     project = this._setProjectSource(project);
   }
 
+  if(typeof project.output === 'undefined') {
+    project.output = path.join(project.store, 'output');
+  }
+  else if(!/^\//.test(project.output) && !/^\w\:/.test(project.store)) {
+    project.output = path.join(project.root, project.output);
+  }
+
   deferred.resolve(project);
 
   return deferred.promise;
