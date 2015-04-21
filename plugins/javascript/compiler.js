@@ -112,7 +112,7 @@ Compiler.prototype.run = function() {
           }))
         });
 
-        var filePath = path.join(project.root, project.output) + '/' + language + '.js';
+        var filePath = project.output + '/' + language + '.js';
         mkdirp.sync(path.dirname(filePath));
         fs.writeFileSync(filePath, content);
 
@@ -147,7 +147,7 @@ Compiler.prototype.run = function() {
         }))
       });
 
-      var filePath = path.join(project.root, project.output) + '/all.js';
+      var filePath = project.output + '/all.js';
       mkdirp.sync(path.dirname(filePath));
       fs.writeFileSync(filePath, content);
     })
