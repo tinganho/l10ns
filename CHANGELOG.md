@@ -1,4 +1,8 @@
 # Changelog
+## v2.1.1
+
+* Fixes [#109](https://github.com/tinganho/l10ns/issues/109#issuecomment-94630877) — File path root is duplicated on compile
+
 ## v2.1
 
 * Removes download reportage.
