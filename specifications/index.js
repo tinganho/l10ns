@@ -8,8 +8,8 @@ require('./globals');
  * Specifications
  */
 
-require('./update');
-require('./file');
+// require('./update');
+// require('./file');
 require('./init');
 require('./log');
 
