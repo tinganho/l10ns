@@ -19,7 +19,7 @@ describe('MessageFormat', function() {
 
     it('if language script is missing it should set the most likely language tag', function() {
       var messageFormat = new MessageFormat('zh-CN');
-      expect(messageFormat.languageTag).to.equal('zh-Hans-CN');
+      expect(messageFormat.languageTag).to.equal('zh-Hans');
     });
 
     it('should read currencies', function() {

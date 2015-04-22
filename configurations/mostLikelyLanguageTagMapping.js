@@ -7,6 +7,7 @@
  * @api public
  */
 module.exports = {
-  'zh-CN': 'zh-Hans-CN',
+  'zh-CN': 'zh-Hans',
+  'zh-TW': 'zh-Hant',
   'zh-HK': 'zh-Hant-HK'
 };

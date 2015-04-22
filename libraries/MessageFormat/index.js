@@ -13,6 +13,7 @@ var cache = {};
 var bcp47 = require('bcp47');
 var CLDR = require('cldrjs');
 var mostLikelyLanguageTagMapping = require('../../configurations/mostLikelyLanguageTagMapping');
+var defaultLanguageTag = require('cldr-data/defaultContent.json').defaultContent;
 
 /**
  * MessageFormat class
@@ -143,8 +144,12 @@ MessageFormat.DEFAULT_NUMBER_SYSTEM = 'latn';
  * @api private
  */
 MessageFormat.prototype.getMostLikelyLanguageTag_ = function(language) {
+  var reformatedLanguage = language.replace('-', '_');
   if(language in mostLikelyLanguageTagMapping) {
     return mostLikelyLanguageTagMapping[language];
+  }
+  else if(defaultLanguageTag.indexOf(reformatedLanguage) !== -1) {
+    return reformatedLanguage.replace(/_[0-9a-zA-Z]+$/, '');
   }
   else {
     return language;
