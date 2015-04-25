@@ -1,6 +1,8 @@
 
 L10ns - Effective translation workflow
 ==============
+
+[![Join the chat at https://gitter.im/tinganho/l10ns](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/tinganho/l10ns?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build Status](http://img.shields.io/travis/tinganho/l10ns/master.svg?style=flat-square)](https://travis-ci.org/tinganho/l10ns)
 [![Version](https://img.shields.io/npm/v/l10ns.svg?style=flat-square)](https://www.npmjs.org/package/l10ns)
 [![Download](http://img.shields.io/npm/dm/l10ns.svg?style=flat-square)](https://www.npmjs.org/package/l10ns)
