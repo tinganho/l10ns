@@ -290,15 +290,15 @@ Just run <span class="focused">l10ns update</span> in your terminal. And it will
 </a>
 
 <p>
-We recommend set your translation keys with capital letters. And namespace it with a content type as the first part of the key. And the other part should be a name describing the string. Use double underscore <span class="focused">__</span> for namespacing.
+We recommend set your translation keys with capital letters. And namespace it with a content type as the first part of the key. And the other part should be a name describing the string. Use the arrow characters <span class="focused">-></span> for namespacing.
 </p>
 
 <code>
-l(<span class="red">'CONTENT_TYPE__STRING_NAME'</span>);
+l(<span class="red">'CONTENT_TYPE->STRING_NAME'</span>);
 </code>
 
 <p>
-You need to namespace the translation keys, because some times the same string name can be used on different content. For example: a header for a document has the translation key <span class="focused">HEADER</span>, which is used in more than one place might have different localized strings on different pages. To solve this problem use a content type as a prefix namespace. If there exists a header for a login page, use <span class="focused">LOGIN__HEADER</span> as a translation key. If there exists a header for a sign up page, use <span class="focused">SIGN_UP__HEADER</span> as a translation key.
+You need to namespace the translation keys, because some times the same string name can be used on different content. For example: a header for a document has the translation key <span class="focused">HEADER</span>, which is used in more than one place might have different localized strings on different pages. To solve this problem use a content type as a prefix namespace. If there exists a header for a login page, use <span class="focused">LOGIN->HEADER</span> as a translation key. If there exists a header for a sign up page, use <span class="focused">SIGN_UP->HEADER</span> as a translation key.
 </p>
 
 <p>
@@ -307,11 +307,11 @@ For those strings that spans multiple content types. We recommend namespace them
 </p>
 
 <code>
-l(<span class="red">'DEFAULT__CANCEL'</span>);
+l(<span class="red">'DEFAULT->CANCEL'</span>);
 </code>
 
 <p>
-Do not use normal spoken English sentences as translation keys. We do not recommend this because it contain no namespace. And it is bad for maintenance since if you want to change a string you need to change the translation key too.
+Do not use normal spoken English sentences as translation keys. We do not recommend this because it contain no namespaces. And it is bad for maintenance since if you want to change a string you need to change the translation key too.
 </p>
 
 <p>
