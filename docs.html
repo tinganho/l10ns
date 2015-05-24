@@ -306,6 +306,9 @@ For those strings that spans multiple content types. We recommend namespace them
 <span class="focused">DEFAULT</span>.
 </p>
 
+<p>
+Some times, the same English word can be translated differently depending on context. So translators need some information on which view a text belongs to. By naming your localization key by including the view hiearchy — the translators can easily figure out which view a text belongs to. Please tell your translators also to use our built-in translation interface `l10ns interface`. We will present them the English text there. The English text and the view context is all the information a translator need to translate any kind of text.
+</p>
 <code>
 l(<span class="red">'DEFAULT->CANCEL'</span>);
 </code>
