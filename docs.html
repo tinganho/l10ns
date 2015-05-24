@@ -128,8 +128,8 @@ Now, create a source file <span class="focused">test.js</span> with (at least) t
 <code>
 <span class="blue">var</span> requireLocalizations = require(<span class="red">'path/to/output/all.js'</span>);<br>
 <span class="blue">var</span> l = requireLocalizations(<span class="red">'en-US'</span>);<br>
-<span class="blue">var</span> firstname = l(<span class="red">'SIGN_UP__FIRSTNAME'</span>);<br>
-<span class="blue">var</span> lastname = l(<span class="red">'SIGN_UP__LASTNAME'</span>);
+<span class="blue">var</span> firstname = l(<span class="red">'SIGN_UP->FIRSTNAME'</span>);<br>
+<span class="blue">var</span> lastname = l(<span class="red">'SIGN_UP->LASTNAME'</span>);
 </code>
 
 <p>
@@ -146,8 +146,8 @@ Lets check which translation keys have been added:
 
 <code>
 <span class="blue">$</span> l10ns log<br>
-<span class="yellow">@1</span> SIGN_UP__FIRSTNAME | NO TRANSLATION<br>
-<span class="yellow">@2</span> SIGN_UP__LASTNAME | NO TRANSLATION<br>
+<span class="yellow">@1</span> SIGN_UP->FIRSTNAME | NO TRANSLATION<br>
+<span class="yellow">@2</span> SIGN_UP->LASTNAME | NO TRANSLATION<br>
 </code>
 
 <p>
@@ -267,7 +267,7 @@ Example usage of a simple getter:
 </p>
 
 <code>
-l(<span class="red">'SIGN_UP__FIRSTNAME'</span>);
+l(<span class="red">'SIGN_UP->FIRSTNAME'</span>);
 </code>
 
 <p>
@@ -275,7 +275,7 @@ Example usage of a more complex getter:
 </p>
 
 <code>
-l(<span class="red">'FEED__COMMENTS'</span>, {<br>
+l(<span class="red">'FEED->COMMENTS'</span>, {<br>
 &nbsp;&nbsp;gender: <span class="red">'male'</span>,<br>
 &nbsp;&nbsp;comments: <span class="red">100</span><br>
 });
