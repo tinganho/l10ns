@@ -103,7 +103,7 @@ module.exports = {
    * @value {RegExp}
    */
 
-  LOCALIZATION_VARIABLE_NAME_SYNTAX: /(\w+)("|')?\:$/g,
+  LOCALIZATION_VARIABLE_NAME_SYNTAX: /(\w+)("|')?\s*\:$/g,
 
   /**
    * Translation var regex should capture a match
