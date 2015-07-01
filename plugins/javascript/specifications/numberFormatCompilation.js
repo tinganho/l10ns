@@ -1291,6 +1291,7 @@ describe('NumberFormat', function() {
       '}\n' +
       'string += numberString;\n' +
       'return string;';
+      console.log(dependencies.fs.writeFileSync.args)
       expect(dependencies.fs.writeFileSync.args[1][1]).to.eql(template['JavascriptWrapper']({
         functionBody: indentSpaces(8, functionBody)
       }));
