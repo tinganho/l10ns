@@ -1,4 +1,8 @@
 # Changelog
+## v2.2.1
+
+* Fixes object notation bug.
+
 ## v2.2
 
 * Adds CLDR 27

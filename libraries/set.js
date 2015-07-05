@@ -160,7 +160,7 @@ Set.prototype._getKeyFromLatestSearch = function(reference) {
     return deferred.promise;
   }
 
-  file.readSearchTranslations()
+  file.readSearchLocalizations()
     .then(function(data) {
       if(reference > data.length - 1) {
         return deferred.reject(new TypeError('Reference is not indexed.'));

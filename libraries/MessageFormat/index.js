@@ -823,7 +823,7 @@ MessageFormat.prototype._getPluralCase = function() {
  * @api private
  */
 MessageFormat.prototype._isAlphaNumeric = function(character) {
-  return /^[a-zA-Z0-9]+$/.test(character);
+  return /^[a-zA-Z0-9_]+$/.test(character);
 };
 
 
