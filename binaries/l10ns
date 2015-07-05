@@ -77,7 +77,7 @@ commands
   .option('-e, --empty', 'only empty localizations')
   .option('-o, --open', 'open interface in browser')
   .option('--stack', 'with stack trace')
-  .option('-p, --project', 'specify project')
+  .option('-p, --project <project>', 'specify project')
 
 commands
   .command('init')
