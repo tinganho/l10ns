@@ -41,13 +41,6 @@ if(processRequest && !l10nsPath) {
   return;
 }
 
-function track(cmd) {
-  spawn(process.execPath, [path.join(__dirname, 'track.js'), cmd], {
-    detached: true,
-    stdio: 'ignore'
-  }).unref();
-}
-
 /**
  * Add terminal colors
  */
@@ -84,7 +77,7 @@ commands
   .command('init')
   .description('Initialize project')
   .action(function() {
-    track('init');
+    t
     if(findup('l10ns.json')) {
       return console.log('Project already initialized.');
     }
@@ -96,7 +89,6 @@ commands
   .command('interface')
   .description('Starts web interface')
   .action(function() {
-    track('interface');
     if(!utilities.initiatedProject()) {
       return console.log('You haven\'t initialized a project yet');
     }
@@ -118,7 +110,6 @@ commands
   .command('search [q]')
   .description('Search localizations')
   .action(function(q) {
-    track('search');
     if(!utilities.initiatedProject()) {
       return console.log('You haven\'t initialized a project yet');
     }
@@ -144,7 +135,6 @@ commands
   .command('log')
   .description('Show log')
   .action(function() {
-    track('log');
     if(!utilities.initiatedProject()) {
       return console.log('You haven\'t initialized a project yet');
     }
@@ -171,7 +161,6 @@ commands
   .command('update')
   .description('Update localization keys from source')
   .action(function() {
-    track('update');
     if(!utilities.initiatedProject()) {
       return console.log('You haven\'t initialized a project yet.');
     }
@@ -193,7 +182,6 @@ commands
   .command('clean')
   .description('Remove non-used language data')
   .action(function() {
-    track('clean');
 
     cli.initialize()
       .then(function() {
@@ -225,7 +213,6 @@ commands
   .command('compile')
   .description('Compile localizations')
   .action(function() {
-    track('compile');
     if(!utilities.initiatedProject()) {
       return console.log('You haven\'t initialized a project yet.');
     }
@@ -249,7 +236,6 @@ commands
   .command('set [reference] [value]')
   .description('Set localization')
   .action(function(reference, value) {
-    track('set');
     if(!utilities.initiatedProject()) {
       return console.log('You haven\'t initialized a project yet.');
     }
@@ -272,7 +258,6 @@ commands
   .command('configs')
   .description('Show configurations')
   .action(function() {
-    track('configs');
     if(!utilities.initiatedProject()) {
       return console.log('You haven\'t initialized a project yet.');
     }
