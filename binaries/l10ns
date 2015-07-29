@@ -78,6 +78,7 @@ commands
   .option('-o, --open', 'open interface in browser')
   .option('--stack', 'with stack trace')
   .option('-p, --project <project>', 'specify project')
+  .option('--deleteUnused', 'Forces deletion on update')
 
 commands
   .command('init')
