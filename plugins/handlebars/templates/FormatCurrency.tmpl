@@ -1,0 +1,33 @@
+formatNumber({
+  number: it.{{=it.variableName}}.amount,
+  type: '{{=it.type}}',
+  roundTo: {{=it.roundTo}},
+  prefix: '{{=it.prefix}}',
+  suffix: '{{=it.suffix}}',
+  percentage: {{=it.percentage}},
+  permille: {{=it.permille}},{{?it.currency === 'symbol'}}
+  currency: {
+    symbol: unit
+  },{{??}}
+  currency: null,{{?}}{{?it.groupSize}}
+  groupSize: {
+    primary: {{=it.groupSize.primary}},
+    secondary: {{=it.groupSize.secondary}}
+  },{{??}}
+  groupSize: null,{{?}}{{?it.exponent}}
+  exponent: {
+    digits: {{=it.exponent.digits}},
+    plusSign: {{=it.exponent.plusSign}}
+  },{{??}}
+  exponent: null,{{?}}
+  minimumIntegerDigits: {{=it.minimumIntegerDigits}},
+  maximumIntegerDigits: {{=it.maximumIntegerDigits}},
+  minimumFractionDigits: {{=it.minimumFractionDigits}},
+  maximumFractionDigits: {{=it.maximumFractionDigits}},
+  minimumSignificantDigits: {{=it.minimumSignificantDigits}},
+  maximumSignificantDigits: {{=it.maximumSignificantDigits}},
+  symbols: this.__numberSymbols['{{=it.numberSystem}}'],{{?it.paddingCharacter}}
+  paddingCharacter: '{{=it.paddingCharacter}}',{{??}}
+  paddingCharacter: null,{{?}}
+  patternLength: {{=it.patternLength}}
+});

@@ -1,0 +1,8 @@
+{{?it.format === 1}}dateString += it.{{=it.variableName}}.timezone;
+{{??it.format === 2}}dateString += this.__timezones[it.{{=it.variableName}}.timezone].city;
+{{??}}if(this.__timezones[it.{{=it.variableName}}.timezone].hasCity) {
+  dateString += this.__timezones[it.{{=it.variableName}}.timezone].regionFormat.replace('{0}', this.__timezones[it.{{=it.variableName}}.timezone].city);
+}
+else {
+  dateString += getLongLocalizedGMT(this.__timezones[it.{{=it.variableName}}.timezone].GMTFormat, timezoneOffset);
+}{{?}}

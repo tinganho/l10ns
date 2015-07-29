@@ -1,0 +1,4 @@
+{{?it.format === 1}}dateString += getTimezoneOffset(timezoneOffset, { colon: false });
+{{??it.format === 2}}dateString += getLongLocalizedGMT(this.__timezones[it.{{=it.variableName}}.timezone].GMTFormat, timezoneOffset);
+{{??}}dateString += getTimezoneOffset(timezoneOffset);
+{{?}}

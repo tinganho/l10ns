@@ -1,0 +1,52 @@
+function getTimezoneOffset(timezoneOffset, options) {
+  options = options || {};
+  options.hours = typeof options.hours !== 'undefined' ? options.hours : true;
+  options.zeroPaddingHours = typeof options.zeroPaddingHours !== 'undefined' ? options.zeroPaddingHours : true;
+  options.minutes = typeof options.minutes !== 'undefined' ? options.minutes : true;
+  options.colon = typeof options.colon !== 'undefined' ? options.colon : true;
+  options.zulu = typeof options.zulu !== 'undefined' ? options.zulu : false;
+
+  var offsetFloatingHours = timezoneOffset / 60;
+  var offsetHours;
+  var offsetMinutes;
+
+  if(timezoneOffset >= 0) {
+    offsetHours = Math.floor(offsetFloatingHours);
+    offsetMinutes = ((offsetFloatingHours % 1) * 60).toFixed(0);
+  }
+  else {
+    offsetHours = Math.ceil(offsetFloatingHours);
+    offsetMinutes = - ((offsetFloatingHours % 1) * 60).toFixed(0);
+  }
+  if(offsetMinutes < 10) {
+    offsetMinutes = '0' + offsetMinutes;
+  }
+
+  if(options.zulu && offsetHours === 0) {
+    return 'Z';
+  }
+
+  var result = '';
+  if(options.zeroPaddingHours) {
+    if(offsetHours > -10 && offsetHours < 0) {
+      offsetHours = (offsetHours + '').replace('-', '-0');
+    }
+    else if(offsetHours >= 0 && offsetHours < 10) {
+      offsetHours = '0' + offsetHours;
+    }
+  }
+  if(options.hours) {
+    if((offsetHours + '').charAt(0) !== '-') {
+      offsetHours = '+' + offsetHours;
+    }
+    result += offsetHours;
+  }
+  if(options.colon) {
+    result += ':';
+  }
+  if(options.minutes) {
+    result += offsetMinutes;
+  }
+
+  return result;
+}

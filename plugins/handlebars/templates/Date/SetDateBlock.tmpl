@@ -1,0 +1,60 @@
+var date;
+var dateString = '';
+var year;
+var month;
+var date_;
+var hours;
+var minutes;
+var seconds;
+var milliseconds;
+var timezoneOffset;
+var timezoneOffsetType;
+if(it.{{=it.variableName}} instanceof Date) {
+  date = it.{{=it.variableName}};
+  timezoneOffset = date.getTimezoneOffset();
+}
+else {
+  if(!this.__timezones) {
+    throw new TypeError('You must define your timezones in your configuration file l10ns.json and compile again. http://l10ns.org/docs.html#dateformat');
+  }
+
+  if(typeof it.{{=it.variableName}}.timezone === 'undefined') {
+    throw new TypeError('You must define a \'timezone\' property for {{=it.variableName}}');
+  }
+
+  if(!(it.{{=it.variableName}}.timezone in timezones)) {
+    throw new TypeError('Timezone \'' + it.{{=it.variableName}}.timezone + '\' is not defined. Please define it in your l10ns.json file.');
+  }
+
+  if(typeof it.{{=it.variableName}}.time === 'undefined') {
+    throw new TypeError('You must define a time property for {{=it.variableName}}');
+  }
+
+  if(!(it.{{=it.variableName}}.time instanceof Date)) {
+    throw new TypeError('Property time must be of type Date.');
+  }
+
+  date = new Date(it.{{=it.variableName}}.time.getTime());
+  var currentMinutes = date.getMinutes();
+  var currentTimezoneOffset = -(date.getTimezoneOffset());
+  var timezoneInfo = timezones[it.{{=it.variableName}}.timezone];
+  var unixTime = date.getTime();
+  var index;
+  if(unixTime > timezoneInfo.untils[timezoneInfo.untils.length - 1] || unixTime < timezoneInfo.untils[0]) {
+    timezoneOffset = -1 * timezoneInfo.offsets.reduce(function (previous, current) {
+      return (Math.abs(current - 0) < Math.abs(previous - 0) ? current : previous);
+    });
+    timezoneOffsetType = timezoneInfo.types[0];
+  }
+  else {
+    for(var index = 0; index < timezoneInfo.untils.length; index++) {
+      if(unixTime < timezoneInfo.untils[index]) {
+        index = index - 1;
+        break;
+      }
+    }
+    timezoneOffset = -(timezoneInfo.offsets[index]);
+    timezoneOffsetType = timezoneInfo.types[index];
+  }
+  date.setMinutes(currentMinutes + (timezoneOffset - currentTimezoneOffset));
+}

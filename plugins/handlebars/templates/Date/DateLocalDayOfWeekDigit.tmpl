@@ -1,0 +1,7 @@
+var day = date.getDay();
+if(day === 0) {
+  day = 7;
+}
+day += '';{{?it.padding}}
+day = '0' + day;{{?}}
+dateString += day;

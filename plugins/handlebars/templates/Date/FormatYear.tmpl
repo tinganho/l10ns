@@ -1,0 +1,17 @@
+var yearString = '';
+{{?it.length != 2}}if(year.length >= {{=it.length}}) {
+  yearString = year;
+}
+else {
+  var difference = {{=it.length}} - year.length;
+  for(var i = 0; i < difference; i++) {
+    yearString += '0';
+  }
+  yearString += year;
+}{{??}}if(year.length < 2) {
+  yearString += '0' + year;
+}
+else {
+  yearString += year.substring(year.length - 2, year.length);
+}{{?}}
+dateString += yearString;
