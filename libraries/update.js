@@ -186,6 +186,7 @@ Update.prototype._mergeWithOldLocalizations = function(newLocalizations) {
         defaultIds[key] = oldLocalizations[project.defaultLanguage][key].id;
       }
 
+
       for(var language in project.languages) {
         newLocalizationsCopy[language] = JSON.parse(JSON.stringify(newLocalizations));
         for(var key in newLocalizationsCopy[language]) {
@@ -362,6 +363,15 @@ Update.prototype._getUpdatedFiles = function(newLocalizations, oldLocalizations)
 Update.prototype._mergeUserInputs = function(newLocalizations, oldLocalizations, callback) {
   var deletedTranslations = this._getDeletedLocalizations(newLocalizations, oldLocalizations);
   if(_.size(deletedTranslations) === 0) {
+    return callback(null, newLocalizations);
+  } else if( (process.argv.length <= 3) || (process.argv[3] !== '--deleteUnused') ) {
+    _.each(deletedTranslations, function(el, key, obj){
+      _.each(project.languages, function(language, langCode){
+        if ((langCode in newLocalizations) && !(key in newLocalizations[langCode])) {
+          newLocalizations[langCode][key] = el[langCode];
+        }
+      });
+    });
     return callback(null, newLocalizations);
   }
 
