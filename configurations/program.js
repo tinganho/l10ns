@@ -106,7 +106,8 @@ module.exports = {
    */
 
   DEFAULT_SOURCE_MAP: {
-    'javascript': []
+    'javascript': [],
+    'handlebars': []
   },
 
   /**
@@ -188,7 +189,7 @@ module.exports = {
    * @value {Array} programming languages
    */
 
-  PROGRAMMING_LANGUAGUES: ['javascript'],
+  PROGRAMMING_LANGUAGUES: ['javascript', 'handlebars'],
 
   /**
    * Specify languages syntax. This configuration is used by Init class.
