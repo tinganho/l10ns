@@ -77,7 +77,6 @@ commands
   .command('init')
   .description('Initialize project')
   .action(function() {
-    t
     if(findup('l10ns.json')) {
       return console.log('Project already initialized.');
     }
