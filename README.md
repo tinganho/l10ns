@@ -21,7 +21,7 @@ L10ns - Effective translation workflow
 * Problem translating number/currency formats.
 * Problem translating date formats.
 
-L10ns deals with all the translation problem mentioned above. It manage syncing translation keys between your source code and your localization storage. You can compile translations and open a translation interface by a CLI method. It supports ICU's message format and reads data directly from CLDR for translating multiple complex translations.
+L10ns deals with the entire translation problem mentioned above. It manage syncing translation keys between your source code and your localization storage. You can compile translations and open a translation interface by a CLI method. It supports ICU's message format and reads data directly from CLDR for translating multiple complex translations.
 
 ## Installation
 
@@ -29,7 +29,7 @@ L10ns deals with all the translation problem mentioned above. It manage syncing 
 
 ## Getting started
 
-Create a new project folder test and initialize a new translation project. The initialization guide will guide you through creating a project.
+Create a new project folder test and initialize a new translation project. The initialization guide will lead you through creating a project.
 ```
 $ mkdir test
 $ cd test
@@ -42,11 +42,11 @@ var l = requireLocalizations('en-US');
 var firstname = l('SIGN_UP__FIRSTNAME');
 var lastname = l('SIGN_UP__LASTNAME');
 ```
-Now, lets update translation keys from source. It will traverse your source code and look for all `l()` calls:
+Now, let's update translation keys from source. It will traverse your source code and look for all `l()` calls:
 ```
 $ l10ns update
 ```
-Lets check which translation keys have been added:
+Let's check which translation keys have been added:
 ```
 $ l10ns log
 @1 SIGN_UP__FIRSTNAME | NO TRANSLATION
@@ -54,14 +54,14 @@ $ l10ns log
 ```
 Edit the last translation using log reference:
 ```
-$ l10ns set @1 "Firstname" # using default langague
-$ l10ns set @1 -l zh-CN "名" # using chinese
+$ l10ns set @1 "Firstname" # using default language
+$ l10ns set @1 -l zh-CN "名" # using Chinese
 ```
 Translation are now saved to a localization file. To compile to your source programming language:
 ```
 $ l10ns compile
 ```
-Lets set up a web interface for translator to use:
+Let's set up a web interface for translator to use:
 ```
 $ l10ns interface
 ```
