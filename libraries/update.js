@@ -127,7 +127,7 @@ Update.prototype.getNewLocalizations = function() {
         }
 
         content = _this._stripInnerFunctionCalls(content);
-        // Match all gt() calls
+        // Match all l() calls
         var calls = (' ' + content).match(language.GET_LOCALIZATION_FUNCTION_CALL_SYNTAX);
         if(calls !== null) {
           calls.forEach(function(call) {

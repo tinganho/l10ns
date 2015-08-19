@@ -53,6 +53,9 @@ Init.prototype.run = function() {
     return _this._getStorageFolder();
   })
   .then(function(folder) {
+    if (!/\\$/.test(folder)) {
+        folder += '/';
+    }
     _this.json.store = folder;
     _this.json.output = folder + 'output';
     _this._setDefaultSrc();
