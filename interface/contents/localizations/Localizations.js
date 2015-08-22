@@ -64,11 +64,11 @@ define(function(require) {
 
               if(locale !== project.defaultLanguage) {
                 _this.setMeta('l10n_keys', 'Keys | ' + project.defaultLanguage);
-                var localizationsWithDefaultLocale = file.localizationMapToArray(localizations)[project.defaultLanguage];
+                var localizationsWithDefaultLocale = localizations[project.defaultLanguage];
 
                 for(var index = 0; index < localizationsWithRequestedLocale.length; index++) {
                   localizationsWithRequestedLocale[index].keyText =
-                    localizationsWithRequestedLocale[index].key + ' <br><b> ' +  localizationsWithDefaultLocale[index].value +'</b>';
+                    localizationsWithRequestedLocale[index].key + ' <br><b> ' +  localizationsWithDefaultLocale[localizationsWithRequestedLocale[index].key].value +'</b>';
                 }
               }
               else {
