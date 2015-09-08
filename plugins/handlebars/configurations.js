@@ -55,7 +55,7 @@ module.exports = {
 
   GET_LOCALIZATION_FUNCTION_CALL_SYNTAX: new RegExp('\\{{2,3}\\s((' + GET_LOCALIZATION_STRING_FUNCTION_NAME +
     '|' +
-    GET_LOCALIZATION_STRING_USING_VARIABLES_FUNCTION_NAME + ')(.*))\\s\\}{2,3}', 'g'),
+    GET_LOCALIZATION_STRING_USING_VARIABLES_FUNCTION_NAME + ')\\s(\'|")([a-zA-Z\\.0-9]+)?\\3[^\\}]*)\\s\\}{2,3}', 'g'),
 
   /**
    * Translation key regex should capture a match
@@ -72,8 +72,7 @@ module.exports = {
    */
 
   LOCALIZATION_KEY_SYNTAX: new RegExp('\\{{2,3}\\s(' + GET_LOCALIZATION_STRING_FUNCTION_NAME +
-    '|' +
-    GET_LOCALIZATION_STRING_USING_VARIABLES_FUNCTION_NAME + ')\\s(\'|")(\\w+)?\\2.*\\}{2,3}'),
+    '|' + GET_LOCALIZATION_STRING_USING_VARIABLES_FUNCTION_NAME + ')\\s(\'|")([a-zA-Z\\.0-9]+)?\\2.*\\}{2,3}', 'gm'),
 
   /**
    * Translation variables regex should capture a match
