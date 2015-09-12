@@ -9,6 +9,7 @@ var syntax = require('./syntax');
 var template = require('./templates/build/templates');
 var file = require('../../libraries/file');
 var log = require('../../libraries/_log');
+var minimatch = require('minimatch');
 var mkdirp = require('mkdirp');
 var MessageFormat = require('../../libraries/MessageFormat');
 var digits = require('./digits');
@@ -89,9 +90,11 @@ Compiler.prototype.run = function() {
       }
 
       for(var language in localizationsMap) {
+
         var stringMap = template['LocalizationsMap']({
           localizations: _this._indentSpaces(2, localizationsMap[language])
         });
+
 
         var content = template['JavascriptWrapper']({
           hasTimezone: hasTimezone,
@@ -112,9 +115,11 @@ Compiler.prototype.run = function() {
           }))
         });
 
-        var filePath = project.output + '/' + language + '.js';
-        mkdirp.sync(path.dirname(filePath));
-        fs.writeFileSync(filePath, content);
+        if (process.argv.indexOf('--serverOnly') === -1) {
+          var filePath = project.output + '/' + language + '.js';
+          mkdirp.sync(path.dirname(filePath));
+          fs.writeFileSync(filePath, content);
+        }
 
         allLocalizations += localizationsMap[language];
 
@@ -147,9 +152,11 @@ Compiler.prototype.run = function() {
         }))
       });
 
-      var filePath = project.output + '/all.js';
-      mkdirp.sync(path.dirname(filePath));
-      fs.writeFileSync(filePath, content);
+      if (process.argv.indexOf('--clientOnly') === -1) {
+        var filePath = project.output + '/all.js';
+        mkdirp.sync(path.dirname(filePath));
+        fs.writeFileSync(filePath, content);
+      }
     })
     .fail(function(error) {
       if(commands.stack && error && error.stack) {
@@ -194,7 +201,7 @@ Compiler.prototype._indentSpaces = function(spaces, string) {
  * @resolves {String} String representing a localization map
  * @api private
  */
-
+var keysToSkip = [];
 Compiler.prototype._getLocalizationMap = function() {
   var _this = this, deferred = defer();
   file.readLocalizations()
@@ -202,6 +209,19 @@ Compiler.prototype._getLocalizationMap = function() {
       var localizationsMap = {};
       var languagesLength = Object.keys(localizations).length;
       var languagesCount = 0;
+
+      if (process.argv.indexOf('--clientOnly') !== -1) {
+        var glob = process.argv[process.argv.indexOf('--clientOnly') + 1];
+        Object.getOwnPropertyNames(localizations).forEach(function(langIndex) {
+          Object.getOwnPropertyNames(localizations[langIndex]).forEach(function(key) {
+            var item = localizations[langIndex][key];
+            var canDelete = (item.files.filter(function(file) { return minimatch(file, glob); }).length <= 0);
+            if (canDelete) {
+              delete localizations[langIndex][key];
+            }
+          });
+        });
+      }
 
       for(var language in localizations) {
         var localizationMap = '';
@@ -245,6 +265,10 @@ Compiler.prototype._getLocalizationMap = function() {
 
         var localizationsCount = 0;
         for(var key in localizations[language]) {
+          if (localizations[language][key].files.indexOf(process.argv[process.argv.indexOf('--splitServerFromClient') + 1]) === -1 ) {
+            keysToSkip.push(localizations[language][key]);
+          }
+
           messageFormat.parse(localizations[language][key].value);
           var _function = template['Function']({
             functionBody: _this._indentSpaces(
