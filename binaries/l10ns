@@ -72,6 +72,8 @@ commands
   .option('--stack', 'with stack trace')
   .option('-p, --project <project>', 'specify project')
   .option('--deleteUnused', 'Forces deletion on update')
+  .option('--clientOnly "<glob>"', 'Only generates the language files (and skips the all.js)')
+  .option('--serverOnly', 'Generates the all.js only')
 
 commands
   .command('init')
