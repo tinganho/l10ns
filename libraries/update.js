@@ -368,7 +368,9 @@ Update.prototype._mergeUserInputs = function(newLocalizations, oldLocalizations,
     _.each(deletedTranslations, function(el, key, obj){
       _.each(project.languages, function(language, langCode){
         if ((langCode in newLocalizations) && !(key in newLocalizations[langCode])) {
-          newLocalizations[langCode][key] = el[langCode];
+          if ((langCode in el) && el[langCode]) {
+            newLocalizations[langCode][key] = el[langCode];
+          }
         }
       });
     });
