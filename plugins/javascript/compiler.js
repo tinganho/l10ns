@@ -112,9 +112,11 @@ Compiler.prototype.run = function() {
           }))
         });
 
-        var filePath = project.output + '/' + language + '.js';
-        mkdirp.sync(path.dirname(filePath));
-        fs.writeFileSync(filePath, content);
+        if (process.argv.indexOf('--serverOnly') === -1) {
+          var filePath = project.output + '/' + language + '.js';
+          mkdirp.sync(path.dirname(filePath));
+          fs.writeFileSync(filePath, content);
+        }
 
         allLocalizations += localizationsMap[language];
 
@@ -147,9 +149,11 @@ Compiler.prototype.run = function() {
         }))
       });
 
-      var filePath = project.output + '/all.js';
-      mkdirp.sync(path.dirname(filePath));
-      fs.writeFileSync(filePath, content);
+      if (process.argv.indexOf('--clientOnly') === -1) {
+        var filePath = project.output + '/all.js';
+        mkdirp.sync(path.dirname(filePath));
+        fs.writeFileSync(filePath, content);
+      }
     })
     .fail(function(error) {
       if(commands.stack && error && error.stack) {
@@ -202,6 +206,19 @@ Compiler.prototype._getLocalizationMap = function() {
       var localizationsMap = {};
       var languagesLength = Object.keys(localizations).length;
       var languagesCount = 0;
+
+      if (process.argv.indexOf('--clientOnly') !== -1) {
+        var glob = process.argv[process.argv.indexOf('--clientOnly') + 1];
+        Object.getOwnPropertyNames(localizations).forEach(function(langIndex) {
+          Object.getOwnPropertyNames(localizations[langIndex]).forEach(function(key) {
+            var item = localizations[langIndex][key];
+            var canDelete = (item.files.filter(function(file) { return minimatch(file, glob); }).length <= 0);
+            if (canDelete) {
+              delete localizations[langIndex][key];
+            }
+          });
+        });
+      }
 
       for(var language in localizations) {
         var localizationMap = '';
@@ -1478,3 +1495,4 @@ module.exports = new Compiler;
  */
 
 module.exports.Constructor = Compiler;
+

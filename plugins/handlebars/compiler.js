@@ -201,7 +201,6 @@ Compiler.prototype._indentSpaces = function(spaces, string) {
  * @resolves {String} String representing a localization map
  * @api private
  */
-var keysToSkip = [];
 Compiler.prototype._getLocalizationMap = function() {
   var _this = this, deferred = defer();
   file.readLocalizations()
@@ -265,10 +264,6 @@ Compiler.prototype._getLocalizationMap = function() {
 
         var localizationsCount = 0;
         for(var key in localizations[language]) {
-          if (localizations[language][key].files.indexOf(process.argv[process.argv.indexOf('--splitServerFromClient') + 1]) === -1 ) {
-            keysToSkip.push(localizations[language][key]);
-          }
-
           messageFormat.parse(localizations[language][key].value);
           var _function = template['Function']({
             functionBody: _this._indentSpaces(
