@@ -9,6 +9,7 @@ var syntax = require('./syntax');
 var template = require('./templates/build/templates');
 var file = require('../../libraries/file');
 var log = require('../../libraries/_log');
+var minimatch = require('minimatch');
 var mkdirp = require('mkdirp');
 var MessageFormat = require('../../libraries/MessageFormat');
 var digits = require('./digits');
