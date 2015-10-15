@@ -186,7 +186,6 @@ Update.prototype._mergeWithOldLocalizations = function(newLocalizations) {
         defaultIds[key] = oldLocalizations[project.defaultLanguage][key].id;
       }
 
-
       for(var language in project.languages) {
         newLocalizationsCopy[language] = JSON.parse(JSON.stringify(newLocalizations));
         for(var key in newLocalizationsCopy[language]) {
