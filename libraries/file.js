@@ -131,23 +131,14 @@ File.prototype.localizationMapToArray = function(localizations) {
       result[language].push(localizations[language][key]);
     }
 
-    result[language] = result[language].sort(function(a, b) {
-        if(b.timestamp > a.timestamp) {
-          return 1;
-        }
-        else if(b.timestamp < a.timestamp) {
-          return -1;
-        }
-        else if(a.key > b.key) {
-          return 1;
-        }
-        else if(a.key < b.key) {
-          return -1;
-        }
-        else {
-          return 0;
-        }
-      });
+    var newKeys = [];
+    var oldKeys = [];
+    result[language].forEach(function(key) {
+      if (key.new) newKeys.push(key);
+      else oldKeys.push(key);
+    });
+
+    result[language] = oldKeys.concat(newKeys);
   }
 
   return result;
