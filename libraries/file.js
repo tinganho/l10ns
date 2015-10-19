@@ -30,9 +30,9 @@ function File() {
  * @api private
  */
 
-File.prototype.writeLocalizations = function(localizations, newKeys) {
+File.prototype.writeLocalizations = function(localizations) {
   var deferred = Q.defer();
-  var localizations = this.localizationMapToArray(localizations, newKeys);
+  var localizations = this.localizationMapToArray(localizations);
   var count = 0;
   var endCount = _.size(project.languages);
 
@@ -61,9 +61,9 @@ File.prototype.writeLocalizations = function(localizations, newKeys) {
  */
 
 File.prototype._sortObject = function(object) {
-  // var keys = _.sortBy(_.keys(object), function(key) { return key; });
+  var keys = _.sortBy(_.keys(object), function(key) { return key; });
   var newMap = {};
-  Object.getOwnPropertyNames(object).forEach(function(key) {
+  keys.forEach(function(key) {
     newMap[key] = object[key];
     if(key === 'files') {
       newMap[key].sort();
@@ -101,7 +101,6 @@ File.prototype.writeLocalization = function(localizations, language) {
       for(var index = 0; index < localizations[language].length; index++) {
         localizations[language][index] = _this._sortObject(localizations[language][index]);
       }
-
       localizationString = JSON.stringify(localizations[language], null, 2);
       fs.appendFile(p, localizationString, function(error) {
           if(error) {
@@ -123,21 +122,23 @@ File.prototype.writeLocalization = function(localizations, language) {
  * @api private
  */
 
-File.prototype.localizationMapToArray = function(localizations, newKeys) {
+File.prototype.localizationMapToArray = function(localizations) {
   var result = {};
 
   for(var language in project.languages) {
     result[language] = [];
-    Object.getOwnPropertyNames(localizations[language]).forEach(function(oldLocalization){
-      if (language in newKeys) {
-        var isNewKey = (newKeys[language].filter(function(elm) { return oldLocalization === elm.key; }).length !== 0);
-        if (isNewKey) return;
-      }
+    for(var key in localizations[language]) {
+      result[language].push(localizations[language][key]);
+    }
 
-      result[language].push(localizations[language][oldLocalization]);
+    var newKeys = [];
+    var oldKeys = [];
+    result[language].forEach(function(key) {
+      if (key.new) newKeys.push(key);
+      else oldKeys.push(key);
     });
 
-    if (language in newKeys) result[language] = result[language].concat(newKeys[language]);
+    result[language] = oldKeys.concat(newKeys);
   }
 
   return result;
@@ -189,7 +190,6 @@ File.prototype.readLocalizations = function(language) {
             }
             return deferred.resolve(localizations[language]);
           }
-
           return deferred.resolve(localizations);
         }
       })
@@ -271,7 +271,6 @@ File.prototype.readLocalizationMap = function(file) {
       for(var index in localizations) {
         result[localizations[index].key] = localizations[index];
       }
-
       deferred.resolve(result);
     })
     .fail(function(error) {
