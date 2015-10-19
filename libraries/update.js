@@ -49,8 +49,8 @@ Update.prototype.run = function() {
     .then(function(newLocalizations) {
       return _this._mergeWithOldLocalizations(newLocalizations);
     })
-    .then(function(localizations) {
-      return file.writeLocalizations(localizations[0], localizations[1]);
+    .then(function(mergedLocalizations) {
+      return file.writeLocalizations(mergedLocalizations)
     })
     .fail(function(error) {
       if(commands.stack && error) {
@@ -135,9 +135,11 @@ Update.prototype.getNewLocalizations = function() {
               , variables = parser.getVariables(call);
             if(!(key in newLocalizations)) {
               newLocalizations[key] = {};
+              newLocalizations[key].id = hashids.encrypt(now, hashCount);
               newLocalizations[key].key = key;
               newLocalizations[key].variables = variables;
               newLocalizations[key].files = [file];
+              hashCount++;
             }
             else {
               if(syntax.hasErrorDuplicate(newLocalizations, key, variables)) {
@@ -176,62 +178,40 @@ Update.prototype._mergeWithOldLocalizations = function(newLocalizations) {
 
   file.readLocalizations()
     .then(function(oldLocalizations) {
-
       var newLocalizationsCopy = {};
       var now = (new Date).toISOString();
       var defaultIds = {};
-      var newKeys = {};
 
       for(var key in oldLocalizations[project.defaultLanguage]) {
         defaultIds[key] = oldLocalizations[project.defaultLanguage][key].id;
       }
 
       for(var language in project.languages) {
-        newLocalizationsCopy[language] = {};
-
-        /** Check if language exists in old localizations */
-        if (!(language in oldLocalizations)) {
-          oldLocalizations[language] = {};
-          Object.getOwnPropertyNames(newLocalizations).forEach(function(key) {
-            newLocalizationsCopy[language][key] = {};
-            newLocalizationsCopy[language][key].files = newLocalizations[key].files;
-            newLocalizationsCopy[language][key].key = key;
-            newLocalizationsCopy[language][key].new = false;
+        newLocalizationsCopy[language] = JSON.parse(JSON.stringify(newLocalizations));
+        for(var key in newLocalizationsCopy[language]) {
+          if(typeof oldLocalizations[language] !== 'undefined'
+          && typeof oldLocalizations[language][key] !== 'undefined') {
+            var _new = newLocalizationsCopy[language]
+              , old  = oldLocalizations[language];
+            // Assign translation
+            newLocalizationsCopy[language] = merger.mergeLocalizations(_new, old, key);
+            // Set timestamp
+            newLocalizationsCopy[language] = merger.mergeTimeStamp(_new, old, key);
+            // Assign id
+            newLocalizationsCopy[language] = merger.mergeId(_new, defaultIds, key);
+          }
+          else {
+            newLocalizationsCopy[language][key].new = true;
             newLocalizationsCopy[language][key].value = '';
-            newLocalizationsCopy[language][key].variables = _.clone(newLocalizations[key].variables);
             newLocalizationsCopy[language][key].timestamp = now;
-            oldLocalizations[language][key] = newLocalizationsCopy[language][key];
-          });
-        } else {
-          var oldKeys = Object.getOwnPropertyNames(oldLocalizations[language]);
-
-          Object.getOwnPropertyNames(oldLocalizations[language]).forEach(function(key) {
-            if ((oldKeys.indexOf(key) !== -1) && ('value' in oldLocalizations[language][key])) {
-              newLocalizationsCopy[language][key] = {};
-              newLocalizationsCopy[language][key].files = newLocalizations[key].files;
-              newLocalizationsCopy[language][key].id = oldLocalizations[language][key].id;
-              newLocalizationsCopy[language][key].key = key;
-              newLocalizationsCopy[language][key].new = false;
-              newLocalizationsCopy[language][key].timestamp = oldLocalizations[language][key].timestamp;
-              newLocalizationsCopy[language][key].value = oldLocalizations[language][key].value || '';
-              newLocalizationsCopy[language][key].variables = _.clone(newLocalizations[key].variables);
-              oldLocalizations[language][key].text && (newLocalizations[language][key].text = oldLocalizations[language][key].text);
+            if(key in defaultIds) {
+              newLocalizationsCopy[language][key].id = defaultIds[key];
             }
-          });
 
-          Object.getOwnPropertyNames(newLocalizations).forEach(function(key) {
-            if (oldKeys.indexOf(key) !== -1) return;
-
-            if (!(language in newKeys)) newKeys[language] = [];
-            newKeys[language].push({
-              files: _.clone(newLocalizations[key].files),
-              key: key,
-              new: false,
-              timestamp: now,
-              value: '',
-              variables: _.clone(newLocalizations[key].variables)
-            });
-          });
+            if(language === project.defaultLanguage) {
+              console.log('[added]'.green + ' ' + key);
+            }
+          }
         }
       }
 
@@ -252,7 +232,7 @@ Update.prototype._mergeWithOldLocalizations = function(newLocalizations) {
 
       _this._mergeUserInputs(newLocalizationsCopy, oldLocalizations, function(error, mergedLocalizations) {
         if(!error) {
-          return deferred.resolve([mergedLocalizations, newKeys]);
+          return deferred.resolve(mergedLocalizations);
         }
         if(error.error === 'SIGINT') {
           return deferred.resolve(oldLocalizations);
