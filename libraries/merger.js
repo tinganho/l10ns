@@ -64,7 +64,7 @@ Merger.prototype.mergeId = function(newLocalizations, defaultIds, key) {
     newLocalizations[key].id = defaultIds[key];
   }
   else {
-    newLocalizations[key].new = false;
+    newLocalizations[key].new = true;
     newLocalizations[key].id = hashids.encrypt(now, this.counter);
   }
   this.counter++;
@@ -91,7 +91,7 @@ Merger.prototype.mergeLocalizations = function(newLocalizations, oldLocalization
     throw new TypeError('Key does not exist in oldLocalizations (' + key + ')');
   }
 
-  return oldLocalizations;
+  return newLocalizations;
 };
 
 /**
