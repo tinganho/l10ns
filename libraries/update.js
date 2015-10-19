@@ -194,7 +194,7 @@ Update.prototype._mergeWithOldLocalizations = function(newLocalizations) {
           oldLocalizations[language] = {};
           Object.getOwnPropertyNames(newLocalizations).forEach(function(key) {
             newLocalizationsCopy[language][key] = {};
-            newLocalizationsCopy[language][key].files = newLocalizations[key].files || [];
+            newLocalizationsCopy[language][key].files = newLocalizations[key].files;
             newLocalizationsCopy[language][key].key = key;
             newLocalizationsCopy[language][key].new = false;
             newLocalizationsCopy[language][key].value = '';
@@ -207,17 +207,15 @@ Update.prototype._mergeWithOldLocalizations = function(newLocalizations) {
 
           Object.getOwnPropertyNames(oldLocalizations[language]).forEach(function(key) {
             if ((oldKeys.indexOf(key) !== -1) && ('value' in oldLocalizations[language][key])) {
-
               newLocalizationsCopy[language][key] = {};
-              newLocalizationsCopy[language][key].files = newLocalizations[key] ? newLocalizations[key].files : [];
+              newLocalizationsCopy[language][key].files = newLocalizations[key].files;
               newLocalizationsCopy[language][key].id = oldLocalizations[language][key].id;
               newLocalizationsCopy[language][key].key = key;
               newLocalizationsCopy[language][key].new = false;
               newLocalizationsCopy[language][key].timestamp = oldLocalizations[language][key].timestamp;
               newLocalizationsCopy[language][key].value = oldLocalizations[language][key].value || '';
-              newLocalizationsCopy[language][key].variables = newLocalizations[key] ? _.clone(newLocalizations[key].variables) : {};
-              oldLocalizations[language][key].text && newLocalizations[key] &&
-                (newLocalizations[language][key].text = oldLocalizations[language][key].text);
+              newLocalizationsCopy[language][key].variables = _.clone(newLocalizations[key].variables);
+              oldLocalizations[language][key].text && (newLocalizations[language][key].text = oldLocalizations[language][key].text);
             }
           });
 
@@ -226,7 +224,7 @@ Update.prototype._mergeWithOldLocalizations = function(newLocalizations) {
 
             if (!(language in newKeys)) newKeys[language] = [];
             newKeys[language].push({
-              files: newLocalizations[key].files ? _.clone(newLocalizations[key].files) : [],
+              files: _.clone(newLocalizations[key].files),
               key: key,
               new: false,
               timestamp: now,
