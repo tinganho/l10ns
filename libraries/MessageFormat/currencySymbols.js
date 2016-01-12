@@ -604,6 +604,21 @@ module.exports = {
       }
     }
   },
+  'NZD': {
+    symbols: {
+      local: '$',
+      global: 'NZ$',
+      reverseGlobal: '$NZ'
+    },
+    text: {
+      no: {
+        local: {
+          one: 'New Zealand dollar',
+          other: 'New Zealand dollars'
+        }
+      }
+    }
+  },
   'PAB': {
     symbols: {
       local: 'B/.',
