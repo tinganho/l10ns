@@ -757,7 +757,7 @@ module.exports = {
   },
   'SAR': {
     symbols: {
-      local: 'Rial',
+      local: 'ريال',
       global: 'Rial'
     },
     text: {
