@@ -647,7 +647,7 @@ Compiler.prototype._getFormatNumberExpressionString = function(pattern, numberFo
   return 'numberString += ' + template['FormatNumber']({
     variableName: numberFormat.variable.name,
     type: metaData.type,
-    prefix: pattern.prefix,
+    prefix: ((sign === 'negative') && (pattern.prefix.indexOf('-') > 0)) ? pattern.prefix.replace('-', ' -') : pattern.prefix,
     suffix: pattern.suffix,
     roundTo: pattern.rounding,
     percentage: pattern.percentage,
@@ -730,7 +730,7 @@ Compiler.prototype._compileCurrencyFormat = function(currencyFormat) {
     _case[sign] = template['FormatCurrency']({
       variableName: currencyFormat.variable.name,
       type: type,
-      prefix: pattern.prefix,
+      prefix: ((sign === 'negative') && (pattern.prefix.indexOf('-') > 0)) ? pattern.prefix.replace('-', ' -') : pattern.prefix,
       suffix: pattern.suffix,
       roundTo: pattern.rounding,
       percentage: pattern.percentage,

@@ -258,7 +258,7 @@
 
     if(it.currency) {
       if(!endsWithCurrencySymbolSyntax.test(it.currency.symbol)) {
-        prefix = prefix + ' ';
+        prefix = prefix + (it.number >= 0 ? ' ' : '');
       }
       if(!startsWithCurrencySymbolSyntax.test(it.currency.symbol)) {
         suffix = ' ' + suffix;
