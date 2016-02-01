@@ -1,7 +1,11 @@
 {
   "name": "l10ns",
   "description": "Internationalization workflow and formatting",
+<<<<<<< HEAD
   "version": "2.4.11",
+=======
+  "version": "2.2.6",
+>>>>>>> Incremented to 2.2.6 as a form of protest
   "homepage": "https://github.com/tinganho/l10ns",
   "author": {
     "name": "Tingan Ho",
