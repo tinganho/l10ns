@@ -34,6 +34,21 @@ module.exports = {
       }
     }
   },
+  'ARS': {
+    symbols: {
+      local: '$',
+      global: 'AR$',
+      reverseGlobal: '$AR'
+    },
+    text: {
+      en: {
+        local: {
+          one: 'peso',
+          other: 'pesos'
+        }
+      }
+    }
+  },
   'AUD': {
     symbols: {
       local: '$',
