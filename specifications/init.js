@@ -160,8 +160,8 @@ describe('Init', function() {
       init._writeProject = spy();
       init.run();
       eventually(function() {
-        expect(init.json.store).to.eql('storage-folder/');
-        expect(init.json.output).to.eql('storage-folder/output');
+        expect(init.json.store).to.eql('storage-folder//');
+        expect(init.json.output).to.eql('storage-folder//output');
         init._getStorageFolder.should.have.been.calledOnce;
         init._setDefaultSrc.should.have.been.calledOnce;
         init._writeProject.should.have.been.calledOnce;
