@@ -53,7 +53,7 @@ AST.Variable = function(name) {
  * @constructor
  */
 
-AST.NumberFormat = function(locale, language, region, variable, argument, numberSymbols, currencies, decimalPattern, percentagePattern, numberSystem) {
+AST.NumberFormat = function(locale, language, region, variable, argument, numberSymbols, currencies, decimalPattern, percentagePattern, shortFormats, longFormats, numberSystem) {
   this.locale = locale;
   this.language = language;
   this.region = region;
@@ -64,10 +64,41 @@ AST.NumberFormat = function(locale, language, region, variable, argument, number
   this.pattern = AST.NumberFormatPattern.parse(
     argument,
     decimalPattern,
-    percentagePattern
+    percentagePattern,
+    shortFormats,
+    longFormats
   );
+  if (/^short$|^short:(.*)$/.test(argument)) {
+    this.minDigits = typeof argument.split(':')[1] !== 'undefined' ? parseInt(argument.split(':')[1], 10) : 1;
+    if (isNaN(this.minDigits)) {
+      throw new TypeError('Minimum digits must be a number \'short[:MIN_DIGITS]\'.');
+    }
+    else if(this.minDigits < 1) {
+      throw new TypeError('Minimum digits cannot be lower than 1.');
+    }
+    this.type = AST.NumberFormat.Type.SHORT;
+  }
+  else if (/^long$|^long:(.*)$/.test(argument)) {
+    this.minDigits = typeof argument.split(':')[1] !== 'undefined' ? parseInt(argument.split(':')[1], 10) : 1;
+    if (isNaN(this.minDigits)) {
+      throw new TypeError('Minimum digits must be a number \'long[:MIN_DIGITS]\'.');
+    }
+    else if(this.minDigits < 1) {
+      throw new TypeError('Minimum digits cannot be lower than 1.');
+    }
+    this.type = AST.NumberFormat.Type.LONG;
+  }
+  else {
+    this.type = AST.NumberFormat.Type.DECIMAL;
+  }
   this.numberSystem = numberSystem;
 };
+
+AST.NumberFormat.Type = {
+  DECIMAL: 0,
+  SHORT: 1,
+  LONG: 2,
+}
 
 /**
  * AST class representing a CurrencyFormat
@@ -105,7 +136,7 @@ AST.NumberFormatPattern = {};
  */
 
 AST.NumberFormatPattern.Syntaxes = {
-  NUMBER_SIMPLE_ARGUMENTS: /^(integer|percent)$/,
+  NUMBER_SIMPLE_ARGUMENTS: /^(integer|percent|short|long)$/,
   EXPONENT_CHARACTER: 'E',
   NUMBER_CHARACTER: /[#0-9\.E@\,\+\-;]/,
   ROUNDING_CHARACTER: /[1-9]/,
@@ -196,6 +227,11 @@ AST.NumberFormatPattern.parse = function(argument, decimalPattern, percentagePat
         return percentagePattern;
     }
   }
+  
+  if (/^short|long/.test(argument)) {
+    return;
+  }
+  
   var positive = true;
   numberPatterns.split(';').forEach(function(numberPattern) {
     var attributes = {};

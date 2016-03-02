@@ -37,7 +37,7 @@
     "backbone-relational": "0.8.8",
     "backbone.paginator": "^2.0.0",
     "bcp47": "^1.1.2",
-    "cldr-data": "^27.0.3",
+    "cldr-data": "^28.0.3",
     "cldrjs": "^0.4.0",
     "commander": "^2.7.1",
     "connect-modrewrite": "^0.6.0",

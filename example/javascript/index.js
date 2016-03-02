@@ -1,4 +1,4 @@
 
-var requireLocalizations = require('./localizations/output/all');
+var requireLocalizations = require('./output/all');
 var l = requireLocalizations('en-US');
-var console.log(l('TEST'));
+console.log(l('TEST', { test: 1260 }));

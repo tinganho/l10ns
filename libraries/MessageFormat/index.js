@@ -24,18 +24,19 @@ function MessageFormat(languageTag) {
   this.languageTag = this.getMostLikelyLanguageTag_(languageTag || program.defaultLanguageTag);
   var languageTag = bcp47.parse(this.languageTag);
   if(!languageTag) {
-    throw new TypeError('Your language tag (' + this.languageTag + ') are not bcp47 compliant. For more info https://tools.ietf.org/html/bcp47.');
+    throw new TypeError('Your language tag (' + this.languageTag + ') is not bcp47 compliant. For more info https://tools.ietf.org/html/bcp47.');
   }
-  var CLDRLanguageTag = this.languageTag.replace('-', '_');
+  var CLDRLanguageTag = this.languageTag.replace('-US', '');
+  
   CLDR.load(
     require('cldr-data/supplemental/likelySubtags'),
     require('cldr-data/supplemental/plurals'),
     require('cldr-data/supplemental/ordinals'),
     require('cldr-data/supplemental/metaZones'),
-    require('cldr-data/main/' + this.languageTag + '/numbers'),
-    require('cldr-data/main/' + this.languageTag + '/currencies'),
-    require('cldr-data/main/' + this.languageTag + '/ca-gregorian'),
-    require('cldr-data/main/' + this.languageTag + '/timeZoneNames')
+    require('cldr-data/main/' + CLDRLanguageTag + '/numbers'),
+    require('cldr-data/main/' + CLDRLanguageTag + '/currencies'),
+    require('cldr-data/main/' + CLDRLanguageTag + '/ca-gregorian'),
+    require('cldr-data/main/' + CLDRLanguageTag + '/timeZoneNames')
   );
 
   this.CLDR = new CLDR(this.languageTag);
@@ -54,6 +55,10 @@ function MessageFormat(languageTag) {
   this.decimalPatterns = {};
   this.percentagePatterns = {};
   this.currencyPatterns = {};
+  this.shortFormats = {};
+  this.longFormats = {};
+  this.shortFormatDecimalPatterns = {};
+  this.longFormatDecimalPatterns = {};
   this.currencies = {};
   this.date = {};
   this.languageTagDocument = null;
@@ -486,6 +491,8 @@ MessageFormat.prototype._parseSimpleFormat = function(type, variable) {
         this.currencies,
         AST.NumberFormatPattern.parse(this.decimalPatterns[this._currentNumberSystem]),
         AST.NumberFormatPattern.parse(this.percentagePatterns[this._currentNumberSystem]),
+        this.shortFormats[this._currentNumberSystem],
+        this.longFormats[this._currentNumberSystem],
         this._currentNumberSystem
       );
   }
@@ -998,6 +1005,10 @@ MessageFormat.prototype._readNumberFormatPatterns = function() {
     this.decimalPatterns = cache[this.languageTag].decimalPatterns;
     this.percentagePatterns = cache[this.languageTag].percentagePatterns;
     this.currencyPatterns = cache[this.languageTag].currencyPatterns;
+    this.shortFormats = cache[this.languageTag].shortFormats;
+    this.longFormats = cache[this.languageTag].longFormats;
+    this.shortFormatDecimalPatterns = cache[this.languageTag].shortFormatDecimalPatterns;
+    this.longFormatDecimalPatterns = cache[this.languageTag].longFormatDecimalPatterns;
     return;
   }
 
@@ -1016,6 +1027,84 @@ MessageFormat.prototype._readNumberFormatPatterns = function() {
       this.decimalPatterns[numberSystem] =
         this.CLDR.main('numbers/decimalFormats-numberSystem-'
           + numberSystem + '/standard');
+
+      var shortFormats =
+        this.CLDR.main('numbers/decimalFormats-numberSystem-'
+          + numberSystem + '/short/decimalFormat');
+
+      this.shortFormats[numberSystem] = [];
+      this.shortFormatDecimalPatterns[numberSystem] = {};
+      var shortFormatThresholds = [];
+      var shortFormatThresholdIndex = -1;
+      for (var meta in shortFormats) {
+        var splittedMeta = meta.split('-');
+        var decimalPattern = /(0+)/.exec(shortFormats[meta])[1];
+        if (!decimalPattern) {
+          throw new Error('No short format decimal pattern in \'' + this.language + '-' + this.script + '-' + this.region)
+        }
+        if (!(decimalPattern in this.shortFormatDecimalPatterns[numberSystem])) {
+          this.shortFormatDecimalPatterns[numberSystem][decimalPattern] = AST.NumberFormatPattern.parse(decimalPattern).positive;
+        }
+        var threshold = parseFloat(splittedMeta[0]);
+        if (shortFormatThresholds.indexOf(threshold) === -1) {
+          this.shortFormats[numberSystem].push({
+            threshold: threshold,
+            formats: [{
+              pluralForm: splittedMeta[2],
+              format: shortFormats[meta].replace(decimalPattern, '{0}'),
+              decimalPattern: decimalPattern
+            }],
+          });
+          shortFormatThresholds.push(threshold);
+          shortFormatThresholdIndex++;
+        }
+        else {
+          this.shortFormats[numberSystem][shortFormatThresholdIndex].formats.push({
+            pluralForm: splittedMeta[2],
+            format: shortFormats[meta].replace(decimalPattern, '{0}'),
+            decimalPattern: decimalPattern
+          });
+        }
+      }
+
+      var longFormats =
+        this.CLDR.main('numbers/decimalFormats-numberSystem-'
+          + numberSystem + '/long/decimalFormat');
+
+      this.longFormats[numberSystem] = [];
+      this.longFormatDecimalPatterns[numberSystem] = {};
+      var longFormatThresholds = [];
+      var longFormatThresholdIndex = -1;
+      for (var meta in longFormats) {
+        var splittedMeta = meta.split('-');
+        var decimalPattern = /(0+)/.exec(longFormats[meta])[1];
+        if (!decimalPattern) {
+          throw new Error('No long format decimal pattern in \'' + this.language + '-' + this.script + '-' + this.region)
+        }
+        if (!(decimalPattern in this.longFormatDecimalPatterns[numberSystem])) {
+          this.longFormatDecimalPatterns[numberSystem][decimalPattern] = AST.NumberFormatPattern.parse(decimalPattern).positive;
+        }
+        var threshold = parseFloat(splittedMeta[0]);
+        if (longFormatThresholds.indexOf(threshold) === -1) {
+          this.longFormats[numberSystem].push({
+            threshold: threshold,
+            formats: [{
+              pluralForm: splittedMeta[2],
+              format: longFormats[meta].replace(decimalPattern, '{0}'),
+              decimalPattern: decimalPattern
+            }],
+          });
+          longFormatThresholds.push(threshold);
+          longFormatThresholdIndex++;
+        }
+        else {
+          this.longFormats[numberSystem][longFormatThresholdIndex].formats.push({
+            pluralForm: splittedMeta[2],
+            format: longFormats[meta].replace(decimalPattern, '{0}'),
+            decimalPattern: decimalPattern
+          });
+        }
+      }
     }
   }
 
@@ -1057,6 +1146,10 @@ MessageFormat.prototype._readNumberFormatPatterns = function() {
   cache[this.languageTag].decimalPatterns = this.decimalPatterns;
   cache[this.languageTag].percentagePatterns = this.percentagePatterns;
   cache[this.languageTag].currencyPatterns = this.currencyPatterns;
+  cache[this.languageTag].shortFormats = this.shortFormats;
+  cache[this.languageTag].longFormats = this.longFormats;
+  cache[this.languageTag].shortFormatDecimalPatterns = this.shortFormatDecimalPatterns;
+  cache[this.languageTag].longFormatDecimalPatterns = this.longFormatDecimalPatterns;
 };
 
 

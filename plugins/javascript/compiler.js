@@ -156,8 +156,8 @@ Compiler.prototype.run = function() {
         console.log(error.stack);
       }
 
-      if(error && error.message) {
-        console.log(error.message);
+      if(error && error.stack) {
+        console.log(error.stack);
       }
     });
 };
@@ -241,6 +241,90 @@ Compiler.prototype._getLocalizationMap = function() {
             key: '__timezones',
             value: JSON.stringify(messageFormat.timezones, null, 2).replace(/"/g, '\'') + _this.comma + _this.linefeed
           });
+        }
+        
+        for(var numberSystem in messageFormat.decimalPatterns) {
+          var pattern = MessageFormat.AST.NumberFormatPattern.parse(messageFormat.decimalPatterns[numberSystem]).positive;
+          var metaData = _this._getMetaDataFromDecimalPattern(pattern);
+          localizationMap += template['LocalizationKeyValue']({
+            key: '__formatStandardNumber__' + numberSystem,
+            value: template['FormatStandardNumber']({
+              type: metaData.type,
+              prefix: pattern.prefix,
+              suffix: pattern.suffix,
+              roundTo: pattern.rounding,
+              percentage: pattern.percentage,
+              permille: pattern.permille,
+              currency: pattern.currency,
+              minimumIntegerDigits: metaData.minimumIntegerDigits,
+              maximumIntegerDigits: metaData.maximumIntegerDigits,
+              minimumFractionDigits: metaData.minimumFractionDigits,
+              maximumFractionDigits: metaData.maximumFractionDigits,
+              minimumSignificantDigits: metaData.minimumSignificantDigits,
+              maximumSignificantDigits: metaData.maximumSignificantDigits,
+              groupSize: pattern.groupSize,
+              numberSystem: numberSystem,
+              exponent: !pattern.exponent ? null : {
+                digits: pattern.exponent.nonAbsentNumbers,
+                plusSign: pattern.exponent.showPositiveCharacter
+              },
+              patternLength: pattern.patternLength,
+              paddingCharacter: pattern.paddingCharacter
+            })
+          }) + _this.comma + _this.linefeed;
+        }
+
+        for(var numberSystem in messageFormat.shortFormats) {
+          localizationMap += template['LocalizationKeyValue']({
+            key: '__shortFormats__' + numberSystem,
+            value: JSON.stringify(messageFormat.shortFormats[numberSystem])
+          }) + _this.comma + _this.linefeed;
+        }
+
+        for(var numberSystem in messageFormat.shortFormatDecimalPatterns) {
+          for(var decimalPattern in messageFormat.shortFormatDecimalPatterns[numberSystem]) {
+            var pattern = messageFormat.shortFormatDecimalPatterns[numberSystem][decimalPattern];
+            var metaData = _this._getMetaDataFromDecimalPattern(pattern);
+
+            localizationMap += template['LocalizationKeyValue']({
+              key: '__short__' + numberSystem + '__' + decimalPattern,
+              value: template['FormatNumberHelper']({
+                roundTo: pattern.rounding,
+                minimumIntegerDigits: metaData.minimumIntegerDigits,
+                maximumIntegerDigits: metaData.maximumIntegerDigits,
+                groupSize: pattern.groupSize,
+                language: language,
+                numberSystem: numberSystem,
+                patternLength: pattern.patternLength,
+              })
+            }) + _this.comma + _this.linefeed;
+          }
+        }
+        
+        for(var numberSystem in messageFormat.longFormats) { 
+          localizationMap += template['LocalizationKeyValue']({
+            key: '__longFormats__' + numberSystem,
+            value: JSON.stringify(messageFormat.longFormats[numberSystem])
+          }) + _this.comma + _this.linefeed;
+        }
+
+        for(var numberSystem in messageFormat.longFormatDecimalPatterns) {
+          for(var decimalPattern in messageFormat.longFormatDecimalPatterns[numberSystem]) {
+            var pattern = messageFormat.longFormatDecimalPatterns[numberSystem][decimalPattern];
+            var metaData = _this._getMetaDataFromDecimalPattern(pattern);
+
+            localizationMap += template['LocalizationKeyValue']({
+              key: '__long__' + numberSystem + '__' + decimalPattern,
+              value: template['FormatNumberHelper']({
+                roundTo: pattern.rounding,
+                minimumIntegerDigits: metaData.minimumIntegerDigits,
+                maximumIntegerDigits: metaData.maximumIntegerDigits,
+                groupSize: pattern.groupSize,
+                numberSystem: numberSystem,
+                patternLength: pattern.patternLength,
+              })
+            }) + _this.comma + _this.linefeed;
+          }
         }
 
         var localizationsCount = 0;
@@ -425,70 +509,38 @@ Compiler.prototype._compileNumberFormat = function(numberFormat) {
   var result = '';
   var signs = ['positive', 'negative'];
   var _case = {};
+  
+  var Type = MessageFormat.AST.NumberFormat.Type;
+  if (numberFormat.type !== Type.DECIMAL) {
+    result += 'var numberString = \'\';\n';
+    if (numberFormat.type === Type.SHORT) {
+      result += template['FormatShortLongNumberFormat']({
+        variableName: numberFormat.variable.name,
+        type: 'short',
+        numberSystem: numberFormat.numberSystem,
+        minDigits: numberFormat.minDigits,
+      });
+    }
+    else {
+      result += template['FormatShortLongNumberFormat']({
+        variableName: numberFormat.variable.name,
+        type: 'long',
+        numberSystem: numberFormat.numberSystem,
+        minDigits: numberFormat.minDigits,
+      });
+    }
 
+    result += this.linefeed + 'string += numberString;';
+    return result;
+  }
+  
   signs.forEach(function(sign) {
     var pattern = numberFormat.pattern[sign];
     if(sign === 'negative' && pattern === null) {
       pattern = Object.create(numberFormat.pattern['positive']);
       pattern.prefix = pattern.prefix + '-';
     }
-
-    var minimumIntegerDigits = 0;
-    var maximumIntegerDigits = 0;
-    var minimumFractionDigits = 0;
-    var maximumFractionDigits = 0;
-    var minimumSignificantDigits = 0;
-    var maximumSignificantDigits = 0;
-    var type = 'floating';
-
-    if(pattern instanceof MessageFormat.AST.NumberFormatPattern._SignificantNumberFormat) {
-      type = 'significant';
-    }
-
-    if(type === 'floating') {
-      if(pattern.fraction &&
-         typeof pattern.fraction.nonAbsentNumbers === 'number' &&
-         typeof pattern.fraction.rightAbsentNumbers === 'number') {
-        minimumFractionDigits = pattern.fraction.nonAbsentNumbers;
-        maximumFractionDigits = minimumFractionDigits + pattern.fraction.rightAbsentNumbers;
-      }
-      if(pattern.integer &&
-         typeof pattern.integer.nonAbsentNumbers === 'number' &&
-         typeof pattern.integer.leftAbsentNumbers === 'number') {
-        minimumIntegerDigits = pattern.integer.nonAbsentNumbers;
-        maximumIntegerDigits = pattern.integer.nonAbsentNumbers + pattern.integer.leftAbsentNumbers;
-      }
-    }
-    else if(type === 'significant') {
-      minimumSignificantDigits = pattern.nonAbsentNumbers;
-      maximumSignificantDigits = pattern.nonAbsentNumbers + pattern.rightAbsentNumbers;
-    }
-
-    _case[sign] = 'numberString += ' + template['FormatNumber']({
-      variableName: numberFormat.variable.name,
-      type: type,
-      prefix: pattern.prefix,
-      suffix: pattern.suffix,
-      roundTo: pattern.rounding,
-      percentage: pattern.percentage,
-      permille: pattern.permille,
-      currency: pattern.currency,
-      minimumIntegerDigits: minimumIntegerDigits,
-      maximumIntegerDigits: maximumIntegerDigits,
-      minimumFractionDigits: minimumFractionDigits,
-      maximumFractionDigits: maximumFractionDigits,
-      minimumSignificantDigits: minimumSignificantDigits,
-      maximumSignificantDigits: maximumSignificantDigits,
-      groupSize: pattern.groupSize,
-      language: numberFormat.language,
-      numberSystem: numberFormat.numberSystem,
-      exponent: !pattern.exponent ? null : {
-        digits: pattern.exponent.nonAbsentNumbers,
-        plusSign: pattern.exponent.showPositiveCharacter
-      },
-      patternLength: pattern.patternLength,
-      paddingCharacter: pattern.paddingCharacter
-    });
+    _case[sign] = _this._getFormatNumberExpressionString(pattern, numberFormat);
   });
 
   result += 'var numberString = \'\';\n';
@@ -528,6 +580,77 @@ Compiler.prototype._compileNumberFormat = function(numberFormat) {
 
   return result;
 };
+
+Compiler.prototype._getMetaDataFromDecimalPattern = function(pattern) {
+  var minimumIntegerDigits = 0;
+  var maximumIntegerDigits = 0;
+  var minimumFractionDigits = 0;
+  var maximumFractionDigits = 0;
+  var minimumSignificantDigits = 0;
+  var maximumSignificantDigits = 0;
+  var type = 'floating';
+
+  if(pattern instanceof MessageFormat.AST.NumberFormatPattern._SignificantNumberFormat) {
+    type = 'significant';
+  }
+
+  if(type === 'floating') {
+    if(pattern.fraction &&
+        typeof pattern.fraction.nonAbsentNumbers === 'number' &&
+        typeof pattern.fraction.rightAbsentNumbers === 'number') {
+      minimumFractionDigits = pattern.fraction.nonAbsentNumbers;
+      maximumFractionDigits = minimumFractionDigits + pattern.fraction.rightAbsentNumbers;
+    }
+    if(pattern.integer &&
+        typeof pattern.integer.nonAbsentNumbers === 'number' &&
+        typeof pattern.integer.leftAbsentNumbers === 'number') {
+      minimumIntegerDigits = pattern.integer.nonAbsentNumbers;
+      maximumIntegerDigits = pattern.integer.nonAbsentNumbers + pattern.integer.leftAbsentNumbers;
+    }
+  }
+  else if(type === 'significant') {
+    minimumSignificantDigits = pattern.nonAbsentNumbers;
+    maximumSignificantDigits = pattern.nonAbsentNumbers + pattern.rightAbsentNumbers;
+  }
+  
+  return {
+    type: type,
+    minimumIntegerDigits: minimumIntegerDigits,
+    maximumIntegerDigits: maximumIntegerDigits,
+    minimumFractionDigits: minimumFractionDigits,
+    maximumFractionDigits: maximumFractionDigits,
+    minimumSignificantDigits: minimumSignificantDigits,
+    maximumSignificantDigits: maximumSignificantDigits,
+  }
+}
+
+Compiler.prototype._getFormatNumberExpressionString = function(pattern, numberFormat) {
+  var metaData = this._getMetaDataFromDecimalPattern(pattern);
+  return 'numberString += ' + template['FormatNumber']({
+    variableName: numberFormat.variable.name,
+    type: metaData.type,
+    prefix: pattern.prefix,
+    suffix: pattern.suffix,
+    roundTo: pattern.rounding,
+    percentage: pattern.percentage,
+    permille: pattern.permille,
+    currency: pattern.currency,
+    minimumIntegerDigits: metaData.minimumIntegerDigits,
+    maximumIntegerDigits: metaData.maximumIntegerDigits,
+    minimumFractionDigits: metaData.minimumFractionDigits,
+    maximumFractionDigits: metaData.maximumFractionDigits,
+    minimumSignificantDigits: metaData.minimumSignificantDigits,
+    maximumSignificantDigits: metaData.maximumSignificantDigits,
+    groupSize: pattern.groupSize,
+    numberSystem: numberFormat.numberSystem,
+    exponent: !pattern.exponent ? null : {
+      digits: pattern.exponent.nonAbsentNumbers,
+      plusSign: pattern.exponent.showPositiveCharacter
+    },
+    patternLength: pattern.patternLength,
+    paddingCharacter: pattern.paddingCharacter
+  });
+}
 
 /**
  * Compile currency format

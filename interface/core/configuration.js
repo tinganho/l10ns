@@ -103,8 +103,8 @@ Config.prototype.setClientConfigurationMappings = function() {
 
 Config.prototype.writeClientConfigurations = function() {
   var configurationPath = cf.ROOT_FOLDER + cf.CLIENT_CONFIGURATIONS_BUILD;
-  if(!fs.existsSync(configurationPath)) {
-    fs.mkdirSync(configurationPath);
+  if(!fs.existsSync(path.dirname(configurationPath))) {
+    fs.mkdirSync(path.dirname(configurationPath));
   }
   var files = glob.sync(cf.CLIENT_CONFIGURATIONS_BUILD + '/*.js', { cwd : cf.ROOT_FOLDER });
   files.forEach(function(file) {
@@ -121,7 +121,11 @@ Config.prototype.writeClientConfigurations = function() {
         , endWrap    = 'return configs; })();';
 
       var str = startWrap + body + makeRegExp + endWrap;
-      fs.writeFileSync(cf.ROOT_FOLDER + cf.CLIENT_CONFIGURATIONS_BUILD + '/' + configurations.NAME_SPACE + '.js', str);
+      var clientConfigurationFile = cf.ROOT_FOLDER + cf.CLIENT_CONFIGURATIONS_BUILD + '/' + configurations.NAME_SPACE + '.js';
+      if (!fs.existsSync(path.dirname(clientConfigurationFile))) {
+        fs.mkdirSync(path.dirname(clientConfigurationFile));
+      }
+      fs.writeFileSync(clientConfigurationFile, str);
     }
   });
 };

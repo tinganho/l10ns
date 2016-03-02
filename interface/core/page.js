@@ -85,7 +85,7 @@ Page.prototype.hasDocument = function(name, props) {
 
 Page.prototype.withProperties = function(properties) {
   properties.configurations = properties.configurations.map(function(configuration) {
-    return cf.CLIENT_CONFIGURATIONS_BUILD + '/'  + cf.CLIENT_CONFIGURATIONS_MAP[configuration] + '.js';
+    return '/' + cf.CLIENT_CONFIGURATIONS_BUILD + '/'  + cf.CLIENT_CONFIGURATIONS_MAP[configuration] + '.js';
   });
   this._documentProps = properties;
 
@@ -362,7 +362,11 @@ module.exports = function(url) {
 
 module.exports.createCompositeRouter = function() {
   var router = coreTmpls['compositeRouter']({ pages : pages, imports : imports });
-  fs.writeFileSync(cf.ROOT_FOLDER + cf.COMPOSER_BUILD_PATH, router);
+  var routerFile = cf.ROOT_FOLDER + cf.COMPOSER_BUILD_PATH, router;
+  if (!fs.existsSync(path.dirname(routerFile))) {
+    fs.mkdirSync(path.dirname(routerFile));
+  }
+  fs.writeFileSync(routerFile, router);
 };
 
 /**

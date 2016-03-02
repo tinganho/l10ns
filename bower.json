@@ -12,12 +12,5 @@
     "backbone-relational": "~0.8.8",
     "minTimer": "~0.1.2",
     "nprogress": "~0.1.6"
-  },
-  "devDependencies": {
-    "mocha": "~1.18.2",
-    "chai": "~1.9.1",
-    "squire": "~0.2.0",
-    "sinonjs": "~1.9.1",
-    "sinon-chai": "~2.5.0"
   }
 }

@@ -78,7 +78,7 @@ describe('MessageFormat', function() {
       var method = function() {
         new MessageFormat('wrong-tag');
       };
-      expect(method).to.throw('Your language tag (wrong-tag) are not bcp47 compliant. For more info https://tools.ietf.org/html/bcp47.');
+      expect(method).to.throw('Your language tag (wrong-tag) is not bcp47 compliant. For more info https://tools.ietf.org/html/bcp47.');
     });
   });
 

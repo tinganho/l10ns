@@ -426,6 +426,202 @@
           'GMTFormat': 'GMT{0}'
         }
       },
+      '__formatStandardNumber__latn': function(value) {
+        return formatNumber({
+          number: value,
+          type: 'floating',
+          roundTo: 0.001,
+          prefix: '',
+          suffix: '',
+          percentage: null,
+          permille: null,
+          currency: null,
+          groupSize: {
+            primary: 3,
+            secondary: 3
+          },
+          exponent: null,
+          minimumIntegerDigits: 1,
+          maximumIntegerDigits: 4,
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 3,
+          minimumSignificantDigits: 0,
+          maximumSignificantDigits: 0,
+          symbols: this.__numberSymbols['latn'],
+          paddingCharacter: null,
+          patternLength: 9
+        });
+      },
+      '__shortFormats__latn': [{"threshold":1000,"formats":[{"pluralForm":"one","format":"{0}K","decimalPattern":"0"},{"pluralForm":"other","format":"{0}K","decimalPattern":"0"}]},{"threshold":10000,"formats":[{"pluralForm":"one","format":"{0}K","decimalPattern":"00"},{"pluralForm":"other","format":"{0}K","decimalPattern":"00"}]},{"threshold":100000,"formats":[{"pluralForm":"one","format":"{0}K","decimalPattern":"000"},{"pluralForm":"other","format":"{0}K","decimalPattern":"000"}]},{"threshold":1000000,"formats":[{"pluralForm":"one","format":"{0}M","decimalPattern":"0"},{"pluralForm":"other","format":"{0}M","decimalPattern":"0"}]},{"threshold":10000000,"formats":[{"pluralForm":"one","format":"{0}M","decimalPattern":"00"},{"pluralForm":"other","format":"{0}M","decimalPattern":"00"}]},{"threshold":100000000,"formats":[{"pluralForm":"one","format":"{0}M","decimalPattern":"000"},{"pluralForm":"other","format":"{0}M","decimalPattern":"000"}]},{"threshold":1000000000,"formats":[{"pluralForm":"one","format":"{0}B","decimalPattern":"0"},{"pluralForm":"other","format":"{0}B","decimalPattern":"0"}]},{"threshold":10000000000,"formats":[{"pluralForm":"one","format":"{0}B","decimalPattern":"00"},{"pluralForm":"other","format":"{0}B","decimalPattern":"00"}]},{"threshold":100000000000,"formats":[{"pluralForm":"one","format":"{0}B","decimalPattern":"000"},{"pluralForm":"other","format":"{0}B","decimalPattern":"000"}]},{"threshold":1000000000000,"formats":[{"pluralForm":"one","format":"{0}T","decimalPattern":"0"},{"pluralForm":"other","format":"{0}T","decimalPattern":"0"}]},{"threshold":10000000000000,"formats":[{"pluralForm":"one","format":"{0}T","decimalPattern":"00"},{"pluralForm":"other","format":"{0}T","decimalPattern":"00"}]},{"threshold":100000000000000,"formats":[{"pluralForm":"one","format":"{0}T","decimalPattern":"000"},{"pluralForm":"other","format":"{0}T","decimalPattern":"000"}]}],
+      '__short__latn__0': function(value, minimumDigits) {
+        minimumDigits = minimumDigits || 1;
+        var fractionDigits = minimumDigits - 1;
+        if(fractionDigits < 0) {
+          fractionDigits = 0;
+        }
+        return formatNumber({
+          number: value,
+          type: 'floating',
+          roundTo: 1 / Math.pow(10, fractionDigits),
+          prefix: '',
+          suffix: '',
+          percentage: null,
+          permille: null,
+          currency: null,
+          groupSize: null,
+          exponent: null,
+          minimumIntegerDigits: 1,
+          maximumIntegerDigits: 1,
+          minimumFractionDigits: fractionDigits,
+          maximumFractionDigits: fractionDigits,
+          minimumSignificantDigits: 0,
+          maximumSignificantDigits: 0,
+          symbols: this.__numberSymbols['latn'],
+          paddingCharacter: null,
+          patternLength: 1
+        });
+      },
+      '__short__latn__00': function(value, minimumDigits) {
+        minimumDigits = minimumDigits || 1;
+        var fractionDigits = minimumDigits - 2;
+        if(fractionDigits < 0) {
+          fractionDigits = 0;
+        }
+        return formatNumber({
+          number: value,
+          type: 'floating',
+          roundTo: 1 / Math.pow(10, fractionDigits),
+          prefix: '',
+          suffix: '',
+          percentage: null,
+          permille: null,
+          currency: null,
+          groupSize: null,
+          exponent: null,
+          minimumIntegerDigits: 2,
+          maximumIntegerDigits: 2,
+          minimumFractionDigits: fractionDigits,
+          maximumFractionDigits: fractionDigits,
+          minimumSignificantDigits: 0,
+          maximumSignificantDigits: 0,
+          symbols: this.__numberSymbols['latn'],
+          paddingCharacter: null,
+          patternLength: 2
+        });
+      },
+      '__short__latn__000': function(value, minimumDigits) {
+        minimumDigits = minimumDigits || 1;
+        var fractionDigits = minimumDigits - 3;
+        if(fractionDigits < 0) {
+          fractionDigits = 0;
+        }
+        return formatNumber({
+          number: value,
+          type: 'floating',
+          roundTo: 1 / Math.pow(10, fractionDigits),
+          prefix: '',
+          suffix: '',
+          percentage: null,
+          permille: null,
+          currency: null,
+          groupSize: null,
+          exponent: null,
+          minimumIntegerDigits: 3,
+          maximumIntegerDigits: 3,
+          minimumFractionDigits: fractionDigits,
+          maximumFractionDigits: fractionDigits,
+          minimumSignificantDigits: 0,
+          maximumSignificantDigits: 0,
+          symbols: this.__numberSymbols['latn'],
+          paddingCharacter: null,
+          patternLength: 3
+        });
+      },
+      '__longFormats__latn': [{"threshold":1000,"formats":[{"pluralForm":"one","format":"{0} thousand","decimalPattern":"0"},{"pluralForm":"other","format":"{0} thousand","decimalPattern":"0"}]},{"threshold":10000,"formats":[{"pluralForm":"one","format":"{0} thousand","decimalPattern":"00"},{"pluralForm":"other","format":"{0} thousand","decimalPattern":"00"}]},{"threshold":100000,"formats":[{"pluralForm":"one","format":"{0} thousand","decimalPattern":"000"},{"pluralForm":"other","format":"{0} thousand","decimalPattern":"000"}]},{"threshold":1000000,"formats":[{"pluralForm":"one","format":"{0} million","decimalPattern":"0"},{"pluralForm":"other","format":"{0} million","decimalPattern":"0"}]},{"threshold":10000000,"formats":[{"pluralForm":"one","format":"{0} million","decimalPattern":"00"},{"pluralForm":"other","format":"{0} million","decimalPattern":"00"}]},{"threshold":100000000,"formats":[{"pluralForm":"one","format":"{0} million","decimalPattern":"000"},{"pluralForm":"other","format":"{0} million","decimalPattern":"000"}]},{"threshold":1000000000,"formats":[{"pluralForm":"one","format":"{0} billion","decimalPattern":"0"},{"pluralForm":"other","format":"{0} billion","decimalPattern":"0"}]},{"threshold":10000000000,"formats":[{"pluralForm":"one","format":"{0} billion","decimalPattern":"00"},{"pluralForm":"other","format":"{0} billion","decimalPattern":"00"}]},{"threshold":100000000000,"formats":[{"pluralForm":"one","format":"{0} billion","decimalPattern":"000"},{"pluralForm":"other","format":"{0} billion","decimalPattern":"000"}]},{"threshold":1000000000000,"formats":[{"pluralForm":"one","format":"{0} trillion","decimalPattern":"0"},{"pluralForm":"other","format":"{0} trillion","decimalPattern":"0"}]},{"threshold":10000000000000,"formats":[{"pluralForm":"one","format":"{0} trillion","decimalPattern":"00"},{"pluralForm":"other","format":"{0} trillion","decimalPattern":"00"}]},{"threshold":100000000000000,"formats":[{"pluralForm":"one","format":"{0} trillion","decimalPattern":"000"},{"pluralForm":"other","format":"{0} trillion","decimalPattern":"000"}]}],
+      '__long__latn__0': function(value, minimumDigits) {
+        minimumDigits = minimumDigits || 1;
+        var fractionDigits = minimumDigits - 1;
+        if(fractionDigits < 0) {
+          fractionDigits = 0;
+        }
+        return formatNumber({
+          number: value,
+          type: 'floating',
+          roundTo: 1 / Math.pow(10, fractionDigits),
+          prefix: '',
+          suffix: '',
+          percentage: null,
+          permille: null,
+          currency: null,
+          groupSize: null,
+          exponent: null,
+          minimumIntegerDigits: 1,
+          maximumIntegerDigits: 1,
+          minimumFractionDigits: fractionDigits,
+          maximumFractionDigits: fractionDigits,
+          minimumSignificantDigits: 0,
+          maximumSignificantDigits: 0,
+          symbols: this.__numberSymbols['latn'],
+          paddingCharacter: null,
+          patternLength: 1
+        });
+      },
+      '__long__latn__00': function(value, minimumDigits) {
+        minimumDigits = minimumDigits || 1;
+        var fractionDigits = minimumDigits - 2;
+        if(fractionDigits < 0) {
+          fractionDigits = 0;
+        }
+        return formatNumber({
+          number: value,
+          type: 'floating',
+          roundTo: 1 / Math.pow(10, fractionDigits),
+          prefix: '',
+          suffix: '',
+          percentage: null,
+          permille: null,
+          currency: null,
+          groupSize: null,
+          exponent: null,
+          minimumIntegerDigits: 2,
+          maximumIntegerDigits: 2,
+          minimumFractionDigits: fractionDigits,
+          maximumFractionDigits: fractionDigits,
+          minimumSignificantDigits: 0,
+          maximumSignificantDigits: 0,
+          symbols: this.__numberSymbols['latn'],
+          paddingCharacter: null,
+          patternLength: 2
+        });
+      },
+      '__long__latn__000': function(value, minimumDigits) {
+        minimumDigits = minimumDigits || 1;
+        var fractionDigits = minimumDigits - 3;
+        if(fractionDigits < 0) {
+          fractionDigits = 0;
+        }
+        return formatNumber({
+          number: value,
+          type: 'floating',
+          roundTo: 1 / Math.pow(10, fractionDigits),
+          prefix: '',
+          suffix: '',
+          percentage: null,
+          permille: null,
+          currency: null,
+          groupSize: null,
+          exponent: null,
+          minimumIntegerDigits: 3,
+          maximumIntegerDigits: 3,
+          minimumFractionDigits: fractionDigits,
+          maximumFractionDigits: fractionDigits,
+          minimumSignificantDigits: 0,
+          maximumSignificantDigits: 0,
+          symbols: this.__numberSymbols['latn'],
+          paddingCharacter: null,
+          patternLength: 3
+        });
+      },
       'key-1': function(it) {
 {{=it.functionBody}}
       }

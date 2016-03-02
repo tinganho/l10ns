@@ -111,7 +111,7 @@ var configurations = {
    * @type {String}
    */
 
-  CLIENT_CONFIGURATIONS_BUILD: '/public/scripts/configurations',
+  CLIENT_CONFIGURATIONS_BUILD: 'public/scripts/configurations',
 
   /**
    * Path to the default favicon for your website
