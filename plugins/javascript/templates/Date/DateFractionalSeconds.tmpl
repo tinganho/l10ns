@@ -1,8 +1,0 @@
-var milliseconds = date.getMilliseconds() + '';
-while(milliseconds.length < 3) {
-  milliseconds = '0' + milliseconds;
-}
-while(milliseconds.length < {{=it.length}}) {
-  milliseconds += '0';
-}
-dateString += milliseconds.substr(0, {{=it.length}});
