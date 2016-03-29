@@ -1,4 +1,8 @@
 # Changelog
+## v2.3
+
+* Adds short and long number formatting. Also adds CLDR 29 and updates of IANA timezone data.
+
 ## v2.2.1
 
 * Fixes object notation bug.
