@@ -26,8 +26,11 @@ function MessageFormat(languageTag) {
   if(!languageTag) {
     throw new TypeError('Your language tag (' + this.languageTag + ') is not bcp47 compliant. For more info https://tools.ietf.org/html/bcp47.');
   }
-  var CLDRLanguageTag = this.languageTag.replace('-US', '');
-  
+  var CLDRLanguageTag;
+  if (!fs.existsSync('cldr-data/main/' + this.languageTag)) {
+    CLDRLanguageTag = this.languageTag.split('-')[0];
+  }
+
   CLDR.load(
     require('cldr-data/supplemental/likelySubtags'),
     require('cldr-data/supplemental/plurals'),
@@ -436,7 +439,6 @@ MessageFormat.prototype._parseSwitchStatement = function(variable) {
       break;
     default:
       throw new TypeError('Wrong type of ICU format: ' + type);
-      break;
   }
 
   return switchStatement;
