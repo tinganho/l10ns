@@ -896,6 +896,11 @@ MessageFormat.prototype._readPluralRules = function() {
     throw new TypeError('No plural rules exist for ' + this.languageTag + ' in CLDR.');
   }
 
+  /** Adds support for the one cardinality when it's not available for a specific language ** HACK!! *** */
+  if (!('pluralRule-count-one' in pluralRules)) {
+    pluralRules['pluralRule-count-one'] = pluralRules['pluralRule-count-other'];
+  }
+
   for(var count in pluralRules) {
     var pluralRule = pluralRules[count];
     var case_ = count.replace('pluralRule-count-', '');
