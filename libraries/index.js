@@ -284,7 +284,19 @@ CLI.prototype.search = function(q) {
  */
 
 CLI.prototype.compile = function() {
-  this.compiler.run();
+  this.compiler.run()
+    .fail(function(error) {
+      if (error) {
+        if(commands.stack && error && error.stack) {
+          console.log(error.stack);
+        }
+
+        if(error && error.message) {
+          console.log(error.message);
+        }
+        process.exit(1);
+      }
+    });
 };
 
 /**
