@@ -223,12 +223,15 @@ commands
         cli.compile();
       })
       .fail(function(error) {
-        if(commands.stack && error && error.stack) {
-          console.log(error.stack);
-        }
+        if (error) {
+          if(commands.stack && error && error.stack) {
+            console.log(error.stack);
+          }
 
-        if(error && error.message) {
-          console.log(error.message);
+          if(error && error.message) {
+            console.log(error.message);
+          }
+          process.exit(1);
         }
       });
   });

@@ -75,7 +75,7 @@ var Compiler = function() {
 Compiler.prototype.run = function() {
   var _this = this;
 
-  this._getLocalizationMap()
+  return this._getLocalizationMap()
     .then(function(localizationsMap) {
       var languagesCount = 0;
       var languagesLength = Object.keys(localizationsMap).length
@@ -113,11 +113,9 @@ Compiler.prototype.run = function() {
           }))
         });
 
-        if (process.argv.indexOf('--serverOnly') === -1) {
-          var filePath = project.output + '/' + language + '.js';
-          mkdirp.sync(path.dirname(filePath));
-          fs.writeFileSync(filePath, content);
-        }
+        var filePath = project.output + '/' + language + '.js';
+        mkdirp.sync(path.dirname(filePath));
+        fs.writeFileSync(filePath, content);
 
         allLocalizations += localizationsMap[language];
 
@@ -150,20 +148,9 @@ Compiler.prototype.run = function() {
         }))
       });
 
-      if (process.argv.indexOf('--clientOnly') === -1) {
-        var filePath = project.output + '/all.js';
-        mkdirp.sync(path.dirname(filePath));
-        fs.writeFileSync(filePath, content);
-      }
-    })
-    .fail(function(error) {
-      if(commands.stack && error && error.stack) {
-        console.log(error.stack);
-      }
-
-      if(error && error.stack) {
-        console.log(error.stack);
-      }
+      var filePath = project.output + '/all.js';
+      mkdirp.sync(path.dirname(filePath));
+      fs.writeFileSync(filePath, content);
     });
 };
 

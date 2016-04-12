@@ -75,7 +75,7 @@ var Compiler = function() {
 Compiler.prototype.run = function() {
   var _this = this;
 
-  this._getLocalizationMap()
+  return this._getLocalizationMap()
     .then(function(localizationsMap) {
       var languagesCount = 0;
       var languagesLength = Object.keys(localizationsMap).length
@@ -156,15 +156,6 @@ Compiler.prototype.run = function() {
         var filePath = project.output + '/all.js';
         mkdirp.sync(path.dirname(filePath));
         fs.writeFileSync(filePath, content);
-      }
-    })
-    .fail(function(error) {
-      if(commands.stack && error && error.stack) {
-        console.log(error.stack);
-      }
-
-      if(error && error.message) {
-        console.log(error.message);
       }
     });
 };

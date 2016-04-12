@@ -7,6 +7,10 @@
     "name": "Tingan Ho",
     "email": "tingan87@gmail.com"
   },
+  "contributors": [{
+    "name": "Ricardo Machado",
+    "email": "rmachado@travix.com"
+  }],
   "repository": {
     "type": "git",
     "url": "git://github.com/tinganho/l10ns.git"
