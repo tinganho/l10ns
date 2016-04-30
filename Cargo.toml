@@ -1,0 +1,7 @@
+[package]
+name = "l10ns"
+version = "0.1.0"
+authors = ["Tingan Ho <tingan87@gmail.com>"]
+
+[dependencies]
+getopts = "0.2"
