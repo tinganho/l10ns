@@ -265,7 +265,6 @@ AST.date.DateFormat.prototype._parseYear = function() {
   switch(currentToken) {
     case AST.date.DateFormat.Identifiers.CALENDAR_YEAR:
       return new AST.date.year.CalendarYear(length);
-      break;
     case AST.date.DateFormat.Identifiers.WEEK_BASED_YEAR:
       var startOfWeek;
       if(this.startOfWeek === 'mon') {
@@ -275,7 +274,6 @@ AST.date.DateFormat.prototype._parseYear = function() {
         startOfWeek = AST.date.year.WeekBasedYear.StartOfWeek.SUN;
       }
       return new AST.date.year.WeekBasedYear(length, startOfWeek);
-      break;
   }
 };
 
