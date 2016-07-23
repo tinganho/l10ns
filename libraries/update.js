@@ -215,6 +215,21 @@ Update.prototype._mergeWithOldLocalizations = function(newLocalizations) {
         }
       }
 
+      var deletedKeys = [];
+      outer: for (var lang in oldLocalizations) {
+        for (var key in oldLocalizations[lang]) {
+          if (!newLocalizationsCopy[lang]) {
+            console.log('[deleted language]'.red + ' ' + lang);
+            continue outer;
+          }
+          if (!newLocalizationsCopy[lang][key] && deletedKeys.indexOf(key) === -1) {
+            console.log('[deleted]'.red + ' ' + key);
+            deletedKeys.push(key);
+            continue outer;
+          }
+        }
+      }
+
       _this._mergeUserInputs(newLocalizationsCopy, oldLocalizations, function(error, mergedLocalizations) {
         if(!error) {
           return deferred.resolve(mergedLocalizations);

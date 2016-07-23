@@ -35,6 +35,10 @@ Parser.prototype.getKey = function(fn) {
 Parser.prototype.getVariables = function(fn) {
   language.LOCALIZATION_VARIABLES_SYNTAX.lastIndex = 0;
   fn = fn.replace(/:\s*?\{(\s*?.*?\s*?)+?\}/g, ':');
+
+  // Strip all string literals since they can have 'https://' and that would result in a new variable
+  fn = fn.replace(/\:\s*('|")(.*?)\1/g, ':\'\'');
+
   var obj = language.LOCALIZATION_VARIABLES_SYNTAX.exec(fn);
 
   if(obj === null) {
