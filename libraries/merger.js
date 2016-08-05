@@ -88,7 +88,7 @@ Merger.prototype.mergeLocalizations = function(newLocalizations, oldLocalization
     newLocalizations[key].text = oldLocalizations[key].text;
   }
   else {
-    throw new TypeError('Key does not exits in oldLocalizations.');
+    throw new TypeError('Key does not exits in oldLocalizations (' + key + ')');
   }
 
   return newLocalizations;
