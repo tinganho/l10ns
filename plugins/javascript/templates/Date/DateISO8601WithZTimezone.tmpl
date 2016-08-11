@@ -1,8 +1,0 @@
-{{?it.format === 1}}if(timezoneOffset % 60 === 0) {
-  dateString += getTimezoneOffset(timezoneOffset, { minutes: false, colon: false, zulu: true });
-}
-else {
-  dateString += getTimezoneOffset(timezoneOffset, { colon: false });
-}{{??it.format === 2}}dateString += getTimezoneOffset(timezoneOffset, { colon: false, zulu: true });
-{{??}}dateString += getTimezoneOffset(timezoneOffset, { zulu: true });
-{{?}}
