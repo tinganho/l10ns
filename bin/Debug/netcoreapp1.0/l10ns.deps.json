@@ -1,0 +1,39 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v1.0",
+    "signature": "3e92097d5ef47d58ba97beea5822665c7868cb55"
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v1.0": {
+      "l10ns/1.0.0": {
+        "runtime": {
+          "l10ns.dll": {}
+        }
+      },
+      "Microsoft.NETCore.DotNetHost/1.0.1-rc2-002702-00": {},
+      "Microsoft.NETCore.DotNetHostResolver/1.0.1-rc2-002702-00": {
+        "dependencies": {
+          "Microsoft.NETCore.DotNetHost": "1.0.1-rc2-002702-00"
+        }
+      }
+    }
+  },
+  "libraries": {
+    "l10ns/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Microsoft.NETCore.DotNetHost/1.0.1-rc2-002702-00": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-AE5A6IqSArMD6a1JbMkJtZqO4GwSzyoqnUhSCOUvgqTcWM38i6Xk6DbSK2IrqxuYEYT6FvPaj7k5M/VYZZl7cA=="
+    },
+    "Microsoft.NETCore.DotNetHostResolver/1.0.1-rc2-002702-00": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-6QUf62ktb7V21ctlmEhzg/JnLyQULfLCro5Zycf9kgasVA3lPwX7pxXPbW1R/BQSxuhnRuYlFQIFAcFzb866Tw=="
+    }
+  }
+}
