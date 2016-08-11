@@ -25,9 +25,6 @@ namespace Library {
 				}
 				return _Instance;
 			}
-			set {
-				_Instance = value;
-			}
 		}
 
 		public static void init(string[] args)
