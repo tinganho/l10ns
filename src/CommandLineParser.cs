@@ -1,48 +1,42 @@
 
+using System;
 
 namespace Library {
 
 	public enum EAction {
 		InitializeProject,
-		ShowInterface,
-		Update,
-	}
-
-	public class CommandLineOption {
-		public string Value;
-		public string Name;
+		OpenWebEditor,
+		Set,
 	}
 
 	public class Program {
+		private static Program _Instance;
 
-		public static Program _Instance;
-		public static Program Instance {
-			get
+		public static Program create() {
+			if (_Instance == null)
 			{
-				if (_Instance == null)
-				{
-					_Instance = new Program();
-				}
-				return _Instance;
+				_Instance = new Program();
 			}
+			return _Instance;
 		}
 
 		public static void init(string[] args)
 		{
-			var program = Program.Instance;
+			var program = Program.create();
 			string waitForValue = null;
 			foreach (string arg in args)
 			{
 				switch (arg)
 				{
-					case "edit":
-						program.Action = EAction.Update;
+					case "set":
+						program.Action = EAction.Set;
 						break;
-					case "interface":
-						program.Action = EAction.ShowInterface;
+					case "edit":
+						program.Action = EAction.OpenWebEditor;
 						break;
 					case "init":
 						program.Action = EAction.InitializeProject;
+						Console.WriteLine("ddddddd");
 						break;
 
 					case "--verbose":

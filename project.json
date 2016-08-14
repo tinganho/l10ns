@@ -13,5 +13,8 @@
     "netcoreapp1.0": {
       "imports": "dnxcore50"
     }
+  },
+  "runtimes": {
+	  "osx.10.11-x64": { }
   }
 }
