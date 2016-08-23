@@ -242,7 +242,7 @@ Compiler.prototype._getLocalizationMap = function() {
             value: JSON.stringify(messageFormat.timezones, null, 2).replace(/"/g, '\'') + _this.comma + _this.linefeed
           });
         }
-        
+
         for(var numberSystem in messageFormat.decimalPatterns) {
           var pattern = MessageFormat.AST.NumberFormatPattern.parse(messageFormat.decimalPatterns[numberSystem]).positive;
           var metaData = _this._getMetaDataFromDecimalPattern(pattern);
@@ -300,8 +300,8 @@ Compiler.prototype._getLocalizationMap = function() {
             }) + _this.comma + _this.linefeed;
           }
         }
-        
-        for(var numberSystem in messageFormat.longFormats) { 
+
+        for(var numberSystem in messageFormat.longFormats) {
           localizationMap += template['LocalizationKeyValue']({
             key: '__longFormats__' + numberSystem,
             value: JSON.stringify(messageFormat.longFormats[numberSystem])
@@ -509,7 +509,7 @@ Compiler.prototype._compileNumberFormat = function(numberFormat) {
   var result = '';
   var signs = ['positive', 'negative'];
   var _case = {};
-  
+
   var Type = MessageFormat.AST.NumberFormat.Type;
   if (numberFormat.type !== Type.DECIMAL) {
     result += 'var numberString = \'\';\n';
@@ -533,7 +533,7 @@ Compiler.prototype._compileNumberFormat = function(numberFormat) {
     result += this.linefeed + 'string += numberString;';
     return result;
   }
-  
+
   signs.forEach(function(sign) {
     var pattern = numberFormat.pattern[sign];
     if(sign === 'negative' && pattern === null) {
@@ -612,7 +612,7 @@ Compiler.prototype._getMetaDataFromDecimalPattern = function(pattern) {
     minimumSignificantDigits = pattern.nonAbsentNumbers;
     maximumSignificantDigits = pattern.nonAbsentNumbers + pattern.rightAbsentNumbers;
   }
-  
+
   return {
     type: type,
     minimumIntegerDigits: minimumIntegerDigits,
