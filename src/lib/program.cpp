@@ -2,14 +2,21 @@
 #include <iostream>
 #include <boost/asio.hpp>
 #include "program.h"
-#include "server.cpp"
 #include "utils.cpp"
+#include <iostream>
 
 using namespace std;
 using boost::asio::ip::tcp;
 
 void show_options();
 void show_usage_info();
+
+program::program() {
+    std::string home_dir = getenv("HOME");
+}
+
+std::string folder = "/usr/local/lib/l10ns";
+std::string* program::system_library_folder = &folder;
 
 void program::init(int argc, char *argv[]) {
     parse_options(argc, argv);
@@ -66,7 +73,7 @@ void program::parse_options(int argc, char **argv) {
     }
 
     if (wait_for_value != "") {
-        debug::error("You have not specified a commandline option for {0}", wait_for_value);
+        debug::error("You have not specified a value for '{0}'.", wait_for_value);
         return;
     }
 
@@ -84,17 +91,20 @@ string get_socket_unique_path() {
 void program::handle_sig_event(const boost::system::error_code& error, const char* socket_path) {
     if (!error)
     {
-        ::remove(socket_path);
-        server_->io_service_.stop();
+        if (socket_path) {
+            ::remove(socket_path);
+        }
+        if (server_) {
+            server_->io_service_.stop();
+        }
     }
 }
 
 void program::start_localization_server()
 {
     string socket_path = get_socket_unique_path();
-    cout << "opening socket: " << socket_path << endl;
+    debug::log("opening socket: " + socket_path);
     ::remove(socket_path.c_str());
-
     boost::asio::io_service io_service;
 
     boost::asio::signal_set signals(io_service, SIGINT, SIGTERM);
@@ -113,13 +123,14 @@ void program::show_version() const {
 
 void program::show_help() const {
     show_version();
+    cout << std::endl;
     show_usage_info();
     show_options();
 }
 
 void show_usage_info() {
     cout <<
-"\nSyntax: l10ns [action] [options...]\n"
+"Syntax: l10ns [action] [options...]\n"
 "\n"
 "Example: l10ns compile\n"
 "         l10ns log\n"

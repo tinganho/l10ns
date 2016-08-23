@@ -14,12 +14,12 @@ struct range {
 enum syntax_kind {
 
     /// Grammar nodes
-    SelectionVariable,
+    variable,
 
     /// Punctuations
-    OpeningBrace,
-    ClosingBrace,
-    Comma,
+    opening_brace,
+    closing_brace,
+    comma,
 };
 
 struct node : range {

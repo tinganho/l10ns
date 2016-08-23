@@ -2,17 +2,7 @@ cmake_minimum_required(VERSION 3.6)
 
 project(l10ns)
 
-set (L10NS_VERSION_MAJOR 0)
-set (L10NS_VERSION_MINOR 1)
-set (L10NS_VERSION_PATCH 0)
-set(L10NS_VERSION
-        ${L10NS_VERSION_MAJOR}.${L10NS_VERSION_MINOR}.${L10NS_VERSION_PATCH})
-
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
-
-# configure a header file to pass some of the CMake settings
-configure_file("${PROJECT_SOURCE_DIR}/src/lib/program.h.in"
-        "${PROJECT_SOURCE_DIR}/src/lib/program.h")
 
 include_directories("${PROJECT_SOURCE_DIR}/src/lib")
 include_directories("${PROJECT_BINARY_DIR}")

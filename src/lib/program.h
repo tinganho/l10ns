@@ -1,27 +1,29 @@
 
-#include <string>
-#include <vector>
-#include <boost/asio.hpp>
-#include "types.h"
-#include "server.cpp"
 
 #define L10NS_VERSION "0.1.0"
 
 #ifndef COMMAND_LINE_PARSER_H
 #define COMMAND_LINE_PARSER_H
 
+#include <string>
+#include <vector>
+#include <boost/asio.hpp>
+#include "types.h"
+#include "server.cpp"
+
 using namespace std;
 
 class program {
 public:
-    program():
-        signals(nullptr),
-        server_(nullptr),
-        output_color(true),
-        verbose(true),
-        diagnostics(vector<diagnostic> {}),
-        language(nullptr),
-        key(nullptr) { }
+
+    /**
+     *  System library folder. We currently store library specific content
+     *  on this folder, such as extensions.
+     */
+    static std::string* system_library_folder;
+
+    program();
+
 
     /**
      * BCP47 compliant language.
@@ -33,7 +35,10 @@ public:
      */
     string* key;
 
-    vector<diagnostic> diagnostics;
+    /**
+     * Diagnostics.
+     */
+    vector<diagnostic>* diagnostics;
 
     /**
      * Server used as IPC communication.

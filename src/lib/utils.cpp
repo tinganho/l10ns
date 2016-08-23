@@ -16,23 +16,23 @@ class color {
 public:
     static bool use_colors;
 
-    static std::string cyan(std::string text) {
+    static std::string cyan(std::string const& text) {
         if (use_colors) {
-            return "\x1B[36m" + text + "\x1B[36m";
+            return "\033[36m" + text + "\033[39m";
         }
         return text;
     }
 
-    static std::string red(std::string text) {
+    static std::string red(std::string const& text) {
         if (use_colors) {
-            return "\\x1B[31m" + text + "\x1B[31m";
+            return "\033[0;31m" + text + "\033[0m";
         }
         return text;
     }
 
-    static std::string yellow(std::string text) {
+    static std::string yellow(std::string const& text) {
         if (use_colors) {
-            return "\\x1B[33m" + text + "\x1B[33m";
+            return "\033[33m" + text + " \033[0m";
         }
         return text;
     }
@@ -45,7 +45,7 @@ public:
     static int flags;
 
     static std::string time_stamp() {
-        char formatted_time[5];
+        char formatted_time[10];
         time_t t = time(NULL);
         strftime(formatted_time, sizeof(formatted_time), "%H:%M", localtime(&t));
         return std::string(formatted_time);
@@ -67,7 +67,7 @@ public:
 
     static void log(std::string const & message) {
         if (flags & debug_flags::logs) {
-            std::cout << color::cyan("LOG") + " " + time_stamp() + ":" + message << std::endl;
+            std::cout << color::cyan("Log") + " " + time_stamp() + ": " + message << std::endl;
         }
     }
 
@@ -88,7 +88,7 @@ public:
 
     static void error(std::string const & message) {
         if (flags & debug_flags::errors) {
-            std::cout << color::red("ERR") + " " + time_stamp() + ":" + message << std::endl;
+            std::cout << color::red("Error") + " " + time_stamp() + ": " + message << std::endl;
         }
     }
 
