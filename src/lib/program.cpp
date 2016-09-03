@@ -3,7 +3,6 @@
 #include <boost/asio.hpp>
 #include "program.h"
 #include "utils.cpp"
-#include <iostream>
 
 using namespace std;
 using boost::asio::ip::tcp;
