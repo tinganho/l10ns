@@ -26,20 +26,16 @@ function MessageFormat(languageTag) {
   if(!languageTag) {
     throw new TypeError('Your language tag (' + this.languageTag + ') is not bcp47 compliant. For more info https://tools.ietf.org/html/bcp47.');
   }
-  var CLDRLanguageTag;
-  if (!fs.existsSync('cldr-data/main/' + this.languageTag)) {
-    CLDRLanguageTag = this.languageTag.split('-')[0];
-  }
 
   CLDR.load(
     require('cldr-data/supplemental/likelySubtags'),
     require('cldr-data/supplemental/plurals'),
     require('cldr-data/supplemental/ordinals'),
     require('cldr-data/supplemental/metaZones'),
-    require('cldr-data/main/' + CLDRLanguageTag + '/numbers'),
-    require('cldr-data/main/' + CLDRLanguageTag + '/currencies'),
-    require('cldr-data/main/' + CLDRLanguageTag + '/ca-gregorian'),
-    require('cldr-data/main/' + CLDRLanguageTag + '/timeZoneNames')
+    require('cldr-data/main/' + this.languageTag + '/numbers'),
+    require('cldr-data/main/' + this.languageTag + '/currencies'),
+    require('cldr-data/main/' + this.languageTag + '/ca-gregorian'),
+    require('cldr-data/main/' + this.languageTag + '/timeZoneNames')
   );
 
   this.CLDR = new CLDR(this.languageTag);
@@ -152,12 +148,11 @@ MessageFormat.DEFAULT_NUMBER_SYSTEM = 'latn';
  * @api private
  */
 MessageFormat.prototype.getMostLikelyLanguageTag_ = function(language) {
-  var reformatedLanguage = language.replace('-', '_');
   if(language in mostLikelyLanguageTagMapping) {
     return mostLikelyLanguageTagMapping[language];
   }
-  else if(defaultLanguageTag.indexOf(reformatedLanguage) !== -1) {
-    return reformatedLanguage.replace(/_[0-9a-zA-Z]+$/, '');
+  else if(defaultLanguageTag.indexOf(language) !== -1) {
+    return language.split('-')[0];
   }
   else {
     return language;

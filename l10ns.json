@@ -3,7 +3,8 @@
     "javascript": {
       "programmingLanguage": "javascript",
       "languages": {
-        "en-US": "English (US)"
+        "en-US": "English (US)",
+        "en-GB": "English (GB)"
       },
       "quiet" : false,
       "defaultLanguage": "en-US",
