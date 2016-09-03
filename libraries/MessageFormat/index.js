@@ -26,6 +26,18 @@ function MessageFormat(languageTag) {
   if(!languageTag) {
     throw new TypeError('Your language tag (' + this.languageTag + ') is not bcp47 compliant. For more info https://tools.ietf.org/html/bcp47.');
   }
+  this.script = languageTag.langtag.script;
+  this.language = languageTag.langtag.language.language;
+  this.region = languageTag.langtag.region;
+  if (!this.languageTag) {
+    this.languageTag = this.language;
+    if (this.script) {
+      this.languageTag += '-' + this.script;
+    }
+    if (this.region) {
+      this.languageTag += '-' + this.region;
+    }
+  }
 
   CLDR.load(
     require('cldr-data/supplemental/likelySubtags'),
@@ -40,9 +52,6 @@ function MessageFormat(languageTag) {
 
   this.CLDR = new CLDR(this.languageTag);
 
-  this.script = languageTag.langtag.script;
-  this.language = languageTag.langtag.language.language;
-  this.region = languageTag.langtag.region;
   this.variables = null;
   this.pluralRules = {};
   this.ordinalRules = {};
@@ -155,7 +164,7 @@ MessageFormat.prototype.getMostLikelyLanguageTag_ = function(language) {
     return language.split('-')[0];
   }
   else {
-    return language;
+    return null;
   }
 };
 
