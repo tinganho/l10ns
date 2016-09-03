@@ -4,6 +4,7 @@ node_modules/
 test/translations/delete.log
 .sass-cache/
 .l10ns/
+.vscode/
 docs/
 interface/public/images/default-*
 interface/public/images/default2x-*
