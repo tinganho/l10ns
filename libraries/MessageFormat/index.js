@@ -22,7 +22,7 @@ var defaultLanguageTag = require('cldr-data/defaultContent.json').defaultContent
  */
 function MessageFormat(languageTag) {
   this.languageTag = this.getMostLikelyLanguageTag_(languageTag || program.defaultLanguageTag);
-  var languageTag = bcp47.parse(this.languageTag);
+  languageTag = bcp47.parse(languageTag);
   if(!languageTag) {
     throw new TypeError('Your language tag (' + this.languageTag + ') is not bcp47 compliant. For more info https://tools.ietf.org/html/bcp47.');
   }
