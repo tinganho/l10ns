@@ -1,0 +1,26 @@
+[
+  {
+    "files": [
+      "example/javascript/index.js"
+    ],
+    "id": "eEdgb96nuX",
+    "key": "NEW_KEY",
+    "new": true,
+    "timestamp": "2016-09-03T11:00:19.255Z",
+    "value": "",
+    "variables": []
+  },
+  {
+    "files": [
+      "example/javascript/index.js"
+    ],
+    "id": "8drg4p5bFn",
+    "key": "TEST",
+    "new": true,
+    "timestamp": "2016-09-03T11:00:19.255Z",
+    "value": "",
+    "variables": [
+      "test"
+    ]
+  }
+]
