@@ -1,13 +1,13 @@
 
 function setup(grunt) {
 
-	grunt.initConfig(
-		{
+    grunt.initConfig(
+        {
 
-		}
-	);
+        }
+    );
 
-	grunt.loadTasks('Build/Tasks');
+    grunt.loadTasks('Build/Tasks');
 }
 
 module.exports = setup;

@@ -1,4 +1,4 @@
 
 node_modules/
 Build/
-!Build/Tasks/Build
+!Build/Tasks
