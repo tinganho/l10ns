@@ -1,0 +1,10 @@
+{
+    "The action '{0}' must be the second command line argument.": {
+        "category": "Error",
+        "code": 1000
+    },
+    "The action '{0}' does not have the command line option '{1}'.": {
+        "category": "Error",
+        "code": 1001
+    }
+}
