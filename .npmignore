@@ -1,0 +1,13 @@
+
+.gitignore
+.editorconfig
+
+Gruntfile.js
+tsconfig.json
+CONTRIBUTING.md
+
+Build/Tasks
+Build/Source
+Tasks/
+Tests/
+Source/
