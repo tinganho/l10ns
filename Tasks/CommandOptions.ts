@@ -5,4 +5,7 @@ export const defaultOptions = [
     '--module amd',
     '--noImplicitAny',
     '--noImplicitThis',
+    '--noImplicitReturns',
+    '--noUnusedLocals',
+    '--noUnusedParameters',
 ];
