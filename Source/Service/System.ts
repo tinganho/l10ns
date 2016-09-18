@@ -1,7 +1,7 @@
 
 namespace L10ns {
-	const _fs = require('fs');
-	const _path = require('path');
+    const _fs = require('fs');
+    const _path = require('path');
     const _exec = require('child_process').exec;
     const _glob = require('glob')
 
@@ -16,13 +16,13 @@ namespace L10ns {
         });
     }
 
-	export function writeFile(file: string, content: string): void {
-		_fs.writeFileSync(file, content, { encoding: 'utf8' });
-	}
+    export function writeFile(file: string, content: string): void {
+        _fs.writeFileSync(file, content, { encoding: 'utf8' });
+    }
 
-	export function joinPath(path: string, ...paths: string[]): string {
-		return _path.join(path, ...paths);
-	}
+    export function joinPath(path: string, ...paths: string[]): string {
+        return _path.join(path, ...paths);
+    }
 
     export function runCommand(cmd: string): Promise<string> {
         return new Promise((resolve, reject) => {

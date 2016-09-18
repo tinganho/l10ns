@@ -18,7 +18,7 @@ namespace L10ns.TestFramework {
                 command = await readFile(joinPath(rootDir, p, 'Command'));
             }
             catch(err) {
-                Debug.fail(`Could not read project command from project '${joinPath(rootDir, p, 'Command')}'.`);
+                Debug.fail(`Could not read project command '${joinPath(rootDir, p, 'Command')}'.`);
                 return;
             }
             let stderr: string | undefined;
