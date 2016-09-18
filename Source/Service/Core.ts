@@ -55,13 +55,13 @@ namespace L10ns {
                 if (verboseDebugInfo) {
                     verboseDebugString = "\r\nVerbose Debug Information: " + verboseDebugInfo();
                 }
-                debugger;
                 throw new Error("Debug Failure. False expression: " + (message || "") + verboseDebugString);
             }
         }
 
-        export function fail(message?: string): void {
-            Debug.assert(/*expression*/ false, message);
+        export function fail(message?: string): never {
+            Debug.assert(/*expression*/ false, message) as never;
+            throw new Error('Should not reach here');
         }
     }
 }

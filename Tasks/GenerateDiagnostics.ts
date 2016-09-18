@@ -1,5 +1,5 @@
 
-/// <reference path='../Source/Types.ts'/>
+/// <reference path='../Source/Service/Types.ts'/>
 
 namespace L10ns.Tasks {
     interface DiagnosticDetails {
@@ -27,7 +27,6 @@ namespace L10ns.Tasks {
             const diagnosticMessages = require(path.join(__dirname, '../../Source/DiagnosticMessages.json')) as InputDiagnosticMessageTable;
             const names = Utilities.getObjectKeys(diagnosticMessages);
             const nameMap = buildUniqueNameMap(names);
-            console.log(diagnosticMessages)
             for (const key in diagnosticMessages) {
                 var diagnosticDetails = diagnosticMessages[key];
                 var propName = convertPropertyName(nameMap[key]);

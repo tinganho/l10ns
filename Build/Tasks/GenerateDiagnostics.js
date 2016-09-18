@@ -1,4 +1,4 @@
-/// <reference path='../Source/Types.ts'/>
+/// <reference path='../Source/Service/Types.ts'/>
 var L10ns;
 (function (L10ns) {
     var Tasks;
@@ -17,7 +17,6 @@ var L10ns;
                 const diagnosticMessages = require(path.join(__dirname, '../../Source/DiagnosticMessages.json'));
                 const names = Utilities.getObjectKeys(diagnosticMessages);
                 const nameMap = buildUniqueNameMap(names);
-                console.log(diagnosticMessages);
                 for (const key in diagnosticMessages) {
                     var diagnosticDetails = diagnosticMessages[key];
                     var propName = convertPropertyName(nameMap[key]);

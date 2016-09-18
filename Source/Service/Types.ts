@@ -29,7 +29,6 @@ namespace L10ns {
 	}
 
 	export interface ParsedCommandLine {
-		fileNames: string[];
 		errors: Diagnostic[];
 	}
 
@@ -89,7 +88,7 @@ namespace L10ns {
         next?: DiagnosticMessageChain;
     }
 
-    export enum DiagnosticCategory {
+    export const enum DiagnosticCategory {
         Warning,
         Error,
         Message,

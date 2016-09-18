@@ -45,7 +45,7 @@
     "connect-modrewrite": "^0.6.0",
     "express": "~3.1.2",
     "findup-sync": "~0.1.1",
-    "glob": "~3.2.8",
+    "glob": "^3.2.11",
     "grunt": "^0.4.5",
     "hashids": "~0.1.4",
     "helmet": "~0.1.2",

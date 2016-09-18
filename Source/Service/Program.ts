@@ -1,5 +1,6 @@
 
 /// <reference path='Types.ts'/>
+/// <reference path='DiagnosticMessages.Generated.ts'/>
 
 namespace L10ns {
     interface Option {
@@ -103,7 +104,6 @@ namespace L10ns {
 
     export function parseCommandLine(args: string[]): ParsedCommandLine {
         const errors: Diagnostic[] = [];
-        const fileNames: string[] = [];
 
         let action: ActionString | undefined;
         let actionOptions: Option[] | undefined = [];
@@ -129,10 +129,18 @@ namespace L10ns {
             }
         }
 
-        return {
-            fileNames,
-            errors,
+        if (errors) {
+            errors.forEach(error => {
+                console.error(error.messageText);
+            });
         }
 
+        return {
+            errors,
+        }
     }
+}
+
+if (require.main === module) {
+    L10ns.parseCommandLine(process.argv);
 }

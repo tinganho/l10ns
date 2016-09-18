@@ -6,8 +6,8 @@ Gruntfile.js
 tsconfig.json
 CONTRIBUTING.md
 
-Build/Tasks
 Build/Source
+Build/Tasks
 Tasks/
 Tests/
 Source/
