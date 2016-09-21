@@ -12,7 +12,7 @@ namespace L10ns.TestFramework {
 
     export async function runProjectTests() {
         describe('Project Tests:', () => {
-                remove(joinPath(rootDir, 'Tests/Baselines/Current/*'));
+            remove(joinPath(rootDir, 'Tests/Baselines/Current/*'));
             const projects = findFiles('Tests/Cases/Projects/*', rootDir);
             for (const p of projects) {
                 ((p) => {

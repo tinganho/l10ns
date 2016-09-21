@@ -29,7 +29,7 @@ namespace L10ns {
     interface Action {
         action: string;
         description: string;
-        options?: Option[];
+        options: Option[];
     }
 
     const commandLineActions: Action[] = [
@@ -63,6 +63,7 @@ namespace L10ns {
         {
             action: 'compile',
             description: 'Compile localizations.',
+            options: [],
         }
     ];
 
