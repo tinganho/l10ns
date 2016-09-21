@@ -1,8 +1,11 @@
-import { spawn } from 'child_process';
+import { spawn, execSync } from 'child_process';
 
 function run(grunt: IGrunt) {
     grunt.registerTask('test', function() {
         const done = this.async();
+        const compileSourceCmd = 'grunt compile-source';
+        console.log(compileSourceCmd);
+        execSync(compileSourceCmd);
         let env = process.env;
         env.TESTING = true;
         const options = [

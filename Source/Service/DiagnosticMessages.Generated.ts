@@ -5,5 +5,6 @@ namespace L10ns {
     export const Diagnostics = {
         The_action_0_must_be_the_second_command_line_argument: { code: 1000, category: DiagnosticCategory.Error, key: "The_action_0_must_be_the_second_command_line_argument_1000", message: "The action '{0}' must be the second command line argument." },
         The_action_0_does_not_have_the_command_line_option_1: { code: 1001, category: DiagnosticCategory.Error, key: "The_action_0_does_not_have_the_command_line_option_1_1001", message: "The action '{0}' does not have the command line option '{1}'." },
+        The_option_0_is_not_a_default_option: { code: 1002, category: DiagnosticCategory.Error, key: "The_option_0_is_not_a_default_option_1002", message: "The option '{0}' is not a default option." },
     }
 }

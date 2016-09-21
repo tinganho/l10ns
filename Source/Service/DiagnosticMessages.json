@@ -6,5 +6,9 @@
     "The action '{0}' does not have the command line option '{1}'.": {
         "category": "Error",
         "code": 1001
+    },
+    "The option '{0}' is not a default option.": {
+        "category": "Error",
+        "code": 1002
     }
 }

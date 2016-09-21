@@ -16,13 +16,13 @@ namespace L10ns {
         description: 'Show help section. More details with `l10ns [action] --help`.',
     }
 
-    // const commandLineOptions: Option[] = [
-    // 	helpOption,
-    // 	{
-    // 		option: '--version',
-    // 		description: 'Show current l10ns version.',
-    // 	}
-    // ];
+    const defaultCommandLineOptions: Option[] = [
+    	helpOption,
+    	{
+    		option: '--version',
+    		description: 'Show current l10ns version.',
+    	}
+    ];
 
     type ActionString = 'sync' | 'compile';
 
@@ -102,6 +102,15 @@ namespace L10ns {
         return false;
     }
 
+    function optionIsDefault(option: string): boolean {
+        for (const o of defaultCommandLineOptions) {
+            if (o.option === option || o.alias === option) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     export function parseCommandLine(args: string[]): ParsedCommandLine {
         const errors: Diagnostic[] = [];
 
@@ -115,6 +124,10 @@ namespace L10ns {
                         errors.push(createCompilerDiagnostic(Diagnostics.The_action_0_does_not_have_the_command_line_option_1, action, arg));
                         break;
                     }
+                }
+                else if (!optionIsDefault(arg)) {
+                    errors.push(createCompilerDiagnostic(Diagnostics.The_option_0_is_not_a_default_option, arg));
+                    break;
                 }
             }
             else {

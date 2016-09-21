@@ -99,4 +99,4 @@ namespace L10ns {
         return _glob.sync(query, fromDir ? { cwd: fromDir, mark: true } : undefined);
     }
 }
-module.exports = L10ns;
+module.exports.L10ns = L10ns;

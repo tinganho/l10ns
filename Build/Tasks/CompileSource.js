@@ -14,6 +14,7 @@ function run(grunt) {
         ].join(' ');
         const options = [
             '--outFile Build/Binaries/L10ns.js',
+            '--module amd',
         ].concat(CommandOptions_1.defaultOptions).join(' ');
         const compileCmd = `tsc ${compileSource} ${options}`;
         console.log(compileCmd);
