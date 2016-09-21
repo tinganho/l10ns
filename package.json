@@ -27,7 +27,7 @@
     "node": "*"
   },
   "scripts": {
-    "test": "binaries/test"
+    "test": "node_modules/.bin/mocha Build/Binaries/RunTests.js"
   },
   "cldr-data-coverage": "full",
   "dependencies": {
@@ -62,9 +62,11 @@
     "update-notifier": "^0.2.2"
   },
   "devDependencies": {
+    "@types/mocha": "^2.2.32",
     "browserify": "^13.1.0",
     "chai": "^1.9.1",
     "chai-as-promised": "~4.1.0",
+    "cpr": "^2.0.0",
     "grunt": "~0.4.2",
     "grunt-contrib-clean": "~0.5.0",
     "grunt-contrib-compass": "~0.1.0",
@@ -76,10 +78,13 @@
     "grunt-webp": "https://github.com/tinganho/grunt-webp/tarball/master",
     "jshint-globals": "~0.1.0",
     "l10ns-template": "^1.0.0",
-    "mocha": "~1.8.1",
+    "mkdirp": "^0.5.1",
+    "mocha": "^1.8.2",
     "moment": "^2.8.3",
     "moment-timezone": "^0.2.4",
+    "mv": "^2.1.1",
     "proxyquire": "~0.5.1",
+    "rimraf": "^2.5.4",
     "sinon": "~1.8.2",
     "sinon-chai": "~2.5.0"
   },

@@ -131,7 +131,7 @@ namespace L10ns {
 
         if (errors) {
             errors.forEach(error => {
-                console.error(error.messageText);
+                console.error(`Error L${error.code}: ${error.messageText}`);
             });
         }
 

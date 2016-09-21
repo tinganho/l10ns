@@ -26,14 +26,18 @@ function run(grunt: IGrunt) {
                     grunt.log.error(stderr || stdout || (err.message + err.stack));
                     return;
                 }
-                console.log(stdout);
+                if (stdout) {
+                    console.log(stdout);
+                }
                 console.log(bundleCmd);
                 exec(bundleCmd, (err, stdout, stderr) => {
                     if (err || stderr) {
                         grunt.log.error(stderr || stdout || (err.message + err.stack));
                         return;
                     }
-                    console.log(stdout);
+                    if (stdout) {
+                        console.log(stdout);
+                    }
                     grunt.log.ok('Compilation of tests done!');
                     done();
                 });

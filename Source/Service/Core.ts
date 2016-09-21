@@ -63,5 +63,7 @@ namespace L10ns {
             Debug.assert(/*expression*/ false, message) as never;
             throw new Error('Should not reach here');
         }
+
+        export const log = console.log;
     }
 }

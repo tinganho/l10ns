@@ -4,7 +4,7 @@ namespace L10ns {
         [index: string]: T;
     }
 
-	export type Path = string & { __pathBrand: any };
+    export type Path = string & { __pathBrand: any };
 
     export interface TextRange {
         pos: number;
@@ -15,25 +15,25 @@ namespace L10ns {
         text: string; // Text of identifier (with escapes converted to characters)
     }
 
-	export interface Declaration extends Node {
+    export interface Declaration extends Node {
         _declarationBrand: any;
         name?: Identifier;
     }
 
-	export const enum SyntaxKind {
-		OpenBrace,
-		ClosingBrace,
-		Comma,
+    export const enum SyntaxKind {
+        OpenBrace,
+        ClosingBrace,
+        Comma,
 
-		Identifier,
-	}
+        Identifier,
+    }
 
-	export interface ParsedCommandLine {
-		errors: Diagnostic[];
-	}
+    export interface ParsedCommandLine {
+        errors: Diagnostic[];
+    }
 
     export const enum NodeFlags {
-        None =               0,
+        None = 0,
     }
 
     export interface NodeArray<T> extends Array<T>, TextRange {
@@ -42,7 +42,7 @@ namespace L10ns {
     export interface Node extends TextRange {
         kind: SyntaxKind;
         flags: NodeFlags;
-        parent?: Node;                                  // Parent node (initialized by binding)
+        parent?: Node; // Parent node (initialized by binding)
     }
 
     // Source files are declarations when they are external modules.
@@ -51,7 +51,7 @@ namespace L10ns {
         endOfFileToken: Node;
 
         fileName: string;
-       	path: Path;
+        path: Path;
         text: string;
 
         // this map is used by transpiler to supply alternative names for dependencies (i.e. in case of bundling)
@@ -66,14 +66,14 @@ namespace L10ns {
         message: string;
     }
 
-	export interface Diagnostic {
+    export interface Diagnostic {
         file?: SourceFile;
         start?: number;
         length?: number;
         messageText: string | DiagnosticMessageChain;
         category: DiagnosticCategory;
         code: number;
-	}
+    }
 
     /**
      * A linked list of formatted diagnostic messages to be used as part of a multiline message.
