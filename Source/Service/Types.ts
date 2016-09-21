@@ -28,8 +28,30 @@ namespace L10ns {
         Identifier,
     }
 
-    export interface ParsedCommandLine {
+    export type ActionString = 'update' | 'compile' | 'log' | 'interface' | 'search' | 'init';
+
+    export interface OptionDeclaration {
+        name: string;
+        description: string;
+        alias?: string;
+        hasValue?: boolean;
+    }
+
+    export interface Option {
+        name: string;
+        value: string; 
+    }
+
+    export interface Action {
+        action: ActionString;
+        description: string;
+        options: OptionDeclaration[];
+    }
+
+    export interface ProgramSession {
         errors: Diagnostic[];
+        options: Option[];
+        action: ActionString | null;
     }
 
     export const enum NodeFlags {

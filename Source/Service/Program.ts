@@ -3,67 +3,61 @@
 /// <reference path='DiagnosticMessages.Generated.ts'/>
 
 namespace L10ns {
-    interface Option {
-        option: string;
-        description: string;
-        alias?: string;
-        hasValue?: boolean;
-    }
-
-    const helpOption: Option = {
-        option: '--help',
+    const helpOption: OptionDeclaration = {
+        name: '--help',
         alias: '-h',
         description: 'Show help section. More details with `l10ns [action] --help`.',
     }
 
-    const defaultCommandLineOptions: Option[] = [
+    const defaultCommandLineOptions: OptionDeclaration[] = [
     	helpOption,
     	{
-    		option: '--version',
+    		name: '--version',
     		description: 'Show current l10ns version.',
     	}
     ];
 
-    type ActionString = 'sync' | 'compile';
-
-    interface Action {
-        action: string;
-        description: string;
-        options: Option[];
-    }
-
     const commandLineActions: Action[] = [
         {
-            action: 'sync',
+            action: 'update',
             description: 'Sync localization keys with storage.',
             options: [
                 helpOption,
                 {
-                    option: '--key',
+                    name: '--key',
                     alias: '-k',
                     hasValue: true,
                 },
                 {
-                    option: '--value',
+                    name: '--value',
                     alias: '-v',
                     hasValue: true,
                 },
                 {
-                    option: '--index',
+                    name: '--index',
                     alias: '-i',
                     hasValue: true,
                 },
                 {
-                    option: '--search-index',
+                    name: '--search-index',
                     alias: '-si',
                     hasValue: true,
                 }
-            ] as Option[],
+            ] as OptionDeclaration[],
         },
         {
             action: 'compile',
             description: 'Compile localizations.',
-            options: [],
+            options: [
+                helpOption,
+            ],
+        },
+        {
+            action: 'log',
+            description: 'See the latest added localizations.',
+            options: [
+                helpOption,
+            ],
         }
     ];
 
@@ -73,74 +67,83 @@ namespace L10ns {
                 return true;
             }
         }
+
         return false;
     }
 
-    function getActionsOptions(action: ActionString): Option[] | undefined {
-        for (let a of commandLineActions) {
-            if (a.action === action) {
-                return a.options;
-            }
-        }
-
-        throw Error(`Unknown action ${action}`);
-    }
-
-    function actionHasOption(action: ActionString, option: string): boolean {
-        for (const a of commandLineActions) {
-            if (a.action === action) {
-                if (!a.options) {
-                    continue;
-                }
-                for (const o of a.options) {
-                    if (o.option === option) {
-                        return true;
+    function getOption(option: string, action?: ActionString | null): OptionDeclaration | null {
+        if (action) {
+            for (const a of commandLineActions) {
+                if (action && a.action === action) {
+                    if (!a.options) {
+                        continue;
+                    }
+                    for (const o of a.options) {
+                        if (o.name === option) {
+                            return o;
+                        }
                     }
                 }
             }
         }
-
-        return false;
-    }
-
-    function optionIsDefault(option: string): boolean {
-        for (const o of defaultCommandLineOptions) {
-            if (o.option === option || o.alias === option) {
-                return true;
+        else {
+            for (const o of defaultCommandLineOptions) {
+                if (o.name === option) {
+                    return o;
+                }
             }
         }
-        return false;
+
+        return null;
     }
 
-    export function parseCommandLine(args: string[]): ParsedCommandLine {
+    export function parseCommandLine(args: string[]): ProgramSession {
         const errors: Diagnostic[] = [];
-
-        let action: ActionString | undefined;
-        let actionOptions: Option[] | undefined = [];
+        const options: Option[] = [];
+        let lastOptionHasValue = false; // Flag to check if it the current loop is to capture an option value.
+        let lastOption: Option | undefined;
+        let action: ActionString | null = null;
         for (let i = 2; i < args.length; i++) {
             const arg = args[i];
+            let option: OptionDeclaration | null = null;
             if (arg.startsWith('-')) {
+                option = getOption(arg, action);
                 if (action) {
-                    if (!actionHasOption(action, arg)) {
+                    if (!option) {
                         errors.push(createCompilerDiagnostic(Diagnostics.The_action_0_does_not_have_the_command_line_option_1, action, arg));
                         break;
                     }
                 }
-                else if (!optionIsDefault(arg)) {
+                else if (!option) {
                     errors.push(createCompilerDiagnostic(Diagnostics.The_option_0_is_not_a_default_option, arg));
                     break;
                 }
+                const parsedOption = { name: option.name } as Option;
+                options.push(parsedOption);
+                if (option.hasValue) {
+                    lastOption = parsedOption;
+                    lastOptionHasValue = true;
+                    continue;
+                }
             }
             else {
-                if (i !== 2) {
-                    errors.push(createCompilerDiagnostic(Diagnostics.The_action_0_must_be_the_second_command_line_argument, arg));
-                    break;
+                if (lastOptionHasValue) {
+                    if (lastOption) {
+                        lastOption.value = arg; 
+                    }
+                    continue;
                 }
                 if (isValidAction(arg)) {
+                    if (i !== 2) {
+                        errors.push(createCompilerDiagnostic(Diagnostics.The_action_0_must_be_the_second_command_line_argument, arg));
+                        break;
+                    }
                     action = arg;
-                    actionOptions = getActionsOptions(arg);
+                    continue;
                 }
             }
+            lastOption = undefined;
+            lastOptionHasValue = false;
         }
 
         if (errors) {
@@ -150,6 +153,8 @@ namespace L10ns {
         }
 
         return {
+            action,
+            options,
             errors,
         }
     }
