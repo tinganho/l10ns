@@ -1,13 +1,14 @@
 
-.gitignore
 .editorconfig
+.gitignore
+.gitattributes
 
 Gruntfile.js
 tsconfig.json
 CONTRIBUTING.md
 
-Build/Source
-Build/Tasks
+Build/Source/
+Build/Tasks/
 Tasks/
 Tests/
 Source/
