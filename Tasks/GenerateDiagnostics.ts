@@ -42,8 +42,13 @@ namespace L10ns.Tasks {
             }
             result += '    }\r\n}';
             const generatedFile = L10ns.joinPath(__dirname, '../../Source/Service/DiagnosticMessages.Generated.ts');
-            await L10ns.writeFile(generatedFile, result);
-            done();
+            try {
+                await L10ns.writeFile(generatedFile, result);
+                done();
+            }
+            catch(err) {
+                done(err);
+            }
         });
     }
 

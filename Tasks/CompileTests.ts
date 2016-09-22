@@ -34,6 +34,7 @@ function run(grunt: IGrunt) {
                 exec(bundleCmd, (err, stdout, stderr) => {
                     if (err || stderr) {
                         console.error(stderr || stdout || (err.message + err.stack));
+                        done(false);
                         return;
                     }
                     if (stdout) {
