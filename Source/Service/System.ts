@@ -65,7 +65,6 @@ namespace L10ns {
 
     export function exists(path: string): boolean {
         try {
-            // Query the entry
             _fs.lstatSync(path);
             return true;
         }
