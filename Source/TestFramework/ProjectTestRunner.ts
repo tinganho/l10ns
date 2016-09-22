@@ -6,7 +6,7 @@ namespace L10ns.TestFramework {
     const l10ns = joinPath(rootDir, 'Build/Binaries/L10ns.js');
     
     async function runCommandFromProject(command: string, project: string): Promise<string | undefined> {
-        return L10ns.runCommand(`(cd ${joinPath(rootDir, project)}; ${command})`);
+        return L10ns.runCommand(`(cd ${joinPath(rootDir, project)}; ${command})`, /*quiet*/true);
     }
 
     export async function runProjectTests() {

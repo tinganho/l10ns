@@ -12,7 +12,8 @@ namespace L10ns.TestFramework {
         const tests = findFiles('Tests/Cases/MessageFormat/*', rootDir);
         describe('Message Format:', () => {
             for (const t of tests) {
-                console.log(t);
+                const msg = require(joinPath(rootDir, t)) as MessageFormatCase;
+                console.log(msg)
             }
         });
     }

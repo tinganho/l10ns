@@ -9,6 +9,8 @@ namespace L10ns {
     const _cpr = require('cpr');
     const _rimraf = require('rimraf');
 
+    export const rootDir = joinPath(__dirname, '../../');
+
     export async function readFile(file: string): Promise<string> {
         return new Promise<string>((resolve, reject) => {
             _fs.readFile(file, { encoding: 'utf8' }, (err: Error, content: string) => {
@@ -83,14 +85,18 @@ namespace L10ns {
         });
     }
 
-    export function runCommand(cmd: string): Promise<string> {
+    export function runCommand(cmd: string, quiet = false): Promise<string> {
         return new Promise((resolve, reject) => {
-            write(cmd);
+            if (!quiet) {
+                write(cmd);
+            }
             _exec(cmd, (err: any, stdout: string, stderr: string) => {
-                if (err) {
+                if (err || stderr) {
                     return reject(stderr || stdout);
                 }
-                write(stdout);
+                if (!quiet) {
+                    write(stdout);
+                }
 
                 resolve(stdout);
             });

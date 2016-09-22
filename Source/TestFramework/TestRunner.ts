@@ -1,9 +1,9 @@
 
 /// <reference path='../Service/System.ts'/>
+/// <reference path='ProjectTestRunner.ts'/>
+/// <reference path='MessageFormatTestRunner.ts'/>
 
 namespace L10ns.TestFramework {
-    export const rootDir = joinPath(__dirname, '../../');
-    
     export async function run() {
         try {
             remove(joinPath(rootDir, 'Tests/Baselines/Current/*'));

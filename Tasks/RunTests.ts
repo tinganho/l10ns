@@ -8,7 +8,7 @@ function run(grunt: IGrunt) {
         const done = this.async();
         const compileSourceCmd = 'grunt compile-source';
         try {
-            await L10ns.runCommand(compileSourceCmd, /* stdoutIsError */true);
+            await L10ns.runCommand(compileSourceCmd);
         }
         catch(err) {
             grunt.log.error('Compiled source failed.');
@@ -16,7 +16,7 @@ function run(grunt: IGrunt) {
         }
         const compileTestsCmd = 'grunt compile-tests';
         try {
-            await L10ns.runCommand(compileTestsCmd, /* stdoutIsError */true);
+            await L10ns.runCommand(compileTestsCmd);
         }
         catch(err) {
             grunt.log.error('Compiled test failed.');

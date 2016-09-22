@@ -14,6 +14,7 @@ function run(grunt: IGrunt) {
             'Source/Service/Scanner.ts',
             'Source/Service/System.ts',
             'Source/Service/Types.ts',
+            'Source/Service/L10ns.ts',
         ].join(' ');
         const options = [
             '--outFile Build/Binaries/L10ns.js',

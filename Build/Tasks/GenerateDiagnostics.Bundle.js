@@ -361,7 +361,7 @@ var L10ns;
         }
         if (errors) {
             errors.forEach(error => {
-                console.error(`Error L${error.code}: ${error.messageText}`);
+                console.log(`Error L${error.code}: ${error.messageText}`);
             });
         }
         return {
@@ -373,7 +373,13 @@ var L10ns;
     L10ns.parseCommandLine = parseCommandLine;
 })(L10ns || (L10ns = {}));
 if (require.main === module) {
-    L10ns.parseCommandLine(process.argv);
+    const session = L10ns.parseCommandLine(process.argv);
+    if (session.errors.length > 0) {
+        session.errors.forEach(error => {
+            console.log(`Error L${error.code}: ${error.messageText}`);
+        });
+        process.exit(1);
+    }
 }
 /// <reference path='Types.ts'/>
 var L10ns;
@@ -386,6 +392,7 @@ var L10ns;
     const _mv = require('mv');
     const _cpr = require('cpr');
     const _rimraf = require('rimraf');
+    L10ns.rootDir = joinPath(__dirname, '../../');
     function readFile(file) {
         return __awaiter(this, void 0, void 0, function* () {
             return new Promise((resolve, reject) => {
@@ -470,15 +477,18 @@ var L10ns;
         });
     }
     L10ns.moveFolder = moveFolder;
-    function runCommand(cmd, stdoutIsError = false) {
+    function runCommand(cmd, quiet = false) {
         return new Promise((resolve, reject) => {
-            write(cmd);
+            if (!quiet) {
+                write(cmd);
+            }
             _exec(cmd, (err, stdout, stderr) => {
-                if (err || (stdoutIsError && stdout)) {
-                    console.log(stdout);
+                if (err || stderr) {
                     return reject(stderr || stdout);
                 }
-                write(stdout);
+                if (!quiet) {
+                    write(stdout);
+                }
                 resolve(stdout);
             });
         });

@@ -146,20 +146,10 @@ namespace L10ns {
             lastOptionHasValue = false;
         }
 
-        if (errors) {
-            errors.forEach(error => {
-                console.error(`Error L${error.code}: ${error.messageText}`);
-            });
-        }
-
         return {
             action,
             options,
             errors,
         }
     }
-}
-
-if (require.main === module) {
-    L10ns.parseCommandLine(process.argv);
 }
