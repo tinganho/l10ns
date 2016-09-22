@@ -1,9 +1,12 @@
-import { exec } from 'child_process';
+import { exec, execSync } from 'child_process';
 import { defaultOptions } from './CommandOptions';
 
 function run(grunt: IGrunt) {
     grunt.registerTask('compile-source', function() {
         const done = this.async();
+        const generateDiagnosticsCmd = 'grunt generate-diagnostics';
+        console.log(generateDiagnosticsCmd);
+        execSync(generateDiagnosticsCmd);
         const compileSource = [
             'Source/Service/Core.ts',
             'Source/Service/DiagnosticMessages.Generated.ts',
