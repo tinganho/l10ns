@@ -30,15 +30,17 @@ function run(grunt: IGrunt) {
         ];
         const runTestsCmd = 'node_modules/.bin/mocha';
         console.log(runTestsCmd, options.join(' '));
+        let hasError = false;
         let cmdEmitter = spawn(runTestsCmd, options, { env: env });
         cmdEmitter.stdout.on('data', (data: any) => {
             process.stdout.write(data.toString());
         });
         cmdEmitter.stderr.on('data', function (data: any) {
+            hasError = true;
             process.stderr.write(data.toString());
         });
         cmdEmitter.on('exit', function(code: any) {
-            if (code !== 0) {
+            if (code !== 0 || hasError) {
                 return grunt.fail.warn('Test failed', code);
             }
             grunt.log.ok('child process exited with code ' + code);
