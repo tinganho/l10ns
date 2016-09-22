@@ -25,7 +25,7 @@ var L10ns;
                         'namespace L10ns {\r\n' +
                         '    export const Diagnostics = {\r\n';
                     const diagnosticMessages = require(path.join(__dirname, '../../Source/Service/DiagnosticMessages.json'));
-                    const names = Utilities.getObjectKeys(diagnosticMessages);
+                    const names = Object.keys(diagnosticMessages);
                     const nameMap = buildUniqueNameMap(names);
                     for (const key in diagnosticMessages) {
                         var diagnosticDetails = diagnosticMessages[key];
@@ -145,17 +145,6 @@ var Utilities;
         return s1 == s2;
     }
     Utilities.stringEquals = stringEquals;
-    // Like Object.keys
-    function getObjectKeys(obj) {
-        var result = [];
-        for (var name in obj) {
-            if (obj.hasOwnProperty(name)) {
-                result.push(name);
-            }
-        }
-        return result;
-    }
-    Utilities.getObjectKeys = getObjectKeys;
 })(Utilities || (Utilities = {}));
 module.exports = L10ns.Tasks.generateDiagnostics;
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
@@ -236,40 +225,40 @@ var L10ns;
 var L10ns;
 (function (L10ns) {
     const helpOption = {
-        option: '--help',
+        name: '--help',
         alias: '-h',
         description: 'Show help section. More details with `l10ns [action] --help`.',
     };
     const defaultCommandLineOptions = [
         helpOption,
         {
-            option: '--version',
+            name: '--version',
             description: 'Show current l10ns version.',
         }
     ];
     const commandLineActions = [
         {
-            action: 'sync',
+            action: 'update',
             description: 'Sync localization keys with storage.',
             options: [
                 helpOption,
                 {
-                    option: '--key',
+                    name: '--key',
                     alias: '-k',
                     hasValue: true,
                 },
                 {
-                    option: '--value',
+                    name: '--value',
                     alias: '-v',
                     hasValue: true,
                 },
                 {
-                    option: '--index',
+                    name: '--index',
                     alias: '-i',
                     hasValue: true,
                 },
                 {
-                    option: '--search-index',
+                    name: '--search-index',
                     alias: '-si',
                     hasValue: true,
                 }
@@ -278,6 +267,16 @@ var L10ns;
         {
             action: 'compile',
             description: 'Compile localizations.',
+            options: [
+                helpOption,
+            ],
+        },
+        {
+            action: 'log',
+            description: 'See the latest added localizations.',
+            options: [
+                helpOption,
+            ],
         }
     ];
     function isValidAction(action) {
@@ -288,65 +287,77 @@ var L10ns;
         }
         return false;
     }
-    function getActionsOptions(action) {
-        for (let a of commandLineActions) {
-            if (a.action === action) {
-                return a.options;
-            }
-        }
-        throw Error(`Unknown action ${action}`);
-    }
-    function actionHasOption(action, option) {
-        for (const a of commandLineActions) {
-            if (a.action === action) {
-                if (!a.options) {
-                    continue;
-                }
-                for (const o of a.options) {
-                    if (o.option === option) {
-                        return true;
+    function getOption(option, action) {
+        if (action) {
+            for (const a of commandLineActions) {
+                if (action && a.action === action) {
+                    if (!a.options) {
+                        continue;
+                    }
+                    for (const o of a.options) {
+                        if (o.name === option) {
+                            return o;
+                        }
                     }
                 }
             }
         }
-        return false;
-    }
-    function optionIsDefault(option) {
-        for (const o of defaultCommandLineOptions) {
-            if (o.option === option || o.alias === option) {
-                return true;
+        else {
+            for (const o of defaultCommandLineOptions) {
+                if (o.name === option) {
+                    return o;
+                }
             }
         }
-        return false;
+        return null;
     }
     function parseCommandLine(args) {
         const errors = [];
-        let action;
-        let actionOptions = [];
+        const options = [];
+        let lastOptionHasValue = false; // Flag to check if it the current loop is to capture an option value.
+        let lastOption;
+        let action = null;
         for (let i = 2; i < args.length; i++) {
             const arg = args[i];
+            let option = null;
             if (arg.startsWith('-')) {
+                option = getOption(arg, action);
                 if (action) {
-                    if (!actionHasOption(action, arg)) {
+                    if (!option) {
                         errors.push(L10ns.createCompilerDiagnostic(L10ns.Diagnostics.The_action_0_does_not_have_the_command_line_option_1, action, arg));
                         break;
                     }
                 }
-                else if (!optionIsDefault(arg)) {
+                else if (!option) {
                     errors.push(L10ns.createCompilerDiagnostic(L10ns.Diagnostics.The_option_0_is_not_a_default_option, arg));
                     break;
                 }
+                const parsedOption = { name: option.name };
+                options.push(parsedOption);
+                if (option.hasValue) {
+                    lastOption = parsedOption;
+                    lastOptionHasValue = true;
+                    continue;
+                }
             }
             else {
-                if (i !== 2) {
-                    errors.push(L10ns.createCompilerDiagnostic(L10ns.Diagnostics.The_action_0_must_be_the_second_command_line_argument, arg));
-                    break;
+                if (lastOptionHasValue) {
+                    if (lastOption) {
+                        lastOption.value = arg;
+                    }
+                    continue;
                 }
                 if (isValidAction(arg)) {
+                    if (i !== 2) {
+                        errors.push(L10ns.createCompilerDiagnostic(L10ns.Diagnostics.The_action_0_must_be_the_second_command_line_argument, arg));
+                        break;
+                    }
                     action = arg;
-                    actionOptions = getActionsOptions(arg);
+                    continue;
                 }
             }
+            lastOption = undefined;
+            lastOptionHasValue = false;
         }
         if (errors) {
             errors.forEach(error => {
@@ -354,6 +365,8 @@ var L10ns;
             });
         }
         return {
+            action,
+            options,
             errors,
         };
     }
@@ -457,12 +470,15 @@ var L10ns;
         });
     }
     L10ns.moveFolder = moveFolder;
-    function runCommand(cmd) {
+    function runCommand(cmd, stdoutIsError = false) {
         return new Promise((resolve, reject) => {
-            _exec(cmd, (_, stdout, stderr) => {
-                if (stderr) {
-                    return reject(stderr);
+            write(cmd);
+            _exec(cmd, (err, stdout, stderr) => {
+                if (err || (stdoutIsError && stdout)) {
+                    console.log(stdout);
+                    return reject(stderr || stdout);
                 }
+                write(stdout);
                 resolve(stdout);
             });
         });
@@ -472,5 +488,9 @@ var L10ns;
         return _glob.sync(query, fromDir ? { cwd: fromDir, mark: true } : undefined);
     }
     L10ns.findFiles = findFiles;
+    function write(msg) {
+        console.log(msg);
+    }
+    L10ns.write = write;
 })(L10ns || (L10ns = {}));
 module.exports.L10ns = L10ns;

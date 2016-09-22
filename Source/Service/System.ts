@@ -85,10 +85,12 @@ namespace L10ns {
 
     export function runCommand(cmd: string): Promise<string> {
         return new Promise((resolve, reject) => {
-            _exec(cmd, (_: any, stdout: string, stderr: string) => {
-                if (stderr) {
-                    return reject(stderr);
+            write(cmd);
+            _exec(cmd, (err: any, stdout: string, stderr: string) => {
+                if (err) {
+                    return reject(stderr || stdout);
                 }
+                write(stdout);
 
                 resolve(stdout);
             });
@@ -97,6 +99,10 @@ namespace L10ns {
 
     export function findFiles(query: string, fromDir?: string): string[] {
         return _glob.sync(query, fromDir ? { cwd: fromDir, mark: true } : undefined);
+    }
+
+    export function write(msg: string) {
+        console.log(msg);
     }
 }
 module.exports.L10ns = L10ns;

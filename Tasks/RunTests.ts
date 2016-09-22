@@ -1,12 +1,27 @@
 
-import { spawn, execSync } from 'child_process';
+/// <reference path='../Source/Service/System.ts'/>
+
+import { spawn } from 'child_process';
 
 function run(grunt: IGrunt) {
-    grunt.registerTask('test', function() {
+    grunt.registerTask('test', async function() {
         const done = this.async();
         const compileSourceCmd = 'grunt compile-source';
-        console.log(compileSourceCmd);
-        execSync(compileSourceCmd);
+        try {
+            await L10ns.runCommand(compileSourceCmd, /* stdoutIsError */true);
+        }
+        catch(err) {
+            grunt.log.error('Compiled source failed.');
+            return grunt.log.error(err);
+        }
+        const compileTestsCmd = 'grunt compile-tests';
+        try {
+            await L10ns.runCommand(compileTestsCmd, /* stdoutIsError */true);
+        }
+        catch(err) {
+            grunt.log.error('Compiled test failed.');
+            return grunt.log.error(err);
+        }
         let env = process.env;
         env.TESTING = true;
         const options = [
@@ -29,6 +44,7 @@ function run(grunt: IGrunt) {
             grunt.log.ok('child process exited with code ' + code);
             done();
         });
+        return undefined;
     });
 }
 

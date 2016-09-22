@@ -25,7 +25,7 @@ var L10ns;
                         'namespace L10ns {\r\n' +
                         '    export const Diagnostics = {\r\n';
                     const diagnosticMessages = require(path.join(__dirname, '../../Source/Service/DiagnosticMessages.json'));
-                    const names = Utilities.getObjectKeys(diagnosticMessages);
+                    const names = Object.keys(diagnosticMessages);
                     const nameMap = buildUniqueNameMap(names);
                     for (const key in diagnosticMessages) {
                         var diagnosticDetails = diagnosticMessages[key];
@@ -145,16 +145,5 @@ var Utilities;
         return s1 == s2;
     }
     Utilities.stringEquals = stringEquals;
-    // Like Object.keys
-    function getObjectKeys(obj) {
-        var result = [];
-        for (var name in obj) {
-            if (obj.hasOwnProperty(name)) {
-                result.push(name);
-            }
-        }
-        return result;
-    }
-    Utilities.getObjectKeys = getObjectKeys;
 })(Utilities || (Utilities = {}));
 module.exports = L10ns.Tasks.generateDiagnostics;

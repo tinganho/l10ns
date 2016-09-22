@@ -3,7 +3,6 @@
 /// <reference path='../Service/Core.ts'/>
 
 namespace L10ns.TestFramework {
-    const rootDir = joinPath(__dirname, '../../');
     const l10ns = joinPath(rootDir, 'Build/Binaries/L10ns.js');
     
     async function runCommandFromProject(command: string, project: string): Promise<string | undefined> {
@@ -12,7 +11,6 @@ namespace L10ns.TestFramework {
 
     export async function runProjectTests() {
         describe('Project Tests:', () => {
-            remove(joinPath(rootDir, 'Tests/Baselines/Current/*'));
             const projects = findFiles('Tests/Cases/Projects/*', rootDir);
             for (const p of projects) {
                 ((p) => {

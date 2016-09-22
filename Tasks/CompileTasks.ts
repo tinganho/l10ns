@@ -22,7 +22,7 @@ function run(grunt: IGrunt) {
         console.log(compileCmd);
         exec(compileCmd, (err, stdout, stderr) => {
             if (err || stderr) {
-                grunt.log.error(stderr || stdout || (err.message + err.stack));
+                console.error(stderr || stdout || (err.message + err.stack));
                 return;
             }
             if (stdout) {
@@ -30,7 +30,11 @@ function run(grunt: IGrunt) {
             }
             const catCmd = 'cat Build/Tasks/GenerateDiagnostics.js Build/Binaries/L10ns.js > Build/Tasks/GenerateDiagnostics.Bundle.js';
             console.log(catCmd);
-            exec(catCmd, (_err, stdout, _) => {
+            exec(catCmd, (err, stdout, stderr) => {
+                if (err || stderr) {
+                    console.error(stderr || stdout || (err.message + err.stack));
+                    return;
+                }
                 if (stdout) {
                     console.log(stdout);
                 }

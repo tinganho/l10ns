@@ -4,14 +4,15 @@ import { defaultOptions } from './CommandOptions';
 function run(grunt: IGrunt) {
     grunt.registerTask('compile-tests', function() {
         const done = this.async();
-        const compileSource = [
+        const testSource = [
+            'Source/TestFramework/MessageFormatTestRunner.ts',
             'Source/TestFramework/ProjectTestRunner.ts',
             'Source/TestFramework/TestRunner.ts',
         ].join(' ');
         const options = [
             '--outFile Build/Binaries/Tests.js',
         ].concat(defaultOptions).join(' ');
-        const compileCmd = `tsc ${compileSource} ${options}`;
+        const compileTestCmd = `tsc ${testSource} ${options}`;
         const bundleSource = [
             'Build/Binaries/L10ns.js',
             'Build/Binaries/Tests.js',
@@ -20,10 +21,10 @@ function run(grunt: IGrunt) {
         const compileSourceCmd = 'grunt compile-source';
         console.log(compileSourceCmd);
         exec(compileSourceCmd, () => {
-            console.log(compileCmd);
-            exec(compileCmd, (err, stdout, stderr) => {
+            console.log(compileTestCmd);
+            exec(compileTestCmd, (err, stdout, stderr) => {
                 if (err || stderr) {
-                    grunt.log.error(stderr || stdout || (err.message + err.stack));
+                    console.error(stderr || stdout || (err.message + err.stack));
                     return;
                 }
                 if (stdout) {
@@ -32,13 +33,12 @@ function run(grunt: IGrunt) {
                 console.log(bundleCmd);
                 exec(bundleCmd, (err, stdout, stderr) => {
                     if (err || stderr) {
-                        grunt.log.error(stderr || stdout || (err.message + err.stack));
+                        console.error(stderr || stdout || (err.message + err.stack));
                         return;
                     }
                     if (stdout) {
                         console.log(stdout);
                     }
-                    grunt.log.ok('Compilation of tests done!');
                     done();
                 });
             });
