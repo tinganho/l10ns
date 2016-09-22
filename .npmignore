@@ -2,11 +2,12 @@
 .editorconfig
 .gitignore
 .gitattributes
-
+.vscode/
 Gruntfile.js
 tsconfig.json
 CONTRIBUTING.md
-
+Build/Binaries/Tests.js
+Build/Binaries/RunTests.js
 Build/Source/
 Build/Tasks/
 Tasks/
