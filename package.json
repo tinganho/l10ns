@@ -24,7 +24,7 @@
     "l10ns": "./Build/Binaries/L10ns.js"
   },
   "scripts": {
-    "test": "node_modules/.bin/mocha Build/Binaries/RunTests.js"
+    "test": "grunt test"
   },
   "cldr-data-coverage": "full",
   "dependencies": {

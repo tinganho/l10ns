@@ -5,6 +5,3 @@ node_js:
 before_install:
     - npm install typescript@next -g
     - npm install grunt-cli -g
-before_script:
-    - grunt compile-source
-    - grunt test

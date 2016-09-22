@@ -1,5 +1,5 @@
 
 node_modules/
-Build/
-!Build/Tasks
+Build/Binaries/
+Build/Source/
 Tests/Baselines/Current
