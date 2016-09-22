@@ -6,5 +6,5 @@ before_install:
     - npm install typescript@next -g
     - npm install grunt-cli -g
 before_script:
-    - grunt compile-tasks
+    - grunt compile-source
     - grunt test
