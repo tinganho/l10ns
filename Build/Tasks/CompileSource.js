@@ -4,9 +4,7 @@ const CommandOptions_1 = require("./CommandOptions");
 function run(grunt) {
     grunt.registerTask('compile-source', function () {
         const done = this.async();
-        const generateDiagnosticsCmd = 'grunt generate-diagnostics';
-        console.log(generateDiagnosticsCmd);
-        child_process_1.execSync(generateDiagnosticsCmd);
+        grunt.task.run('generate-diagnostics');
         const compileSource = [
             'Source/Service/Core.ts',
             'Source/Service/DiagnosticMessages.Generated.ts',
@@ -25,7 +23,7 @@ function run(grunt) {
         child_process_1.exec(compileCmd, (err, stdout, stderr) => {
             if (err || stderr) {
                 console.error(stderr || (err.message + err.stack));
-                return;
+                return done(false);
             }
             console.log(stdout);
             done();

@@ -18,29 +18,27 @@ function run(grunt) {
             'Build/Binaries/Tests.js',
         ].join(' ');
         const bundleCmd = `cat ${bundleSource} > Build/Binaries/RunTests.js`;
-        const compileSourceCmd = 'grunt compile-source';
-        console.log(compileSourceCmd);
-        child_process_1.exec(compileSourceCmd, () => {
-            console.log(compileTestCmd);
-            child_process_1.exec(compileTestCmd, (err, stdout, stderr) => {
+        grunt.task.run('compile-source');
+        console.log(compileTestCmd);
+        child_process_1.exec(compileTestCmd, (err, stdout, stderr) => {
+            if (err || stderr) {
+                console.error(stderr || stdout || (err.message + err.stack));
+                return;
+            }
+            if (stdout) {
+                console.log(stdout);
+            }
+            console.log(bundleCmd);
+            child_process_1.exec(bundleCmd, (err, stdout, stderr) => {
                 if (err || stderr) {
                     console.error(stderr || stdout || (err.message + err.stack));
+                    done(false);
                     return;
                 }
                 if (stdout) {
                     console.log(stdout);
                 }
-                console.log(bundleCmd);
-                child_process_1.exec(bundleCmd, (err, stdout, stderr) => {
-                    if (err || stderr) {
-                        console.error(stderr || stdout || (err.message + err.stack));
-                        return;
-                    }
-                    if (stdout) {
-                        console.log(stdout);
-                    }
-                    done();
-                });
+                done();
             });
         });
     });

@@ -27,7 +27,9 @@ function run(grunt: IGrunt) {
                 console.error(stderr || (err.message + err.stack));
                 return done(false);
             }
-            console.log(stdout);
+            if (stdout) {
+                console.log(stdout);
+            }
             done();
         });
     });

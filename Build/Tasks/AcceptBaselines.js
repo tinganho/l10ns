@@ -12,9 +12,15 @@ function run(grunt) {
         return __awaiter(this, void 0, void 0, function* () {
             const done = this.async();
             const rootDir = L10ns.joinPath(__dirname, '../../');
-            L10ns.remove(L10ns.joinPath(rootDir, 'Tests/Baselines/Reference'));
-            yield L10ns.copyFolder(L10ns.joinPath(rootDir, 'Tests/Baselines/Current'), L10ns.joinPath(rootDir, 'Tests/Baselines/Reference'));
-            done();
+            try {
+                L10ns.remove(L10ns.joinPath(rootDir, 'Tests/Baselines/Reference'));
+                yield L10ns.copyFolder(L10ns.joinPath(rootDir, 'Tests/Baselines/Current'), L10ns.joinPath(rootDir, 'Tests/Baselines/Reference'));
+                done();
+            }
+            catch (err) {
+                console.error(err);
+                done(false);
+            }
         });
     });
 }

@@ -40,8 +40,13 @@ var L10ns;
                     }
                     result += '    }\r\n}';
                     const generatedFile = L10ns.joinPath(__dirname, '../../Source/Service/DiagnosticMessages.Generated.ts');
-                    yield L10ns.writeFile(generatedFile, result);
-                    done();
+                    try {
+                        yield L10ns.writeFile(generatedFile, result);
+                        done();
+                    }
+                    catch (err) {
+                        done(err);
+                    }
                 });
             });
         }
@@ -359,11 +364,6 @@ var L10ns;
             lastOption = undefined;
             lastOptionHasValue = false;
         }
-        if (errors) {
-            errors.forEach(error => {
-                console.log(`Error L${error.code}: ${error.messageText}`);
-            });
-        }
         return {
             action,
             options,
@@ -372,15 +372,6 @@ var L10ns;
     }
     L10ns.parseCommandLine = parseCommandLine;
 })(L10ns || (L10ns = {}));
-if (require.main === module) {
-    const session = L10ns.parseCommandLine(process.argv);
-    if (session.errors.length > 0) {
-        session.errors.forEach(error => {
-            console.log(`Error L${error.code}: ${error.messageText}`);
-        });
-        process.exit(1);
-    }
-}
 /// <reference path='Types.ts'/>
 var L10ns;
 (function (L10ns) {
@@ -455,7 +446,6 @@ var L10ns;
     L10ns.remove = remove;
     function exists(path) {
         try {
-            // Query the entry
             _fs.lstatSync(path);
             return true;
         }
@@ -504,3 +494,13 @@ var L10ns;
     L10ns.write = write;
 })(L10ns || (L10ns = {}));
 module.exports.L10ns = L10ns;
+///<reference path='Program.ts'/>
+if (require.main === module) {
+    const session = L10ns.parseCommandLine(process.argv);
+    if (session.errors.length > 0) {
+        session.errors.forEach(error => {
+            console.log(`Error L${error.code}: ${error.messageText}`);
+        });
+        process.exit(1);
+    }
+}

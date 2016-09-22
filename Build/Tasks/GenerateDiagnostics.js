@@ -40,8 +40,13 @@ var L10ns;
                     }
                     result += '    }\r\n}';
                     const generatedFile = L10ns.joinPath(__dirname, '../../Source/Service/DiagnosticMessages.Generated.ts');
-                    yield L10ns.writeFile(generatedFile, result);
-                    done();
+                    try {
+                        yield L10ns.writeFile(generatedFile, result);
+                        done();
+                    }
+                    catch (err) {
+                        done(err);
+                    }
                 });
             });
         }

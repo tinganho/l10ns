@@ -11,7 +11,11 @@ function run(grunt) {
         const referenceBaseline = L10ns.joinPath(__dirname, '../../Tests/Baselines/Reference');
         const cmd = process.env.DIFF + ' ' + referenceBaseline + ' ' + currentBaseline;
         console.log(cmd);
-        child_process_1.exec(cmd, function (_err, stdout, _stderr) {
+        child_process_1.exec(cmd, function (err, stdout, stderr) {
+            if (err || stderr) {
+                console.error(stderr || stdout || (err.message + err.stack));
+                return done(false);
+            }
             if (stdout) {
                 console.log(stdout);
             }

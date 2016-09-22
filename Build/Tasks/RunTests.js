@@ -13,22 +13,7 @@ function run(grunt) {
     grunt.registerTask('test', function () {
         return __awaiter(this, void 0, void 0, function* () {
             const done = this.async();
-            const compileSourceCmd = 'grunt compile-source';
-            try {
-                yield L10ns.runCommand(compileSourceCmd);
-            }
-            catch (err) {
-                grunt.log.error('Compiled source failed.');
-                return grunt.log.error(err);
-            }
-            const compileTestsCmd = 'grunt compile-tests';
-            try {
-                yield L10ns.runCommand(compileTestsCmd);
-            }
-            catch (err) {
-                grunt.log.error('Compiled test failed.');
-                return grunt.log.error(err);
-            }
+            grunt.task.run('compile-tests');
             let env = process.env;
             env.TESTING = true;
             const options = [
@@ -37,15 +22,17 @@ function run(grunt) {
             ];
             const runTestsCmd = 'node_modules/.bin/mocha';
             console.log(runTestsCmd, options.join(' '));
+            let hasError = false;
             let cmdEmitter = child_process_1.spawn(runTestsCmd, options, { env: env });
             cmdEmitter.stdout.on('data', (data) => {
                 process.stdout.write(data.toString());
             });
             cmdEmitter.stderr.on('data', function (data) {
+                hasError = true;
                 process.stderr.write(data.toString());
             });
             cmdEmitter.on('exit', function (code) {
-                if (code !== 0) {
+                if (code !== 0 || hasError) {
                     return grunt.fail.warn('Test failed', code);
                 }
                 grunt.log.ok('child process exited with code ' + code);

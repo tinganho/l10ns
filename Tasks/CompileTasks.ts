@@ -23,7 +23,7 @@ function run(grunt: IGrunt) {
         exec(compileCmd, (err, stdout, stderr) => {
             if (err || stderr) {
                 console.error(stderr || stdout || (err.message + err.stack));
-                return;
+                return done(false);
             }
             if (stdout) {
                 console.log(stdout);
