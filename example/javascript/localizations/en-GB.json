@@ -3,9 +3,22 @@
     "files": [
       "example/javascript/index.js"
     ],
-    "id": "eEdgb96nuX",
-    "key": "NEW_KEY",
+    "id": "GbdyLdjkUj",
+    "key": "CURRENCY",
     "new": true,
+    "timestamp": "2016-09-22T06:08:39.639Z",
+    "value": "",
+    "variables": [
+      "price"
+    ]
+  },
+  {
+    "files": [
+      "example/javascript/index.js"
+    ],
+    "id": "aEdMGdynHX",
+    "key": "NEW_KEY",
+    "new": false,
     "timestamp": "2016-09-03T11:00:19.255Z",
     "value": "",
     "variables": []
@@ -14,9 +27,9 @@
     "files": [
       "example/javascript/index.js"
     ],
-    "id": "8drg4p5bFn",
+    "id": "r7kpqkBnfj",
     "key": "TEST",
-    "new": true,
+    "new": false,
     "timestamp": "2016-09-03T11:00:19.255Z",
     "value": "",
     "variables": [
