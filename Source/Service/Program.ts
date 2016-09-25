@@ -97,7 +97,18 @@ namespace L10ns {
         return null;
     }
 
-    export function parseCommandLine(args: string[]): ProgramSession {
+    export function run(): void {
+        const session = parseCommandLine(process.argv);
+        if (session.errors.length > 0) {
+            printErrors(session.errors);
+            return;
+        }
+        switch (session.action) {
+            case 'export-ast':
+        }
+    }
+
+    function parseCommandLine(args: string[]): ParsedCommandLine {
         const errors: Diagnostic[] = [];
         const options: Option[] = [];
         let lastOptionHasValue = false; // Flag to check if it the current loop is to capture an option value.

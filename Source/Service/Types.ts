@@ -28,7 +28,7 @@ namespace L10ns {
         Identifier,
     }
 
-    export type ActionString = 'update' | 'compile' | 'log' | 'interface' | 'search' | 'init';
+    export type ActionString = 'update' | 'compile' | 'log' | 'interface' | 'search' | 'init' | 'export-ast';
 
     export interface OptionDeclaration {
         name: string;
@@ -48,7 +48,7 @@ namespace L10ns {
         options: OptionDeclaration[];
     }
 
-    export interface ProgramSession {
+    export interface ParsedCommandLine {
         errors: Diagnostic[];
         options: Option[];
         action: ActionString | null;

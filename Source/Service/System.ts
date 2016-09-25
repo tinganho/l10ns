@@ -87,14 +87,14 @@ namespace L10ns {
     export function runCommand(cmd: string, quiet = false): Promise<string> {
         return new Promise((resolve, reject) => {
             if (!quiet) {
-                write(cmd);
+                writeLine(cmd);
             }
             _exec(cmd, (err: any, stdout: string, stderr: string) => {
                 if (err || stderr) {
                     return reject(stderr || stdout);
                 }
                 if (!quiet) {
-                    write(stdout);
+                    writeLine(stdout);
                 }
 
                 resolve(stdout);
@@ -106,7 +106,7 @@ namespace L10ns {
         return _glob.sync(query, fromDir ? { cwd: fromDir, mark: true } : undefined);
     }
 
-    export function write(msg: string) {
+    export function writeLine(msg: string) {
         console.log(msg);
     }
 }

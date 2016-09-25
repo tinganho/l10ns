@@ -42,6 +42,12 @@ namespace L10ns {
         VeryAggressive = 3,
     }
 
+    export function printErrors(errors: Diagnostic[]) {
+        errors.forEach(e => {
+            writeLine(`Error L${e.code}: ${e.messageText}`);
+        });
+    }
+
     export namespace Debug {
         const currentAssertionLevel = AssertionLevel.None;
 
