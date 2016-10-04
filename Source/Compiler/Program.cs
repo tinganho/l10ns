@@ -1,14 +1,12 @@
-﻿
-using System;
-using Library;
+﻿using System;
 
 namespace ConsoleApplication
 {
-    public class Process
+    public class Program
     {
         public static void Main(string[] args)
         {
-            Program.init(args);
+            Console.WriteLine("Hello World!");
         }
     }
 }
