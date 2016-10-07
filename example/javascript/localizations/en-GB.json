@@ -3,10 +3,10 @@
     "files": [
       "example/javascript/index.js"
     ],
-    "id": "GbdyLdjkUj",
+    "id": "r7kGkA8jIe",
     "key": "CURRENCY",
     "new": true,
-    "timestamp": "2016-09-22T06:08:39.639Z",
+    "timestamp": "2016-10-07T10:01:59.138Z",
     "value": "",
     "variables": [
       "price"
@@ -16,10 +16,10 @@
     "files": [
       "example/javascript/index.js"
     ],
-    "id": "aEdMGdynHX",
+    "id": "8dr5rjaoun",
     "key": "NEW_KEY",
-    "new": false,
-    "timestamp": "2016-09-03T11:00:19.255Z",
+    "new": true,
+    "timestamp": "2016-10-07T10:01:59.138Z",
     "value": "",
     "variables": []
   },
@@ -27,10 +27,10 @@
     "files": [
       "example/javascript/index.js"
     ],
-    "id": "r7kpqkBnfj",
+    "id": "aEdKdqrxHa",
     "key": "TEST",
-    "new": false,
-    "timestamp": "2016-09-03T11:00:19.255Z",
+    "new": true,
+    "timestamp": "2016-10-07T10:01:59.138Z",
     "value": "",
     "variables": [
       "test"

@@ -68,7 +68,7 @@ Update.prototype.run = function() {
  *
  *    Example:
  *
- *      gt('SOME_TRANSLATION_KEY', {
+ *      l('SOME_TRANSLATION_KEY', {
  *        prop1 : test() // Becomes ''
  *      });
  *

@@ -11,6 +11,10 @@
       "currencies": [
         "USD"
       ],
+      "function": {
+          "name": "ab",
+          "nameUsingData": "ab"
+      },
       "store": "example/javascript/localizations",
       "output": "example/javascript/output",
       "source": ["example/javascript/*.js"],
