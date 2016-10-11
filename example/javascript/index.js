@@ -1,11 +1,11 @@
 
 var requireLocalizations = require('./output/all');
-var $ab = requireLocalizations('en-US');
-var x = $ab(
+var $trans = requireLocalizations('en-US');
+var x = $trans(
     'NEW_KEY'
 );
-console.log($ab('TEST', { test: 1260 }));
-console.log($ab('CURRENCY', {
+console.log($trans('TEST', { test: 1260 }));
+console.log($trans('CURRENCY', {
   price: {
     code: 'USD',
     amount: 0
