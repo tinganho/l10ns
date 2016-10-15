@@ -1,12 +1,13 @@
-﻿using System;
+﻿
+using System;
 
-namespace ConsoleApplication
+namespace Program
 {
     public class Program
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+			var commandLineParser = CommandLineParser.Parse(args);
         }
     }
 }

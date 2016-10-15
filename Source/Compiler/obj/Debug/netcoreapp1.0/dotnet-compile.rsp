@@ -87,4 +87,5 @@
 --reference:/Users/tinganho/.nuget/packages/System.Threading.Timer/4.0.1/ref/netstandard1.2/System.Threading.Timer.dll
 --reference:/Users/tinganho/.nuget/packages/System.Xml.ReaderWriter/4.0.11/ref/netstandard1.3/System.Xml.ReaderWriter.dll
 --reference:/Users/tinganho/.nuget/packages/System.Xml.XDocument/4.0.11/ref/netstandard1.3/System.Xml.XDocument.dll
+/Users/tinganho/Development/l10ns/Source/Compiler/CommandLineParser.cs
 /Users/tinganho/Development/l10ns/Source/Compiler/Program.cs
