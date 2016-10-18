@@ -79,7 +79,15 @@ namespace L10ns {
     };
 
     namespace Debug {
+        void fail(string err) {
+            throw new Error(err);
+        }
 
+        void assert(bool assertion, string err) {
+            if (!assertion) {
+                fail(err);
+            }
+        }
     }
 
 } // L10ns
