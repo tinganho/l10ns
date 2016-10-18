@@ -1,11 +1,16 @@
 
 root = true
 
-[*.{cpp,h,in,json}]
-
-end_of_line = lf
+[*]
 charset = utf-8
+end_of_line = lf
 trim_trailing_whitespace = true
 insert_final_newline = true
+
+[*.{cpp,h,in,json}]
 indent_style = space
 indent_size = 4
+
+[*.yml]
+indent_style = space
+indent_size = 2
