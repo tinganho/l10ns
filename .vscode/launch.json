@@ -7,7 +7,7 @@
             "request": "launch",
             "targetArchitecture": "x64",
             "program": "${workspaceRoot}/bin/l10ns",
-            "args": [],
+            "args": ["--version"],
             "stopAtEntry": false,
             "cwd": "${workspaceRoot}",
             "environment": [],

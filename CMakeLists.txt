@@ -1,20 +1,13 @@
 cmake_minimum_required(VERSION 3.6)
-
+set(VERSION "1.0")
 project(l10ns)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
-
-include_directories("${PROJECT_SOURCE_DIR}/src/lib")
+set(EXECUTABLE_OUTPUT_PATH "Binaries")
 include_directories("${PROJECT_BINARY_DIR}")
-include_directories(${Boost_INCLUDE_DIRS})
+include_directories("${PROJECT_BINARY_DIR}/Source/Compiler")
 
-set(Boost_USE_STATIC_LIBS ON)
-find_package(Boost COMPONENTS system)
+configure_file(Source/Compiler/Configurations.h.in Source/Compiler/Configurations.h)
 
 
-add_library(CommandLineParser STATIC
-        src/lib/program.cpp src/lib/types.h src/lib/server.cpp src/lib/utils.cpp)
-
-add_executable(l10ns src/main.cpp)
-target_link_libraries(l10ns CommandLineParser)
-target_link_libraries(l10ns ${Boost_SYSTEM_LIBRARY})
+add_executable(l10ns Source/Compiler/l10ns.cpp)
