@@ -25,19 +25,6 @@ enum class FlagKind {
     Value,
 };
 
-struct Command {
-    bool isRequestingHelp;
-    bool isRequestingVersion;
-    ActionKind action;
-
-    Command()
-        : isRequestingHelp(false)
-        , isRequestingVersion(false)
-        , action(ActionKind::None) {
-
-    }
-};
-
 struct Argument {
     std::string * name;
     std::string * description;
@@ -75,6 +62,21 @@ struct Action : Argument {
     }
 };
 
+struct Command {
+    bool isRequestingHelp;
+    bool isRequestingVersion;
+    ActionKind action;
+    std::vector<Flag> * flags;
+
+    Command()
+        : isRequestingHelp(false)
+        , isRequestingVersion(false)
+        , action(ActionKind::None)
+        , flags(NULL) {
+
+    }
+};
+
 static Flag helpFlag = Flag(FlagKind::Help, "--help", "-h", "Print help description.", /*hasValue*/ false);
 static Flag languageFlag = Flag(FlagKind::Language, "--language", "-l", "Specify language.", false);
 
@@ -106,7 +108,7 @@ static std::vector<Action> actions = {
     Action(ActionKind::Set, "set", "Set localization to key", &setFlags),
 };
 
-void setFlag(Command * command, const Flag * flag, char * value = NULL) {
+void setCommandFlag(Command *command, const Flag *flag, char *value = NULL) {
     switch (flag->kind) {
         case FlagKind::Help:
             command->isRequestingHelp = true;
@@ -133,6 +135,7 @@ Command* parseCommandArguments(int argc, char* argv[]) {
                     command->action = a.kind;
                     hasAction = true;
                     currentFlags = a.flags;
+                    command->flags = a.flags;
                     break;
                 }
             }
@@ -144,13 +147,13 @@ Command* parseCommandArguments(int argc, char* argv[]) {
                     if (flag.hasValue) {
                         flagWhichAwaitsValue = &flag;
                     }
-                    setFlag(command, &flag);
+                    setCommandFlag(command, &flag);
                     break;
                 }
             }
         }
         else {
-            setFlag(command, flagWhichAwaitsValue, arg);
+            setCommandFlag(command, flagWhichAwaitsValue, arg);
             flagWhichAwaitsValue = NULL;
             continue;
         }
