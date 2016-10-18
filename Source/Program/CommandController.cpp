@@ -5,9 +5,11 @@
 
 namespace L10ns {
 
-void printDefaultHelp() {
+inline void printDefaultHelp() {
     auto w = new TextWriter();
-    w->writeLine("usage: l10ns <command> [<options>]");
+    w->addTab(2);
+    w->addTab(10);
+    w->writeLine("Usage: l10ns <command> [<options>]");
     w->newline();
     w->writeLine("Commands:");
     for (const auto& action : actions) {
@@ -16,11 +18,11 @@ void printDefaultHelp() {
     w->print();
 }
 
-void printActionHelp(ActionKind action) {
+inline void printActionHelp(ActionKind action) {
 
 }
 
-void printCommandHelp(Command * command) {
+inline void printCommandHelp(Command * command) {
     if (command->action == ActionKind::None) {
         printDefaultHelp();
     }
