@@ -6,7 +6,7 @@
             "type": "cppdbg",
             "request": "launch",
             "targetArchitecture": "x64",
-            "program": "${workspaceRoot}/bin/l10ns",
+            "program": "${workspaceRoot}/Executables/l10ns",
             "args": ["--version"],
             "stopAtEntry": false,
             "cwd": "${workspaceRoot}",
