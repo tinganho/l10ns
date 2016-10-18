@@ -121,8 +121,12 @@ void setCommandFlag(Command *command, const Flag *flag, char *value = NULL) {
 
 Command* parseCommandArguments(int argc, char* argv[]) {
     Command * command = new Command();
-    bool hasAction = false;                    // Flag to optimize has action parsing.
-    const Flag * flagWhichAwaitsValue = NULL;  // The option flag that is pending for a value.
+
+    // Flag to optimize has action parsing.
+    bool hasAction = false;
+
+    // The option flag that is pending for a value.
+    const Flag * flagWhichAwaitsValue = NULL;
 
     for (int argIndex = 1; argIndex < argc; argIndex++) {
         auto arg = argv[argIndex];
