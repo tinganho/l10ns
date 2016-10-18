@@ -26,23 +26,23 @@ enum class FlagKind {
 };
 
 struct Argument {
-    std::string * name;
-    std::string * description;
+    string * name;
+    string * description;
 
-    Argument(std::string * pname, std::string * pdescription) {
+    Argument(string * pname, string * pdescription) {
         name = pname;
         description = pdescription;
     }
 };
 
 struct Flag : Argument {
-    std::string * alias;
+    string * alias;
     bool hasValue;
     FlagKind kind;
-    std::string value;
+    string value;
 
     Flag(FlagKind pkind, const char pname[], const char palias[], const char pdescription[], bool phasValue)
-        : kind(pkind), Argument(new std::string(pname), new std::string(pdescription)), alias(new std::string(palias)) {
+        : kind(pkind), Argument(new string(pname), new string(pdescription)), alias(new string(palias)) {
 
         hasValue = phasValue;
         value = "";
@@ -50,11 +50,11 @@ struct Flag : Argument {
 };
 
 struct Action : Argument {
-    std::vector<Flag> * flags;
+    vector<Flag> * flags;
     ActionKind kind;
 
-    Action(ActionKind pkind, const char pname[], const char pdescription[], std::vector<Flag> * pflags)
-        : kind(pkind), Argument(new std::string(pname), new std::string(pdescription)) {
+    Action(ActionKind pkind, const char pname[], const char pdescription[], vector<Flag> * pflags)
+        : kind(pkind), Argument(new string(pname), new string(pdescription)) {
 
         if (pflags != NULL) {
             flags = pflags;
@@ -66,7 +66,7 @@ struct Command {
     bool isRequestingHelp;
     bool isRequestingVersion;
     ActionKind action;
-    std::vector<Flag> * flags;
+    vector<Flag> * flags;
 
     Command()
         : isRequestingHelp(false)
@@ -80,28 +80,28 @@ struct Command {
 static Flag helpFlag = Flag(FlagKind::Help, "--help", "-h", "Print help description.", /*hasValue*/ false);
 static Flag languageFlag = Flag(FlagKind::Language, "--language", "-l", "Specify language.", false);
 
-static std::vector<Flag> defaultFlags = {
+static vector<Flag> defaultFlags = {
     helpFlag,
     Flag(FlagKind::Version, "--version", "-v", "Print current version.", /*hasValue*/ false),
 };
 
-static std::vector<Flag> helpFlags = {
+static vector<Flag> helpFlags = {
     helpFlag,
 };
 
-static std::vector<Flag> setFlags = {
+static vector<Flag> setFlags = {
     Flag(FlagKind::Key, "--key", "-k", "Specify localization key.", /*hasValue*/ true),
     Flag(FlagKind::Value, "--value", "-v", "Specify localization value.", /*hasValue*/ true),
     languageFlag,
     helpFlag,
 };
 
-static std::vector<Flag> logFlags = {
+static vector<Flag> logFlags = {
     languageFlag,
     helpFlag,
 };
 
-static std::vector<Action> actions = {
+static vector<Action> actions = {
     Action(ActionKind::Init, "init", "Initialize project.", &helpFlags),
     Action(ActionKind::Update, "update", "Update localization keys.", &helpFlags),
     Action(ActionKind::Log, "log", "Show log.", &logFlags),
@@ -125,7 +125,7 @@ Command* parseCommandArguments(int argc, char* argv[]) {
     Command * command = new Command();
     bool hasAction = false;                              // Flag to optimize has action parsing.
     const Flag * flagWhichAwaitsValue = NULL;            // The option flag that is pending for a value.
-    std::vector<Flag> * currentFlags = &defaultFlags;    // Current flags for command. Changes depending on action.
+    vector<Flag> * currentFlags = &defaultFlags;    // Current flags for command. Changes depending on action.
 
     for (int argIndex = 1; argIndex < argc; argIndex++) {
         auto arg = argv[argIndex];
