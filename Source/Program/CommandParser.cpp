@@ -65,7 +65,7 @@ static Flag languageFlag = Flag(FlagKind::Language, "--language", "-l", "Specify
 
 static vector<Flag> defaultFlags = {
     helpFlag,
-    Flag(FlagKind::Version, "--version", "-v", "Print current version.", /*hasValue*/ false),
+    Flag(FlagKind::Version, "--version", "", "Print current version.", /*hasValue*/ false),
 };
 
 static vector<Flag> helpFlags = {
