@@ -1,8 +1,8 @@
 
 .idea
-Executables/
 CMakeFiles/
 CMakeCache.txt
 cmake_install.cmake
+Executables/
 Makefile
 Tests/Current
