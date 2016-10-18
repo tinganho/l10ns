@@ -8,12 +8,35 @@ namespace L10ns {
 inline void printDefaultHelp() {
     auto w = new TextWriter();
     w->addTab(2);
-    w->addTab(10);
-    w->writeLine("Usage: l10ns <command> [<options>]");
+    w->addTab(12);
+    w->writeLine("Usage: l10ns [<options>] <command>");
     w->newline();
     w->writeLine("Commands:");
+    w->newline();
     for (const auto& action : actions) {
-        w->writeLine(*action.name + " " + *action.description);
+        w->tab();
+        w->write(*action.name);
+        w->tab();
+        w->writeLine(*action.description);
+    }
+    w->newline();
+    w->writeLine("For more details: 'l10ns <command> --help'.");
+    w->newline();
+    w->clearTabs();
+    w->addTab(2);
+    w->addTab(17);
+    w->writeLine("Options:");
+    w->newline();
+    for (const auto& flag : defaultFlags) {
+        w->tab();
+        if (flag.alias->length() != 0) {
+            w->write(*flag.name + ", " + *flag.alias);
+        }
+        else {
+            w->write(*flag.name);
+        }
+        w->tab();
+        w->writeLine(*flag.description);
     }
     w->print();
 }
