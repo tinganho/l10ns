@@ -87,8 +87,8 @@ static vector<Flag> logFlags = {
 static vector<Action> actions = {
     Action(ActionKind::Init, "init", "Initialize project.", &helpFlags),
     Action(ActionKind::Update, "update", "Update localization keys.", &helpFlags),
-    Action(ActionKind::Log, "log", "Show log.", &logFlags),
-    Action(ActionKind::Set, "set", "Set localization to key", &setFlags),
+    Action(ActionKind::Log, "log", "Show latest added localizations.", &logFlags),
+    Action(ActionKind::Set, "set", "Set localization.", &setFlags),
 };
 
 struct Command {

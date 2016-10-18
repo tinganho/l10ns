@@ -32,7 +32,7 @@ void printCommandHelp(Command * command) {
 int init(int argc, char * argv[]) {
     auto command = parseCommandArguments(argc, argv);
     if (command->isRequestingVersion) {
-        println("L10ns version ", VERSION);
+        println("L10ns version ", VERSION, ".");
     }
     else if (command->isRequestingHelp) {
         printCommandHelp(command);

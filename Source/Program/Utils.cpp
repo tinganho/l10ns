@@ -25,9 +25,15 @@ namespace L10ns {
     class TextWriter {
     public:
         string text;
+        vector<int> tabs;
+
+        void addTab(unsigned int indentation) {
+            tabs.push_back(indentation);
+        }
 
         void newline() {
             text += '\n';
+            column = 0;
             printIndentation();
         }
 
@@ -35,6 +41,7 @@ namespace L10ns {
             for (int i = 0; i < amount; i++) {
                 text += '\n';
             }
+            column = 0;
             printIndentation();
         }
 
@@ -59,12 +66,14 @@ namespace L10ns {
             indentation -= indentationStep;
         }
     private:
+        unsigned int column = 0;
         unsigned int indentation = 0;
         static const unsigned int indentationStep = 2;
 
         void printIndentation() {
             for (int i = 0; i < indentation; i++) {
                 text += " ";
+                column += 1;
             }
         }
     };
