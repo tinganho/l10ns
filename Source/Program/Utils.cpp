@@ -1,6 +1,8 @@
 
+#include <stdexcept>
 #include <iostream>
 #include <string>
+#include <sys/ioctl.h>
 
 using namespace std;
 
@@ -31,6 +33,22 @@ namespace L10ns {
             tabs.push_back(indentation);
         }
 
+        void tab() {
+            for (int tabIndex = 0; tabIndex < tabs.size(); tabIndex++) {
+                if (column < tabs[tabIndex]) {
+                    int diff = tabs[tabIndex] - column;
+                    for (int diffIndex = 0; tabIndex < diff; tabIndex++) {
+                        text += " ";
+                    }
+                    column += diff;
+                }
+            }
+        }
+
+        void clearTabs() {
+            tabs.clear();
+        }
+
         void newline() {
             text += '\n';
             column = 0;
@@ -47,6 +65,7 @@ namespace L10ns {
 
         void write(string ptext) {
             text += ptext;
+            column += ptext.size();
         }
 
         void writeLine(string ptext) {
@@ -65,7 +84,20 @@ namespace L10ns {
         void unindent() {
             indentation -= indentationStep;
         }
+
+        TextWriter() {
+            if (getenv("COLUMNS") != NULL) {
+                windowWidth = *(int *)(getenv("COLUMNS"));
+            }
+            else {
+                struct winsize w;
+                ioctl(0, TIOCGWINSZ, &w);
+                windowWidth = w.ws_col;
+            }
+        }
+
     private:
+        int windowWidth;
         unsigned int column = 0;
         unsigned int indentation = 0;
         static const unsigned int indentationStep = 2;
@@ -80,7 +112,7 @@ namespace L10ns {
 
     namespace Debug {
         void fail(string err) {
-            throw new Error(err);
+            throw logic_error(err);
         }
 
         void assert(bool assertion, string err) {
