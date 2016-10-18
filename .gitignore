@@ -1,7 +1,8 @@
 
 .idea
-Binaries/
+Executables/
 CMakeFiles/
 CMakeCache.txt
 cmake_install.cmake
 Makefile
+Tests/Current

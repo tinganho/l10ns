@@ -1,12 +1,10 @@
 
-#include <iostream>
 #include <vector>
 #include <string>
 
 using namespace std;
 
 namespace L10ns {
-namespace CommandParser {
 
 enum class ActionKind {
     None,
@@ -62,21 +60,6 @@ struct Action : Argument {
     }
 };
 
-struct Command {
-    bool isRequestingHelp;
-    bool isRequestingVersion;
-    ActionKind action;
-    vector<Flag> * flags;
-
-    Command()
-        : isRequestingHelp(false)
-        , isRequestingVersion(false)
-        , action(ActionKind::None)
-        , flags(NULL) {
-
-    }
-};
-
 static Flag helpFlag = Flag(FlagKind::Help, "--help", "-h", "Print help description.", /*hasValue*/ false);
 static Flag languageFlag = Flag(FlagKind::Language, "--language", "-l", "Specify language.", false);
 
@@ -108,6 +91,21 @@ static vector<Action> actions = {
     Action(ActionKind::Set, "set", "Set localization to key", &setFlags),
 };
 
+struct Command {
+    bool isRequestingHelp;
+    bool isRequestingVersion;
+    ActionKind action;
+    vector<Flag> * flags;
+
+    Command()
+        : isRequestingHelp(false)
+        , isRequestingVersion(false)
+        , action(ActionKind::None)
+        , flags(&defaultFlags) {
+
+    }
+};
+
 void setCommandFlag(Command *command, const Flag *flag, char *value = NULL) {
     switch (flag->kind) {
         case FlagKind::Help:
@@ -123,9 +121,8 @@ void setCommandFlag(Command *command, const Flag *flag, char *value = NULL) {
 
 Command* parseCommandArguments(int argc, char* argv[]) {
     Command * command = new Command();
-    bool hasAction = false;                              // Flag to optimize has action parsing.
-    const Flag * flagWhichAwaitsValue = NULL;            // The option flag that is pending for a value.
-    vector<Flag> * currentFlags = &defaultFlags;    // Current flags for command. Changes depending on action.
+    bool hasAction = false;                    // Flag to optimize has action parsing.
+    const Flag * flagWhichAwaitsValue = NULL;  // The option flag that is pending for a value.
 
     for (int argIndex = 1; argIndex < argc; argIndex++) {
         auto arg = argv[argIndex];
@@ -134,7 +131,6 @@ Command* parseCommandArguments(int argc, char* argv[]) {
                 if (strcmp(a.name->c_str(), arg) == 0) {
                     command->action = a.kind;
                     hasAction = true;
-                    currentFlags = a.flags;
                     command->flags = a.flags;
                     break;
                 }
@@ -142,7 +138,7 @@ Command* parseCommandArguments(int argc, char* argv[]) {
         }
 
         if (flagWhichAwaitsValue == NULL) {
-            for (auto const& flag : *currentFlags) {
+            for (auto const& flag : *command->flags) {
                 if (strcmp(flag.name->c_str(), arg) == 0 || (flag.alias->length() != 0 && strcmp(flag.name->c_str(), arg) == 0)) {
                     if (flag.hasValue) {
                         flagWhichAwaitsValue = &flag;
@@ -162,7 +158,4 @@ Command* parseCommandArguments(int argc, char* argv[]) {
     return command;
 }
 
-
 } // L10ns
-} // CommandParser
-
