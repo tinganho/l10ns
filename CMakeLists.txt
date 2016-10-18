@@ -9,5 +9,4 @@ include_directories("${PROJECT_BINARY_DIR}/Source/Compiler")
 
 configure_file(Source/Compiler/Configurations.h.in Source/Compiler/Configurations.h)
 
-
-add_executable(l10ns Source/Compiler/l10ns.cpp)
+add_executable(l10ns Source/Compiler/Binary.cpp)
