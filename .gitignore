@@ -1,5 +1,6 @@
 
 .vscode
+Binaries/
 CMakeFiles/
 CMakeCache.txt
 cmake_install.cmake
