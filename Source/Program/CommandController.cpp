@@ -41,8 +41,42 @@ inline void printDefaultHelp() {
     w->print();
 }
 
-inline void printActionHelp(ActionKind action) {
+inline Action * getAction(ActionKind action) {
+    for (int i = 0; i < actions.size(); i++) {
+        if (actions[i].kind == action) {
+            return &actions[i];
+        }
+    }
 
+    throw logic_error("Could not get action name.");
+}
+
+inline void printActionHelp(Command * command) {
+    auto a = getAction(command->action);
+    auto w = new TextWriter();
+    w->writeLine(*a->info);
+    w->newline();
+    w->addTab(2);
+    w->addTab(12);
+    w->writeLine("Usage: l10ns " + *a->name + " [<options>]");
+    w->newline();
+    w->writeLine("Options:");
+    w->clearTabs();
+    w->addTab(2);
+    w->addTab(19);
+    w->newline();
+    for (const auto& flag : *command->flags) {
+        w->tab();
+        if (flag.alias->length() != 0) {
+            w->write(*flag.name + ", " + *flag.alias);
+        }
+        else {
+            w->write(*flag.name);
+        }
+        w->tab();
+        w->writeLine(*flag.description);
+    }
+    w->print();
 }
 
 inline void printCommandHelp(Command * command) {
@@ -50,7 +84,7 @@ inline void printCommandHelp(Command * command) {
         printDefaultHelp();
     }
     else {
-        printActionHelp(command->action);
+        printActionHelp(command);
     }
 }
 

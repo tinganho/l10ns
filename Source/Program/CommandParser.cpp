@@ -50,9 +50,10 @@ struct Flag : Argument {
 struct Action : Argument {
     vector<Flag> * flags;
     ActionKind kind;
+    string * info;
 
-    Action(ActionKind pkind, const char pname[], const char pdescription[], vector<Flag> * pflags)
-        : kind(pkind), Argument(new string(pname), new string(pdescription)) {
+    Action(ActionKind pkind, const char pname[], const char pdescription[], const char pinfo[],vector<Flag> * pflags)
+        : kind(pkind), Argument(new string(pname), new string(pdescription)), info(new string(pinfo)) {
 
         if (pflags != NULL) {
             flags = pflags;
@@ -84,11 +85,28 @@ static vector<Flag> logFlags = {
     helpFlag,
 };
 
+static const char * initInfo =
+  "Initialize a L10ns project. This command creates on 'l10ns.json' "
+  "file, with sane default options applied.";
+
+static const char * updateInfo =
+  "Initialize a L10ns project. This command creates on 'l10ns.json' "
+  "file, with sane default options applied.";
+
+static const char * logInfo =
+  "Initialize a L10ns project. This command creates on 'l10ns.json' "
+  "file, with sane default options applied.";
+
+static const char * setInfo =
+  "Initialize a L10ns project. This command creates on 'l10ns.json' "
+  "file, with sane default options applied.";
+
+
 static vector<Action> actions = {
-    Action(ActionKind::Init, "init", "Initialize project.", &helpFlags),
-    Action(ActionKind::Update, "update", "Update localization keys.", &helpFlags),
-    Action(ActionKind::Log, "log", "Show latest added localizations.", &logFlags),
-    Action(ActionKind::Set, "set", "Set localization.", &setFlags),
+    Action(ActionKind::Init, "init", "Initialize project.", initInfo, &helpFlags),
+    Action(ActionKind::Update, "update", "Update localization keys.", updateInfo, &helpFlags),
+    Action(ActionKind::Log, "log", "Show latest added localizations.", logInfo, &logFlags),
+    Action(ActionKind::Set, "set", "Set localization.", setInfo, &setFlags),
 };
 
 struct Command {
