@@ -90,17 +90,13 @@ static const char * initInfo =
   "file, with sane default options applied.";
 
 static const char * updateInfo =
-  "Initialize a L10ns project. This command creates on 'l10ns.json' "
-  "file, with sane default options applied.";
+  "Synchronize your keys between source code and storage.";
 
 static const char * logInfo =
-  "Initialize a L10ns project. This command creates on 'l10ns.json' "
-  "file, with sane default options applied.";
+  "Show latest localizations.";
 
 static const char * setInfo =
-  "Initialize a L10ns project. This command creates on 'l10ns.json' "
-  "file, with sane default options applied.";
-
+  "Set new localizations.";
 
 static vector<Action> actions = {
     Action(ActionKind::Init, "init", "Initialize project.", initInfo, &helpFlags),
