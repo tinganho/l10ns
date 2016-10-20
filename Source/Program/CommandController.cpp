@@ -1,9 +1,89 @@
 
+#include <boost/bind.hpp>
+#include <boost/enable_shared_from_this.hpp>
+#include <boost/asio.hpp>
+#include <boost/shared_ptr.hpp>
 #include "CommandParser.cpp"
 #include "Configurations.h"
 #include "Utils.cpp"
 
 namespace L10ns {
+class TCPConnection : public boost::enable_shared_from_this<TCPConnection> {
+public:
+    typedef boost::shared_ptr<TCPConnection> Pointer;
+
+    static Pointer create(boost::asio::io_service& service) {
+        return Pointer(new TCPConnection(service));
+    }
+
+    tcp::socket& socket() {
+        return _socket;
+    }
+
+    void start() {
+        message = "hello world";
+
+        boost::asio::async_write(_socket, boost::asio::buffer(message),
+            boost::bind(&TCPConnection::handleWrite, shared_from_this(),
+            boost::asio::placeholders::error,
+            boost::asio::placeholders::bytes_transferred));
+    }
+
+private:
+    TCPConnection(boost::asio::io_service& service)
+        : _socket(service) {
+    }
+
+    void handleWrite(const boost::system::error_code& /*error*/, size_t /*bytes_transferred*/)
+    {
+    }
+
+    tcp::socket _socket;
+    std::string message;
+};
+
+class TCPServer {
+public:
+    tcp::endpoint endpoint;
+
+    TCPServer(boost::asio::io_service& service)
+        : endpoint(tcp::v4(), 0)
+        , acceptor(service, endpoint) {
+
+        startAccept();
+        tcp::endpoint le = acceptor.local_endpoint();
+        executeCommand("PPPORT=" + to_string(le.port()) + " ./test");
+    }
+
+private:
+    tcp::acceptor acceptor;
+
+    void startAccept() {
+        TCPConnection::Pointer newConnection = TCPConnection::create(acceptor.get_io_service());
+        acceptor.async_accept(newConnection->socket(),
+            boost::bind(&TCPServer::handleAccept, this, newConnection,
+                boost::asio::placeholders::error));
+    }
+
+    void handleAccept(TCPConnection::Pointer newConnection, const boost::system::error_code& error) {
+        if (!error) {
+            newConnection->start();
+        }
+
+        startAccept();
+    }
+};
+
+void startExtensionServer() {
+    try {
+        boost::asio::io_service service;
+        TCPServer server(service);
+        service.run();
+    }
+    catch (exception& e) {
+        std::cerr << e.what() << std::endl;
+    }
+}
 
 inline void printDefaultHelp() {
     auto w = new TextWriter();
@@ -84,8 +164,8 @@ inline void printCommandHelp(Command * command) {
     }
 }
 
-void syncronizeKeys() {
-
+void synchronizeKeys() {
+    startExtensionServer();
 }
 
 int init(int argc, char * argv[]) {
@@ -96,10 +176,12 @@ int init(int argc, char * argv[]) {
     else if (command->isRequestingHelp) {
         printCommandHelp(command);
     }
-    else if (command->action == ActionKind::Update) {
-
+    else if (command->action == ActionKind::Sync) {
+        synchronizeKeys();
     }
     return 0;
 }
+
+
 
 } // L10ns

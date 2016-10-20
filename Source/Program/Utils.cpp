@@ -5,8 +5,13 @@
 #include <sys/ioctl.h>
 
 using namespace std;
+using boost::asio::ip::tcp;
 
 namespace L10ns {
+
+    void executeCommand(string cmd) {
+        system(cmd.c_str());
+    }
 
     void newline() {
         cout << endl;
@@ -113,12 +118,6 @@ namespace L10ns {
     namespace Debug {
         void fail(string err) {
             throw logic_error(err);
-        }
-
-        void assert(bool assertion, string err) {
-            if (!assertion) {
-                fail(err);
-            }
         }
     }
 
