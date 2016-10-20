@@ -56,14 +56,10 @@ inline void printActionHelp(Command * command) {
     auto w = new TextWriter();
     w->writeLine(*a->info);
     w->newline();
-    w->addTab(2);
-    w->addTab(12);
-    w->writeLine("Usage: l10ns " + *a->name + " [<options>]");
-    w->newline();
     w->writeLine("Options:");
     w->clearTabs();
     w->addTab(2);
-    w->addTab(19);
+    w->addTab(24);
     w->newline();
     for (const auto& flag : *command->flags) {
         w->tab();

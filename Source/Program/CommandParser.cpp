@@ -76,6 +76,8 @@ static vector<Flag> helpFlags = {
 static vector<Flag> setFlags = {
     Flag(FlagKind::Key, "--key", "-k", "Specify localization key.", /*hasValue*/ true),
     Flag(FlagKind::Value, "--value", "-v", "Specify localization value.", /*hasValue*/ true),
+    Flag(FlagKind::Value, "--log-index", "-li", "Specify log index.", /*hasValue*/ true),
+    Flag(FlagKind::Value, "--search-index", "-se", "Specify latest search index.", /*hasValue*/ true),
     languageFlag,
     helpFlag,
 };
@@ -87,16 +89,25 @@ static vector<Flag> logFlags = {
 
 static const char * initInfo =
   "Initialize a L10ns project. This command creates on 'l10ns.json' "
-  "file, with sane default options applied.";
+  "file, with sane default options applied.\n\n"
+  "Usage: l10ns init";
 
 static const char * updateInfo =
-  "Synchronize your keys between source code and storage.";
+  "Synchronize your keys between source code and storage.\n\n"
+  "Usage: l10ns update";
 
 static const char * logInfo =
-  "Show latest localizations.";
+  "Show latest localizations.\n\n"
+  "Usage: l10ns log [options]\n"
+  "       l10ns log\n"
+  "       l10ns log --language en-US";
 
 static const char * setInfo =
-  "Set new localizations.";
+  "Set new localizations.\n\n"
+  "Usage: l10ns set --key <key> --value <value> [options]\n"
+  "       l10ns set --key LOGIN_TEXT --value \"Please login.\"\n"
+  "       l10ns set --log-index 1 --value \"Please login.\"\n"
+  "       l10ns set --search-index 1 --value \"Please login.\"";
 
 static vector<Action> actions = {
     Action(ActionKind::Init, "init", "Initialize project.", initInfo, &helpFlags),
