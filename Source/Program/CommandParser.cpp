@@ -94,7 +94,7 @@ static const char * initInfo =
 
 static const char * syncInfo =
   "Synchronize your keys between source code and storage.\n\n"
-  "Usage: l10ns update";
+  "Usage: l10ns sync";
 
 static const char * logInfo =
   "Show latest localizations.\n\n"
