@@ -8,6 +8,7 @@
 #include "Utils.cpp"
 
 namespace L10ns {
+
 class TCPConnection : public boost::enable_shared_from_this<TCPConnection> {
 public:
     typedef boost::shared_ptr<TCPConnection> Pointer;
@@ -181,7 +182,4 @@ int init(int argc, char * argv[]) {
     }
     return 0;
 }
-
-
-
 } // L10ns
