@@ -9,7 +9,7 @@ namespace L10ns {
 enum class ActionKind {
     None,
     Init,
-    Update,
+    Sync,
     Log,
     Set,
 };
@@ -92,7 +92,7 @@ static const char * initInfo =
   "file, with sane default options applied.\n\n"
   "Usage: l10ns init";
 
-static const char * updateInfo =
+static const char * syncInfo =
   "Synchronize your keys between source code and storage.\n\n"
   "Usage: l10ns update";
 
@@ -111,7 +111,7 @@ static const char * setInfo =
 
 static vector<Action> actions = {
     Action(ActionKind::Init, "init", "Initialize project.", initInfo, &helpFlags),
-    Action(ActionKind::Update, "update", "Update localization keys.", updateInfo, &helpFlags),
+    Action(ActionKind::Sync, "sync", "Synchronize localization keys.", syncInfo, &helpFlags),
     Action(ActionKind::Log, "log", "Show latest added localizations.", logInfo, &logFlags),
     Action(ActionKind::Set, "set", "Set localization.", setInfo, &setFlags),
 };

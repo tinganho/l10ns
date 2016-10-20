@@ -84,6 +84,10 @@ inline void printCommandHelp(Command * command) {
     }
 }
 
+void syncronizeKeys() {
+
+}
+
 int init(int argc, char * argv[]) {
     auto command = parseCommandArguments(argc, argv);
     if (command->isRequestingVersion) {
@@ -91,6 +95,9 @@ int init(int argc, char * argv[]) {
     }
     else if (command->isRequestingHelp) {
         printCommandHelp(command);
+    }
+    else if (command->action == ActionKind::Update) {
+
     }
     return 0;
 }
