@@ -8,7 +8,7 @@ set(EXECUTABLE_OUTPUT_PATH "Executables")
 
 configure_file(Source/Program/Configurations.h.in Source/Program/Configurations.h)
 
-find_package(Boost 1.40 COMPONENTS system REQUIRED)
+find_package(Boost 1.60 COMPONENTS system REQUIRED)
 
 include_directories("${PROJECT_BINARY_DIR}")
 include_directories("${PROJECT_BINARY_DIR}/Source/Program")
