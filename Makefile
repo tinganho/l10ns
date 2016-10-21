@@ -123,6 +123,32 @@ l10ns/fast:
 	$(MAKE) -f CMakeFiles/l10ns.dir/build.make CMakeFiles/l10ns.dir/build
 .PHONY : l10ns/fast
 
+#=============================================================================
+# Target rules for targets named find
+
+# Build rule for target.
+find: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 find
+.PHONY : find
+
+# fast build rule for target.
+find/fast:
+	$(MAKE) -f Source/Vendors/Glob/CMakeFiles/find.dir/build.make Source/Vendors/Glob/CMakeFiles/find.dir/build
+.PHONY : find/fast
+
+#=============================================================================
+# Target rules for targets named glob
+
+# Build rule for target.
+glob: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 glob
+.PHONY : glob
+
+# fast build rule for target.
+glob/fast:
+	$(MAKE) -f Source/Vendors/Glob/CMakeFiles/glob.dir/build.make Source/Vendors/Glob/CMakeFiles/glob.dir/build
+.PHONY : glob/fast
+
 Source/Program/Exec.o: Source/Program/Exec.cpp.o
 
 .PHONY : Source/Program/Exec.o
@@ -159,6 +185,8 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... l10ns"
+	@echo "... find"
+	@echo "... glob"
 	@echo "... Source/Program/Exec.o"
 	@echo "... Source/Program/Exec.i"
 	@echo "... Source/Program/Exec.s"

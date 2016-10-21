@@ -2,7 +2,12 @@
     "configurations": [
         {
             "name": "Mac",
-            "includePath": ["/usr/include", "Source/Program", "/usr/local/include"],
+            "includePath": [
+                "/usr/include",
+                "/usr/local/include",
+                "Source/Program",
+                "Source/Vendors/Glob"
+            ],
             "browse" : {
                 "limitSymbolsToIncludedHeaders" : true,
                 "databaseFilename" : ""

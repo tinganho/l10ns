@@ -1,4 +1,6 @@
 
+#include <string>
+#include <iostream>
 #include <boost/bind.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/asio.hpp>
@@ -6,6 +8,8 @@
 #include "CommandParser.cpp"
 #include "Configurations.h"
 #include "Utils.cpp"
+
+using namespace std;
 
 namespace L10ns {
 
@@ -22,8 +26,6 @@ public:
     }
 
     void start() {
-        message = "hello world";
-
         boost::asio::async_write(_socket, boost::asio::buffer(message),
             boost::bind(&TCPConnection::handleWrite, shared_from_this(),
             boost::asio::placeholders::error,
@@ -49,15 +51,20 @@ public:
 
     TCPServer(boost::asio::io_service& service)
         : endpoint(tcp::v4(), 0)
+        , localEndpoint(acceptor.local_endpoint())
         , acceptor(service, endpoint) {
 
         startAccept();
-        tcp::endpoint le = acceptor.local_endpoint();
-        executeCommand("PPPORT=" + to_string(le.port()) + " ./test");
+        executeCommand("L10NS_IS_USING_TCP_SERVER=1 L10NS_EXTENSION_SERVER_PORT=" + port() + " ./test");
+    }
+
+    string port() {
+        return to_string(localEndpoint.port());
     }
 
 private:
     tcp::acceptor acceptor;
+    tcp::endpoint localEndpoint;
 
     void startAccept() {
         TCPConnection::Pointer newConnection = TCPConnection::create(acceptor.get_io_service());

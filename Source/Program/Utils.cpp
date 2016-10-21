@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <sys/ioctl.h>
+#include "glob.h"
 
 using namespace std;
 using boost::asio::ip::tcp;
@@ -119,6 +120,20 @@ namespace L10ns {
         void fail(string err) {
             throw logic_error(err);
         }
+    }
+
+    vector<string> findFiles(string pattern) {
+        glob::Glob glob(pattern);
+        vector<string> files;
+        while (glob) {
+            files.push_back(glob.GetFileName());
+            glob.Next();
+        }
+        return files;
+    }
+
+    vector<string> findFiles(string pattern, char cwd[]) {
+        return findFiles(cwd + string(pattern));
     }
 
 } // L10ns

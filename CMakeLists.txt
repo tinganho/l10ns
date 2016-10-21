@@ -1,3 +1,4 @@
+
 cmake_minimum_required(VERSION 3.6)
 
 project(l10ns)
@@ -10,10 +11,11 @@ configure_file(Source/Program/Configurations.h.in Source/Program/Configurations.
 
 find_package(Boost 1.60 COMPONENTS system REQUIRED)
 
-include_directories("${PROJECT_BINARY_DIR}")
-include_directories("${PROJECT_BINARY_DIR}/Source/Program")
-include_directories("${Boost_INCLUDE_DIR}")
+add_subdirectory(Source/Vendors/Glob)
+
+include_directories("${PROJECT_SOURCE_DIR}/Source/Program")
+include_directories("${PROJECT_SOURCE_DIR}/Source/Vendors/Glob")
 
 add_executable(l10ns Source/Program/Exec.cpp)
 
-target_link_libraries(l10ns ${Boost_LIBRARIES})
+target_link_libraries(l10ns glob ${Boost_LIBRARIES})
