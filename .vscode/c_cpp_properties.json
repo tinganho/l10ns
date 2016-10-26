@@ -6,6 +6,7 @@
                 "/usr/include",
                 "/usr/local/include",
                 "Source/Program",
+                "Source/TestFramework",
                 "Source/Vendors/Glob"
             ],
             "browse" : {

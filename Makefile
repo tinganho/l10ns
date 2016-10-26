@@ -111,6 +111,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named runtests
+
+# Build rule for target.
+runtests: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 runtests
+.PHONY : runtests
+
+# fast build rule for target.
+runtests/fast:
+	$(MAKE) -f CMakeFiles/runtests.dir/build.make CMakeFiles/runtests.dir/build
+.PHONY : runtests/fast
+
+#=============================================================================
 # Target rules for targets named l10ns
 
 # Build rule for target.
@@ -176,6 +189,33 @@ Source/Program/Exec.cpp.s:
 	$(MAKE) -f CMakeFiles/l10ns.dir/build.make CMakeFiles/l10ns.dir/Source/Program/Exec.cpp.s
 .PHONY : Source/Program/Exec.cpp.s
 
+Source/TestFramework/Exec.o: Source/TestFramework/Exec.cpp.o
+
+.PHONY : Source/TestFramework/Exec.o
+
+# target to build an object file
+Source/TestFramework/Exec.cpp.o:
+	$(MAKE) -f CMakeFiles/runtests.dir/build.make CMakeFiles/runtests.dir/Source/TestFramework/Exec.cpp.o
+.PHONY : Source/TestFramework/Exec.cpp.o
+
+Source/TestFramework/Exec.i: Source/TestFramework/Exec.cpp.i
+
+.PHONY : Source/TestFramework/Exec.i
+
+# target to preprocess a source file
+Source/TestFramework/Exec.cpp.i:
+	$(MAKE) -f CMakeFiles/runtests.dir/build.make CMakeFiles/runtests.dir/Source/TestFramework/Exec.cpp.i
+.PHONY : Source/TestFramework/Exec.cpp.i
+
+Source/TestFramework/Exec.s: Source/TestFramework/Exec.cpp.s
+
+.PHONY : Source/TestFramework/Exec.s
+
+# target to generate assembly for a file
+Source/TestFramework/Exec.cpp.s:
+	$(MAKE) -f CMakeFiles/runtests.dir/build.make CMakeFiles/runtests.dir/Source/TestFramework/Exec.cpp.s
+.PHONY : Source/TestFramework/Exec.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -184,12 +224,16 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... runtests"
 	@echo "... l10ns"
 	@echo "... find"
 	@echo "... glob"
 	@echo "... Source/Program/Exec.o"
 	@echo "... Source/Program/Exec.i"
 	@echo "... Source/Program/Exec.s"
+	@echo "... Source/TestFramework/Exec.o"
+	@echo "... Source/TestFramework/Exec.i"
+	@echo "... Source/TestFramework/Exec.s"
 .PHONY : help
 
 

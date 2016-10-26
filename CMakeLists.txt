@@ -17,5 +17,7 @@ include_directories("${PROJECT_SOURCE_DIR}/Source/Program")
 include_directories("${PROJECT_SOURCE_DIR}/Source/Vendors/Glob")
 
 add_executable(l10ns Source/Program/Exec.cpp)
+add_executable(runtests Source/TestFramework/Exec.cpp)
 
 target_link_libraries(l10ns glob ${Boost_LIBRARIES})
+target_link_libraries(runtests glob ${Boost_LIBRARIES})
