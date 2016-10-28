@@ -1,3 +1,7 @@
+
+#ifndef UTILS_H
+#define UTILS_H
+
 #include <cstdio>
 #include <memory>
 #include <stdexcept>
@@ -183,3 +187,5 @@ vector<string> findFiles(string pattern, string cwd) {
 }
 
 } // L10ns
+
+#endif // UTILS_H

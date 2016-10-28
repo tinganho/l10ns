@@ -8,12 +8,13 @@ using namespace std;
 
 int main() {
     try {
-        TestFramework::runProjectTests();
+        TestFramework::addProjectTests();
+        TestFramework::runTests();
         TestFramework::printResult();
         return 0;
     }
-    catch (const exception & ex) {
-        cerr << ex.what() << endl;
+    catch (const exception & e) {
+        cerr << e.what() << endl;
         return 1;
     }
 }

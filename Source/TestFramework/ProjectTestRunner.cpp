@@ -11,7 +11,7 @@ using namespace L10ns;
 
 namespace TestFramework {
 
-void runProjectTests() {
+void addProjectTests() {
     auto paths = findFiles("Tests/Cases/Projects/*", PROJECT_DIR);
 
     domain("Project Tests");
