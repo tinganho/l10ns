@@ -9,6 +9,7 @@ using namespace std;
 int main() {
     try {
         TestFramework::runProjectTests();
+        TestFramework::printResult();
         return 0;
     }
     catch (const exception & ex) {
