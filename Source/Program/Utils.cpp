@@ -151,7 +151,7 @@ inline string readFile(string filename) {
     ifstream f(filename);
     if (f.is_open()) {
         while (getline(f, line)) {
-            result += line;
+            result += line + '\n';
         }
         f.close();
         return result;

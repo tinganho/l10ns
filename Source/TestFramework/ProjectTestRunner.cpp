@@ -25,7 +25,7 @@ void addProjectTests() {
         string testName = p.substr(p.find_last_of("/") + 1);
         test(testName, [result, p]() {
             string referenceFile = replaceSubString(p, "/Cases/", "/Reference/");
-            string reference = readFile(referenceFile);
+            string reference = readFile(referenceFile + "/stdout.out");
             if (result != reference) {
                 throw runtime_error("Assertion Error!");
             }
