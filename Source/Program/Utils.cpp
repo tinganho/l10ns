@@ -173,6 +173,49 @@ void remove(string path) {
     remove_all(p);
 }
 
+bool copyFolder(boost::filesystem::path const & source, boost::filesystem::path const & destination) {
+    namespace fs = boost::filesystem;
+    try {
+        if (!fs::exists(source) || !fs::is_directory(source)) {
+            std::cerr << "Source directory " << source.string()
+                << " does not exist or is not a directory." << '\n'
+            ;
+            return false;
+        }
+        if (fs::exists(destination)) {
+            std::cerr << "Destination directory " << destination.string()
+                << " already exists." << '\n';
+            return false;
+        }
+
+        if (!fs::create_directory(destination)) {
+            std::cerr << "Unable to create destination directory" << destination.string() << '\n';
+            return false;
+        }
+    }
+    catch(fs::filesystem_error const & e) {
+        std::cerr << e.what() << '\n';
+        return false;
+    }
+    for(fs::directory_iterator file(source); file != fs::directory_iterator(); ++file) {
+        try {
+            fs::path current(file->path());
+            if(fs::is_directory(current)) {
+                if(!copyFolder(current, destination / current.filename())) {
+                    return false;
+                }
+            }
+            else {
+                fs::copy_file(current, destination / current.filename());
+            }
+        }
+        catch(fs::filesystem_error const & e) {
+            std:: cerr << e.what() << '\n';
+        }
+    }
+    return true;
+}
+
 string replaceSubString(string str, string subString, string replacement) {
     return boost::replace_all_copy(str, subString, replacement);
 }

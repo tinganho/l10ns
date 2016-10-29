@@ -23,4 +23,4 @@ add_executable(accept-baseline Tasks/AcceptBaseline.cpp)
 
 target_link_libraries(l10ns glob ${Boost_LIBRARIES})
 target_link_libraries(run-tests glob ${Boost_LIBRARIES})
-target_link_libraries(accept-baseline ${Boost_LIBRARIES})
+target_link_libraries(accept-baseline glob ${Boost_LIBRARIES})

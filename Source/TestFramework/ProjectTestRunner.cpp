@@ -19,9 +19,9 @@ void addProjectTests() {
         auto command = readFile(p + "/Command.cmd");
         command = string(PROJECT_DIR) + "/Executables/l10ns " + command;
         string result = executeCommand(command);
-        string currentDir = replaceSubString(p, "/Cases/", "/Current/");
-        recursivelyCreateFolder(currentDir);
-        writeFile(currentDir + "/stdout.out", result);
+        string currentFolder = replaceSubString(p, "/Cases/", "/Current/");
+        recursivelyCreateFolder(currentFolder);
+        writeFile(currentFolder + "/stdout.out", result);
         string testName = p.substr(p.find_last_of("/") + 1);
         test(testName, [result, p]() {
             string referenceFile = replaceSubString(p, "/Cases/", "/Reference/");
