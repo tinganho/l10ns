@@ -41,7 +41,7 @@ void test(string name, function<void()> procedure) {
     currentDomain->tests.push_back(test);
 }
 
-void printResult() {
+int printResult() {
     vector<Test*> failedTests = {};
     int testsSucceded = 0;
     int testsFailed = 0;
@@ -65,12 +65,13 @@ void printResult() {
     int domainSize = domains.size();
     string domain = domainSize == 1 ? " domain" : " domains";
     cout << "  " + to_string(domainSize) + domain << endl;
+    return testsFailed == 0 ? 0 : 1;
 }
 
 void runTests() {
     cout << endl;
     for (auto const & d : domains) {
-        cout << "  Domain: " << d->name << endl;
+        cout << "  " + d->name + ":"<< endl;
         cout << "  ";
         for (auto const & t : d->tests) {
             try {

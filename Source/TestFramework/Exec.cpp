@@ -10,8 +10,7 @@ int main() {
     try {
         TestFramework::addProjectTests();
         TestFramework::runTests();
-        TestFramework::printResult();
-        return 0;
+        return TestFramework::printResult();
     }
     catch (const exception & e) {
         cerr << e.what() << endl;

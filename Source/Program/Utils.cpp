@@ -11,6 +11,8 @@
 #include <sys/ioctl.h>
 #include <exception>
 #include <boost/asio.hpp>
+#include <boost/algorithm/string/replace.hpp>
+#include <boost/filesystem.hpp>
 #include "glob.h"
 
 using namespace std;
@@ -159,10 +161,31 @@ inline string readFile(string filename) {
     }
 }
 
+inline void writeFile(string filename, string content) {
+    ofstream f;
+    f.open(filename);
+    f << content;
+    f.close();
+}
+
+void remove(string path) {
+    boost::filesystem::path p(path);
+    remove_all(p);
+}
+
+string replaceSubString(string str, string subString, string replacement) {
+    return boost::replace_all_copy(str, subString, replacement);
+}
+
 namespace Debug {
     void fail(string err) {
         throw logic_error(err);
     }
+}
+
+void recursivelyCreateFolder(string folder) {
+    boost::filesystem::path dir(folder);
+    create_directories(dir);
 }
 
 vector<string> findFiles(string pattern) {

@@ -4,7 +4,6 @@
 #include "Configurations.h"
 #include <fstream>
 #include <exception>
-#include <boost/algorithm/string/replace.hpp>
 
 using namespace std;
 using namespace L10ns;
@@ -20,9 +19,13 @@ void addProjectTests() {
         auto command = readFile(p + "/Command.cmd");
         command = string(PROJECT_DIR) + "/Executables/l10ns " + command;
         string result = executeCommand(command);
+        string currentDir = replaceSubString(p, "/Cases/", "/Current/");
+        recursivelyCreateFolder(currentDir);
+        writeFile(currentDir + "/stdout.out", result);
         string testName = p.substr(p.find_last_of("/") + 1);
         test(testName, [result, p]() {
-            string reference = readFile(boost::replace_all_copy(p, "/Cases/", "/Reference/"));
+            string referenceFile = replaceSubString(p, "/Cases/", "/Reference/");
+            string reference = readFile(referenceFile);
             if (result != reference) {
                 throw runtime_error("Assertion Error!");
             }

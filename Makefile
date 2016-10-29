@@ -111,17 +111,30 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named runtests
+# Target rules for targets named accept-baseline
 
 # Build rule for target.
-runtests: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 runtests
-.PHONY : runtests
+accept-baseline: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 accept-baseline
+.PHONY : accept-baseline
 
 # fast build rule for target.
-runtests/fast:
-	$(MAKE) -f CMakeFiles/runtests.dir/build.make CMakeFiles/runtests.dir/build
-.PHONY : runtests/fast
+accept-baseline/fast:
+	$(MAKE) -f CMakeFiles/accept-baseline.dir/build.make CMakeFiles/accept-baseline.dir/build
+.PHONY : accept-baseline/fast
+
+#=============================================================================
+# Target rules for targets named run-tests
+
+# Build rule for target.
+run-tests: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 run-tests
+.PHONY : run-tests
+
+# fast build rule for target.
+run-tests/fast:
+	$(MAKE) -f CMakeFiles/run-tests.dir/build.make CMakeFiles/run-tests.dir/build
+.PHONY : run-tests/fast
 
 #=============================================================================
 # Target rules for targets named l10ns
@@ -195,7 +208,7 @@ Source/TestFramework/Exec.o: Source/TestFramework/Exec.cpp.o
 
 # target to build an object file
 Source/TestFramework/Exec.cpp.o:
-	$(MAKE) -f CMakeFiles/runtests.dir/build.make CMakeFiles/runtests.dir/Source/TestFramework/Exec.cpp.o
+	$(MAKE) -f CMakeFiles/run-tests.dir/build.make CMakeFiles/run-tests.dir/Source/TestFramework/Exec.cpp.o
 .PHONY : Source/TestFramework/Exec.cpp.o
 
 Source/TestFramework/Exec.i: Source/TestFramework/Exec.cpp.i
@@ -204,7 +217,7 @@ Source/TestFramework/Exec.i: Source/TestFramework/Exec.cpp.i
 
 # target to preprocess a source file
 Source/TestFramework/Exec.cpp.i:
-	$(MAKE) -f CMakeFiles/runtests.dir/build.make CMakeFiles/runtests.dir/Source/TestFramework/Exec.cpp.i
+	$(MAKE) -f CMakeFiles/run-tests.dir/build.make CMakeFiles/run-tests.dir/Source/TestFramework/Exec.cpp.i
 .PHONY : Source/TestFramework/Exec.cpp.i
 
 Source/TestFramework/Exec.s: Source/TestFramework/Exec.cpp.s
@@ -213,8 +226,35 @@ Source/TestFramework/Exec.s: Source/TestFramework/Exec.cpp.s
 
 # target to generate assembly for a file
 Source/TestFramework/Exec.cpp.s:
-	$(MAKE) -f CMakeFiles/runtests.dir/build.make CMakeFiles/runtests.dir/Source/TestFramework/Exec.cpp.s
+	$(MAKE) -f CMakeFiles/run-tests.dir/build.make CMakeFiles/run-tests.dir/Source/TestFramework/Exec.cpp.s
 .PHONY : Source/TestFramework/Exec.cpp.s
+
+Tasks/AcceptBaseline.o: Tasks/AcceptBaseline.cpp.o
+
+.PHONY : Tasks/AcceptBaseline.o
+
+# target to build an object file
+Tasks/AcceptBaseline.cpp.o:
+	$(MAKE) -f CMakeFiles/accept-baseline.dir/build.make CMakeFiles/accept-baseline.dir/Tasks/AcceptBaseline.cpp.o
+.PHONY : Tasks/AcceptBaseline.cpp.o
+
+Tasks/AcceptBaseline.i: Tasks/AcceptBaseline.cpp.i
+
+.PHONY : Tasks/AcceptBaseline.i
+
+# target to preprocess a source file
+Tasks/AcceptBaseline.cpp.i:
+	$(MAKE) -f CMakeFiles/accept-baseline.dir/build.make CMakeFiles/accept-baseline.dir/Tasks/AcceptBaseline.cpp.i
+.PHONY : Tasks/AcceptBaseline.cpp.i
+
+Tasks/AcceptBaseline.s: Tasks/AcceptBaseline.cpp.s
+
+.PHONY : Tasks/AcceptBaseline.s
+
+# target to generate assembly for a file
+Tasks/AcceptBaseline.cpp.s:
+	$(MAKE) -f CMakeFiles/accept-baseline.dir/build.make CMakeFiles/accept-baseline.dir/Tasks/AcceptBaseline.cpp.s
+.PHONY : Tasks/AcceptBaseline.cpp.s
 
 # Help Target
 help:
@@ -222,9 +262,10 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
+	@echo "... accept-baseline"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... runtests"
+	@echo "... run-tests"
 	@echo "... l10ns"
 	@echo "... find"
 	@echo "... glob"
@@ -234,6 +275,9 @@ help:
 	@echo "... Source/TestFramework/Exec.o"
 	@echo "... Source/TestFramework/Exec.i"
 	@echo "... Source/TestFramework/Exec.s"
+	@echo "... Tasks/AcceptBaseline.o"
+	@echo "... Tasks/AcceptBaseline.i"
+	@echo "... Tasks/AcceptBaseline.s"
 .PHONY : help
 
 
