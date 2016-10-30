@@ -15,6 +15,7 @@ addons:
     - llvm-toolchain-precise-3.6
     packages:
     - clang-3.7
+    - libboost-all-dev
 
 matrix:
   include:
