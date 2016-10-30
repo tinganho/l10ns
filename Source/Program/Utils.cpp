@@ -12,7 +12,9 @@
 #include <exception>
 #include <boost/asio.hpp>
 #include <boost/algorithm/string/replace.hpp>
+#define BOOST_NO_CXX11_SCOPED_ENUMS
 #include <boost/filesystem.hpp>
+#undef BOOST_NO_CXX11_SCOPED_ENUMS
 #include "glob.h"
 
 using namespace std;
