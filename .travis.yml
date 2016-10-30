@@ -8,6 +8,10 @@ script:
   - cd build
   - cmake -DCMAKE_CXX_COMPILER=$COMPILER .. && make
 
+before_script:
+  - sudo apt-get update -qq
+  - sudo apt-get install libboost-all-dev
+
 addons:
   apt:
     sources:
@@ -16,7 +20,8 @@ addons:
     - boost-latest
     packages:
     - clang-3.7
-    - libboost1.55-all-dev
+    - libboost-all-dev
+    - cmake
 
 matrix:
   include:
