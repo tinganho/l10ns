@@ -9,7 +9,7 @@ set(EXECUTABLE_OUTPUT_PATH "Executables")
 
 configure_file(Source/Program/Configurations.h.in Source/Program/Configurations.h)
 
-find_package(Boost 1.60 COMPONENTS system filesystem REQUIRED)
+find_package(Boost 1.54 COMPONENTS system filesystem REQUIRED)
 
 add_subdirectory(Source/Vendors/Glob)
 
