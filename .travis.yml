@@ -22,10 +22,8 @@ addons:
     sources:
     - ubuntu-toolchain-r-test
     - llvm-toolchain-precise-3.6
-    - boost-latest
     packages:
     - clang-3.7
-    - libboost-all-dev
     - cmake
 
 matrix:
