@@ -11,11 +11,12 @@ script:
 addons:
   apt:
     sources:
+    - boost-latest
     - ubuntu-toolchain-r-test
     - llvm-toolchain-precise-3.6
     packages:
     - clang-3.7
-    - libboost-all-dev
+    - libboost1.55-all-dev
 
 matrix:
   include:
