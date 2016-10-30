@@ -124,6 +124,19 @@ accept-baseline/fast:
 .PHONY : accept-baseline/fast
 
 #=============================================================================
+# Target rules for targets named l10ns
+
+# Build rule for target.
+l10ns: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 l10ns
+.PHONY : l10ns
+
+# fast build rule for target.
+l10ns/fast:
+	$(MAKE) -f CMakeFiles/l10ns.dir/build.make CMakeFiles/l10ns.dir/build
+.PHONY : l10ns/fast
+
+#=============================================================================
 # Target rules for targets named run-tests
 
 # Build rule for target.
@@ -137,17 +150,17 @@ run-tests/fast:
 .PHONY : run-tests/fast
 
 #=============================================================================
-# Target rules for targets named l10ns
+# Target rules for targets named generate-diagnostics
 
 # Build rule for target.
-l10ns: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 l10ns
-.PHONY : l10ns
+generate-diagnostics: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 generate-diagnostics
+.PHONY : generate-diagnostics
 
 # fast build rule for target.
-l10ns/fast:
-	$(MAKE) -f CMakeFiles/l10ns.dir/build.make CMakeFiles/l10ns.dir/build
-.PHONY : l10ns/fast
+generate-diagnostics/fast:
+	$(MAKE) -f CMakeFiles/generate-diagnostics.dir/build.make CMakeFiles/generate-diagnostics.dir/build
+.PHONY : generate-diagnostics/fast
 
 #=============================================================================
 # Target rules for targets named find
@@ -256,17 +269,45 @@ Tasks/AcceptBaseline.cpp.s:
 	$(MAKE) -f CMakeFiles/accept-baseline.dir/build.make CMakeFiles/accept-baseline.dir/Tasks/AcceptBaseline.cpp.s
 .PHONY : Tasks/AcceptBaseline.cpp.s
 
+Tasks/GenerateDiagnostics.o: Tasks/GenerateDiagnostics.cpp.o
+
+.PHONY : Tasks/GenerateDiagnostics.o
+
+# target to build an object file
+Tasks/GenerateDiagnostics.cpp.o:
+	$(MAKE) -f CMakeFiles/generate-diagnostics.dir/build.make CMakeFiles/generate-diagnostics.dir/Tasks/GenerateDiagnostics.cpp.o
+.PHONY : Tasks/GenerateDiagnostics.cpp.o
+
+Tasks/GenerateDiagnostics.i: Tasks/GenerateDiagnostics.cpp.i
+
+.PHONY : Tasks/GenerateDiagnostics.i
+
+# target to preprocess a source file
+Tasks/GenerateDiagnostics.cpp.i:
+	$(MAKE) -f CMakeFiles/generate-diagnostics.dir/build.make CMakeFiles/generate-diagnostics.dir/Tasks/GenerateDiagnostics.cpp.i
+.PHONY : Tasks/GenerateDiagnostics.cpp.i
+
+Tasks/GenerateDiagnostics.s: Tasks/GenerateDiagnostics.cpp.s
+
+.PHONY : Tasks/GenerateDiagnostics.s
+
+# target to generate assembly for a file
+Tasks/GenerateDiagnostics.cpp.s:
+	$(MAKE) -f CMakeFiles/generate-diagnostics.dir/build.make CMakeFiles/generate-diagnostics.dir/Tasks/GenerateDiagnostics.cpp.s
+.PHONY : Tasks/GenerateDiagnostics.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... accept-baseline"
 	@echo "... edit_cache"
+	@echo "... accept-baseline"
+	@echo "... l10ns"
 	@echo "... rebuild_cache"
 	@echo "... run-tests"
-	@echo "... l10ns"
+	@echo "... generate-diagnostics"
 	@echo "... find"
 	@echo "... glob"
 	@echo "... Source/Program/Exec.o"
@@ -278,6 +319,9 @@ help:
 	@echo "... Tasks/AcceptBaseline.o"
 	@echo "... Tasks/AcceptBaseline.i"
 	@echo "... Tasks/AcceptBaseline.s"
+	@echo "... Tasks/GenerateDiagnostics.o"
+	@echo "... Tasks/GenerateDiagnostics.i"
+	@echo "... Tasks/GenerateDiagnostics.s"
 .PHONY : help
 
 
