@@ -7,6 +7,7 @@ script:
   - mkdir build
   - cd build
   - cmake -DCMAKE_CXX_COMPILER=$COMPILER .. && make
+  - ./Executables/run-tests
 
 before_script:
   - sudo apt-get update -qq
