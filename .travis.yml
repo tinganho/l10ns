@@ -9,8 +9,8 @@ script:
   - cmake -DCMAKE_CXX_COMPILER=$COMPILER .. && make
 
 before_script:
-  - curl -O -O boost.tar.gz http://sourceforge.net/projects/boost/files/boost/1.62.0/boost_1_62_0.tar.gz/download
-  - tar xzvf boost.tar.gz
+  - curl -O boost.tar.gz http://sourceforge.net/projects/boost/files/boost/1.62.0/boost_1_62_0.tar.gz/download
+  - tar -xzvf boost.tar.gz
   - cd boost
   - sudo apt-get update
   - sudo apt-get install build-essential g++ python-dev autotools-dev libicu-dev build-essential libbz2-dev libboost-all-dev
