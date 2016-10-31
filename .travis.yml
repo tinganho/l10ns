@@ -16,11 +16,11 @@ before_script:
 addons:
   apt:
     sources:
-    - ubuntu-toolchain-r-test
-    - llvm-toolchain-precise-3.6
+      - ubuntu-toolchain-r-test
+      - llvm-toolchain-precise-3.6
     packages:
-    - clang-3.7
-    - cmake
+      - clang-3.7
+      - cmake
 
 matrix:
   include:
