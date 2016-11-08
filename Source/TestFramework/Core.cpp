@@ -42,7 +42,7 @@ void test(string name, function<void()> procedure) {
 }
 
 int printResult() {
-    vector<Test*> failedTests = {};
+    vector<Test *> failedTests = {};
     int testsSucceded = 0;
     int testsFailed = 0;
     int tests = 0;
@@ -65,13 +65,21 @@ int printResult() {
     int domainSize = domains.size();
     string domain = domainSize == 1 ? " domain" : " domains";
     cout << "  " + to_string(domainSize) + domain << endl;
+
+    if (testsFailed > 0) {
+        cout << endl;
+        for (auto const & t : failedTests) {
+            cout <<  "\e[31m  " + t->name + "\e[0m" << endl;
+        }
+    }
+
     return testsFailed == 0 ? 0 : 1;
 }
 
 void runTests() {
     cout << endl;
     for (auto const & d : domains) {
-        cout << "  " + d->name + ":"<< endl;
+        cout << "  " + d->name + ":" << endl;
         cout << "  ";
         for (auto const & t : d->tests) {
             try {
