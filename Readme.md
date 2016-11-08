@@ -2,7 +2,7 @@
 L10ns - Internationalization Workflow & Formatting
 ==============
 
-[![Build Status](http://img.shields.io/travis/tinganho/l10ns/c++.svg?style=flat-square)](https://travis-ci.org/tinganho/l10ns)
+[![Build Status](https://travis-ci.org/tinganho/l10ns.svg?branch=c%2B%2B)](https://travis-ci.org/tinganho/l10ns)
 
 ## Documentation
 
