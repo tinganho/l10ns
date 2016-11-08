@@ -5,4 +5,6 @@ CMakeCache.txt
 cmake_install.cmake
 Executables/
 Makefile
+Source/Program/Configurations.h
+Source/Vendors/*/Makefile
 Tests/Current/
