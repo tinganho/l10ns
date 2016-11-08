@@ -7,7 +7,7 @@ set(VERSION "3.0")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
 set(EXECUTABLE_OUTPUT_PATH "Executables")
 
-configure_file(Source/Program/Configurations.h.in Source/Program/Configurations.h)
+configure_file(${PROJECT_SOURCE_DIR}/Source/Program/Configurations.h.in ${PROJECT_SOURCE_DIR}/Source/Program/Configurations.h)
 
 find_package(Boost 1.54 COMPONENTS system filesystem REQUIRED)
 
