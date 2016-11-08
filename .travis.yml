@@ -8,7 +8,7 @@ script:
   - cd build
   - cmake -DCMAKE_CXX_COMPILER=$COMPILER .. && make
   - ./Executables/run-tests
-  - ls -la Source/Program
+  - cd Source/Program && ls -la
 
 before_script:
   - sudo apt-get update -qq
