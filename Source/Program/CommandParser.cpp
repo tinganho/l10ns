@@ -1,27 +1,11 @@
 
 #include <vector>
 #include <string>
+#include "Types.cpp"
 
 using namespace std;
 
 namespace L10ns {
-
-enum class ActionKind {
-    None,
-    Init,
-    Sync,
-    Log,
-    Set,
-};
-
-enum class FlagKind {
-    None,
-    Help,
-    Version,
-    Language,
-    Key,
-    Value,
-};
 
 struct Argument {
     string * name;
@@ -120,18 +104,54 @@ struct Command {
     bool isRequestingHelp;
     bool isRequestingVersion;
     ActionKind action;
-    vector<Flag> * flags;
+    vector<Diagnostic*> diagnostics;
 
     Command()
         : isRequestingHelp(false)
         , isRequestingVersion(false)
-        , action(ActionKind::None)
-        , flags(&defaultFlags) {
+        , action(ActionKind::None) {
 
+    }
+
+    void addDiagnostics(Diagnostic* diagnostic) {
+        diagnostics.push_back(diagnostic);
     }
 };
 
-void setCommandFlag(Command *command, const Flag *flag, char *value = NULL) {
+vector<Flag>* currentFlags = &defaultFlags;
+
+vector<Flag>* getActionFlags(ActionKind kind) {
+    switch (kind) {
+        case ActionKind::Init:
+            return &helpFlags;
+        case ActionKind::Sync:
+            return &helpFlags;
+        case ActionKind::Log:
+            return &logFlags;
+        case ActionKind::Set:
+            return &setFlags;
+        default:
+            throw invalid_argument("Could not get current flag.");
+    }
+}
+
+std::ostream& operator<<(std::ostream& out, const FlagKind value){
+    static std::map<FlagKind, std::string> strings;
+    if (strings.size() == 0){
+#define INSERT_ELEMENT(p) strings[p] = #p
+        INSERT_ELEMENT(FlagKind::None);
+        INSERT_ELEMENT(FlagKind::Help);
+        INSERT_ELEMENT(FlagKind::Version);
+        INSERT_ELEMENT(FlagKind::Language);
+        INSERT_ELEMENT(FlagKind::Key);
+        INSERT_ELEMENT(FlagKind::Value);
+#undef INSERT_ELEMENT
+    }
+
+    return out << strings[value];
+}
+
+void setCommandFlag(Command* command, const Flag* flag, char* value = NULL) {
     switch (flag->kind) {
         case FlagKind::Help:
             command->isRequestingHelp = true;
@@ -140,8 +160,9 @@ void setCommandFlag(Command *command, const Flag *flag, char *value = NULL) {
             command->isRequestingVersion = true;
             return;
         default:
-            return;
+            command->addDiagnostics(new Diagnostic("Unknow command flag", 0));
     }
+
 }
 
 Command* parseCommandArguments(int argc, char* argv[]) {
@@ -160,28 +181,29 @@ Command* parseCommandArguments(int argc, char* argv[]) {
                 if (strcmp(a.name->c_str(), arg) == 0) {
                     command->action = a.kind;
                     hasAction = true;
-                    command->flags = a.flags;
+                    currentFlags = a.flags;
                     break;
                 }
             }
         }
 
         if (flagWhichAwaitsValue == NULL) {
-            for (auto const& flag : *command->flags) {
+            bool isKnownFlag = false;
+            for (auto const& flag : *currentFlags) {
                 if (strcmp(flag.name->c_str(), arg) == 0 || (flag.alias->length() != 0 && strcmp(flag.name->c_str(), arg) == 0)) {
                     if (flag.hasValue) {
                         flagWhichAwaitsValue = &flag;
                     }
                     setCommandFlag(command, &flag);
-                    break;
+                    goto endloop;
                 }
             }
         }
-        else {
-            setCommandFlag(command, flagWhichAwaitsValue, arg);
-            flagWhichAwaitsValue = NULL;
-            continue;
-        }
+
+        setCommandFlag(command, flagWhichAwaitsValue, arg);
+        flagWhichAwaitsValue = NULL;
+
+    endloop:;
     }
 
     return command;

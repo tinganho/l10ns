@@ -20,9 +20,7 @@ add_executable(l10ns ${PROJECT_SOURCE_DIR}/Source/Program/Exec.cpp)
 add_executable(run-tests ${PROJECT_SOURCE_DIR}/Source/TestFramework/Exec.cpp)
 
 add_executable(accept-baseline ${PROJECT_SOURCE_DIR}/Tasks/AcceptBaseline.cpp)
-add_executable(generate-diagnostics ${PROJECT_SOURCE_DIR}/Tasks/GenerateDiagnostics.cpp)
 
 target_link_libraries(l10ns glob ${Boost_LIBRARIES})
 target_link_libraries(run-tests glob ${Boost_LIBRARIES})
 target_link_libraries(accept-baseline glob ${Boost_LIBRARIES})
-target_link_libraries(generate-diagnostics glob ${Boost_LIBRARIES})

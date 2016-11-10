@@ -149,7 +149,7 @@ inline void printActionHelp(Command * command) {
     w->addTab(2);
     w->addTab(24);
     w->newline();
-    for (const auto& flag : *command->flags) {
+    for (const auto& flag : *getActionFlags(command->action)) {
         w->tab();
         if (flag.alias->length() != 0) {
             w->write(*flag.name + ", " + *flag.alias);
@@ -176,8 +176,19 @@ void synchronizeKeys() {
     startExtensionServer();
 }
 
+inline void printDiagnostics(vector<Diagnostic*> diagnostics) {
+    for (auto const & d : diagnostics) {
+        cout << d->message << endl;
+    }
+}
+
 int init(int argc, char * argv[]) {
     auto command = parseCommandArguments(argc, argv);
+    if (command->diagnostics.size() > 0) {
+        printDiagnostics(command->diagnostics);
+        return 1;
+    }
+    cout << command->diagnostics.size() << endl;
     if (command->isRequestingVersion) {
         println("L10ns version ", VERSION, ".");
     }

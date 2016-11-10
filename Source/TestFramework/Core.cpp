@@ -87,7 +87,7 @@ void runTests() {
                 cout << "\e[32m․\e[0m";
                 t->success = true;
             }
-            catch(exception & e) {
+            catch (exception & e) {
                 cout << "\e[31m․\e[0m";
                 t->success = false;
             }
