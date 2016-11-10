@@ -10,4 +10,4 @@ For more information, please checkout the [official documentation](http://l10ns.
 
 ## License
 Copyright (c) 2014 Tingan Ho
-Licensed under the MIT license.
+Licensed under the Apache 2 license.
