@@ -1,6 +1,8 @@
 
 .idea
 Build/
+Debug/
+Production/
 Executables/
 Source/Program/Configurations.h
 Source/Vendors/*/Makefile
