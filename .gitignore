@@ -1,11 +1,7 @@
 
 .idea
 Build/
-CMakeFiles/
-CMakeCache.txt
-cmake_install.cmake
 Executables/
-Makefile
 Source/Program/Configurations.h
 Source/Vendors/*/Makefile
 Source/Vendors/Glob/libglob.a
