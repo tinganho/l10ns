@@ -31,8 +31,13 @@ bool is_unique(string key) {
 
 string format_diagnostic_key(string key) {
     string k = boost::regex_replace(key, boost::regex("\\s+"), "_");
-    k = boost::regex_replace(output, boost::regex("\\.|\\'|\\\""), "");
-    keys.push_back(k);
+    k = boost::regex_replace(k, boost::regex("[\\.|\\']"), "");
+    k = boost::regex_replace(k, boost::regex("_+"), "_");
+    boost::match_results<std::string::const_iterator> results;
+    if (boost::regex_search(k, boost::regex("[^a-zA-Z\\d_]"))) {
+        throw invalid_argument("Your 'Diagnostics.json' file contains non-alpha numeric characters: " + key);
+    }
+
     return k;
 }
 
@@ -51,5 +56,5 @@ int main() {
     output += "}";
 
     write_file(PROJECT_DIR "Source/Program/Diagnostics.cpp", output);
-    cout << output << endl;
+    cout << "Successfully generated new diagnostics." << endl;
 }
