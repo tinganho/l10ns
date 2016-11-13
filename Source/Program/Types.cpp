@@ -38,9 +38,9 @@ struct Argument {
     string * name;
     string * description;
 
-    Argument(string * p_name, string * p_description) {
-        this->name = p_name;
-        this->description = p_description;
+    Argument(string* name, string* description) {
+        this->name = name;
+        this->description = description;
     }
 };
 
@@ -50,11 +50,11 @@ struct Flag : Argument {
     FlagKind kind;
     string value;
 
-    Flag(FlagKind p_kind, const char p_name[], const char p_alias[], const char p_description[], bool p_has_value)
-        : kind(p_kind), Argument(new string(p_name), new string(p_description)), alias(new string(p_alias)) {
+    Flag(FlagKind kind, const char name[], const char alias[], const char description[], bool has_value)
+        : kind(kind), Argument(new string(name), new string(description)), alias(new string(alias)) {
 
-        has_value = p_has_value;
-        value = "";
+        this->has_value = has_value;
+        this->value = "";
     }
 };
 
@@ -63,11 +63,11 @@ struct Action : Argument {
     ActionKind kind;
     string * info;
 
-    Action(ActionKind p_kind, const char p_name[], const char p_description[], const char p_info[],vector<Flag> * p_flags)
-        : kind(p_kind), Argument(new string(p_name), new string(p_description)), info(new string(p_info)) {
+    Action(ActionKind kind, const char name[], const char description[], const char info[], vector<Flag> * flags)
+        : kind(kind), Argument(new string(name), new string(description)), info(new string(info)) {
 
-        if (p_flags != NULL) {
-            flags = p_flags;
+        if (flags != NULL) {
+            this->flags = flags;
         }
     }
 };
