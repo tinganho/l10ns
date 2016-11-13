@@ -8,6 +8,15 @@ script:
   - cmake -DCMAKE_CXX_COMPILER=$COMPILER .. && make
   - cd .. && ./Executables/run-tests
 
+# Handle git submodules by ourselves.
+git:
+    submodules: false
+
+# Use sed to replace the SSH URL with the public URL, then initialize submodules.
+before_install:
+    - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
+    - git submodule update --init --recursive
+
 matrix:
   include:
     - compiler: clang
