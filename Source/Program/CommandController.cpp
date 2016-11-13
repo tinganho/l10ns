@@ -129,7 +129,7 @@ inline void print_default_help_info() {
     w->print();
 }
 
-inline Action * get_action(ActionKind action) {
+inline Action* get_action(ActionKind action) {
     for (int i = 0; i < actions.size(); i++) {
         if (actions[i].kind == action) {
             return &actions[i];
@@ -139,7 +139,7 @@ inline Action * get_action(ActionKind action) {
     throw logic_error("Could not get action name.");
 }
 
-inline void print_action_help_info(Command * command) {
+inline void print_action_help_info(Command* command) {
     auto a = get_action(command->action);
     auto w = new TextWriter();
     w->write_line(*a->info);
@@ -163,7 +163,7 @@ inline void print_action_help_info(Command * command) {
     w->print();
 }
 
-inline void print_command_help_info(Command * command) {
+inline void print_command_help_info(Command* command) {
     if (command->action == ActionKind::None) {
         print_default_help_info();
     }
@@ -182,7 +182,7 @@ inline void print_diagnostics(vector<Diagnostic*> diagnostics) {
     }
 }
 
-int init(int argc, char * argv[]) {
+int init(int argc, char* argv[]) {
     auto command = parse_command_args(argc, argv);
     if (command->diagnostics.size() > 0) {
         print_diagnostics(command->diagnostics);

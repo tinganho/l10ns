@@ -35,8 +35,8 @@ struct Diagnostic {
 };
 
 struct Argument {
-    string * name;
-    string * description;
+    string* name;
+    string* description;
 
     Argument(string* name, string* description) {
         this->name = name;
@@ -45,7 +45,7 @@ struct Argument {
 };
 
 struct Flag : Argument {
-    string * alias;
+    string* alias;
     bool has_value;
     FlagKind kind;
     string value;
@@ -59,9 +59,9 @@ struct Flag : Argument {
 };
 
 struct Action : Argument {
-    vector<Flag> * flags;
+    vector<Flag>* flags;
     ActionKind kind;
-    string * info;
+    string* info;
 
     Action(ActionKind kind, const char name[], const char description[], const char info[], vector<Flag> * flags)
         : kind(kind), Argument(new string(name), new string(description)), info(new string(info)) {

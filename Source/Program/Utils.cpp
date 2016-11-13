@@ -44,16 +44,16 @@ void newline() {
     cout << endl;
 }
 
-void println(string p_text) {
-    cout << p_text << endl;
+void println(string text) {
+    cout << text << endl;
 }
 
-void println(string p_text1, string p_text2) {
-    cout << p_text1 << p_text2 << endl;
+void println(string text1, string text2) {
+    cout << text1 << text2 << endl;
 }
 
-void println(string p_text1, string p_text2, string p_text3) {
-    cout << p_text1 << p_text2 << p_text3 << endl;
+void println(string text1, string text2, string text3) {
+    cout << text1 << text2 << text3 << endl;
 }
 
 class TextWriter {
@@ -61,8 +61,8 @@ public:
     string text;
     vector<int> tabs;
 
-    void add_tab(unsigned int p_indentation) {
-        this->tabs.push_back(p_indentation);
+    void add_tab(unsigned int indentation) {
+        this->tabs.push_back(indentation);
     }
 
     void tab() {
@@ -87,17 +87,17 @@ public:
         this->print_indentation();
     }
 
-    void newline(unsigned int p_amount) {
-        for (int i = 0; i < p_amount; i++) {
+    void newline(unsigned int amount) {
+        for (int i = 0; i < amount; i++) {
             this->text += '\n';
         }
         this->column = 0;
         this->print_indentation();
     }
 
-    void write(string p_text) {
-        this->text += p_text;
-        this->column += p_text.size();
+    void write(string text) {
+        this->text += text;
+        this->column += text.size();
     }
 
     void write_line(string p_text) {
@@ -142,15 +142,15 @@ private:
     }
 };
 
-inline bool file_exists(const string & p_filename) {
-    ifstream f(p_filename.c_str());
+inline bool file_exists(const string & filename) {
+    ifstream f(filename.c_str());
     return f.good();
 }
 
-inline string read_file(string p_filename) {
+inline string read_file(string filename) {
     string line;
     string result;
-    ifstream f(p_filename);
+    ifstream f(filename);
     if (f.is_open()) {
         while (getline(f, line)) {
             result += line + '\n';
@@ -159,14 +159,14 @@ inline string read_file(string p_filename) {
         return result;
     }
     else {
-        throw invalid_argument("Utils::readFile: Could not open file '" + p_filename + "'.");
+        throw invalid_argument("Utils::readFile: Could not open file '" + filename + "'.");
     }
 }
 
-inline void write_file(string p_filename, string p_content) {
+inline void write_file(string filename, string content) {
     ofstream f;
-    f.open(p_filename);
-    f << p_content;
+    f.open(filename);
+    f << content;
     f.close();
 }
 
@@ -244,14 +244,14 @@ vector<string> find_files(string pattern) {
     return files;
 }
 
-vector<string> find_files(string p_pattern, string p_cwd) {
-    if (p_cwd.front() != '/') {
-        throw invalid_argument("Utils::find_files: Current working directory 'p_cwd', must be an absolute path. Got '" + p_cwd + "'.");
+vector<string> find_files(string pattern, string cwd) {
+    if (cwd.front() != '/') {
+        throw invalid_argument("Utils::find_files: Current working directory 'p_cwd', must be an absolute path. Got '" + cwd + "'.");
     }
-    if (p_cwd.back() != '/') {
-        p_cwd += '/';
+    if (cwd.back() != '/') {
+        cwd += '/';
     }
-    return find_files(p_cwd + p_pattern);
+    return find_files(cwd + pattern);
 }
 
 } // L10ns
