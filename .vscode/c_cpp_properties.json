@@ -7,7 +7,8 @@
                 "/usr/local/include",
                 "Source/Program",
                 "Source/TestFramework",
-                "Source/Vendors/Glob"
+                "Source/Vendors/Glob",
+                "Source/Vendors/json"
             ],
             "browse" : {
                 "limitSymbolsToIncludedHeaders" : true,

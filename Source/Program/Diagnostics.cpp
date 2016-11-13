@@ -1,7 +1,5 @@
-
-#include <vector>
 #include "Types.cpp"
-
-vector<Diagnostic> = {
-    new Diagnostic(),
+using namespace std;
+namespace D {
+    auto Do_someh_tig = new Diagnostic("Do  someh tig");
 }

@@ -42,7 +42,7 @@ void test(string name, function<void()> procedure) {
 }
 
 int printResult() {
-    vector<Test *> failedTests = {};
+    vector<Test*> failedTests = {};
     int testsSucceded = 0;
     int testsFailed = 0;
     int tests = 0;

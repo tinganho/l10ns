@@ -9,18 +9,22 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/Executables)
 
 configure_file(${PROJECT_SOURCE_DIR}/Source/Program/Configurations.h.in ${PROJECT_SOURCE_DIR}/Source/Program/Configurations.h)
 
-find_package(Boost 1.54 COMPONENTS system filesystem REQUIRED)
+find_package(Boost 1.54 COMPONENTS system filesystem regex REQUIRED)
 
 add_subdirectory(Source/Vendors/Glob)
+add_subdirectory(Source/Vendors/json)
 
 include_directories("${PROJECT_SOURCE_DIR}/Source/Program")
 include_directories("${PROJECT_SOURCE_DIR}/Source/Vendors/Glob")
+include_directories("${PROJECT_SOURCE_DIR}/Source/Vendors/json/src")
 
 add_executable(l10ns ${PROJECT_SOURCE_DIR}/Source/Program/Exec.cpp)
 add_executable(run-tests ${PROJECT_SOURCE_DIR}/Source/TestFramework/Exec.cpp)
 
 add_executable(accept-baseline ${PROJECT_SOURCE_DIR}/Tasks/AcceptBaseline.cpp)
+add_executable(generate-diagnostics ${PROJECT_SOURCE_DIR}/Tasks/GenerateDiagnostics.cpp)
 
 target_link_libraries(l10ns glob ${Boost_LIBRARIES})
 target_link_libraries(run-tests glob ${Boost_LIBRARIES})
 target_link_libraries(accept-baseline glob ${Boost_LIBRARIES})
+target_link_libraries(generate-diagnostics glob ${Boost_LIBRARIES})

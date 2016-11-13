@@ -22,10 +22,10 @@ using boost::asio::ip::tcp;
 
 namespace L10ns {
 
-string executeCommand(const string command) {
+string execute_command(const string p_command) {
     char buffer[128];
     string result = "";
-    shared_ptr<FILE> pipe(popen(command.c_str(), "r"), pclose);
+    shared_ptr<FILE> pipe(popen(p_command.c_str(), "r"), pclose);
     if (!pipe) {
         throw runtime_error("popen() failed!");
     }
@@ -36,24 +36,24 @@ string executeCommand(const string command) {
     return result;
 }
 
-string executeCommand(const string command, string cwd) {
-    return executeCommand("cd " + cwd + " && " + command);
+string execute_command(const string p_command, string p_cwd) {
+    return execute_command("cd " + p_cwd + " && " + p_command);
 }
 
 void newline() {
     cout << endl;
 }
 
-void println(string text) {
-    cout << text << endl;
+void println(string p_text) {
+    cout << p_text << endl;
 }
 
-void println(string text1, string text2) {
-    cout << text1 << text2 << endl;
+void println(string p_text1, string p_text2) {
+    cout << p_text1 << p_text2 << endl;
 }
 
-void println(string text1, string text2, string text3) {
-    cout << text1 << text2 << text3 << endl;
+void println(string p_text1, string p_text2, string p_text3) {
+    cout << p_text1 << p_text2 << p_text3 << endl;
 }
 
 class TextWriter {
@@ -61,96 +61,96 @@ public:
     string text;
     vector<int> tabs;
 
-    void addTab(unsigned int indentation) {
-        tabs.push_back(indentation);
+    void add_tab(unsigned int p_indentation) {
+        this->tabs.push_back(p_indentation);
     }
 
     void tab() {
-        for (int tabIndex = 0; tabIndex < tabs.size(); tabIndex++) {
-            if (column < tabs[tabIndex]) {
-                int diff = tabs[tabIndex] - column;
-                for (int diffIndex = 0; tabIndex < diff; tabIndex++) {
-                    text += " ";
+        for (int i_tab = 0; i_tab < tabs.size(); i_tab++) {
+            if (column < this->tabs[i_tab]) {
+                int diff = this->tabs[i_tab] - column;
+                for (int i_diff = 0; i_diff < i_tab; i_diff++) {
+                    this->text += " ";
                 }
-                column += diff;
+                this->column += diff;
             }
         }
     }
 
-    void clearTabs() {
-        tabs.clear();
+    void clear_tabs() {
+        this->tabs.clear();
     }
 
     void newline() {
-        text += '\n';
-        column = 0;
-        printIndentation();
+        this->text += '\n';
+        this->column = 0;
+        this->print_indentation();
     }
 
-    void newline(unsigned int amount) {
-        for (int i = 0; i < amount; i++) {
-            text += '\n';
+    void newline(unsigned int p_amount) {
+        for (int i = 0; i < p_amount; i++) {
+            this->text += '\n';
         }
-        column = 0;
-        printIndentation();
+        this->column = 0;
+        this->print_indentation();
     }
 
-    void write(string ptext) {
-        text += ptext;
-        column += ptext.size();
+    void write(string p_text) {
+        this->text += p_text;
+        this->column += p_text.size();
     }
 
-    void writeLine(string ptext) {
-        text += ptext;
-        newline();
+    void write_line(string p_text) {
+        this->text += p_text;
+        this->newline();
     }
 
     void print() {
-        cout << text;
+        cout << this->text;
     }
 
     void indent() {
-        indentation += indentationStep;
+        this->indentation += this->indentation_step;
     }
 
     void unindent() {
-        indentation -= indentationStep;
+        this->indentation -= this->indentation_step;
     }
 
     TextWriter() {
         if (getenv("COLUMNS") != NULL) {
-            windowWidth = *(int *)(getenv("COLUMNS"));
+            this->window_width = *(int *)(getenv("COLUMNS"));
         }
         else {
             struct winsize w;
             ioctl(0, TIOCGWINSZ, &w);
-            windowWidth = w.ws_col;
+            this->window_width = w.ws_col;
         }
     }
 
 private:
-    int windowWidth;
+    int window_width;
     unsigned int column = 0;
     unsigned int indentation = 0;
-    static const unsigned int indentationStep = 2;
+    static const unsigned int indentation_step = 2;
 
-    void printIndentation() {
-        for (int i = 0; i < indentation; i++) {
-            text += " ";
-            column += 1;
+    void print_indentation() {
+        for (int i = 0; i < this->indentation; i++) {
+            this->text += " ";
+            this->column += 1;
         }
     }
 };
 
-inline bool fileExists(const string & filename) {
-    ifstream f(filename.c_str());
+inline bool file_exists(const string & p_filename) {
+    ifstream f(p_filename.c_str());
     return f.good();
 }
 
-inline string readFile(string filename) {
+inline string read_file(string p_filename) {
     string line;
     string result;
-    ifstream f(filename);
+    ifstream f(p_filename);
     if (f.is_open()) {
         while (getline(f, line)) {
             result += line + '\n';
@@ -159,23 +159,23 @@ inline string readFile(string filename) {
         return result;
     }
     else {
-        throw invalid_argument("Utils::readFile: Could not open file '" + filename + "'.");
+        throw invalid_argument("Utils::readFile: Could not open file '" + p_filename + "'.");
     }
 }
 
-inline void writeFile(string filename, string content) {
+inline void write_file(string p_filename, string p_content) {
     ofstream f;
-    f.open(filename);
-    f << content;
+    f.open(p_filename);
+    f << p_content;
     f.close();
 }
 
-void remove(string path) {
-    boost::filesystem::path p(path);
-    remove_all(p);
+void remove(string p_path) {
+    boost::filesystem::path path(p_path);
+    boost::filesystem::remove_all(path);
 }
 
-bool copyFolder(boost::filesystem::path const & source, boost::filesystem::path const & destination) {
+bool copy_folder(boost::filesystem::path const & source, boost::filesystem::path const & destination) {
     namespace fs = boost::filesystem;
     try {
         if (!fs::exists(source) || !fs::is_directory(source)) {
@@ -195,15 +195,15 @@ bool copyFolder(boost::filesystem::path const & source, boost::filesystem::path 
             return false;
         }
     }
-    catch(fs::filesystem_error const & e) {
+    catch (fs::filesystem_error const & e) {
         std::cerr << e.what() << '\n';
         return false;
     }
-    for(fs::directory_iterator file(source); file != fs::directory_iterator(); ++file) {
+    for (fs::directory_iterator file(source); file != fs::directory_iterator(); ++file) {
         try {
             fs::path current(file->path());
             if(fs::is_directory(current)) {
-                if(!copyFolder(current, destination / current.filename())) {
+                if(!copy_folder(current, destination / current.filename())) {
                     return false;
                 }
             }
@@ -211,15 +211,15 @@ bool copyFolder(boost::filesystem::path const & source, boost::filesystem::path 
                 fs::copy_file(current, destination / current.filename());
             }
         }
-        catch(fs::filesystem_error const & e) {
+        catch (fs::filesystem_error const & e) {
             std:: cerr << e.what() << '\n';
         }
     }
     return true;
 }
 
-string replaceSubString(string str, string subString, string replacement) {
-    return boost::replace_all_copy(str, subString, replacement);
+string replace_string(string target, string pattern, string replacement) {
+    return boost::replace_all_copy(target, pattern, replacement);
 }
 
 namespace Debug {
@@ -228,12 +228,12 @@ namespace Debug {
     }
 }
 
-void recursivelyCreateFolder(string folder) {
+void recursively_create_folder(string folder) {
     boost::filesystem::path dir(folder);
     create_directories(dir);
 }
 
-vector<string> findFiles(string pattern) {
+vector<string> find_files(string pattern) {
     glob::Glob glob(pattern);
     vector<string> files;
     while (glob) {
@@ -244,14 +244,14 @@ vector<string> findFiles(string pattern) {
     return files;
 }
 
-vector<string> findFiles(string pattern, string cwd) {
-    if (cwd.front() != '/') {
-        throw invalid_argument("Utils::findFiles: Current working directory(cwd) must be an absolute path. Got '" + cwd + "'.");
+vector<string> find_files(string p_pattern, string p_cwd) {
+    if (p_cwd.front() != '/') {
+        throw invalid_argument("Utils::find_files: Current working directory 'p_cwd', must be an absolute path. Got '" + p_cwd + "'.");
     }
-    if (cwd.back() != '/') {
-        cwd += '/';
+    if (p_cwd.back() != '/') {
+        p_cwd += '/';
     }
-    return findFiles(cwd + pattern);
+    return find_files(p_cwd + p_pattern);
 }
 
 } // L10ns
