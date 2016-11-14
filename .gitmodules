@@ -1,3 +1,6 @@
 [submodule "Source/Vendors/json"]
 	path = Source/Vendors/json
 	url = git@github.com:nlohmann/json.git
+[submodule "Source/Vendors/dtl"]
+	path = Source/Vendors/dtl
+	url = git@github.com:cubicdaiya/dtl.git
