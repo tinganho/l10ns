@@ -9,12 +9,12 @@ using namespace std;
 
 namespace L10ns {
 
-static Flag help_flag = Flag(FlagKind::Help, "--help", "-h", "Print help description.", /*hasValue*/ false);
+static Flag help_flag = Flag(FlagKind::Help, "--help", "-h", "Print help description.", /*has_value*/ false);
 static Flag language_flag = Flag(FlagKind::Language, "--language", "-l", "Specify language.", false);
 
 static vector<Flag> default_flags = {
     help_flag,
-    Flag(FlagKind::Version, "--version", "", "Print current version.", /*hasValue*/ false),
+    Flag(FlagKind::Version, "--version", "", "Print current version.", /*has_value*/ false),
 };
 
 static vector<Flag> help_flags = {
@@ -22,10 +22,10 @@ static vector<Flag> help_flags = {
 };
 
 static vector<Flag> set_flags = {
-    Flag(FlagKind::Key, "--key", "-k", "Specify localization key.", /*hasValue*/ true),
-    Flag(FlagKind::Value, "--value", "-v", "Specify localization value.", /*hasValue*/ true),
-    Flag(FlagKind::Value, "--log-index", "-li", "Specify log index.", /*hasValue*/ true),
-    Flag(FlagKind::Value, "--search-index", "-se", "Specify latest search index.", /*hasValue*/ true),
+    Flag(FlagKind::Key, "--key", "-k", "Specify localization key.", /*has_value*/ true),
+    Flag(FlagKind::Value, "--value", "-v", "Specify localization value.", /*has_value*/ true),
+    Flag(FlagKind::Value, "--log-index", "-li", "Specify log index.", /*has_value*/ true),
+    Flag(FlagKind::Value, "--search-index", "-se", "Specify latest search index.", /*has_value*/ true),
     language_flag,
     help_flag,
 };
