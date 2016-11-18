@@ -1,0 +1,17 @@
+{
+    "Name": "TypeScript",
+    "FileExtensions": ["ts", "tsx"],
+    "Capabilities": [
+        "Plural",
+        "Select",
+        "Date",
+        "Number"
+    ],
+    "Executable": "bin/l10ns-ts",
+    "Configurations": [
+         {
+             "Name": "Getter",
+             "Type": "String"
+         }
+    ]
+}
