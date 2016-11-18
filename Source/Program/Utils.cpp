@@ -12,16 +12,23 @@
 #include <exception>
 #include <boost/asio.hpp>
 #include <boost/algorithm/string/replace.hpp>
+#include <boost/regex.hpp>
 #define BOOST_NO_CXX11_SCOPED_ENUMS
 #include <boost/filesystem.hpp>
 #undef BOOST_NO_CXX11_SCOPED_ENUMS
 #include "glob.h"
+#include "Types.cpp"
 
 using namespace std;
 using boost::asio::ip::tcp;
 namespace fs = boost::filesystem;
 
 namespace L10ns {
+
+Diagnostic* create_diagnostic(DiagnosticTemplate* d, string arg1) {
+    string* message = new string(boost::regex_replace(d->message_template, boost::regex("\\{0\\}"), arg1));
+    return new Diagnostic(message);
+}
 
 string execute_command(const string p_command) {
     char buffer[128];

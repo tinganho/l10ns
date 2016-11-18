@@ -2,5 +2,6 @@
 #include "Types.cpp"
 using namespace std;
 namespace D {
-    auto Do_someh_tig = new Diagnostic("Do  someh tig");
+    auto Unknown_command = new DiagnosticTemplate("Unknown command '{0}'.");
+    auto Unknown_command_flag = new DiagnosticTemplate("Unknown command flag '{0}'.");
 }

@@ -23,15 +23,19 @@ enum class FlagKind {
     Value,
 };
 
-struct Diagnostic {
-    string message;
-    unsigned int code;
-    Diagnostic* parent;
+struct DiagnosticTemplate {
+    string message_template;
 
-    Diagnostic(string message)
-        : message(message) {
-
+    DiagnosticTemplate(string message_template)
+        : message_template(message_template) {
     }
+};
+
+struct Diagnostic {
+    string* message;
+
+    Diagnostic(string* message)
+        : message(message) {}
 };
 
 struct Argument {
@@ -69,6 +73,24 @@ struct Action : Argument {
         if (flags != NULL) {
             this->flags = flags;
         }
+    }
+};
+
+struct Command {
+    bool is_requesting_help;
+    bool is_requesting_version;
+    ActionKind action;
+    vector<Diagnostic*> diagnostics;
+
+    Command()
+        : is_requesting_help(false)
+        , is_requesting_version(false)
+        , action(ActionKind::None) {
+
+    }
+
+    void add_diagnostics(Diagnostic* diagnostic) {
+        diagnostics.push_back(diagnostic);
     }
 };
 

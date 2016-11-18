@@ -35,6 +35,8 @@ string format_diagnostic_key(string key) {
     string k = boost::regex_replace(key, boost::regex("\\s+"), "_");
     k = boost::regex_replace(k, boost::regex("[\\.|\\']"), "");
     k = boost::regex_replace(k, boost::regex("_+"), "_");
+    k = boost::regex_replace(k, boost::regex("{\\d+}"), "");
+    k = boost::regex_replace(k, boost::regex("^_+|_+$"), "");
     boost::match_results<std::string::const_iterator> results;
     if (boost::regex_search(k, boost::regex("[^a-zA-Z\\d_]"))) {
         throw invalid_argument("Your 'Diagnostics.json' file contains non-alpha numeric characters: " + key);
@@ -48,7 +50,7 @@ int main() {
     auto diagnostics = json::parse(json);
     for (json::iterator it = diagnostics.begin(); it != diagnostics.end(); ++it) {
         string key = format_diagnostic_key(it.key());
-        output += "    auto " + key + " = new Diagnostic(\"" + it.key() + "\");\n";
+        output += "    auto " + key + " = new DiagnosticTemplate(\"" + it.key() + "\");\n";
         if (!is_unique(key)) {
             throw invalid_argument("Duplicate formatted key: " + key + ".");
         }

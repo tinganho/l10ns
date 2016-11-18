@@ -177,8 +177,8 @@ void sync_keys() {
 }
 
 inline void print_diagnostics(vector<Diagnostic*> diagnostics) {
-    for (auto const & d : diagnostics) {
-        cout << d->message << endl;
+    for (auto const& d : diagnostics) {
+        cout << *d->message << endl;
     }
 }
 

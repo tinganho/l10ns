@@ -1,6 +1,7 @@
 
 #include <vector>
 #include <string>
+#include "Utils.cpp"
 #include "Types.cpp"
 #include "Diagnostics.cpp"
 
@@ -63,24 +64,6 @@ static vector<Action> actions = {
     Action(ActionKind::Set, "set", "Set localization.", set_info, &set_flags),
 };
 
-struct Command {
-    bool is_requesting_help;
-    bool is_requesting_version;
-    ActionKind action;
-    vector<Diagnostic*> diagnostics;
-
-    Command()
-        : is_requesting_help(false)
-        , is_requesting_version(false)
-        , action(ActionKind::None) {
-
-    }
-
-    void add_diagnostics(Diagnostic* diagnostic) {
-        diagnostics.push_back(diagnostic);
-    }
-};
-
 vector<Flag>* current_flags = &default_flags;
 
 vector<Flag>* get_action_flags(ActionKind kind) {
@@ -123,14 +106,23 @@ Command* parse_command_args(int argc, char* argv[]) {
     for (int arg_index = 1; arg_index < argc; arg_index++) {
         auto arg = argv[arg_index];
         if (!has_action) {
+            if (arg[0] == '-') {
+                goto no_action;
+            }
             for (auto const& a : actions) {
                 if (strcmp(a.name->c_str(), arg) == 0) {
                     command->action = a.kind;
                     has_action = true;
                     current_flags = a.flags;
-                    break;
+                    goto end_of_loop;
                 }
             }
+            if (!has_action) {
+                command->add_diagnostics(create_diagnostic(D::Unknown_command, arg));
+                goto end_of_loop;
+            }
+
+            no_action:;
         }
 
         if (flag_which_awaits_value == NULL) {
@@ -145,7 +137,7 @@ Command* parse_command_args(int argc, char* argv[]) {
                 }
             }
             if (!is_known_flag) {
-                command->add_diagnostics(D::Do_someh_tig);
+                command->add_diagnostics(create_diagnostic(D::Unknown_command_flag, arg));
                 return command;
             }
         }
@@ -153,6 +145,8 @@ Command* parse_command_args(int argc, char* argv[]) {
             set_command_flag(command, flag_which_awaits_value, arg);
             flag_which_awaits_value = NULL;
         }
+
+        end_of_loop:;
     }
 
     return command;
