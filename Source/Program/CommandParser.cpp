@@ -109,7 +109,6 @@ void set_command_flag(Command* command, const Flag* flag, char* value = NULL) {
         default:
             throw invalid_argument("Unknwon command flag.");
     }
-
 }
 
 Command* parse_command_args(int argc, char* argv[]) {

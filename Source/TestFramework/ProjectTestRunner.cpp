@@ -23,7 +23,7 @@ void addProjectTests() {
         recursively_create_folder(current_folder);
         write_file(current_folder + "/stdout.out", result);
         string test_name = p.substr(p.find_last_of("/") + 1);
-        test(test_name, [result, p]() {
+        test(test_name, [result, p](Test* t) {
             string reference_file = replace_string(p, "/Cases/", "/Reference/");
             string reference = read_file(reference_file + "/stdout.out");
             if (result != reference) {

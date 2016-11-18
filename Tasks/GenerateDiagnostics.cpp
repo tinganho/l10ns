@@ -12,6 +12,8 @@ using namespace L10ns;
 using json = nlohmann::json;
 
 string output =
+    "// This code is auto generate. Don't edit!"
+    "\n"
     "#include \"Types.cpp\""
     "\n"
     "using namespace std;"

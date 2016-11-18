@@ -19,6 +19,7 @@
 
 using namespace std;
 using boost::asio::ip::tcp;
+namespace fs = boost::filesystem;
 
 namespace L10ns {
 
@@ -66,13 +67,14 @@ public:
     }
 
     void tab() {
-        for (int i_tab = 0; i_tab < tabs.size(); i_tab++) {
-            if (column < this->tabs[i_tab]) {
+        for (int i_tab = 0; i_tab < this->tabs.size(); i_tab++) {
+            if (this->column < this->tabs[i_tab]) {
                 int diff = this->tabs[i_tab] - column;
-                for (int i_diff = 0; i_diff < i_tab; i_diff++) {
+                for (int i_diff = 0; i_diff < diff; i_diff++) {
                     this->text += " ";
                 }
                 this->column += diff;
+                break;
             }
         }
     }
@@ -100,8 +102,8 @@ public:
         this->column += text.size();
     }
 
-    void write_line(string p_text) {
-        this->text += p_text;
+    void write_line(string text) {
+        this->write(text);
         this->newline();
     }
 
@@ -170,28 +172,26 @@ inline void write_file(string filename, string content) {
     f.close();
 }
 
-void remove(string p_path) {
-    boost::filesystem::path path(p_path);
-    boost::filesystem::remove_all(path);
+void remove_all(string path) {
+    fs::remove_all(fs::path(path));
 }
 
-bool copy_folder(boost::filesystem::path const & source, boost::filesystem::path const & destination) {
-    namespace fs = boost::filesystem;
+bool copy_folder(fs::path const & source, fs::path const & destination) {
     try {
         if (!fs::exists(source) || !fs::is_directory(source)) {
-            std::cerr << "Source directory " << source.string()
-                << " does not exist or is not a directory." << '\n'
+            std::cerr << "Source directory '" << source.string()
+                << "' does not exist or is not a directory." << '\n'
             ;
             return false;
         }
         if (fs::exists(destination)) {
-            std::cerr << "Destination directory " << destination.string()
-                << " already exists." << '\n';
+            std::cerr << "Destination directory '" << destination.string()
+                << "' already exists." << '\n';
             return false;
         }
 
         if (!fs::create_directory(destination)) {
-            std::cerr << "Unable to create destination directory" << destination.string() << '\n';
+            std::cerr << "Unable to create destination directory '" << destination.string() << "'.\n";
             return false;
         }
     }

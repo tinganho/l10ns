@@ -9,26 +9,29 @@
 using namespace std;
 using namespace L10ns;
 
+typedef char elem;
+typedef std::string sequence;
+
 namespace TestFramework {
 
 struct Test {
     string name;
-    function<void()> procedure;
+    function<void(Test* t)> procedure;
     bool success;
 
-    Test(string name, function<void()> procedure): name(name), procedure(procedure) {
+    Test(string name, function<void(Test* t)> procedure): name(name), procedure(procedure) {
     }
 };
 
 struct Domain {
     string name;
-    vector<Test *>tests = {};
+    vector<Test*>tests = {};
 
     Domain(string name): name(name) {
     }
 };
 
-vector<Domain *> domains = {};
+vector<Domain*> domains = {};
 Domain * currentDomain;
 
 void domain(string name) {
@@ -36,7 +39,7 @@ void domain(string name) {
     domains.push_back(currentDomain);
 }
 
-void test(string name, function<void()> procedure) {
+void test(string name, function<void(Test* t)> procedure) {
     auto test = new Test(name, procedure);
     currentDomain->tests.push_back(test);
 }
@@ -59,17 +62,19 @@ int printResult() {
         }
     }
 
-    cout << "\e[32m  " + to_string(testsSucceded) + " passed\e[0m" << endl;
-    cout << "\e[31m  " + to_string(testsFailed) + " failed\e[0m" << endl;
-    cout << "  " + to_string(testsSucceded + testsFailed) + " total" << endl;
+    cout << "\e[32m    " + to_string(testsSucceded) + " passed\e[0m" << endl;
+    cout << "\e[31m    " + to_string(testsFailed) + " failed\e[0m" << endl;
+    cout << "    " + to_string(testsSucceded + testsFailed) + " total" << endl;
     int domainSize = domains.size();
     string domain = domainSize == 1 ? " domain" : " domains";
-    cout << "  " + to_string(domainSize) + domain << endl;
+    cout << "    " + to_string(domainSize) + domain << endl;
 
     if (testsFailed > 0) {
         cout << endl;
+        cout << "Failed tests:" << endl;
+        cout << endl;
         for (auto const & t : failedTests) {
-            cout <<  "\e[31m  " + t->name + "\e[0m" << endl;
+            cout <<  "\e[31m    " + t->name + "\e[0m" << endl;
         }
     }
 
@@ -79,11 +84,11 @@ int printResult() {
 void runTests() {
     cout << endl;
     for (auto const & d : domains) {
-        cout << "  " + d->name + ":" << endl;
-        cout << "  ";
+        cout << d->name + ":" << endl;
+        cout << "    ";
         for (auto const & t : d->tests) {
             try {
-                t->procedure();
+                t->procedure(t);
                 cout << "\e[32m․\e[0m";
                 t->success = true;
             }

@@ -96,7 +96,7 @@ void start_extension_server() {
 inline void print_default_help_info() {
     auto w = new TextWriter();
     w->add_tab(2);
-    w->add_tab(12);
+    w->add_tab(10);
     w->write_line("Usage: l10ns [<options>] <command>");
     w->newline();
     w->write_line("Commands:");
@@ -188,7 +188,6 @@ int init(int argc, char* argv[]) {
         print_diagnostics(command->diagnostics);
         return 1;
     }
-    cout << command->diagnostics.size() << endl;
     if (command->is_requesting_version) {
         println("L10ns version ", VERSION, ".");
     }
