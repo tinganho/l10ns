@@ -1,3 +1,6 @@
 [submodule "Source/Vendors/json"]
 	path = Source/Vendors/json
 	url = git@github.com:nlohmann/json.git
+[submodule "Source/Vendors/yaml-cpp"]
+	path = Source/Vendors/yaml-cpp
+	url = git@github.com:jbeder/yaml-cpp.git
