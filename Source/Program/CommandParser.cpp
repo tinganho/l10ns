@@ -101,7 +101,7 @@ Command* parse_command_args(int argc, char* argv[]) {
     bool has_action = false;
 
     // The option flag that is pending for a value.
-    const Flag * flag_which_awaits_value = NULL;
+    const Flag* flag_which_awaits_value = NULL;
 
     for (int arg_index = 1; arg_index < argc; arg_index++) {
         auto arg = argv[arg_index];
