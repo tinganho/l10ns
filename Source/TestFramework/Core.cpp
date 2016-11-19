@@ -66,11 +66,11 @@ int printResult() {
     string domain = domain_size == 1 ? " domain" : " domains";
     cout << "    " + to_string(domain_size) + domain << endl;
 
-    if (testsFailed > 0) {
+    if (tests_failed > 0) {
         cout << endl;
         cout << "Failed tests:" << endl;
         cout << endl;
-        for (auto const & t : failedTests) {
+        for (auto const & t : failed_tests) {
             cout <<  "\e[31m    " + t->name + "\e[0m" << endl;
         }
     }
