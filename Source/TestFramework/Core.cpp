@@ -9,9 +9,6 @@
 using namespace std;
 using namespace L10ns;
 
-typedef char elem;
-typedef std::string sequence;
-
 namespace TestFramework {
 
 struct Test {
@@ -32,42 +29,42 @@ struct Domain {
 };
 
 vector<Domain*> domains = {};
-Domain * currentDomain;
+Domain * current_domain;
 
 void domain(string name) {
-    currentDomain = new Domain(name);
-    domains.push_back(currentDomain);
+    current_domain = new Domain(name);
+    domains.push_back(current_domain);
 }
 
 void test(string name, function<void(Test* t)> procedure) {
     auto test = new Test(name, procedure);
-    currentDomain->tests.push_back(test);
+    current_domain->tests.push_back(test);
 }
 
 int printResult() {
-    vector<Test*> failedTests = {};
-    int testsSucceded = 0;
-    int testsFailed = 0;
+    vector<Test*> failed_tests = {};
+    int tests_succeded = 0;
+    int tests_failed = 0;
     int tests = 0;
     for (auto const & d : domains) {
         for (auto const & t : d->tests) {
             if (!t->success) {
-                failedTests.push_back(t);
-                testsFailed++;
+                failed_tests.push_back(t);
+                tests_failed++;
             }
             else {
-                testsSucceded++;
+                tests_succeded++;
             }
             tests++;
         }
     }
 
-    cout << "\e[32m    " + to_string(testsSucceded) + " passed\e[0m" << endl;
-    cout << "\e[31m    " + to_string(testsFailed) + " failed\e[0m" << endl;
-    cout << "    " + to_string(testsSucceded + testsFailed) + " total" << endl;
-    int domainSize = domains.size();
-    string domain = domainSize == 1 ? " domain" : " domains";
-    cout << "    " + to_string(domainSize) + domain << endl;
+    cout << "\e[32m    " + to_string(tests_succeded) + " passed\e[0m" << endl;
+    cout << "\e[31m    " + to_string(tests_failed) + " failed\e[0m" << endl;
+    cout << "    " + to_string(tests_succeded + tests_failed) + " total" << endl;
+    int domain_size = domains.size();
+    string domain = domain_size == 1 ? " domain" : " domains";
+    cout << "    " + to_string(domain_size) + domain << endl;
 
     if (testsFailed > 0) {
         cout << endl;
@@ -78,7 +75,7 @@ int printResult() {
         }
     }
 
-    return testsFailed == 0 ? 0 : 1;
+    return tests_failed == 0 ? 0 : 1;
 }
 
 void runTests() {

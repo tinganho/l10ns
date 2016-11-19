@@ -1,17 +1,12 @@
 {
-    "Name": "TypeScript",
-    "FileExtensions": ["ts", "tsx"],
+    "Name": "JavaScript",
+    "FileExtensions": ["ts", "tsx", "js"],
     "Capabilities": [
         "Plural",
         "Select",
         "Date",
         "Number"
     ],
-    "Executable": "bin/l10ns-ts",
-    "Configurations": [
-         {
-             "Name": "Getter",
-             "Type": "String"
-         }
-    ]
+    "DependencyTest": "bin/dep-test",
+    "Execute": "node bin/l10ns-ts.js"
 }
