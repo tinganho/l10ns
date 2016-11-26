@@ -7,6 +7,6 @@
         "Date",
         "Number"
     ],
-    "DependencyTest": "bin/dep-test",
+    "DependencyTest": "dep-test",
     "Execute": "node bin/l10ns-ts.js"
 }

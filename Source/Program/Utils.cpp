@@ -219,7 +219,7 @@ bool copy_folder(fs::path const & source, fs::path const & destination) {
             }
         }
         catch (fs::filesystem_error const & e) {
-            std:: cerr << e.what() << '\n';
+            cerr << e.what() << '\n';
         }
     }
     return true;
