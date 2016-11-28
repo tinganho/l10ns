@@ -25,6 +25,11 @@ namespace fs = boost::filesystem;
 
 namespace L10ns {
 
+Diagnostic* create_diagnostic(DiagnosticTemplate* d) {
+    string* message = new string(d->message_template);
+    return new Diagnostic(message);
+}
+
 Diagnostic* create_diagnostic(DiagnosticTemplate* d, string arg1) {
     string* message = new string(boost::regex_replace(d->message_template, boost::regex("\\{0\\}"), arg1));
     return new Diagnostic(message);
@@ -151,12 +156,12 @@ private:
     }
 };
 
-inline bool file_exists(const string & filename) {
+bool file_exists(const string filename) {
     ifstream f(filename.c_str());
     return f.good();
 }
 
-inline string read_file(string filename) {
+string read_file(string filename) {
     string line;
     string result;
     ifstream f(filename);
@@ -172,11 +177,15 @@ inline string read_file(string filename) {
     }
 }
 
-inline void write_file(string filename, string content) {
+void write_file(string filename, string content) {
     ofstream f;
     f.open(filename);
     f << content;
     f.close();
+}
+
+void write_file(string filename, string content, string cwd) {
+    write_file(cwd + filename, content);
 }
 
 void remove_all(string path) {
@@ -235,9 +244,9 @@ namespace Debug {
     }
 }
 
-void recursively_create_folder(string folder) {
-    boost::filesystem::path dir(folder);
-    create_directories(dir);
+void recursively_create_dir(string dir) {
+    boost::filesystem::path d(dir);
+    boost::filesystem::create_directories(d);
 }
 
 vector<string> find_files(string pattern) {
@@ -259,6 +268,11 @@ vector<string> find_files(string pattern, string cwd) {
         cwd += '/';
     }
     return find_files(cwd + pattern);
+}
+
+string* get_cwd() {
+    boost::filesystem::path full_path(boost::filesystem::current_path());
+    return new string(full_path.string() + "/");
 }
 
 } // L10ns

@@ -11,9 +11,11 @@ namespace L10ns {
 
 static Flag help_flag = Flag(FlagKind::Help, "--help", "-h", "Print help description.", /*has_value*/ false);
 static Flag language_flag = Flag(FlagKind::Language, "--language", "-l", "Specify language.", false);
+static Flag root_dir = Flag(FlagKind::Help, "--rootDir", "-rd", "Specify current root dir(Mainly for testing purposes).", /*has_value*/ true);
 
 static vector<Flag> default_flags = {
     help_flag,
+    root_dir,
     Flag(FlagKind::Version, "--version", "", "Print current version.", /*has_value*/ false),
 };
 
@@ -81,23 +83,50 @@ vector<Flag>* get_action_flags(ActionKind kind) {
     }
 }
 
-void set_command_flag(Command* command, const Flag* flag, char* value = NULL) {
+struct Session {
+    bool is_requesting_help;
+    bool is_requesting_version;
+    string* root_dir;
+    ActionKind action;
+    vector<Diagnostic*> diagnostics;
+    string* programming_language;
+
+    Session()
+        : is_requesting_help(false)
+        , is_requesting_version(false)
+        , action(ActionKind::None) {
+    }
+
+    void add_diagnostics(Diagnostic* diagnostic) {
+        diagnostics.push_back(diagnostic);
+    }
+
+    void write_file(string filename, string content) {
+        L10ns::write_file(filename, content, *root_dir);
+    }
+};
+
+void set_command_flag(Session* session, const Flag* flag, char* value = NULL) {
     switch (flag->kind) {
         case FlagKind::Help:
-            command->is_requesting_help = true;
+            session->is_requesting_help = true;
             return;
         case FlagKind::Version:
-            command->is_requesting_version = true;
+            session->is_requesting_version = true;
+            return;
+        case FlagKind::RootDir:
+            session->root_dir = new string(value);
             return;
         default:
-            throw invalid_argument("Unknwon command flag.");
+            throw invalid_argument("Unknown command flag.");
     }
 }
 
-Command* parse_command_args(int argc, char* argv[]) {
-    Command * command = new Command();
+Session* parse_command_args(int argc, char* argv[]) {
+    Session* session = new Session();
+    session->root_dir = get_cwd();
 
-    // Flag to optimize has action parsing.
+    // Flag to optimize parsing.
     bool has_action = false;
 
     // The option flag that is pending for a value.
@@ -111,14 +140,14 @@ Command* parse_command_args(int argc, char* argv[]) {
             }
             for (auto const& a : actions) {
                 if (strcmp(a.name->c_str(), arg) == 0) {
-                    command->action = a.kind;
+                    session->action = a.kind;
                     has_action = true;
                     current_flags = a.flags;
                     goto end_of_loop;
                 }
             }
             if (!has_action) {
-                command->add_diagnostics(create_diagnostic(D::Unknown_command, arg));
+                session->add_diagnostics(create_diagnostic(D::Unknown_command, arg));
                 goto end_of_loop;
             }
 
@@ -132,23 +161,27 @@ Command* parse_command_args(int argc, char* argv[]) {
                     if (flag.has_value) {
                         flag_which_awaits_value = &flag;
                     }
-                    set_command_flag(command, &flag);
+                    set_command_flag(session, &flag);
                     is_known_flag = true;
                 }
             }
             if (!is_known_flag) {
-                command->add_diagnostics(create_diagnostic(D::Unknown_command_flag, arg));
-                return command;
+                session->add_diagnostics(create_diagnostic(D::Unknown_command_flag, arg));
+                return session;
             }
         }
         else {
-            set_command_flag(command, flag_which_awaits_value, arg);
+            set_command_flag(session, flag_which_awaits_value, arg);
             flag_which_awaits_value = NULL;
         }
 
         end_of_loop:;
     }
 
-    return command;
+    if (!file_exists(*session->root_dir + "l10ns.json")) {
+        session->add_diagnostics(create_diagnostic(D::You_are_not_inside_a_L10ns_project));
+    }
+
+    return session;
 }
 } // L10ns

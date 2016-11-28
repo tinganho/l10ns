@@ -21,6 +21,7 @@ enum class FlagKind {
     Language,
     Key,
     Value,
+    RootDir,
 };
 
 struct DiagnosticTemplate {
@@ -73,24 +74,6 @@ struct Action : Argument {
         if (flags != NULL) {
             this->flags = flags;
         }
-    }
-};
-
-struct Command {
-    bool is_requesting_help;
-    bool is_requesting_version;
-    ActionKind action;
-    vector<Diagnostic*> diagnostics;
-
-    Command()
-        : is_requesting_help(false)
-        , is_requesting_version(false)
-        , action(ActionKind::None) {
-
-    }
-
-    void add_diagnostics(Diagnostic* diagnostic) {
-        diagnostics.push_back(diagnostic);
     }
 };
 

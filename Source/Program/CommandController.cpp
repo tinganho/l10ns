@@ -8,8 +8,10 @@
 #include "CommandParser.cpp"
 #include "Configurations.h"
 #include "Utils.cpp"
+#include "json.hpp"
 
 using namespace std;
+using json = nlohmann::json;
 
 namespace L10ns {
 
@@ -49,13 +51,13 @@ class TCPServer {
 public:
     tcp::endpoint endpoint;
 
-    TCPServer(boost::asio::io_service& service)
+    TCPServer(boost::asio::io_service& service, string command)
         : endpoint(tcp::v4(), 0)
         , local_endpoint(acceptor.local_endpoint())
         , acceptor(service, endpoint) {
 
         start_accept();
-        execute_command("L10NS_IS_USING_TCP_SERVER=1 L10NS_EXTENSION_SERVER_PORT=" + port() + " ./test");
+        execute_command("IS_USING_TCP_SERVER=1 EXTENSION_SERVER_PORT=" + port() + " " + command);
     }
 
     string port() {
@@ -82,14 +84,29 @@ private:
     }
 };
 
-void start_extension_server() {
+void start_extension_server(Session* session) {
     try {
+        vector<string> files = find_files(PROJECT_DIR "Source/Extensions/*/Extension.json");
+        string command;
+        bool found_matching_programming_language = false;
+        for (auto const& f : files) {
+            json package = json::parse(read_file(f));
+            vector<string> pl = package["ProgrammingLanguage"];
+            if (find(pl.begin(), pl.end(), *session->programming_language) != pl.end()) {
+                found_matching_programming_language = true;
+                command = package["Execute"];
+                break;
+            }
+        }
+        if (!found_matching_programming_language) {
+            throw invalid_argument("No matching programming language for" + *session->programming_language);
+        }
         boost::asio::io_service service;
-        TCPServer server(service);
+        TCPServer server(service, command);
         service.run();
     }
     catch (exception& e) {
-        std::cerr << e.what() << std::endl;
+        cerr << e.what() << endl;
     }
 }
 
@@ -139,8 +156,8 @@ inline Action* get_action(ActionKind action) {
     throw logic_error("Could not get action name.");
 }
 
-inline void print_action_help_info(Command* command) {
-    auto a = get_action(command->action);
+inline void print_action_help_info(Session* session) {
+    auto a = get_action(session->action);
     auto w = new TextWriter();
     w->write_line(*a->info);
     w->newline();
@@ -149,7 +166,7 @@ inline void print_action_help_info(Command* command) {
     w->add_tab(2);
     w->add_tab(24);
     w->newline();
-    for (const auto& flag : *get_action_flags(command->action)) {
+    for (const auto& flag : *get_action_flags(session->action)) {
         w->tab();
         if (flag.alias->length() != 0) {
             w->write(*flag.name + ", " + *flag.alias);
@@ -163,17 +180,13 @@ inline void print_action_help_info(Command* command) {
     w->print();
 }
 
-inline void print_command_help_info(Command* command) {
-    if (command->action == ActionKind::None) {
+inline void print_command_help_info(Session* session) {
+    if (session->action == ActionKind::None) {
         print_default_help_info();
     }
     else {
-        print_action_help_info(command);
+        print_action_help_info(session);
     }
-}
-
-void sync_keys() {
-    start_extension_server();
 }
 
 inline void print_diagnostics(vector<Diagnostic*> diagnostics) {
@@ -183,19 +196,19 @@ inline void print_diagnostics(vector<Diagnostic*> diagnostics) {
 }
 
 int init(int argc, char* argv[]) {
-    auto command = parse_command_args(argc, argv);
-    if (command->diagnostics.size() > 0) {
-        print_diagnostics(command->diagnostics);
+    auto session = parse_command_args(argc, argv);
+    if (session->diagnostics.size() > 0) {
+        print_diagnostics(session->diagnostics);
         return 1;
     }
-    if (command->is_requesting_version) {
+    if (session->is_requesting_version) {
         println("L10ns version ", VERSION, ".");
     }
-    else if (command->is_requesting_help) {
-        print_command_help_info(command);
+    else if (session->is_requesting_help) {
+        print_command_help_info(session);
     }
-    else if (command->action == ActionKind::Sync) {
-        sync_keys();
+    else if (session->action == ActionKind::Sync) {
+        start_extension_server(session);
     }
     return 0;
 }

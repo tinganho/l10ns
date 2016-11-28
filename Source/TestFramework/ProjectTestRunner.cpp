@@ -17,15 +17,15 @@ void addProjectTests() {
 
     for (auto const &p : paths) {
         auto command = read_file(p + "/Command.cmd");
-        command = string(PROJECT_DIR) + "/Executables/l10ns " + command;
+        string current_dir = replace_string(p, "/Cases/", "/Current/");
+        recursively_create_dir(current_dir);
+        command = string(PROJECT_DIR) + "/Executables/l10ns --rootDir " + current_dir + " " + command;
         string result = execute_command(command);
-        string current_folder = replace_string(p, "/Cases/", "/Current/");
-        recursively_create_folder(current_folder);
-        write_file(current_folder + "/stdout.out", result);
+        write_file(current_dir + "/Output.txt", result);
         string test_name = p.substr(p.find_last_of("/") + 1);
         test(test_name, [result, p](Test* t) {
             string reference_file = replace_string(p, "/Cases/", "/Reference/");
-            string reference = read_file(reference_file + "/stdout.out");
+            string reference = read_file(reference_file + "/Output.txt");
             if (result != reference) {
                 throw runtime_error("Assertion Error!");
             }

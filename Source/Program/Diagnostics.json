@@ -1,4 +1,5 @@
 {
     "Unknown command flag '{0}'.": {},
-    "Unknown command '{0}'.": {}
+    "Unknown command '{0}'.": {},
+    "You are not inside a L10ns project.": {}
 }
