@@ -2,5 +2,10 @@ function l(key) {
   if(!(key in localizations['{{=it.language}}'])) {
     throw new TypeError('Key `' + key + '` not in {{=it.language}} localizations');
   }
-  return localizations['{{=it.language}}'][key].call(localizations['{{=it.language}}'], arguments[1]);
+  var loc = localizations['{{=it.language}}'][key];
+  if ( typeof loc === 'function' ) {
+    return loc.call(localizations['{{=it.language}}'], arguments[1]);
+  } else {
+    return loc;
+  }
 }
