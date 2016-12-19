@@ -11,7 +11,7 @@ namespace L10ns {
 
 static Flag help_flag = Flag(FlagKind::Help, "--help", "-h", "Print help description.", /*has_value*/ false);
 static Flag language_flag = Flag(FlagKind::Language, "--language", "-l", "Specify language.", false);
-static Flag root_dir = Flag(FlagKind::Help, "--rootDir", "-rd", "Specify current root dir(Mainly for testing purposes).", /*has_value*/ true);
+static Flag root_dir = Flag(FlagKind::Help, "--rootDir", "-rd", "Specify current root dir(mainly for testing purposes).", /*has_value*/ true);
 
 static vector<Flag> default_flags = {
     help_flag,
@@ -134,7 +134,7 @@ Session* parse_command_args(int argc, char* argv[]) {
 
     for (int arg_index = 1; arg_index < argc; arg_index++) {
         auto arg = argv[arg_index];
-        if (!has_action) {
+        if (!has_action && arg_index == 1) {
             if (arg[0] == '-') {
                 goto no_action;
             }
@@ -178,7 +178,7 @@ Session* parse_command_args(int argc, char* argv[]) {
         end_of_loop:;
     }
 
-    if (!file_exists(*session->root_dir + "l10ns.json")) {
+    if (!file_exists(*session->root_dir + "l10ns.json") && current_flags != &default_flags) {
         session->add_diagnostics(create_diagnostic(D::You_are_not_inside_a_L10ns_project));
     }
 
