@@ -7,7 +7,7 @@
         "Date",
         "Number"
     ],
-    "ProgrammingLanguage": ["JavaScript", "TypeScript"],
+    "ProgrammingLanguage": "JavaScript",
     "DependencyTest": "dep-test",
     "Execute": "node Executables/l10ns-ts.js"
 }

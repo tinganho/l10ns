@@ -1,2 +1,16 @@
-Unknown command '/Users/tinganho/Development/l10ns/Tests/Current/Projects/DefaultHelp'.
-You are not inside a L10ns project.
+Usage: l10ns [<options>] <command>
+
+Commands:
+
+  init    Initialize project.
+  sync    Synchronize localization keys.
+  log     Show latest added localizations.
+  set     Set localization.
+
+For more details: 'l10ns <command> --help'.
+
+Options:
+
+  --help, -h     Print help description.
+  --rootDir, -rd Specify current root dir(mainly for testing purposes).
+  --version      Print current version.

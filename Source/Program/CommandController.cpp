@@ -91,8 +91,8 @@ void start_extension_server(Session* session) {
         bool found_matching_programming_language = false;
         for (auto const& f : files) {
             json package = json::parse(read_file(f));
-            vector<string> pl = package["ProgrammingLanguage"];
-            if (find(pl.begin(), pl.end(), *session->programming_language) != pl.end()) {
+            string pl = package["ProgrammingLanguage"];
+            if (pl == *session->programming_language) {
                 found_matching_programming_language = true;
                 command = package["Execute"];
                 break;

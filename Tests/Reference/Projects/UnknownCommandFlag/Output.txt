@@ -1,2 +1,1 @@
-Unknown command '/Users/tinganho/Development/l10ns/Tests/Current/Projects/UnknownCommandFlag'.
-You are not inside a L10ns project.
+Unknown command flag '--unknown'.

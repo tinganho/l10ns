@@ -30,11 +30,13 @@ static vector<Flag> set_flags = {
     Flag(FlagKind::Value, "--search-index", "-se", "Specify latest search index.", /*has_value*/ true),
     language_flag,
     help_flag,
+    root_dir,
 };
 
 static vector<Flag> log_flags = {
     language_flag,
     help_flag,
+    root_dir,
 };
 
 static const char * init_info =
