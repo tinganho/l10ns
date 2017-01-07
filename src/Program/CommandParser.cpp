@@ -29,14 +29,10 @@ static vector<Flag> set_flags = {
     Flag(FlagKind::Value, "--log-index", "-li", "Specify log index.", /*has_value*/ true),
     Flag(FlagKind::Value, "--search-index", "-se", "Specify latest search index.", /*has_value*/ true),
     language_flag,
-    help_flag,
-    root_dir,
 };
 
 static vector<Flag> log_flags = {
     language_flag,
-    help_flag,
-    root_dir,
 };
 
 static const char * init_info =
@@ -62,13 +58,11 @@ static const char * set_info =
   "       l10ns set --search-index 1 --value \"Please login.\"";
 
 static vector<Action> actions = {
-    Action(ActionKind::Init, "init", "Initialize project.", init_info, &help_flags),
-    Action(ActionKind::Sync, "sync", "Synchronize localization keys.", sync_info, &help_flags),
+    Action(ActionKind::Init, "init", "Initialize project.", init_info, NULL),
+    Action(ActionKind::Sync, "sync", "Synchronize localization keys.", sync_info, NULL),
     Action(ActionKind::Log, "log", "Show latest added localizations.", log_info, &log_flags),
     Action(ActionKind::Set, "set", "Set localization.", set_info, &set_flags),
 };
-
-vector<Flag>* current_flags = &default_flags;
 
 vector<Flag>* get_action_flags(ActionKind kind) {
     switch (kind) {
@@ -124,6 +118,14 @@ void set_command_flag(Session* session, const Flag* flag, char* value = NULL) {
     }
 }
 
+void add_diagnostic(Session* session, DiagnosticTemplate* d) {
+    session->add_diagnostics(create_diagnostic(d));
+}
+
+void add_diagnostic(Session* session, DiagnosticTemplate* d, string arg1) {
+    session->add_diagnostics(create_diagnostic(d, arg1));
+}
+
 Session* parse_command_args(int argc, char* argv[]) {
     Session* session = new Session();
     session->root_dir = get_cwd();
@@ -133,32 +135,42 @@ Session* parse_command_args(int argc, char* argv[]) {
 
     // The option flag that is pending for a value.
     const Flag* flag_which_awaits_value = NULL;
+    vector<Flag> command_flags = {};
+    vector<Flag> all_flags;
+    all_flags.insert(all_flags.end(), default_flags.begin(), default_flags.end());
+
+    auto add_command = [&](char* arg) {
+        if (has_action) {
+            add_diagnostic(session, D::You_cannot_run_several_commands, arg);
+            goto end;
+        }
+
+        for (auto const& a : actions) {
+            if (strcmp(a.name->c_str(), arg) == 0) {
+                session->action = a.kind;
+                all_flags.insert(all_flags.end(), a.flags->begin(), a.flags->end());
+                has_action = true;
+                goto end;
+            }
+        }
+
+        // We can only reach here if the command is unknown.
+        add_diagnostic(session, D::Unknown_command, arg);
+
+        end:;
+    };
 
     for (int arg_index = 1; arg_index < argc; arg_index++) {
         auto arg = argv[arg_index];
-        if (!has_action && arg_index == 1) {
-            if (arg[0] == '-') {
-                goto no_action;
-            }
-            for (auto const& a : actions) {
-                if (strcmp(a.name->c_str(), arg) == 0) {
-                    session->action = a.kind;
-                    has_action = true;
-                    current_flags = a.flags;
-                    goto end_of_loop;
-                }
-            }
-            if (!has_action) {
-                session->add_diagnostics(create_diagnostic(D::Unknown_command, arg));
+
+        if (flag_which_awaits_value == NULL) {
+            if (arg[0] != '-') {
+                add_command(arg);
                 goto end_of_loop;
             }
 
-            no_action:;
-        }
-
-        if (flag_which_awaits_value == NULL) {
             bool is_known_flag = false;
-            for (auto const& flag : *current_flags) {
+            for (auto const& flag : all_flags) {
                 if (strcmp(flag.name->c_str(), arg) == 0 || (flag.alias->length() != 0 && strcmp(flag.name->c_str(), arg) == 0)) {
                     if (flag.has_value) {
                         flag_which_awaits_value = &flag;
@@ -168,7 +180,7 @@ Session* parse_command_args(int argc, char* argv[]) {
                 }
             }
             if (!is_known_flag) {
-                session->add_diagnostics(create_diagnostic(D::Unknown_command_flag, arg));
+                add_diagnostic(session, D::Unknown_command_flag, arg);
                 return session;
             }
         }
@@ -181,7 +193,7 @@ Session* parse_command_args(int argc, char* argv[]) {
     }
 
     if (!file_exists(*session->root_dir + "l10ns.json") && !(session->is_requesting_help || session->is_requesting_version)) {
-        session->add_diagnostics(create_diagnostic(D::You_are_not_inside_a_L10ns_project));
+        add_diagnostic(session, D::You_are_not_inside_a_L10ns_project);
     }
 
     return session;

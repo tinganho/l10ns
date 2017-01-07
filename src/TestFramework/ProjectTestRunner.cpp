@@ -11,7 +11,7 @@ using namespace L10ns;
 namespace TestFramework {
 
 void addProjectTests() {
-    auto paths = find_files("Tests/Cases/Projects/*", PROJECT_DIR);
+    auto paths = find_files("src/Tests/Cases/Projects/*", PROJECT_DIR);
 
     domain("Project Tests");
 
@@ -19,7 +19,7 @@ void addProjectTests() {
         auto command = read_file(p + "/Command.cmd");
         string current_dir = replace_string(p, "/Cases/", "/Current/");
         recursively_create_dir(current_dir);
-        command = string(PROJECT_DIR) + "/Executables/l10ns --rootDir " + current_dir + " " + command;
+        command = string(PROJECT_DIR) + "/bin/l10ns --rootDir " + current_dir + " " + command;
         string result = execute_command(command);
         write_file(current_dir + "/Output.txt", result);
         string test_name = p.substr(p.find_last_of("/") + 1);

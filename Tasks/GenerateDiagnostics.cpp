@@ -46,7 +46,7 @@ string format_diagnostic_key(string key) {
 }
 
 int main() {
-    string json = read_file(PROJECT_DIR "Source/Program/Diagnostics.json");
+    string json = read_file(PROJECT_DIR "src/Program/Diagnostics.json");
     auto diagnostics = json::parse(json);
     for (json::iterator it = diagnostics.begin(); it != diagnostics.end(); ++it) {
         string key = format_diagnostic_key(it.key());
@@ -59,6 +59,6 @@ int main() {
 
     output += "}";
 
-    write_file(PROJECT_DIR "Source/Program/Diagnostics.cpp", output);
+    write_file(PROJECT_DIR "src/Program/Diagnostics.cpp", output);
     cout << "Successfully generated new diagnostics." << endl;
 }

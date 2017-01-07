@@ -1,5 +1,6 @@
 {
     "Unknown command flag '{0}'.": {},
     "Unknown command '{0}'.": {},
+    "You cannot run several commands.": {},
     "You are not inside a L10ns project.": {}
 }
