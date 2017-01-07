@@ -151,27 +151,27 @@ Session* parse_command_args(int argc, char* argv[]) {
         return false;
     };
 
-    for (int arg_index = 1; arg_index < argc; arg_index++) {
-        auto arg = argv[arg_index];
+    auto for_each_arg = [&](std::function<void (char*)> callback) -> void {
+        for (int arg_index = 1; arg_index < argc; arg_index++) {
+            callback(argv[arg_index]);
+        }
+    };
 
+    for_each_arg([&](char* arg) -> void {
         if (flag_which_awaits_value == NULL) {
             if (arg[0] != '-') {
                 add_command(arg);
-                goto end_of_loop;
             }
 
-            if (!set_command(arg)) {
+            else if (!set_command(arg)) {
                 add_diagnostic(session, D::Unknown_command_flag, arg);
-                goto end_of_loop;
             }
         }
         else {
             set_command_flag(session, flag_which_awaits_value, arg);
             flag_which_awaits_value = NULL;
         }
-
-        end_of_loop:;
-    }
+    });
 
     if (!file_exists(*session->root_dir + "l10ns.json") && !(session->is_requesting_help || session->is_requesting_version)) {
         add_diagnostic(session, D::You_are_not_inside_a_L10ns_project);

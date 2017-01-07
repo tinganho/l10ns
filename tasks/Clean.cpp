@@ -5,5 +5,5 @@
 using namespace L10ns;
 
 int main() {
-    remove_all(PROJECT_DIR "Tests/Current");
+    remove_all(PROJECT_DIR "src/Tests/Current");
 }
