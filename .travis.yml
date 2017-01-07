@@ -4,7 +4,7 @@ dist: trusty
 language: cpp
 
 script:
-  - mkdir Build && cd Build
+  - mkdir debug && cd debug
   - cmake -DCMAKE_CXX_COMPILER=$COMPILER .. && make
   - cd .. && ./bin/run-tests
 

@@ -9,7 +9,7 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 
 configure_file(${PROJECT_SOURCE_DIR}/src/Program/Configurations.h.in ${PROJECT_SOURCE_DIR}/src/Program/Configurations.h)
 
-find_package(Boost 1.62 COMPONENTS system filesystem regex REQUIRED)
+find_package(Boost 1.54 COMPONENTS system filesystem regex REQUIRED)
 
 add_subdirectory(src/Vendors/Glob)
 add_subdirectory(src/Vendors/json)
