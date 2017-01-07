@@ -139,7 +139,7 @@ Session* parse_command_args(int argc, char* argv[]) {
     vector<Flag> all_flags;
     all_flags.insert(all_flags.end(), default_flags.begin(), default_flags.end());
 
-    auto add_command = [&](char* arg) {
+    auto add_command = [&](const char* arg) -> void {
         if (has_action) {
             add_diagnostic(session, D::You_cannot_run_several_commands, arg);
             goto end;
@@ -160,6 +160,20 @@ Session* parse_command_args(int argc, char* argv[]) {
         end:;
     };
 
+    auto set_command = [&](const char* arg) -> bool {
+        for (auto const& flag : all_flags) {
+            if (strcmp(flag.name->c_str(), arg) == 0 || (flag.alias->length() != 0 && strcmp(flag.name->c_str(), arg) == 0)) {
+                if (flag.has_value) {
+                    flag_which_awaits_value = &flag;
+                }
+                set_command_flag(session, &flag);
+                return true;
+            }
+        }
+
+        return false;
+    };
+
     for (int arg_index = 1; arg_index < argc; arg_index++) {
         auto arg = argv[arg_index];
 
@@ -169,19 +183,9 @@ Session* parse_command_args(int argc, char* argv[]) {
                 goto end_of_loop;
             }
 
-            bool is_known_flag = false;
-            for (auto const& flag : all_flags) {
-                if (strcmp(flag.name->c_str(), arg) == 0 || (flag.alias->length() != 0 && strcmp(flag.name->c_str(), arg) == 0)) {
-                    if (flag.has_value) {
-                        flag_which_awaits_value = &flag;
-                    }
-                    set_command_flag(session, &flag);
-                    is_known_flag = true;
-                }
-            }
-            if (!is_known_flag) {
+            if (!set_command(arg)) {
                 add_diagnostic(session, D::Unknown_command_flag, arg);
-                return session;
+                goto end_of_loop;
             }
         }
         else {
