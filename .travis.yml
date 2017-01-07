@@ -6,7 +6,7 @@ language: cpp
 script:
   - mkdir Build && cd Build
   - cmake -DCMAKE_CXX_COMPILER=$COMPILER .. && make
-  - cd .. && ./Executables/run-tests
+  - cd .. && ./bin/run-tests
 
 # Handle git submodules by ourselves.
 git:

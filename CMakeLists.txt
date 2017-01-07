@@ -5,26 +5,26 @@ project(l10ns)
 
 set(VERSION "3.0")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
-set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/Executables)
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 
-configure_file(${PROJECT_SOURCE_DIR}/Source/Program/Configurations.h.in ${PROJECT_SOURCE_DIR}/Source/Program/Configurations.h)
+configure_file(${PROJECT_SOURCE_DIR}/src/Program/Configurations.h.in ${PROJECT_SOURCE_DIR}/src/Program/Configurations.h)
 
 find_package(Boost 1.62 COMPONENTS system filesystem regex REQUIRED)
 
-add_subdirectory(Source/Vendors/Glob)
-add_subdirectory(Source/Vendors/json)
+add_subdirectory(src/Vendors/Glob)
+add_subdirectory(src/Vendors/json)
 
-include_directories("${PROJECT_SOURCE_DIR}/Source/Program")
-include_directories("${PROJECT_SOURCE_DIR}/Source/Vendors/Glob")
-include_directories("${PROJECT_SOURCE_DIR}/Source/Vendors/json/src")
+include_directories("${PROJECT_SOURCE_DIR}/src/Program")
+include_directories("${PROJECT_SOURCE_DIR}/src/Vendors/Glob")
+include_directories("${PROJECT_SOURCE_DIR}/src/Vendors/json/src")
 
-add_executable(l10ns ${PROJECT_SOURCE_DIR}/Source/Program/Exec.cpp)
+add_executable(l10ns ${PROJECT_SOURCE_DIR}/src/Program/Exec.cpp)
 
-add_executable(accept-baseline ${PROJECT_SOURCE_DIR}/Tasks/AcceptBaseline.cpp)
-add_executable(clean-project ${PROJECT_SOURCE_DIR}/Tasks/Clean.cpp)
-add_executable(diff ${PROJECT_SOURCE_DIR}/Tasks/Diff.cpp)
-add_executable(generate-diagnostics ${PROJECT_SOURCE_DIR}/Tasks/GenerateDiagnostics.cpp)
-add_executable(run-tests ${PROJECT_SOURCE_DIR}/Source/TestFramework/Exec.cpp)
+add_executable(accept-baseline ${PROJECT_SOURCE_DIR}/tasks/AcceptBaseline.cpp)
+add_executable(clean-project ${PROJECT_SOURCE_DIR}/tasks/Clean.cpp)
+add_executable(diff ${PROJECT_SOURCE_DIR}/tasks/Diff.cpp)
+add_executable(generate-diagnostics ${PROJECT_SOURCE_DIR}/tasks/GenerateDiagnostics.cpp)
+add_executable(run-tests ${PROJECT_SOURCE_DIR}/src/TestFramework/Exec.cpp)
 
 target_link_libraries(l10ns glob ${Boost_LIBRARIES})
 
