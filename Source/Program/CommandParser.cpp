@@ -180,7 +180,7 @@ Session* parse_command_args(int argc, char* argv[]) {
         end_of_loop:;
     }
 
-    if (!file_exists(*session->root_dir + "l10ns.json") && current_flags != &default_flags) {
+    if (!file_exists(*session->root_dir + "l10ns.json") && !(session->is_requesting_help || session->is_requesting_version)) {
         session->add_diagnostics(create_diagnostic(D::You_are_not_inside_a_L10ns_project));
     }
 
