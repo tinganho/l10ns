@@ -207,8 +207,18 @@ int init(int argc, char* argv[]) {
     else if (session->is_requesting_help) {
         print_help_info(session);
     }
-    else if (session->command == CommandKind::Sync) {
-        start_extension_server(session);
+    switch (session->command) {
+        case CommandKind::Init:
+            break;
+        case CommandKind::Log:
+            break;
+        case CommandKind::Set:
+            break;
+        case CommandKind::Sync:
+            start_extension_server(session);
+            break;
+        default:
+            break;
     }
     return 0;
 }

@@ -162,7 +162,6 @@ Session* parse_command_args(int argc, char* argv[]) {
             if (arg[0] != '-') {
                 add_command(arg);
             }
-
             else if (!set_command(arg)) {
                 add_diagnostic(session, D::Unknown_command_flag, arg);
             }
