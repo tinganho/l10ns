@@ -57,50 +57,27 @@ static const char * set_info =
   "       l10ns set --log-index 1 --value \"Please login.\"\n"
   "       l10ns set --search-index 1 --value \"Please login.\"";
 
-static vector<Action> actions = {
-    Action(ActionKind::Init, "init", "Initialize project.", init_info, NULL),
-    Action(ActionKind::Sync, "sync", "Synchronize localization keys.", sync_info, NULL),
-    Action(ActionKind::Log, "log", "Show latest added localizations.", log_info, &log_flags),
-    Action(ActionKind::Set, "set", "Set localization.", set_info, &set_flags),
+static vector<Command> commands = {
+    Command(CommandKind::Init, "init", "Initialize project.", init_info, NULL),
+    Command(CommandKind::Sync, "sync", "Synchronize localization keys.", sync_info, NULL),
+    Command(CommandKind::Log, "log", "Show latest added localizations.", log_info, &log_flags),
+    Command(CommandKind::Set, "set", "Set localization.", set_info, &set_flags),
 };
 
-vector<Flag>* get_action_flags(ActionKind kind) {
+vector<Flag>* get_command_flags(CommandKind kind) {
     switch (kind) {
-        case ActionKind::Init:
+        case CommandKind::Init:
             return &help_flags;
-        case ActionKind::Sync:
+        case CommandKind::Sync:
             return &help_flags;
-        case ActionKind::Log:
+        case CommandKind::Log:
             return &log_flags;
-        case ActionKind::Set:
+        case CommandKind::Set:
             return &set_flags;
         default:
             throw invalid_argument("Could not get action flag.");
     }
 }
-
-struct Session {
-    bool is_requesting_help;
-    bool is_requesting_version;
-    string* root_dir;
-    ActionKind action;
-    vector<Diagnostic*> diagnostics;
-    string* programming_language;
-
-    Session()
-        : is_requesting_help(false)
-        , is_requesting_version(false)
-        , action(ActionKind::None) {
-    }
-
-    void add_diagnostics(Diagnostic* diagnostic) {
-        diagnostics.push_back(diagnostic);
-    }
-
-    void write_file(string filename, string content) {
-        L10ns::write_file(filename, content, *root_dir);
-    }
-};
 
 void set_command_flag(Session* session, const Flag* flag, char* value = NULL) {
     switch (flag->kind) {
@@ -131,25 +108,25 @@ Session* parse_command_args(int argc, char* argv[]) {
     session->root_dir = get_cwd();
 
     // Flag to optimize parsing.
-    bool has_action = false;
+    bool has_command = false;
 
     // The option flag that is pending for a value.
     const Flag* flag_which_awaits_value = NULL;
-    vector<Flag> command_flags = {};
-    vector<Flag> all_flags;
-    all_flags.insert(all_flags.end(), default_flags.begin(), default_flags.end());
+    vector<Flag> all_flags(default_flags);
 
     auto add_command = [&](const char* arg) -> void {
-        if (has_action) {
-            add_diagnostic(session, D::You_cannot_run_several_commands, arg);
+        if (has_command) {
+            add_diagnostic(session, D::You_cannot_run_several_commands);
             goto end;
         }
 
-        for (auto const& a : actions) {
-            if (strcmp(a.name->c_str(), arg) == 0) {
-                session->action = a.kind;
-                all_flags.insert(all_flags.end(), a.flags->begin(), a.flags->end());
-                has_action = true;
+        for (auto const& command : commands) {
+            if (strcmp(command.name->c_str(), arg) == 0) {
+                session->command = command.kind;
+                if (command.flags != NULL) {
+                    all_flags.insert(all_flags.end(), command.flags->begin(), command.flags->end());
+                }
+                has_command = true;
                 goto end;
             }
         }

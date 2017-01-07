@@ -6,7 +6,7 @@
 
 using namespace std;
 
-enum class ActionKind {
+enum class CommandKind {
     None,
     Init,
     Sync,
@@ -63,17 +63,35 @@ struct Flag : Argument {
     }
 };
 
-struct Action : Argument {
+struct Command : Argument {
     vector<Flag>* flags;
-    ActionKind kind;
+    CommandKind kind;
     string* info;
 
-    Action(ActionKind kind, const char name[], const char description[], const char info[], vector<Flag> * flags)
+    Command(CommandKind kind, const char name[], const char description[], const char info[], vector<Flag> * flags)
         : kind(kind), Argument(new string(name), new string(description)), info(new string(info)) {
 
-        if (flags != NULL) {
-            this->flags = flags;
-        }
+        this->flags = flags;
+    }
+};
+
+
+struct Session {
+    bool is_requesting_help;
+    bool is_requesting_version;
+    string* root_dir;
+    CommandKind command;
+    vector<Diagnostic*> diagnostics;
+    string* programming_language;
+
+    Session()
+        : is_requesting_help(false)
+        , is_requesting_version(false)
+        , command(CommandKind::None) {
+    }
+
+    void add_diagnostics(Diagnostic* diagnostic) {
+        diagnostics.push_back(diagnostic);
     }
 };
 

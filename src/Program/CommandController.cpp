@@ -118,11 +118,11 @@ inline void print_default_help_info() {
     w->newline();
     w->write_line("Commands:");
     w->newline();
-    for (const auto& action : actions) {
+    for (const auto& command : commands) {
         w->tab();
-        w->write(*action.name);
+        w->write(*command.name);
         w->tab();
-        w->write_line(*action.description);
+        w->write_line(*command.description);
     }
     w->newline();
     w->write_line("For more details: 'l10ns <command> --help'.");
@@ -146,18 +146,18 @@ inline void print_default_help_info() {
     w->print();
 }
 
-inline Action* get_action(ActionKind action) {
-    for (int i = 0; i < actions.size(); i++) {
-        if (actions[i].kind == action) {
-            return &actions[i];
+inline Command* get_command(CommandKind command) {
+    for (int i = 0; i < commands.size(); i++) {
+        if (commands[i].kind == command) {
+            return &commands[i];
         }
     }
 
-    throw logic_error("Could not get action name.");
+    throw logic_error("Could not get command name.");
 }
 
-inline void print_action_help_info(Session* session) {
-    auto a = get_action(session->action);
+inline void print_command_help_info(CommandKind command) {
+    auto a = get_command(command);
     auto w = new TextWriter();
     w->write_line(*a->info);
     w->newline();
@@ -166,7 +166,7 @@ inline void print_action_help_info(Session* session) {
     w->add_tab(2);
     w->add_tab(24);
     w->newline();
-    for (const auto& flag : *get_action_flags(session->action)) {
+    for (const auto& flag : *get_command_flags(command)) {
         w->tab();
         if (flag.alias->length() != 0) {
             w->write(*flag.name + ", " + *flag.alias);
@@ -180,12 +180,12 @@ inline void print_action_help_info(Session* session) {
     w->print();
 }
 
-inline void print_command_help_info(Session* session) {
-    if (session->action == ActionKind::None) {
+inline void print_help_info(Session* session) {
+    if (session->command == CommandKind::None) {
         print_default_help_info();
     }
     else {
-        print_action_help_info(session);
+        print_command_help_info(session->command);
     }
 }
 
@@ -205,9 +205,9 @@ int init(int argc, char* argv[]) {
         println("L10ns version ", VERSION, ".");
     }
     else if (session->is_requesting_help) {
-        print_command_help_info(session);
+        print_help_info(session);
     }
-    else if (session->action == ActionKind::Sync) {
+    else if (session->command == CommandKind::Sync) {
         start_extension_server(session);
     }
     return 0;
