@@ -11,7 +11,7 @@ namespace L10ns {
 
 static Flag help_flag = Flag(FlagKind::Help, "--help", "-h", "Print help description.", /*has_value*/ false);
 static Flag language_flag = Flag(FlagKind::Language, "--language", "-l", "Specify language.", false);
-static Flag root_dir = Flag(FlagKind::Help, "--rootDir", "-rd", "Specify current root dir(mainly for testing purposes).", /*has_value*/ true);
+static Flag root_dir = Flag(FlagKind::RootDir, "--rootDir", "-rd", "Specify current root dir(mainly for testing purposes).", /*has_value*/ true);
 
 static vector<Flag> default_flags = {
     help_flag,
@@ -88,7 +88,15 @@ void set_command_flag(Session* session, const Flag* flag, char* value = NULL) {
             session->is_requesting_version = true;
             return;
         case FlagKind::RootDir:
-            session->root_dir = new string(value);
+            string* root_dir;
+            if (value[0] == '/') {
+                root_dir = new string(value);
+            }
+            else {
+                root_dir = new string(join_paths((*session->root_dir).c_str(), value) + "/");
+            }
+            delete session->root_dir;
+            session->root_dir = root_dir;
             return;
         default:
             throw invalid_argument("Unknown command flag.");
@@ -105,7 +113,7 @@ void add_diagnostic(Session* session, DiagnosticTemplate* d, string arg1) {
 
 Session* parse_command_args(int argc, char* argv[]) {
     Session* session = new Session();
-    session->root_dir = get_cwd();
+    session->root_dir = new string(get_cwd());
 
     // Flag to optimize parsing.
     bool has_command = false;

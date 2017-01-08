@@ -270,9 +270,22 @@ vector<string> find_files(string pattern, string cwd) {
     return find_files(cwd + pattern);
 }
 
-string* get_cwd() {
+string join_paths(string path1, string path2) {
+    fs::path p1 (path1);
+    fs::path p2 (path2);
+    return fs::canonical(p1 / p2).string();
+}
+
+string join_paths(string path1, string path2, string path3) {
+    fs::path p1 (path1);
+    fs::path p2 (path2);
+    fs::path p3 (path2);
+    return fs::canonical(p1 / p2 / p3).string();
+}
+
+string get_cwd() {
     boost::filesystem::path full_path(boost::filesystem::current_path());
-    return new string(full_path.string() + "/");
+    return full_path.string() + "/";
 }
 
 } // L10ns
