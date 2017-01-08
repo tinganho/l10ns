@@ -35,6 +35,24 @@ Diagnostic* create_diagnostic(DiagnosticTemplate* d, string arg1) {
     return new Diagnostic(message);
 }
 
+Diagnostic* create_diagnostic(DiagnosticTemplate* d, string arg1, string arg2) {
+    string message1 = string(boost::regex_replace(d->message_template, boost::regex("\\{0\\}"), arg1));
+    string* message2 = new string(boost::regex_replace(message1, boost::regex("\\{1\\}"), arg2));
+    return new Diagnostic(message2);
+}
+
+void add_diagnostic(Session* session, DiagnosticTemplate* d) {
+    session->add_diagnostic(create_diagnostic(d));
+}
+
+void add_diagnostic(Session* session, DiagnosticTemplate* d, string arg1) {
+    session->add_diagnostic(create_diagnostic(d, arg1));
+}
+
+void add_diagnostic(Session* session, DiagnosticTemplate* d, string arg1, string arg2) {
+    session->add_diagnostic(create_diagnostic(d, arg1, arg2));
+}
+
 string execute_command(const string p_command) {
     char buffer[128];
     string result = "";

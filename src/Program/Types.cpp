@@ -3,8 +3,11 @@
 #define TYPES_H
 
 #include <string>
+#include <Utils.cpp>
+#include "json.hpp"
 
 using namespace std;
+using json = nlohmann::json;
 
 enum class CommandKind {
     None,
@@ -12,6 +15,8 @@ enum class CommandKind {
     Sync,
     Log,
     Set,
+    Extension_RunTests,
+    Extension_AcceptBaselines,
 };
 
 enum class FlagKind {
@@ -22,21 +27,7 @@ enum class FlagKind {
     Key,
     Value,
     RootDir,
-};
-
-struct DiagnosticTemplate {
-    string message_template;
-
-    DiagnosticTemplate(string message_template)
-        : message_template(message_template) {
-    }
-};
-
-struct Diagnostic {
-    string* message;
-
-    Diagnostic(string* message)
-        : message(message) {}
+    Grep,
 };
 
 struct Argument {
@@ -75,8 +66,17 @@ struct Command : Argument {
     }
 };
 
+struct Extension {
+public:
+    string programming_language;
+    vector<string> file_extensions;
+    vector<string> capabilities;
+    string dependency_test;
+    string executable;
+};
 
-struct Session {
+class Session {
+public:
     bool is_requesting_help;
     bool is_requesting_version;
     string* root_dir;
@@ -90,7 +90,7 @@ struct Session {
         , command(CommandKind::None) {
     }
 
-    void add_diagnostics(Diagnostic* diagnostic) {
+    void add_diagnostic(Diagnostic* diagnostic) {
         diagnostics.push_back(diagnostic);
     }
 };

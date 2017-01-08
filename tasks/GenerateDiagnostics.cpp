@@ -12,12 +12,11 @@ using namespace L10ns;
 using json = nlohmann::json;
 
 string output =
-    "// This code is auto generate. Don't edit!"
-    "\n"
-    "#include \"Types.cpp\""
-    "\n"
-    "using namespace std;"
-    "\n"
+    "// This code is auto generate. Don't edit!\n"
+    "#ifndef DIAGNOSTICS_H\n"
+    "#define DIAGNOSTICS_H\n"
+    "#include \"Types.cpp\"\n"
+    "using namespace std;\n"
     "namespace D {\n";
 
 vector<string> keys = {};
@@ -33,12 +32,12 @@ bool is_unique(string key) {
 
 string format_diagnostic_key(string key) {
     string k = boost::regex_replace(key, boost::regex("\\s+"), "_");
-    k = boost::regex_replace(k, boost::regex("[\\.|\\']"), "");
-    k = boost::regex_replace(k, boost::regex("_+"), "_");
+    k = boost::regex_replace(k, boost::regex("[\\.|\\'|:]"), "");
     k = boost::regex_replace(k, boost::regex("{\\d+}"), "");
+    k = boost::regex_replace(k, boost::regex("_+"), "_");
     k = boost::regex_replace(k, boost::regex("^_+|_+$"), "");
     boost::match_results<std::string::const_iterator> results;
-    if (boost::regex_search(k, boost::regex("[^a-zA-Z\\d_]"))) {
+    if (boost::regex_search(k, boost::regex("[^a-zA-Z\\d_:]"))) {
         throw invalid_argument("Your 'Diagnostics.json' file contains non-alpha numeric characters: " + key);
     }
 
@@ -57,7 +56,8 @@ int main() {
         keys.push_back(key);
     }
 
-    output += "}";
+    output += "}\n";
+    output += "#endif";
 
     write_file(PROJECT_DIR "src/Program/Diagnostics.cpp", output);
     cout << "Successfully generated new diagnostics." << endl;

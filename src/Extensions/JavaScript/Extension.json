@@ -1,5 +1,5 @@
 {
-    "Name": "JavaScript",
+    "ProgrammingLanguage": "JavaScript",
     "FileExtensions": ["ts", "tsx", "js"],
     "Capabilities": [
         "Plural",
@@ -7,7 +7,6 @@
         "Date",
         "Number"
     ],
-    "ProgrammingLanguage": "JavaScript",
     "DependencyTest": "dep-test",
-    "Execute": "node Executables/l10ns-ts.js"
+    "Executable": "Executables/l10ns-ts.js"
 }

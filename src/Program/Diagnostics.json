@@ -2,5 +2,8 @@
     "Unknown command flag '{0}'.": {},
     "Unknown command '{0}'.": {},
     "You cannot run several commands.": {},
-    "You are not inside a L10ns project.": {}
+    "You are not inside a L10ns project.": {},
+
+    "Missing field '{0}' in your extension file: '{1}'.": {},
+    "Unknown capability '{0}'.": {}
 }

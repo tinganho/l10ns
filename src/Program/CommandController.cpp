@@ -9,6 +9,7 @@
 #include "Configurations.h"
 #include "Utils.cpp"
 #include "json.hpp"
+#include "ExtensionTests.cpp"
 
 using namespace std;
 using json = nlohmann::json;
@@ -57,7 +58,7 @@ public:
         , acceptor(service, endpoint) {
 
         start_accept();
-        execute_command("IS_USING_TCP_SERVER=1 EXTENSION_SERVER_PORT=" + port() + " " + command);
+        execute_command("IS_USING_TCP_SERVER=1 PORT=" + port() + " " + command);
     }
 
     string port() {
@@ -86,7 +87,7 @@ private:
 
 void start_extension_server(Session* session) {
     try {
-        vector<string> files = find_files(PROJECT_DIR "Source/Extensions/*/Extension.json");
+        vector<string> files = find_files(PROJECT_DIR "src/Extensions/*/Extension.json");
         string command;
         bool found_matching_programming_language = false;
         for (auto const& f : files) {
@@ -207,18 +208,25 @@ int init(int argc, char* argv[]) {
     else if (session->is_requesting_help) {
         print_help_info(session);
     }
-    switch (session->command) {
-        case CommandKind::Init:
-            break;
-        case CommandKind::Log:
-            break;
-        case CommandKind::Set:
-            break;
-        case CommandKind::Sync:
-            start_extension_server(session);
-            break;
-        default:
-            break;
+    else {
+        switch (session->command) {
+            case CommandKind::Init:
+                break;
+            case CommandKind::Log:
+                break;
+            case CommandKind::Set:
+                break;
+            case CommandKind::Sync:
+                start_extension_server(session);
+                break;
+            case CommandKind::Extension_RunTests:
+                run_extension_tests(session);
+                break;
+            case CommandKind::Extension_AcceptBaselines:
+                break;
+            default:
+                break;
+        }
     }
     return 0;
 }
