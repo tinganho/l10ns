@@ -111,7 +111,7 @@ void start_extension_server(Session* session) {
     }
 }
 
-inline void print_default_help_info() {
+void print_default_help_info() {
     auto w = new TextWriter();
     w->add_tab(2);
     w->add_tab(10);
@@ -190,7 +190,7 @@ inline void print_help_info(Session* session) {
     }
 }
 
-inline void print_diagnostics(vector<Diagnostic*> diagnostics) {
+void print_diagnostics(vector<Diagnostic*> diagnostics) {
     for (auto const& d : diagnostics) {
         cout << *d->message << endl;
     }

@@ -66,15 +66,6 @@ struct Command : Argument {
     }
 };
 
-struct Extension {
-public:
-    string programming_language;
-    vector<string> file_extensions;
-    vector<string> capabilities;
-    string dependency_test;
-    string executable;
-};
-
 class Session {
 public:
     bool is_requesting_help;

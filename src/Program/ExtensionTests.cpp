@@ -32,42 +32,8 @@ void run_extension_tests(Session* session) {
         }
     };
 
-    auto create_extension = [&](json& manifest) -> Extension {
-        Extension extension;
-        auto programming_language = manifest["ProgrammingLanguage"];
-        if (programming_language.is_null()) {
-            add_diagnostic(session, D::Missing_field_in_your_extension_file, "ProgrammingLanguage", extension_file);
-        }
-        auto file_extensions = manifest["FileExtensions"];
-        if (file_extensions.is_null()) {
-            add_diagnostic(session, D::Missing_field_in_your_extension_file, "FileExtensions", extension_file);
-        }
-        auto capabilities = manifest["Capabilities"];
-        if (capabilities.is_null()) {
-            add_diagnostic(session, D::Missing_field_in_your_extension_file, "Capabilities", extension_file);
-        }
-        capabilities = capabilities.get<vector<string>>();
-        check_capabilities(session, capabilities);
-        auto dependency_test = manifest["DependencyTest"];
-        if (dependency_test.is_null()) {
-            add_diagnostic(session, D::Missing_field_in_your_extension_file, "DependencyTest", extension_file);
-        }
-        auto executable = manifest["Executable"];
-        if (executable.is_null()) {
-            add_diagnostic(session, D::Missing_field_in_your_extension_file, "Executable", extension_file);
-        }
-        extension.programming_language = programming_language;
-        extension.file_extensions = file_extensions.get<vector<string>>();
-        extension.capabilities = capabilities.get<vector<string>>();
-        extension.dependency_test = dependency_test;
-        extension.executable = executable;
-
-        return extension;
-    };
-
-    Extension extension = create_extension(manifest);
-
+    Extension extension = Extension::create(session, manifest);
     for_each_compilation_test_file([&](const string& test_file) {
-
+        extension.start_server();
     });
 }
