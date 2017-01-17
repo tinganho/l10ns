@@ -12,9 +12,7 @@ module.exports = function(app) {
    * Development configurations
    */
 
-  app.configure('development', function() {
-    app.use(express.static(path.join(__dirname, '../')));
-  });
+  app.use(express.static(path.join(__dirname, '../')));
 
   /**
    * Development and staging configurations
