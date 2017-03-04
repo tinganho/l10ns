@@ -6,6 +6,8 @@ Commands:
   sync    Synchronize localization keys.
   log     Show latest added localizations.
   set     Set localization.
+  extension-run-testsRun extension tests.
+  extension-accept-baselinesAccept baselines.
 
 For more details: 'l10ns <command> --help'.
 

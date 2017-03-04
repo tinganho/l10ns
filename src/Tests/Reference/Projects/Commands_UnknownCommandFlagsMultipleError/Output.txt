@@ -1,0 +1,3 @@
+Unknown command flag '--unknown1'.
+Unknown command flag '--unknown2'.
+You are not inside a L10ns project.

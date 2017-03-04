@@ -30,6 +30,21 @@ enum class FlagKind {
     Grep,
 };
 
+struct DiagnosticTemplate {
+    string message_template;
+
+    DiagnosticTemplate(string message_template)
+        : message_template(message_template) {
+    }
+};
+
+struct Diagnostic {
+    string* message;
+
+    Diagnostic(string* message)
+        : message(message) {}
+};
+
 struct Argument {
     string* name;
     string* description;

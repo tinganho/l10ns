@@ -1,2 +1,2 @@
-You cannot run several commands.
+Unknown command 'unknown'.
 You are not inside a L10ns project.

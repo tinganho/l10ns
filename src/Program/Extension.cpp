@@ -3,10 +3,27 @@
 #include "Diagnostics.cpp"
 
 using json = nlohmann::json;
+using namespace L10ns;
 
 class Extension {
 public:
-    static Extension create(Session* session, const json& manifest) {
+    static Extension create(Session* session, string extension_file) {
+
+        auto check_capabilities = [&session](vector<string> capabilities) -> void {
+            for (auto const& c : capabilities) {
+                if (c != "Plural" &&
+                    c != "Select" &&
+                    c != "Date" &&
+                    c != "Number" &&
+                    c != "Ordinal" &&
+                    c != "Currency") {
+
+                    add_diagnostic(session, D::Unknown_capability, c);
+                }
+            }
+        };
+
+        json manifest = json::parse(read_file(extension_file));
         Extension extension;
         auto programming_language = manifest["ProgrammingLanguage"];
         if (programming_language.is_null()) {
@@ -21,7 +38,7 @@ public:
             add_diagnostic(session, D::Missing_field_in_your_extension_file, "Capabilities", extension_file);
         }
         capabilities = capabilities.get<vector<string>>();
-        check_capabilities(session, capabilities);
+        check_capabilities(capabilities);
         auto dependency_test = manifest["DependencyTest"];
         if (dependency_test.is_null()) {
             add_diagnostic(session, D::Missing_field_in_your_extension_file, "DependencyTest", extension_file);

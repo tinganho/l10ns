@@ -1,0 +1,3 @@
+Unknown command 'unknown1'.
+Unknown command 'unknown2'.
+You are not inside a L10ns project.

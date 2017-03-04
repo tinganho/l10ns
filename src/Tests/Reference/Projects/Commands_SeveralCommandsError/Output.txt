@@ -1,1 +1,2 @@
 You cannot run several commands.
+You are not inside a L10ns project.
