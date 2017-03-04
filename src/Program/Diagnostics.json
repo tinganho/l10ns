@@ -1,9 +1,13 @@
 {
+    // Commands
     "Unknown command flag '{0}'.": {},
     "Unknown command '{0}'.": {},
     "You cannot run several commands.": {},
     "You are not inside a L10ns project.": {},
 
-    "Missing field '{0}' in your extension file: '{1}'.": {},
-    "Unknown capability '{0}'.": {}
+    // Extensions
+    "Missing field '{0}' in your extension file '{1}'.": {},
+    "Could not find an extension for the programming language '{0}'.": {},
+    "Unknown capability '{0}' in extension file '{1}'.": {},
+    "Could not start extension server.": {}
 }
