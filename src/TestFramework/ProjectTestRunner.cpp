@@ -21,7 +21,6 @@ void addProjectTests() {
         recursively_create_dir(current_dir);
         command = string(PROJECT_DIR) + "/bin/l10ns --rootDir " + current_dir + " " + command;
         string result = execute_command(command);
-        cout << result << endl;
         write_file(current_dir + "/Output.txt", result);
         string test_name = p.substr(p.find_last_of("/") + 1);
         test(test_name, [result, p](Test* t) {
