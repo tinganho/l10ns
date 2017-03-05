@@ -17,8 +17,9 @@ void run_extension_tests(Session* session) {
         }
     };
 
-    Extension extension = Extension::create(session, extension_file);
     for_each_compilation_test_file([&](const string& test_file) {
+        Extension extension = Extension::create(session, extension_file);
         extension.start_server();
+        extension.stop_server();
     });
 }

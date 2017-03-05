@@ -44,9 +44,13 @@ string format_diagnostic_key(string key) {
     return k;
 }
 
+string remove_comments(string json) {
+    return boost::regex_replace(json, boost::regex("//.*?\n"), "\n");
+}
+
 int main() {
     string json = read_file(PROJECT_DIR "src/Program/Diagnostics.json");
-    auto diagnostics = json::parse(json);
+    auto diagnostics = json::parse(remove_comments(json));
     for (json::iterator it = diagnostics.begin(); it != diagnostics.end(); ++it) {
         string key = format_diagnostic_key(it.key());
         output += "    auto " + key + " = new DiagnosticTemplate(\"" + it.key() + "\");\n";

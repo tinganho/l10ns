@@ -24,6 +24,7 @@ add_executable(accept-baseline ${PROJECT_SOURCE_DIR}/tasks/AcceptBaseline.cpp)
 add_executable(clean-project ${PROJECT_SOURCE_DIR}/tasks/Clean.cpp)
 add_executable(diff ${PROJECT_SOURCE_DIR}/tasks/Diff.cpp)
 add_executable(generate-diagnostics ${PROJECT_SOURCE_DIR}/tasks/GenerateDiagnostics.cpp)
+add_executable(generate-json-rpc-client-stub ${PROJECT_SOURCE_DIR}/tasks/GenerateJsonRpcClientStub.cpp)
 add_executable(run-tests ${PROJECT_SOURCE_DIR}/src/TestFramework/Exec.cpp)
 
 target_link_libraries(l10ns glob ${Boost_LIBRARIES})
