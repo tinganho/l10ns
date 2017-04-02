@@ -2,6 +2,8 @@
 L10ns - Internationalization Workflow & Formatting
 ==============
 
+This README is for the developing version of L10ns. Please checkout the master branch to see the current stable source code.
+
 [![Build Status](https://travis-ci.org/tinganho/l10ns.svg?branch=c%2B%2B)](https://travis-ci.org/tinganho/l10ns)
 
 ## Build
