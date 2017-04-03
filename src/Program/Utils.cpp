@@ -53,10 +53,10 @@ void add_diagnostic(Session* session, DiagnosticTemplate* d, string arg1, string
     session->add_diagnostic(create_diagnostic(d, arg1, arg2));
 }
 
-string execute_command(const string p_command) {
+string execute_command(const string command) {
     char buffer[128];
     string result = "";
-    shared_ptr<FILE> pipe(popen(p_command.c_str(), "r"), pclose);
+    shared_ptr<FILE> pipe(popen(command.c_str(), "r"), pclose);
     if (!pipe) {
         throw runtime_error("popen() failed!");
     }
@@ -67,8 +67,8 @@ string execute_command(const string p_command) {
     return result;
 }
 
-string execute_command(const string p_command, string p_cwd) {
-    return execute_command("cd " + p_cwd + " && " + p_command);
+string execute_command(const string command, string cwd) {
+    return execute_command("cd " + cwd + " && " + command);
 }
 
 void newline() {
@@ -105,6 +105,9 @@ public:
                 }
                 this->column += diff;
                 break;
+            }
+            else {
+                this->text += " ";
             }
         }
     }
@@ -187,6 +190,7 @@ string read_file(string filename) {
         while (getline(f, line)) {
             result += line + '\n';
         }
+        result = result.substr(0, result.length() - 1);
         f.close();
         return result;
     }

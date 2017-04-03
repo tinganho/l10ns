@@ -1,0 +1,12 @@
+{
+  "name": "l10ns-javascript-extension",
+  "version": "0.1.0",
+  "description": "L10ns extension for JavaScript (TypeScript) projects",
+  "main": "Build/Main.js",
+  "devDependencies": {
+    "@types/node": "^7.0.5"
+  },
+  "dependencies": {
+    "jayson": "^2.0.3"
+  }
+}

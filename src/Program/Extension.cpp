@@ -1,6 +1,8 @@
 
+#include <stdio.h>
+#include <unistd.h>
 #include <iostream>
-#include <jsonrpccpp/client.h>
+#include <jsonrpccpp/client/connectors/httpclient.h>
 #include <jsonrpccpp/client/connectors/unixdomainsocketclient.h>
 #include "Utils.cpp"
 #include "json.hpp"
@@ -15,7 +17,6 @@ using namespace std;
 class Extension {
 public:
     static Extension create(Session* session, string extension_file) {
-        string command;
 
         auto check_capabilities = [&session, &extension_file](vector<string> capabilities) -> void {
             for (auto const& c : capabilities) {
@@ -31,25 +32,6 @@ public:
             }
         };
 
-        auto check_extension_existense = [&]() -> void {
-            vector<string> files = find_files(*session->root_dir + string("src/Extensions/*/Extension.json"));
-            bool found_matching_programming_language = false;
-            for (auto const& f : files) {
-                json package = json::parse(read_file(f));
-                string pl = package["ProgrammingLanguage"];
-                if (pl == *session->programming_language) {
-                    found_matching_programming_language = true;
-                    command = package["Execute"];
-                    break;
-                }
-            }
-            if (!found_matching_programming_language) {
-                add_diagnostic(session,
-                    D::Could_not_find_an_extension_for_the_programming_language,
-                    *session->programming_language);
-            }
-        };
-
         json manifest = json::parse(read_file(extension_file));
         Extension extension;
         auto programming_language = manifest["ProgrammingLanguage"];
@@ -59,6 +41,10 @@ public:
         auto file_extensions = manifest["FileExtensions"];
         if (file_extensions.is_null()) {
             add_diagnostic(session, D::Missing_field_in_your_extension_file, "FileExtensions", extension_file);
+        }
+        auto function_names = manifest["FunctionNames"];
+        if (function_names.is_null()) {
+            add_diagnostic(session, D::Missing_field_in_your_extension_file, "FunctionNames", extension_file);
         }
         auto capabilities = manifest["Capabilities"];
         if (capabilities.is_null()) {
@@ -70,44 +56,52 @@ public:
         if (dependency_test.is_null()) {
             add_diagnostic(session, D::Missing_field_in_your_extension_file, "DependencyTest", extension_file);
         }
-        auto executable = manifest["Executable"];
-        if (executable.is_null()) {
-            add_diagnostic(session, D::Missing_field_in_your_extension_file, "Executable", extension_file);
+        auto command = manifest["Command"];
+        if (command.is_null()) {
+            add_diagnostic(session, D::Missing_field_in_your_extension_file, "Command", extension_file);
         }
-        check_extension_existense();
 
         extension.programming_language = programming_language;
         extension.file_extensions = file_extensions.get<vector<string>>();
+        extension.function_names = function_names.get<vector<string>>();
         extension.capabilities = capabilities.get<vector<string>>();
         extension.dependency_test = dependency_test;
-        extension.executable = executable;
-        extension.session = session;
         extension.command = command;
+        extension.session = session;
 
         return extension;
     }
 
     string programming_language;
     vector<string> file_extensions;
+    vector<string> function_names;
     vector<string> capabilities;
     string dependency_test;
-    string executable;
     string command;
     Session* session;
+    JsonRpcClient* client;
 
-    void start_server() {
-        try {
-            execute_command(session->command);
-            HttpClient http_client("http://localhost:8683");
-	        Client client(http_client);
-            Json::Value params;
-            params["name"] = "Peter";
-            cout << client.CallMethod("sync", params) << endl;
+    int start_server(int (&fd)[2]) {
+        pid_t cpid = fork();
+        if (cpid == 0) {
+            close(fd[0]);
+            execl("/bin/bash", "/bin/bash", "-c", "node Build/index.js", (char *) 0);
         }
-        catch (exception& e) {
-            cerr << e.what() << endl;
-            add_diagnostic(session, D::Could_not_start_extension_server);
+        return cpid;
+    }
+
+    std::string sync(vector<string>& files, vector<string>& function_names) {
+        Json::Value files_json = Json::arrayValue;
+        for (auto const& f : files) {
+            files_json.append(f);
         }
+        Json::Value function_names_json  = Json::arrayValue;
+        for (auto const& f : function_names) {
+            function_names_json.append(f);
+        }
+        HttpClient http_client("http://localhost:8383");
+        JsonRpcClient rpc_client(http_client);
+        return rpc_client.sync(files_json, function_names_json);
     }
 
     void stop_server() {

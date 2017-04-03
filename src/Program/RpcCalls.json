@@ -1,12 +1,13 @@
 [
     {
-        "name": "sync"
+        "name": "sync",
+        "params": {
+            "files": ["test1.ts", "test2.ts"],
+            "function_names": ["l", "this.l"]
+        },
+        "returns": "hello"
     },
     {
-        "name" : "compile",
-        "params": {
-            "LocalizationString": {
-            }
-        }
+        "name" : "compile"
     }
 ]

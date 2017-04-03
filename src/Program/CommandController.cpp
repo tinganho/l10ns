@@ -5,7 +5,7 @@
 #include "Configurations.h"
 #include "Utils.cpp"
 #include "json.hpp"
-#include "ExtensionTests.cpp"
+#include "ExtensionTestRunner.cpp"
 
 using namespace std;
 using json = nlohmann::json;

@@ -5,8 +5,11 @@
         "Plural",
         "Select",
         "Date",
-        "Number"
+        "Number",
+        "Currency"
     ],
+    "TestDirectory": "Tests",
+    "FunctionNames": ["l", "this.l"],
     "DependencyTest": "DependencyTest",
-    "Executable": "Executables/l10ns-ts.js"
+    "Command": "node Build/index.js"
 }
