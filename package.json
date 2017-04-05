@@ -27,8 +27,7 @@
     "node": "*"
   },
   "scripts": {
-    "test": "binaries/test",
-    "postinstall": "../.bin/grunt dot"
+    "test": "binaries/test"
   },
   "cldr-data-coverage": "full",
   "dependencies": {
