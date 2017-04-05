@@ -27,7 +27,8 @@
     "node": "*"
   },
   "scripts": {
-    "test": "binaries/test"
+    "test": "binaries/test",
+    "postinstall": "./node_modules/.bin/grunt dot"
   },
   "cldr-data-coverage": "full",
   "dependencies": {
@@ -56,9 +57,7 @@
     "superagent": "~0.17.0",
     "terminal-colors": "~0.1.3",
     "underscore": "~1.5.2",
-    "update-notifier": "^0.2.2"
-  },
-  "devDependencies": {
+    "update-notifier": "^0.2.2",
     "sinon": "~1.8.2",
     "chai": "^1.9.1",
     "grunt": "~0.4.2",
@@ -78,6 +77,8 @@
     "sinon-chai": "~2.5.0",
     "moment": "^2.8.3",
     "moment-timezone": "^0.2.4"
+  },
+  "devDependencies": {
   },
   "keywords": [
     "internationalization",
