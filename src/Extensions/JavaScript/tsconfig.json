@@ -1,11 +1,17 @@
 {
 	"compilerOptions": {
-		"module": "commonjs",
+		"module": "amd",
 		"target": "es6",
 		"noImplicitAny": true,
+        "noImplicitThis": true,
 		"sourceMap": false,
+        "removeComments": true,
+        "moduleResolution": "node",
 		"strictNullChecks": true,
-		"outDir": "Build",
+        "noEmitOnError": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+		"outFile": "Build/l10ns-js",
 		"baseUrl": ".",
 		"paths": {
 			"*": [
@@ -14,7 +20,8 @@
 			]
 		}
 	},
-	"exclude": [
-		"node_modules"
-	]
+    "exclude": [
+        "Tasks/**",
+        "node_modules/**"
+    ]
 }

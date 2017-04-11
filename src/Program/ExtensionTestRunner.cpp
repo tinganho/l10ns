@@ -33,13 +33,11 @@ void run_extension_tests(Session* session) {
         Extension extension = Extension::create(session, extension_file);
         int fd[2];
         pipe(fd);
-        cout << fd[0] << endl;
         int child = extension.start_server(fd);
         char buf[1];
         read(fd[0], buf, 1);
         vector<string> files = { test_file };
         string localizations = extension.sync(files, extension.function_names);
-        cout << localizations << endl;
         kill(child, SIGTERM);
     });
 }

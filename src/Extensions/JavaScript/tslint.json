@@ -1,0 +1,45 @@
+{
+    "rules": {
+        "class-name": true,
+        "comment-format": [true,
+            "check-space"
+        ],
+        "indent": [true,
+            "spaces"
+        ],
+        "linebreak-style": [true, "LF"],
+        "one-line": [true,
+            "check-open-brace",
+            "check-whitespace"
+        ],
+        "no-var-keyword": true,
+        "quotemark": [true,
+            "single",
+            "jsx-single",
+            "avoid-escape"
+        ],
+        "semicolon": [true,  "always",
+            "ignore-interfaces",
+            "ignore-bound-class-methods"
+        ],
+        "whitespace": [true,
+            "check-branch",
+            "check-decl",
+            "check-operator",
+            "check-module",
+            "check-separator",
+            "check-type"
+        ],
+        "no-unused-variable": true,
+        "typedef-whitespace": [true, {
+            "call-signature": "nospace",
+            "index-signature": "nospace",
+            "parameter": "nospace",
+            "property-declaration": "nospace",
+            "variable-declaration": "nospace"
+        }],
+        "no-internal-module": true,
+        "no-trailing-whitespace": true,
+        "prefer-const": true
+    }
+}

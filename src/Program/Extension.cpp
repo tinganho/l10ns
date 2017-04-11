@@ -95,12 +95,12 @@ public:
         for (auto const& f : files) {
             files_json.append(f);
         }
-        Json::Value function_names_json  = Json::arrayValue;
+        Json::Value function_names_json = Json::arrayValue;
         for (auto const& f : function_names) {
             function_names_json.append(f);
         }
-        HttpClient http_client("http://localhost:8383");
-        JsonRpcClient rpc_client(http_client);
+        UnixDomainSocketClient unix_domain_socket_client("/tmp/l10ns.sock");
+        JsonRpcClient rpc_client(unix_domain_socket_client);
         return rpc_client.sync(files_json, function_names_json);
     }
 
