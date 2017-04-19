@@ -168,7 +168,7 @@ File.prototype.readLocalizations = function(language) {
   var files = glob.sync(project.store + '/*.json');
   var localizations = {};
   var count = 0;
-  var endCount = files.length;
+  var endCount = 0;
   var rejected = false;
 
   if(files.length === 0) {
@@ -181,7 +181,7 @@ File.prototype.readLocalizations = function(language) {
     if(!(path.basename(file, '.json') in project.languages)) {
       return;
     }
-
+    endCount++;
     _this.readLocalizationMap(file)
       .then(function(_localizations) {
         if(rejected) {
