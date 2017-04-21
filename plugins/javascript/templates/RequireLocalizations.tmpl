@@ -11,3 +11,7 @@ function requireLocalizations(language) {
     };
   })(language);
 };
+
+requireLocalizations.listLanguages = function listLanguages() {
+  return Object.keys(localizations);
+};
