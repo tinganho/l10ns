@@ -1,17 +1,17 @@
 {
 	"compilerOptions": {
-		"module": "amd",
+		"module": "commonjs",
 		"target": "es6",
 		"noImplicitAny": true,
         "noImplicitThis": true,
-		"sourceMap": false,
+		"sourceMap": true,
         "removeComments": true,
         "moduleResolution": "node",
 		"strictNullChecks": true,
         "noEmitOnError": true,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
-		"outFile": "Build/l10ns-js",
+		"outDir": "Build",
 		"baseUrl": ".",
 		"paths": {
 			"*": [

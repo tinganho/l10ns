@@ -85,7 +85,8 @@ public:
         pid_t cpid = fork();
         if (cpid == 0) {
             close(fd[0]);
-            execl("/bin/bash", "/bin/bash", "-c", "node Build/index.js", (char *) 0);
+            cout << command << endl;
+            execl("/bin/bash", "/bin/bash", "-c", command.c_str(), (char *) 0);
         }
         return cpid;
     }

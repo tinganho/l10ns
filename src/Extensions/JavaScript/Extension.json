@@ -11,5 +11,5 @@
     "TestDirectory": "Tests",
     "FunctionNames": ["l", "this.l"],
     "DependencyTest": "DependencyTest",
-    "Command": "node Build/index.js"
+    "Command": "node Build/Main.js"
 }

@@ -4,9 +4,18 @@
 #include "json.hpp"
 #include "Diagnostics.cpp"
 #include "Extension.cpp"
+#include <signal.h>
 
 using namespace L10ns;
 using json = nlohmann::json;
+
+int child;
+
+void kill_all_processes(int signum) {
+    kill(child, SIGTERM);
+    unlink("/tmp/l10ns.sock");
+    exit(signum);
+}
 
 void run_extension_tests(Session* session) {
     string extension_file = join_paths(*session->root_dir, "Extension.json");
@@ -33,11 +42,12 @@ void run_extension_tests(Session* session) {
         Extension extension = Extension::create(session, extension_file);
         int fd[2];
         pipe(fd);
-        int child = extension.start_server(fd);
+        child = extension.start_server(fd);
+        signal(SIGINT, kill_all_processes);
         char buf[1];
         read(fd[0], buf, 1);
         vector<string> files = { test_file };
         string localizations = extension.sync(files, extension.function_names);
-        kill(child, SIGTERM);
+        kill_all_processes(SIGTERM);
     });
 }
