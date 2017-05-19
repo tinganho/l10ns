@@ -11,6 +11,8 @@ This README is for the developing version of L10ns. Please checkout the master b
 ### Debug Build
 Make a debug build by following commands:
 ```
+git clone --recursive git://github.com/tinganho/l10ns.git
+cd l10ns
 mkdir Debug
 cd Debug
 cmake -DCMAKE_BUILD_TYPE=Debug ..
