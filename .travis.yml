@@ -16,6 +16,12 @@ git:
 before_install:
   - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
   - git submodule update --init --recursive
+  - wget http://ftp.gnu.org/gnu/libmicrohttpd/libmicrohttpd-0.9.52.tar.gz
+  - tar -xvf libmicrohttpd-0.9.52.tar.gz
+  - cd libmicrohttpd-0.9.52
+  - ./configure && make
+  - sudo make install && sudo ldconfig
+  - cd .. && sudo rm -rf libmicrohttpd-0.9.52
   - git clone git://github.com/cinemast/libjson-rpc-cpp.git
   - mkdir -p libjson-rpc-cpp/build
   - cd libjson-rpc-cpp/build
