@@ -36,5 +36,5 @@ matrix:
             - libboost-all-dev
             - libargtable2-dev
             - libjsoncpp-dev
-            - libmicrohttpd-dev
+            - libmicrohttpd10
       env: COMPILER=clang++-3.7
