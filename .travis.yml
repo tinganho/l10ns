@@ -30,5 +30,5 @@ matrix:
             - cmake
             - libboost-all-dev
             - libjsoncpp-dev
-            - libjsoncpp-tools
+            - libjsonrpccpp-tools
       env: COMPILER=clang++-3.7
