@@ -8,8 +8,8 @@ compiler:
 
 script:
   - mkdir debug && cd debug
-  - ls -la
-  - pwd
+  - cmake -DCMAKE_CXX_COMPILER=$COMPILER .. && make
+  - ../bin/run-tests
 
 # Handle git submodules by ourselves.
 git:
@@ -31,7 +31,7 @@ before_install:
   - cmake -DCMAKE_BUILD_TYPE=Debug -DHTTP_CLIENT=YES -DHTTP_SERVER=YES -DCOMPILE_STUBGEN=YES ..
   - make
   - sudo make install && sudo ldconfig
-  - cd .. && rm -rf libjson-rpc-cpp
+  - cd ../../ && rm -rf libjson-rpc-cpp
 
 matrix:
   include:
