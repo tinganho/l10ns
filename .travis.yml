@@ -8,8 +8,8 @@ compiler:
 
 script:
   - mkdir debug && cd debug
-  - cmake -DCMAKE_CXX_COMPILER=$COMPILER .. && make
-  - cd .. && ./bin/run-tests
+  - ls -la
+  - pwd
 
 # Handle git submodules by ourselves.
 git:
