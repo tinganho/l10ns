@@ -35,4 +35,5 @@ matrix:
             - cmake
             - libboost-all-dev
             - libargtable2-dev
+            - libjsoncpp-dev
       env: COMPILER=clang++-3.7
