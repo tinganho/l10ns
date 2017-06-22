@@ -31,6 +31,7 @@ before_install:
   - cmake -DCMAKE_BUILD_TYPE=Debug -DHTTP_CLIENT=YES -DHTTP_SERVER=YES -DCOMPILE_STUBGEN=YES ..
   - make
   - sudo make install && sudo ldconfig
+  - cd .. && rm -rf libjson-rpc-cpp
 
 matrix:
   include:
