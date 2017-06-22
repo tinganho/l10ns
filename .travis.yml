@@ -34,8 +34,5 @@ matrix:
             - clang-3.7
             - cmake
             - libboost-all-dev
-            - libjsoncpp
-            - libargtable
-            - libmicrohttpd
-            - libcurl
+            - libargtable2-dev
       env: COMPILER=clang++-3.7
