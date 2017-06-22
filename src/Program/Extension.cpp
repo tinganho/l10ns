@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <iostream>
-#include <jsonrpccpp/client/connectors/httpclient.h>
-#include <jsonrpccpp/client/connectors/unixdomainsocketclient.h>
+#include <jsoncpp/client/connectors/httpclient.h>
+#include <jsoncpp/client/connectors/unixdomainsocketclient.h>
 #include "Utils.cpp"
 #include "json.hpp"
 #include "Diagnostics.cpp"
