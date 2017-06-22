@@ -133,17 +133,17 @@ Session* parse_command_args(int argc, char* argv[]) {
     const Flag* flag_which_awaits_value = NULL;
     vector<Flag> all_flags(default_flags);
 
-    auto add_command = [&](const char* arg) -> void {
+    auto add_command = [&](const char* command) -> void {
         if (has_command) {
             add_diagnostic(session, D::You_cannot_run_several_commands);
             return;
         }
 
-        for (auto const& command : commands) {
-            if (strcmp(command.name->c_str(), arg) == 0) {
-                session->command = command.kind;
-                if (command.flags != NULL) {
-                    all_flags.insert(all_flags.end(), command.flags->begin(), command.flags->end());
+        for (auto const& c : commands) {
+            if (strcmp(c.name->c_str(), command) == 0) {
+                session->command = c.kind;
+                if (c.flags != NULL) {
+                    all_flags.insert(all_flags.end(), c.flags->begin(), c.flags->end());
                 }
                 has_command = true;
                 return;
@@ -151,7 +151,7 @@ Session* parse_command_args(int argc, char* argv[]) {
         }
 
         // We can only reach here if the command is unknown.
-        add_diagnostic(session, D::Unknown_command, arg);
+        add_diagnostic(session, D::Unknown_command, command);
     };
 
     auto add_command_flag = [&](const char* arg) -> bool {

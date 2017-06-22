@@ -190,7 +190,6 @@ string read_file(string filename) {
         while (getline(f, line)) {
             result += line + '\n';
         }
-        result = result.substr(0, result.length() - 1);
         f.close();
         return result;
     }
