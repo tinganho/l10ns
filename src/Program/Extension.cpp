@@ -8,11 +8,26 @@
 #include "json.hpp"
 #include "Diagnostics.cpp"
 #include "JsonRpcClient.h"
+#include <map>
 
 using json = nlohmann::json;
 using namespace L10ns;
 using namespace jsonrpc;
 using namespace std;
+
+struct Key {
+    string name;
+    vector<string> params;
+    unsigned int line;
+    unsigned int column;
+    Key(string n, vector<string> p, unsigned int l, unsigned int c):
+        name(n),
+        params(p),
+        line(l),
+        column(c) {};
+};
+
+typedef std::map<string, vector<Key>> Files;
 
 class Extension {
 public:
@@ -90,7 +105,7 @@ public:
         return cpid;
     }
 
-    std::string sync(vector<string>& files, vector<string>& function_names) {
+    Files get_localization_keys(vector<string>& files, vector<string>& function_names) {
         Json::Value files_json = Json::arrayValue;
         for (auto const& f : files) {
             files_json.append(f);
@@ -101,7 +116,19 @@ public:
         }
         UnixDomainSocketClient unix_domain_socket_client("/tmp/l10ns.sock");
         JsonRpcClient rpc_client(unix_domain_socket_client);
-        return rpc_client.sync(files_json, function_names_json);
+        auto files_json_text = rpc_client.sync(files_json, function_names_json);
+        auto f = json::parse(files_json_text);
+        Files _files;
+        for (json::iterator it = f.begin(); it != f.end(); it++) {
+            auto k = it.value();
+            vector<Key> keys;
+            for (json::iterator kit = k.begin(); kit != k.end(); kit++) {
+                auto v = kit.value();
+                keys.push_back(Key(v["name"], v["params"], v["line"], v["column"]));
+            }
+            _files[it.key()] = keys;
+        }
+        return _files;
     }
 
     void stop_server() {

@@ -48,8 +48,16 @@ void run_extension_tests(Session* session) {
     start_extension_server();
     for_each_key_extraction_test_file([&](const string& test_file) {
         vector<string> files = { test_file };
-        string localizations = extension->sync(files, extension->function_names);
-        cout << localizations << endl;
+        Files f = extension->get_localization_keys(files, extension->function_names);
+        for (Files::iterator it = f.begin(); it != f.end(); it++) {
+            vector<Key> keys = it->second;
+            for (auto key_it = keys.begin(); key_it != keys.end(); key_it++) {
+                auto key = key_it;
+                cout << key->name << endl;
+                cout << key->line << endl;
+                cout << key->column << endl;
+            }
+        }
     });
     kill_all_processes(SIGTERM);
 }

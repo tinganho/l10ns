@@ -2,17 +2,17 @@
 import fs = require('fs');
 import { createScanner, Token } from './Scanner';
 
-export interface LocalizationGetter {
+export interface Key {
     name: string;
     params: string[];
     line: number;
     column: number;
 }
 
-export function extractKeysFromFile(file: string, callExpressionIdentifiers: string[]): LocalizationGetter[] {
+export function extractKeysFromFile(file: string, callExpressionIdentifiers: string[]): Key[] {
     const text = fs.readFileSync(file).toString();
     const scanner = createScanner(text, callExpressionIdentifiers);
-    const keys: LocalizationGetter[] = [];
+    const keys: Key[] = [];
 
     work();
 

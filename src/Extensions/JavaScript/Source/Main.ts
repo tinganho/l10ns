@@ -1,7 +1,7 @@
 
 import net = require('net');
 import fs = require('fs');
-import { extractKeysFromFile, LocalizationGetter } from './KeyExtractor/Extractor';
+import { extractKeysFromFile, Key } from './KeyExtractor/Extractor';
 
 interface SyncParams {
     files: string[];
@@ -24,7 +24,7 @@ interface RPCResponse extends RPC {
 }
 
 interface Files {
-    [name: string]: LocalizationGetter[];
+    [name: string]: Key[];
 }
 
 function sendFinishStatus() {
@@ -44,7 +44,7 @@ const server = net.createServer((client) => {
                     const keys = extractKeysFromFile(f, callExpressionIdentifiers);
                     files[f] = keys;
                 }
-                write(rpc.id, JSON.stringify(files, null, 4));
+                write(rpc.id, files);
                 break;
             case 'compile':
                 break;
@@ -56,9 +56,9 @@ const server = net.createServer((client) => {
 
     function write(id: number, result: any) {
         client.write(JSON.stringify({
-            id: id,
+            id,
             jsonrpc: '2.0',
-            result: result,
+            result: JSON.stringify(result),
         } as RPCResponse));
     }
 });
