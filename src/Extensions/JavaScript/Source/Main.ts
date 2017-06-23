@@ -3,10 +3,6 @@ import net = require('net');
 import fs = require('fs');
 import { extractKeysFromFile, LocalizationGetter } from './KeyExtractor/Extractor';
 
-function sendFinishStatus() {
-    fs.createWriteStream('', { fd: 4 }).write('1');
-}
-
 interface SyncParams {
     files: string[];
     function_names: string[];
@@ -31,6 +27,10 @@ interface Files {
     [name: string]: LocalizationGetter[];
 }
 
+function sendFinishStatus() {
+    fs.createWriteStream('', { fd: 4 }).write('1');
+}
+
 const server = net.createServer((client) => {
     client.setEncoding('utf8');
     client.on('data', (data) => {
@@ -46,6 +46,10 @@ const server = net.createServer((client) => {
                 }
                 write(rpc.id, JSON.stringify(files, null, 4));
                 break;
+            case 'compile':
+                break;
+            default:
+                throw new Error(`Unknown method '${rpc.method}'`);
         }
     });
     client.pipe(client);

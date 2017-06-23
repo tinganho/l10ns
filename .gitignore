@@ -6,6 +6,6 @@ bin/
 src/Program/Configurations.h
 src/Vendors/*/Makefile
 src/Vendors/Glob/libglob.a
-src/Tests/Current
+src/Tests/Currents
 src/Extensions/JavaScript/node_modules
 src/Extensions/JavaScript/Build
