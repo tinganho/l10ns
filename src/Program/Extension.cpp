@@ -16,7 +16,7 @@ using namespace std;
 
 class Extension {
 public:
-    static Extension create(Session* session, string extension_file) {
+    static Extension* create(Session* session, string extension_file) {
 
         auto check_capabilities = [&session, &extension_file](vector<string> capabilities) -> void {
             for (auto const& c : capabilities) {
@@ -33,7 +33,7 @@ public:
         };
 
         json manifest = json::parse(read_file(extension_file));
-        Extension extension;
+        Extension* extension = new Extension();
         auto programming_language = manifest["ProgrammingLanguage"];
         if (programming_language.is_null()) {
             add_diagnostic(session, D::Missing_field_in_your_extension_file, "ProgrammingLanguage", extension_file);
@@ -61,13 +61,13 @@ public:
             add_diagnostic(session, D::Missing_field_in_your_extension_file, "Command", extension_file);
         }
 
-        extension.programming_language = programming_language;
-        extension.file_extensions = file_extensions.get<vector<string>>();
-        extension.function_names = function_names.get<vector<string>>();
-        extension.capabilities = capabilities.get<vector<string>>();
-        extension.dependency_test = dependency_test;
-        extension.command = command;
-        extension.session = session;
+        extension->programming_language = programming_language;
+        extension->file_extensions = file_extensions.get<vector<string>>();
+        extension->function_names = function_names.get<vector<string>>();
+        extension->capabilities = capabilities.get<vector<string>>();
+        extension->dependency_test = dependency_test;
+        extension->command = command;
+        extension->session = session;
 
         return extension;
     }
@@ -85,7 +85,6 @@ public:
         pid_t cpid = fork();
         if (cpid == 0) {
             close(fd[0]);
-            cout << command << endl;
             execl("/bin/bash", "/bin/bash", "-c", command.c_str(), (char *) 0);
         }
         return cpid;

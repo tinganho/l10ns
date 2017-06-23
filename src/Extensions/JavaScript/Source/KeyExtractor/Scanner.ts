@@ -170,12 +170,18 @@ export function createScanner(text: string, callExpressionIdentifiers: string[])
     const lastRecord: Record = { pos: 0, start: 1 } as Record;
     let pos = 0;
     let start = 1;
+    let line = 1;
+    let column = 0;
+    let currentColumn = 0;
+    let currentLine = 1;
     let isTextTrivia = true;
     let lastCallExpressionIdentifier: PositionStart | undefined;
     let ch: number;
 
     function scan(): Token {
         start = pos;
+        line = currentLine;
+        column = currentColumn;
         while (true) {
             if (pos >= end) {
                 return Token.EndOfFile;
@@ -200,6 +206,11 @@ export function createScanner(text: string, callExpressionIdentifiers: string[])
                 return Token.WhiteSpace;
             }
             switch (ch) {
+                case CharCode.LineFeed:
+                case CharCode.CarriageReturn:
+                    currentLine++;
+                    currentColumn = 1;
+                    continue;
                 case CharCode.Comma:
                     return Token.Comma;
                 case CharCode.OpenParen:
@@ -319,6 +330,7 @@ export function createScanner(text: string, callExpressionIdentifiers: string[])
     }
 
     function nextChar(): CharCode {
+        currentColumn++;
         return ch = text.charCodeAt(pos++);
     }
 
@@ -347,7 +359,9 @@ export function createScanner(text: string, callExpressionIdentifiers: string[])
         scan,
         save,
         revert,
+        get line() { return line; },
+        get column() { return column; },
         get value() { return text.substring(start, pos); },
-        get literal() { return text.substring(start + 1, pos - 1); },
+        get stringLiteral() { return text.substring(start + 1, pos - 1); },
     };
 }

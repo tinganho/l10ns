@@ -2,15 +2,17 @@
 import fs = require('fs');
 import { createScanner, Token } from './Scanner';
 
-interface Key {
+export interface LocalizationGetter {
     name: string;
     params: string[];
+    line: number;
+    column: number;
 }
 
-export function extractKeysFromFile(file: string, callExpressionIdentifiers: string[]): Key[] {
+export function extractKeysFromFile(file: string, callExpressionIdentifiers: string[]): LocalizationGetter[] {
     const text = fs.readFileSync(file).toString();
     const scanner = createScanner(text, callExpressionIdentifiers);
-    const keys: Key[] = [];
+    const keys: LocalizationGetter[] = [];
 
     work();
 
@@ -18,12 +20,20 @@ export function extractKeysFromFile(file: string, callExpressionIdentifiers: str
         return scanner.scan();
     }
 
+    function getColumn() {
+        return scanner.column;
+    }
+
+    function getLine() {
+        return scanner.line;
+    }
+
     // function value() {
     //     return scanner.value;
     // }
 
-    function literal() {
-        return scanner.literal;
+    function getStringLiteral() {
+        return scanner.stringLiteral;
     }
 
     function nextTokenIs(token: Token): boolean {
@@ -39,10 +49,11 @@ export function extractKeysFromFile(file: string, callExpressionIdentifiers: str
                 case Token.EndOfFile:
                     break outer;
                 case Token.CallExpressionIdentifier:
-                    scanner.save();
+                    const line = getLine();
+                    const column = getColumn();
                     if (nextTokenIs(Token.OpenParen)) {
                         if (nextTokenIs(Token.StringLiteral)) {
-                            const name = literal();
+                            const name = getStringLiteral();
                             let params: string[] = [];
                             switch (scan()) {
                                 case Token.CloseParen:
@@ -54,6 +65,8 @@ export function extractKeysFromFile(file: string, callExpressionIdentifiers: str
                             keys.push({
                                 name,
                                 params,
+                                line,
+                                column,
                             });
                             continue;
                         }
