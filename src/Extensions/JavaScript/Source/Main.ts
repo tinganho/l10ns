@@ -44,7 +44,7 @@ const server = net.createServer((client) => {
                     const keys = extractKeysFromFile(f, callExpressionIdentifiers);
                     files[f] = keys;
                 }
-                write(rpc.id, JSON.stringify(files));
+                write(rpc.id, JSON.stringify(files, null, 4));
                 break;
         }
     });
