@@ -40,7 +40,7 @@ static vector<Flag> extension_run_tests_flags = {
 };
 
 static const char * init_info =
-    "Initialize a L10ns project. This command creates on 'l10ns.json' "
+    "Initialize a L10ns project. This command creates a 'l10ns.json' "
     "file, with sane default options applied.\n\n"
     "Usage: l10ns init";
 
