@@ -5,6 +5,7 @@
 #include "Configurations.h"
 #include "Utils.cpp"
 #include "json.hpp"
+#include "Extension.cpp"
 #include "ExtensionTestRunner.cpp"
 
 using namespace std;
@@ -120,8 +121,15 @@ int init(int argc, char* argv[]) {
             case CommandKind::Extension_RunTests:
                 run_extension_tests(session);
                 break;
-            case CommandKind::Extension_AcceptBaselines:
+            case CommandKind::Extension_AcceptBaselines: {
+                string extension_file = join_paths(*session->root_dir, "Extension.json");
+                Extension* extension = Extension::create(session, extension_file);
+                string currents_dir = join_paths(*session->root_dir, extension->test_dir + "/Currents");
+                string references_dir = replace_string(currents_dir, "Currents", "References");
+                remove_all(references_dir);
+                copy_folder(currents_dir, references_dir);
                 break;
+            }
             default:
                 break;
         }

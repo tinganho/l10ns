@@ -84,20 +84,22 @@ void run_extension_tests(Session* session) {
         string currents_dir = currents_file_path.substr(0, currents_file_path.find_last_of("/"));
         recursively_create_dir(currents_dir);
         write_file(replace_string(currents_file_path, "Cases", "Currents"), result_string);
-        string reference_file_path = replace_string(test_file, "Cases", "References");
-        reference_file_path = replace_string(reference_file_path, ".js", ".json");
+        string reference_file_path = replace_string(currents_file_path, "Cases", "References");
         string reference_string = "";
         if (file_exists(reference_file_path)) {
             reference_string = read_file(reference_file_path);
         }
         string test_name = currents_file_path.substr(currents_file_path.find_last_of("/") + 1);
         test_name = replace_string(test_name, *session->root_dir, "");
-        test(test_name, [&](Test* t) {
+        test(test_name, [reference_string, result_string](Test* t) {
             if (result_string != reference_string) {
+                cout << result_string << endl;
+                cout << reference_string << endl;
                 throw runtime_error("Assertion Error!");
             }
         });
     });
+    runTests();
     printResult();
     kill_all_processes(SIGTERM);
 }

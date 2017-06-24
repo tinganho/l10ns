@@ -183,19 +183,10 @@ bool file_exists(const string filename) {
 }
 
 string read_file(string filename) {
-    string line;
-    string result;
-    ifstream f(filename);
-    if (f.is_open()) {
-        while (getline(f, line)) {
-            result += line + '\n';
-        }
-        f.close();
-        return result;
-    }
-    else {
-        throw invalid_argument("Utils::readFile: Could not open file '" + filename + "'.");
-    }
+    std::ifstream t(filename);
+    std::stringstream buffer;
+    buffer << t.rdbuf();
+    return buffer.str();
 }
 
 void write_file(string filename, string content) {

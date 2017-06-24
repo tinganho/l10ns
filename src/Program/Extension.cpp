@@ -1,4 +1,7 @@
 
+#ifndef EXTENSION_H_
+#define EXTENSION_H_
+
 #include <stdio.h>
 #include <unistd.h>
 #include <iostream>
@@ -75,6 +78,10 @@ public:
         if (command.is_null()) {
             add_diagnostic(session, D::Missing_field_in_your_extension_file, "Command", extension_file);
         }
+        auto test_dir = manifest["TestDirectory"];
+        if (test_dir.is_null()) {
+            add_diagnostic(session, D::Missing_field_in_your_extension_file, "TestDirectory", extension_file);
+        }
 
         extension->programming_language = programming_language;
         extension->file_extensions = file_extensions.get<vector<string>>();
@@ -82,6 +89,7 @@ public:
         extension->capabilities = capabilities.get<vector<string>>();
         extension->dependency_test = dependency_test;
         extension->command = command;
+        extension->test_dir = test_dir;
         extension->session = session;
 
         return extension;
@@ -91,6 +99,7 @@ public:
     vector<string> file_extensions;
     vector<string> function_names;
     vector<string> capabilities;
+    string test_dir;
     string dependency_test;
     string command;
     Session* session;
@@ -142,3 +151,5 @@ public:
 
     }
 };
+
+#endif //EXTENSION_H_
