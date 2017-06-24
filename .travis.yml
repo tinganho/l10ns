@@ -14,11 +14,13 @@ script:
   - tsc
   - ../../../bin/l10ns extension-run-tests
 
-# Handle git submodules by ourselves.
 git:
-    submodules: false
+
+  # Handle git submodules by ourselves.
+  submodules: false
 
 before_install:
+
   # Use sed to replace the SSH URL with the public URL, then initialize submodules.
   - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
   - git submodule update --init --recursive
