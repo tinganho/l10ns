@@ -24,8 +24,8 @@ before_install:
   - git submodule update --init --recursive
 
   # nodejs
-  - curl -sL https://deb.nodesource.com/setup_7.x | bash
-  - npm install typescript
+  - curl -sL https://deb.nodesource.com/setup_7.x | sudo bash
+  - sudo npm install typescript
 
   # libmicrohttpd
   - wget http://ftp.gnu.org/gnu/libmicrohttpd/libmicrohttpd-0.9.52.tar.gz
