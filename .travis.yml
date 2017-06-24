@@ -10,7 +10,7 @@ script:
   - mkdir debug && cd debug
   - cmake -DCMAKE_CXX_COMPILER=$COMPILER .. && make
   - ../bin/run-tests
-  - cd src/Extensions/JavaScript
+  - cd ../src/Extensions/JavaScript
   - ../../../bin/l10ns extension-run-tests
 
 # Handle git submodules by ourselves.
