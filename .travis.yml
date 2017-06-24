@@ -30,7 +30,7 @@ before_install:
   - cd .. && sudo rm -rf libmicrohttpd-0.9.52
 
   # jsoncpp
-  - git clone git://github.com:open-source-parsers/jsoncpp.git
+  - git clone git://github.com/open-source-parsers/jsoncpp.git
   - mkdir -p jsoncpp/build
   - cd jsoncpp/build
   - cmake -DCMAKE_BUILD_TYPE=debug -DBUILD_STATIC_LIBS=ON -DBUILD_SHARED_LIBS=OFF -DARCHIVE_INSTALL_DIR=. -G "Unix Makefiles" ../..
