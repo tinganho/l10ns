@@ -32,7 +32,7 @@ before_install:
   - git clone git://github.com/open-source-parsers/jsoncpp.git
   - mkdir -p jsoncpp/build
   - cd jsoncpp/build
-  - cmake -DCMAKE_BUILD_TYPE=debug -DBUILD_STATIC_LIBS=ON -DBUILD_SHARED_LIBS=OFF -DARCHIVE_INSTALL_DIR=. -G "Unix Makefiles" ..
+  - cmake -DCMAKE_BUILD_TYPE=debug -DCMAKE_CXX_FLAGS=-fPIC -DBUILD_STATIC_LIBS=ON -DBUILD_SHARED_LIBS=OFF -DARCHIVE_INSTALL_DIR=. -G "Unix Makefiles" ..
   - make
   - sudo make install && sudo ldconfig
   - cd ../../ && rm -rf jsoncpp
