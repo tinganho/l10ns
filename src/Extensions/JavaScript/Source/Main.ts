@@ -11,7 +11,6 @@ interface SyncParams {
 interface RPC {
     id: number;
     jsonrpc: '2.0';
-
 }
 
 interface RPCRequest extends RPC {
@@ -58,7 +57,7 @@ const server = net.createServer((client) => {
         client.write(JSON.stringify({
             id,
             jsonrpc: '2.0',
-            result: JSON.stringify(result),
+            result,
         } as RPCResponse));
     }
 });

@@ -15,6 +15,7 @@ add_subdirectory(src/Vendors/Glob)
 add_subdirectory(src/Vendors/json)
 
 include_directories("${PROJECT_SOURCE_DIR}/src/Program")
+include_directories("${PROJECT_SOURCE_DIR}/src/TestFramework")
 include_directories("${PROJECT_SOURCE_DIR}/src/Vendors/Glob")
 include_directories("${PROJECT_SOURCE_DIR}/src/Vendors/json/src")
 

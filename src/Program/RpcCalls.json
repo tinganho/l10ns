@@ -5,7 +5,7 @@
             "files": ["test1.ts", "test2.ts"],
             "function_names": ["l", "this.l"]
         },
-        "returns": "hello"
+        "returns": { "name": "hello", "params" : ["param1"], "line": 1, "column": 1 }
     },
     {
         "name" : "compile"

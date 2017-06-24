@@ -12,14 +12,14 @@ class JsonRpcClient : public jsonrpc::Client
     public:
         JsonRpcClient(jsonrpc::IClientConnector &conn, jsonrpc::clientVersion_t type = jsonrpc::JSONRPC_CLIENT_V2) : jsonrpc::Client(conn, type) {}
 
-        std::string sync(const Json::Value& files, const Json::Value& function_names) throw (jsonrpc::JsonRpcException)
+        Json::Value sync(const Json::Value& files, const Json::Value& function_names) throw (jsonrpc::JsonRpcException)
         {
             Json::Value p;
             p["files"] = files;
             p["function_names"] = function_names;
             Json::Value result = this->CallMethod("sync",p);
-            if (result.isString())
-                return result.asString();
+            if (result.isObject())
+                return result;
             else
                 throw jsonrpc::JsonRpcException(jsonrpc::Errors::ERROR_CLIENT_INVALID_RESPONSE, result.toStyledString());
         }

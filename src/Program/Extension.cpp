@@ -27,7 +27,7 @@ struct Key {
         column(c) {};
 };
 
-typedef std::map<string, vector<Key>> Files;
+typedef std::map<string, vector<Key>> FileToKeys;
 
 class Extension {
 public:
@@ -105,7 +105,7 @@ public:
         return cpid;
     }
 
-    Files get_localization_keys(vector<string>& files, vector<string>& function_names) {
+    FileToKeys get_localization_keys(vector<string>& files, vector<string>& function_names) {
         Json::Value files_json = Json::arrayValue;
         for (auto const& f : files) {
             files_json.append(f);
@@ -116,19 +116,26 @@ public:
         }
         UnixDomainSocketClient unix_domain_socket_client("/tmp/l10ns.sock");
         JsonRpcClient rpc_client(unix_domain_socket_client);
-        auto files_json_text = rpc_client.sync(files_json, function_names_json);
-        auto f = json::parse(files_json_text);
-        Files _files;
-        for (json::iterator it = f.begin(); it != f.end(); it++) {
-            auto k = it.value();
+        auto file_to_keys_json = rpc_client.sync(files_json, function_names_json);
+        FileToKeys file_to_keys;
+        for (Json::ValueIterator file_to_keys_it = file_to_keys_json.begin(); file_to_keys_it != file_to_keys_json.end(); file_to_keys_it++) {
+            auto k = *file_to_keys_it;
             vector<Key> keys;
-            for (json::iterator kit = k.begin(); kit != k.end(); kit++) {
-                auto v = kit.value();
-                keys.push_back(Key(v["name"], v["params"], v["line"], v["column"]));
+            for (Json::ValueIterator key_it = k.begin(); key_it != k.end(); key_it++) {
+                auto v = *key_it;
+                vector<string> params;
+                Json::Value params_json = v["params"];
+                for (Json::ValueIterator params_it = params_json.begin(); params_it != params_json.end(); params_it++) {
+                    if (!params_it->isString()) {
+                        throw invalid_argument("Parameters must be of type string.");
+                    }
+                    params.push_back(params_it->asString());
+                }
+                keys.push_back(Key(v["name"].asString(), params, v["line"].asInt(), v["column"].asInt()));
             }
-            _files[it.key()] = keys;
+            file_to_keys[file_to_keys_it.key().asString()] = keys;
         }
-        return _files;
+        return file_to_keys;
     }
 
     void stop_server() {

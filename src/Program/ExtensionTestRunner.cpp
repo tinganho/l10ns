@@ -4,9 +4,11 @@
 #include "json.hpp"
 #include "Diagnostics.cpp"
 #include "Extension.cpp"
+#include "Core.cpp"
 #include <signal.h>
 
 using namespace L10ns;
+using namespace TestFramework;
 using json = nlohmann::json;
 
 int child;
@@ -46,18 +48,56 @@ void run_extension_tests(Session* session) {
     };
 
     start_extension_server();
+    domain("KeyExtractions");
     for_each_key_extraction_test_file([&](const string& test_file) {
         vector<string> files = { test_file };
-        Files f = extension->get_localization_keys(files, extension->function_names);
-        for (Files::iterator it = f.begin(); it != f.end(); it++) {
+        FileToKeys file_to_keys = extension->get_localization_keys(files, extension->function_names);
+        Json::Value result;
+        for (FileToKeys::iterator it = file_to_keys.begin(); it != file_to_keys.end(); it++) {
             vector<Key> keys = it->second;
+            Json::Value keys_json = Json::arrayValue;
             for (auto key_it = keys.begin(); key_it != keys.end(); key_it++) {
                 auto key = key_it;
-                cout << key->name << endl;
-                cout << key->line << endl;
-                cout << key->column << endl;
+                auto params = key->params;
+                Json::Value params_json = Json::arrayValue;
+                for (vector<string>::iterator param_it = params.begin(); param_it != params.end(); param_it++) {
+                    params_json.append(*param_it);
+                }
+                Json::Value key_json;
+                key_json["name"] = key->name;
+                key_json["params"] = params_json;
+                key_json["line"] = key->line;
+                key_json["column"] = key->column;
+                keys_json.append(key_json);
             }
+            result[it->first] = keys_json;
         }
+        Json::StreamWriterBuilder builder;
+        builder["indentation"] = "    ";
+        std::unique_ptr<Json::StreamWriter> writer(builder.newStreamWriter());
+        std::ostringstream string_buffer;
+        writer->write(result, &string_buffer);
+        string result_string = string_buffer.str();
+        result_string = replace_string(result_string, *session->root_dir + "Tests/Cases/", "");
+        string currents_file_path = replace_string(test_file, "Cases", "Currents");
+        currents_file_path = replace_string(currents_file_path, ".js", ".json");
+        string currents_dir = currents_file_path.substr(0, currents_file_path.find_last_of("/"));
+        recursively_create_dir(currents_dir);
+        write_file(replace_string(currents_file_path, "Cases", "Currents"), result_string);
+        string reference_file_path = replace_string(test_file, "Cases", "References");
+        reference_file_path = replace_string(reference_file_path, ".js", ".json");
+        string reference_string = "";
+        if (file_exists(reference_file_path)) {
+            reference_string = read_file(reference_file_path);
+        }
+        string test_name = currents_file_path.substr(currents_file_path.find_last_of("/") + 1);
+        test_name = replace_string(test_name, *session->root_dir, "");
+        test(test_name, [&](Test* t) {
+            if (result_string != reference_string) {
+                throw runtime_error("Assertion Error!");
+            }
+        });
     });
+    printResult();
     kill_all_processes(SIGTERM);
 }
