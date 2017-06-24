@@ -125,11 +125,11 @@ public:
                 auto v = *key_it;
                 vector<string> params;
                 Json::Value params_json = v["params"];
-                for (Json::ValueIterator params_it = params_json.begin(); params_it != params_json.end(); params_it++) {
-                    if (!params_it->isString()) {
+                for (Json::ValueIterator param_it = params_json.begin(); param_it != params_json.end(); param_it++) {
+                    if (!param_it->isString()) {
                         throw invalid_argument("Parameters must be of type string.");
                     }
-                    params.push_back(params_it->asString());
+                    params.push_back(param_it->asString());
                 }
                 keys.push_back(Key(v["name"].asString(), params, v["line"].asInt(), v["column"].asInt()));
             }

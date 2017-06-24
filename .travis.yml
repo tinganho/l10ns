@@ -25,7 +25,8 @@ before_install:
   - ./configure && make
   - sudo make install && sudo ldconfig
   - cd .. && sudo rm -rf libmicrohttpd-0.9.52
-  - git clone git://github.com/tinganho/libjson-rpc-cpp.git
+  - curl -o libjson-rpc-cpp.zip https://github.com/cinemast/libjson-rpc-cpp/archive/v0.7.0.tar.gz
+  - tar -xvf libjson-rpc-cpp.zip
   - mkdir -p libjson-rpc-cpp/build
   - cd libjson-rpc-cpp/build
   - cmake -DCMAKE_BUILD_TYPE=Debug -DHTTP_CLIENT=YES -DHTTP_SERVER=YES -DCOMPILE_STUBGEN=YES ..
@@ -47,5 +48,4 @@ matrix:
             - libboost-all-dev
             - libargtable2-dev
             - libjsoncpp-dev
-            - libmicrohttpd-dev
       env: COMPILER=clang++-3.7
