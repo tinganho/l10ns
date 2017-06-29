@@ -1,25 +1,25 @@
 {
-	"compilerOptions": {
-		"module": "commonjs",
-		"target": "es6",
-		"noImplicitAny": true,
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es6",
+        "noImplicitAny": true,
         "noImplicitThis": true,
-		"sourceMap": true,
+        "sourceMap": true,
         "removeComments": true,
         "moduleResolution": "node",
-		"strictNullChecks": true,
+        "strictNullChecks": true,
         "noEmitOnError": true,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
-		"outDir": "Build",
-		"baseUrl": ".",
-		"paths": {
-			"*": [
-				"Typings/*",
-				"*"
-			]
-		}
-	},
+        "outDir": "Build",
+        "baseUrl": ".",
+        "paths": {
+            "*": [
+                "Typings/*",
+                "*"
+            ]
+        }
+    },
     "exclude": [
         "Tasks/**",
         "node_modules/**"
