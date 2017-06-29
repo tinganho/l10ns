@@ -1,0 +1,15 @@
+
+version: '3'
+
+# requires `export DOCKERHOST="$(ifconfig en0 inet | grep "inet " | awk -F'[: ]+' '{ print $2 }')"` in ~/.bash_profile
+
+services:
+  dev.l10ns:
+    image: dev.l10ns
+    container_name: dev.l10ns
+    volumes:
+      - .:/srv/l10ns
+      - ~/.bash_history:/root/.bash_history
+    ports:
+      - "3000:3003"
+      - "6001:5858"

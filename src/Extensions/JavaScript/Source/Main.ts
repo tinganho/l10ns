@@ -34,7 +34,6 @@ const server = net.createServer((client) => {
     client.setEncoding('utf8');
     client.on('data', (data) => {
         const rpc = JSON.parse(data.toString()) as RPCRequest;
-
         switch (rpc.method) {
             case 'sync':
                 const files: Files = {};
@@ -64,6 +63,7 @@ const server = net.createServer((client) => {
 
 process.on('SIGTERM', () => {
     server.close();
+    process.exit(0);
 });
 
 server.listen('/tmp/l10ns.sock', () => {
