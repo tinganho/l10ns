@@ -175,3 +175,61 @@ $padding: 40px;
     @include transform(scale(0));
   }
 }
+
+.localization-arrow {
+  width: 720px;
+  margin: auto;
+  margin-top: 125px;
+  margin-bottom: 5px;
+  @include transition(transform 0.2s, opacity 0.2s);
+  &.is-revealed {
+    opacity: 1;
+    @include transform(translateY(0));
+  }
+
+  &.is-hidden {
+    opacity: 0;
+    @include transform(translateY(50px));
+  }
+}
+
+.localization-arrow-left {
+  display: inline-block;
+  width: 50%;
+  text-align: left;
+}
+
+.localization-arrow-right {
+  display: inline-block;
+  width: 50%;
+  text-align: right;
+  float: right;
+}
+
+.localization-arrow-img-left {
+  display: inline-block;
+  width: 19px;
+  height: 19px;
+  background-image: url('../../images/default/arrow-left.png');
+  background-repeat: no-repeat;
+  background-size: 60%;
+  vertical-align: middle;
+}
+
+.localization-arrow-img-right {
+  display: inline-block;
+  width: 19px;
+  height: 19px;
+  background-image: url('../../images/default/arrow-right.png');
+  background-repeat: no-repeat;
+  background-size: 60%;
+  vertical-align: middle;
+}
+
+.localization-arrow-text {
+  cursor: pointer;
+  display: inline-block;
+  height: 19px;
+  line-height: 19px;
+  vertical-align: middle;
+}

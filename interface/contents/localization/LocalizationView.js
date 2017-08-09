@@ -24,6 +24,7 @@ define(function(require) {
 
     initialize: function(model) {
       this.model = model;
+
       if(inClient) {
         this._lastSave = Date.now();
         this._bindMethods();
@@ -136,6 +137,8 @@ define(function(require) {
       this.$addDateButton.on('mousedown', this._addDateFormatedText);
       this.$variable.on('mousedown', this._addVariableFormatedText);
       this.$save.on('mouseup', this._save);
+      this.$arrowLeft.on('mouseup', this._changeField);
+      this.$arrowRight.on('mouseup', this._changeField);
       this._resizeTextArea();
     },
 
@@ -365,6 +368,8 @@ define(function(require) {
       this.$messageText = this.$('.localization-message-text');
       this.$buttons = this.$('.localization-buttons');
       this.$save = this.$('.localization-save');
+      this.$arrowLeft = $('.localization-arrow-left-link');
+      this.$arrowRight = $('.localization-arrow-right-link');
       this.$loadingCanvas = this.$('.localization-loading-canvas');
       this.$variable = this.$('.localization-variable');
     },
@@ -407,6 +412,16 @@ define(function(require) {
           });
         }
       });
+    },
+
+    _changeField: function (event) {
+      var _this = this;
+      var id = event.currentTarget.getAttribute('data-id');
+      var key = encodeURI(event.currentTarget.getAttribute('data-key').replace(/\s/g, '-'));
+
+      setTimeout(function() {
+        app.navigate('/' + app.language + '/l/' + id + '/' + key);
+      }, 400);
     },
 
     /**
