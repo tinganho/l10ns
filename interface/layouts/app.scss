@@ -49,8 +49,9 @@ body {
 }
 
 .app-localization {
-  margin-top: 125px;
+  margin-top: 5px;
   margin-bottom: 125px;
+
   @include transition(transform 0.2s, opacity 0.2s);
 
   &.is-revealed {
