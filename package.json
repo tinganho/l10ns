@@ -32,7 +32,8 @@
     "installdeps": "bower install && grunt data && grunt webp && npm run compile",
     "compileCSS": "grunt compass",
     "compileJS": "grunt dot",
-    "compile": "grunt compass && grunt dot"
+    "compile": "grunt compass && grunt dot",
+    "interface": "./binaries/l10ns interface"
   },
   "cldr-data-coverage": "full",
   "dependencies": {
