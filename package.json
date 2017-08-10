@@ -27,7 +27,12 @@
     "node": "*"
   },
   "scripts": {
-    "test": "binaries/test"
+    "test": "binaries/test",
+    "postinstall": "./test_native_deps_then_install.sh",
+    "installdeps": "bower install && grunt data && grunt webp && npm run compile",
+    "compileCSS": "grunt compass",
+    "compileJS": "grunt dot",
+    "compile": "grunt compass && grunt dot"
   },
   "cldr-data-coverage": "full",
   "dependencies": {
