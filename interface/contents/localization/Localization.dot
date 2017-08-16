@@ -3,6 +3,20 @@
   componentClass: 'save-spinner'
 }); #}}
 
+<div class="localization-arrow">
+  <div class="localization-arrow-left">
+    {{?it.before}}
+      <div class="localization-arrow-img-left"></div>
+      <div class="localization-arrow-text"><a class="localization-arrow-left-link" data-key="{{=it.before.key}}" data-id="{{!it.before.id}}">{{=it.before.key}}</a></div>
+    {{?}}
+  </div>
+  <div class="localization-arrow-right">
+    {{?it.after}}
+      <div class="localization-arrow-text"><a class="localization-arrow-right-link" data-key="{{=it.after.key}}" data-id="{{!it.after.id}}">{{=it.after.key}}</a></div>
+      <div class="localization-arrow-img-right"></div>
+    {{?}}
+  </div>
+</div>
 <div class="localization" data-content="localization">
   <h1 class="localization-title">{{=it.key}}</h1>
   <div class="localization-variables">

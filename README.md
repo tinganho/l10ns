@@ -2,6 +2,22 @@
 L10ns - Effective translation workflow
 ==============
 
+## Dependencies
+
+* [webp](https://developers.google.com/speed/webp/download)
+* [ruby](https://github.com/rbenv/rbenv)
+
+## Build from sources
+
+* `git clone https://github.com/Sparted/l10ns && cd l10ns`
+* `bundle install`
+* `npm install`
+* `./node_modules/.bin/bower install`
+* `./node_modules/.bin/grunt data`
+* `./node_modules/.bin/grunt webp`
+* `./node_modules/.bin/grunt compass`
+* `./node_modules/.bin/grunt dot`
+
 [![Join the chat at https://gitter.im/tinganho/l10ns](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/tinganho/l10ns?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 [![Build Status](http://img.shields.io/travis/tinganho/l10ns/master.svg?style=flat-square)](https://travis-ci.org/tinganho/l10ns)

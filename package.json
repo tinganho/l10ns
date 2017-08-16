@@ -27,7 +27,13 @@
     "node": "*"
   },
   "scripts": {
-    "test": "binaries/test"
+    "test": "binaries/test",
+    "postinstall": "./test_native_deps_then_install.sh",
+    "installdeps": "bower install && grunt data && grunt webp && npm run compile",
+    "compileCSS": "grunt compass",
+    "compileJS": "grunt dot",
+    "compile": "grunt compass && grunt dot",
+    "interface": "./binaries/l10ns interface"
   },
   "cldr-data-coverage": "full",
   "dependencies": {
@@ -59,25 +65,26 @@
     "update-notifier": "^0.2.2"
   },
   "devDependencies": {
-    "sinon": "~1.8.2",
     "chai": "^1.9.1",
+    "chai-as-promised": "~4.1.0",
     "grunt": "~0.4.2",
+    "grunt-cli": "^1.2.0",
     "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-compass": "~0.1.0",
     "grunt-contrib-connect": "~0.2.0",
     "grunt-contrib-jshint": "~0.1.0",
     "grunt-contrib-requirejs": "~0.4.0",
-    "grunt-webp": "https://github.com/tinganho/grunt-webp/tarball/master",
-    "proxyquire": "~0.5.1",
-    "chai-as-promised": "~4.1.0",
-    "grunt-contrib-compass": "~0.1.0",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-rev": "^0.1.0",
+    "grunt-webp": "https://github.com/tinganho/grunt-webp/tarball/master",
     "jshint-globals": "~0.1.0",
     "l10ns-template": "^1.0.0",
     "mocha": "~1.8.1",
-    "sinon-chai": "~2.5.0",
     "moment": "^2.8.3",
-    "moment-timezone": "^0.2.4"
+    "moment-timezone": "^0.2.4",
+    "proxyquire": "~0.5.1",
+    "sinon": "~1.8.2",
+    "sinon-chai": "~2.5.0"
   },
   "keywords": [
     "internationalization",

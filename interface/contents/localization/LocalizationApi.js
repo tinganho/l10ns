@@ -10,6 +10,24 @@ module.exports = function(app) {
         var locale = request.param('locale');
         var localizationsWithRequestedLocale = file.localizationMapToArray(localizations)[locale];
         var localizationWithRequestedLocale = _.findWhere(localizationsWithRequestedLocale, { id : request.param('id') });
+        var localizationLocal = localizations[locale]
+        var before = null;
+        var after = null
+        var stop = false
+
+        for (value in localizationLocal) {
+          after = localizationLocal[value];
+          if (stop)
+            break;
+          if (localizationLocal[value]['id'] === localizationWithRequestedLocale['id']) {
+            stop = true;
+            continue;
+          }
+          before = localizationLocal[value];
+        }
+
+        before = before === localizationWithRequestedLocale ? null : before;
+        after = after === localizationWithRequestedLocale ? null : after;
 
         var messageFormat = new MessageFormat(locale);
         localizationWithRequestedLocale.pluralRules = messageFormat.pluralRules;
@@ -22,6 +40,8 @@ module.exports = function(app) {
         else {
           localizationWithRequestedLocale.message = defaultMessage;
         }
+        localizationWithRequestedLocale.before = before;
+        localizationWithRequestedLocale.after = after;
         response.json(localizationWithRequestedLocale);
       })
       .fail(function(error) {
