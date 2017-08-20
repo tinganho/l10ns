@@ -13,6 +13,7 @@ script:
   - cd ../src/Extensions/JavaScript
   - npm install
   - tsc
+  - ../../../bin/l10ns extension-run-tests
 
 git:
 
