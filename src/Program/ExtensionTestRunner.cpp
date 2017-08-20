@@ -17,7 +17,6 @@ int child;
 void kill_all_processes(int signum) {
     kill(child, SIGTERM);
     unlink("/tmp/l10ns.sock");
-    exit(signum);
 }
 
 size_t write_data(void *buffer, size_t size, size_t nmemb, void *userp) {
