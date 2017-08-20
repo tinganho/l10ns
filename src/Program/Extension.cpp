@@ -105,10 +105,9 @@ public:
     Session* session;
     JsonRpcClient* client;
 
-    int start_server(int (&fd)[2]) {
+    int start_server() {
         pid_t cpid = fork();
         if (cpid == 0) {
-            close(fd[0]);
             execl("/bin/bash", "/bin/bash", "-c", command.c_str(), (char *) 0);
         }
         return cpid;
@@ -123,8 +122,8 @@ public:
         for (auto const& f : function_names) {
             function_names_json.append(f);
         }
-        UnixDomainSocketClient unix_domain_socket_client("/tmp/l10ns.sock");
-        JsonRpcClient rpc_client(unix_domain_socket_client);
+        HttpClient http_client("http://localhost:8888");
+        JsonRpcClient rpc_client(http_client);
         auto file_to_keys_json = rpc_client.sync(files_json, function_names_json);
         FileToKeys file_to_keys;
         for (Json::ValueIterator file_to_keys_it = file_to_keys_json.begin(); file_to_keys_it != file_to_keys_json.end(); file_to_keys_it++) {

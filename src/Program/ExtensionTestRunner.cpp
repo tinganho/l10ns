@@ -25,12 +25,8 @@ void run_extension_tests(Session* session) {
 
     auto start_extension_server = [&]() -> void {
         extension = Extension::create(session, extension_file);
-        int fd[2];
-        pipe(fd);
-        child = extension->start_server(fd);
+        child = extension->start_server();
         signal(SIGINT, kill_all_processes);
-        char buf[1];
-        read(fd[0], buf, 1);
     };
 
     auto for_each_compilation_test_file = [&](std::function<void (const string&)> callback) -> void {
