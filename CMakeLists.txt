@@ -28,7 +28,7 @@ add_executable(generate-diagnostics ${PROJECT_SOURCE_DIR}/tasks/GenerateDiagnost
 add_executable(generate-json-rpc-client-stub ${PROJECT_SOURCE_DIR}/tasks/GenerateJsonRpcClientStub.cpp)
 add_executable(run-tests ${PROJECT_SOURCE_DIR}/src/TestFramework/Exec.cpp)
 
-target_link_libraries(l10ns glob jsoncpp jsonrpccpp-common jsonrpccpp-client ${Boost_LIBRARIES})
+target_link_libraries(l10ns glob jsoncpp jsonrpccpp-common jsonrpccpp-client curl ${Boost_LIBRARIES})
 
 target_link_libraries(accept-baseline glob ${Boost_LIBRARIES})
 target_link_libraries(clean-project glob ${Boost_LIBRARIES})

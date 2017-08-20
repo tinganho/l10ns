@@ -26,7 +26,17 @@ interface Files {
 }
 
 function main() {
+    let firstRequest = true;
     const server = http.createServer((req, res) => {
+        if (firstRequest) {
+            const body = '{}';
+            res.writeHead(200, { Connection: 'close', 'Content-Length': Buffer.byteLength(body) });
+            res.write(body);
+            res.end();
+            firstRequest = false;
+            return;
+        }
+
         let data: Buffer[] = [];
         req.on('data', (chunk: Buffer) => {
             data.push(chunk);
@@ -51,11 +61,13 @@ function main() {
             }
 
             function write(id: number, result: any) {
-                res.write(JSON.stringify({
+                const body = JSON.stringify({
                     id,
                     jsonrpc: '2.0',
                     result,
-                } as RPCResponse));
+                } as RPCResponse);
+                res.writeHead(200, { Connection: 'close', 'Content-Length': Buffer.byteLength(body) });
+                res.write(body);
                 res.end();
             }
         });

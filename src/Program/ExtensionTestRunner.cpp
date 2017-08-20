@@ -6,6 +6,7 @@
 #include "Extension.cpp"
 #include "Core.cpp"
 #include <signal.h>
+#include <curl/curl.h>
 
 using namespace L10ns;
 using namespace TestFramework;
@@ -19,6 +20,10 @@ void kill_all_processes(int signum) {
     exit(signum);
 }
 
+size_t write_data(void *buffer, size_t size, size_t nmemb, void *userp) {
+   return size * nmemb;
+}
+
 void run_extension_tests(Session* session) {
     string extension_file = join_paths(*session->root_dir, "Extension.json");
     Extension* extension;
@@ -27,6 +32,21 @@ void run_extension_tests(Session* session) {
         extension = Extension::create(session, extension_file);
         child = extension->start_server();
         signal(SIGINT, kill_all_processes);
+
+        CURL *curl;
+        CURLcode res;
+        curl = curl_easy_init();
+        while (true) {
+            curl_easy_setopt(curl, CURLOPT_URL, "http://localhost:8888");
+            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
+            res = curl_easy_perform(curl);
+            if(res != CURLE_OK) {
+                continue;
+            }
+
+            curl_easy_cleanup(curl);
+            break;
+        }
     };
 
     auto for_each_compilation_test_file = [&](std::function<void (const string&)> callback) -> void {
