@@ -1,4 +1,4 @@
-[submodule "src/Vendors/json"]
+[submodule "third_partys/json"]
 	path = third_party/json
 	url = git@github.com:nlohmann/json.git
 [submodule "third_party/grpc"]
