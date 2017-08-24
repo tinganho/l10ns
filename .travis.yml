@@ -28,11 +28,12 @@ before_install:
 
   # nodejs
   - curl -sL https://deb.nodesource.com/setup_7.x | sudo bash
+  - sudo apt-get update -y
   - sudo apt-get install nodejs
-  - sudo npm install typescript -g
+  - sudo npm install typescript tslint -g
 
   # libmicrohttpd
-  - wget http://ftp.gnu.org/gnu/libmicrohttpd/libmicrohttpd-0.9.52.tar.gz
+  - curl -O http://ftp.gnu.org/gnu/libmicrohttpd/libmicrohttpd-0.9.52.tar.gz
   - tar -xvf libmicrohttpd-0.9.52.tar.gz
   - cd libmicrohttpd-0.9.52
   - ./configure && make

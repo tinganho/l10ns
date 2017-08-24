@@ -223,7 +223,6 @@ bool copy_folder(fs::path const & source, fs::path const & destination) {
                 << "' already exists." << '\n';
             return false;
         }
-
         if (!fs::create_directory(destination)) {
             std::cerr << "Unable to create destination directory '" << destination.string() << "'.\n";
             return false;

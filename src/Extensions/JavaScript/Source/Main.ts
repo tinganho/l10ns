@@ -1,6 +1,5 @@
 
-import net = require('net');
-import fs = require('fs');
+import http = require('http');
 import { extractKeysFromFile, Key } from './KeyExtractor/Extractor';
 
 interface SyncParams {
@@ -26,46 +25,57 @@ interface Files {
     [name: string]: Key[];
 }
 
-function sendFinishStatus() {
-    fs.createWriteStream('', { fd: 4 }).write('1');
-}
-
-const server = net.createServer((client) => {
-    client.setEncoding('utf8');
-    client.on('data', (data) => {
-        const rpc = JSON.parse(data.toString()) as RPCRequest;
-        switch (rpc.method) {
-            case 'sync':
-                const files: Files = {};
-                const callExpressionIdentifiers = rpc.params.function_names;
-                for (const f of rpc.params.files) {
-                    const keys = extractKeysFromFile(f, callExpressionIdentifiers);
-                    files[f] = keys;
-                }
-                write(rpc.id, files);
-                break;
-            case 'compile':
-                break;
-            default:
-                throw new Error(`Unknown method '${rpc.method}'`);
+function main() {
+    let firstRequest = true;
+    const server = http.createServer((req, res) => {
+        if (firstRequest) {
+            const body = '{}';
+            res.writeHead(200, { Connection: 'close', 'Content-Length': Buffer.byteLength(body) });
+            res.write(body);
+            res.end();
+            firstRequest = false;
+            return;
         }
+
+        let data: Buffer[] = [];
+        req.on('data', (chunk: Buffer) => {
+            data.push(chunk);
+        })
+        .on('end', () => {
+            const body = Buffer.concat(data).toString();
+            const rpc = JSON.parse(body) as RPCRequest;
+            switch (rpc.method) {
+                case 'sync':
+                    const files: Files = {};
+                    const callExpressionIdentifiers = rpc.params.function_names;
+                    for (const f of rpc.params.files) {
+                        const keys = extractKeysFromFile(f, callExpressionIdentifiers);
+                        files[f] = keys;
+                    }
+                    write(rpc.id, files);
+                    break;
+                case 'compile':
+                    break;
+                default:
+                    throw new Error(`Unknown method '${rpc.method}'`);
+            }
+
+            function write(id: number, result: any) {
+                const body = JSON.stringify({
+                    id,
+                    jsonrpc: '2.0',
+                    result,
+                } as RPCResponse);
+                res.writeHead(200, { Connection: 'close', 'Content-Length': Buffer.byteLength(body) });
+                res.write(body);
+                res.end();
+            }
+        });
+    }).listen(8888);
+
+    process.on('SIGTERM', () => {
+        server.close();
+        process.exit(0);
     });
-    client.pipe(client);
-
-    function write(id: number, result: any) {
-        client.write(JSON.stringify({
-            id,
-            jsonrpc: '2.0',
-            result,
-        } as RPCResponse));
-    }
-});
-
-process.on('SIGTERM', () => {
-    server.close();
-    process.exit(0);
-});
-
-server.listen('/tmp/l10ns.sock', () => {
-    sendFinishStatus();
-});
+}
+main();
