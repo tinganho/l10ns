@@ -1,15 +1,13 @@
-
+﻿
 #include <string>
 #include <iostream>
 #include "CommandParser.cpp"
 #include "Configurations.h"
 #include "Utils.cpp"
-#include "json.hpp"
 #include "Extension.cpp"
 #include "ExtensionTestRunner.cpp"
 
 using namespace std;
-using json = nlohmann::json;
 
 namespace L10ns {
 
@@ -50,7 +48,7 @@ void print_default_help_info() {
 }
 
 inline Command* get_command(CommandKind command) {
-    for (int i = 0; i < commands.size(); i++) {
+    for (unsigned int i = 0; i < commands.size(); i++) {
         if (commands[i].kind == command) {
             return &commands[i];
         }

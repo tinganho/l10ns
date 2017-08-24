@@ -1,7 +1,6 @@
 
 #include "Types.cpp"
 #include "Utils.cpp"
-#include "json.hpp"
 #include "Diagnostics.cpp"
 #include "Extension.cpp"
 #include "Core.cpp"
@@ -9,14 +8,15 @@
 
 using namespace L10ns;
 using namespace TestFramework;
-using json = nlohmann::json;
 
 int child;
 
 void kill_all_processes(int signum) {
+#ifdef __unix__  
     kill(child, SIGTERM);
     unlink("/tmp/l10ns.sock");
     exit(signum);
+#endif
 }
 
 void run_extension_tests(Session* session) {
@@ -25,12 +25,14 @@ void run_extension_tests(Session* session) {
 
     auto start_extension_server = [&]() -> void {
         extension = Extension::create(session, extension_file);
+#ifdef __unix__  
         int fd[2];
         pipe(fd);
         child = extension->start_server(fd);
         signal(SIGINT, kill_all_processes);
         char buf[1];
         read(fd[0], buf, 1);
+#endif
     };
 
     auto for_each_compilation_test_file = [&](std::function<void (const string&)> callback) -> void {

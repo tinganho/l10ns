@@ -1,15 +1,14 @@
 
-#include "json.hpp"
 #include "Utils.cpp"
 #include "Configurations.h"
 #include <string>
 #include <iostream>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/regex.hpp>
+#include <json/json.h>
 
 using namespace std;
 using namespace L10ns;
-using json = nlohmann::json;
 
 string output =
     "// This code is auto generate. Don't edit!\n"
@@ -50,10 +49,12 @@ string remove_comments(string json) {
 
 int main() {
     string json = read_file(PROJECT_DIR "src/Program/Diagnostics.json");
-    auto diagnostics = json::parse(remove_comments(json));
-    for (json::iterator it = diagnostics.begin(); it != diagnostics.end(); ++it) {
-        string key = format_diagnostic_key(it.key());
-        output += "    auto " + key + " = new DiagnosticTemplate(\"" + it.key() + "\");\n";
+    Json::Value diagnostics;
+    Json::Reader reader;
+    reader.parse(remove_comments(json).c_str(), diagnostics);
+    for (Json::ValueIterator it = diagnostics.begin(); it != diagnostics.end(); ++it) {
+        string key = format_diagnostic_key(it.key().as_string());
+        output += "    auto " + key + " = new DiagnosticTemplate(\"" + key + "\");\n";
         if (!is_unique(key)) {
             throw invalid_argument("Duplicate formatted key: " + key + ".");
         }

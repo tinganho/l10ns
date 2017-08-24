@@ -1,4 +1,4 @@
-
+﻿
 #ifndef UTILS_H
 #define UTILS_H
 
@@ -8,7 +8,6 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <sys/ioctl.h>
 #include <exception>
 #include <boost/asio.hpp>
 #include <boost/algorithm/string/replace.hpp>
@@ -56,14 +55,17 @@ void add_diagnostic(Session* session, DiagnosticTemplate* d, string arg1, string
 string execute_command(const string command) {
     char buffer[128];
     string result = "";
+#ifdef __unix__
     shared_ptr<FILE> pipe(popen(command.c_str(), "r"), pclose);
     if (!pipe) {
         throw runtime_error("popen() failed!");
     }
     while (!feof(pipe.get())) {
-        if (fgets(buffer, 128, pipe.get()) != NULL)
+        if (fgets(buffer, 128, pipe.get()) != NULL) {
             result += buffer;
+        }
     }
+#endif
     return result;
 }
 
@@ -157,16 +159,20 @@ public:
             this->window_width = *(int *)(getenv("COLUMNS"));
         }
         else {
+#ifdef __unix__
             struct winsize w;
             ioctl(0, TIOCGWINSZ, &w);
             this->window_width = w.ws_col;
+#endif
+
         }
     }
 
 private:
     int window_width;
     unsigned int column = 0;
-    unsigned int indentation = 0;
+     
+    int indentation = 0;
     static const unsigned int indentation_step = 2;
 
     void print_indentation() {

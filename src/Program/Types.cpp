@@ -1,13 +1,11 @@
-
+﻿
 #ifndef TYPES_H
 #define TYPES_H
 
 #include <string>
 #include <Utils.cpp>
-#include "json.hpp"
 
 using namespace std;
-using json = nlohmann::json;
 
 enum class CommandKind {
     None,
