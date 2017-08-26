@@ -8,6 +8,9 @@ This README is for the developing version of L10ns. Please checkout the master b
 Operating system | Status
 ---------------- | ----------
 Ubuntu | [![TravisCI](https://img.shields.io/travis/tinganho/l10ns/master.svg)](https://travis-ci.org/tinganho/l10ns)
+macOS | [![TravisCI](https://img.shields.io/travis/tinganho/l10ns/master.svg)](https://travis-ci.org/tinganho/l10ns)
+Windows | [![TravisCI](https://img.shields.io/travis/tinganho/l10ns/master.svg)](https://travis-ci.org/tinganho/l10ns)
+
 ## Build
 
 ### Debug Build

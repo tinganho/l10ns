@@ -53,7 +53,7 @@ int main() {
     Json::Reader reader;
     reader.parse(remove_comments(json).c_str(), diagnostics);
     for (Json::ValueIterator it = diagnostics.begin(); it != diagnostics.end(); ++it) {
-        string key = format_diagnostic_key(it.key().as_string());
+        string key = format_diagnostic_key(it.key().asString());
         output += "    auto " + key + " = new DiagnosticTemplate(\"" + key + "\");\n";
         if (!is_unique(key)) {
             throw invalid_argument("Duplicate formatted key: " + key + ".");
