@@ -1,6 +1,6 @@
 [submodule "third_party/grpc"]
 	path = third_party/grpc
 	url = git@github.com:grpc/grpc.git
-[submodule "third_party/protoc"]
-	path = third_party/protoc
-	url = git@github.com:google/protobuf.git
+[submodule "third_party/jsoncpp"]
+	path = third_party/jsoncpp
+	url = git@github.com:open-source-parsers/jsoncpp.git
