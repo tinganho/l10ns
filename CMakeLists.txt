@@ -8,22 +8,22 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 
 # See: https://stackoverflow.com/questions/6468681/failed-linking-to-boost-library-with-cmake-generated-project-file-for-msvc9
-add_definitions( -DBOOST_ALL_NO_LIB ) 
+add_definitions( -DBOOST_ALL_NO_LIB )
 set(Boost_USE_STATIC_LIBS ON)
 
 configure_file(${PROJECT_SOURCE_DIR}/src/Program/Configurations.h.in ${PROJECT_SOURCE_DIR}/src/Program/Configurations.h)
 set(Boost_DEBUG on)
-find_package(Boost 1.55 COMPONENTS system filesystem regex REQUIRED)
+find_package(Boost 1.64 COMPONENTS system filesystem regex REQUIRED)
 
-add_subdirectory(thrid_party/Glob)
+add_subdirectory(third_party/glob)
 add_subdirectory(third_party/grpc)
+add_subdirectory(third_party/jsoncpp)
 
-include_directories("C:/Program Files (x86)/libjson-rpc-cpp 0.5.0/include")
 include_directories("${PROJECT_SOURCE_DIR}/src/Program")
 include_directories("${PROJECT_SOURCE_DIR}/src/TestFramework")
-include_directories("C:/jsoncpp/dist")
+include_directories("${PROJECT_SOURCE_DIR}/third_party/glob")
 
-add_executable(l10ns C:/jsoncpp/dist/jsoncpp.cpp ${PROJECT_SOURCE_DIR}/src/Program/Exec.cpp)
+add_executable(l10ns ${PROJECT_SOURCE_DIR}/src/Program/Exec.cpp)
 
 add_executable(accept-baseline ${PROJECT_SOURCE_DIR}/tasks/AcceptBaseline.cpp)
 add_executable(clean-project ${PROJECT_SOURCE_DIR}/tasks/Clean.cpp)
