@@ -171,7 +171,7 @@ public:
 private:
     int window_width;
     unsigned int column = 0;
-     
+
     int indentation = 0;
     static const unsigned int indentation_step = 2;
 

@@ -13,9 +13,10 @@ using namespace TestFramework;
 int child;
 
 void kill_all_processes(int signum) {
-#ifdef __unix__  
+#ifdef __unix__
     kill(child, SIGTERM);
     unlink("/tmp/l10ns.sock");
+#endif
 }
 
 size_t write_data(void *buffer, size_t size, size_t nmemb, void *userp) {

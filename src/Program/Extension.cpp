@@ -5,17 +5,12 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <iostream>
-#include <jsonrpccpp/client/connectors/httpclient.h>
-#include <jsonrpccpp/client/connectors/unixdomainsocketclient.h>
 #include "Utils.cpp"
-#include "json.hpp"
+#include <json/json.h>
 #include "Diagnostics.cpp"
-#include "JsonRpcClient.h"
 #include <map>
 
-using json = nlohmann::json;
 using namespace L10ns;
-using namespace jsonrpc;
 using namespace std;
 
 struct Key {
@@ -30,14 +25,29 @@ struct Key {
         column(c) {};
 };
 
+
+vector<string> to_vector_of_strings(const Json::Value& vec) {
+    std::vector<string> res;
+    for (const Json::Value& item : vec) {
+        res.push_back(item.asString());
+    }
+    return res;
+}
+
 typedef std::map<string, vector<Key>> FileToKeys;
 
 class Extension {
 public:
     static Extension* create(Session* session, string extension_file) {
 
-        auto check_capabilities = [&session, &extension_file](vector<string> capabilities) -> void {
-            for (auto const& c : capabilities) {
+        auto check_capabilities = [&session, &extension_file](const Json::Value& capabilities) -> void {
+            for (auto const& capability : capabilities) {
+                if (capability.isString() != true) {
+                    // TODO: Change this
+                    add_diagnostic(session, D::Unknown_capability_in_extension_file);
+                    continue;
+                }
+                const string c = capability.asString();
                 if (c != "Plural" &&
                     c != "Select" &&
                     c != "Date" &&
@@ -49,47 +59,52 @@ public:
                 }
             }
         };
-
-        json manifest = json::parse(read_file(extension_file));
+        Json::Reader reader;
+        Json::Value manifest;
+        bool ok = reader.parse(read_file(extension_file), manifest);
+        if (!ok) {
+            // TODO: Change this
+            add_diagnostic(session, D::Missing_field_in_your_extension_file, "ProgrammingLanguage", extension_file);
+        }
         Extension* extension = new Extension();
         auto programming_language = manifest["ProgrammingLanguage"];
-        if (programming_language.is_null()) {
+        if (programming_language.isNull()) {
             add_diagnostic(session, D::Missing_field_in_your_extension_file, "ProgrammingLanguage", extension_file);
         }
         auto file_extensions = manifest["FileExtensions"];
-        if (file_extensions.is_null()) {
+        if (file_extensions.isNull()) {
             add_diagnostic(session, D::Missing_field_in_your_extension_file, "FileExtensions", extension_file);
         }
         auto function_names = manifest["FunctionNames"];
-        if (function_names.is_null()) {
+        if (function_names.isNull()) {
             add_diagnostic(session, D::Missing_field_in_your_extension_file, "FunctionNames", extension_file);
         }
         auto capabilities = manifest["Capabilities"];
-        if (capabilities.is_null()) {
+        if (capabilities.isNull()) {
             add_diagnostic(session, D::Missing_field_in_your_extension_file, "Capabilities", extension_file);
         }
-        capabilities = capabilities.get<vector<string>>();
+
         check_capabilities(capabilities);
         auto dependency_test = manifest["DependencyTest"];
-        if (dependency_test.is_null()) {
+        if (dependency_test.isNull()) {
             add_diagnostic(session, D::Missing_field_in_your_extension_file, "DependencyTest", extension_file);
         }
         auto command = manifest["Command"];
-        if (command.is_null()) {
+        if (command.isNull()) {
             add_diagnostic(session, D::Missing_field_in_your_extension_file, "Command", extension_file);
         }
         auto test_dir = manifest["TestDirectory"];
-        if (test_dir.is_null()) {
+        if (test_dir.isNull()) {
             add_diagnostic(session, D::Missing_field_in_your_extension_file, "TestDirectory", extension_file);
         }
 
-        extension->programming_language = programming_language;
-        extension->file_extensions = file_extensions.get<vector<string>>();
-        extension->function_names = function_names.get<vector<string>>();
-        extension->capabilities = capabilities.get<vector<string>>();
-        extension->dependency_test = dependency_test;
-        extension->command = command;
-        extension->test_dir = test_dir;
+        extension->programming_language = programming_language.asString();
+        extension->file_extensions = to_vector_of_strings(file_extensions);
+        extension->function_names = to_vector_of_strings(function_names);
+        extension->capabilities = to_vector_of_strings(capabilities);
+        extension->dependency_test = dependency_test.asString();
+        extension->command = command.asString();
+        extension->test_dir = test_dir.asString();
         extension->session = session;
 
         return extension;
@@ -103,7 +118,6 @@ public:
     string dependency_test;
     string command;
     Session* session;
-    JsonRpcClient* client;
 
     int start_server() {
         pid_t cpid = fork();
@@ -122,27 +136,27 @@ public:
         for (auto const& f : function_names) {
             function_names_json.append(f);
         }
-        HttpClient http_client("http://localhost:8888");
-        JsonRpcClient rpc_client(http_client);
-        auto file_to_keys_json = rpc_client.sync(files_json, function_names_json);
+        // HttpClient http_client("http://localhost:8888");
+        // JsonRpcClient rpc_client(http_client);
+        // auto file_to_keys_json = rpc_client.sync(files_json, function_names_json);
         FileToKeys file_to_keys;
-        for (Json::ValueIterator file_to_keys_it = file_to_keys_json.begin(); file_to_keys_it != file_to_keys_json.end(); file_to_keys_it++) {
-            auto k = *file_to_keys_it;
-            vector<Key> keys;
-            for (Json::ValueIterator key_it = k.begin(); key_it != k.end(); key_it++) {
-                auto v = *key_it;
-                vector<string> params;
-                Json::Value params_json = v["params"];
-                for (Json::ValueIterator param_it = params_json.begin(); param_it != params_json.end(); param_it++) {
-                    if (!param_it->isString()) {
-                        throw invalid_argument("Parameters must be of type string.");
-                    }
-                    params.push_back(param_it->asString());
-                }
-                keys.push_back(Key(v["name"].asString(), params, v["line"].asInt(), v["column"].asInt()));
-            }
-            file_to_keys[file_to_keys_it.key().asString()] = keys;
-        }
+        // for (Json::ValueIterator file_to_keys_it = file_to_keys_json.begin(); file_to_keys_it != file_to_keys_json.end(); file_to_keys_it++) {
+        //     auto k = *file_to_keys_it;
+        //     vector<Key> keys;
+        //     for (Json::ValueIterator key_it = k.begin(); key_it != k.end(); key_it++) {
+        //         auto v = *key_it;
+        //         vector<string> params;
+        //         Json::Value params_json = v["params"];
+        //         for (Json::ValueIterator param_it = params_json.begin(); param_it != params_json.end(); param_it++) {
+        //             if (!param_it->isString()) {
+        //                 throw invalid_argument("Parameters must be of type string.");
+        //             }
+        //             params.push_back(param_it->asString());
+        //         }
+        //         keys.push_back(Key(v["name"].asString(), params, v["line"].asInt(), v["column"].asInt()));
+        //     }
+        //     file_to_keys[file_to_keys_it.key().asString()] = keys;
+        // }
         return file_to_keys;
     }
 
