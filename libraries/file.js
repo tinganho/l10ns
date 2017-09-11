@@ -129,16 +129,16 @@ File.prototype.localizationMapToArray = function(localizations) {
     }
 
     result[language] = result[language].sort(function(a, b) {
-        if(b.timestamp > a.timestamp) {
-          return 1;
-        }
-        else if(b.timestamp < a.timestamp) {
-          return -1;
-        }
         else if(a.key > b.key) {
           return 1;
         }
         else if(a.key < b.key) {
+          return -1;
+        }
+        if(b.timestamp > a.timestamp) {
+          return 1;
+        }
+        else if(b.timestamp < a.timestamp) {
           return -1;
         }
         else {
