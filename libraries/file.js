@@ -123,7 +123,6 @@ File.prototype.writeLocalization = function(localizations, language) {
  */
 
 File.prototype.localizationMapToArray = function(localizations, sortByKeyFirst) {
-  console.trace()
   var result = {};
   sortByKeyFirst = typeof sortByKeyFirst !== 'undefined' ? sortByKeyFirst : true;
   for(var language in project.languages) {
