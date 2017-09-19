@@ -122,9 +122,10 @@ File.prototype.writeLocalization = function(localizations, language) {
  * @api private
  */
 
-File.prototype.localizationMapToArray = function(localizations) {
+File.prototype.localizationMapToArray = function(localizations, sortByKeyFirst) {
+  console.trace()
   var result = {};
-
+  sortByKeyFirst = typeof sortByKeyFirst !== 'undefined' ? sortByKeyFirst : true;
   for(var language in project.languages) {
     result[language] = [];
     for(var key in localizations[language]) {
@@ -132,21 +133,35 @@ File.prototype.localizationMapToArray = function(localizations) {
     }
 
     result[language] = result[language].sort(function(a, b) {
-        if(b.timestamp > a.timestamp) {
-          return 1;
-        }
-        else if(b.timestamp < a.timestamp) {
-          return -1;
-        }
-        else if(a.key > b.key) {
-          return 1;
-        }
-        else if(a.key < b.key) {
-          return -1;
+        if (sortByKeyFirst) {
+          if(a.key > b.key) {
+            return 1;
+          }
+          else if(a.key < b.key) {
+            return -1;
+          }
+          else if(b.timestamp > a.timestamp) {
+            return 1;
+          }
+          else if(b.timestamp < a.timestamp) {
+            return -1;
+          }
         }
         else {
-          return 0;
+          if(b.timestamp > a.timestamp) {
+            return 1;
+          }
+          else if(b.timestamp < a.timestamp) {
+            return -1;
+          }
+          else if(a.key > b.key) {
+            return 1;
+          }
+          else if(a.key < b.key) {
+            return -1;
+          }
         }
+        return 0;
       });
   }
 

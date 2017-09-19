@@ -60,7 +60,7 @@ define(function(require) {
           file.readLocalizations()
             .then(function(localizations) {
               var locale = request.param('locale')
-                , localizationsWithRequestedLocale = file.localizationMapToArray(localizations)[locale].slice(0, cf.ITEMS_PER_PAGE);
+                , localizationsWithRequestedLocale = file.localizationMapToArray(localizations, false)[locale].slice(0, cf.ITEMS_PER_PAGE);
 
               if(locale !== project.defaultLanguage) {
                 _this.setMeta('l10n_keys', 'Keys | ' + project.defaultLanguage);

@@ -7,11 +7,11 @@ module.exports = function(app) {
     file.readLocalizations()
       .then(function(localizations) {
         var locale = request.param('locale')
-          , localizationsWithRequestedLocale = file.localizationMapToArray(localizations)[locale]
+          , localizationsWithRequestedLocale = file.localizationMapToArray(localizations, false)[locale]
               .slice(page * cf.ITEMS_PER_PAGE, (parseInt(page, 10) + 1) * cf.ITEMS_PER_PAGE);
 
         if(locale !== project.defaultLanguage) {
-          var localizationsWithDefaultLocale = file.localizationMapToArray(localizations)[project.defaultLanguage]
+          var localizationsWithDefaultLocale = file.localizationMapToArray(localizations, false)[project.defaultLanguage]
                 .slice(page * cf.ITEMS_PER_PAGE, (parseInt(page, 10) + 1) * cf.ITEMS_PER_PAGE);
 
           for(var index = 0; index < localizationsWithRequestedLocale.length; index++) {
