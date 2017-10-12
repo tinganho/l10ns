@@ -2,7 +2,7 @@ if(!this.__currencies) {
   throw new TypeError('You must define your currencies in your configuration file l10ns.json. http://l10ns.org/docs.html#currencyformat');
 }
 var unit;
-if(it.{{=it.variableName}}.amount && it.{{=it.variableName}}.code) {
+if('amount' in it.{{=it.variableName}} && it.{{=it.variableName}}.code) {
   if(!this.__currencies[it.{{=it.variableName}}.code]) {
     throw new TypeError('Currency code ' + it.{{=it.variableName}}.code + ' is not defined. Please define it on your l10ns.json file.');
   }{{?it.currency.type === 'text'}}
