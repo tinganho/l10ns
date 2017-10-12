@@ -545,7 +545,7 @@ Compiler.prototype._compileNumberFormat = function(numberFormat) {
       pattern = Object.create(numberFormat.pattern['positive']);
       pattern.prefix = pattern.prefix + '-';
     }
-    _case[sign] = _this._getFormatNumberExpressionString(pattern, numberFormat);
+    _case[sign] = _this._getFormatNumberExpressionString(pattern, numberFormat, sign);
   });
 
   result += 'var numberString = \'\';\n';
@@ -629,7 +629,7 @@ Compiler.prototype._getMetaDataFromDecimalPattern = function(pattern) {
   }
 }
 
-Compiler.prototype._getFormatNumberExpressionString = function(pattern, numberFormat) {
+Compiler.prototype._getFormatNumberExpressionString = function(pattern, numberFormat, sign) {
   var metaData = this._getMetaDataFromDecimalPattern(pattern);
   return 'numberString += ' + template['FormatNumber']({
     variableName: numberFormat.variable.name,
