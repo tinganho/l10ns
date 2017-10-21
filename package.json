@@ -1,7 +1,7 @@
 {
   "name": "l10ns",
   "description": "Internationalization workflow and formatting",
-  "version": "2.4.21",
+  "version": "2.4.22",
   "homepage": "https://github.com/tinganho/l10ns",
   "author": {
     "name": "Tingan Ho",
