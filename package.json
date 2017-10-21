@@ -74,7 +74,7 @@
     "l10ns-template": "^1.0.0",
     "mocha": "~1.8.1",
     "moment": "^2.8.3",
-    "moment-timezone": "^0.2.4",
+    "moment-timezone": "^0.2.5",
     "proxyquire": "~0.5.1",
     "sinon": "~1.8.2",
     "sinon-chai": "~2.5.0"

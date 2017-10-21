@@ -8,7 +8,7 @@ module.exports = function (grunt) {
     version = version || 'latest';
 
     var done  = this.async(),
-      src   = 'http://www.iana.org/time-zones/repository/releases/tzdata' + (new Date).getFullYear() + 'a.tar.gz',
+      src   = 'http://www.iana.org/time-zones/repository/releases/tzdata' + (new Date).getFullYear() + 'b.tar.gz',
       curl  = path.resolve('temp/curl', version, 'data.tar.gz'),
       dest  = path.resolve('temp/download', version);
 
