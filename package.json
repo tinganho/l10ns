@@ -38,7 +38,7 @@
     "backbone.paginator": "^2.0.0",
     "bcp47": "^1.1.2",
     "cldrjs": "^0.4.0",
-    "cldr-data": "tinganho/cldr-data-npm#master",
+    "cldr-data": "https://github.com/tinganho/cldr-data-npm#master",
     "commander": "^2.11.0",
     "connect-modrewrite": "^0.6.0",
     "express": "~3.1.2",
