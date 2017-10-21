@@ -3,20 +3,9 @@
     "files": [
       "example/javascript/index.js"
     ],
-    "id": "45kGkXg8S6",
-    "key": "NEW_KEY",
-    "new": false,
-    "timestamp": "2016-10-07T12:08:37.990Z",
-    "value": "",
-    "variables": []
-  },
-  {
-    "files": [
-      "example/javascript/index.js"
-    ],
-    "id": "8dr5rLG5Iy",
+    "id": "MxxxkgdRFz",
     "key": "CURRENCY",
-    "new": false,
+    "new": true,
     "timestamp": "2016-10-07T12:04:22.885Z",
     "value": "",
     "variables": [
@@ -27,9 +16,20 @@
     "files": [
       "example/javascript/index.js"
     ],
-    "id": "MzBgBkEgtg",
+    "id": "REEEax78Sa",
+    "key": "NEW_KEY",
+    "new": true,
+    "timestamp": "2016-10-07T12:08:37.990Z",
+    "value": "",
+    "variables": []
+  },
+  {
+    "files": [
+      "example/javascript/index.js"
+    ],
+    "id": "jrrrGBgbtL",
     "key": "TEST",
-    "new": false,
+    "new": true,
     "timestamp": "2016-10-07T12:04:22.885Z",
     "value": "",
     "variables": [
