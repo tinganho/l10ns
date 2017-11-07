@@ -4,7 +4,7 @@ release:
 	echo "Releasing version: $(VERSION)"
 	git checkout master
 	git pull origin master
-	git tag -s "$(VERSION)" -m "Version $(VERSION)"
+	git tag -a "$(VERSION)" -m "Version $(VERSION)"
 	git push --tags
 
 changelog:
