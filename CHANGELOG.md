@@ -1,132 +1,110 @@
-# Changelog
-## v2.3
+# Change Log
 
-* Adds short and long number formatting. Also adds CLDR 29 and updates of IANA timezone data.
+## [2.3.3](https://github.com/Travix-International/l10ns/tree/2.3.3) (2017-11-07)
+[Full Changelog](https://github.com/Travix-International/l10ns/compare/2.4.12...2.3.3)
 
-## v2.2.1
+## [2.4.12](https://github.com/Travix-International/l10ns/tree/2.4.12) (2017-11-07)
+[Full Changelog](https://github.com/Travix-International/l10ns/compare/2.3.2...2.4.12)
 
-* Fixes object notation bug.
+**Merged pull requests:**
 
-## v2.2
+- Fix l10ns for handlebars compiler [\#2](https://github.com/Travix-International/l10ns/pull/2) ([mAiNiNfEcTiOn](https://github.com/mAiNiNfEcTiOn))
 
-* Adds CLDR 27
+## [2.3.2](https://github.com/Travix-International/l10ns/tree/2.3.2) (2017-10-10)
+[Full Changelog](https://github.com/Travix-International/l10ns/compare/v2.4.11...2.3.2)
 
-## v2.1.1
+**Merged pull requests:**
 
-* Fixes [#109](https://github.com/tinganho/l10ns/issues/109#issuecomment-94630877) — File path root is duplicated on compile
+- Update deps [\#1](https://github.com/Travix-International/l10ns/pull/1) ([jackTheRipper](https://github.com/jackTheRipper))
 
-## v2.1
+## [v2.4.11](https://github.com/Travix-International/l10ns/tree/v2.4.11) (2017-04-20)
+[Full Changelog](https://github.com/Travix-International/l10ns/compare/v2.4.10...v2.4.11)
 
-* Removes download reportage.
-* Removes auto deletion of files during `l10ns update` and `l10ns compile`. Adds a clean command for purging unused files.
+## [v2.4.10](https://github.com/Travix-International/l10ns/tree/v2.4.10) (2017-04-19)
+[Full Changelog](https://github.com/Travix-International/l10ns/compare/v2.4.9...v2.4.10)
 
-## v2.0.23
+## [v2.4.9](https://github.com/Travix-International/l10ns/tree/v2.4.9) (2017-01-17)
+[Full Changelog](https://github.com/Travix-International/l10ns/compare/v2.4.8...v2.4.9)
 
-* Fixes International region codes.
+## [v2.4.8](https://github.com/Travix-International/l10ns/tree/v2.4.8) (2016-10-07)
+[Full Changelog](https://github.com/Travix-International/l10ns/compare/v2.4.7...v2.4.8)
 
-## v2.0.21-22
+## [v2.4.7](https://github.com/Travix-International/l10ns/tree/v2.4.7) (2016-10-07)
+[Full Changelog](https://github.com/Travix-International/l10ns/compare/v2.4.6...v2.4.7)
 
-* Fixes install issues.
+## [v2.4.6](https://github.com/Travix-International/l10ns/tree/v2.4.6) (2016-09-22)
+[Full Changelog](https://github.com/Travix-International/l10ns/compare/v2.4.5...v2.4.6)
 
-## v2.0.20
+## [v2.4.5](https://github.com/Travix-International/l10ns/tree/v2.4.5) (2016-09-04)
+[Full Changelog](https://github.com/Travix-International/l10ns/compare/v2.4.4...v2.4.5)
 
-* Dos not show error message in different passed in variables.
+## [v2.4.4](https://github.com/Travix-International/l10ns/tree/v2.4.4) (2016-09-03)
+[Full Changelog](https://github.com/Travix-International/l10ns/compare/v2.4.3...v2.4.4)
 
-## v2.0.19
+## [v2.4.3](https://github.com/Travix-International/l10ns/tree/v2.4.3) (2016-09-03)
+[Full Changelog](https://github.com/Travix-International/l10ns/compare/v2.4.2...v2.4.3)
 
-* Fixes install report problem.
+## [v2.4.2](https://github.com/Travix-International/l10ns/tree/v2.4.2) (2016-09-03)
+[Full Changelog](https://github.com/Travix-International/l10ns/compare/v2.4.1...v2.4.2)
 
-## v2.0.18
+## [v2.4.1](https://github.com/Travix-International/l10ns/tree/v2.4.1) (2016-08-23)
+[Full Changelog](https://github.com/Travix-International/l10ns/compare/v2.4.0...v2.4.1)
 
-* Fixes first-line issues and files prop sorting. Thanks to [Peter Lyons].
+## [v2.4.0](https://github.com/Travix-International/l10ns/tree/v2.4.0) (2016-07-23)
+[Full Changelog](https://github.com/Travix-International/l10ns/compare/2.3.1...v2.4.0)
 
-## v2.0.17
+## [2.3.1](https://github.com/Travix-International/l10ns/tree/2.3.1) (2016-04-12)
+[Full Changelog](https://github.com/Travix-International/l10ns/compare/2.3.0...2.3.1)
 
-* Fixes GA script.
+## [2.3.0](https://github.com/Travix-International/l10ns/tree/2.3.0) (2016-04-12)
+[Full Changelog](https://github.com/Travix-International/l10ns/compare/2.2.10...2.3.0)
 
-## v2.0.16
+## [2.2.10](https://github.com/Travix-International/l10ns/tree/2.2.10) (2016-04-07)
+[Full Changelog](https://github.com/Travix-International/l10ns/compare/2.2.9...2.2.10)
 
-* Fixes GA script.
+## [2.2.9](https://github.com/Travix-International/l10ns/tree/2.2.9) (2016-04-05)
+[Full Changelog](https://github.com/Travix-International/l10ns/compare/v2.3.1...2.2.9)
 
-## v2.0.15
+## [v2.3.1](https://github.com/Travix-International/l10ns/tree/v2.3.1) (2016-03-29)
+[Full Changelog](https://github.com/Travix-International/l10ns/compare/2.3...v2.3.1)
 
-* Adds different GA ID for post install script.
+## [2.3](https://github.com/Travix-International/l10ns/tree/2.3) (2016-03-02)
+[Full Changelog](https://github.com/Travix-International/l10ns/compare/2.2.8...2.3)
 
-## v2.0.14
+## [2.2.8](https://github.com/Travix-International/l10ns/tree/2.2.8) (2016-02-25)
+[Full Changelog](https://github.com/Travix-International/l10ns/compare/2.2.7...2.2.8)
 
-* Adds install report analytics.
+## [2.2.7](https://github.com/Travix-International/l10ns/tree/2.2.7) (2016-02-25)
+[Full Changelog](https://github.com/Travix-International/l10ns/compare/2.2.6...2.2.7)
 
-## v2.0.13
+## [2.2.6](https://github.com/Travix-International/l10ns/tree/2.2.6) (2016-02-01)
+[Full Changelog](https://github.com/Travix-International/l10ns/compare/2.2.5...2.2.6)
 
-* Changes to the new favicon.
+## [2.2.5](https://github.com/Travix-International/l10ns/tree/2.2.5) (2015-08-22)
+[Full Changelog](https://github.com/Travix-International/l10ns/compare/2.2...2.2.5)
 
-## v2.0.12
+## [2.2](https://github.com/Travix-International/l10ns/tree/2.2) (2015-04-22)
+[Full Changelog](https://github.com/Travix-International/l10ns/compare/2.1.1...2.2)
 
-* Fixes CLDR data path issues.
+## [2.1.1](https://github.com/Travix-International/l10ns/tree/2.1.1) (2015-04-21)
+[Full Changelog](https://github.com/Travix-International/l10ns/compare/2.1...2.1.1)
 
-## v2.0.11
+## [2.1](https://github.com/Travix-International/l10ns/tree/2.1) (2015-04-14)
+[Full Changelog](https://github.com/Travix-International/l10ns/compare/2.0.15...2.1)
 
-* Fixes issues with localization key getter not getting keys inside a function call.
+## [2.0.15](https://github.com/Travix-International/l10ns/tree/2.0.15) (2015-03-07)
+[Full Changelog](https://github.com/Travix-International/l10ns/compare/2.0.12...2.0.15)
 
-## v2.0.10
+## [2.0.12](https://github.com/Travix-International/l10ns/tree/2.0.12) (2015-03-01)
+[Full Changelog](https://github.com/Travix-International/l10ns/compare/2.0.10...2.0.12)
 
-* Fixes error message for selectordinal format parsing. Thanks to [Naman Goel].
-* Fix version of CLDR data.
+## [2.0.10](https://github.com/Travix-International/l10ns/tree/2.0.10) (2015-02-26)
+[Full Changelog](https://github.com/Travix-International/l10ns/compare/2.0.8...2.0.10)
 
-## v2.0.9
+## [2.0.8](https://github.com/Travix-International/l10ns/tree/2.0.8) (2015-02-20)
+[Full Changelog](https://github.com/Travix-International/l10ns/compare/v2.0...2.0.8)
 
-* Fixes autoroute issues, that causes problem with node v0.12.
+## [v2.0](https://github.com/Travix-International/l10ns/tree/v2.0) (2015-02-19)
 
-## v2.0.8
 
-* Fixes bug with example numbers not showing decimal example whenever there is no integer example
-
-## v2.0.1 - v2.0.7
-
-* Changes locale reference to language
-
-## v2.0
-
-* Adds Dateformat
-* Adds cldrjs and cldr-data
-* Adds compile button on interface
-* Fixes bug with setting a localization through CLI `set` method
-* Adds BCP47 compliancy
-* Adds lazy caching to message parsing
-* etc.
-
-Deprecates the settings `project.locales` and `project.defaultLocale` in favor of `project.languages` and `project.defaultLanguage`. `Locales` and `language` or `language tags` have different meanings. Here is an excerpt from w3c:
-
-> A major difference between language tags and locale identifiers is the meaning of the region code. In both language tags and locales, the region code indicates variation in language (as with regional dialects) or presentation and format (such as number or date formats). In a locale, the region code is also sometimes used to indicate the physical location, market, legal, or other governing policies for the user.
-
-Because L10ns uses the BCP47 standard and they refer to `language tags` or just `language` and not `locale`. L10ns should not refer `locales` either.
-
-Here is the example changes marked for a project:
-```
-{
-  "projects": {
-    "test": {
-      "programmingLanguage": "javascript",
-      "locales": { // Use languages instead
-        "en-US": "English (US)"
-      },
-      "quiet" : false,
-      "defaultLocale": "en-US", // Use defaultLanguage instead
-      "currencies": [
-        "USD"
-      ],
-      "store": "example/javascript/localizations",
-      "output": "example/javascript/output",
-      "source": ["example/javascript/index.js"],
-      "interface" : {
-        "autoOpen": false,
-        "port": 3004
-      }
-    }
-  },
-  "defaultProject": "javascript"
-}
-```
-
-[Naman Goel]: https://github.com/nmn
-[Peter Lyons]: https://github.com/focusaurus
+\* *This Change Log was automatically generated by [github_changelog_generator](https://github.com/skywinder/Github-Changelog-Generator)*
