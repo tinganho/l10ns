@@ -37,8 +37,8 @@ module.exports = {
   'ARS': {
     symbols: {
       local: '$',
-      global: 'AR$',
-      reverseGlobal: '$AR'
+      global: 'ARS',
+      reverseGlobal: 'ARS'
     },
     text: {
       en: {
@@ -175,8 +175,8 @@ module.exports = {
   'CLP': {
     symbols: {
       local: '$',
-      global: 'CL$',
-      reverseGlobal: '$CL'
+      global: 'CLP',
+      reverseGlobal: 'CLP'
     },
     text: {
       es: {
@@ -204,8 +204,8 @@ module.exports = {
   'COP': {
     symbols: {
       local: '$',
-      global: 'COL$',
-      reverseGlobal: '$COL'
+      global: 'COP',
+      reverseGlobal: 'COP'
     },
     text: {
       es: {
@@ -578,8 +578,8 @@ module.exports = {
   'MXN': {
     symbols: {
       local: '$',
-      global: 'MX$',
-      reverseGlobal: '$MX'
+      global: 'MXN',
+      reverseGlobal: 'MXN'
     },
     text: {
       es: {
