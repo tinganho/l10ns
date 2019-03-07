@@ -1,7 +1,7 @@
 
 require('../binaries/l10ns');
 
-var open = require('open');
+var open = require('opn');
 
 /**
  * Set inServer and inClient globals
